@@ -161,9 +161,9 @@
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-2px); }
     }
-    body.is-fullscreen #hero-section { display: none; }
-    body.is-fullscreen #ladder-section { padding-top: 10px; padding-bottom: 10px; }
-    body.is-fullscreen #ladder-shell { height: calc(100vh - 96px) !important; }
+    body.is-fullscreen #hero-section { padding-top: 8px; padding-bottom: 8px; }
+    body.is-fullscreen #ladder-section { padding-top: 6px; padding-bottom: 8px; }
+    body.is-fullscreen #ladder-shell { height: calc(100vh - 220px) !important; }
     body.is-fullscreen #results-card { display: none; }
   </style>
 </head>
@@ -215,7 +215,6 @@
                 <button id="preset-class" class="px-2.5 py-1 text-xs font-medium text-slate-600 bg-white border border-slate-200 rounded-md hover:bg-slate-50 transition-colors">수업 추첨</button>
                 <button id="preset-team" class="px-2.5 py-1 text-xs font-medium text-slate-600 bg-white border border-slate-200 rounded-md hover:bg-slate-50 transition-colors">팀 나누기</button>
                 <button id="preset-seat" class="px-2.5 py-1 text-xs font-medium text-slate-600 bg-white border border-slate-200 rounded-md hover:bg-slate-50 transition-colors">생존/사망</button>
-                <button id="preset-lunch" class="px-2.5 py-1 text-xs font-medium text-slate-600 bg-white border border-slate-200 rounded-md hover:bg-slate-50 transition-colors">점심 내기</button>
               </div>
             </div>
 
@@ -267,7 +266,7 @@
         </div>
 
         <div class="lg:col-span-9 flex flex-col gap-4">
-          <div id="ladder-shell" class="h-[500px] lg:h-[620px] bg-white rounded-2xl border border-slate-200 shadow-sm flex-grow flex flex-col relative overflow-hidden">
+          <div id="ladder-shell" class="h-[460px] lg:h-[560px] bg-white rounded-2xl border border-slate-200 shadow-sm flex-grow flex flex-col relative overflow-hidden">
             <div id="progress-text" class="absolute top-3 right-4 z-30 text-[11px] font-medium text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full">대기 중</div>
             <div id="nodes-top" class="absolute top-0 left-0 w-full h-12 flex items-center justify-around px-4 z-20"></div>
             <div class="absolute inset-y-12 inset-x-4 z-10">

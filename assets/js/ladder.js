@@ -38,7 +38,6 @@
     presetClass: document.getElementById("preset-class"),
     presetTeam: document.getElementById("preset-team"),
     presetSeat: document.getElementById("preset-seat"),
-    presetLunch: document.getElementById("preset-lunch"),
     labelParticipants: document.getElementById("label-participants"),
     labelResults: document.getElementById("label-results"),
     countParticipants: document.getElementById("count-participants"),
@@ -124,7 +123,6 @@
     ui.presetClass.textContent = t("presetClass");
     ui.presetTeam.textContent = t("presetTeam");
     ui.presetSeat.textContent = t("presetSeat");
-    ui.presetLunch.textContent = t("presetLunch");
     ui.labelParticipants.textContent = t("labelParticipants");
     ui.labelResults.textContent = t("labelResults");
     ui.inputParticipants.placeholder = t("phParticipants");
@@ -209,10 +207,6 @@
       seat: {
         ko: { p: ["참가자1", "참가자2", "참가자3", "참가자4"], r: ["생존", "사망", "생존", "사망"] },
         en: { p: ["Player1", "Player2", "Player3", "Player4"], r: ["Survive", "Eliminate", "Survive", "Eliminate"] }
-      },
-      lunch: {
-        ko: { p: ["A", "B", "C", "D"], r: ["결제", "무료", "무료", "무료"] },
-        en: { p: ["A", "B", "C", "D"], r: ["Pay", "Free", "Free", "Free"] }
       }
     };
     const pack = (data[type] && data[type][state.locale]) || data[type].ko;
@@ -633,7 +627,6 @@
     ui.presetClass.addEventListener("click", () => loadPreset("class"));
     ui.presetTeam.addEventListener("click", () => loadPreset("team"));
     ui.presetSeat.addEventListener("click", () => loadPreset("seat"));
-    ui.presetLunch.addEventListener("click", () => loadPreset("lunch"));
   }
 
   restoreState();
