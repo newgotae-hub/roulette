@@ -219,6 +219,7 @@
     ui.inputParticipants.value = pack.p.join("\n");
     ui.inputResults.value = pack.r.join("\n");
     updateCounts();
+    buildLadder();
     saveState();
   }
 
