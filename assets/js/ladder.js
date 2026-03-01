@@ -24,6 +24,7 @@
 
   const ui = {
     navSpin: document.getElementById("nav-spin"),
+    navLotto: document.getElementById("nav-lotto"),
     navLadder: document.getElementById("nav-ladder"),
     navLucky: document.getElementById("nav-lucky"),
     fullscreenHint: document.getElementById("fullscreen-hint"),
@@ -140,6 +141,7 @@
     ui.metaTwitterDescription.setAttribute("content", t("seoTwitterDesc"));
 
     ui.navSpin.textContent = t("navSpin");
+    ui.navLotto.textContent = t("navLotto");
     ui.navLadder.textContent = t("navLadder");
     ui.navLucky.textContent = t("navLucky");
     ui.fullscreenHintText.textContent = t("fullscreenHint");
