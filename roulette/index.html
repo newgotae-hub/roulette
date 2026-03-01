@@ -21,6 +21,21 @@
     <script>
       window.Userback = window.Userback || {};
       Userback.access_token = "A-vV6YCxc6cQKtRBem24yA3IgC8";
+      (function() {
+        var lang = null;
+        var params = new URLSearchParams(window.location.search);
+        var forced = params.get('lang');
+        if (forced === 'ko' || forced === 'en') {
+          lang = forced;
+        }
+        if (!lang) {
+          try { lang = window.localStorage.getItem('rlt-lang'); } catch (e) {}
+        }
+        if (lang !== 'ko' && lang !== 'en') {
+          lang = (navigator.language || '').toLowerCase().startsWith('ko') ? 'ko' : 'en';
+        }
+        Userback.widget_settings = { language: lang };
+      })();
       (function(d) {
         var s = d.createElement('script');s.async = true;s.src = 'https://static.userback.io/widget/v1.js';(d.head || d.body).appendChild(s);
       })(document);
