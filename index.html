@@ -343,9 +343,13 @@
 
     <script>
         (function () {
-            const sampleList = [
+            const sampleListKo = [
                 '김철수', '이영희', '박지민', '최서윤', '정도현', '오지우',
                 '한민서', '윤지호', '서하린', '임준호', '강채원', '신도윤'
+            ];
+            const sampleListEn = [
+                'James Kim', 'Emily Lee', 'Jimin Park', 'Seoyoon Choi', 'Dohyun Jung', 'Jiwoo Oh',
+                'Minseo Han', 'Jiho Yoon', 'Harin Seo', 'Junho Lim', 'Chaewon Kang', 'Doyoon Shin'
             ];
 
             const state = {
@@ -356,7 +360,8 @@
                 rotation: 0,
                 winnerIndex: -1,
                 audio: null,
-                locale: 'ko'
+                locale: 'ko',
+                userEditedList: false
             };
 
             const ui = {
@@ -622,6 +627,17 @@
                 drawWheel();
                 renderHistory();
                 updateFullscreenButton();
+                syncSampleListForLocale();
+            }
+
+            function getSampleListForLocale() {
+                return state.locale === 'ko' ? sampleListKo : sampleListEn;
+            }
+
+            function syncSampleListForLocale() {
+                if (state.userEditedList) return;
+                ui.textarea.value = getSampleListForLocale().join('\n');
+                applyList(false);
             }
 
             function normalize(deg) {
@@ -976,9 +992,13 @@
             });
 
             ui.textarea.addEventListener('input', syncLiveList);
+            ui.textarea.addEventListener('input', () => {
+                state.userEditedList = true;
+            });
             ui.applyButton.addEventListener('click', () => applyList(false));
             ui.resetButton.addEventListener('click', () => {
                 ui.textarea.value = '';
+                state.userEditedList = false;
                 state.history = [];
                 renderHistory();
                 applyList(true);
@@ -1006,7 +1026,7 @@
 
             state.locale = detectLocale();
             applyStaticI18n();
-            ui.textarea.value = sampleList.join('\n');
+            ui.textarea.value = getSampleListForLocale().join('\n');
             updateSpinDurationLabel();
             renderHistory();
             applyList(false);
