@@ -126,6 +126,33 @@
             background: #cbd5e1;
             border-radius: 9999px;
         }
+
+        @media (min-width: 1024px) {
+            body.roulette-focus #hero-section {
+                padding-top: 0.75rem;
+                padding-bottom: 0.75rem;
+            }
+
+            body.roulette-focus #hero-subtitle {
+                display: none;
+            }
+
+            body.roulette-focus #guide,
+            body.roulette-focus footer {
+                display: none;
+            }
+
+            body.roulette-focus #roulette {
+                padding-bottom: 0.5rem;
+            }
+
+            body.roulette-focus #roster-card,
+            body.roulette-focus #history-card,
+            body.roulette-focus #roulette-center {
+                height: calc(100vh - 170px) !important;
+                min-height: 420px;
+            }
+        }
     </style>
 </head>
 <body class="text-slate-900 font-sans antialiased selection:bg-slate-200 selection:text-slate-900 min-h-screen flex flex-col">
@@ -138,9 +165,9 @@
                     <span class="text-base font-semibold tracking-tight text-slate-900">Roulette</span>
                 </div>
                 <nav class="hidden md:flex items-center gap-8">
-                    <a id="nav-spin" href="#roulette" class="text-sm font-medium text-slate-900">추첨하기</a>
-                    <a id="nav-history" href="#history" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">기록 확인</a>
-                    <a id="nav-guide" href="#guide" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">활용 가이드</a>
+                    <a id="nav-spin" href="#roulette" class="text-sm font-medium text-slate-900">룰렛돌리기</a>
+                    <a id="nav-history" href="#history" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">사다리타기</a>
+                    <a id="nav-guide" href="#guide" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">제비뽑기</a>
                 </nav>
                 <button class="hidden md:flex items-center gap-2 bg-white border border-slate-200 shadow-sm rounded-full px-4 py-1.5 text-sm font-medium hover:bg-slate-50 transition-colors">
                     <iconify-icon icon="solar:user-linear" stroke-width="1.5"></iconify-icon>
@@ -151,7 +178,7 @@
     </header>
 
     <main class="flex-grow flex flex-col">
-        <section class="pt-10 pb-8 px-4 sm:px-6 lg:px-8 text-center max-w-3xl mx-auto">
+        <section id="hero-section" class="pt-10 pb-8 px-4 sm:px-6 lg:px-8 text-center max-w-3xl mx-auto">
             <h1 id="hero-title" class="text-3xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-4">랜덤추첨 룰렛 뽑기게임</h1>
             <p id="hero-subtitle" class="text-base md:text-lg text-slate-500 font-normal">명단입력이 편리합니다. 띄어쓰기, 콤마, 스페이스, 앤터 등 모든 구분기호를 인식합니다!</p>
         </section>
@@ -159,7 +186,7 @@
         <section id="roulette" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-14">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                 <div class="lg:col-span-3 space-y-4">
-                    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col min-h-[450px] lg:h-[640px]">
+                    <div id="roster-card" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col min-h-[450px] lg:h-[640px]">
                         <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/60">
                             <h2 class="text-sm font-semibold tracking-tight flex items-center gap-2">
                                 <iconify-icon icon="solar:users-group-rounded-linear" stroke-width="1.5" class="text-slate-400"></iconify-icon>
@@ -214,7 +241,7 @@
                     </div>
                 </div>
 
-                <div class="lg:col-span-6 flex flex-col items-center justify-start lg:justify-center min-h-[420px] lg:h-[640px]">
+                <div id="roulette-center" class="lg:col-span-6 flex flex-col items-center justify-start lg:justify-center min-h-[420px] lg:h-[640px]">
                     <div class="relative w-full max-w-[560px] aspect-square flex items-center justify-center">
                         <div class="absolute -top-5 left-1/2 -translate-x-1/2 z-30 drop-shadow-md">
                             <iconify-icon icon="solar:map-arrow-down-bold" class="text-slate-900 text-5xl"></iconify-icon>
@@ -224,9 +251,8 @@
                             <canvas id="wheel" width="800" height="800" class="w-full h-full rounded-full"></canvas>
                         </div>
 
-                        <button id="spin-button" class="absolute z-40 w-24 h-24 bg-slate-900 rounded-full flex flex-col items-center justify-center text-white shadow-xl border-4 border-white hover:scale-105 active:scale-95 transition-all group cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100">
-                            <span class="text-base font-semibold tracking-wide">SPIN</span>
-                            <iconify-icon icon="solar:restart-linear" stroke-width="2" class="text-lg opacity-0 group-hover:opacity-100 h-0 group-hover:h-auto transition-all"></iconify-icon>
+                        <button id="spin-button" class="absolute z-40 w-24 h-24 bg-slate-900 rounded-full flex items-center justify-center text-white shadow-xl border-4 border-white hover:scale-105 active:scale-95 transition-all cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100">
+                            <span id="spin-button-label" class="text-base font-semibold tracking-wide">시작</span>
                         </button>
                     </div>
 
@@ -240,7 +266,7 @@
                 </div>
 
                 <div id="history" class="lg:col-span-3 min-h-[420px] lg:h-[640px]">
-                    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col h-full">
+                    <div id="history-card" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col h-full">
                         <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/60">
                             <h2 class="text-sm font-semibold tracking-tight flex items-center gap-2">
                                 <iconify-icon icon="solar:history-linear" stroke-width="1.5" class="text-slate-400"></iconify-icon>
@@ -329,6 +355,9 @@
 
             const ui = {
                 textarea: document.getElementById('participant-list'),
+                navSpin: document.getElementById('nav-spin'),
+                navHistory: document.getElementById('nav-history'),
+                navGuide: document.getElementById('nav-guide'),
                 count: document.getElementById('participant-count'),
                 applyButton: document.getElementById('apply-list'),
                 resetButton: document.getElementById('reset-list'),
@@ -337,6 +366,7 @@
                 spinDuration: document.getElementById('spin-duration'),
                 spinDurationLabel: document.getElementById('spin-duration-label'),
                 spinButton: document.getElementById('spin-button'),
+                spinButtonLabel: document.getElementById('spin-button-label'),
                 winnerBanner: document.getElementById('winner-banner'),
                 historyList: document.getElementById('history-list'),
                 exportHistory: document.getElementById('export-history'),
@@ -355,9 +385,10 @@
                     metaOgDescription: '명단 입력이 편리한 온라인 룰렛 뽑기게임. 실시간 반영, 당첨자 제외, 효과음, 내역 저장 지원',
                     metaTwitterTitle: '룰렛 | 랜덤추첨 룰렛 뽑기게임 RLT',
                     metaTwitterDescription: '명단 붙여넣기로 바로 쓰는 깔끔한 랜덤 추첨 룰렛',
-                    navSpin: '추첨하기',
-                    navHistory: '기록 확인',
-                    navGuide: '활용 가이드',
+                    navSpin: '룰렛돌리기',
+                    navHistory: '사다리타기',
+                    navGuide: '제비뽑기',
+                    spinButtonLabel: '시작',
                     loginLabel: '로그인',
                     heroTitle: '랜덤추첨 룰렛 뽑기게임',
                     heroSubtitle: '명단입력이 편리합니다. 띄어쓰기, 콤마, 스페이스, 앤터 등 모든 구분기호를 인식합니다!',
@@ -414,9 +445,10 @@
                     metaOgDescription: 'A clean online roulette game with real-time list updates, winner exclusion, sound effects, and history export.',
                     metaTwitterTitle: 'Roulette | Random Draw Spin Wheel Game RLT',
                     metaTwitterDescription: 'A clean random draw roulette game you can use instantly by pasting names.',
-                    navSpin: 'Spin',
-                    navHistory: 'History',
-                    navGuide: 'Guide',
+                    navSpin: 'Roulette Spin',
+                    navHistory: 'Ladder Game',
+                    navGuide: 'Drawing Lots',
+                    spinButtonLabel: 'Start',
                     loginLabel: 'Login',
                     heroTitle: 'Random Draw Roulette Game',
                     heroSubtitle: 'List input is easy. Spaces, commas, line breaks, tabs, and more delimiters are auto-detected.',
@@ -513,6 +545,7 @@
                 setText('nav-spin', 'navSpin');
                 setText('nav-history', 'navHistory');
                 setText('nav-guide', 'navGuide');
+                setText('spin-button-label', 'spinButtonLabel');
                 setText('login-label', 'loginLabel');
                 setText('hero-title', 'heroTitle');
                 setText('hero-subtitle', 'heroSubtitle');
@@ -802,7 +835,7 @@
 
                 window.setTimeout(() => {
                     const now = new Date();
-                    state.history.unshift({
+                    state.history.push({
                         id: `${now.getTime()}-${Math.random().toString(36).slice(2, 8)}`,
                         name: winnerName,
                         time: toLocalizedTimeString(now)
@@ -884,6 +917,15 @@
                 ui.spinDurationLabel.textContent = t('seconds', { value: ui.spinDuration.value });
             }
 
+            function enableRouletteFocusMode() {
+                document.body.classList.add('roulette-focus');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            function disableRouletteFocusMode() {
+                document.body.classList.remove('roulette-focus');
+            }
+
             ui.spinDuration.addEventListener('input', () => {
                 updateSpinDurationLabel();
             });
@@ -900,6 +942,12 @@
             ui.exportHistory.addEventListener('click', exportCsv);
             ui.fullscreenToggle.addEventListener('click', toggleFullscreen);
             document.addEventListener('fullscreenchange', updateFullscreenButton);
+            ui.navSpin.addEventListener('click', (event) => {
+                event.preventDefault();
+                enableRouletteFocusMode();
+            });
+            ui.navHistory.addEventListener('click', () => disableRouletteFocusMode());
+            ui.navGuide.addEventListener('click', () => disableRouletteFocusMode());
 
             ui.historyList.addEventListener('click', (event) => {
                 const target = event.target.closest('button[data-history-id]');
