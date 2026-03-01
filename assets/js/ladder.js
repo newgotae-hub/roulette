@@ -406,16 +406,16 @@
 
   function renderResultsTable() {
     if (!state.participants.length || !state.ladderData) {
-      ui.resultsList.innerHTML = `<div class="h-20 flex items-center justify-center text-slate-400"><p class="text-xs">${t("noResults")}</p></div>`;
+      ui.resultsList.innerHTML = `<div class="col-span-full h-20 flex items-center justify-center text-slate-400"><p class="text-xs">${t("noResults")}</p></div>`;
       return;
     }
 
     ui.resultsList.innerHTML = "";
     state.participants.forEach((name, i) => {
       const row = document.createElement("div");
-      row.className = "flex items-center justify-between p-2.5 rounded-lg border border-transparent hover:bg-slate-50 transition-colors";
+      row.className = "p-2.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 transition-colors";
       row.id = `table-row-${i}`;
-      row.innerHTML = `<span class="text-xs font-medium text-slate-900 truncate flex-1">${name}</span><iconify-icon icon="solar:arrow-right-linear" class="text-slate-300 mx-2"></iconify-icon><span id="table-result-${i}" class="text-xs font-semibold text-slate-400 truncate flex-1 text-right">?</span>`;
+      row.innerHTML = `<p class="text-[11px] font-medium text-slate-900 truncate">${name}</p><p id="table-result-${i}" class="mt-1 text-xs font-semibold text-slate-400 truncate">?</p>`;
       ui.resultsList.appendChild(row);
     });
   }
