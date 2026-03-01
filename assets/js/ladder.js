@@ -89,8 +89,8 @@
   }
 
   function updateLanguageButtons() {
-    ui.langKo.className = `px-2.5 py-1 text-xs font-medium rounded-full ${state.locale === "ko" ? "bg-slate-100 text-slate-900" : "text-slate-500"}`;
-    ui.langEn.className = `px-2.5 py-1 text-xs font-medium rounded-full ${state.locale === "en" ? "bg-slate-100 text-slate-900" : "text-slate-500"}`;
+    ui.langKo.className = `px-2.5 py-1 text-xs font-semibold rounded-full ${state.locale === "ko" ? "bg-slate-100 text-slate-900" : "text-slate-500"}`;
+    ui.langEn.className = `px-2.5 py-1 text-xs font-semibold rounded-full ${state.locale === "en" ? "bg-slate-100 text-slate-900" : "text-slate-500"}`;
   }
 
   function updateFullscreenButton() {
