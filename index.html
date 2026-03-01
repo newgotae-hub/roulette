@@ -3,9 +3,561 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello World</title>
+    <title>선생님을 위한 프리미엄 학급 룰렛 | RLT.</title>
+
+    <meta name="description" content="광고 없는 깔끔한 디자인. 엑셀 붙여넣기로 200명 이상의 대규모 인원도 버벅임 없이 추첨하세요. 반 랜덤 뽑기, 조짜기에 최적화된 교사용 무료 온라인 룰렛입니다.">
+    <meta name="keywords" content="룰렛, 온라인 룰렛, 랜덤뽑기, 반 랜덤 뽑기, 학급 룰렛, 추첨 룰렛, 교사용 룰렛, 조짜기 프로그램">
+    <meta property="og:title" content="프리미엄 학급 룰렛 | RLT.">
+    <meta property="og:description" content="엑셀 연동, 당첨자 제외 기능이 포함된 선생님 전용 룰렛 서비스">
+    <meta property="og:type" content="website">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "RLT. 학급 룰렛",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Web",
+      "description": "교사를 위한 대규모 인원 지원, 엑셀 붙여넣기 기능이 있는 프리미엄 랜덤 추첨 룰렛",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "KRW"
+      }
+    }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif']
+                    },
+                    animation: {
+                        'soft-pulse': 'softPulse 1.8s ease-in-out infinite'
+                    },
+                    keyframes: {
+                        softPulse: {
+                            '0%, 100%': { opacity: '0.65' },
+                            '50%': { opacity: '1' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --panel: #ffffff;
+            --line: #e2e8f0;
+            --ink: #0f172a;
+            --muted: #64748b;
+            --accent: #0f172a;
+            --wheel-a: #f8fafc;
+            --wheel-b: #e2e8f0;
+            --winner: #16a34a;
+        }
+
+        body {
+            background: radial-gradient(circle at 15% 20%, #ffffff 0%, var(--bg) 45%, #eef2f7 100%);
+        }
+
+        #wheel {
+            transition: transform 4800ms cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform;
+        }
+
+        #wheel-shadow {
+            box-shadow: 0 18px 60px rgba(15, 23, 42, 0.15), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .hide-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+    </style>
 </head>
-<body>
-    <h1>Hello World!</h1>
+<body class="text-slate-900 font-sans antialiased selection:bg-slate-200 selection:text-slate-900 min-h-screen flex flex-col">
+
+    <header class="sticky top-0 z-50 bg-slate-50/85 backdrop-blur-md border-b border-slate-200/70">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-slate-900 text-white rounded-lg flex items-center justify-center font-semibold text-lg tracking-tighter">R.</div>
+                    <span class="text-base font-semibold tracking-tight text-slate-900">Roulette</span>
+                </div>
+                <nav class="hidden md:flex items-center gap-8">
+                    <a href="#" class="text-sm font-medium text-slate-900">추첨하기</a>
+                    <a href="#" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">기록 확인</a>
+                    <a href="#" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">활용 가이드</a>
+                </nav>
+                <button class="hidden md:flex items-center gap-2 bg-white border border-slate-200 shadow-sm rounded-full px-4 py-1.5 text-sm font-medium hover:bg-slate-50 transition-colors">
+                    <iconify-icon icon="solar:user-linear" stroke-width="1.5"></iconify-icon>
+                    선생님 로그인
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow flex flex-col">
+        <section class="pt-10 pb-8 px-4 sm:px-6 lg:px-8 text-center max-w-3xl mx-auto">
+            <h1 class="text-3xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-4">학급을 위한 완벽한 랜덤 추첨</h1>
+            <p class="text-base md:text-lg text-slate-500 font-normal">엑셀에서 복사해 바로 붙여넣으세요. 최대 200명의 대규모 인원도 광고 없이 빠르고 부드럽게 돌아갑니다.</p>
+        </section>
+
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-14">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                <div class="lg:col-span-3 space-y-4">
+                    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col min-h-[450px] lg:h-[640px]">
+                        <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/60">
+                            <h2 class="text-sm font-semibold tracking-tight flex items-center gap-2">
+                                <iconify-icon icon="solar:users-group-rounded-linear" stroke-width="1.5" class="text-slate-400"></iconify-icon>
+                                명단 입력
+                            </h2>
+                            <span id="participant-count" class="text-xs font-medium text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">총 0명</span>
+                        </div>
+
+                        <div class="p-4 flex-grow flex flex-col">
+                            <label for="participant-list" class="sr-only">참가자 명단</label>
+                            <textarea id="participant-list" class="w-full h-64 lg:h-full resize-none bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-shadow" placeholder="이름을 입력하거나 엑셀에서 붙여넣으세요. 쉼표(,), 탭, 줄바꿈 모두 지원됩니다."></textarea>
+
+                            <div class="mt-3 flex gap-2">
+                                <button id="reset-list" class="flex-1 bg-white border border-slate-200 rounded-lg py-2 text-xs font-medium text-slate-600 hover:bg-slate-50 transition-colors flex items-center justify-center gap-1">
+                                    <iconify-icon icon="solar:trash-bin-trash-linear" stroke-width="1.5"></iconify-icon>
+                                    초기화
+                                </button>
+                                <button id="apply-list" class="flex-1 bg-slate-900 text-white rounded-lg py-2 text-xs font-medium hover:bg-slate-800 transition-colors flex items-center justify-center gap-1 shadow-sm">
+                                    <iconify-icon icon="solar:check-circle-linear" stroke-width="1.5"></iconify-icon>
+                                    적용하기
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="p-4 border-t border-slate-100 bg-slate-50/60 space-y-4">
+                            <label class="flex items-center justify-between cursor-pointer group">
+                                <span class="text-sm font-medium text-slate-700">당첨자 자동 제외</span>
+                                <div class="relative">
+                                    <input id="auto-exclude" type="checkbox" class="sr-only peer" checked>
+                                    <div class="w-9 h-5 bg-slate-200 rounded-full peer peer-checked:bg-slate-900 transition-colors"></div>
+                                    <div class="absolute left-0.5 top-0.5 bg-white w-4 h-4 rounded-full transition-transform peer-checked:translate-x-4 shadow-sm"></div>
+                                </div>
+                            </label>
+
+                            <label class="flex items-center justify-between cursor-pointer group">
+                                <span class="text-sm font-medium text-slate-700">효과음 재생</span>
+                                <div class="relative">
+                                    <input id="sound-toggle" type="checkbox" class="sr-only peer">
+                                    <div class="w-9 h-5 bg-slate-200 rounded-full peer peer-checked:bg-slate-900 transition-colors"></div>
+                                    <div class="absolute left-0.5 top-0.5 bg-white w-4 h-4 rounded-full transition-transform peer-checked:translate-x-4 shadow-sm"></div>
+                                </div>
+                            </label>
+
+                            <div class="space-y-2 pt-1">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm font-medium text-slate-700">추첨 시간</span>
+                                    <span id="spin-duration-label" class="text-xs text-slate-500">4초</span>
+                                </div>
+                                <input id="spin-duration" type="range" min="2" max="10" value="4" class="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-slate-900">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-6 flex flex-col items-center justify-start lg:justify-center min-h-[420px] lg:h-[640px]">
+                    <div class="relative w-full max-w-[560px] aspect-square flex items-center justify-center">
+                        <div class="absolute -top-5 left-1/2 -translate-x-1/2 z-30 drop-shadow-md">
+                            <iconify-icon icon="solar:map-arrow-down-bold" class="text-slate-900 text-5xl"></iconify-icon>
+                        </div>
+
+                        <div id="wheel-shadow" class="relative w-full h-full rounded-full border-8 border-white bg-white overflow-hidden">
+                            <canvas id="wheel" width="800" height="800" class="w-full h-full rounded-full"></canvas>
+                        </div>
+
+                        <button id="spin-button" class="absolute z-40 w-24 h-24 bg-slate-900 rounded-full flex flex-col items-center justify-center text-white shadow-xl border-4 border-white hover:scale-105 active:scale-95 transition-all group cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100">
+                            <span class="text-base font-semibold tracking-wide">SPIN</span>
+                            <iconify-icon icon="solar:restart-linear" stroke-width="2" class="text-lg opacity-0 group-hover:opacity-100 h-0 group-hover:h-auto transition-all"></iconify-icon>
+                        </button>
+                    </div>
+
+                    <p id="winner-banner" class="mt-6 min-h-7 text-sm md:text-base text-slate-500 animate-soft-pulse">명단을 적용한 뒤 SPIN을 눌러 추첨하세요.</p>
+                </div>
+
+                <div class="lg:col-span-3 min-h-[420px] lg:h-[640px]">
+                    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col h-full">
+                        <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/60">
+                            <h2 class="text-sm font-semibold tracking-tight flex items-center gap-2">
+                                <iconify-icon icon="solar:history-linear" stroke-width="1.5" class="text-slate-400"></iconify-icon>
+                                당첨 내역
+                            </h2>
+                            <button id="export-history" class="text-xs font-medium text-slate-500 hover:text-slate-900 flex items-center gap-1 transition-colors">
+                                <iconify-icon icon="solar:download-minimalistic-linear" stroke-width="1.5"></iconify-icon>
+                                엑셀 저장
+                            </button>
+                        </div>
+
+                        <div id="history-list" class="flex-grow overflow-y-auto hide-scrollbar p-2 space-y-1"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <article class="sr-only">
+            <h2>온라인 룰렛의 새로운 기준, 선생님을 위한 교사용 룰렛</h2>
+            <p>RLT는 학급 룰렛 운영을 위해 최적화되었습니다. 엑셀 명단을 그대로 복사하여 붙여넣기만 하면 200명 이상의 대규모 인원도 버벅임 없이 추첨할 수 있습니다.</p>
+            <h3>주요 기능</h3>
+            <ul>
+                <li>대규모 인원 지원 및 부드러운 애니메이션</li>
+                <li>엑셀 붙여넣기 명단 입력</li>
+                <li>당첨자 자동 제외</li>
+                <li>당첨 내역 기록 및 내보내기</li>
+            </ul>
+        </article>
+    </main>
+
+    <footer class="border-t border-slate-200/60 bg-white mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-3">
+            <div class="flex items-center gap-2">
+                <div class="w-6 h-6 bg-slate-200 text-slate-600 rounded flex items-center justify-center font-semibold text-xs tracking-tighter">R.</div>
+                <span class="text-xs text-slate-500">© 2026 RLT. Designed for Educators.</span>
+            </div>
+            <div class="flex gap-6">
+                <a href="#" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">이용약관</a>
+                <a href="#" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">개인정보처리방침</a>
+                <a href="#" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">문의하기</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        (function () {
+            const sampleList = [
+                '김철수', '이영희', '박지민', '최서윤', '정도현', '오지우',
+                '한민서', '윤지호', '서하린', '임준호', '강채원', '신도윤'
+            ];
+
+            const state = {
+                participants: [],
+                available: [],
+                history: [],
+                spinning: false,
+                rotation: 0,
+                winnerIndex: -1,
+                audio: null
+            };
+
+            const ui = {
+                textarea: document.getElementById('participant-list'),
+                count: document.getElementById('participant-count'),
+                applyButton: document.getElementById('apply-list'),
+                resetButton: document.getElementById('reset-list'),
+                autoExclude: document.getElementById('auto-exclude'),
+                soundToggle: document.getElementById('sound-toggle'),
+                spinDuration: document.getElementById('spin-duration'),
+                spinDurationLabel: document.getElementById('spin-duration-label'),
+                spinButton: document.getElementById('spin-button'),
+                winnerBanner: document.getElementById('winner-banner'),
+                historyList: document.getElementById('history-list'),
+                exportHistory: document.getElementById('export-history'),
+                wheel: document.getElementById('wheel')
+            };
+
+            const ctx = ui.wheel.getContext('2d');
+
+            function normalize(deg) {
+                return ((deg % 360) + 360) % 360;
+            }
+
+            function parseParticipants(raw) {
+                return raw
+                    .split(/[\n,\t]+/)
+                    .map((v) => v.trim())
+                    .filter(Boolean)
+                    .filter((v, i, arr) => arr.indexOf(v) === i);
+            }
+
+            function toKoreanTimeString(date) {
+                return date.toLocaleTimeString('ko-KR', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
+            }
+
+            function announce(message, color) {
+                ui.winnerBanner.textContent = message;
+                ui.winnerBanner.classList.remove('text-slate-500', 'text-green-600', 'text-red-500');
+                ui.winnerBanner.classList.add(color || 'text-slate-500');
+            }
+
+            function updateCount() {
+                ui.count.textContent = `총 ${state.available.length}명`;
+            }
+
+            function drawWheel() {
+                const names = state.available;
+                const size = ui.wheel.width;
+                const center = size / 2;
+                const radius = center - 8;
+
+                ctx.clearRect(0, 0, size, size);
+
+                if (names.length === 0) {
+                    ctx.beginPath();
+                    ctx.arc(center, center, radius, 0, Math.PI * 2);
+                    ctx.fillStyle = '#f1f5f9';
+                    ctx.fill();
+
+                    ctx.fillStyle = '#64748b';
+                    ctx.font = '600 30px Inter, sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText('명단을 입력하세요', center, center);
+                    return;
+                }
+
+                const seg = (Math.PI * 2) / names.length;
+
+                for (let i = 0; i < names.length; i++) {
+                    const start = -Math.PI / 2 + i * seg;
+                    const end = start + seg;
+
+                    ctx.beginPath();
+                    ctx.moveTo(center, center);
+                    ctx.arc(center, center, radius, start, end);
+                    ctx.closePath();
+                    ctx.fillStyle = i % 2 === 0 ? '#f8fafc' : '#e2e8f0';
+                    ctx.fill();
+
+                    ctx.save();
+                    ctx.translate(center, center);
+                    ctx.rotate(start + seg / 2);
+                    ctx.textAlign = 'right';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillStyle = '#0f172a';
+                    ctx.font = names.length > 60 ? '500 13px Inter, sans-serif' : '600 16px Inter, sans-serif';
+
+                    const label = names[i].length > 10 ? `${names[i].slice(0, 9)}…` : names[i];
+                    ctx.fillText(label, radius - 26, 0);
+                    ctx.restore();
+                }
+
+                ctx.beginPath();
+                ctx.arc(center, center, radius, 0, Math.PI * 2);
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = '#ffffff';
+                ctx.stroke();
+            }
+
+            function renderHistory() {
+                if (state.history.length === 0) {
+                    ui.historyList.innerHTML = `
+                        <div class="h-full min-h-[260px] flex flex-col items-center justify-center text-slate-400">
+                            <iconify-icon icon="solar:ghost-smile-linear" class="text-3xl mb-2"></iconify-icon>
+                            <p class="text-xs">아직 추첨 내역이 없습니다.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                ui.historyList.innerHTML = state.history.map((item, idx) => {
+                    return `
+                        <div class="flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 transition-colors group">
+                            <div class="flex items-center gap-3 min-w-0">
+                                <span class="flex items-center justify-center w-6 h-6 rounded-full bg-slate-100 text-xs font-medium text-slate-500">${idx + 1}</span>
+                                <div class="min-w-0">
+                                    <p class="text-sm font-medium text-slate-900 truncate">${item.name}</p>
+                                    <p class="text-[11px] text-slate-400">${item.time}</p>
+                                </div>
+                            </div>
+                            <button data-history-id="${item.id}" class="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-red-500 transition-all" aria-label="내역 삭제">
+                                <iconify-icon icon="solar:close-circle-linear" stroke-width="1.5"></iconify-icon>
+                            </button>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            function applyList(fromReset) {
+                const parsed = parseParticipants(ui.textarea.value);
+                state.participants = parsed.slice();
+                state.available = parsed.slice();
+                state.rotation = 0;
+                state.winnerIndex = -1;
+                ui.wheel.style.transitionDuration = '0ms';
+                ui.wheel.style.transform = 'rotate(0deg)';
+                updateCount();
+                drawWheel();
+
+                if (fromReset) {
+                    announce('명단이 초기화되었습니다.', 'text-slate-500');
+                    return;
+                }
+
+                if (state.available.length === 0) {
+                    announce('최소 1명 이상 입력해 주세요.', 'text-red-500');
+                } else {
+                    announce(`${state.available.length}명 적용 완료. SPIN으로 추첨을 시작하세요.`, 'text-slate-500');
+                }
+            }
+
+            function ensureAudio() {
+                if (!state.audio) {
+                    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                    if (!AudioCtx) return null;
+                    state.audio = new AudioCtx();
+                }
+
+                if (state.audio.state === 'suspended') {
+                    state.audio.resume();
+                }
+
+                return state.audio;
+            }
+
+            function beep(freq, duration, type) {
+                if (!ui.soundToggle.checked) return;
+                const audio = ensureAudio();
+                if (!audio) return;
+
+                const now = audio.currentTime;
+                const osc = audio.createOscillator();
+                const gain = audio.createGain();
+
+                osc.type = type || 'sine';
+                osc.frequency.setValueAtTime(freq, now);
+                gain.gain.setValueAtTime(0.0001, now);
+                gain.gain.exponentialRampToValueAtTime(0.08, now + 0.01);
+                gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+                osc.connect(gain);
+                gain.connect(audio.destination);
+                osc.start(now);
+                osc.stop(now + duration + 0.02);
+            }
+
+            function pickWinner() {
+                const count = state.available.length;
+                return Math.floor(Math.random() * count);
+            }
+
+            function spin() {
+                if (state.spinning) return;
+                if (state.available.length === 0) {
+                    announce('추첨할 인원이 없습니다. 명단을 먼저 적용해 주세요.', 'text-red-500');
+                    return;
+                }
+
+                state.spinning = true;
+                ui.spinButton.disabled = true;
+                ui.spinButton.classList.add('animate-pulse');
+
+                const durationSec = Number(ui.spinDuration.value);
+                const durationMs = durationSec * 1000;
+                const winnerIndex = pickWinner();
+                const winnerName = state.available[winnerIndex];
+                const segDeg = 360 / state.available.length;
+
+                const desired = normalize(-(winnerIndex * segDeg + segDeg / 2));
+                const current = normalize(state.rotation);
+                const offset = normalize(desired - current);
+                const extraTurns = 360 * (6 + Math.floor(Math.random() * 3));
+                const next = state.rotation + extraTurns + offset;
+
+                state.winnerIndex = winnerIndex;
+                ui.wheel.style.transitionDuration = `${durationMs}ms`;
+                ui.wheel.style.transform = `rotate(${next}deg)`;
+                state.rotation = next;
+
+                announce('추첨 중...', 'text-slate-500');
+                beep(320, 0.2, 'triangle');
+
+                window.setTimeout(() => {
+                    const now = new Date();
+                    state.history.unshift({
+                        id: `${now.getTime()}-${Math.random().toString(36).slice(2, 8)}`,
+                        name: winnerName,
+                        time: toKoreanTimeString(now)
+                    });
+
+                    if (ui.autoExclude.checked) {
+                        state.available.splice(winnerIndex, 1);
+                        updateCount();
+                        drawWheel();
+                    }
+
+                    renderHistory();
+                    announce(`당첨: ${winnerName}`, 'text-green-600');
+                    beep(620, 0.22, 'sine');
+                    window.setTimeout(() => beep(840, 0.24, 'sine'), 110);
+
+                    state.spinning = false;
+                    ui.spinButton.disabled = false;
+                    ui.spinButton.classList.remove('animate-pulse');
+                }, durationMs + 20);
+            }
+
+            function exportCsv() {
+                if (state.history.length === 0) {
+                    announce('내보낼 추첨 내역이 없습니다.', 'text-red-500');
+                    return;
+                }
+
+                const header = ['순번', '이름', '시간'];
+                const rows = state.history.map((item, idx) => [String(idx + 1), item.name, item.time]);
+                const csv = [header, ...rows]
+                    .map((line) => line.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(','))
+                    .join('\n');
+
+                const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                const stamp = new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-');
+
+                a.href = url;
+                a.download = `rlt-history-${stamp}.csv`;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                URL.revokeObjectURL(url);
+            }
+
+            ui.spinDuration.addEventListener('input', () => {
+                ui.spinDurationLabel.textContent = `${ui.spinDuration.value}초`;
+            });
+
+            ui.applyButton.addEventListener('click', () => applyList(false));
+            ui.resetButton.addEventListener('click', () => {
+                ui.textarea.value = '';
+                state.history = [];
+                renderHistory();
+                applyList(true);
+            });
+            ui.spinButton.addEventListener('click', spin);
+            ui.exportHistory.addEventListener('click', exportCsv);
+
+            ui.historyList.addEventListener('click', (event) => {
+                const target = event.target.closest('button[data-history-id]');
+                if (!target) return;
+                const id = target.getAttribute('data-history-id');
+                state.history = state.history.filter((item) => item.id !== id);
+                renderHistory();
+            });
+
+            ui.textarea.value = sampleList.join('\n');
+            renderHistory();
+            applyList(false);
+        })();
+    </script>
 </body>
 </html>
