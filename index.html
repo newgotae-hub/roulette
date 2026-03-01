@@ -4,18 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>룰렛 | 랜덤추첨 룰렛 뽑기게임 RLT</title>
-    <meta name="description" content="룰렛 랜덤추첨 뽑기게임 RLT. 명단 붙여넣기, 공백/쉼표/줄바꿈 자동 인식, 당첨자 제외, 전체화면, 내역 저장까지 빠르게 지원합니다.">
+    <meta id="meta-description" name="description" content="룰렛 랜덤추첨 뽑기게임 RLT. 명단 붙여넣기, 공백/쉼표/줄바꿈 자동 인식, 당첨자 제외, 전체화면, 내역 저장까지 빠르게 지원합니다.">
     <meta name="keywords" content="룰렛, 랜덤추첨 룰렛, 뽑기게임, 랜덤 뽑기, 추첨 룰렛, 온라인 룰렛">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <link rel="canonical" href="https://roulette.pages.dev/">
-    <meta property="og:title" content="룰렛 | 랜덤추첨 룰렛 뽑기게임 RLT">
-    <meta property="og:description" content="명단 입력이 편리한 온라인 룰렛 뽑기게임. 실시간 반영, 당첨자 제외, 효과음, 내역 저장 지원">
+    <meta id="meta-og-title" property="og:title" content="룰렛 | 랜덤추첨 룰렛 뽑기게임 RLT">
+    <meta id="meta-og-description" property="og:description" content="명단 입력이 편리한 온라인 룰렛 뽑기게임. 실시간 반영, 당첨자 제외, 효과음, 내역 저장 지원">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://roulette.pages.dev/">
     <meta property="og:locale" content="ko_KR">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="룰렛 | 랜덤추첨 룰렛 뽑기게임 RLT">
-    <meta name="twitter:description" content="명단 붙여넣기로 바로 쓰는 깔끔한 랜덤 추첨 룰렛">
+    <meta id="meta-twitter-title" name="twitter:title" content="룰렛 | 랜덤추첨 룰렛 뽑기게임 RLT">
+    <meta id="meta-twitter-description" name="twitter:description" content="명단 붙여넣기로 바로 쓰는 깔끔한 랜덤 추첨 룰렛">
 
     <script type="application/ld+json">
     {
@@ -138,13 +138,13 @@
                     <span class="text-base font-semibold tracking-tight text-slate-900">Roulette</span>
                 </div>
                 <nav class="hidden md:flex items-center gap-8">
-                    <a href="#roulette" class="text-sm font-medium text-slate-900">추첨하기</a>
-                    <a href="#history" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">기록 확인</a>
-                    <a href="#guide" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">활용 가이드</a>
+                    <a id="nav-spin" href="#roulette" class="text-sm font-medium text-slate-900">추첨하기</a>
+                    <a id="nav-history" href="#history" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">기록 확인</a>
+                    <a id="nav-guide" href="#guide" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">활용 가이드</a>
                 </nav>
                 <button class="hidden md:flex items-center gap-2 bg-white border border-slate-200 shadow-sm rounded-full px-4 py-1.5 text-sm font-medium hover:bg-slate-50 transition-colors">
                     <iconify-icon icon="solar:user-linear" stroke-width="1.5"></iconify-icon>
-                    로그인
+                    <span id="login-label">로그인</span>
                 </button>
             </div>
         </div>
@@ -152,8 +152,8 @@
 
     <main class="flex-grow flex flex-col">
         <section class="pt-10 pb-8 px-4 sm:px-6 lg:px-8 text-center max-w-3xl mx-auto">
-            <h1 class="text-3xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-4">랜덤추첨 룰렛 뽑기게임</h1>
-            <p class="text-base md:text-lg text-slate-500 font-normal">명단입력이 편리합니다. 띄어쓰기, 콤마, 스페이스, 앤터 등 모든 구분기호를 인식합니다!</p>
+            <h1 id="hero-title" class="text-3xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-4">랜덤추첨 룰렛 뽑기게임</h1>
+            <p id="hero-subtitle" class="text-base md:text-lg text-slate-500 font-normal">명단입력이 편리합니다. 띄어쓰기, 콤마, 스페이스, 앤터 등 모든 구분기호를 인식합니다!</p>
         </section>
 
         <section id="roulette" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-14">
@@ -163,7 +163,7 @@
                         <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/60">
                             <h2 class="text-sm font-semibold tracking-tight flex items-center gap-2">
                                 <iconify-icon icon="solar:users-group-rounded-linear" stroke-width="1.5" class="text-slate-400"></iconify-icon>
-                                명단 입력
+                                <span id="roster-title">명단 입력</span>
                             </h2>
                             <span id="participant-count" class="text-xs font-medium text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">총 0명</span>
                         </div>
@@ -175,18 +175,18 @@
                             <div class="mt-3 flex gap-2">
                                 <button id="reset-list" class="flex-1 bg-white border border-slate-200 rounded-lg py-2 text-xs font-medium text-slate-600 hover:bg-slate-50 transition-colors flex items-center justify-center gap-1">
                                     <iconify-icon icon="solar:trash-bin-trash-linear" stroke-width="1.5"></iconify-icon>
-                                    초기화
+                                    <span id="reset-label">초기화</span>
                                 </button>
                                 <button id="apply-list" class="flex-1 bg-slate-900 text-white rounded-lg py-2 text-xs font-medium hover:bg-slate-800 transition-colors flex items-center justify-center gap-1 shadow-sm">
                                     <iconify-icon icon="solar:check-circle-linear" stroke-width="1.5"></iconify-icon>
-                                    적용하기
+                                    <span id="apply-label">적용하기</span>
                                 </button>
                             </div>
                         </div>
 
                         <div class="p-4 border-t border-slate-100 bg-slate-50/60 space-y-4">
                             <label class="flex items-center justify-between cursor-pointer group">
-                                <span class="text-sm font-medium text-slate-700">당첨자 자동 제외</span>
+                                <span id="auto-exclude-label" class="text-sm font-medium text-slate-700">당첨자 자동 제외</span>
                                 <div class="relative">
                                     <input id="auto-exclude" type="checkbox" class="sr-only peer" checked>
                                     <div class="w-9 h-5 bg-slate-200 rounded-full peer peer-checked:bg-slate-900 transition-colors"></div>
@@ -195,7 +195,7 @@
                             </label>
 
                             <label class="flex items-center justify-between cursor-pointer group">
-                                <span class="text-sm font-medium text-slate-700">효과음 재생</span>
+                                <span id="sound-label" class="text-sm font-medium text-slate-700">효과음 재생</span>
                                 <div class="relative">
                                     <input id="sound-toggle" type="checkbox" class="sr-only peer" checked>
                                     <div class="w-9 h-5 bg-slate-200 rounded-full peer peer-checked:bg-slate-900 transition-colors"></div>
@@ -205,7 +205,7 @@
 
                             <div class="space-y-2 pt-1">
                                 <div class="flex justify-between items-center">
-                                    <span class="text-sm font-medium text-slate-700">추첨 시간</span>
+                                    <span id="duration-label" class="text-sm font-medium text-slate-700">추첨 시간</span>
                                     <span id="spin-duration-label" class="text-xs text-slate-500">4초</span>
                                 </div>
                                 <input id="spin-duration" type="range" min="2" max="10" value="4" class="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-slate-900">
@@ -244,11 +244,11 @@
                         <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/60">
                             <h2 class="text-sm font-semibold tracking-tight flex items-center gap-2">
                                 <iconify-icon icon="solar:history-linear" stroke-width="1.5" class="text-slate-400"></iconify-icon>
-                                당첨 내역
+                                <span id="history-title">당첨 내역</span>
                             </h2>
                             <button id="export-history" class="text-xs font-medium text-slate-500 hover:text-slate-900 flex items-center gap-1 transition-colors">
                                 <iconify-icon icon="solar:download-minimalistic-linear" stroke-width="1.5"></iconify-icon>
-                                엑셀 저장
+                                <span id="export-label">엑셀 저장</span>
                             </button>
                         </div>
 
@@ -260,35 +260,35 @@
 
         <section id="guide" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-16">
             <div class="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-sm">
-                <h2 class="text-xl md:text-2xl font-semibold tracking-tight text-slate-900">룰렛 랜덤추첨 뽑기게임 가이드</h2>
-                <p class="mt-3 text-sm md:text-base text-slate-600">RLT는 빠르게 돌리고, 바로 저장하는 데 집중한 온라인 룰렛입니다. 명단 입력부터 당첨 내역 관리까지 한 화면에서 처리할 수 있습니다.</p>
+                <h2 id="guide-title" class="text-xl md:text-2xl font-semibold tracking-tight text-slate-900">룰렛 랜덤추첨 뽑기게임 가이드</h2>
+                <p id="guide-subtitle" class="mt-3 text-sm md:text-base text-slate-600">RLT는 빠르게 돌리고, 바로 저장하는 데 집중한 온라인 룰렛입니다. 명단 입력부터 당첨 내역 관리까지 한 화면에서 처리할 수 있습니다.</p>
                 <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
                     <article class="rounded-xl border border-slate-200 bg-slate-50/60 p-4">
-                        <h3 class="text-sm font-semibold text-slate-900">1. 명단 입력</h3>
-                        <p class="mt-2 text-sm text-slate-600">공백, 쉼표, 줄바꿈, 탭 등 다양한 구분기호를 자동 인식해 실시간으로 룰렛에 반영합니다.</p>
+                        <h3 id="guide-step1-title" class="text-sm font-semibold text-slate-900">1. 명단 입력</h3>
+                        <p id="guide-step1-body" class="mt-2 text-sm text-slate-600">공백, 쉼표, 줄바꿈, 탭 등 다양한 구분기호를 자동 인식해 실시간으로 룰렛에 반영합니다.</p>
                     </article>
                     <article class="rounded-xl border border-slate-200 bg-slate-50/60 p-4">
-                        <h3 class="text-sm font-semibold text-slate-900">2. 룰렛 추첨</h3>
-                        <p class="mt-2 text-sm text-slate-600">추첨 시간, 효과음, 당첨자 제외 옵션을 조합해 원하는 룰렛 뽑기게임 흐름을 만들 수 있습니다.</p>
+                        <h3 id="guide-step2-title" class="text-sm font-semibold text-slate-900">2. 룰렛 추첨</h3>
+                        <p id="guide-step2-body" class="mt-2 text-sm text-slate-600">추첨 시간, 효과음, 당첨자 제외 옵션을 조합해 원하는 룰렛 뽑기게임 흐름을 만들 수 있습니다.</p>
                     </article>
                     <article class="rounded-xl border border-slate-200 bg-slate-50/60 p-4">
-                        <h3 class="text-sm font-semibold text-slate-900">3. 결과 저장</h3>
-                        <p class="mt-2 text-sm text-slate-600">당첨 내역은 순번과 시간까지 포함해 CSV로 저장할 수 있어 기록 관리가 쉽습니다.</p>
+                        <h3 id="guide-step3-title" class="text-sm font-semibold text-slate-900">3. 결과 저장</h3>
+                        <p id="guide-step3-body" class="mt-2 text-sm text-slate-600">당첨 내역은 순번과 시간까지 포함해 CSV로 저장할 수 있어 기록 관리가 쉽습니다.</p>
                     </article>
                 </div>
                 <div class="mt-8">
-                    <h3 class="text-base font-semibold text-slate-900">자주 묻는 질문</h3>
+                    <h3 id="faq-title" class="text-base font-semibold text-slate-900">자주 묻는 질문</h3>
                     <details class="mt-3 rounded-lg border border-slate-200 p-3">
-                        <summary class="cursor-pointer text-sm font-medium text-slate-900">룰렛 명단은 어떤 형식을 지원하나요?</summary>
-                        <p class="mt-2 text-sm text-slate-600">줄바꿈, 공백, 쉼표, 탭, 세미콜론, 슬래시, 파이프를 포함한 다양한 구분기호를 지원합니다.</p>
+                        <summary id="faq1-q" class="cursor-pointer text-sm font-medium text-slate-900">룰렛 명단은 어떤 형식을 지원하나요?</summary>
+                        <p id="faq1-a" class="mt-2 text-sm text-slate-600">줄바꿈, 공백, 쉼표, 탭, 세미콜론, 슬래시, 파이프를 포함한 다양한 구분기호를 지원합니다.</p>
                     </details>
                     <details class="mt-2 rounded-lg border border-slate-200 p-3">
-                        <summary class="cursor-pointer text-sm font-medium text-slate-900">당첨자를 다음 추첨에서 자동 제외할 수 있나요?</summary>
-                        <p class="mt-2 text-sm text-slate-600">가능합니다. 왼쪽 옵션의 당첨자 자동 제외를 켜면 이미 뽑힌 항목이 자동 제외됩니다.</p>
+                        <summary id="faq2-q" class="cursor-pointer text-sm font-medium text-slate-900">당첨자를 다음 추첨에서 자동 제외할 수 있나요?</summary>
+                        <p id="faq2-a" class="mt-2 text-sm text-slate-600">가능합니다. 왼쪽 옵션의 당첨자 자동 제외를 켜면 이미 뽑힌 항목이 자동 제외됩니다.</p>
                     </details>
                     <details class="mt-2 rounded-lg border border-slate-200 p-3">
-                        <summary class="cursor-pointer text-sm font-medium text-slate-900">추첨 기록을 엑셀에서 볼 수 있나요?</summary>
-                        <p class="mt-2 text-sm text-slate-600">네. 당첨 내역의 엑셀 저장 버튼으로 CSV 파일을 내려받아 바로 확인할 수 있습니다.</p>
+                        <summary id="faq3-q" class="cursor-pointer text-sm font-medium text-slate-900">추첨 기록을 엑셀에서 볼 수 있나요?</summary>
+                        <p id="faq3-a" class="mt-2 text-sm text-slate-600">네. 당첨 내역의 엑셀 저장 버튼으로 CSV 파일을 내려받아 바로 확인할 수 있습니다.</p>
                     </details>
                 </div>
             </div>
@@ -302,9 +302,9 @@
                 <span class="text-xs text-slate-500">© 2026 RLT. Designed for everyone.</span>
             </div>
             <div class="flex gap-6">
-                <a href="#" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">이용약관</a>
-                <a href="#" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">개인정보처리방침</a>
-                <a href="#" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">문의하기</a>
+                <a id="footer-terms" href="#" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">이용약관</a>
+                <a id="footer-privacy" href="#" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">개인정보처리방침</a>
+                <a id="footer-contact" href="#" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">문의하기</a>
             </div>
         </div>
     </footer>
@@ -323,7 +323,8 @@
                 spinning: false,
                 rotation: 0,
                 winnerIndex: -1,
-                audio: null
+                audio: null,
+                locale: 'ko'
             };
 
             const ui = {
@@ -346,6 +347,204 @@
             };
 
             const ctx = ui.wheel.getContext('2d');
+            const i18n = {
+                ko: {
+                    title: '룰렛 | 랜덤추첨 룰렛 뽑기게임 RLT',
+                    metaDescription: '룰렛 랜덤추첨 뽑기게임 RLT. 명단 붙여넣기, 공백/쉼표/줄바꿈 자동 인식, 당첨자 제외, 전체화면, 내역 저장까지 빠르게 지원합니다.',
+                    metaOgTitle: '룰렛 | 랜덤추첨 룰렛 뽑기게임 RLT',
+                    metaOgDescription: '명단 입력이 편리한 온라인 룰렛 뽑기게임. 실시간 반영, 당첨자 제외, 효과음, 내역 저장 지원',
+                    metaTwitterTitle: '룰렛 | 랜덤추첨 룰렛 뽑기게임 RLT',
+                    metaTwitterDescription: '명단 붙여넣기로 바로 쓰는 깔끔한 랜덤 추첨 룰렛',
+                    navSpin: '추첨하기',
+                    navHistory: '기록 확인',
+                    navGuide: '활용 가이드',
+                    loginLabel: '로그인',
+                    heroTitle: '랜덤추첨 룰렛 뽑기게임',
+                    heroSubtitle: '명단입력이 편리합니다. 띄어쓰기, 콤마, 스페이스, 앤터 등 모든 구분기호를 인식합니다!',
+                    rosterTitle: '명단 입력',
+                    resetLabel: '초기화',
+                    applyLabel: '적용하기',
+                    autoExcludeLabel: '당첨자 자동 제외',
+                    soundLabel: '효과음 재생',
+                    durationLabel: '추첨 시간',
+                    historyTitle: '당첨 내역',
+                    exportLabel: '엑셀 저장',
+                    guideTitle: '룰렛 랜덤추첨 뽑기게임 가이드',
+                    guideSubtitle: 'RLT는 빠르게 돌리고, 바로 저장하는 데 집중한 온라인 룰렛입니다. 명단 입력부터 당첨 내역 관리까지 한 화면에서 처리할 수 있습니다.',
+                    guideStep1Title: '1. 명단 입력',
+                    guideStep1Body: '공백, 쉼표, 줄바꿈, 탭 등 다양한 구분기호를 자동 인식해 실시간으로 룰렛에 반영합니다.',
+                    guideStep2Title: '2. 룰렛 추첨',
+                    guideStep2Body: '추첨 시간, 효과음, 당첨자 제외 옵션을 조합해 원하는 룰렛 뽑기게임 흐름을 만들 수 있습니다.',
+                    guideStep3Title: '3. 결과 저장',
+                    guideStep3Body: '당첨 내역은 순번과 시간까지 포함해 CSV로 저장할 수 있어 기록 관리가 쉽습니다.',
+                    faqTitle: '자주 묻는 질문',
+                    faq1Q: '룰렛 명단은 어떤 형식을 지원하나요?',
+                    faq1A: '줄바꿈, 공백, 쉼표, 탭, 세미콜론, 슬래시, 파이프를 포함한 다양한 구분기호를 지원합니다.',
+                    faq2Q: '당첨자를 다음 추첨에서 자동 제외할 수 있나요?',
+                    faq2A: '가능합니다. 왼쪽 옵션의 당첨자 자동 제외를 켜면 이미 뽑힌 항목이 자동 제외됩니다.',
+                    faq3Q: '추첨 기록을 엑셀에서 볼 수 있나요?',
+                    faq3A: '네. 당첨 내역의 엑셀 저장 버튼으로 CSV 파일을 내려받아 바로 확인할 수 있습니다.',
+                    footerTerms: '이용약관',
+                    footerPrivacy: '개인정보처리방침',
+                    footerContact: '문의하기',
+                    textareaPlaceholder: '이름을 입력하거나 엑셀에서 붙여넣으세요. 공백, 쉼표, 줄바꿈, 탭, 세미콜론, 슬래시, 파이프를 지원합니다.',
+                    bannerReady: '명단을 적용한 뒤 SPIN을 눌러 추첨하세요.',
+                    count: '총 {count}명',
+                    seconds: '{value}초',
+                    wheelEmptyTitle: '명단을 입력하세요',
+                    wheelEmptySub: '왼쪽에서 이름을 입력/붙여넣기',
+                    historyEmpty: '아직 추첨 내역이 없습니다.',
+                    historyDeleteAria: '내역 삭제',
+                    resetDone: '명단이 초기화되었습니다.',
+                    needAtLeastOne: '최소 1명 이상 입력해 주세요.',
+                    applied: '{count}명 적용 완료. SPIN으로 추첨을 시작하세요.',
+                    noParticipants: '추첨할 인원이 없습니다. 명단을 먼저 적용해 주세요.',
+                    spinning: '추첨 중...',
+                    winner: '당첨: {name}',
+                    noExport: '내보낼 추첨 내역이 없습니다.',
+                    fullscreen: '전체화면',
+                    fullscreenExit: '전체화면 해제',
+                    fullscreenUnsupported: '이 브라우저에서는 전체화면을 지원하지 않습니다.',
+                    fullscreenFailed: '전체화면 전환에 실패했습니다.'
+                },
+                en: {
+                    title: 'Roulette | Random Draw Spin Wheel Game RLT',
+                    metaDescription: 'RLT random draw roulette game. Paste names, auto-detect delimiters, exclude winners, full screen mode, and history export in one clean tool.',
+                    metaOgTitle: 'Roulette | Random Draw Spin Wheel Game RLT',
+                    metaOgDescription: 'A clean online roulette game with real-time list updates, winner exclusion, sound effects, and history export.',
+                    metaTwitterTitle: 'Roulette | Random Draw Spin Wheel Game RLT',
+                    metaTwitterDescription: 'A clean random draw roulette game you can use instantly by pasting names.',
+                    navSpin: 'Spin',
+                    navHistory: 'History',
+                    navGuide: 'Guide',
+                    loginLabel: 'Login',
+                    heroTitle: 'Random Draw Roulette Game',
+                    heroSubtitle: 'List input is easy. Spaces, commas, line breaks, tabs, and more delimiters are auto-detected.',
+                    rosterTitle: 'Participants',
+                    resetLabel: 'Reset',
+                    applyLabel: 'Apply',
+                    autoExcludeLabel: 'Auto-exclude winners',
+                    soundLabel: 'Sound effects',
+                    durationLabel: 'Spin duration',
+                    historyTitle: 'Winning History',
+                    exportLabel: 'Export CSV',
+                    guideTitle: 'Random Draw Roulette Guide',
+                    guideSubtitle: 'RLT is a clean online roulette focused on fast spins and easy saving. Manage list input and winning history on one screen.',
+                    guideStep1Title: '1. Enter names',
+                    guideStep1Body: 'Supports spaces, commas, line breaks, tabs, and more delimiters. The wheel updates in real time.',
+                    guideStep2Title: '2. Spin the wheel',
+                    guideStep2Body: 'Combine spin duration, sound effects, and auto-exclude to match your preferred draw flow.',
+                    guideStep3Title: '3. Save results',
+                    guideStep3Body: 'Save winning history with order and timestamp as CSV for easy tracking.',
+                    faqTitle: 'FAQ',
+                    faq1Q: 'What input formats are supported?',
+                    faq1A: 'Line breaks, spaces, commas, tabs, semicolons, slashes, and pipes are supported.',
+                    faq2Q: 'Can I auto-exclude winners?',
+                    faq2A: 'Yes. Turn on auto-exclude winners to remove selected names from the next spins.',
+                    faq3Q: 'Can I open the results in Excel?',
+                    faq3A: 'Yes. Use Export CSV in the history panel and open it directly in Excel.',
+                    footerTerms: 'Terms',
+                    footerPrivacy: 'Privacy',
+                    footerContact: 'Contact',
+                    textareaPlaceholder: 'Type names or paste from Excel. Supports spaces, commas, line breaks, tabs, semicolons, slashes, and pipes.',
+                    bannerReady: 'Apply your list and press SPIN to start.',
+                    count: '{count} entries',
+                    seconds: '{value}s',
+                    wheelEmptyTitle: 'Enter participants',
+                    wheelEmptySub: 'Type or paste names on the left',
+                    historyEmpty: 'No winners yet.',
+                    historyDeleteAria: 'Remove history item',
+                    resetDone: 'List has been reset.',
+                    needAtLeastOne: 'Please enter at least one participant.',
+                    applied: '{count} entries applied. Press SPIN to start.',
+                    noParticipants: 'No participants to draw. Please apply a list first.',
+                    spinning: 'Spinning...',
+                    winner: 'Winner: {name}',
+                    noExport: 'There is no history to export.',
+                    fullscreen: 'Fullscreen',
+                    fullscreenExit: 'Exit fullscreen',
+                    fullscreenUnsupported: 'Fullscreen is not supported in this browser.',
+                    fullscreenFailed: 'Failed to toggle fullscreen.'
+                }
+            };
+
+            function detectLocale() {
+                const params = new URLSearchParams(window.location.search);
+                const forced = params.get('lang');
+                if (forced === 'ko' || forced === 'en') {
+                    try {
+                        window.localStorage.setItem('rlt-lang', forced);
+                    } catch (e) {}
+                    return forced;
+                }
+
+                let saved = null;
+                try {
+                    saved = window.localStorage.getItem('rlt-lang');
+                } catch (e) {}
+                if (saved === 'ko' || saved === 'en') return saved;
+
+                const browserLang = (navigator.language || '').toLowerCase();
+                return browserLang.startsWith('ko') ? 'ko' : 'en';
+            }
+
+            function t(key, vars) {
+                const dict = i18n[state.locale] || i18n.ko;
+                const raw = dict[key] || i18n.ko[key] || key;
+                if (!vars) return raw;
+                return raw.replace(/\{(\w+)\}/g, (_, k) => (vars[k] ?? ''));
+            }
+
+            function setText(id, key) {
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.textContent = t(key);
+            }
+
+            function applyStaticI18n() {
+                document.documentElement.lang = state.locale;
+                document.title = t('title');
+                document.getElementById('meta-description').setAttribute('content', t('metaDescription'));
+                document.getElementById('meta-og-title').setAttribute('content', t('metaOgTitle'));
+                document.getElementById('meta-og-description').setAttribute('content', t('metaOgDescription'));
+                document.getElementById('meta-twitter-title').setAttribute('content', t('metaTwitterTitle'));
+                document.getElementById('meta-twitter-description').setAttribute('content', t('metaTwitterDescription'));
+
+                setText('nav-spin', 'navSpin');
+                setText('nav-history', 'navHistory');
+                setText('nav-guide', 'navGuide');
+                setText('login-label', 'loginLabel');
+                setText('hero-title', 'heroTitle');
+                setText('hero-subtitle', 'heroSubtitle');
+                setText('roster-title', 'rosterTitle');
+                setText('reset-label', 'resetLabel');
+                setText('apply-label', 'applyLabel');
+                setText('auto-exclude-label', 'autoExcludeLabel');
+                setText('sound-label', 'soundLabel');
+                setText('duration-label', 'durationLabel');
+                setText('history-title', 'historyTitle');
+                setText('export-label', 'exportLabel');
+                setText('guide-title', 'guideTitle');
+                setText('guide-subtitle', 'guideSubtitle');
+                setText('guide-step1-title', 'guideStep1Title');
+                setText('guide-step1-body', 'guideStep1Body');
+                setText('guide-step2-title', 'guideStep2Title');
+                setText('guide-step2-body', 'guideStep2Body');
+                setText('guide-step3-title', 'guideStep3Title');
+                setText('guide-step3-body', 'guideStep3Body');
+                setText('faq-title', 'faqTitle');
+                setText('faq1-q', 'faq1Q');
+                setText('faq1-a', 'faq1A');
+                setText('faq2-q', 'faq2Q');
+                setText('faq2-a', 'faq2A');
+                setText('faq3-q', 'faq3Q');
+                setText('faq3-a', 'faq3A');
+                setText('footer-terms', 'footerTerms');
+                setText('footer-privacy', 'footerPrivacy');
+                setText('footer-contact', 'footerContact');
+                ui.textarea.placeholder = t('textareaPlaceholder');
+                announce(t('bannerReady'), 'text-slate-500');
+            }
 
             function normalize(deg) {
                 return ((deg % 360) + 360) % 360;
@@ -359,8 +558,8 @@
                     .filter((v, i, arr) => arr.indexOf(v) === i);
             }
 
-            function toKoreanTimeString(date) {
-                return date.toLocaleTimeString('ko-KR', {
+            function toLocalizedTimeString(date) {
+                return date.toLocaleTimeString(state.locale === 'ko' ? 'ko-KR' : 'en-US', {
                     hour: '2-digit',
                     minute: '2-digit',
                     second: '2-digit'
@@ -374,7 +573,7 @@
             }
 
             function updateCount() {
-                ui.count.textContent = `총 ${state.available.length}명`;
+                ui.count.textContent = t('count', { count: state.available.length });
             }
 
             function drawWheel() {
@@ -395,11 +594,11 @@
                     ctx.font = '700 34px Inter, sans-serif';
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
-                    ctx.fillText('명단을 입력하세요', center, center - radius * 0.42);
+                    ctx.fillText(t('wheelEmptyTitle'), center, center - radius * 0.42);
 
                     ctx.fillStyle = '#64748b';
                     ctx.font = '500 18px Inter, sans-serif';
-                    ctx.fillText('왼쪽에서 이름을 입력/붙여넣기', center, center - radius * 0.31);
+                    ctx.fillText(t('wheelEmptySub'), center, center - radius * 0.31);
                     return;
                 }
 
@@ -451,7 +650,7 @@
                     ui.historyList.innerHTML = `
                         <div class="h-full min-h-[260px] flex flex-col items-center justify-center text-slate-400">
                             <iconify-icon icon="solar:ghost-smile-linear" class="text-3xl mb-2"></iconify-icon>
-                            <p class="text-xs">아직 추첨 내역이 없습니다.</p>
+                            <p class="text-xs">${t('historyEmpty')}</p>
                         </div>
                     `;
                     return;
@@ -467,7 +666,7 @@
                                     <p class="text-[11px] text-slate-400">${item.time}</p>
                                 </div>
                             </div>
-                            <button data-history-id="${item.id}" class="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-red-500 transition-all" aria-label="내역 삭제">
+                            <button data-history-id="${item.id}" class="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-red-500 transition-all" aria-label="${t('historyDeleteAria')}">
                                 <iconify-icon icon="solar:close-circle-linear" stroke-width="1.5"></iconify-icon>
                             </button>
                         </div>
@@ -487,14 +686,14 @@
                 drawWheel();
 
                 if (fromReset) {
-                    announce('명단이 초기화되었습니다.', 'text-slate-500');
+                    announce(t('resetDone'), 'text-slate-500');
                     return;
                 }
 
                 if (state.available.length === 0) {
-                    announce('최소 1명 이상 입력해 주세요.', 'text-red-500');
+                    announce(t('needAtLeastOne'), 'text-red-500');
                 } else {
-                    announce(`${state.available.length}명 적용 완료. SPIN으로 추첨을 시작하세요.`, 'text-slate-500');
+                    announce(t('applied', { count: state.available.length }), 'text-slate-500');
                 }
             }
 
@@ -512,7 +711,7 @@
                 drawWheel();
 
                 if (parsed.length === 0) {
-                    announce('최소 1명 이상 입력해 주세요.', 'text-red-500');
+                    announce(t('needAtLeastOne'), 'text-red-500');
                 }
             }
 
@@ -573,7 +772,7 @@
             function spin() {
                 if (state.spinning) return;
                 if (state.available.length === 0) {
-                    announce('추첨할 인원이 없습니다. 명단을 먼저 적용해 주세요.', 'text-red-500');
+                    announce(t('noParticipants'), 'text-red-500');
                     return;
                 }
 
@@ -598,7 +797,7 @@
                 ui.wheel.style.transform = `rotate(${next}deg)`;
                 state.rotation = next;
 
-                announce('추첨 중...', 'text-slate-500');
+                announce(t('spinning'), 'text-slate-500');
                 playSpinSound();
 
                 window.setTimeout(() => {
@@ -606,7 +805,7 @@
                     state.history.unshift({
                         id: `${now.getTime()}-${Math.random().toString(36).slice(2, 8)}`,
                         name: winnerName,
-                        time: toKoreanTimeString(now)
+                        time: toLocalizedTimeString(now)
                     });
 
                     if (ui.autoExclude.checked) {
@@ -616,7 +815,7 @@
                     }
 
                     renderHistory();
-                    announce(`당첨: ${winnerName}`, 'text-green-600');
+                    announce(t('winner', { name: winnerName }), 'text-green-600');
                     playWinnerSound();
 
                     state.spinning = false;
@@ -627,11 +826,11 @@
 
             function exportCsv() {
                 if (state.history.length === 0) {
-                    announce('내보낼 추첨 내역이 없습니다.', 'text-red-500');
+                    announce(t('noExport'), 'text-red-500');
                     return;
                 }
 
-                const header = ['순번', '이름', '시간'];
+                const header = state.locale === 'ko' ? ['순번', '이름', '시간'] : ['No.', 'Name', 'Time'];
                 const rows = state.history.map((item, idx) => [String(idx + 1), item.name, item.time]);
                 const csv = [header, ...rows]
                     .map((line) => line.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(','))
@@ -656,10 +855,10 @@
 
             function updateFullscreenButton() {
                 if (isFullscreen()) {
-                    ui.fullscreenLabel.textContent = '전체화면 해제';
+                    ui.fullscreenLabel.textContent = t('fullscreenExit');
                     ui.fullscreenIcon.setAttribute('icon', 'solar:minimize-linear');
                 } else {
-                    ui.fullscreenLabel.textContent = '전체화면';
+                    ui.fullscreenLabel.textContent = t('fullscreen');
                     ui.fullscreenIcon.setAttribute('icon', 'solar:maximize-linear');
                 }
             }
@@ -667,7 +866,7 @@
             async function toggleFullscreen() {
                 try {
                     if (!document.fullscreenEnabled) {
-                        announce('이 브라우저에서는 전체화면을 지원하지 않습니다.', 'text-red-500');
+                        announce(t('fullscreenUnsupported'), 'text-red-500');
                         return;
                     }
 
@@ -677,12 +876,16 @@
                         await document.documentElement.requestFullscreen();
                     }
                 } catch (error) {
-                    announce('전체화면 전환에 실패했습니다.', 'text-red-500');
+                    announce(t('fullscreenFailed'), 'text-red-500');
                 }
             }
 
+            function updateSpinDurationLabel() {
+                ui.spinDurationLabel.textContent = t('seconds', { value: ui.spinDuration.value });
+            }
+
             ui.spinDuration.addEventListener('input', () => {
-                ui.spinDurationLabel.textContent = `${ui.spinDuration.value}초`;
+                updateSpinDurationLabel();
             });
 
             ui.textarea.addEventListener('input', syncLiveList);
@@ -706,7 +909,10 @@
                 renderHistory();
             });
 
+            state.locale = detectLocale();
+            applyStaticI18n();
             ui.textarea.value = sampleList.join('\n');
+            updateSpinDurationLabel();
             renderHistory();
             applyList(false);
             updateFullscreenButton();
