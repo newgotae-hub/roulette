@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { AuthProvider } from '@/components/auth/AuthProvider';
 
 export const metadata: Metadata = {
   title: 'PickWheel - 초간단 랜덤 룰렛 돌림판',
@@ -13,7 +14,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <body className="antialiased font-sans bg-slate-50">{children}</body>
+      <body className="antialiased font-sans bg-slate-50">
+        <AuthProvider>
+          {children}
+        </AuthProvider>
+      </body>
     </html>
   );
 }

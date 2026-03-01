@@ -2,8 +2,10 @@
 import { useState, useEffect } from 'react';
 import RouletteWheel from '@/components/wheel/RouletteWheel';
 import { parseSmartInput, RouletteItem } from '@/lib/parser';
+import { useAuth } from '@/components/auth/AuthProvider';
 
 export default function MainPage() {
+  const { user, signIn, logOut } = useAuth();
   const [input, setInput] = useState("짜장면, 짬뽕, 볶음밥\\n마라탕*3");
   const [items, setItems] = useState<RouletteItem[]>([]);
   const [result, setResult] = useState<string | null>(null);
@@ -22,8 +24,21 @@ export default function MainPage() {
           <h1 className="text-2xl font-black text-indigo-600 tracking-tight flex items-center gap-2">
             🎡 PickWheel
           </h1>
-          <div className="text-sm font-medium text-slate-500 bg-slate-100 px-3 py-1 rounded-full">
-            로그인 없이 즉시 사용
+          <div className="flex items-center gap-4">
+            {user ? (
+              <div className="flex items-center gap-3">
+                <img src={user.photoURL || ""} alt="profile" className="w-8 h-8 rounded-full border border-slate-200" />
+                <span className="text-sm font-bold text-slate-700 hidden md:block">{user.displayName}님</span>
+                <button onClick={logOut} className="text-xs font-medium text-slate-400 hover:text-slate-600">로그아웃</button>
+              </div>
+            ) : (
+              <button 
+                onClick={signIn}
+                className="text-sm font-bold text-indigo-600 bg-indigo-50 px-4 py-2 rounded-xl hover:bg-indigo-100 transition-colors"
+              >
+                로그인
+              </button>
+            )}
           </div>
         </div>
       </header>
@@ -40,7 +55,7 @@ export default function MainPage() {
               <textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                className="w-full h-56 p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all resize-none text-slate-700"
+                className="w-full h-56 p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all resize-none text-slate-700 font-medium"
                 placeholder="항목을 입력하세요..."
               />
               <div className="mt-4 text-sm text-slate-500 text-right">
@@ -50,21 +65,30 @@ export default function MainPage() {
 
             {/* 당첨 결과 알림 */}
             {result && (
-              <div className="bg-indigo-600 p-6 rounded-3xl border border-indigo-500 shadow-xl text-white transform transition-all animate-in fade-in slide-in-from-bottom-4">
-                <h3 className="font-bold text-indigo-200 text-sm mb-1">🎉 당첨 결과</h3>
-                <div className="text-4xl font-black my-2 tracking-tight">{result}</div>
+              <div className="bg-indigo-600 p-8 rounded-3xl border border-indigo-500 shadow-2xl text-white transform transition-all animate-in fade-in zoom-in-95 duration-300">
+                <h3 className="font-bold text-indigo-200 text-xs mb-1 uppercase tracking-widest">Congratulations!</h3>
+                <div className="text-4xl font-black my-2 tracking-tight leading-tight">{result}</div>
                 <button
                   onClick={() => setResult(null)}
-                  className="mt-4 px-5 py-2.5 w-full bg-white text-indigo-600 rounded-xl font-bold hover:bg-indigo-50 transition-colors shadow-sm"
+                  className="mt-6 px-5 py-3 w-full bg-white text-indigo-600 rounded-2xl font-black hover:bg-indigo-50 transition-all shadow-lg active:scale-95"
                 >
-                  확인
+                  COOL!
+                </button>
+              </div>
+            )}
+
+            {!user && (
+              <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm border-dashed border-2">
+                <p className="text-sm font-medium text-slate-500 mb-3 text-center">로그인하면 이전 기록을 보관할 수 있습니다.</p>
+                <button onClick={signIn} className="w-full py-3 bg-slate-900 text-white rounded-2xl font-bold hover:bg-slate-800 transition-all">
+                  구글로 3초 로그인
                 </button>
               </div>
             )}
           </div>
 
           {/* Right Panel: 룰렛 휠 */}
-          <div className="lg:col-span-8 flex flex-col items-center justify-center bg-white p-6 md:p-12 rounded-3xl shadow-sm border border-slate-200 w-full">
+          <div className="lg:col-span-8 flex flex-col items-center justify-center bg-white p-6 md:p-12 rounded-[40px] shadow-sm border border-slate-200 w-full min-h-[600px]">
             <RouletteWheel items={items} onResult={(item) => setResult(item.text)} />
           </div>
 
