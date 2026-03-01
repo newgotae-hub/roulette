@@ -3,27 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>편리하고 깔끔한 랜덤 추첨 게임 | 룰렛 뽑기 RLT.</title>
-
-    <meta name="description" content="편리하고 깔끔한 랜덤 추첨 게임. 룰렛 뽑기, 랜덤 뽑기, 당첨자 제외, 내역 저장까지 한 번에 지원합니다.">
-    <meta name="keywords" content="랜덤 추첨 게임, 룰렛, 뽑기, 랜덤 뽑기, 추첨 룰렛, 온라인 룰렛">
-    <meta property="og:title" content="편리하고 깔끔한 랜덤 추첨 게임 | 룰렛 뽑기 RLT.">
-    <meta property="og:description" content="룰렛 뽑기와 랜덤 추첨 게임을 빠르고 직관적으로 즐길 수 있는 온라인 서비스">
+    <title>룰렛 | 랜덤추첨 룰렛 뽑기게임 RLT</title>
+    <meta name="description" content="룰렛 랜덤추첨 뽑기게임 RLT. 명단 붙여넣기, 공백/쉼표/줄바꿈 자동 인식, 당첨자 제외, 전체화면, 내역 저장까지 빠르게 지원합니다.">
+    <meta name="keywords" content="룰렛, 랜덤추첨 룰렛, 뽑기게임, 랜덤 뽑기, 추첨 룰렛, 온라인 룰렛">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <link rel="canonical" href="https://roulette.pages.dev/">
+    <meta property="og:title" content="룰렛 | 랜덤추첨 룰렛 뽑기게임 RLT">
+    <meta property="og:description" content="명단 입력이 편리한 온라인 룰렛 뽑기게임. 실시간 반영, 당첨자 제외, 효과음, 내역 저장 지원">
     <meta property="og:type" content="website">
+    <meta property="og:url" content="https://roulette.pages.dev/">
+    <meta property="og:locale" content="ko_KR">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="룰렛 | 랜덤추첨 룰렛 뽑기게임 RLT">
+    <meta name="twitter:description" content="명단 붙여넣기로 바로 쓰는 깔끔한 랜덤 추첨 룰렛">
 
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebApplication",
+      "@type": "SoftwareApplication",
       "name": "RLT. 랜덤 추첨 게임 룰렛",
-      "applicationCategory": "EducationalApplication",
+      "applicationCategory": "GameApplication",
       "operatingSystem": "Web",
       "description": "편리한 명단 입력과 룰렛 뽑기를 지원하는 랜덤 추첨 게임",
+      "inLanguage": "ko-KR",
+      "url": "https://roulette.pages.dev/",
       "offers": {
         "@type": "Offer",
         "price": "0",
         "priceCurrency": "KRW"
       }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "룰렛 명단은 어떤 방식으로 입력할 수 있나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "줄바꿈, 공백, 쉼표, 탭, 세미콜론, 슬래시, 파이프 등 다양한 구분기호를 자동 인식해 명단을 바로 반영합니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "당첨자를 자동으로 제외할 수 있나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "가능합니다. 당첨자 자동 제외 옵션을 켜면 이미 뽑힌 항목을 다음 추첨에서 자동으로 제외합니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "룰렛 결과는 저장할 수 있나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "당첨 내역을 CSV 형식으로 저장해 엑셀에서 확인할 수 있습니다."
+          }
+        }
+      ]
     }
     </script>
 
@@ -98,9 +138,9 @@
                     <span class="text-base font-semibold tracking-tight text-slate-900">Roulette</span>
                 </div>
                 <nav class="hidden md:flex items-center gap-8">
-                    <a href="#" class="text-sm font-medium text-slate-900">추첨하기</a>
-                    <a href="#" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">기록 확인</a>
-                    <a href="#" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">활용 가이드</a>
+                    <a href="#roulette" class="text-sm font-medium text-slate-900">추첨하기</a>
+                    <a href="#history" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">기록 확인</a>
+                    <a href="#guide" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">활용 가이드</a>
                 </nav>
                 <button class="hidden md:flex items-center gap-2 bg-white border border-slate-200 shadow-sm rounded-full px-4 py-1.5 text-sm font-medium hover:bg-slate-50 transition-colors">
                     <iconify-icon icon="solar:user-linear" stroke-width="1.5"></iconify-icon>
@@ -116,7 +156,7 @@
             <p class="text-base md:text-lg text-slate-500 font-normal">명단입력이 편리합니다. 띄어쓰기, 콤마, 스페이스, 앤터 등 모든 구분기호를 인식합니다!</p>
         </section>
 
-        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-14">
+        <section id="roulette" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-14">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                 <div class="lg:col-span-3 space-y-4">
                     <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col min-h-[450px] lg:h-[640px]">
@@ -199,7 +239,7 @@
                     </div>
                 </div>
 
-                <div class="lg:col-span-3 min-h-[420px] lg:h-[640px]">
+                <div id="history" class="lg:col-span-3 min-h-[420px] lg:h-[640px]">
                     <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col h-full">
                         <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/60">
                             <h2 class="text-sm font-semibold tracking-tight flex items-center gap-2">
@@ -218,17 +258,41 @@
             </div>
         </section>
 
-        <article class="sr-only">
-            <h2>편리하고 깔끔한 랜덤 추첨 게임, 룰렛 뽑기</h2>
-            <p>RLT는 룰렛과 뽑기를 빠르게 즐길 수 있는 랜덤 추첨 게임입니다. 명단을 붙여넣고 다양한 구분기호를 인식해 바로 추첨할 수 있습니다.</p>
-            <h3>주요 기능</h3>
-            <ul>
-                <li>부드러운 애니메이션과 직관적인 인터페이스</li>
-                <li>엑셀 붙여넣기 명단 입력</li>
-                <li>당첨자 자동 제외</li>
-                <li>당첨 내역 기록 및 내보내기</li>
-            </ul>
-        </article>
+        <section id="guide" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-16">
+            <div class="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-sm">
+                <h2 class="text-xl md:text-2xl font-semibold tracking-tight text-slate-900">룰렛 랜덤추첨 뽑기게임 가이드</h2>
+                <p class="mt-3 text-sm md:text-base text-slate-600">RLT는 빠르게 돌리고, 바로 저장하는 데 집중한 온라인 룰렛입니다. 명단 입력부터 당첨 내역 관리까지 한 화면에서 처리할 수 있습니다.</p>
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <article class="rounded-xl border border-slate-200 bg-slate-50/60 p-4">
+                        <h3 class="text-sm font-semibold text-slate-900">1. 명단 입력</h3>
+                        <p class="mt-2 text-sm text-slate-600">공백, 쉼표, 줄바꿈, 탭 등 다양한 구분기호를 자동 인식해 실시간으로 룰렛에 반영합니다.</p>
+                    </article>
+                    <article class="rounded-xl border border-slate-200 bg-slate-50/60 p-4">
+                        <h3 class="text-sm font-semibold text-slate-900">2. 룰렛 추첨</h3>
+                        <p class="mt-2 text-sm text-slate-600">추첨 시간, 효과음, 당첨자 제외 옵션을 조합해 원하는 룰렛 뽑기게임 흐름을 만들 수 있습니다.</p>
+                    </article>
+                    <article class="rounded-xl border border-slate-200 bg-slate-50/60 p-4">
+                        <h3 class="text-sm font-semibold text-slate-900">3. 결과 저장</h3>
+                        <p class="mt-2 text-sm text-slate-600">당첨 내역은 순번과 시간까지 포함해 CSV로 저장할 수 있어 기록 관리가 쉽습니다.</p>
+                    </article>
+                </div>
+                <div class="mt-8">
+                    <h3 class="text-base font-semibold text-slate-900">자주 묻는 질문</h3>
+                    <details class="mt-3 rounded-lg border border-slate-200 p-3">
+                        <summary class="cursor-pointer text-sm font-medium text-slate-900">룰렛 명단은 어떤 형식을 지원하나요?</summary>
+                        <p class="mt-2 text-sm text-slate-600">줄바꿈, 공백, 쉼표, 탭, 세미콜론, 슬래시, 파이프를 포함한 다양한 구분기호를 지원합니다.</p>
+                    </details>
+                    <details class="mt-2 rounded-lg border border-slate-200 p-3">
+                        <summary class="cursor-pointer text-sm font-medium text-slate-900">당첨자를 다음 추첨에서 자동 제외할 수 있나요?</summary>
+                        <p class="mt-2 text-sm text-slate-600">가능합니다. 왼쪽 옵션의 당첨자 자동 제외를 켜면 이미 뽑힌 항목이 자동 제외됩니다.</p>
+                    </details>
+                    <details class="mt-2 rounded-lg border border-slate-200 p-3">
+                        <summary class="cursor-pointer text-sm font-medium text-slate-900">추첨 기록을 엑셀에서 볼 수 있나요?</summary>
+                        <p class="mt-2 text-sm text-slate-600">네. 당첨 내역의 엑셀 저장 버튼으로 CSV 파일을 내려받아 바로 확인할 수 있습니다.</p>
+                    </details>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer class="border-t border-slate-200/60 bg-white mt-auto">
