@@ -112,8 +112,8 @@
 
     <main class="flex-grow flex flex-col">
         <section class="pt-10 pb-8 px-4 sm:px-6 lg:px-8 text-center max-w-3xl mx-auto">
-            <h1 class="text-3xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-4">학급을 위한 완벽한 랜덤 추첨</h1>
-            <p class="text-base md:text-lg text-slate-500 font-normal">엑셀에서 복사해 바로 붙여넣으세요. 최대 200명의 대규모 인원도 광고 없이 빠르고 부드럽게 돌아갑니다.</p>
+            <h1 class="text-3xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-4">룰렛 랜덤 추첨</h1>
+            <p class="text-base md:text-lg text-slate-500 font-normal">명단입력이 편리합니다. 띄어쓰기, 콤마, 스페이스, 앤터 등 모든 구분기호를 인식합니다!</p>
         </section>
 
         <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-14">
@@ -130,7 +130,7 @@
 
                         <div class="p-4 flex-grow flex flex-col">
                             <label for="participant-list" class="sr-only">참가자 명단</label>
-                            <textarea id="participant-list" class="w-full h-64 lg:h-full resize-none bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-shadow" placeholder="이름을 입력하거나 엑셀에서 붙여넣으세요. 쉼표(,), 탭, 줄바꿈 모두 지원됩니다."></textarea>
+                            <textarea id="participant-list" class="w-full h-64 lg:h-full resize-none bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-shadow" placeholder="이름을 입력하거나 엑셀에서 붙여넣으세요. 공백, 쉼표, 줄바꿈, 탭, 세미콜론, 슬래시, 파이프를 지원합니다."></textarea>
 
                             <div class="mt-3 flex gap-2">
                                 <button id="reset-list" class="flex-1 bg-white border border-slate-200 rounded-lg py-2 text-xs font-medium text-slate-600 hover:bg-slate-50 transition-colors flex items-center justify-center gap-1">
@@ -191,6 +191,12 @@
                     </div>
 
                     <p id="winner-banner" class="mt-6 min-h-7 text-sm md:text-base text-slate-500 animate-soft-pulse">명단을 적용한 뒤 SPIN을 눌러 추첨하세요.</p>
+                    <div class="mt-4">
+                        <button id="fullscreen-toggle" class="bg-white border border-slate-200 shadow-sm rounded-full px-5 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors flex items-center gap-2">
+                            <iconify-icon id="fullscreen-icon" icon="solar:maximize-linear" stroke-width="1.5"></iconify-icon>
+                            <span id="fullscreen-label">전체화면</span>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="lg:col-span-3 min-h-[420px] lg:h-[640px]">
@@ -269,7 +275,10 @@
                 winnerBanner: document.getElementById('winner-banner'),
                 historyList: document.getElementById('history-list'),
                 exportHistory: document.getElementById('export-history'),
-                wheel: document.getElementById('wheel')
+                wheel: document.getElementById('wheel'),
+                fullscreenToggle: document.getElementById('fullscreen-toggle'),
+                fullscreenIcon: document.getElementById('fullscreen-icon'),
+                fullscreenLabel: document.getElementById('fullscreen-label')
             };
 
             const ctx = ui.wheel.getContext('2d');
@@ -280,7 +289,7 @@
 
             function parseParticipants(raw) {
                 return raw
-                    .split(/[\n,\t]+/)
+                    .split(/[\s,;|/\\·•ㆍ،，、]+/)
                     .map((v) => v.trim())
                     .filter(Boolean)
                     .filter((v, i, arr) => arr.indexOf(v) === i);
@@ -564,6 +573,37 @@
                 URL.revokeObjectURL(url);
             }
 
+            function isFullscreen() {
+                return !!document.fullscreenElement;
+            }
+
+            function updateFullscreenButton() {
+                if (isFullscreen()) {
+                    ui.fullscreenLabel.textContent = '전체화면 해제';
+                    ui.fullscreenIcon.setAttribute('icon', 'solar:minimize-linear');
+                } else {
+                    ui.fullscreenLabel.textContent = '전체화면';
+                    ui.fullscreenIcon.setAttribute('icon', 'solar:maximize-linear');
+                }
+            }
+
+            async function toggleFullscreen() {
+                try {
+                    if (!document.fullscreenEnabled) {
+                        announce('이 브라우저에서는 전체화면을 지원하지 않습니다.', 'text-red-500');
+                        return;
+                    }
+
+                    if (isFullscreen()) {
+                        await document.exitFullscreen();
+                    } else {
+                        await document.documentElement.requestFullscreen();
+                    }
+                } catch (error) {
+                    announce('전체화면 전환에 실패했습니다.', 'text-red-500');
+                }
+            }
+
             ui.spinDuration.addEventListener('input', () => {
                 ui.spinDurationLabel.textContent = `${ui.spinDuration.value}초`;
             });
@@ -578,6 +618,8 @@
             });
             ui.spinButton.addEventListener('click', spin);
             ui.exportHistory.addEventListener('click', exportCsv);
+            ui.fullscreenToggle.addEventListener('click', toggleFullscreen);
+            document.addEventListener('fullscreenchange', updateFullscreenButton);
 
             ui.historyList.addEventListener('click', (event) => {
                 const target = event.target.closest('button[data-history-id]');
@@ -590,6 +632,7 @@
             ui.textarea.value = sampleList.join('\n');
             renderHistory();
             applyList(false);
+            updateFullscreenButton();
         })();
     </script>
 </body>
