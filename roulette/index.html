@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <title>룰렛 | 랜덤추첨 룰렛 뽑기게임 RLT</title>
     <meta id="meta-description" name="description" content="룰렛 랜덤추첨 뽑기게임 RLT. 명단 붙여넣기, 공백/쉼표/줄바꿈 자동 인식, 당첨자 제외, 전체화면, 내역 저장까지 빠르게 지원합니다.">
     <meta name="keywords" content="룰렛, 랜덤추첨 룰렛, 뽑기게임, 랜덤 뽑기, 추첨 룰렛, 온라인 룰렛">
@@ -62,6 +63,38 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "당첨 내역을 CSV 형식으로 저장해 엑셀에서 확인할 수 있습니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is a random wheel?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A random wheel is a digital spinner that selects one option from a list at random. It is commonly used for games, classroom picks, and quick decisions."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does it work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You enter names or options, spin the wheel, and one result is selected automatically. In this tool, list updates are reflected in real time and winners can be excluded for later spins."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is it fair?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Each active entry has an equal chance by default. If winner exclusion is enabled, already selected entries are removed from the next rounds."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use it for giveaways?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. You can use it for giveaways, events, and contests. For transparency, save the winner history as CSV after each draw."
           }
         }
       ]
@@ -297,6 +330,22 @@
                         <summary id="faq3-q" class="cursor-pointer text-sm font-medium text-slate-900">추첨 기록을 엑셀에서 볼 수 있나요?</summary>
                         <p id="faq3-a" class="mt-2 text-sm text-slate-600">네. 당첨 내역의 엑셀 저장 버튼으로 CSV 파일을 내려받아 바로 확인할 수 있습니다.</p>
                     </details>
+                    <details class="mt-2 rounded-lg border border-slate-200 p-3">
+                        <summary id="faq4-q" class="cursor-pointer text-sm font-medium text-slate-900">What is a random wheel?</summary>
+                        <p id="faq4-a" class="mt-2 text-sm text-slate-600">A random wheel is a digital spinner that selects one option from a list at random.</p>
+                    </details>
+                    <details class="mt-2 rounded-lg border border-slate-200 p-3">
+                        <summary id="faq5-q" class="cursor-pointer text-sm font-medium text-slate-900">How does it work?</summary>
+                        <p id="faq5-a" class="mt-2 text-sm text-slate-600">Enter your list, spin the wheel, and one result is selected. Real-time list updates and winner exclusion are supported.</p>
+                    </details>
+                    <details class="mt-2 rounded-lg border border-slate-200 p-3">
+                        <summary id="faq6-q" class="cursor-pointer text-sm font-medium text-slate-900">Is it fair?</summary>
+                        <p id="faq6-a" class="mt-2 text-sm text-slate-600">Yes. Each active entry has an equal chance by default.</p>
+                    </details>
+                    <details class="mt-2 rounded-lg border border-slate-200 p-3">
+                        <summary id="faq7-q" class="cursor-pointer text-sm font-medium text-slate-900">Can I use it for giveaways?</summary>
+                        <p id="faq7-a" class="mt-2 text-sm text-slate-600">Yes. It works well for giveaways and contests, and you can export winner history as CSV.</p>
+                    </details>
                 </div>
             </div>
         </section>
@@ -393,6 +442,14 @@
                     faq2A: '가능합니다. 왼쪽 옵션의 당첨자 자동 제외를 켜면 이미 뽑힌 항목이 자동 제외됩니다.',
                     faq3Q: '추첨 기록을 엑셀에서 볼 수 있나요?',
                     faq3A: '네. 당첨 내역의 엑셀 저장 버튼으로 CSV 파일을 내려받아 바로 확인할 수 있습니다.',
+                    faq4Q: '랜덤 휠(Random Wheel)이 무엇인가요?',
+                    faq4A: '랜덤 휠은 입력한 목록 중 하나를 무작위로 선택해 주는 디지털 돌림판입니다.',
+                    faq5Q: '어떻게 동작하나요?',
+                    faq5A: '이름이나 항목을 입력한 뒤 휠을 돌리면 한 항목이 자동 선택됩니다. 실시간 목록 반영과 당첨자 제외 기능도 지원합니다.',
+                    faq6Q: '공정한가요?',
+                    faq6A: '네. 기본적으로 활성 항목은 동일한 확률로 선택됩니다. 당첨자 제외를 켜면 이미 뽑힌 항목은 다음 라운드에서 제외됩니다.',
+                    faq7Q: '이벤트 경품 추첨에도 사용할 수 있나요?',
+                    faq7A: '네. 경품 이벤트, 행사, 콘텐츠 추첨에 사용할 수 있고 당첨 내역을 CSV로 저장해 기록할 수 있습니다.',
                     footerTerms: '이용약관',
                     footerPrivacy: '개인정보처리방침',
                     footerContact: '문의하기',
@@ -453,6 +510,14 @@
                     faq2A: 'Yes. Turn on auto-exclude winners to remove selected names from the next spins.',
                     faq3Q: 'Can I open the results in Excel?',
                     faq3A: 'Yes. Use Export CSV in the history panel and open it directly in Excel.',
+                    faq4Q: 'What is a random wheel?',
+                    faq4A: 'A random wheel is a digital spinner that randomly picks one option from your list.',
+                    faq5Q: 'How does it work?',
+                    faq5A: 'Enter names or options, spin the wheel, and one result is selected automatically. Real-time updates and winner exclusion are supported.',
+                    faq6Q: 'Is it fair?',
+                    faq6A: 'Yes. Every active entry has an equal chance by default.',
+                    faq7Q: 'Can I use it for giveaways?',
+                    faq7A: 'Yes. It is suitable for giveaways and contests, and you can export winner history as CSV.',
                     footerTerms: 'Terms',
                     footerPrivacy: 'Privacy',
                     footerContact: 'Contact',
@@ -550,6 +615,14 @@
                 setText('faq2-a', 'faq2A');
                 setText('faq3-q', 'faq3Q');
                 setText('faq3-a', 'faq3A');
+                setText('faq4-q', 'faq4Q');
+                setText('faq4-a', 'faq4A');
+                setText('faq5-q', 'faq5Q');
+                setText('faq5-a', 'faq5A');
+                setText('faq6-q', 'faq6Q');
+                setText('faq6-a', 'faq6A');
+                setText('faq7-q', 'faq7Q');
+                setText('faq7-a', 'faq7A');
                 setText('footer-terms', 'footerTerms');
                 setText('footer-privacy', 'footerPrivacy');
                 setText('footer-contact', 'footerContact');
