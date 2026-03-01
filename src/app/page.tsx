@@ -3,10 +3,11 @@ import { useState, useEffect } from 'react';
 import RouletteWheel from '@/components/wheel/RouletteWheel';
 import { parseSmartInput, RouletteItem } from '@/lib/parser';
 import { useAuth } from '@/components/auth/AuthProvider';
+import { TEMPLATES } from '@/lib/templates';
 
 export default function MainPage() {
   const { user, signIn, logOut } = useAuth();
-  const [input, setInput] = useState("짜장면, 짬뽕, 볶음밥\\n마라탕*3");
+  const [input, setInput] = useState("짜장면, 짬뽕, 볶음밥\n마라탕*3");
   const [items, setItems] = useState<RouletteItem[]>([]);
   const [result, setResult] = useState<string | null>(null);
 
@@ -48,6 +49,20 @@ export default function MainPage() {
           
           {/* Left Panel: 스마트 입력 */}
           <div className="lg:col-span-4 flex flex-col gap-6 w-full">
+            {/* Template Selector */}
+            <div className="bg-white p-4 rounded-3xl shadow-sm border border-slate-100 grid grid-cols-2 gap-2">
+              {TEMPLATES.map(t => (
+                <button 
+                  key={t.slug}
+                  onClick={() => setInput(t.defaultInput.split(', ').join('\n'))}
+                  className="p-3 text-xs font-bold border border-slate-50 rounded-2xl hover:bg-indigo-50 hover:border-indigo-100 transition-all text-slate-600 flex flex-col items-center gap-1 group"
+                >
+                  <span className="text-2xl group-hover:scale-125 transition-transform">{t.emoji}</span>
+                  <span className="truncate w-full text-center">{t.title.split(' ')[0]}</span>
+                </button>
+              ))}
+            </div>
+
             <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 transition-all">
               <label className="block text-lg font-bold text-slate-800 mb-2">항목 입력</label>
               <p className="text-sm text-slate-500 mb-4">줄바꿈, 콤마(,), 점(.) 등으로 자유롭게 구분하세요.<br/>가중치는 <b>*숫자</b> (예: 꽝*3)</p>
