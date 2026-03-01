@@ -35,6 +35,31 @@
     fullscreenLabel: document.getElementById("fullscreen-label"),
     heroTitle: document.getElementById("hero-title"),
     heroSub: document.getElementById("hero-subtitle"),
+    guideTitle: document.getElementById("guide-title"),
+    guideSubtitle: document.getElementById("guide-subtitle"),
+    guideStep1Title: document.getElementById("guide-step1-title"),
+    guideStep1Body: document.getElementById("guide-step1-body"),
+    guideStep2Title: document.getElementById("guide-step2-title"),
+    guideStep2Body: document.getElementById("guide-step2-body"),
+    guideStep3Title: document.getElementById("guide-step3-title"),
+    guideStep3Body: document.getElementById("guide-step3-body"),
+    faqTitle: document.getElementById("faq-title"),
+    faq1Q: document.getElementById("faq1-q"),
+    faq1A: document.getElementById("faq1-a"),
+    faq2Q: document.getElementById("faq2-q"),
+    faq2A: document.getElementById("faq2-a"),
+    faq3Q: document.getElementById("faq3-q"),
+    faq3A: document.getElementById("faq3-a"),
+    faq4Q: document.getElementById("faq4-q"),
+    faq4A: document.getElementById("faq4-a"),
+    faq5Q: document.getElementById("faq5-q"),
+    faq5A: document.getElementById("faq5-a"),
+    faq6Q: document.getElementById("faq6-q"),
+    faq6A: document.getElementById("faq6-a"),
+    faq7Q: document.getElementById("faq7-q"),
+    faq7A: document.getElementById("faq7-a"),
+    faq8Q: document.getElementById("faq8-q"),
+    faq8A: document.getElementById("faq8-a"),
     presetClass: document.getElementById("preset-class"),
     presetTeam: document.getElementById("preset-team"),
     presetSeat: document.getElementById("preset-seat"),
@@ -120,6 +145,31 @@
     ui.fullscreenHintText.textContent = t("fullscreenHint");
     ui.heroTitle.textContent = t("heroTitle");
     ui.heroSub.textContent = t("heroSub");
+    ui.guideTitle.textContent = t("guideTitle");
+    ui.guideSubtitle.textContent = t("guideSubtitle");
+    ui.guideStep1Title.textContent = t("guideStep1Title");
+    ui.guideStep1Body.textContent = t("guideStep1Body");
+    ui.guideStep2Title.textContent = t("guideStep2Title");
+    ui.guideStep2Body.textContent = t("guideStep2Body");
+    ui.guideStep3Title.textContent = t("guideStep3Title");
+    ui.guideStep3Body.textContent = t("guideStep3Body");
+    ui.faqTitle.textContent = t("faqTitle");
+    ui.faq1Q.textContent = t("faq1Q");
+    ui.faq1A.textContent = t("faq1A");
+    ui.faq2Q.textContent = t("faq2Q");
+    ui.faq2A.textContent = t("faq2A");
+    ui.faq3Q.textContent = t("faq3Q");
+    ui.faq3A.textContent = t("faq3A");
+    ui.faq4Q.textContent = t("faq4Q");
+    ui.faq4A.textContent = t("faq4A");
+    ui.faq5Q.textContent = t("faq5Q");
+    ui.faq5A.textContent = t("faq5A");
+    ui.faq6Q.textContent = t("faq6Q");
+    ui.faq6A.textContent = t("faq6A");
+    ui.faq7Q.textContent = t("faq7Q");
+    ui.faq7A.textContent = t("faq7A");
+    ui.faq8Q.textContent = t("faq8Q");
+    ui.faq8A.textContent = t("faq8A");
     ui.presetClass.textContent = t("presetClass");
     ui.presetTeam.textContent = t("presetTeam");
     ui.presetSeat.textContent = t("presetSeat");
