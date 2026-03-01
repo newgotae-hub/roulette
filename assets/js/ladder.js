@@ -21,6 +21,7 @@
     navSpin: document.getElementById("nav-spin"),
     navLadder: document.getElementById("nav-ladder"),
     navLucky: document.getElementById("nav-lucky"),
+    fullscreenHint: document.getElementById("fullscreen-hint"),
     langKo: document.getElementById("lang-ko"),
     langEn: document.getElementById("lang-en"),
     fullscreenBtn: document.getElementById("fullscreen-toggle"),
@@ -111,6 +112,7 @@
     ui.navSpin.textContent = t("navSpin");
     ui.navLadder.textContent = t("navLadder");
     ui.navLucky.textContent = t("navLucky");
+    ui.fullscreenHint.textContent = t("fullscreenHint");
     ui.heroTitle.textContent = t("heroTitle");
     ui.heroSub.textContent = t("heroSub");
     ui.presetClass.textContent = t("presetClass");
