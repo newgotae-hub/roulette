@@ -12,16 +12,14 @@ const PALETTE = [
 ];
 
 export const parseSmartInput = (input: string): RouletteItem[] => {
-  // 1. 공백만 있는 경우 처리
-  if (!input.trim()) return [];
+  if (!input || !input.trim()) return [];
 
-  // 2. 여러 가지 구분자(줄바꿈, 콤마, 세미콜론, 마침표)를 기준으로 항목 분리
+  // 줄바꿈, 콤마, 세미콜론, 마침표를 기준으로 분리 (더 안전한 방식)
   const rawItems = input
-    .split(/[\\n,;.]+/)
+    .split(/[\n,;.]+/) 
     .map(s => s.trim())
     .filter(s => s.length > 0);
 
-  // 3. 가중치 파싱 (예: 사과*5) 및 색상 할당
   return rawItems.map((item, index) => {
     const parts = item.split("*");
     const text = parts[0].trim();
@@ -35,7 +33,7 @@ export const parseSmartInput = (input: string): RouletteItem[] => {
     }
     
     return {
-      id: `${index}-${text}`,
+      id: `${index}-${text}-${Math.random()}`,
       text: text,
       weight: weight,
       color: PALETTE[index % PALETTE.length]
