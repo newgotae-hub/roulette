@@ -194,6 +194,45 @@
             border-radius: 9999px;
         }
 
+        #confetti-layer {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: visible;
+            z-index: 45;
+        }
+
+        .powder-dot {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 9px;
+            height: 9px;
+            border-radius: 9999px;
+            opacity: 0;
+            transform: translate(-50%, -50%);
+            animation: powderBurst 900ms cubic-bezier(0.18, 0.84, 0.3, 1) forwards;
+            animation-delay: var(--delay, 0ms);
+            background: var(--color, #cbd5e1);
+        }
+
+        @keyframes powderBurst {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.4) rotate(0deg);
+            }
+            18% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translate(
+                    calc(-50% + var(--tx, 0px)),
+                    calc(-50% + var(--ty, 0px))
+                ) scale(1.15) rotate(360deg);
+            }
+        }
+
     </style>
 </head>
 <body class="text-slate-900 font-sans antialiased selection:bg-slate-200 selection:text-slate-900 min-h-screen flex flex-col">
@@ -301,6 +340,7 @@
                         <button id="spin-button" class="absolute z-40 w-24 h-24 bg-slate-900 rounded-full flex items-center justify-center text-white shadow-xl border-4 border-white hover:scale-105 active:scale-95 transition-all cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100">
                             <span id="spin-button-label" class="text-base font-semibold tracking-wide">시작</span>
                         </button>
+                        <div id="confetti-layer" aria-hidden="true"></div>
                     </div>
 
                     <p id="winner-banner" class="mt-6 min-h-7 text-sm md:text-base text-slate-500 animate-soft-pulse">명단을 적용한 뒤 SPIN을 눌러 추첨하세요.</p>
@@ -437,7 +477,8 @@
                 wheel: document.getElementById('wheel'),
                 fullscreenToggle: document.getElementById('fullscreen-toggle'),
                 fullscreenIcon: document.getElementById('fullscreen-icon'),
-                fullscreenLabel: document.getElementById('fullscreen-label')
+                fullscreenLabel: document.getElementById('fullscreen-label'),
+                confettiLayer: document.getElementById('confetti-layer')
             };
 
             const ctx = ui.wheel.getContext('2d');
@@ -951,6 +992,37 @@
                 beep(1046.5, 0.24, 'sine', 0.035, 0.17);       // C6 sparkle
             }
 
+            function triggerPowderBurst() {
+                if (!ui.confettiLayer) return;
+                ui.confettiLayer.innerHTML = '';
+
+                const colors = ['#0f172a', '#475569', '#94a3b8', '#e2e8f0', '#f8fafc'];
+                const dots = 28;
+
+                for (let i = 0; i < dots; i++) {
+                    const dot = document.createElement('span');
+                    const angle = (Math.PI * 2 * i) / dots + (Math.random() * 0.38 - 0.19);
+                    const radius = 100 + Math.random() * 145;
+                    const tx = Math.cos(angle) * radius;
+                    const ty = Math.sin(angle) * radius;
+                    const delay = Math.floor(Math.random() * 120);
+                    const size = 6 + Math.random() * 8;
+
+                    dot.className = 'powder-dot';
+                    dot.style.setProperty('--tx', `${tx.toFixed(1)}px`);
+                    dot.style.setProperty('--ty', `${ty.toFixed(1)}px`);
+                    dot.style.setProperty('--delay', `${delay}ms`);
+                    dot.style.setProperty('--color', colors[Math.floor(Math.random() * colors.length)]);
+                    dot.style.width = `${size.toFixed(1)}px`;
+                    dot.style.height = `${size.toFixed(1)}px`;
+                    ui.confettiLayer.appendChild(dot);
+                }
+
+                window.setTimeout(() => {
+                    ui.confettiLayer.innerHTML = '';
+                }, 1200);
+            }
+
             function pickWinner() {
                 const count = state.available.length;
                 return Math.floor(Math.random() * count);
@@ -1003,6 +1075,7 @@
 
                     renderHistory();
                     announce(t('winner', { name: winnerName }), 'text-green-600');
+                    triggerPowderBurst();
                     playWinnerSound();
 
                     state.spinning = false;
