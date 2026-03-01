@@ -199,8 +199,8 @@
         en: { p: ["Alex", "Emma", "Liam", "Mia", "Noah", "Ava"], r: ["Team A", "Team A", "Team A", "Team B", "Team B", "Team B"] }
       },
       seat: {
-        ko: { p: ["참가자1", "참가자2", "참가자3", "참가자4"], r: ["창가", "복도", "앞줄", "뒷줄"] },
-        en: { p: ["Player1", "Player2", "Player3", "Player4"], r: ["Window", "Aisle", "Front", "Back"] }
+        ko: { p: ["참가자1", "참가자2", "참가자3", "참가자4"], r: ["생존", "사망", "생존", "사망"] },
+        en: { p: ["Player1", "Player2", "Player3", "Player4"], r: ["Survive", "Eliminate", "Survive", "Eliminate"] }
       },
       lunch: {
         ko: { p: ["A", "B", "C", "D"], r: ["결제", "무료", "무료", "무료"] },
