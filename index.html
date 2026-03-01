@@ -345,7 +345,17 @@
                     ctx.textAlign = 'right';
                     ctx.textBaseline = 'middle';
                     ctx.fillStyle = '#0f172a';
-                    ctx.font = names.length > 60 ? '500 13px Inter, sans-serif' : '600 16px Inter, sans-serif';
+                    if (names.length > 120) {
+                        ctx.font = '500 11px Inter, sans-serif';
+                    } else if (names.length > 80) {
+                        ctx.font = '500 13px Inter, sans-serif';
+                    } else if (names.length > 50) {
+                        ctx.font = '500 15px Inter, sans-serif';
+                    } else if (names.length > 24) {
+                        ctx.font = '600 18px Inter, sans-serif';
+                    } else {
+                        ctx.font = '700 22px Inter, sans-serif';
+                    }
 
                     const label = names[i].length > 10 ? `${names[i].slice(0, 9)}…` : names[i];
                     ctx.fillText(label, radius - 26, 0);
@@ -408,6 +418,24 @@
                     announce('최소 1명 이상 입력해 주세요.', 'text-red-500');
                 } else {
                     announce(`${state.available.length}명 적용 완료. SPIN으로 추첨을 시작하세요.`, 'text-slate-500');
+                }
+            }
+
+            function syncLiveList() {
+                if (state.spinning) return;
+
+                const parsed = parseParticipants(ui.textarea.value);
+                state.participants = parsed.slice();
+                state.available = parsed.slice();
+                state.rotation = 0;
+                state.winnerIndex = -1;
+                ui.wheel.style.transitionDuration = '0ms';
+                ui.wheel.style.transform = 'rotate(0deg)';
+                updateCount();
+                drawWheel();
+
+                if (parsed.length === 0) {
+                    announce('최소 1명 이상 입력해 주세요.', 'text-red-500');
                 }
             }
 
@@ -536,6 +564,7 @@
                 ui.spinDurationLabel.textContent = `${ui.spinDuration.value}초`;
             });
 
+            ui.textarea.addEventListener('input', syncLiveList);
             ui.applyButton.addEventListener('click', () => applyList(false));
             ui.resetButton.addEventListener('click', () => {
                 ui.textarea.value = '';
