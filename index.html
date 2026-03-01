@@ -318,11 +318,15 @@
                     ctx.fillStyle = '#f1f5f9';
                     ctx.fill();
 
-                    ctx.fillStyle = '#64748b';
-                    ctx.font = '600 30px Inter, sans-serif';
+                    ctx.fillStyle = '#0f172a';
+                    ctx.font = '700 34px Inter, sans-serif';
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
-                    ctx.fillText('명단을 입력하세요', center, center);
+                    ctx.fillText('명단을 입력하세요', center, center - radius * 0.42);
+
+                    ctx.fillStyle = '#64748b';
+                    ctx.font = '500 18px Inter, sans-serif';
+                    ctx.fillText('왼쪽에서 이름을 입력/붙여넣기', center, center - radius * 0.31);
                     return;
                 }
 
