@@ -112,7 +112,7 @@
 
     <main class="flex-grow flex flex-col">
         <section class="pt-10 pb-8 px-4 sm:px-6 lg:px-8 text-center max-w-3xl mx-auto">
-            <h1 class="text-3xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-4">랜덤 추첨 게임 룰렛 뽑기</h1>
+            <h1 class="text-3xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-4">랜덤추첨 룰렛 뽑기게임</h1>
             <p class="text-base md:text-lg text-slate-500 font-normal">명단입력이 편리합니다. 띄어쓰기, 콤마, 스페이스, 앤터 등 모든 구분기호를 인식합니다!</p>
         </section>
 
@@ -157,7 +157,7 @@
                             <label class="flex items-center justify-between cursor-pointer group">
                                 <span class="text-sm font-medium text-slate-700">효과음 재생</span>
                                 <div class="relative">
-                                    <input id="sound-toggle" type="checkbox" class="sr-only peer">
+                                    <input id="sound-toggle" type="checkbox" class="sr-only peer" checked>
                                     <div class="w-9 h-5 bg-slate-200 rounded-full peer peer-checked:bg-slate-900 transition-colors"></div>
                                     <div class="absolute left-0.5 top-0.5 bg-white w-4 h-4 rounded-full transition-transform peer-checked:translate-x-4 shadow-sm"></div>
                                 </div>
@@ -466,25 +466,39 @@
                 return state.audio;
             }
 
-            function beep(freq, duration, type) {
+            function beep(freq, duration, type, volume, delaySec) {
                 if (!ui.soundToggle.checked) return;
                 const audio = ensureAudio();
                 if (!audio) return;
 
-                const now = audio.currentTime;
+                const now = audio.currentTime + (delaySec || 0);
                 const osc = audio.createOscillator();
                 const gain = audio.createGain();
 
                 osc.type = type || 'sine';
                 osc.frequency.setValueAtTime(freq, now);
                 gain.gain.setValueAtTime(0.0001, now);
-                gain.gain.exponentialRampToValueAtTime(0.08, now + 0.01);
+                gain.gain.exponentialRampToValueAtTime(volume || 0.08, now + 0.01);
                 gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
 
                 osc.connect(gain);
                 gain.connect(audio.destination);
                 osc.start(now);
                 osc.stop(now + duration + 0.02);
+            }
+
+            function playSpinSound() {
+                beep(220, 0.12, 'triangle', 0.03, 0);
+                beep(260, 0.10, 'triangle', 0.025, 0.08);
+                beep(300, 0.08, 'triangle', 0.02, 0.15);
+            }
+
+            function playWinnerSound() {
+                // Premium-style short fanfare: layered major chord + shimmer highlight.
+                beep(523.25, 0.35, 'sine', 0.045, 0.00); // C5
+                beep(659.25, 0.35, 'sine', 0.04, 0.02);  // E5
+                beep(783.99, 0.42, 'triangle', 0.04, 0.04); // G5
+                beep(1046.5, 0.28, 'sine', 0.03, 0.20); // C6 highlight
             }
 
             function pickWinner() {
@@ -521,7 +535,7 @@
                 state.rotation = next;
 
                 announce('추첨 중...', 'text-slate-500');
-                beep(320, 0.2, 'triangle');
+                playSpinSound();
 
                 window.setTimeout(() => {
                     const now = new Date();
@@ -539,8 +553,7 @@
 
                     renderHistory();
                     announce(`당첨: ${winnerName}`, 'text-green-600');
-                    beep(620, 0.22, 'sine');
-                    window.setTimeout(() => beep(840, 0.24, 'sine'), 110);
+                    playWinnerSound();
 
                     state.spinning = false;
                     ui.spinButton.disabled = false;
