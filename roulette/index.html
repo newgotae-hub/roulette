@@ -272,6 +272,12 @@
         <section id="roulette" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-14">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                 <div class="lg:col-span-3 space-y-4">
+                    <div class="flex justify-end">
+                        <button id="fullscreen-toggle" class="bg-white border border-slate-200 shadow-sm rounded-full px-5 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors flex items-center gap-2">
+                            <iconify-icon id="fullscreen-icon" icon="solar:maximize-linear" stroke-width="1.5"></iconify-icon>
+                            <span id="fullscreen-label">전체화면</span>
+                        </button>
+                    </div>
                     <div id="roster-card" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col min-h-[450px] lg:h-[640px]">
                         <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/60">
                             <h2 class="text-sm font-semibold tracking-tight flex items-center gap-2">
@@ -344,12 +350,6 @@
                     </div>
 
                     <p id="winner-banner" class="mt-6 min-h-7 text-sm md:text-base text-slate-500 animate-soft-pulse">명단을 적용한 뒤 SPIN을 눌러 추첨하세요.</p>
-                    <div class="mt-4">
-                        <button id="fullscreen-toggle" class="bg-white border border-slate-200 shadow-sm rounded-full px-5 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors flex items-center gap-2">
-                            <iconify-icon id="fullscreen-icon" icon="solar:maximize-linear" stroke-width="1.5"></iconify-icon>
-                            <span id="fullscreen-label">전체화면</span>
-                        </button>
-                    </div>
                 </div>
 
                 <div id="history" class="lg:col-span-3 min-h-[420px] lg:h-[640px]">
