@@ -66,6 +66,10 @@
     btnPlayAll: document.getElementById("btn-playall"),
     labelPlayAll: document.getElementById("label-playall"),
     progressText: document.getElementById("progress-text"),
+    resultsCard: document.getElementById("results-card"),
+    resultTitle: document.getElementById("label-result-title"),
+    resultsList: document.getElementById("results-list"),
+    noResults: document.getElementById("label-no-results"),
     footerTerms: document.getElementById("footer-terms"),
     footerPrivacy: document.getElementById("footer-privacy"),
     metaDescription: document.getElementById("meta-description"),
@@ -95,6 +99,7 @@
     const active = !!document.fullscreenElement;
     ui.fullscreenIcon.setAttribute("icon", active ? "solar:minimize-linear" : "solar:maximize-linear");
     ui.fullscreenLabel.textContent = active ? t("fullscreenExit") : t("fullscreen");
+    document.body.classList.toggle("is-fullscreen", active);
   }
 
   function setProgress(running) {
@@ -133,6 +138,8 @@
     ui.labelPlayAll.textContent = state.queue.length > 0 ? t("stopAll") : t("playAll");
     ui.emptyMain.textContent = t("emptyMain");
     ui.emptySub.textContent = t("emptySub");
+    ui.resultTitle.textContent = t("resultTitle");
+    ui.noResults.textContent = t("noResults");
     ui.footerTerms.textContent = t("footerTerms");
     ui.footerPrivacy.textContent = t("footerPrivacy");
 
@@ -150,6 +157,7 @@
     } catch (e) {}
     applyI18n();
     renderNodes();
+    renderResultsTable();
   }
 
   function parsedParticipants() {
@@ -351,6 +359,22 @@
     });
   }
 
+  function renderResultsTable() {
+    if (!state.participants.length || !state.ladderData) {
+      ui.resultsList.innerHTML = `<div class="h-20 flex items-center justify-center text-slate-400"><p class="text-xs">${t("noResults")}</p></div>`;
+      return;
+    }
+
+    ui.resultsList.innerHTML = "";
+    state.participants.forEach((name, i) => {
+      const row = document.createElement("div");
+      row.className = "flex items-center justify-between p-2.5 rounded-lg border border-transparent hover:bg-slate-50 transition-colors";
+      row.id = `table-row-${i}`;
+      row.innerHTML = `<span class="text-xs font-medium text-slate-900 truncate flex-1">${name}</span><iconify-icon icon="solar:arrow-right-linear" class="text-slate-300 mx-2"></iconify-icon><span id="table-result-${i}" class="text-xs font-semibold text-slate-400 truncate flex-1 text-right">?</span>`;
+      ui.resultsList.appendChild(row);
+    });
+  }
+
   function drawCompletedStaticPaths() {
     if (!state.ladderData || !state.completedRoutes.size) return;
     state.completedRoutes.forEach((idx) => {
@@ -399,7 +423,8 @@
     path.getBoundingClientRect();
 
     const speed = Number(ui.sliderSpeed.value);
-    const duration = Math.max(550, len * (0.65 - speed * 0.08));
+    const baseDuration = Math.max(550, len * (0.65 - speed * 0.08));
+    const duration = Math.round(baseDuration * (0.88 + Math.random() * 0.26));
     path.style.transition = `stroke-dashoffset ${duration}ms cubic-bezier(0.22, 1, 0.36, 1)`;
     path.style.strokeDashoffset = "0";
 
@@ -415,6 +440,16 @@
     }
 
     state.completedRoutes.add(index);
+
+    const cell = document.getElementById(`table-result-${index}`);
+    const row = document.getElementById(`table-row-${index}`);
+    if (cell) {
+      cell.textContent = state.results[route.end];
+      cell.classList.remove("text-slate-400");
+      cell.classList.add("text-slate-900");
+    }
+    if (row) row.classList.add("bg-slate-50", "border-slate-200");
+
     state.playing = false;
     setProgress(false);
     saveState();
@@ -487,6 +522,7 @@
     ui.ladderEmpty.classList.add("hidden");
     drawBase();
     renderNodes();
+    renderResultsTable();
     setProgress(false);
 
     saveState();
@@ -530,7 +566,20 @@
         ui.ladderEmpty.classList.add("hidden");
         drawBase();
         renderNodes();
+        renderResultsTable();
         drawCompletedStaticPaths();
+
+        state.completedRoutes.forEach((idx) => {
+          const route = state.ladderData.routes[idx];
+          const cell = document.getElementById(`table-result-${idx}`);
+          const row = document.getElementById(`table-row-${idx}`);
+          if (cell && route) {
+            cell.textContent = state.results[route.end] || "?";
+            cell.classList.remove("text-slate-400");
+            cell.classList.add("text-slate-900");
+          }
+          if (row) row.classList.add("bg-slate-50", "border-slate-200");
+        });
       }
     } catch (e) {}
   }
