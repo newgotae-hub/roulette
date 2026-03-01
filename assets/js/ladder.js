@@ -373,6 +373,45 @@
     });
   }
 
+  function hexToRgba(hex, alpha) {
+    const clean = String(hex || "").replace("#", "");
+    if (clean.length !== 6) return `rgba(15,23,42,${alpha})`;
+    const r = parseInt(clean.slice(0, 2), 16);
+    const g = parseInt(clean.slice(2, 4), 16);
+    const b = parseInt(clean.slice(4, 6), 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  }
+
+  function applyMatchColor(startIndex, endIndex, color) {
+    const topNode = ui.nodesTop.children[startIndex];
+    if (topNode) {
+      topNode.style.borderColor = color;
+      topNode.style.backgroundColor = hexToRgba(color, 0.12);
+      topNode.style.color = color;
+    }
+
+    const resultNode = document.getElementById(`result-node-${endIndex}`);
+    if (resultNode) {
+      resultNode.style.borderColor = color;
+      resultNode.style.backgroundColor = hexToRgba(color, 0.12);
+      resultNode.style.color = color;
+      resultNode.classList.add("highlight");
+      setTimeout(() => resultNode.classList.remove("highlight"), 700);
+    }
+
+    const cell = document.getElementById(`table-result-${startIndex}`);
+    const row = document.getElementById(`table-row-${startIndex}`);
+    if (cell) {
+      cell.style.color = color;
+      cell.classList.remove("text-slate-400");
+      cell.classList.add("font-bold");
+    }
+    if (row) {
+      row.style.borderColor = hexToRgba(color, 0.35);
+      row.style.backgroundColor = hexToRgba(color, 0.08);
+    }
+  }
+
   function renderNodes() {
     ui.nodesTop.innerHTML = "";
     ui.nodesBottom.innerHTML = "";
@@ -469,7 +508,7 @@
 
     const speed = Number(ui.sliderSpeed.value);
     const baseDuration = Math.max(550, len * (0.65 - speed * 0.08));
-    const duration = Math.round(baseDuration * (0.88 + Math.random() * 0.26));
+    const duration = Math.round(baseDuration * (0.88 + Math.random() * 0.26) * 1.5);
     path.style.transition = `stroke-dashoffset ${duration}ms cubic-bezier(0.22, 1, 0.36, 1)`;
     path.style.strokeDashoffset = "0";
 
@@ -494,6 +533,7 @@
       cell.classList.add("text-slate-900");
     }
     if (row) row.classList.add("bg-slate-50", "border-slate-200");
+    applyMatchColor(index, route.end, color);
 
     state.playing = false;
     setProgress(false);
@@ -616,6 +656,7 @@
 
         state.completedRoutes.forEach((idx) => {
           const route = state.ladderData.routes[idx];
+          const color = PATH_COLORS[idx % PATH_COLORS.length];
           const cell = document.getElementById(`table-result-${idx}`);
           const row = document.getElementById(`table-row-${idx}`);
           if (cell && route) {
@@ -624,6 +665,7 @@
             cell.classList.add("text-slate-900");
           }
           if (row) row.classList.add("bg-slate-50", "border-slate-200");
+          if (route) applyMatchColor(idx, route.end, color);
         });
       }
     } catch (e) {}
