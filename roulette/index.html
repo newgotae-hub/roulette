@@ -103,6 +103,14 @@
             "@type": "Answer",
             "text": "Yes. You can use it for giveaways, events, and contests. For transparency, save the winner history as CSV after each draw."
           }
+        },
+        {
+          "@type": "Question",
+          "name": "내가 입력한 데이터가 어떻게 처리되나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "입력한 명단과 추첨 상태는 기본적으로 브라우저 내에서 처리됩니다. 사용자가 CSV로 내보내기 하거나 별도 전송 기능을 사용하지 않는 한, 추첨 데이터가 자동으로 외부 저장소에 업로드되지는 않습니다."
+          }
         }
       ]
     }
@@ -353,6 +361,10 @@
                         <summary id="faq7-q" class="cursor-pointer text-sm font-medium text-slate-900">Can I use it for giveaways?</summary>
                         <p id="faq7-a" class="mt-2 text-sm text-slate-600">Yes. It works well for giveaways and contests, and you can export winner history as CSV.</p>
                     </details>
+                    <details class="mt-2 rounded-lg border border-slate-200 p-3">
+                        <summary id="faq8-q" class="cursor-pointer text-sm font-medium text-slate-900">내가 입력한 데이터가 어떻게 처리되나요?</summary>
+                        <p id="faq8-a" class="mt-2 text-sm text-slate-600">입력한 명단과 추첨 상태는 기본적으로 브라우저에서 처리됩니다. 사용자가 내보내기나 전송을 하지 않는 한 추첨 데이터가 자동으로 외부에 업로드되지는 않습니다.</p>
+                    </details>
                 </div>
             </div>
         </section>
@@ -457,6 +469,8 @@
                     faq6A: '네. 기본적으로 활성 항목은 동일한 확률로 선택됩니다. 당첨자 제외를 켜면 이미 뽑힌 항목은 다음 라운드에서 제외됩니다.',
                     faq7Q: '이벤트 경품 추첨에도 사용할 수 있나요?',
                     faq7A: '네. 경품 이벤트, 행사, 콘텐츠 추첨에 사용할 수 있고 당첨 내역을 CSV로 저장해 기록할 수 있습니다.',
+                    faq8Q: '내가 입력한 데이터가 어떻게 처리되나요?',
+                    faq8A: '입력한 명단과 추첨 상태는 기본적으로 브라우저에서 처리됩니다. 사용자가 내보내기나 전송을 하지 않는 한 추첨 데이터가 자동으로 외부에 업로드되지는 않습니다.',
                     footerTerms: '이용약관',
                     footerPrivacy: '개인정보처리방침',
                     footerContact: '문의하기',
@@ -525,6 +539,8 @@
                     faq6A: 'Yes. Every active entry has an equal chance by default.',
                     faq7Q: 'Can I use it for giveaways?',
                     faq7A: 'Yes. It is suitable for giveaways and contests, and you can export winner history as CSV.',
+                    faq8Q: 'How is my input data handled?',
+                    faq8A: 'Your list and draw state are handled in the browser by default. Unless you explicitly export or submit data, draw entries are not automatically uploaded to external storage.',
                     footerTerms: 'Terms',
                     footerPrivacy: 'Privacy',
                     footerContact: 'Contact',
@@ -630,6 +646,8 @@
                 setText('faq6-a', 'faq6A');
                 setText('faq7-q', 'faq7Q');
                 setText('faq7-a', 'faq7A');
+                setText('faq8-q', 'faq8Q');
+                setText('faq8-a', 'faq8A');
                 setText('footer-terms', 'footerTerms');
                 setText('footer-privacy', 'footerPrivacy');
                 setText('footer-contact', 'footerContact');
