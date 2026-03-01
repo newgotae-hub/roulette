@@ -318,15 +318,6 @@
 
     <script>
         (function () {
-            const sampleListKo = [
-                '김철수', '이영희', '박지민', '최서윤', '정도현', '오지우',
-                '한민서', '윤지호', '서하린', '임준호', '강채원', '신도윤'
-            ];
-            const sampleListEn = [
-                'James', 'Emily', 'Jimin', 'Seoyoon', 'Dohyun', 'Jiwoo',
-                'Minseo', 'Jiho', 'Harin', 'Junho', 'Chaewon', 'Doyoon'
-            ];
-
             const state = {
                 participants: [],
                 available: [],
@@ -335,8 +326,7 @@
                 rotation: 0,
                 winnerIndex: -1,
                 audio: null,
-                locale: 'ko',
-                userEditedList: false
+                locale: 'ko'
             };
 
             const ui = {
@@ -602,17 +592,6 @@
                 drawWheel();
                 renderHistory();
                 updateFullscreenButton();
-                syncSampleListForLocale();
-            }
-
-            function getSampleListForLocale() {
-                return state.locale === 'ko' ? sampleListKo : sampleListEn;
-            }
-
-            function syncSampleListForLocale() {
-                if (state.userEditedList) return;
-                ui.textarea.value = getSampleListForLocale().join('\n');
-                applyList(false);
             }
 
             function normalize(deg) {
@@ -981,13 +960,9 @@
             });
 
             ui.textarea.addEventListener('input', syncLiveList);
-            ui.textarea.addEventListener('input', () => {
-                state.userEditedList = true;
-            });
             ui.applyButton.addEventListener('click', () => applyList(false));
             ui.resetButton.addEventListener('click', () => {
                 ui.textarea.value = '';
-                state.userEditedList = false;
                 state.history = [];
                 renderHistory();
                 applyList(true);
@@ -1009,7 +984,7 @@
 
             state.locale = detectLocale();
             applyStaticI18n();
-            ui.textarea.value = getSampleListForLocale().join('\n');
+            ui.textarea.value = '';
             updateSpinDurationLabel();
             renderHistory();
             applyList(false);
