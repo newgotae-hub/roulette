@@ -1,21 +1,24 @@
 "use client";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import RouletteWheel from '@/components/wheel/RouletteWheel';
 import { parseSmartInput, RouletteItem } from '@/lib/parser';
 import { useAuth } from '@/components/auth/AuthProvider';
 import { TEMPLATES } from '@/lib/templates';
 
-export default function MainPage() {
+function RouletteContent() {
+  const searchParams = useSearchParams();
   const { user, signIn, logOut, loading } = useAuth();
   const [mounted, setMounted] = useState(false);
   const [input, setInput] = useState("짜장면, 짬뽕, 볶음밥\n마라탕*3");
   const [items, setItems] = useState<RouletteItem[]>([]);
   const [result, setResult] = useState<string | null>(null);
 
-  // 하이드레이션 오류 방지용 마운트 체크
   useEffect(() => {
     setMounted(true);
-  }, []);
+    const q = searchParams.get('input');
+    if (q) setInput(decodeURIComponent(q));
+  }, [searchParams]);
 
   useEffect(() => {
     if (mounted) {
@@ -24,24 +27,17 @@ export default function MainPage() {
     }
   }, [input, mounted]);
 
-  if (!mounted) {
-    return <div className="min-h-screen bg-slate-50 flex items-center justify-center font-bold">로딩 중...</div>;
-  }
+  if (!mounted) return <div className="min-h-screen bg-slate-50 flex items-center justify-center font-bold">로딩 중...</div>;
 
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900 pb-20">
       <header className="bg-white border-b border-slate-200 sticky top-0 z-10">
         <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-black text-indigo-600 tracking-tight flex items-center gap-2">
-            🎡 PickWheel
-          </h1>
+          <h1 className="text-2xl font-black text-indigo-600 tracking-tight">🎡 PickWheel</h1>
           <div className="flex items-center gap-4">
-            {loading ? (
-              <span className="text-xs text-slate-400">...</span>
-            ) : user ? (
+            {loading ? <span className="text-xs">...</span> : user ? (
               <div className="flex items-center gap-3">
                 <img src={user.photoURL || ""} alt="p" className="w-8 h-8 rounded-full border border-slate-200" />
-                <span className="text-sm font-bold text-slate-700 hidden md:block">{user.displayName}</span>
                 <button onClick={logOut} className="text-xs font-medium text-slate-400">로그아웃</button>
               </div>
             ) : (
@@ -67,7 +63,7 @@ export default function MainPage() {
               ))}
             </div>
 
-            <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 transition-all">
+            <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
               <label className="block text-lg font-bold text-slate-800 mb-2">항목 입력</label>
               <textarea
                 value={input}
@@ -77,7 +73,7 @@ export default function MainPage() {
             </div>
 
             {result && (
-              <div className="bg-indigo-600 p-8 rounded-3xl border border-indigo-500 shadow-2xl text-white transform transition-all animate-in fade-in zoom-in-95">
+              <div className="bg-indigo-600 p-8 rounded-3xl border border-indigo-500 shadow-2xl text-white animate-in zoom-in-95">
                 <div className="text-4xl font-black mb-4">{result}</div>
                 <button onClick={() => setResult(null)} className="w-full py-3 bg-white text-indigo-600 rounded-2xl font-black">확인</button>
               </div>
@@ -90,5 +86,13 @@ export default function MainPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function MainPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-slate-50 flex items-center justify-center font-bold">로딩 중...</div>}>
+      <RouletteContent />
+    </Suspense>
   );
 }
