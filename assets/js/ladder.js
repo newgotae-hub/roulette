@@ -22,6 +22,7 @@
     navLadder: document.getElementById("nav-ladder"),
     navLucky: document.getElementById("nav-lucky"),
     fullscreenHint: document.getElementById("fullscreen-hint"),
+    fullscreenHintText: document.getElementById("fullscreen-hint-text"),
     langKo: document.getElementById("lang-ko"),
     langEn: document.getElementById("lang-en"),
     fullscreenBtn: document.getElementById("fullscreen-toggle"),
@@ -112,7 +113,7 @@
     ui.navSpin.textContent = t("navSpin");
     ui.navLadder.textContent = t("navLadder");
     ui.navLucky.textContent = t("navLucky");
-    ui.fullscreenHint.textContent = t("fullscreenHint");
+    ui.fullscreenHintText.textContent = t("fullscreenHint");
     ui.heroTitle.textContent = t("heroTitle");
     ui.heroSub.textContent = t("heroSub");
     ui.presetClass.textContent = t("presetClass");
@@ -587,11 +588,21 @@
   }
 
   function toggleFullscreen() {
+    if (ui.fullscreenHint) ui.fullscreenHint.classList.add("hidden");
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen().catch(() => {});
       return;
     }
     document.exitFullscreen().catch(() => {});
+  }
+
+  function showFullscreenHint() {
+    if (!ui.fullscreenHint) return;
+    ui.fullscreenHint.classList.remove("hidden");
+    window.clearTimeout(state.fullscreenHintTimer);
+    state.fullscreenHintTimer = window.setTimeout(() => {
+      ui.fullscreenHint.classList.add("hidden");
+    }, 4200);
   }
 
   function bindEvents() {
@@ -632,4 +643,5 @@
   bindEvents();
   applyI18n();
   updateCounts();
+  showFullscreenHint();
 })();
