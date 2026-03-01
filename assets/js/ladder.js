@@ -1,20 +1,25 @@
 (function () {
-  const { parseEntries, detectLocale, downloadText, formatNow } = window.RLTUtils;
+  const { parseEntries, detectLocale } = window.RLTUtils;
   const dict = window.RLTI18N;
 
   const VIEW_W = 1000;
   const VIEW_H = 800;
   const STORAGE_KEY = "rlt-ladder-state";
+  const MAX_PARTICIPANTS = 15;
+  const PATH_COLORS = [
+    "#0f172a", "#1d4ed8", "#0f766e", "#b45309", "#7c3aed",
+    "#be123c", "#0369a1", "#334155", "#4d7c0f", "#9f1239"
+  ];
 
   const state = {
     locale: detectLocale(),
-    allowDup: false,
     participants: [],
     results: [],
     ladderData: null,
     completedRoutes: new Set(),
     queue: [],
-    playing: false
+    playing: false,
+    fullscreenHintTimer: null
   };
 
   const ui = {
@@ -44,9 +49,6 @@
     mismatchText: document.getElementById("mismatch-text"),
     btnAutoFill: document.getElementById("btn-autofill"),
     btnAutoTrim: document.getElementById("btn-autotrim"),
-    advancedTitle: document.getElementById("advanced-title"),
-    allowDupLabel: document.getElementById("allow-dup-label"),
-    allowDup: document.getElementById("allow-dup"),
     labelComplexity: document.getElementById("label-complexity"),
     labelSpeed: document.getElementById("label-speed"),
     sliderComplexity: document.getElementById("slider-complexity"),
@@ -63,13 +65,7 @@
     emptySub: document.getElementById("empty-sub"),
     btnPlayAll: document.getElementById("btn-playall"),
     labelPlayAll: document.getElementById("label-playall"),
-    resultTitle: document.getElementById("label-result-title"),
     progressText: document.getElementById("progress-text"),
-    btnCopy: document.getElementById("btn-copy"),
-    btnCsv: document.getElementById("btn-csv"),
-    btnTxt: document.getElementById("btn-txt"),
-    resultsList: document.getElementById("results-list"),
-    noResults: document.getElementById("label-no-results"),
     footerTerms: document.getElementById("footer-terms"),
     footerPrivacy: document.getElementById("footer-privacy"),
     metaDescription: document.getElementById("meta-description"),
@@ -101,6 +97,10 @@
     ui.fullscreenLabel.textContent = active ? t("fullscreenExit") : t("fullscreen");
   }
 
+  function setProgress(running) {
+    ui.progressText.textContent = running ? t("progressRunning") : t("progressIdle");
+  }
+
   function applyI18n() {
     document.documentElement.lang = state.locale;
     document.title = t("seoTitle");
@@ -127,24 +127,19 @@
     ui.mismatchText.textContent = t("mismatch");
     ui.btnAutoFill.textContent = t("autoFill");
     ui.btnAutoTrim.textContent = t("autoTrim");
-    ui.advancedTitle.textContent = t("advTitle");
-    ui.allowDupLabel.textContent = t("allowDup");
     ui.labelComplexity.textContent = t("complexity");
     ui.labelSpeed.textContent = t("speed");
     ui.btnGenerate.textContent = t("btnGenerate");
     ui.labelPlayAll.textContent = state.queue.length > 0 ? t("stopAll") : t("playAll");
     ui.emptyMain.textContent = t("emptyMain");
     ui.emptySub.textContent = t("emptySub");
-    ui.resultTitle.textContent = t("resultTitle");
-    ui.btnCopy.textContent = t("copy");
-    ui.btnCsv.textContent = t("csv");
-    ui.btnTxt.textContent = t("txt");
-    ui.noResults.textContent = t("noResults");
     ui.footerTerms.textContent = t("footerTerms");
     ui.footerPrivacy.textContent = t("footerPrivacy");
 
     updateCounts();
+    setProgress(false);
     updateFullscreenButton();
+    updateLanguageButtons();
   }
 
   function setLocale(locale) {
@@ -154,12 +149,11 @@
       localStorage.setItem("rlt-lang", locale);
     } catch (e) {}
     applyI18n();
-    renderResultsTable();
     renderNodes();
   }
 
   function parsedParticipants() {
-    return parseEntries(ui.inputParticipants.value, { allowDuplicates: state.allowDup });
+    return parseEntries(ui.inputParticipants.value, { allowDuplicates: false });
   }
 
   function parsedResults() {
@@ -171,8 +165,7 @@
     const r = parsedResults();
     ui.countParticipants.textContent = t("countPeople", { n: p.length });
     ui.countResults.textContent = t("countItems", { n: r.length });
-    const mismatch = p.length > 0 && p.length !== r.length;
-    ui.mismatchAlert.classList.toggle("hidden", !mismatch);
+    ui.mismatchAlert.classList.toggle("hidden", !(p.length > 0 && p.length !== r.length));
   }
 
   function autoFillResults() {
@@ -257,7 +250,6 @@
     for (let i = 0; i < n; i++) {
       let col = i;
       const path = [{ row: 0, col }];
-
       for (let row = 1; row < rows; row++) {
         const left = rungSet.has(`${row}:${col - 1}`);
         const right = rungSet.has(`${row}:${col}`);
@@ -275,7 +267,7 @@
       routes.push({ start: i, end: col, pathNodes: path });
     }
 
-    return { n, rows, rungs, routes, participants, results };
+    return { n, rows, rungs, routes };
   }
 
   function drawBase() {
@@ -313,12 +305,27 @@
     });
   }
 
+  function buildPathD(route) {
+    const { n, rows } = state.ladderData;
+    return route.pathNodes
+      .map((pt, i) => `${i ? "L" : "M"} ${getX(pt.col, n)} ${getY(pt.row, rows)}`)
+      .join(" ");
+  }
+
+  function paintCompletedPathsDim() {
+    ui.gActive.querySelectorAll("path").forEach((p) => {
+      p.style.opacity = "0.2";
+      p.setAttribute("stroke", "#94a3b8");
+      p.setAttribute("stroke-width", "3");
+    });
+  }
+
   function renderNodes() {
     ui.nodesTop.innerHTML = "";
     ui.nodesBottom.innerHTML = "";
     if (!state.ladderData) return;
 
-    const fontClass = state.ladderData.n > 14 ? "text-[10px]" : "text-[11px]";
+    const fontClass = state.ladderData.n > 12 ? "text-[10px]" : "text-[11px]";
 
     state.participants.forEach((name, i) => {
       const btn = document.createElement("button");
@@ -337,26 +344,29 @@
       item.title = label;
       ui.nodesBottom.appendChild(item);
     });
-  }
 
-  function renderResultsTable() {
-    if (!state.participants.length) {
-      ui.resultsList.innerHTML = `<div class="h-full flex items-center justify-center text-slate-400"><p class="text-xs">${t("noResults")}</p></div>`;
-      return;
-    }
-
-    ui.resultsList.innerHTML = "";
-    state.participants.forEach((name, i) => {
-      const row = document.createElement("div");
-      row.className = "flex items-center justify-between p-2.5 rounded-lg border border-transparent hover:bg-slate-50 transition-colors";
-      row.id = `table-row-${i}`;
-      row.innerHTML = `<span class="text-xs font-medium text-slate-900 truncate flex-1">${name}</span><iconify-icon icon="solar:arrow-right-linear" class="text-slate-300 mx-2"></iconify-icon><span id="table-result-${i}" class="text-xs font-semibold text-slate-400 truncate flex-1 text-right">?</span>`;
-      ui.resultsList.appendChild(row);
+    state.completedRoutes.forEach((idx) => {
+      const node = ui.nodesTop.children[idx];
+      if (node) node.classList.add("done");
     });
   }
 
-  function setProgress(running) {
-    ui.progressText.textContent = running ? t("progressRunning") : t("progressIdle");
+  function drawCompletedStaticPaths() {
+    if (!state.ladderData || !state.completedRoutes.size) return;
+    state.completedRoutes.forEach((idx) => {
+      const route = state.ladderData.routes[idx];
+      if (!route) return;
+      const p = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      p.setAttribute("d", buildPathD(route));
+      p.setAttribute("stroke", "#94a3b8");
+      p.setAttribute("stroke-width", "3");
+      p.setAttribute("fill", "none");
+      p.setAttribute("stroke-linecap", "round");
+      p.setAttribute("stroke-linejoin", "round");
+      p.setAttribute("vector-effect", "non-scaling-stroke");
+      p.style.opacity = "0.2";
+      ui.gActive.appendChild(p);
+    });
   }
 
   async function playRoute(index) {
@@ -364,19 +374,18 @@
     state.playing = true;
     setProgress(true);
 
-    const { n, rows, routes } = state.ladderData;
-    const route = routes[index];
+    paintCompletedPathsDim();
+
+    const route = state.ladderData.routes[index];
+    const color = PATH_COLORS[index % PATH_COLORS.length];
+    const d = buildPathD(route);
 
     Array.from(ui.nodesTop.children).forEach((node) => node.classList.remove("active"));
     ui.nodesTop.children[index].classList.add("active");
 
-    const d = route.pathNodes
-      .map((pt, i) => `${i ? "L" : "M"} ${getX(pt.col, n)} ${getY(pt.row, rows)}`)
-      .join(" ");
-
     const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
     path.setAttribute("d", d);
-    path.setAttribute("stroke", "#0f172a");
+    path.setAttribute("stroke", color);
     path.setAttribute("stroke-width", "4");
     path.setAttribute("fill", "none");
     path.setAttribute("stroke-linecap", "round");
@@ -399,21 +408,11 @@
     ui.nodesTop.children[index].classList.remove("active");
     ui.nodesTop.children[index].classList.add("done");
 
-    const end = route.end;
-    const targetNode = document.getElementById(`result-node-${end}`);
+    const targetNode = document.getElementById(`result-node-${route.end}`);
     if (targetNode) {
       targetNode.classList.add("highlight");
       setTimeout(() => targetNode.classList.remove("highlight"), 900);
     }
-
-    const cell = document.getElementById(`table-result-${index}`);
-    const row = document.getElementById(`table-row-${index}`);
-    if (cell) {
-      cell.textContent = state.results[end];
-      cell.classList.remove("text-slate-400");
-      cell.classList.add("text-slate-900");
-    }
-    if (row) row.classList.add("bg-slate-50", "border-slate-200");
 
     state.completedRoutes.add(index);
     state.playing = false;
@@ -441,7 +440,6 @@
     ui.btnPlayAll.classList.add("animate-pulse");
 
     while (state.queue.length > 0) {
-      if (!state.queue.length) break;
       const next = state.queue.shift();
       await playRoute(next);
       await new Promise((r) => setTimeout(r, 160));
@@ -461,11 +459,16 @@
       return;
     }
 
+    if (participants.length > MAX_PARTICIPANTS) {
+      alert(t("maxEntries", { n: MAX_PARTICIPANTS }));
+      return;
+    }
+
     if (participants.length !== results.length) {
       if (participants.length > results.length) {
-        const base = results.slice();
-        for (let i = base.length; i < participants.length; i++) base.push(`${t("fillLabel")} ${i + 1}`);
-        results = base;
+        const out = results.slice();
+        for (let i = out.length; i < participants.length; i++) out.push(`${t("fillLabel")} ${i + 1}`);
+        results = out;
       } else {
         results = results.slice(0, participants.length);
       }
@@ -478,62 +481,22 @@
     state.completedRoutes.clear();
     state.queue = [];
     state.playing = false;
-    setProgress(false);
 
     state.ladderData = buildLadderData(participants, results);
 
     ui.ladderEmpty.classList.add("hidden");
     drawBase();
     renderNodes();
-    renderResultsTable();
-    ui.progressText.textContent = t("generated");
+    setProgress(false);
 
     saveState();
-  }
-
-  function collectResultRows() {
-    if (!state.ladderData) return [];
-    const rows = [];
-    const timestamp = formatNow(state.locale);
-    state.participants.forEach((p, i) => {
-      const route = state.ladderData.routes[i];
-      const result = state.completedRoutes.has(i) ? state.results[route.end] : "?";
-      rows.push({ participant: p, result, order: i + 1, timestamp });
-    });
-    return rows;
-  }
-
-  function exportCopy() {
-    const rows = collectResultRows();
-    if (!rows.length) return;
-    const text = rows.map((r) => `${r.order}. ${r.participant} -> ${r.result}`).join("\n");
-    navigator.clipboard.writeText(text).then(() => alert(t("copied")));
-  }
-
-  function exportCsv() {
-    const rows = collectResultRows();
-    if (!rows.length) return;
-    const header = "participant,result,order,timestamp";
-    const body = rows
-      .map((r) => [r.participant, r.result, r.order, r.timestamp].map((v) => `"${String(v).replace(/"/g, '""')}"`).join(","))
-      .join("\n");
-    downloadText(`ladder-result-${Date.now()}.csv`, `\uFEFF${header}\n${body}`, "text/csv;charset=utf-8");
-  }
-
-  function exportTxt() {
-    const rows = collectResultRows();
-    if (!rows.length) return;
-    const body = rows.map((r) => `${r.order}. ${r.participant} -> ${r.result} (${r.timestamp})`).join("\n");
-    downloadText(`ladder-result-${Date.now()}.txt`, body, "text/plain;charset=utf-8");
   }
 
   function saveState() {
     const payload = {
       locale: state.locale,
-      allowDup: state.allowDup,
       participantsText: ui.inputParticipants.value,
       resultsText: ui.inputResults.value,
-      complexity: ui.sliderComplexity.value,
       speed: ui.sliderSpeed.value,
       completedRoutes: Array.from(state.completedRoutes),
       ladderData: state.ladderData
@@ -544,23 +507,21 @@
   }
 
   function restoreState() {
+    ui.sliderComplexity.value = "3";
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return;
       const saved = JSON.parse(raw);
 
       if (saved.locale === "ko" || saved.locale === "en") state.locale = saved.locale;
-      state.allowDup = !!saved.allowDup;
-      ui.allowDup.checked = state.allowDup;
       ui.inputParticipants.value = saved.participantsText || "";
       ui.inputResults.value = saved.resultsText || "";
-      ui.sliderComplexity.value = saved.complexity || "6";
       ui.sliderSpeed.value = saved.speed || "3";
 
       const participants = parsedParticipants();
       const results = parsedResults();
 
-      if (saved.ladderData && Array.isArray(saved.ladderData.routes) && participants.length >= 2) {
+      if (saved.ladderData && Array.isArray(saved.ladderData.routes) && participants.length >= 2 && participants.length <= MAX_PARTICIPANTS) {
         state.participants = participants;
         state.results = results.slice(0, participants.length);
         state.ladderData = saved.ladderData;
@@ -569,20 +530,7 @@
         ui.ladderEmpty.classList.add("hidden");
         drawBase();
         renderNodes();
-        renderResultsTable();
-
-        state.participants.forEach((_, i) => {
-          if (!state.completedRoutes.has(i)) return;
-          const route = state.ladderData.routes[i];
-          const cell = document.getElementById(`table-result-${i}`);
-          const row = document.getElementById(`table-row-${i}`);
-          if (cell && route) {
-            cell.textContent = state.results[route.end] || "?";
-            cell.classList.remove("text-slate-400");
-            cell.classList.add("text-slate-900");
-          }
-          if (row) row.classList.add("bg-slate-50", "border-slate-200");
-        });
+        drawCompletedStaticPaths();
       }
     } catch (e) {}
   }
@@ -608,6 +556,7 @@
   function bindEvents() {
     ui.langKo.addEventListener("click", () => setLocale("ko"));
     ui.langEn.addEventListener("click", () => setLocale("en"));
+
     ui.inputParticipants.addEventListener("input", () => {
       updateCounts();
       saveState();
@@ -616,20 +565,18 @@
       updateCounts();
       saveState();
     });
-    ui.allowDup.addEventListener("change", () => {
-      state.allowDup = ui.allowDup.checked;
-      updateCounts();
-      saveState();
-    });
+
     ui.btnAutoFill.addEventListener("click", autoFillResults);
     ui.btnAutoTrim.addEventListener("click", autoTrimResults);
     ui.btnGenerate.addEventListener("click", buildLadder);
     ui.btnPlayAll.addEventListener("click", togglePlayAll);
-    ui.btnCopy.addEventListener("click", exportCopy);
-    ui.btnCsv.addEventListener("click", exportCsv);
-    ui.btnTxt.addEventListener("click", exportTxt);
-    ui.sliderComplexity.addEventListener("input", saveState);
+
+    ui.sliderComplexity.addEventListener("input", () => {
+      if (ui.sliderComplexity.value === "") ui.sliderComplexity.value = "3";
+      saveState();
+    });
     ui.sliderSpeed.addEventListener("input", saveState);
+
     ui.fullscreenBtn.addEventListener("click", toggleFullscreen);
     document.addEventListener("fullscreenchange", updateFullscreenButton);
 

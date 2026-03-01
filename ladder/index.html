@@ -221,6 +221,7 @@
                 </h2>
                 <span id="count-participants" class="text-[11px] font-medium text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">총 0명</span>
               </div>
+              <p class="mb-2 text-[11px] text-slate-400">최대 15명까지 지원</p>
               <textarea id="input-participants" class="w-full flex-1 resize-none bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-900 focus:border-slate-900 transition-colors" placeholder="이름을 입력하세요"></textarea>
             </div>
 
@@ -245,20 +246,10 @@
               </div>
             </div>
 
-            <div class="px-4 pb-3">
-              <details class="bg-slate-50 border border-slate-200 rounded-lg p-2">
-                <summary id="advanced-title" class="cursor-pointer text-[11px] font-semibold text-slate-700">고급</summary>
-                <label class="mt-2 flex items-center gap-2 text-[11px] text-slate-600">
-                  <input id="allow-dup" type="checkbox" class="rounded border-slate-300 text-slate-900 focus:ring-slate-900" />
-                  <span id="allow-dup-label">참가자 중복 허용</span>
-                </label>
-              </details>
-            </div>
-
             <div class="p-4 border-t border-slate-100 bg-slate-50/60 space-y-4">
               <div class="space-y-1.5">
                 <span id="label-complexity" class="text-xs font-medium text-slate-700">사다리 복잡도</span>
-                <input id="slider-complexity" type="range" min="3" max="12" value="6" class="w-full" />
+                <input id="slider-complexity" type="range" min="3" max="12" value="3" class="w-full" />
               </div>
               <div class="space-y-1.5">
                 <span id="label-speed" class="text-xs font-medium text-slate-700">애니메이션 속도</span>
@@ -269,8 +260,9 @@
           </div>
         </div>
 
-        <div class="lg:col-span-6 flex flex-col h-[500px] lg:h-[680px]">
+        <div class="lg:col-span-9 flex flex-col h-[560px] lg:h-[760px]">
           <div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex-grow flex flex-col relative overflow-hidden">
+            <div id="progress-text" class="absolute top-3 right-4 z-30 text-[11px] font-medium text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full">대기 중</div>
             <div id="nodes-top" class="absolute top-0 left-0 w-full h-12 flex items-center justify-around px-4 z-20"></div>
             <div class="absolute inset-y-12 inset-x-4 z-10">
               <svg id="ladder-svg" class="w-full h-full" preserveAspectRatio="none">
@@ -290,28 +282,6 @@
               <iconify-icon icon="solar:map-arrow-down-linear" class="text-4xl mb-3 text-slate-300"></iconify-icon>
               <p id="empty-main" class="text-sm font-medium text-slate-600 mb-1">명단을 입력하고 생성해주세요</p>
               <p id="empty-sub" class="text-xs">왼쪽 패널에서 참가자와 결과를 설정합니다.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="lg:col-span-3 flex flex-col h-[400px] lg:h-[680px]">
-          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col h-full">
-            <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/60">
-              <h2 class="text-xs font-semibold tracking-tight flex items-center gap-1.5">
-                <iconify-icon icon="solar:clipboard-list-linear" stroke-width="1.5" class="text-slate-400"></iconify-icon>
-                <span id="label-result-title">매칭 결과</span>
-              </h2>
-              <span id="progress-text" class="text-[11px] text-slate-400">대기 중</span>
-            </div>
-            <div class="p-2 border-b border-slate-100 bg-slate-50/40 flex gap-1.5">
-              <button id="btn-copy" class="flex-1 text-[11px] px-2 py-1.5 border border-slate-200 rounded-md bg-white hover:bg-slate-50">전체 복사</button>
-              <button id="btn-csv" class="flex-1 text-[11px] px-2 py-1.5 border border-slate-200 rounded-md bg-white hover:bg-slate-50">CSV 저장</button>
-              <button id="btn-txt" class="flex-1 text-[11px] px-2 py-1.5 border border-slate-200 rounded-md bg-white hover:bg-slate-50">TXT 저장</button>
-            </div>
-            <div id="results-list" class="flex-grow overflow-y-auto hide-scrollbar p-2 space-y-1">
-              <div class="h-full flex items-center justify-center text-slate-400">
-                <p id="label-no-results" class="text-xs">사다리를 진행하면 결과가 표시됩니다.</p>
-              </div>
             </div>
           </div>
         </div>
