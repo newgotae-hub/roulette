@@ -850,12 +850,35 @@
                 beep(300, 0.08, 'triangle', 0.02, 0.15);
             }
 
+            function sweep(startFreq, endFreq, duration, type, volume, delaySec) {
+                if (!ui.soundToggle.checked) return;
+                const audio = ensureAudio();
+                if (!audio) return;
+
+                const now = audio.currentTime + (delaySec || 0);
+                const osc = audio.createOscillator();
+                const gain = audio.createGain();
+
+                osc.type = type || 'sine';
+                osc.frequency.setValueAtTime(startFreq, now);
+                osc.frequency.exponentialRampToValueAtTime(endFreq, now + duration);
+                gain.gain.setValueAtTime(0.0001, now);
+                gain.gain.exponentialRampToValueAtTime(volume || 0.08, now + 0.01);
+                gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+                osc.connect(gain);
+                gain.connect(audio.destination);
+                osc.start(now);
+                osc.stop(now + duration + 0.02);
+            }
+
             function playWinnerSound() {
-                // Premium-style short fanfare: layered major chord + shimmer highlight.
-                beep(523.25, 0.35, 'sine', 0.045, 0.00); // C5
-                beep(659.25, 0.35, 'sine', 0.04, 0.02);  // E5
-                beep(783.99, 0.42, 'triangle', 0.04, 0.04); // G5
-                beep(1046.5, 0.28, 'sine', 0.03, 0.20); // C6 highlight
+                // Balanced impact: short low sweep + clean bright chord hit.
+                sweep(180, 95, 0.13, 'sine', 0.11, 0.00);      // subtle low punch
+                beep(523.25, 0.30, 'triangle', 0.055, 0.03);   // C5
+                beep(659.25, 0.30, 'triangle', 0.05, 0.05);    // E5
+                beep(783.99, 0.34, 'sine', 0.045, 0.07);       // G5
+                beep(1046.5, 0.24, 'sine', 0.035, 0.17);       // C6 sparkle
             }
 
             function pickWinner() {
