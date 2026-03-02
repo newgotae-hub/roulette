@@ -926,6 +926,45 @@
         return 84;
       }
 
+      function fitDiceInSlots() {
+        if (!state.dice.length) return;
+        const minSize = 56;
+        const safeRatio = state.diceCount <= 1 ? 0.78 : 0.9;
+
+        for (let pass = 0; pass < 10; pass += 1) {
+          let adjusted = false;
+
+          state.dice.forEach((die) => {
+            const slotRect = die.slot.getBoundingClientRect();
+            const shellRect = die.shell.getBoundingClientRect();
+            if (slotRect.width < 2 || slotRect.height < 2 || shellRect.width < 2 || shellRect.height < 2) return;
+
+            const safeW = slotRect.width * safeRatio;
+            const safeH = slotRect.height * safeRatio;
+            const scale = Math.min(1, safeW / shellRect.width, safeH / shellRect.height);
+            if (scale >= 0.995) return;
+
+            const currentSize = parseFloat(die.shell.style.getPropertyValue('--mv-size')) || shellRect.width;
+            const nextSize = Math.max(minSize, Math.floor(currentSize * scale * 0.98));
+            if (nextSize < currentSize) {
+              die.shell.style.setProperty('--mv-size', `${nextSize}px`);
+              adjusted = true;
+            }
+          });
+
+          if (!adjusted) break;
+        }
+      }
+
+      let fitRaf = 0;
+      function scheduleFitDice() {
+        if (fitRaf) cancelAnimationFrame(fitRaf);
+        fitRaf = requestAnimationFrame(() => {
+          fitRaf = 0;
+          fitDiceInSlots();
+        });
+      }
+
       function setModelOrientation(die, x, y, z) {
         die.angles = { x, y, z };
         die.model.setAttribute('orientation', `${x.toFixed(1)}deg ${y.toFixed(1)}deg ${z.toFixed(1)}deg`);
@@ -996,6 +1035,8 @@
           const die = createDieElement(size);
           state.dice.push(die);
           ui.diceWrap.appendChild(die.slot);
+          scheduleFitDice();
+          requestAnimationFrame(scheduleFitDice);
           return;
         }
 
@@ -1007,6 +1048,8 @@
           state.dice.push(die);
           ui.diceWrap.appendChild(die.slot);
         }
+        scheduleFitDice();
+        requestAnimationFrame(scheduleFitDice);
       }
 
       function formatSeconds(sec) {
@@ -1234,6 +1277,8 @@
         ui.langEn.addEventListener('click', () => setLocale('en'));
         ui.fullscreenToggle.addEventListener('click', toggleFullscreen);
         document.addEventListener('fullscreenchange', updateFullscreenButton);
+        window.addEventListener('resize', scheduleFitDice);
+        document.addEventListener('fullscreenchange', scheduleFitDice);
 
         document.querySelectorAll('.count-chip').forEach((btn) => {
           btn.addEventListener('click', () => {
