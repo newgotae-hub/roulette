@@ -793,7 +793,7 @@
     path.style.transition = `stroke-dashoffset ${duration}ms cubic-bezier(0.22, 1, 0.36, 1)`;
     path.style.strokeDashoffset = "0";
 
-    await new Promise((resolve) => setTimeout(resolve, duration + 30));
+    await new Promise((resolve) => setTimeout(resolve, duration));
 
     ui.nodesTop.children[index].classList.remove("active");
     ui.nodesTop.children[index].classList.add("done");
