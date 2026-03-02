@@ -1163,11 +1163,10 @@
           const value = results[idx];
           const target = faceTarget(value);
           const current = die.angles || { x: 0, y: 0, z: 0 };
-          const spinsX = (1 + Math.floor(Math.random() * 2)) * 360;
-          const spinsY = (2 + Math.floor(Math.random() * 2)) * 360;
-          const xTotal = current.x + spinsX + target[0];
-          const yTotal = current.y + spinsY + target[1];
-          const zTotal = current.z + target[2];
+          const spinY = (3 + Math.floor(Math.random() * 3)) * 360;
+          const xTotal = target[0];
+          const yTotal = current.y + spinY + target[1];
+          const zTotal = target[2];
           const startAt = performance.now() + staggers[idx];
 
           const tick = (now) => {
