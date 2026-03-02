@@ -818,9 +818,10 @@
         finish();
       };
       path.addEventListener("transitionend", onEnd, { once: true });
+      const earlyArrivalMs = 160;
       const tick = (now) => {
         if (done) return;
-        if (now - startedAt >= duration) {
+        if (now - startedAt >= Math.max(0, duration - earlyArrivalMs)) {
           finish();
           return;
         }
