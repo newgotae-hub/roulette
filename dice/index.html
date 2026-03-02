@@ -165,6 +165,13 @@
       box-shadow: 0 18px 60px rgba(15, 23, 42, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.6);
       overflow: visible !important;
       isolation: isolate;
+      z-index: 5000;
+    }
+
+    .dice-column {
+      position: relative;
+      z-index: 5000;
+      overflow: visible !important;
     }
 
     .dice-slot {
@@ -428,7 +435,7 @@
           </div>
         </div>
 
-        <div class="lg:col-span-6 flex flex-col items-center justify-start min-h-[420px] lg:h-[640px]">
+        <div class="dice-column lg:col-span-6 flex flex-col items-center justify-start min-h-[420px] lg:h-[640px]">
           <div class="relative w-full max-w-[720px]">
             <div class="dice-panel dice-stage bg-transparent rounded-2xl border border-slate-200 overflow-visible p-4 sm:p-6 min-h-[450px] lg:h-[640px] flex flex-col">
               <div id="confetti-layer" aria-hidden="true"></div>
@@ -1153,8 +1160,6 @@
         if (state.reducedMotion) {
           state.dice.forEach((die, idx) => {
             const value = results[idx];
-            const target = faceTarget(value);
-            setModelOrientation(die, target[0], target[1], target[2]);
             setDieValue(die, value);
           });
           rollSoundEnd();
@@ -1173,13 +1178,13 @@
 
         state.dice.forEach((die, idx) => {
           const value = results[idx];
-          const target = faceTarget(value);
           const current = die.angles || { x: 0, y: 0, z: 0 };
           const spinsX = (2 + Math.floor(Math.random() * 2)) * 360;
           const spinsY = (4 + Math.floor(Math.random() * 2)) * 360;
-          const xTotal = current.x + spinsX + target[0];
-          const yTotal = current.y + spinsY + target[1];
-          const zTotal = current.z + target[2];
+          const spinsZ = (1 + Math.floor(Math.random() * 2)) * 360;
+          const xTotal = current.x + spinsX;
+          const yTotal = current.y + spinsY;
+          const zTotal = current.z + spinsZ;
           const startAt = performance.now() + staggers[idx];
 
           const tick = (now) => {
