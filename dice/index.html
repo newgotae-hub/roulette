@@ -1156,15 +1156,15 @@
         }
 
         const durationMs = Math.floor(state.durationSec * 1000);
-        const maxStagger = Math.min(220, Math.max(0, 12 * state.diceCount));
+        const maxStagger = Math.min(90, Math.max(0, 6 * state.diceCount));
         const staggers = state.dice.map(() => Math.floor(Math.random() * maxStagger));
 
         state.dice.forEach((die, idx) => {
           const value = results[idx];
           const target = faceTarget(value);
           const current = die.angles || { x: 0, y: 0, z: 0 };
-          const spinsX = (2 + Math.floor(Math.random() * 2)) * 360;
-          const spinsY = (4 + Math.floor(Math.random() * 2)) * 360;
+          const spinsX = (1 + Math.floor(Math.random() * 2)) * 360;
+          const spinsY = (2 + Math.floor(Math.random() * 2)) * 360;
           const xTotal = current.x + spinsX + target[0];
           const yTotal = current.y + spinsY + target[1];
           const zTotal = current.z + target[2];
