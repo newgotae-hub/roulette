@@ -161,7 +161,10 @@
     }
 
     .dice-stage {
+      position: relative;
       box-shadow: 0 18px 60px rgba(15, 23, 42, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+      overflow: visible !important;
+      isolation: isolate;
     }
 
     .dice-slot {
@@ -170,6 +173,8 @@
       align-items: center;
       justify-content: center;
       min-height: 0;
+      overflow: visible;
+      z-index: 120;
     }
 
     .grid-dice {
@@ -199,6 +204,8 @@
       border: 0;
       box-shadow: none;
       transform: translate(-50%, -50%);
+      z-index: 150;
+      pointer-events: none;
     }
 
     .dice-shell model-viewer {
@@ -210,6 +217,7 @@
       --progress-mask: transparent;
       transform-origin: center center;
       pointer-events: none;
+      overflow: visible;
     }
 
     .dice-shell model-viewer::part(default-progress-bar),
@@ -238,6 +246,7 @@
       border: 1px solid rgba(203, 213, 225, 0.95);
       box-shadow: 0 6px 20px rgba(15, 23, 42, 0.14);
       backdrop-filter: blur(8px);
+      z-index: 180;
     }
 
     .face-chip {
