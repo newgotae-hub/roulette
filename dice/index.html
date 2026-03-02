@@ -962,11 +962,11 @@
         if (Number.isFinite(sizePx) && sizePx >= 180) {
           model.setAttribute('camera-orbit', '20deg 52deg 132%');
           model.setAttribute('field-of-view', '40deg');
-          model.setAttribute('camera-target', '0m 0m 0m');
+          model.setAttribute('camera-target', 'auto auto auto');
         } else {
           model.setAttribute('camera-orbit', '20deg 56deg 138%');
           model.setAttribute('field-of-view', '42deg');
-          model.setAttribute('camera-target', '0m 0m 0m');
+          model.setAttribute('camera-target', 'auto auto auto');
         }
         model.setAttribute('orientation', '0deg 0deg 0deg');
 
@@ -1181,12 +1181,13 @@
           const target = faceTarget(value);
           const current = die.angles || { x: 0, y: 0, z: 0 };
           const normalizeDeg = (deg) => ((deg % 360) + 360) % 360;
+          const shortestAlign = (fromDeg, toDeg) => (((toDeg - fromDeg + 540) % 360) - 180);
           const spinX = 6 * 360;
           const spinY = 6 * 360;
           const spinZ = 6 * 360;
-          const xAlign = ((target[0] - normalizeDeg(current.x)) + 360) % 360;
-          const yAlign = ((target[1] - normalizeDeg(current.y)) + 360) % 360;
-          const zAlign = ((target[2] - normalizeDeg(current.z)) + 360) % 360;
+          const xAlign = shortestAlign(normalizeDeg(current.x), target[0]);
+          const yAlign = shortestAlign(normalizeDeg(current.y), target[1]);
+          const zAlign = shortestAlign(normalizeDeg(current.z), target[2]);
           const xTotal = current.x + spinX + xAlign;
           const yTotal = current.y + spinY + yAlign;
           const zTotal = current.z + spinZ + zAlign;
