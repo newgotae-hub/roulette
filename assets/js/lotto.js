@@ -13,6 +13,7 @@
       navLotto: '로또추첨기',
       navHistory: '사다리타기',
       navGuide: '가이드',
+      fullscreenHint: '전체화면을 눌러주세요!',
       fullscreen: '전체화면',
       fullscreenExit: '화면해제',
       heroTitle: '로또 번호 추첨기',
@@ -66,6 +67,7 @@
       navLotto: 'Lucky Draw',
       navHistory: 'Ladder Draw',
       navGuide: 'Guide',
+      fullscreenHint: 'Tap Fullscreen for focus mode.',
       fullscreen: 'Fullscreen',
       fullscreenExit: 'Exit Full',
       heroTitle: 'Random Name Picker',
@@ -122,7 +124,8 @@
     quickMode: false,
     balls: [],
     raf: null,
-    audio: null
+    audio: null,
+    fullscreenHintTimer: null
   };
 
   const ui = {
@@ -131,6 +134,8 @@
     fullscreenToggle: document.getElementById('fullscreen-toggle'),
     fullscreenIcon: document.getElementById('fullscreen-icon'),
     fullscreenLabel: document.getElementById('fullscreen-label'),
+    fullscreenHint: document.getElementById('fullscreen-hint'),
+    fullscreenHintText: document.getElementById('fullscreen-hint-text'),
     tabBasicBtn: document.getElementById('tab-btn-basic'),
     tabCustomBtn: document.getElementById('tab-btn-custom'),
     customHint: document.getElementById('custom-list-hint'),
@@ -225,6 +230,7 @@
     setText('footer-privacy', 'footerPrivacy');
     ui.statusBanner.textContent = t('statusReady');
     ui.fullscreenLabel.textContent = document.fullscreenElement ? t('fullscreenExit') : t('fullscreen');
+    if (ui.fullscreenHintText) ui.fullscreenHintText.textContent = t('fullscreenHint');
 
     ui.langKo.className = `px-2.5 py-1 text-xs font-semibold rounded-full ${state.locale === 'ko' ? 'text-slate-900 bg-slate-100' : 'text-slate-500'}`;
     ui.langEn.className = `px-2.5 py-1 text-xs font-semibold rounded-full ${state.locale === 'en' ? 'text-slate-900 bg-slate-100' : 'text-slate-500'}`;
@@ -250,6 +256,15 @@
 
   function updateSpeedLabel() {
     ui.labelSpeedVal.textContent = t(`speed${ui.sliderSpeed.value}`);
+  }
+
+  function showFullscreenHint() {
+    if (!ui.fullscreenHint) return;
+    ui.fullscreenHint.classList.remove('hidden');
+    clearTimeout(state.fullscreenHintTimer);
+    state.fullscreenHintTimer = setTimeout(() => {
+      ui.fullscreenHint.classList.add('hidden');
+    }, 4200);
   }
 
   class Ball {
@@ -778,6 +793,7 @@
     });
 
     ui.fullscreenToggle.addEventListener('click', async () => {
+      if (ui.fullscreenHint) ui.fullscreenHint.classList.add('hidden');
       if (document.fullscreenElement) await document.exitFullscreen();
       else await document.documentElement.requestFullscreen();
     });
@@ -792,6 +808,7 @@
     applyI18n();
     switchTab(state.mode);
     preparePool();
+    showFullscreenHint();
   } catch (error) {
     console.error('[lotto] initialization failed:', error);
   } finally {
