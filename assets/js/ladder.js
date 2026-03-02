@@ -793,6 +793,16 @@
     path.style.transition = `stroke-dashoffset ${duration}ms linear`;
     path.style.strokeDashoffset = "0";
 
+    const cell = document.getElementById(`table-result-${index}`);
+    const row = document.getElementById(`table-row-${index}`);
+    if (cell) {
+      cell.textContent = state.results[route.end];
+      cell.classList.remove("text-slate-400");
+      cell.classList.add("text-slate-900");
+    }
+    if (row) row.classList.add("bg-slate-50", "border-slate-200");
+    applyMatchColor(index, route.end, color);
+
     await new Promise((resolve) => {
       let done = false;
       const finish = () => {
@@ -813,23 +823,7 @@
     ui.nodesTop.children[index].classList.remove("active");
     ui.nodesTop.children[index].classList.add("done");
 
-    const targetNode = document.getElementById(`result-node-${route.end}`);
-    if (targetNode) {
-      targetNode.classList.add("highlight");
-      setTimeout(() => targetNode.classList.remove("highlight"), 900);
-    }
-
     state.completedRoutes.add(index);
-
-    const cell = document.getElementById(`table-result-${index}`);
-    const row = document.getElementById(`table-row-${index}`);
-    if (cell) {
-      cell.textContent = state.results[route.end];
-      cell.classList.remove("text-slate-400");
-      cell.classList.add("text-slate-900");
-    }
-    if (row) row.classList.add("bg-slate-50", "border-slate-200");
-    applyMatchColor(index, route.end, color);
 
     state.playing = false;
     setProgress(false);
