@@ -162,7 +162,9 @@
     }
 
     .dice-stage {
-      box-shadow: 0 18px 60px rgba(15, 23, 42, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+      box-shadow: none;
+      border: 0 !important;
+      background: transparent !important;
     }
 
     .dice-slot {
@@ -170,6 +172,7 @@
       align-items: center;
       justify-content: center;
       min-height: 0;
+      overflow: visible;
     }
 
     .grid-dice {
@@ -177,7 +180,9 @@
       gap: 6px;
       width: 100%;
       height: 100%;
-      align-content: start;
+      align-content: center;
+      justify-content: center;
+      overflow: visible;
     }
 
     .grid-dice.single-mode {
@@ -955,12 +960,12 @@
         model.setAttribute('tone-mapping', 'aces');
         model.setAttribute('loading', 'eager');
         if (Number.isFinite(sizePx) && sizePx >= 180) {
-          model.setAttribute('camera-orbit', '20deg 52deg 94%');
-          model.setAttribute('field-of-view', '32deg');
+          model.setAttribute('camera-orbit', '20deg 52deg 108%');
+          model.setAttribute('field-of-view', '36deg');
           model.setAttribute('camera-target', '0m 0m 0m');
         } else {
-          model.setAttribute('camera-orbit', '20deg 56deg 100%');
-          model.setAttribute('field-of-view', '34deg');
+          model.setAttribute('camera-orbit', '20deg 56deg 114%');
+          model.setAttribute('field-of-view', '38deg');
           model.setAttribute('camera-target', '0m 0m 0m');
         }
         model.setAttribute('orientation', '0deg 0deg 0deg');
@@ -1168,21 +1173,23 @@
         }
 
         const durationMs = Math.floor(state.durationSec * 1000);
-        const maxStagger = Math.min(90, Math.max(0, 6 * state.diceCount));
-        const staggers = state.dice.map(() => Math.floor(Math.random() * maxStagger));
+        const maxStagger = 0;
+        const staggers = state.dice.map(() => 0);
 
         state.dice.forEach((die, idx) => {
           const value = results[idx];
           const target = faceTarget(value);
           const current = die.angles || { x: 0, y: 0, z: 0 };
           const normalizeDeg = (deg) => ((deg % 360) + 360) % 360;
-          const spinX = (8 + Math.floor(Math.random() * 5)) * 360;
-          const spinY = (8 + Math.floor(Math.random() * 5)) * 360;
-          const xAlign = target[0] - normalizeDeg(current.x);
-          const yAlign = target[1] - normalizeDeg(current.y);
+          const spinX = 6 * 360;
+          const spinY = 6 * 360;
+          const spinZ = 6 * 360;
+          const xAlign = ((target[0] - normalizeDeg(current.x)) + 360) % 360;
+          const yAlign = ((target[1] - normalizeDeg(current.y)) + 360) % 360;
+          const zAlign = ((target[2] - normalizeDeg(current.z)) + 360) % 360;
           const xTotal = current.x + spinX + xAlign;
           const yTotal = current.y + spinY + yAlign;
-          const zTotal = target[2];
+          const zTotal = current.z + spinZ + zAlign;
           const startAt = performance.now() + staggers[idx];
 
           const tick = (now) => {
@@ -1199,6 +1206,7 @@
             if (p < 1) {
               requestAnimationFrame(tick);
             } else {
+              setModelOrientation(die, target[0], target[1], target[2]);
               setDieValue(die, value);
             }
           };
