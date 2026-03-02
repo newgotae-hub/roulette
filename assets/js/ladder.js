@@ -798,7 +798,7 @@
 
     const speed = Math.max(1, Math.min(5, Number(ui.sliderSpeed.value) || Number(SPEED_DEFAULT)));
     const speedRatio = (speed - 1) / 4;
-    const baseDuration = 4400 - speedRatio * 2200;
+    const baseDuration = 4100 - speedRatio * 2100;
     const lengthFactor = Math.max(0.92, Math.min(1.1, len / 980));
     const duration = Math.max(MIN_ROUTE_DURATION_MS, Math.round(baseDuration * lengthFactor));
     path.style.transition = `stroke-dashoffset ${duration}ms linear`;
