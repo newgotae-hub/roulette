@@ -661,6 +661,16 @@
     return palette[idx % palette.length];
   }
 
+  function hasDuplicateResultLabels() {
+    const counts = new Map();
+    for (const value of state.results) {
+      const key = normalizeLabel(value);
+      counts.set(key, (counts.get(key) || 0) + 1);
+      if ((counts.get(key) || 0) > 1) return true;
+    }
+    return false;
+  }
+
   function applyMatchColor(startIndex, endIndex, color) {
     const topNode = ui.nodesTop.children[startIndex];
     if (topNode) {
@@ -765,6 +775,7 @@
 
     const route = state.ladderData.routes[index];
     const color = getLabelColor(state.results[route.end], index);
+    const routeStrokeColor = hasDuplicateResultLabels() ? "#0f172a" : color;
     const d = buildPathD(route);
 
     Array.from(ui.nodesTop.children).forEach((node) => node.classList.remove("active"));
@@ -772,7 +783,7 @@
 
     const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
     path.setAttribute("d", d);
-    path.setAttribute("stroke", color);
+    path.setAttribute("stroke", routeStrokeColor);
     path.setAttribute("stroke-width", "4");
     path.setAttribute("fill", "none");
     path.setAttribute("stroke-linecap", "round");
