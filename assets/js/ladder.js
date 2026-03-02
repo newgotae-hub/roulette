@@ -813,12 +813,21 @@
         resolve();
       };
       const onEnd = (event) => {
-        if (event.propertyName !== "stroke-dashoffset") return;
         finish();
       };
       path.addEventListener("transitionend", onEnd, { once: true });
-      // Fallback in case transitionend doesn't fire on some browsers.
-      setTimeout(finish, duration + 80);
+      // Resolve immediately once the line visually reaches the end, even if transition events are flaky.
+      const deadline = performance.now() + duration + 120;
+      const checkArrival = () => {
+        if (done) return;
+        const currentOffset = Number.parseFloat(getComputedStyle(path).strokeDashoffset);
+        if ((Number.isFinite(currentOffset) && currentOffset <= 0.5) || performance.now() >= deadline) {
+          finish();
+          return;
+        }
+        requestAnimationFrame(checkArrival);
+      };
+      requestAnimationFrame(checkArrival);
     });
 
     ui.nodesTop.children[index].classList.remove("active");
