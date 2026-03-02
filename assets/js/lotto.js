@@ -12,6 +12,7 @@
       navSpin: '룰렛돌리기',
       navLotto: '로또추첨기',
       navHistory: '사다리타기',
+      navCoin: '코인던지기',
       navGuide: '가이드',
       fullscreenHint: '전체화면을 눌러주세요!',
       fullscreen: '전체화면',
@@ -66,6 +67,7 @@
       navSpin: 'Wheel of Names',
       navLotto: 'Lucky Draw',
       navHistory: 'Ladder Draw',
+      navCoin: 'Coin Flip',
       navGuide: 'Guide',
       fullscreenHint: 'Tap Fullscreen for focus mode.',
       fullscreen: 'Fullscreen',
@@ -197,6 +199,7 @@
     setText('nav-spin', 'navSpin');
     setText('nav-lotto', 'navLotto');
     setText('nav-history', 'navHistory');
+    setText('nav-coin', 'navCoin');
     setText('nav-guide', 'navGuide');
     setText('hero-title', 'heroTitle');
     setText('hero-subtitle', 'heroSubtitle');
