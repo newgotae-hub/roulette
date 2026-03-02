@@ -787,7 +787,7 @@
 
     const speed = Math.max(1, Math.min(5, Number(ui.sliderSpeed.value) || Number(SPEED_DEFAULT)));
     const speedRatio = (speed - 1) / 4;
-    const baseDuration = 5000 - speedRatio * 2500;
+    const baseDuration = 4400 - speedRatio * 2200;
     const lengthFactor = Math.max(0.92, Math.min(1.1, len / 980));
     const duration = Math.max(MIN_ROUTE_DURATION_MS, Math.round(baseDuration * lengthFactor));
     path.style.transition = `stroke-dashoffset ${duration}ms linear`;
@@ -858,7 +858,7 @@
     while (state.queue.length > 0) {
       const next = state.queue.shift();
       await playRoute(next);
-      await new Promise((r) => setTimeout(r, 140));
+      await new Promise((r) => setTimeout(r, 0));
     }
 
     state.queue = [];
