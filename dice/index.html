@@ -955,11 +955,11 @@
         model.setAttribute('tone-mapping', 'aces');
         model.setAttribute('loading', 'eager');
         if (Number.isFinite(sizePx) && sizePx >= 180) {
-          model.setAttribute('camera-orbit', '20deg 70deg 94%');
+          model.setAttribute('camera-orbit', '20deg 52deg 94%');
           model.setAttribute('field-of-view', '32deg');
           model.setAttribute('camera-target', '0m 0m 0m');
         } else {
-          model.setAttribute('camera-orbit', '20deg 70deg 100%');
+          model.setAttribute('camera-orbit', '20deg 56deg 100%');
           model.setAttribute('field-of-view', '34deg');
           model.setAttribute('camera-target', '0m 0m 0m');
         }
@@ -1175,9 +1175,13 @@
           const value = results[idx];
           const target = faceTarget(value);
           const current = die.angles || { x: 0, y: 0, z: 0 };
-          const spinY = (3 + Math.floor(Math.random() * 3)) * 360;
-          const xTotal = target[0];
-          const yTotal = current.y + spinY + target[1];
+          const normalizeDeg = (deg) => ((deg % 360) + 360) % 360;
+          const spinX = (8 + Math.floor(Math.random() * 5)) * 360;
+          const spinY = (8 + Math.floor(Math.random() * 5)) * 360;
+          const xAlign = target[0] - normalizeDeg(current.x);
+          const yAlign = target[1] - normalizeDeg(current.y);
+          const xTotal = current.x + spinX + xAlign;
+          const yTotal = current.y + spinY + yAlign;
           const zTotal = target[2];
           const startAt = performance.now() + staggers[idx];
 
@@ -1195,7 +1199,6 @@
             if (p < 1) {
               requestAnimationFrame(tick);
             } else {
-              setModelOrientation(die, target[0], target[1], target[2]);
               setDieValue(die, value);
             }
           };
