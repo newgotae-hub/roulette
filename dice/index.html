@@ -5,28 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
 
-  <title>코인 던지기 | 동전 던지기 랜덤추첨 RLT</title>
-  <meta id="meta-description" name="description" content="코인 던지기(동전 던지기)를 1~20개까지 한 번에 실행하고 결과를 기록/저장하세요. RLT 초고화질 코인 플립 애니메이션 지원." />
-  <meta name="keywords" content="코인 던지기, 동전 던지기, 코인 플립, coin flip, 동전 앞뒤, 랜덤 추첨" />
+  <title>주사위 굴리기 | 랜덤추첨 RLT</title>
+  <meta id="meta-description" name="description" content="주사위 굴리기를 1~12개까지 한 번에 실행하고 결과를 기록/저장하세요. RLT 3D 주사위 애니메이션 지원." />
+  <meta name="keywords" content="주사위 굴리기, dice roll, 랜덤 주사위, 온라인 주사위, 랜덤 추첨" />
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-  <link rel="canonical" href="https://randomly-pick.com/coinflip/" />
-  <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/coinflip/" />
-  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/coinflip/?lang=en" />
-  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/coinflip/" />
+  <link rel="canonical" href="https://randomly-pick.com/dice/" />
+  <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/dice/" />
+  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/dice/?lang=en" />
+  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/dice/" />
 
-  <meta id="meta-og-title" property="og:title" content="코인 던지기 | 동전 던지기 랜덤추첨 RLT" />
-  <meta id="meta-og-description" property="og:description" content="초고화질 코인 플립 애니메이션으로 1~20개까지 한 번에 코인을 던지고 결과를 저장하세요." />
+  <meta id="meta-og-title" property="og:title" content="주사위 굴리기 | 랜덤추첨 RLT" />
+  <meta id="meta-og-description" property="og:description" content="3D 주사위를 1~12개까지 한 번에 굴리고 결과를 저장하세요." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://randomly-pick.com/coinflip/" />
+  <meta property="og:url" content="https://randomly-pick.com/dice/" />
   <meta property="og:site_name" content="Randomly Pick" />
-  <meta property="og:image" content="https://randomly-pick.com/coinflip/coin-head-thumbnail.svg" />
-  <meta property="og:image:alt" content="Coin heads thumbnail image for coin flip" />
+  <meta property="og:image" content="https://randomly-pick.com/og-image.svg" />
+  <meta property="og:image:alt" content="Randomly Pick dice roll preview image" />
   <meta property="og:locale" content="ko_KR" />
   <meta property="og:locale:alternate" content="en_US" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta id="meta-twitter-title" name="twitter:title" content="코인 던지기 | 동전 던지기 랜덤추첨 RLT" />
-  <meta id="meta-twitter-description" name="twitter:description" content="초고화질 코인으로 1~20개까지 한 번에 코인 던지기" />
-  <meta name="twitter:image" content="https://randomly-pick.com/coinflip/coin-head-thumbnail.svg" />
+  <meta id="meta-twitter-title" name="twitter:title" content="주사위 굴리기 | 랜덤추첨 RLT" />
+  <meta id="meta-twitter-description" name="twitter:description" content="3D 주사위를 여러 개 동시에 굴리는 온라인 도구" />
+  <meta name="twitter:image" content="https://randomly-pick.com/og-image.svg" />
 
   <style>
     html.i18n-pending body { visibility: hidden; }
@@ -160,149 +160,36 @@
       50% { transform: translateY(-2px); }
     }
 
-    .coin-stage {
+    .dice-stage {
       box-shadow: 0 18px 60px rgba(15, 23, 42, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.6);
     }
 
-    .coin-slot {
+    .dice-slot {
       display: flex;
       align-items: center;
       justify-content: center;
-      perspective: 1100px;
+      min-height: 0;
     }
 
-    .coin-3d {
-      position: relative;
-      width: var(--coin-size, 140px);
-      height: var(--coin-size, 140px);
-      transform-style: preserve-3d;
-      border-radius: 9999px;
-      transform: translateZ(0);
-      will-change: transform;
-      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.18);
-      backface-visibility: hidden;
-      contain: layout paint style;
-    }
-
-    .coin-face {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 9999px;
-      backface-visibility: hidden;
-      user-select: none;
-      -webkit-user-drag: none;
-    }
-
-    .coin-face-tails { transform: rotateY(180deg); }
-
-    .coin-rim {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 9999px;
-      opacity: 0.28;
-      pointer-events: none;
-      transform: translateZ(1px);
-      user-select: none;
-      -webkit-user-drag: none;
-    }
-
-    .coin-side {
-      position: absolute;
-      left: 44%;
-      top: 1%;
-      width: 12%;
-      height: 98%;
-      border-radius: 9999px;
-      background: linear-gradient(90deg, #7a520d 0%, #f4d06f 45%, #7a520d 100%);
-      box-shadow: inset 0 0 8px rgba(255, 247, 201, 0.55);
-      transform: rotateY(90deg) scaleX(var(--edge-scale, 0.1));
-      transform-origin: center;
-      opacity: var(--edge-opacity, 0.12);
-      pointer-events: none;
-    }
-
-    .coin-gloss {
-      position: absolute;
-      inset: 0;
-      border-radius: 9999px;
-      background: radial-gradient(ellipse at 30% 24%, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.22) 18%, rgba(255,255,255,0.03) 42%, rgba(255,255,255,0) 62%);
-      mix-blend-mode: screen;
-      opacity: 0.55;
-      pointer-events: none;
-      transform: translateZ(3px);
-    }
-
-    .coin-3d.is-flipping {
-      animation-name: coinFlipSpin;
-      animation-duration: var(--flip-duration, 2500ms);
-      animation-delay: var(--flip-delay, 0ms);
-      animation-fill-mode: forwards;
-      animation-timing-function: cubic-bezier(0.2, 0.8, 0.25, 1);
-    }
-
-    .coin-3d.is-flipping .coin-side {
-      animation-name: coinEdgePulse;
-      animation-duration: var(--flip-duration, 2500ms);
-      animation-delay: var(--flip-delay, 0ms);
-      animation-fill-mode: forwards;
-      animation-timing-function: cubic-bezier(0.2, 0.8, 0.25, 1);
-    }
-
-    .coin-3d.is-flipping .coin-gloss {
-      animation-name: coinGlossPulse;
-      animation-duration: var(--flip-duration, 2500ms);
-      animation-delay: var(--flip-delay, 0ms);
-      animation-fill-mode: both;
-      animation-timing-function: ease-in-out;
-    }
-
-    @keyframes coinFlipSpin {
-      0% { transform: rotateY(0deg) rotateX(0deg) scale(1); }
-      15% { transform: rotateY(calc(var(--flip-y) * 0.2)) rotateX(calc(var(--flip-x) * 0.2)) scale(1.01); }
-      100% { transform: rotateY(var(--flip-y)) rotateX(var(--flip-x)) scale(1); }
-    }
-
-    @keyframes coinEdgePulse {
-      0% { opacity: 0.12; transform: rotateY(90deg) scaleX(0.10); }
-      20% { opacity: 0.55; transform: rotateY(90deg) scaleX(0.78); }
-      50% { opacity: 0.72; transform: rotateY(90deg) scaleX(1); }
-      80% { opacity: 0.45; transform: rotateY(90deg) scaleX(0.68); }
-      100% { opacity: 0.12; transform: rotateY(90deg) scaleX(0.10); }
-    }
-
-    @keyframes coinGlossPulse {
-      0% { opacity: 0.42; transform: translateZ(3px) rotateZ(0deg); }
-      35% { opacity: 0.85; transform: translateZ(3px) rotateZ(10deg); }
-      70% { opacity: 0.58; transform: translateZ(3px) rotateZ(-8deg); }
-      100% { opacity: 0.5; transform: translateZ(3px) rotateZ(0deg); }
-    }
-
-    .grid-coins {
+    .grid-dice {
       display: grid;
-      gap: 10px;
+      gap: 6px;
       width: 100%;
       height: 100%;
       align-content: start;
     }
 
-    .grid-coins.spline-mode {
+    .grid-dice.single-mode {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       justify-content: center;
-      min-height: 0;
-      padding-top: 4px;
+      padding-top: 0;
     }
 
-    .spline-coin-shell {
+    .dice-shell {
       position: relative;
-      width: var(--mv-size, min(78vw, 460px));
-      height: var(--mv-size, min(78vw, 460px));
+      width: var(--mv-size, min(92vw, 680px));
+      height: var(--mv-size, min(92vw, 680px));
       border-radius: 24px;
       overflow: visible;
       background: transparent;
@@ -311,15 +198,7 @@
       transform: translate3d(0, 0, 0);
     }
 
-    .spline-coin-shell iframe {
-      width: 100%;
-      height: 100%;
-      border: 0;
-      display: block;
-      pointer-events: none;
-    }
-
-    .spline-coin-shell model-viewer {
+    .dice-shell model-viewer {
       width: 100%;
       height: 100%;
       display: block;
@@ -330,55 +209,62 @@
       pointer-events: none;
     }
 
-    .spline-coin-shell model-viewer::part(default-progress-bar),
-    .spline-coin-shell model-viewer::part(progress-bar),
-    .spline-coin-shell model-viewer::part(update-bar),
-    .spline-coin-shell model-viewer::part(default-ar-button) {
+    .dice-shell model-viewer::part(default-progress-bar),
+    .dice-shell model-viewer::part(progress-bar),
+    .dice-shell model-viewer::part(update-bar),
+    .dice-shell model-viewer::part(default-ar-button) {
       display: none !important;
       opacity: 0 !important;
       visibility: hidden !important;
     }
 
-    .spline-count-badge {
+    .dice-badge {
       position: absolute;
       right: 10px;
       bottom: 10px;
-      background: rgba(255, 255, 255, 0.92);
-      color: #334155;
-      border: 1px solid rgba(203, 213, 225, 0.95);
+      min-width: 28px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       border-radius: 9999px;
-      padding: 4px 10px;
-      font-size: 12px;
-      font-weight: 600;
+      font-size: 13px;
+      font-weight: 700;
+      color: #0f172a;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(203, 213, 225, 0.95);
+      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.14);
       backdrop-filter: blur(8px);
     }
 
-    @keyframes splineSpin {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.02); }
-      100% { transform: scale(1); }
+    .face-chip {
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 6px 8px;
+      text-align: center;
     }
 
     @media (min-width: 640px) {
-      .grid-coins { gap: 12px; }
+      .grid-dice { gap: 8px; }
     }
 
-    html:not(:fullscreen) .coin-hero {
+    html:not(:fullscreen) .dice-hero {
       padding-top: 1.5rem;
       padding-bottom: 1rem;
     }
 
-    html:not(:fullscreen) .coin-workspace {
+    html:not(:fullscreen) .dice-workspace {
       margin-top: -0.25rem;
     }
 
-    html:not(:fullscreen) .coin-panel {
-      min-height: 390px;
+    html:not(:fullscreen) .dice-panel {
+      min-height: 410px;
     }
 
     @media (min-width: 1024px) {
-      html:not(:fullscreen) .coin-panel {
-        height: 500px !important;
+      html:not(:fullscreen) .dice-panel {
+        height: 540px !important;
       }
     }
   </style>
@@ -398,8 +284,8 @@
           <a id="nav-spin" href="/roulette/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">룰렛돌리기</a>
           <a id="nav-lotto" href="/luckydraw/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">로또추첨기</a>
           <a id="nav-history" href="/ladder/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">사다리타기</a>
-          <a id="nav-coin" href="/coinflip/" class="text-sm font-medium text-slate-900">코인던지기</a>
-          <a id="nav-dice" href="/dice/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">주사위굴리기</a>
+          <a id="nav-coin" href="/coinflip/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">코인던지기</a>
+          <a id="nav-dice" href="/dice/" class="text-sm font-medium text-slate-900">주사위굴리기</a>
         </nav>
         <div class="flex items-center gap-2">
           <div class="relative">
@@ -427,23 +313,23 @@
         <a href="/roulette/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">룰렛</a>
         <a href="/luckydraw/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">로또</a>
         <a href="/ladder/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">사다리</a>
-        <a href="/coinflip/" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-900 text-white">코인</a>
-        <a href="/dice/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">주사위</a>
+        <a href="/coinflip/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">코인</a>
+        <a href="/dice/" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-900 text-white">주사위</a>
       </nav>
     </div>
   </section>
 
   <main class="flex-grow flex flex-col">
-    <section class="coin-hero pt-10 pb-8 px-4 sm:px-6 lg:px-8 text-center max-w-3xl mx-auto">
-      <h1 id="hero-title" class="text-3xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-4">동전 던지기</h1>
-      <p id="hero-subtitle" class="text-base md:text-lg text-slate-500 font-normal">3D 동전 던지기로 여러개의 동전을 동시에 던지고 결과를 바로 확인하세요.</p>
+    <section class="dice-hero pt-10 pb-8 px-4 sm:px-6 lg:px-8 text-center max-w-3xl mx-auto">
+      <h1 id="hero-title" class="text-3xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-4">주사위 굴리기</h1>
+      <p id="hero-subtitle" class="text-base md:text-lg text-slate-500 font-normal">기본 1개부터 최대 12개까지 동시에 굴리고 결과를 저장하세요.</p>
     </section>
 
-    <section class="coin-workspace max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-8">
+    <section class="dice-workspace max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-14">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
         <div class="lg:col-span-3 space-y-4">
-          <div class="coin-panel bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col min-h-[410px] lg:h-[590px]">
+          <div class="dice-panel bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col min-h-[450px] lg:h-[640px]">
             <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/60">
               <h2 class="text-sm font-semibold tracking-tight flex items-center gap-2">
                 <iconify-icon icon="solar:settings-linear" stroke-width="1.5" class="text-slate-400"></iconify-icon>
@@ -455,7 +341,7 @@
             <div class="p-4 space-y-3">
               <div class="space-y-2">
                 <div class="flex items-center justify-between">
-                  <span id="count-label" class="text-sm font-medium text-slate-700">코인 개수</span>
+                  <span id="count-label" class="text-sm font-medium text-slate-700">주사위 개수</span>
                   <span id="count-value" class="text-xs text-slate-500">1</span>
                 </div>
 
@@ -472,24 +358,17 @@
                   <button class="count-chip w-full px-0 py-1.5 text-xs font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="10">10</button>
                   <button class="count-chip w-full px-0 py-1.5 text-xs font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="11">11</button>
                   <button class="count-chip w-full px-0 py-1.5 text-xs font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="12">12</button>
-                  <button class="count-chip w-full px-0 py-1.5 text-xs font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="13">13</button>
-                  <button class="count-chip w-full px-0 py-1.5 text-xs font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="14">14</button>
-                  <button class="count-chip w-full px-0 py-1.5 text-xs font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="15">15</button>
-                  <button class="count-chip w-full px-0 py-1.5 text-xs font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="16">16</button>
-                  <button class="count-chip w-full px-0 py-1.5 text-xs font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="17">17</button>
-                  <button class="count-chip w-full px-0 py-1.5 text-xs font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="18">18</button>
-                  <button class="count-chip w-full px-0 py-1.5 text-xs font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="19">19</button>
-                  <button class="count-chip w-full px-0 py-1.5 text-xs font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="20">20</button>
                 </div>
 
+                <input id="dice-count" type="range" min="1" max="12" value="1" class="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-slate-900">
               </div>
 
               <div class="space-y-2 pt-1">
                 <div class="flex justify-between items-center">
                   <span id="duration-label" class="text-sm font-medium text-slate-700">애니메이션 시간</span>
-                  <span id="duration-value" class="text-xs text-slate-500">4초</span>
+                  <span id="duration-value" class="text-xs text-slate-500">2.5초</span>
                 </div>
-                <input id="flip-duration" type="range" min="2" max="6" step="0.1" value="4" class="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-slate-900">
+                <input id="roll-duration" type="range" min="2" max="6" step="0.1" value="2.5" class="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-slate-900">
               </div>
 
               <label class="flex items-center justify-between cursor-pointer group pt-1">
@@ -507,43 +386,47 @@
             </div>
 
             <div class="p-4 border-t border-slate-100 bg-slate-50/60 space-y-2">
-              <p id="banner" class="text-xs text-slate-500 animate-soft-pulse">준비되면 “던지기”를 눌러주세요.</p>
+              <p id="banner" class="text-xs text-slate-500 animate-soft-pulse">준비되면 “굴리기”를 눌러주세요.</p>
 
-              <button id="flip-button" class="w-full bg-slate-900 text-white rounded-xl py-2.5 text-sm font-semibold hover:bg-slate-800 transition-colors shadow-sm disabled:opacity-60 disabled:cursor-not-allowed">
-                <span id="flip-label">던지기</span>
+              <button id="roll-button" class="w-full bg-slate-900 text-white rounded-xl py-2.5 text-sm font-semibold hover:bg-slate-800 transition-colors shadow-sm disabled:opacity-60 disabled:cursor-not-allowed">
+                <span id="roll-label">굴리기</span>
               </button>
 
-              <div class="flex items-center justify-between text-xs">
-                <span id="heads-label" class="text-emerald-700">앞면</span>
-                <span id="tails-label" class="text-orange-700">뒷면</span>
+              <div class="grid grid-cols-2 gap-2">
+                <div class="rounded-xl border border-slate-200 bg-white px-3 py-2">
+                  <p id="sum-label" class="text-[11px] text-slate-500">합계</p>
+                  <p id="sum-value" class="text-sm font-semibold text-slate-900">0</p>
+                </div>
+                <div class="rounded-xl border border-slate-200 bg-white px-3 py-2">
+                  <p id="avg-label" class="text-[11px] text-slate-500">평균</p>
+                  <p id="avg-value" class="text-sm font-semibold text-slate-900">0.00</p>
+                </div>
               </div>
-              <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                  <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                  <span id="heads-count" class="text-sm font-semibold text-emerald-700">0</span>
-                </div>
-                <div class="flex items-center gap-2">
-                  <span class="w-2 h-2 rounded-full bg-orange-500"></span>
-                  <span id="tails-count" class="text-sm font-semibold text-orange-700">0</span>
-                </div>
+
+              <div class="grid grid-cols-3 gap-1.5">
+                <div class="face-chip"><p class="text-[11px] text-slate-500">1</p><p id="face-1" class="text-xs font-semibold text-slate-700">0</p></div>
+                <div class="face-chip"><p class="text-[11px] text-slate-500">2</p><p id="face-2" class="text-xs font-semibold text-slate-700">0</p></div>
+                <div class="face-chip"><p class="text-[11px] text-slate-500">3</p><p id="face-3" class="text-xs font-semibold text-slate-700">0</p></div>
+                <div class="face-chip"><p class="text-[11px] text-slate-500">4</p><p id="face-4" class="text-xs font-semibold text-slate-700">0</p></div>
+                <div class="face-chip"><p class="text-[11px] text-slate-500">5</p><p id="face-5" class="text-xs font-semibold text-slate-700">0</p></div>
+                <div class="face-chip"><p class="text-[11px] text-slate-500">6</p><p id="face-6" class="text-xs font-semibold text-slate-700">0</p></div>
               </div>
 
             </div>
           </div>
         </div>
 
-        <div class="lg:col-span-6 flex flex-col items-center justify-start min-h-[380px] lg:h-[590px]">
+        <div class="lg:col-span-6 flex flex-col items-center justify-start min-h-[420px] lg:h-[640px]">
           <div class="relative w-full max-w-[720px]">
-            <div class="coin-panel coin-stage bg-transparent rounded-2xl border border-slate-200 overflow-visible p-4 sm:p-6 min-h-[410px] lg:h-[590px] flex flex-col">
+            <div class="dice-panel dice-stage bg-transparent rounded-2xl border border-slate-200 overflow-visible p-4 sm:p-6 min-h-[450px] lg:h-[640px] flex flex-col">
               <div id="confetti-layer" aria-hidden="true"></div>
-
-              <div id="coins-wrap" class="grid-coins flex-grow"></div>
+              <div id="dice-wrap" class="grid-dice flex-grow"></div>
             </div>
           </div>
         </div>
 
-        <div class="lg:col-span-3 min-h-[380px] lg:h-[590px]">
-          <div class="coin-panel bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col h-full">
+        <div class="lg:col-span-3 min-h-[420px] lg:h-[640px]">
+          <div class="dice-panel bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col h-full">
             <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/60">
               <h2 class="text-sm font-semibold tracking-tight flex items-center gap-2">
                 <iconify-icon icon="solar:history-linear" stroke-width="1.5" class="text-slate-400"></iconify-icon>
@@ -563,21 +446,21 @@
 
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-16">
       <div class="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-sm">
-        <h2 id="guide-title" class="text-xl md:text-2xl font-semibold tracking-tight text-slate-900">코인 던지기 가이드</h2>
-        <p id="guide-subtitle" class="mt-3 text-sm md:text-base text-slate-600">RLT 코인 플립은 브라우저에서만 동작하며 입력/결과가 외부 서버로 전송되지 않습니다.</p>
+        <h2 id="guide-title" class="text-xl md:text-2xl font-semibold tracking-tight text-slate-900">주사위 굴리기 가이드</h2>
+        <p id="guide-subtitle" class="mt-3 text-sm md:text-base text-slate-600">RLT 주사위는 브라우저에서만 동작하며 입력/결과가 외부 서버로 전송되지 않습니다.</p>
 
         <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
           <article class="rounded-xl border border-slate-200 bg-slate-50/60 p-4">
-            <h3 id="g1t" class="text-sm font-semibold text-slate-900">1. 코인 개수 선택</h3>
-            <p id="g1b" class="mt-2 text-sm text-slate-600">1~20개까지 한 번에 던지고 앞면/뒷면 개수를 즉시 확인합니다.</p>
+            <h3 id="g1t" class="text-sm font-semibold text-slate-900">1. 개수 선택</h3>
+            <p id="g1b" class="mt-2 text-sm text-slate-600">기본 1개부터 최대 12개까지 동시에 굴릴 수 있습니다.</p>
           </article>
           <article class="rounded-xl border border-slate-200 bg-slate-50/60 p-4">
-            <h3 id="g2t" class="text-sm font-semibold text-slate-900">2. 애니메이션 시간 조절</h3>
-            <p id="g2b" class="mt-2 text-sm text-slate-600">원하는 속도로 코인을 던지며, 모션 감소 설정에서는 간단 표시로 대체됩니다.</p>
+            <h3 id="g2t" class="text-sm font-semibold text-slate-900">2. 속도 조절</h3>
+            <p id="g2b" class="mt-2 text-sm text-slate-600">애니메이션 시간을 조절해 빠른 테스트부터 연출형 추첨까지 설정합니다.</p>
           </article>
           <article class="rounded-xl border border-slate-200 bg-slate-50/60 p-4">
             <h3 id="g3t" class="text-sm font-semibold text-slate-900">3. 결과 저장</h3>
-            <p id="g3b" class="mt-2 text-sm text-slate-600">시간·개수·앞/뒤 결과를 기록하고 CSV로 저장할 수 있습니다.</p>
+            <p id="g3b" class="mt-2 text-sm text-slate-600">회차별 주사위 값, 합계, 평균을 기록하고 CSV로 저장할 수 있습니다.</p>
           </article>
         </div>
       </div>
@@ -602,18 +485,13 @@
     (function () {
       const state = {
         locale: (window.__rltBootLang === 'en') ? 'en' : 'ko',
-        coinCount: 1,
-        durationSec: 4,
-        flipping: false,
+        diceCount: 1,
+        durationSec: 2.5,
+        rolling: false,
         history: [],
         reducedMotion: window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
-        assets: {
-          heads: null,
-          tails: null,
-          edge: null,
-          ready: false
-        },
-        coins: []
+        assets: { ready: false },
+        dice: []
       };
 
       const ui = {
@@ -633,20 +511,21 @@
         heroSubtitle: document.getElementById('hero-subtitle'),
         controlsTitle: document.getElementById('controls-title'),
         assetStatus: document.getElementById('asset-status'),
+        diceCount: document.getElementById('dice-count'),
         countValue: document.getElementById('count-value'),
-        flipDuration: document.getElementById('flip-duration'),
+        rollDuration: document.getElementById('roll-duration'),
         durationValue: document.getElementById('duration-value'),
         soundToggle: document.getElementById('sound-toggle'),
         motionNote: document.getElementById('motion-note'),
         motionNoteText: document.getElementById('motion-note-text'),
-        flipButton: document.getElementById('flip-button'),
-        flipLabel: document.getElementById('flip-label'),
-        headsLabel: document.getElementById('heads-label'),
-        tailsLabel: document.getElementById('tails-label'),
-        headsCount: document.getElementById('heads-count'),
-        tailsCount: document.getElementById('tails-count'),
+        rollButton: document.getElementById('roll-button'),
+        rollLabel: document.getElementById('roll-label'),
+        sumLabel: document.getElementById('sum-label'),
+        sumValue: document.getElementById('sum-value'),
+        avgLabel: document.getElementById('avg-label'),
+        avgValue: document.getElementById('avg-value'),
         banner: document.getElementById('banner'),
-        coinsWrap: document.getElementById('coins-wrap'),
+        diceWrap: document.getElementById('dice-wrap'),
         confettiLayer: document.getElementById('confetti-layer'),
         historyTitle: document.getElementById('history-title'),
         exportHistory: document.getElementById('export-history'),
@@ -661,46 +540,53 @@
         metaOgTitle: document.getElementById('meta-og-title'),
         metaOgDescription: document.getElementById('meta-og-description'),
         metaTwitterTitle: document.getElementById('meta-twitter-title'),
-        metaTwitterDescription: document.getElementById('meta-twitter-description')
+        metaTwitterDescription: document.getElementById('meta-twitter-description'),
+        faceCounts: [1, 2, 3, 4, 5, 6].map((n) => document.getElementById(`face-${n}`))
       };
 
       const i18n = {
         ko: {
-          title: '코인 던지기 | 동전 던지기 랜덤추첨 RLT',
-          metaDescription: '코인 던지기(동전 던지기)를 1~20개까지 한 번에 실행하고 결과를 기록/저장하세요. RLT 초고화질 코인 플립 애니메이션 지원.',
-          metaOgTitle: '코인 던지기 | 동전 던지기 랜덤추첨 RLT',
-          metaOgDescription: '초고화질 코인 플립 애니메이션으로 1~20개까지 한 번에 코인을 던지고 결과를 저장하세요.',
-          metaTwitterTitle: '코인 던지기 | 동전 던지기 랜덤추첨 RLT',
-          metaTwitterDescription: '초고화질 코인으로 1~20개까지 한 번에 코인 던지기',
+          title: '주사위 굴리기 | 랜덤추첨 RLT',
+          metaDescription: '주사위 굴리기를 1~12개까지 한 번에 실행하고 결과를 기록/저장하세요. RLT 3D 주사위 애니메이션 지원.',
+          metaOgTitle: '주사위 굴리기 | 랜덤추첨 RLT',
+          metaOgDescription: '3D 주사위를 1~12개까지 한 번에 굴리고 결과를 저장하세요.',
+          metaTwitterTitle: '주사위 굴리기 | 랜덤추첨 RLT',
+          metaTwitterDescription: '3D 주사위를 여러 개 동시에 굴리는 온라인 도구',
           navSpin: '룰렛돌리기',
           navLotto: '로또추첨기',
           navHistory: '사다리타기',
           navCoin: '코인던지기',
           navDice: '주사위굴리기',
-          heroTitle: '동전 던지기',
-          heroSubtitle: '3D 동전 던지기로 여러개의 동전을 동시에 던지고 결과를 바로 확인하세요.',
+          heroTitle: '주사위 굴리기',
+          heroSubtitle: '기본 1개부터 최대 12개까지 동시에 굴리고 결과를 저장하세요.',
           controlsTitle: '설정',
-          countLabel: '코인 개수',
+          countLabel: '주사위 개수',
           durationLabel: '애니메이션 시간',
           soundLabel: '효과음 재생',
+          sumLabel: '합계',
+          avgLabel: '평균',
           assetLoading: '로딩중',
           assetReady: '준비 완료',
           assetMissing: '불러오기 실패',
-          flip: '던지기',
-          flipping: '던지는 중...',
-          bannerReady: '준비되면 “던지기”를 눌러주세요.',
-          bannerAssets: '코인 자산을 불러오는 중입니다...',
-          bannerMissing: '코인 이미지 경로를 확인해 주세요.',
-          bannerDone: '완료: 앞면 {h} / 뒷면 {t}',
-          heads: '앞면',
-          tails: '뒷면',
+          roll: '굴리기',
+          rolling: '굴리는 중...',
+          bannerReady: '준비되면 “굴리기”를 눌러주세요.',
+          bannerAssets: '주사위 자산을 불러오는 중입니다...',
+          bannerMissing: 'dice.glb 경로를 확인해 주세요.',
+          bannerDone: '완료: 합계 {sum} · 결과 [{rolls}]',
           historyTitle: '기록',
           export: '엑셀 저장',
           noHistory: '아직 기록이 없습니다.',
           exportEmpty: '내보낼 기록이 없습니다.',
           motionNote: '설정된 모션 감소 환경에서는 애니메이션이 단순 표시로 대체됩니다.',
-          guideTitle: '코인 던지기 가이드',
-          guideSubtitle: 'RLT 코인 플립은 브라우저에서만 동작하며 입력/결과가 외부 서버로 전송되지 않습니다.',
+          guideTitle: '주사위 굴리기 가이드',
+          guideSubtitle: 'RLT 주사위는 브라우저에서만 동작하며 입력/결과가 외부 서버로 전송되지 않습니다.',
+          guideStep1Title: '1. 개수 선택',
+          guideStep1Body: '기본 1개부터 최대 12개까지 동시에 굴릴 수 있습니다.',
+          guideStep2Title: '2. 속도 조절',
+          guideStep2Body: '애니메이션 시간을 조절해 빠른 테스트부터 연출형 추첨까지 설정합니다.',
+          guideStep3Title: '3. 결과 저장',
+          guideStep3Body: '회차별 주사위 값, 합계, 평균을 기록하고 CSV로 저장할 수 있습니다.',
           footerTerms: '이용약관',
           footerPrivacy: '개인정보처리방침',
           footerContact: '문의하기',
@@ -711,45 +597,52 @@
           fullscreenFailed: '전체화면 전환에 실패했습니다.',
           runLabel: '회차',
           countShort: '개수',
-          headsShort: '앞',
-          tailsShort: '뒤'
+          sumShort: '합계',
+          avgShort: '평균',
+          rollsShort: '값'
         },
         en: {
-          title: 'Coin Flip | Flip a Coin Randomly RLT',
-          metaDescription: 'Flip 1-20 coins at once with premium coin animation. Save history and export results as CSV.',
-          metaOgTitle: 'Coin Flip | Flip a Coin Randomly RLT',
-          metaOgDescription: 'Flip 1-20 coins at once with premium animation and export your results.',
-          metaTwitterTitle: 'Coin Flip | Flip a Coin Randomly RLT',
-          metaTwitterDescription: 'Flip 1-20 coins at once with premium animation.',
+          title: 'Dice Roll | Roll Dice Online RLT',
+          metaDescription: 'Roll 1-12 dice at once with 3D animation. Save history and export results as CSV.',
+          metaOgTitle: 'Dice Roll | Roll Dice Online RLT',
+          metaOgDescription: 'Roll 1-12 dice at once with 3D animation and export your results.',
+          metaTwitterTitle: 'Dice Roll | Roll Dice Online RLT',
+          metaTwitterDescription: 'Roll multiple 3D dice in one click.',
           navSpin: 'Wheel of Names',
           navLotto: 'Lucky Draw',
           navHistory: 'Ladder Draw',
           navCoin: 'Coin Flip',
           navDice: 'Dice Roll',
-          heroTitle: 'Coin Flip | Heads or Tails Random Picker',
-          heroSubtitle: 'Flip 1-20 coins at once and get instant heads or tails results. Best for random decisions, classroom games, giveaways, and fast probability-style picks.',
+          heroTitle: 'Dice Roll',
+          heroSubtitle: 'Roll from 1 to 12 dice at once and save the results.',
           controlsTitle: 'Settings',
-          countLabel: 'Coin count',
+          countLabel: 'Dice count',
           durationLabel: 'Animation time',
           soundLabel: 'Sound effects',
+          sumLabel: 'Total',
+          avgLabel: 'Average',
           assetLoading: 'Loading',
           assetReady: 'Ready',
           assetMissing: 'Load failed',
-          flip: 'Flip',
-          flipping: 'Flipping...',
-          bannerReady: 'Press “Flip” when ready.',
-          bannerAssets: 'Loading coin assets...',
-          bannerMissing: 'Please check coin asset paths.',
-          bannerDone: 'Done: Heads {h} / Tails {t}',
-          heads: 'Heads',
-          tails: 'Tails',
+          roll: 'Roll',
+          rolling: 'Rolling...',
+          bannerReady: 'Press “Roll” when ready.',
+          bannerAssets: 'Loading dice assets...',
+          bannerMissing: 'Please check the dice.glb path.',
+          bannerDone: 'Done: Total {sum} · Rolls [{rolls}]',
           historyTitle: 'History',
           export: 'Export CSV',
           noHistory: 'No history yet.',
           exportEmpty: 'There is no history to export.',
           motionNote: 'With reduced-motion enabled, animation is simplified.',
-          guideTitle: 'Coin Flip Guide',
-          guideSubtitle: 'Coin flip runs locally in your browser and is not sent to external servers.',
+          guideTitle: 'Dice Roll Guide',
+          guideSubtitle: 'Dice roll runs locally in your browser and is not sent to external servers.',
+          guideStep1Title: '1. Pick count',
+          guideStep1Body: 'Roll from 1 to 12 dice at the same time.',
+          guideStep2Title: '2. Tune speed',
+          guideStep2Body: 'Adjust animation time for quick tests or dramatic reveal.',
+          guideStep3Title: '3. Save results',
+          guideStep3Body: 'Store each run with rolls, total, and average, then export as CSV.',
           footerTerms: 'Terms',
           footerPrivacy: 'Privacy',
           footerContact: 'Contact',
@@ -760,9 +653,20 @@
           fullscreenFailed: 'Failed to toggle fullscreen.',
           runLabel: 'Run',
           countShort: 'Count',
-          headsShort: 'H',
-          tailsShort: 'T'
+          sumShort: 'Total',
+          avgShort: 'Avg',
+          rollsShort: 'Rolls'
         }
+      };
+
+      const DICE_GLB_URL = '/dice.glb';
+      const FACE_ORIENTATION = {
+        1: [0, 0, 0],
+        2: [0, 90, 0],
+        3: [90, 0, 0],
+        4: [-90, 0, 0],
+        5: [0, -90, 0],
+        6: [180, 0, 0]
       };
 
       function t(key, vars) {
@@ -826,14 +730,20 @@
         document.getElementById('count-label').textContent = t('countLabel');
         document.getElementById('duration-label').textContent = t('durationLabel');
         document.getElementById('sound-label').textContent = t('soundLabel');
-        ui.flipLabel.textContent = state.flipping ? t('flipping') : t('flip');
-        ui.headsLabel.textContent = t('heads');
-        ui.tailsLabel.textContent = t('tails');
+        ui.rollLabel.textContent = state.rolling ? t('rolling') : t('roll');
+        ui.sumLabel.textContent = t('sumLabel');
+        ui.avgLabel.textContent = t('avgLabel');
         ui.historyTitle.textContent = t('historyTitle');
         ui.exportLabel.textContent = t('export');
         ui.motionNoteText.textContent = t('motionNote');
         ui.guideTitle.textContent = t('guideTitle');
         ui.guideSubtitle.textContent = t('guideSubtitle');
+        document.getElementById('g1t').textContent = t('guideStep1Title');
+        document.getElementById('g1b').textContent = t('guideStep1Body');
+        document.getElementById('g2t').textContent = t('guideStep2Title');
+        document.getElementById('g2b').textContent = t('guideStep2Body');
+        document.getElementById('g3t').textContent = t('guideStep3Title');
+        document.getElementById('g3b').textContent = t('guideStep3Body');
         ui.footerTerms.textContent = t('footerTerms');
         ui.footerPrivacy.textContent = t('footerPrivacy');
         ui.footerContact.textContent = t('footerContact');
@@ -916,16 +826,16 @@
         osc.stop(now + duration + 0.02);
       }
 
-      function flipSoundStart() {
-        beep(220, 0.08, 'triangle', 0.03, 0.00);
-        beep(260, 0.07, 'triangle', 0.028, 0.06);
-        beep(320, 0.06, 'triangle', 0.024, 0.12);
+      function rollSoundStart() {
+        beep(200, 0.08, 'triangle', 0.03, 0.00);
+        beep(250, 0.07, 'triangle', 0.028, 0.06);
+        beep(300, 0.06, 'triangle', 0.024, 0.12);
       }
 
-      function flipSoundEnd() {
-        beep(523.25, 0.20, 'triangle', 0.05, 0.00);
-        beep(659.25, 0.20, 'triangle', 0.045, 0.03);
-        beep(783.99, 0.22, 'sine', 0.04, 0.06);
+      function rollSoundEnd() {
+        beep(392.00, 0.16, 'triangle', 0.04, 0.00);
+        beep(523.25, 0.16, 'triangle', 0.038, 0.03);
+        beep(659.25, 0.18, 'sine', 0.035, 0.06);
       }
 
       function triggerPowderBurst() {
@@ -953,176 +863,32 @@
         window.setTimeout(() => { ui.confettiLayer.innerHTML = ''; }, 1200);
       }
 
-      const USE_SPLINE_COIN = true;
-      const GLB_COIN_URL = '/stylized_pirate_coin.glb';
-
-      function createProceduralCoinFaceData(label) {
-        const size = 1024;
-        const canvas = document.createElement('canvas');
-        canvas.width = size;
-        canvas.height = size;
-        const ctx = canvas.getContext('2d');
-        const cx = size / 2;
-        const cy = size / 2;
-        const r = size * 0.47;
-
-        const base = ctx.createRadialGradient(cx - r * 0.26, cy - r * 0.32, r * 0.1, cx, cy, r);
-        base.addColorStop(0, '#fff7cc');
-        base.addColorStop(0.45, '#f4cd5a');
-        base.addColorStop(0.78, '#cb9130');
-        base.addColorStop(1, '#7a4a0b');
-        ctx.fillStyle = base;
-        ctx.beginPath();
-        ctx.arc(cx, cy, r, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.lineWidth = size * 0.038;
-        ctx.strokeStyle = 'rgba(255, 246, 197, 0.75)';
-        ctx.beginPath();
-        ctx.arc(cx, cy, r * 0.84, 0, Math.PI * 2);
-        ctx.stroke();
-
-        ctx.lineWidth = size * 0.012;
-        ctx.strokeStyle = 'rgba(115, 69, 10, 0.45)';
-        ctx.beginPath();
-        ctx.arc(cx, cy, r * 0.92, 0, Math.PI * 2);
-        ctx.stroke();
-
-        ctx.font = `700 ${Math.floor(size * 0.34)}px Georgia, serif`;
-        ctx.fillStyle = '#6f3f00';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(label, cx, cy + size * 0.02);
-
-        return canvas.toDataURL('image/png');
-      }
-
-      function createProceduralCoinEdgeData() {
-        const w = 1024;
-        const h = 128;
-        const canvas = document.createElement('canvas');
-        canvas.width = w;
-        canvas.height = h;
-        const ctx = canvas.getContext('2d');
-        const g = ctx.createLinearGradient(0, 0, 0, h);
-        g.addColorStop(0, '#f0cf6a');
-        g.addColorStop(0.5, '#916325');
-        g.addColorStop(1, '#f0cf6a');
-        ctx.fillStyle = g;
-        ctx.fillRect(0, 0, w, h);
-        ctx.strokeStyle = 'rgba(255,255,255,0.35)';
-        ctx.lineWidth = 2;
-        for (let x = 4; x < w; x += 14) {
-          ctx.beginPath();
-          ctx.moveTo(x, 6);
-          ctx.lineTo(x, h - 6);
-          ctx.stroke();
-        }
-        return canvas.toDataURL('image/png');
-      }
-
-      const PROCEDURAL_HEADS = createProceduralCoinFaceData('H');
-      const PROCEDURAL_TAILS = createProceduralCoinFaceData('T');
-      const PROCEDURAL_EDGE = createProceduralCoinEdgeData();
-
-      const ASSET_CANDIDATES = {
-        heads: [
-          '/앞면.jpg',
-          '/AZyue_NIpiMe9py-4rTGbA-AZyue_NIesZU6ReOkTUpJg.jpg',
-          '/옆면일부.jpg',
-          '/RLT_Coin_HEADS_8K.png',
-          '/assets/img/coin/RLT_Coin_HEADS_8K.png',
-          PROCEDURAL_HEADS
-        ],
-        tails: [
-          '/뒷면.jpg',
-          '/RLT_Coin_TAILS_8K.png',
-          '/assets/img/coin/RLT_Coin_TAILS_8K.png',
-          PROCEDURAL_TAILS
-        ],
-        edge: [
-          '/옆면일부.jpg',
-          '/RLT_Coin_EDGE_8K.png',
-          '/assets/img/coin/RLT_Coin_EDGE_8K.png',
-          PROCEDURAL_EDGE
-        ]
-      };
-
-      function isUsableEdgeTexture(img) {
-        if (!img) return false;
-        return img.width >= (img.height * 1.8);
-      }
-
-      function loadImage(src) {
-        return new Promise((resolve, reject) => {
-          const img = new Image();
-          img.decoding = 'async';
-          img.onload = () => resolve(img);
-          img.onerror = () => reject(new Error('Failed to load: ' + src));
-          img.src = src;
-        });
-      }
-
-      async function loadFirst(paths) {
-        let lastErr = null;
-        for (let i = 0; i < paths.length; i++) {
-          try {
-            return await loadImage(paths[i]);
-          } catch (e) {
-            lastErr = e;
-          }
-        }
-        throw lastErr || new Error('Asset load failed');
-      }
-
-      async function loadOptional(paths) {
-        try {
-          return await loadFirst(paths);
-        } catch (e) {
-          return null;
-        }
-      }
-
       async function loadAssets() {
         ui.assetStatus.textContent = t('assetLoading');
-        ui.banner.textContent = t('bannerAssets');
-
-        if (USE_SPLINE_COIN) {
-          state.assets.ready = true;
-          ui.assetStatus.textContent = t('assetReady');
-          ui.banner.textContent = t('bannerReady');
-          ui.flipButton.disabled = false;
-          return;
-        }
+        setBanner(t('bannerAssets'), 'text-slate-500');
 
         try {
-          const [heads, tails, edge] = await Promise.all([
-            loadFirst(ASSET_CANDIDATES.heads),
-            loadFirst(ASSET_CANDIDATES.tails),
-            loadOptional(ASSET_CANDIDATES.edge)
-          ]);
-          state.assets.heads = heads;
-          state.assets.tails = tails;
-          state.assets.edge = isUsableEdgeTexture(edge) ? edge : null;
+          const res = await fetch(DICE_GLB_URL, { method: 'GET', cache: 'no-store' });
+          if (!res.ok) throw new Error('dice asset missing');
           state.assets.ready = true;
           ui.assetStatus.textContent = t('assetReady');
-          ui.banner.textContent = t('bannerReady');
-          ui.flipButton.disabled = false;
+          setBanner(t('bannerReady'), 'text-slate-500');
+          ui.rollButton.disabled = false;
         } catch (e) {
           state.assets.ready = false;
           ui.assetStatus.textContent = t('assetMissing');
-          ui.banner.textContent = t('bannerMissing');
-          ui.flipButton.disabled = true;
+          setBanner(t('bannerMissing'), 'text-red-500');
+          ui.rollButton.disabled = true;
         }
       }
 
-      function secureRandomBit() {
+      function secureRandomInt6() {
         try {
           const buf = new Uint32Array(1);
           window.crypto.getRandomValues(buf);
-          return (buf[0] & 1) === 1;
+          return (buf[0] % 6) + 1;
         } catch (e) {
-          return Math.random() >= 0.5;
+          return 1 + Math.floor(Math.random() * 6);
         }
       }
 
@@ -1131,94 +897,97 @@
         if (count <= 1) cols = 1;
         else if (count <= 4) cols = 2;
         else if (count <= 9) cols = 3;
-        else if (count <= 16) cols = 4;
-        else if (count <= 25) cols = 5;
-        else if (count <= 36) cols = 6;
-        else cols = 7;
+        else cols = 4;
         return { cols, rows: Math.ceil(count / cols) };
       }
 
-      function coinCssSize(count) {
-        if (count <= 1) return 340;
-        if (count <= 4) return 210;
-        if (count <= 9) return 150;
-        if (count <= 16) return 118;
-        return 96;
+      function diceCssSize(count) {
+        if (count <= 1) return 600;
+        if (count <= 4) return 320;
+        if (count <= 9) return 220;
+        return 172;
       }
 
-      function setCoinFace(coin, side) {
-        coin.result = side === 'tails' ? 'tails' : 'heads';
-        coin.el.setAttribute('data-side', coin.result);
-        if (coin.model) {
-          const y = coin.result === 'tails' ? 180 : 0;
-          coin.model.setAttribute('orientation', `0deg ${y}deg 0deg`);
-        }
+      function setModelOrientation(die, x, y, z) {
+        die.angles = { x, y, z };
+        die.model.setAttribute('orientation', `${x.toFixed(1)}deg ${y.toFixed(1)}deg ${z.toFixed(1)}deg`);
       }
 
-      function createCoinElement(sizePx) {
+      function setDieValue(die, value) {
+        const safe = Math.max(1, Math.min(6, Number(value) || 1));
+        die.value = safe;
+        die.badge.textContent = String(safe);
+      }
+
+      function createDieElement(sizePx) {
         const slot = document.createElement('div');
-        slot.className = 'coin-slot';
+        slot.className = 'dice-slot';
 
-        const coin = document.createElement('div');
-        coin.className = 'spline-coin-shell';
+        const shell = document.createElement('div');
+        shell.className = 'dice-shell';
         if (Number.isFinite(sizePx) && sizePx > 0) {
-          coin.style.setProperty('--mv-size', `${sizePx}px`);
+          shell.style.setProperty('--mv-size', `${sizePx}px`);
         }
-        coin.setAttribute('role', 'img');
-        coin.setAttribute('aria-label', 'coin');
+        shell.setAttribute('role', 'img');
+        shell.setAttribute('aria-label', 'dice');
 
         const model = document.createElement('model-viewer');
-        model.setAttribute('src', GLB_COIN_URL);
+        model.setAttribute('src', DICE_GLB_URL);
         model.setAttribute('camera-controls', '');
         model.setAttribute('disable-zoom', '');
         model.setAttribute('interaction-prompt', 'none');
-        model.setAttribute('exposure', '1.12');
+        model.setAttribute('exposure', '1.08');
         model.setAttribute('shadow-intensity', '1');
-        model.setAttribute('shadow-softness', '0.9');
+        model.setAttribute('shadow-softness', '0.8');
         model.setAttribute('environment-image', 'neutral');
         model.setAttribute('tone-mapping', 'aces');
         model.setAttribute('loading', 'eager');
         if (Number.isFinite(sizePx) && sizePx >= 180) {
-          model.setAttribute('camera-orbit', '0deg 75deg 186%');
-          model.setAttribute('camera-target', '0m -0.36m 0m');
+          model.setAttribute('camera-orbit', '20deg 70deg 94%');
+          model.setAttribute('field-of-view', '32deg');
+          model.setAttribute('camera-target', '0m 0m 0m');
         } else {
-          model.setAttribute('camera-orbit', '0deg 75deg 156%');
-          model.setAttribute('camera-target', '0m -0.24m 0m');
+          model.setAttribute('camera-orbit', '20deg 70deg 100%');
+          model.setAttribute('field-of-view', '34deg');
+          model.setAttribute('camera-target', '0m 0m 0m');
         }
         model.setAttribute('orientation', '0deg 0deg 0deg');
-        coin.appendChild(model);
 
-        slot.appendChild(coin);
+        const badge = document.createElement('span');
+        badge.className = 'dice-badge';
+        badge.textContent = '?';
 
-        return { slot, el: coin, model, result: 'heads' };
+        shell.appendChild(model);
+        shell.appendChild(badge);
+        slot.appendChild(shell);
+
+        return { slot, shell, model, badge, value: 1, angles: { x: 0, y: 0, z: 0 } };
       }
 
-      function renderCoins() {
-        ui.coinsWrap.innerHTML = '';
-        ui.coinsWrap.classList.remove('spline-mode');
-        state.coins = [];
-        const { cols } = computeGrid(state.coinCount);
-        const size = coinCssSize(state.coinCount);
-        ui.coinsWrap.style.paddingBottom = '';
+      function renderDice() {
+        ui.diceWrap.innerHTML = '';
+        ui.diceWrap.classList.remove('single-mode');
+        state.dice = [];
+        const { cols } = computeGrid(state.diceCount);
+        const size = diceCssSize(state.diceCount);
 
-        if (state.coinCount <= 1) {
-          ui.coinsWrap.classList.add('spline-mode');
-          ui.coinsWrap.style.gridTemplateColumns = '';
-          ui.coinsWrap.style.gap = '';
-          const coin = createCoinElement(size);
-          state.coins.push(coin);
-          ui.coinsWrap.appendChild(coin.slot);
-          setCoinFace(coin, 'heads');
+        if (state.diceCount <= 1) {
+          ui.diceWrap.classList.add('single-mode');
+          ui.diceWrap.style.gridTemplateColumns = '';
+          ui.diceWrap.style.gap = '0';
+          const die = createDieElement(size);
+          state.dice.push(die);
+          ui.diceWrap.appendChild(die.slot);
           return;
         }
 
-        ui.coinsWrap.style.gridTemplateColumns = `repeat(${cols}, minmax(0, 1fr))`;
-        ui.coinsWrap.style.gap = '';
-        for (let i = 0; i < state.coinCount; i++) {
-          const coin = createCoinElement(size);
-          state.coins.push(coin);
-          ui.coinsWrap.appendChild(coin.slot);
-          setCoinFace(coin, 'heads');
+        ui.diceWrap.style.gridTemplateColumns = `repeat(${cols}, minmax(0, 1fr))`;
+        ui.diceWrap.style.gap = state.diceCount >= 10 ? '4px' : '6px';
+
+        for (let i = 0; i < state.diceCount; i++) {
+          const die = createDieElement(size);
+          state.dice.push(die);
+          ui.diceWrap.appendChild(die.slot);
         }
       }
 
@@ -1229,40 +998,39 @@
       }
 
       function updateCountUI() {
-        ui.countValue.textContent = state.locale === 'ko'
-          ? `${state.coinCount}개`
-          : String(state.coinCount);
-        document.querySelectorAll('.count-chip').forEach((btn) => {
-          const n = Number(btn.getAttribute('data-count')) || 0;
-          const active = n === state.coinCount;
-          btn.classList.remove(
-            'bg-slate-50/70',
-            'text-slate-500',
-            'hover:bg-slate-100',
-            'bg-slate-200',
-            'text-slate-900',
-            'border-slate-300',
-            'shadow-inner'
-          );
-          if (active) {
-            btn.classList.add('bg-slate-200', 'text-slate-900', 'border-slate-300', 'shadow-inner');
-            btn.setAttribute('aria-pressed', 'true');
-          } else {
-            btn.classList.add('bg-slate-50/70', 'text-slate-500', 'hover:bg-slate-100');
-            btn.setAttribute('aria-pressed', 'false');
-          }
-        });
+        ui.countValue.textContent = String(state.diceCount);
+        ui.diceCount.value = String(state.diceCount);
       }
 
       function updateDurationUI() {
         ui.durationValue.textContent = formatSeconds(state.durationSec);
-        ui.flipDuration.value = String(state.durationSec);
+        ui.rollDuration.value = String(state.durationSec);
       }
 
       function setBanner(text, colorClass) {
         ui.banner.textContent = text;
         ui.banner.classList.remove('text-slate-500', 'text-green-600', 'text-red-500');
         ui.banner.classList.add(colorClass || 'text-slate-500');
+      }
+
+      function updateFaceStats(results) {
+        const counts = [0, 0, 0, 0, 0, 0];
+        for (let i = 0; i < results.length; i++) counts[results[i] - 1] += 1;
+        ui.faceCounts.forEach((el, idx) => { el.textContent = String(counts[idx]); });
+      }
+
+      function updateTotalStats(results) {
+        if (!results.length) {
+          ui.sumValue.textContent = '0';
+          ui.avgValue.textContent = '0.00';
+          updateFaceStats([]);
+          return;
+        }
+        const sum = results.reduce((acc, n) => acc + n, 0);
+        const avg = sum / results.length;
+        ui.sumValue.textContent = String(sum);
+        ui.avgValue.textContent = avg.toFixed(2);
+        updateFaceStats(results);
       }
 
       function renderHistory() {
@@ -1276,25 +1044,25 @@
           return;
         }
 
-        ui.historyList.innerHTML = state.history.map((item, idx) => `
-          <div class="flex items-center justify-between px-2.5 py-1.5 rounded-xl hover:bg-slate-50 transition-colors group">
-            <div class="flex items-center gap-3 min-w-0">
-              <span class="flex items-center justify-center w-6 h-6 rounded-full bg-slate-100 text-xs font-medium text-slate-500">${idx + 1}</span>
-              <div class="min-w-0 flex items-center gap-1.5 text-[11px]">
-                <span class="inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-1.5 py-0.5 text-emerald-700">
-                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>${t('heads')} ${item.heads}
-                </span>
-                <span class="inline-flex items-center gap-1 rounded-full border border-orange-200 bg-orange-50 px-1.5 py-0.5 text-orange-700">
-                  <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>${t('tails')} ${item.tails}
-                </span>
-                <span class="text-slate-400 ml-0.5">${item.time}</span>
+        ui.historyList.innerHTML = state.history.map((item, idx) => {
+          const label = `${t('countShort')} ${item.count} · ${t('sumShort')} ${item.sum} · ${t('avgShort')} ${item.avg.toFixed(2)}`;
+          const detail = `${t('rollsShort')}: [${item.rolls.join(', ')}]`;
+          return `
+            <div class="flex items-start justify-between p-3 rounded-xl hover:bg-slate-50 transition-colors group gap-3">
+              <div class="flex items-start gap-3 min-w-0">
+                <span class="mt-0.5 flex items-center justify-center w-6 h-6 rounded-full bg-slate-100 text-xs font-medium text-slate-500">${idx + 1}</span>
+                <div class="min-w-0">
+                  <p class="text-sm font-medium text-slate-900 truncate">${label}</p>
+                  <p class="text-[11px] text-slate-500 truncate">${detail}</p>
+                  <p class="text-[11px] text-slate-400">${item.time}</p>
+                </div>
               </div>
+              <button data-history-id="${item.id}" class="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-red-500 transition-all" aria-label="remove">
+                <iconify-icon icon="solar:close-circle-linear" stroke-width="1.5"></iconify-icon>
+              </button>
             </div>
-            <button data-history-id="${item.id}" class="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-red-500 transition-all" aria-label="remove">
-              <iconify-icon icon="solar:close-circle-linear" stroke-width="1.5"></iconify-icon>
-            </button>
-          </div>
-        `).join('');
+          `;
+        }).join('');
       }
 
       function exportCsv() {
@@ -1303,10 +1071,17 @@
           return;
         }
         const header = state.locale === 'ko'
-          ? ['순번', '시간', '코인개수', '앞면', '뒷면']
-          : ['No.', 'Time', 'Count', 'Heads', 'Tails'];
+          ? ['순번', '시간', '주사위개수', '합계', '평균', '결과']
+          : ['No.', 'Time', 'Count', 'Total', 'Average', 'Rolls'];
 
-        const rows = state.history.map((item, idx) => [String(idx + 1), item.time, String(item.count), String(item.heads), String(item.tails)]);
+        const rows = state.history.map((item, idx) => [
+          String(idx + 1),
+          item.time,
+          String(item.count),
+          String(item.sum),
+          item.avg.toFixed(2),
+          item.rolls.join(' ')
+        ]);
         const csv = [header, ...rows].map((line) => line.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(',')).join('\n');
 
         const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
@@ -1314,7 +1089,7 @@
         const a = document.createElement('a');
         const stamp = new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-');
         a.href = url;
-        a.download = `rlt-coinflip-${stamp}.csv`;
+        a.download = `rlt-diceroll-${stamp}.csv`;
         document.body.appendChild(a);
         a.click();
         a.remove();
@@ -1323,104 +1098,111 @@
 
       function toLocalizedTimeString(date) {
         return date.toLocaleTimeString(state.locale === 'ko' ? 'ko-KR' : 'en-US', {
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-          hour12: false,
-          hourCycle: 'h23'
+          hour: '2-digit', minute: '2-digit', second: '2-digit'
         });
       }
 
-      function pushHistory(heads, tails) {
+      function pushHistory(rolls) {
         const now = new Date();
+        const sum = rolls.reduce((acc, n) => acc + n, 0);
+        const avg = sum / rolls.length;
         state.history.push({
           id: `${now.getTime()}-${Math.random().toString(36).slice(2, 8)}`,
           time: toLocalizedTimeString(now),
-          count: state.coinCount,
-          heads,
-          tails
+          count: state.diceCount,
+          rolls: rolls.slice(),
+          sum,
+          avg
         });
         renderHistory();
       }
 
-      async function doFlip() {
-        if (state.flipping) return;
+      function faceTarget(value) {
+        const base = FACE_ORIENTATION[value] || FACE_ORIENTATION[1];
+        return [base[0], base[1], base[2]];
+      }
+
+      async function doRoll() {
+        if (state.rolling) return;
         if (!state.assets.ready) {
           setBanner(t('bannerMissing'), 'text-red-500');
           return;
         }
 
-        state.flipping = true;
-        ui.flipButton.disabled = true;
-        ui.flipLabel.textContent = t('flipping');
-        setBanner(t('flipping'), 'text-slate-500');
+        state.rolling = true;
+        ui.rollButton.disabled = true;
+        ui.rollLabel.textContent = t('rolling');
+        setBanner(t('rolling'), 'text-slate-500');
 
-        const results = new Array(state.coinCount).fill(false).map(() => secureRandomBit());
-        let heads = 0;
-        let tails = 0;
-        results.forEach((isTails) => { if (isTails) tails++; else heads++; });
-
-        ui.headsCount.textContent = String(heads);
-        ui.tailsCount.textContent = String(tails);
-        flipSoundStart();
+        const results = new Array(state.diceCount).fill(0).map(() => secureRandomInt6());
+        updateTotalStats(results);
+        rollSoundStart();
 
         if (state.reducedMotion) {
-          state.coins.forEach((coin, idx) => setCoinFace(coin, results[idx] ? 'tails' : 'heads'));
-          flipSoundEnd();
+          state.dice.forEach((die, idx) => {
+            const value = results[idx];
+            const target = faceTarget(value);
+            setModelOrientation(die, target[0], target[1], target[2]);
+            setDieValue(die, value);
+          });
+          rollSoundEnd();
           triggerPowderBurst();
-          setBanner(t('bannerReady'), 'text-slate-500');
-          pushHistory(heads, tails);
-          state.flipping = false;
-          ui.flipButton.disabled = false;
-          ui.flipLabel.textContent = t('flip');
+          setBanner(t('bannerDone', { sum: results.reduce((a, b) => a + b, 0), rolls: results.join(', ') }), 'text-green-600');
+          pushHistory(results);
+          state.rolling = false;
+          ui.rollButton.disabled = false;
+          ui.rollLabel.textContent = t('roll');
           return;
         }
 
         const durationMs = Math.floor(state.durationSec * 1000);
-        const maxStagger = Math.min(220, Math.max(0, 12 * state.coinCount));
-        const staggers = state.coins.map(() => Math.floor(Math.random() * maxStagger));
+        const maxStagger = Math.min(220, Math.max(0, 12 * state.diceCount));
+        const staggers = state.dice.map(() => Math.floor(Math.random() * maxStagger));
 
-        state.coins.forEach((coin, idx) => {
-          const resultSide = results[idx] ? 'tails' : 'heads';
-          const spinTurns = 4 + Math.floor(Math.random() * 5);
-          const endY = spinTurns * 360 + (resultSide === 'tails' ? 180 : 0);
-          const endX = (2 + Math.floor(Math.random() * 3)) * 360;
-          coin.result = resultSide;
+        state.dice.forEach((die, idx) => {
+          const value = results[idx];
+          const target = faceTarget(value);
+          const current = die.angles || { x: 0, y: 0, z: 0 };
+          const spinsX = (2 + Math.floor(Math.random() * 2)) * 360;
+          const spinsY = (4 + Math.floor(Math.random() * 2)) * 360;
+          const xTotal = current.x + spinsX + target[0];
+          const yTotal = current.y + spinsY + target[1];
+          const zTotal = current.z + target[2];
+          const startAt = performance.now() + staggers[idx];
 
-          if (coin.model) {
-            const startAt = performance.now() + staggers[idx];
-            const xTotal = endX;
-            const yTotal = endY;
-            const tick = (now) => {
-              if (now < startAt) {
-                requestAnimationFrame(tick);
-                return;
-              }
-              const p = Math.max(0, Math.min(1, (now - startAt) / durationMs));
-              const eased = 1 - Math.pow(1 - p, 3);
-              const x = xTotal * eased;
-              const y = yTotal * eased;
-              coin.model.setAttribute('orientation', `${x.toFixed(1)}deg ${y.toFixed(1)}deg 0deg`);
-              if (p < 1) requestAnimationFrame(tick);
-            };
-            requestAnimationFrame(tick);
-          }
+          const tick = (now) => {
+            if (now < startAt) {
+              requestAnimationFrame(tick);
+              return;
+            }
+            const p = Math.max(0, Math.min(1, (now - startAt) / durationMs));
+            const eased = 1 - Math.pow(1 - p, 3);
+            const x = current.x + (xTotal - current.x) * eased;
+            const y = current.y + (yTotal - current.y) * eased;
+            const z = current.z + (zTotal - current.z) * eased;
+            setModelOrientation(die, x, y, z);
+            if (p < 1) {
+              requestAnimationFrame(tick);
+            } else {
+              setModelOrientation(die, target[0], target[1], target[2]);
+              setDieValue(die, value);
+            }
+          };
+          requestAnimationFrame(tick);
         });
 
         await new Promise((resolve) => {
           window.setTimeout(resolve, durationMs + maxStagger + 80);
         });
 
-        state.coins.forEach((coin) => setCoinFace(coin, coin.result));
-
-        flipSoundEnd();
+        rollSoundEnd();
         triggerPowderBurst();
-        setBanner(t('bannerReady'), 'text-slate-500');
-        pushHistory(heads, tails);
+        setBanner(t('bannerDone', { sum: results.reduce((a, b) => a + b, 0), rolls: results.join(', ') }), 'text-green-600');
+        pushHistory(results);
 
-        state.flipping = false;
-        ui.flipButton.disabled = false;
-        ui.flipLabel.textContent = t('flip');
+        state.rolling = false;
+        ui.rollButton.disabled = false;
+        ui.rollLabel.textContent = t('roll');
       }
 
       function wireEvents() {
@@ -1431,19 +1213,27 @@
 
         document.querySelectorAll('.count-chip').forEach((btn) => {
           btn.addEventListener('click', () => {
-            const n = Math.max(1, Math.min(20, Number(btn.getAttribute('data-count')) || 1));
-            state.coinCount = n;
+            const n = Math.max(1, Math.min(12, Number(btn.getAttribute('data-count')) || 1));
+            state.diceCount = n;
             updateCountUI();
-            renderCoins();
+            renderDice();
+            updateTotalStats([]);
           });
         });
 
-        ui.flipDuration.addEventListener('input', () => {
-          state.durationSec = Math.max(2, Math.min(6, Number(ui.flipDuration.value) || 4));
+        ui.diceCount.addEventListener('input', () => {
+          state.diceCount = Math.max(1, Math.min(12, Number(ui.diceCount.value) || 1));
+          updateCountUI();
+          renderDice();
+          updateTotalStats([]);
+        });
+
+        ui.rollDuration.addEventListener('input', () => {
+          state.durationSec = Math.max(2, Math.min(6, Number(ui.rollDuration.value) || 2.5));
           updateDurationUI();
         });
 
-        ui.flipButton.addEventListener('click', doFlip);
+        ui.rollButton.addEventListener('click', doRoll);
         ui.exportHistory.addEventListener('click', exportCsv);
 
         ui.historyList.addEventListener('click', (event) => {
@@ -1456,9 +1246,9 @@
       }
 
       function init() {
-        state.coinCount = 1;
-        state.durationSec = 4;
-        ui.flipButton.disabled = true;
+        state.diceCount = 1;
+        state.durationSec = 2.5;
+        ui.rollButton.disabled = true;
 
         if (state.reducedMotion) ui.motionNote.classList.remove('hidden');
 
@@ -1466,12 +1256,13 @@
         updateDurationUI();
         applyI18n();
         renderHistory();
-        renderCoins();
+        renderDice();
+        updateTotalStats([]);
         setBanner(t('bannerAssets'), 'text-slate-500');
 
         wireEvents();
         showFullscreenHint();
-        loadAssets().then(() => renderCoins());
+        loadAssets();
       }
 
       init();
