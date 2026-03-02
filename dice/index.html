@@ -109,7 +109,6 @@
       --line: #e2e8f0;
       --winner: #16a34a;
       --bad: #ef4444;
-      --single-die-max: clamp(280px, 62vmin, 520px);
     }
 
     body {
@@ -162,9 +161,7 @@
     }
 
     .dice-stage {
-      box-shadow: none;
-      border: 0 !important;
-      background: transparent !important;
+      box-shadow: 0 18px 60px rgba(15, 23, 42, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.6);
     }
 
     .dice-slot {
@@ -172,7 +169,6 @@
       align-items: center;
       justify-content: center;
       min-height: 0;
-      overflow: visible;
     }
 
     .grid-dice {
@@ -180,28 +176,14 @@
       gap: 6px;
       width: 100%;
       height: 100%;
-      align-content: center;
-      justify-content: center;
-      overflow: visible;
+      align-content: start;
     }
 
     .grid-dice.single-mode {
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 6px;
-    }
-
-    .grid-dice.single-mode .dice-slot {
-      width: 100%;
-      height: 100%;
-    }
-
-    .grid-dice.single-mode .dice-shell {
-      width: min(var(--mv-size, var(--single-die-max)), var(--single-die-max));
-      height: min(var(--mv-size, var(--single-die-max)), var(--single-die-max));
-      margin: 0 auto;
-      transform: translate3d(0, 1rem, 0);
+      padding-top: 0;
     }
 
     .dice-shell {
@@ -920,49 +902,10 @@
       }
 
       function diceCssSize(count) {
-        if (count <= 1) return 220;
-        if (count <= 4) return 140;
-        if (count <= 9) return 100;
-        return 84;
-      }
-
-      function fitDiceInSlots() {
-        if (!state.dice.length) return;
-        const minSize = 56;
-        const safeRatio = state.diceCount <= 1 ? 0.78 : 0.9;
-
-        for (let pass = 0; pass < 10; pass += 1) {
-          let adjusted = false;
-
-          state.dice.forEach((die) => {
-            const slotRect = die.slot.getBoundingClientRect();
-            const shellRect = die.shell.getBoundingClientRect();
-            if (slotRect.width < 2 || slotRect.height < 2 || shellRect.width < 2 || shellRect.height < 2) return;
-
-            const safeW = slotRect.width * safeRatio;
-            const safeH = slotRect.height * safeRatio;
-            const scale = Math.min(1, safeW / shellRect.width, safeH / shellRect.height);
-            if (scale >= 0.995) return;
-
-            const currentSize = parseFloat(die.shell.style.getPropertyValue('--mv-size')) || shellRect.width;
-            const nextSize = Math.max(minSize, Math.floor(currentSize * scale * 0.98));
-            if (nextSize < currentSize) {
-              die.shell.style.setProperty('--mv-size', `${nextSize}px`);
-              adjusted = true;
-            }
-          });
-
-          if (!adjusted) break;
-        }
-      }
-
-      let fitRaf = 0;
-      function scheduleFitDice() {
-        if (fitRaf) cancelAnimationFrame(fitRaf);
-        fitRaf = requestAnimationFrame(() => {
-          fitRaf = 0;
-          fitDiceInSlots();
-        });
+        if (count <= 1) return 600;
+        if (count <= 4) return 320;
+        if (count <= 9) return 220;
+        return 172;
       }
 
       function setModelOrientation(die, x, y, z) {
@@ -1000,13 +943,13 @@
         model.setAttribute('tone-mapping', 'aces');
         model.setAttribute('loading', 'eager');
         if (Number.isFinite(sizePx) && sizePx >= 180) {
-          model.setAttribute('camera-orbit', '20deg 52deg 16m');
-          model.setAttribute('field-of-view', '54deg');
-          model.setAttribute('camera-target', 'auto auto auto');
+          model.setAttribute('camera-orbit', '20deg 70deg 94%');
+          model.setAttribute('field-of-view', '32deg');
+          model.setAttribute('camera-target', '0m 0m 0m');
         } else {
-          model.setAttribute('camera-orbit', '20deg 56deg 17m');
-          model.setAttribute('field-of-view', '56deg');
-          model.setAttribute('camera-target', 'auto auto auto');
+          model.setAttribute('camera-orbit', '20deg 70deg 100%');
+          model.setAttribute('field-of-view', '34deg');
+          model.setAttribute('camera-target', '0m 0m 0m');
         }
         model.setAttribute('orientation', '0deg 0deg 0deg');
 
@@ -1035,8 +978,6 @@
           const die = createDieElement(size);
           state.dice.push(die);
           ui.diceWrap.appendChild(die.slot);
-          scheduleFitDice();
-          requestAnimationFrame(scheduleFitDice);
           return;
         }
 
@@ -1048,8 +989,6 @@
           state.dice.push(die);
           ui.diceWrap.appendChild(die.slot);
         }
-        scheduleFitDice();
-        requestAnimationFrame(scheduleFitDice);
       }
 
       function formatSeconds(sec) {
@@ -1217,24 +1156,18 @@
         }
 
         const durationMs = Math.floor(state.durationSec * 1000);
-        const maxStagger = 0;
-        const staggers = state.dice.map(() => 0);
+        const maxStagger = Math.min(220, Math.max(0, 12 * state.diceCount));
+        const staggers = state.dice.map(() => Math.floor(Math.random() * maxStagger));
 
         state.dice.forEach((die, idx) => {
           const value = results[idx];
           const target = faceTarget(value);
           const current = die.angles || { x: 0, y: 0, z: 0 };
-          const normalizeDeg = (deg) => ((deg % 360) + 360) % 360;
-          const shortestAlign = (fromDeg, toDeg) => (((toDeg - fromDeg + 540) % 360) - 180);
-          const spinX = 6 * 360;
-          const spinY = 6 * 360;
-          const spinZ = 6 * 360;
-          const xAlign = shortestAlign(normalizeDeg(current.x), target[0]);
-          const yAlign = shortestAlign(normalizeDeg(current.y), target[1]);
-          const zAlign = shortestAlign(normalizeDeg(current.z), target[2]);
-          const xTotal = current.x + spinX + xAlign;
-          const yTotal = current.y + spinY + yAlign;
-          const zTotal = current.z + spinZ + zAlign;
+          const spinsX = (2 + Math.floor(Math.random() * 2)) * 360;
+          const spinsY = (4 + Math.floor(Math.random() * 2)) * 360;
+          const xTotal = current.x + spinsX + target[0];
+          const yTotal = current.y + spinsY + target[1];
+          const zTotal = current.z + target[2];
           const startAt = performance.now() + staggers[idx];
 
           const tick = (now) => {
@@ -1277,8 +1210,6 @@
         ui.langEn.addEventListener('click', () => setLocale('en'));
         ui.fullscreenToggle.addEventListener('click', toggleFullscreen);
         document.addEventListener('fullscreenchange', updateFullscreenButton);
-        window.addEventListener('resize', scheduleFitDice);
-        document.addEventListener('fullscreenchange', scheduleFitDice);
 
         document.querySelectorAll('.count-chip').forEach((btn) => {
           btn.addEventListener('click', () => {
