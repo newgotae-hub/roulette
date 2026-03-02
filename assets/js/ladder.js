@@ -806,28 +806,29 @@
 
     await new Promise((resolve) => {
       let done = false;
+      const startedAt = performance.now();
       const finish = () => {
         if (done) return;
         done = true;
         path.removeEventListener("transitionend", onEnd);
+        clearTimeout(hardFallbackTimer);
         resolve();
       };
       const onEnd = (event) => {
         finish();
       };
       path.addEventListener("transitionend", onEnd, { once: true });
-      // Resolve immediately once the line visually reaches the end, even if transition events are flaky.
-      const deadline = performance.now() + duration + 120;
-      const checkArrival = () => {
+      const tick = (now) => {
         if (done) return;
-        const currentOffset = Number.parseFloat(getComputedStyle(path).strokeDashoffset);
-        if ((Number.isFinite(currentOffset) && currentOffset <= 0.5) || performance.now() >= deadline) {
+        if (now - startedAt >= duration) {
           finish();
           return;
         }
-        requestAnimationFrame(checkArrival);
+        requestAnimationFrame(tick);
       };
-      requestAnimationFrame(checkArrival);
+      requestAnimationFrame(tick);
+      // Hard fallback in case browser throttles animation frames heavily.
+      const hardFallbackTimer = setTimeout(finish, duration + 120);
     });
 
     ui.nodesTop.children[index].classList.remove("active");
