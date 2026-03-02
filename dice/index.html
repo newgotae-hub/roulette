@@ -165,6 +165,7 @@
     }
 
     .dice-slot {
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -187,7 +188,9 @@
     }
 
     .dice-shell {
-      position: relative;
+      position: absolute;
+      left: 50%;
+      top: 50%;
       width: var(--mv-size, min(92vw, 680px));
       height: var(--mv-size, min(92vw, 680px));
       border-radius: 24px;
@@ -195,7 +198,7 @@
       background: transparent;
       border: 0;
       box-shadow: none;
-      transform: translate3d(0, 0, 0);
+      transform: translate(-50%, -50%);
     }
 
     .dice-shell model-viewer {
