@@ -1156,8 +1156,8 @@
         }
 
         const durationMs = Math.floor(state.durationSec * 1000);
-        const maxStagger = Math.min(220, Math.max(0, 12 * state.diceCount));
-        const staggers = state.dice.map(() => Math.floor(Math.random() * maxStagger));
+        const maxStagger = 0;
+        const staggers = state.dice.map(() => 0);
 
         state.dice.forEach((die, idx) => {
           const value = results[idx];
