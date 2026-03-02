@@ -7,7 +7,7 @@
   const STORAGE_KEY = "rlt-ladder-state";
   const MAX_PARTICIPANTS = 15;
   const COMPLEXITY_DEFAULT = "3";
-  const SPEED_DEFAULT = "3";
+  const SPEED_DEFAULT = "1";
   const MIN_ROUTE_DURATION_MS = 2000;
   const PATH_COLORS = [
     "#0f172a", "#1d4ed8", "#0f766e", "#b45309", "#7c3aed",
@@ -787,7 +787,7 @@
 
     const speed = Math.max(1, Math.min(5, Number(ui.sliderSpeed.value) || Number(SPEED_DEFAULT)));
     const speedRatio = (speed - 1) / 4;
-    const baseDuration = 3600 - speedRatio * 1600;
+    const baseDuration = 3000 - speedRatio * 1000;
     const lengthFactor = Math.max(0.92, Math.min(1.1, len / 980));
     const duration = Math.max(MIN_ROUTE_DURATION_MS, Math.round(baseDuration * lengthFactor));
     path.style.transition = `stroke-dashoffset ${duration}ms cubic-bezier(0.22, 1, 0.36, 1)`;
