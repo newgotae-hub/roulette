@@ -4,21 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/favicon-r.svg" type="image/svg+xml">
-    <title>룰렛 | 랜덤추첨 룰렛 뽑기게임 RLT</title>
-    <meta id="meta-description" name="description" content="룰렛 랜덤추첨 뽑기게임 RLT. 명단 붙여넣기, 공백/쉼표/줄바꿈 자동 인식, 당첨자 제외, 전체화면, 내역 저장까지 빠르게 지원합니다.">
-    <meta name="keywords" content="룰렛, 랜덤추첨 룰렛, 뽑기게임, 랜덤 뽑기, 추첨 룰렛, 온라인 룰렛">
+    <title>룰렛돌리기 | 랜덤뽑기 룰렛 추첨기 RLT</title>
+    <meta id="meta-description" name="description" content="룰렛돌리기와 랜덤뽑기를 빠르게 처리하는 RLT 온라인 추첨기. 명단 붙여넣기, 당첨자 제외, 전체화면, 기록 저장을 지원합니다.">
+    <meta name="keywords" content="룰렛, 룰렛돌리기, 랜덤뽑기, 랜덤추첨 룰렛, 추첨 룰렛, 온라인 룰렛">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <link rel="canonical" href="https://randomly-pick.com/">
-    <meta id="meta-og-title" property="og:title" content="룰렛 | 랜덤추첨 룰렛 뽑기게임 RLT">
-    <meta id="meta-og-description" property="og:description" content="명단 입력이 편리한 온라인 룰렛 뽑기게임. 실시간 반영, 당첨자 제외, 효과음, 내역 저장 지원">
+    <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/?lang=ko">
+    <link rel="alternate" hreflang="en" href="https://randomly-pick.com/?lang=en">
+    <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/">
+    <meta id="meta-og-title" property="og:title" content="룰렛돌리기 | 랜덤뽑기 룰렛 추첨기 RLT">
+    <meta id="meta-og-description" property="og:description" content="룰렛돌리기, 랜덤뽑기, 추첨 룰렛 기능을 한 화면에서 제공하는 온라인 룰렛 도구.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://randomly-pick.com/">
+    <meta property="og:site_name" content="Randomly Pick">
     <meta property="og:image" content="https://randomly-pick.com/og-image.svg">
     <meta property="og:image:alt" content="Randomly Pick roulette preview image">
     <meta property="og:locale" content="ko_KR">
+    <meta property="og:locale:alternate" content="en_US">
     <meta name="twitter:card" content="summary_large_image">
-    <meta id="meta-twitter-title" name="twitter:title" content="룰렛 | 랜덤추첨 룰렛 뽑기게임 RLT">
-    <meta id="meta-twitter-description" name="twitter:description" content="명단 붙여넣기로 바로 쓰는 깔끔한 랜덤 추첨 룰렛">
+    <meta id="meta-twitter-title" name="twitter:title" content="룰렛돌리기 | 랜덤뽑기 룰렛 추첨기 RLT">
+    <meta id="meta-twitter-description" name="twitter:description" content="룰렛돌리기와 랜덤뽑기를 바로 시작할 수 있는 온라인 추첨기">
     <meta name="twitter:image" content="https://randomly-pick.com/og-image.svg">
     <style>
       html.i18n-pending body { visibility: hidden; }
@@ -40,6 +45,42 @@
         document.documentElement.classList.add('i18n-pending');
         try { window.localStorage.setItem('rlt-lang', lang); } catch (e) {}
       })();
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Randomly Pick",
+      "url": "https://randomly-pick.com/",
+      "inLanguage": ["ko-KR", "en-US"]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": "Randomly Pick Services",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Wheel of Names",
+          "url": "https://randomly-pick.com/roulette/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Lucky Draw",
+          "url": "https://randomly-pick.com/lotto/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Ladder Draw",
+          "url": "https://randomly-pick.com/ladder/"
+        }
+      ]
+    }
     </script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1010168647313500" crossorigin="anonymous"></script>
     <script>
@@ -533,12 +574,12 @@
             const ctx = ui.wheel.getContext('2d');
             const i18n = {
                 ko: {
-                    title: '룰렛 | 랜덤추첨 룰렛 뽑기게임 RLT',
-                    metaDescription: '룰렛 랜덤추첨 뽑기게임 RLT. 명단 붙여넣기, 공백/쉼표/줄바꿈 자동 인식, 당첨자 제외, 전체화면, 내역 저장까지 빠르게 지원합니다.',
-                    metaOgTitle: '룰렛 | 랜덤추첨 룰렛 뽑기게임 RLT',
-                    metaOgDescription: '명단 입력이 편리한 온라인 룰렛 뽑기게임. 실시간 반영, 당첨자 제외, 효과음, 내역 저장 지원',
-                    metaTwitterTitle: '룰렛 | 랜덤추첨 룰렛 뽑기게임 RLT',
-                    metaTwitterDescription: '명단 붙여넣기로 바로 쓰는 깔끔한 랜덤 추첨 룰렛',
+                    title: '룰렛돌리기 | 랜덤뽑기 룰렛 추첨기 RLT',
+                    metaDescription: '룰렛돌리기와 랜덤뽑기를 빠르게 처리하는 RLT 온라인 추첨기. 명단 붙여넣기, 당첨자 제외, 전체화면, 기록 저장을 지원합니다.',
+                    metaOgTitle: '룰렛돌리기 | 랜덤뽑기 룰렛 추첨기 RLT',
+                    metaOgDescription: '룰렛돌리기, 랜덤뽑기, 추첨 룰렛 기능을 한 화면에서 제공하는 온라인 룰렛 도구.',
+                    metaTwitterTitle: '룰렛돌리기 | 랜덤뽑기 룰렛 추첨기 RLT',
+                    metaTwitterDescription: '룰렛돌리기와 랜덤뽑기를 바로 시작할 수 있는 온라인 추첨기',
                     navSpin: '룰렛돌리기',
                     navLotto: '로또추첨기',
                     navHistory: '사다리타기',
@@ -604,12 +645,12 @@
                     fullscreenFailed: '전체화면 전환에 실패했습니다.'
                 },
                 en: {
-                    title: 'Roulette | Random Draw Spin Wheel Game RLT',
-                    metaDescription: 'RLT random draw roulette game. Paste names, auto-detect delimiters, exclude winners, full screen mode, and history export in one clean tool.',
-                    metaOgTitle: 'Roulette | Random Draw Spin Wheel Game RLT',
-                    metaOgDescription: 'A clean online roulette game with real-time list updates, winner exclusion, sound effects, and history export.',
-                    metaTwitterTitle: 'Roulette | Random Draw Spin Wheel Game RLT',
-                    metaTwitterDescription: 'A clean random draw roulette game you can use instantly by pasting names.',
+                    title: 'Wheel of Names | Random Picker & Roulette Spinner RLT',
+                    metaDescription: 'Free Wheel of Names and Random Picker. Spin a roulette wheel, run raffle draws, and export winner history instantly.',
+                    metaOgTitle: 'Wheel of Names | Random Picker & Roulette Spinner RLT',
+                    metaOgDescription: 'Online wheel spinner for random picks, raffle winner draws, and fast participant list management.',
+                    metaTwitterTitle: 'Wheel of Names | Random Picker & Roulette Spinner RLT',
+                    metaTwitterDescription: 'Spin a random wheel instantly for giveaways, classrooms, and team picks.',
                     navSpin: 'Wheel of Names',
                     navLotto: 'Lucky Draw',
                     navHistory: 'Ladder Draw',

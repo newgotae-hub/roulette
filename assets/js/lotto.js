@@ -3,12 +3,12 @@
 
   const i18n = {
     ko: {
-      title: '로또 추첨기 | 랜덤추첨 뽑기게임 RLT',
-      desc: '고급스러운 모션의 온라인 로또 추첨기. 6/45 기본 모드 및 커스텀 명단 입력 지원, 결과 정렬, CSV 저장, 전체화면 기능을 제공합니다.',
-      ogTitle: '로또 추첨기 | 랜덤추첨 뽑기게임 RLT',
-      ogDesc: '화려하고 부드러운 애니메이션의 로또 번호 추첨기. 번호 및 명단을 뽑고 결과를 저장하세요.',
-      twTitle: '로또 추첨기 | 랜덤추첨 뽑기게임 RLT',
-      twDesc: '깔끔한 UX와 부드러운 모션을 자랑하는 로또 번호/명단 추첨기',
+      title: '무작위 번호 추첨기 | 로또·난수·랜덤번호 뽑기 RLT',
+      desc: '무작위 번호 추첨, 난수추첨, 랜덤번호 추첨을 지원하는 RLT 로또 추첨기. 6/45 기본 모드와 커스텀 명단 추첨, CSV 저장을 제공합니다.',
+      ogTitle: '무작위 번호 추첨기 | 로또·난수·랜덤번호 뽑기 RLT',
+      ogDesc: '무작위 번호 추첨, 난수추첨, 랜덤번호 추첨을 지원하는 온라인 로또 추첨기.',
+      twTitle: '무작위 번호 추첨기 | 로또·난수·랜덤번호 뽑기 RLT',
+      twDesc: '난수추첨과 랜덤번호 추첨을 빠르게 처리하는 로또 번호 추첨기',
       navSpin: '룰렛돌리기',
       navLotto: '로또추첨기',
       navHistory: '사다리타기',
@@ -57,12 +57,12 @@
       noCopy: '복사할 결과가 없습니다.'
     },
     en: {
-      title: 'Random Name Picker | Custom List Draw RLT',
-      desc: 'Random Name Picker with smooth animation, custom list draw support, fair random selection, and CSV export.',
-      ogTitle: 'Random Name Picker | Custom List Draw RLT',
-      ogDesc: 'Random Name Picker for giveaways, classrooms, and team picks with smooth draw animation and exportable history.',
-      twTitle: 'Random Name Picker | Custom List Draw RLT',
-      twDesc: 'Random Name Picker with smooth animation and instant custom list draws',
+      title: 'Random Number Generator & Lucky Draw | RLT',
+      desc: 'Free random number generator and lucky draw tool with smooth animation, custom list picks, and CSV export.',
+      ogTitle: 'Random Number Generator & Lucky Draw | RLT',
+      ogDesc: 'Generate random numbers, run lucky draws, and pick winners from custom lists instantly.',
+      twTitle: 'Random Number Generator & Lucky Draw | RLT',
+      twDesc: 'Run random number picks and lucky draws with fast animation and export.',
       navSpin: 'Wheel of Names',
       navLotto: 'Lucky Draw',
       navHistory: 'Ladder Draw',

@@ -1,12 +1,12 @@
 (function () {
   const i18n = {
     ko: {
-      seoTitle: "사다리타기 | 온라인 사다리뽑기 - 빠른 입력·결과 저장",
-      seoDesc: "사다리타기 게임 RLT. 명단과 결과를 붙여넣고 실시간으로 사다리를 생성하세요. 애니메이션 추첨 및 결과 저장을 지원합니다.",
-      seoOgTitle: "사다리타기 | 온라인 사다리뽑기 - 빠른 입력·결과 저장",
-      seoOgDesc: "명단과 결과 입력이 편리한 온라인 사다리게임. 실시간 자동 맞춤, 부드러운 애니메이션, CSV 저장 지원",
-      seoTwitterTitle: "사다리타기 | 온라인 사다리뽑기 - 빠른 입력·결과 저장",
-      seoTwitterDesc: "명단과 결과 붙여넣기로 바로 쓰는 깔끔한 랜덤 추첨 사다리타기",
+      seoTitle: "사다리타기 | 온라인 사다리뽑기 랜덤추첨 RLT",
+      seoDesc: "사다리타기와 사다리 뽑기를 빠르게 처리하는 RLT. 명단/결과 입력, 자동 맞춤, 애니메이션 추첨을 지원합니다.",
+      seoOgTitle: "사다리타기 | 온라인 사다리뽑기 랜덤추첨 RLT",
+      seoOgDesc: "사다리타기와 사다리 뽑기를 위한 온라인 추첨 도구. 실시간 자동 맞춤과 애니메이션 지원.",
+      seoTwitterTitle: "사다리타기 | 온라인 사다리뽑기 랜덤추첨 RLT",
+      seoTwitterDesc: "사다리타기 명단/결과 입력부터 추첨까지 빠르게 처리하는 온라인 도구",
       navSpin: "룰렛돌리기",
       navLotto: "로또추첨기",
       navLadder: "사다리타기",
@@ -81,12 +81,12 @@
       footerPrivacy: "개인정보처리방침"
     },
     en: {
-      seoTitle: "Ladder Draw | Fast Online Random Match",
-      seoDesc: "RLT Ladder Draw game. Paste participants and results, generate a ladder in real-time, and save results instantly.",
-      seoOgTitle: "Ladder Draw | Fast Online Random Match",
-      seoOgDesc: "Convenient online ladder draw with real-time auto matching, smooth path animation, and CSV export",
-      seoTwitterTitle: "Ladder Draw | Fast Online Random Match",
-      seoTwitterDesc: "Clean random ladder draw with instant paste input and result export",
+      seoTitle: "Ladder Draw | Random Match Generator RLT",
+      seoDesc: "Online ladder draw and random match generator. Paste participants and results, run animated routes, and track outcomes instantly.",
+      seoOgTitle: "Ladder Draw | Random Match Generator RLT",
+      seoOgDesc: "Random ladder game with fast input, balanced routes, and instant result tracking.",
+      seoTwitterTitle: "Ladder Draw | Random Match Generator RLT",
+      seoTwitterDesc: "Run random ladder matches with smooth animation and instant outcome mapping.",
       navSpin: "Wheel of Names",
       navLotto: "Lucky Draw",
       navLadder: "Ladder Draw",
