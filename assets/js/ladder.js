@@ -793,7 +793,22 @@
     path.style.transition = `stroke-dashoffset ${duration}ms cubic-bezier(0.22, 1, 0.36, 1)`;
     path.style.strokeDashoffset = "0";
 
-    await new Promise((resolve) => setTimeout(resolve, duration));
+    await new Promise((resolve) => {
+      let done = false;
+      const finish = () => {
+        if (done) return;
+        done = true;
+        path.removeEventListener("transitionend", onEnd);
+        resolve();
+      };
+      const onEnd = (event) => {
+        if (event.propertyName !== "stroke-dashoffset") return;
+        finish();
+      };
+      path.addEventListener("transitionend", onEnd, { once: true });
+      // Fallback in case transitionend doesn't fire on some browsers.
+      setTimeout(finish, duration + 80);
+    });
 
     ui.nodesTop.children[index].classList.remove("active");
     ui.nodesTop.children[index].classList.add("done");
