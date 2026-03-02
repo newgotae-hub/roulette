@@ -6,6 +6,9 @@
   const VIEW_H = 800;
   const STORAGE_KEY = "rlt-ladder-state";
   const MAX_PARTICIPANTS = 15;
+  const COMPLEXITY_DEFAULT = "3";
+  const SPEED_DEFAULT = "3";
+  const MIN_ROUTE_DURATION_MS = 2000;
   const PATH_COLORS = [
     "#0f172a", "#1d4ed8", "#0f766e", "#b45309", "#7c3aed",
     "#be123c", "#0369a1", "#334155", "#4d7c0f", "#9f1239"
@@ -409,7 +412,7 @@
 
   function buildLadderData(participants, results) {
     const n = participants.length;
-    const comp = Number(ui.sliderComplexity.value);
+    const comp = Math.max(0, Math.min(6, Number(ui.sliderComplexity.value) || Number(COMPLEXITY_DEFAULT)));
     const rows = Math.max(10, n * 2 + comp * 3);
     const rungs = [];
     const rungSet = new Set();
@@ -782,9 +785,11 @@
     path.style.strokeDashoffset = String(len);
     path.getBoundingClientRect();
 
-    const speed = Number(ui.sliderSpeed.value);
-    const baseDuration = Math.max(450, len * (0.5 - speed * 0.035));
-    const duration = Math.round(baseDuration * (0.92 + Math.random() * 0.2) * 0.8);
+    const speed = Math.max(1, Math.min(5, Number(ui.sliderSpeed.value) || Number(SPEED_DEFAULT)));
+    const speedRatio = (speed - 1) / 4;
+    const baseDuration = 3600 - speedRatio * 1600;
+    const lengthFactor = Math.max(0.92, Math.min(1.1, len / 980));
+    const duration = Math.max(MIN_ROUTE_DURATION_MS, Math.round(baseDuration * lengthFactor));
     path.style.transition = `stroke-dashoffset ${duration}ms cubic-bezier(0.22, 1, 0.36, 1)`;
     path.style.strokeDashoffset = "0";
 
@@ -904,7 +909,8 @@
   }
 
   function restoreState() {
-    ui.sliderComplexity.value = "3";
+    ui.sliderComplexity.value = COMPLEXITY_DEFAULT;
+    ui.sliderSpeed.value = SPEED_DEFAULT;
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) {
@@ -915,7 +921,8 @@
 
       ui.inputParticipants.value = saved.participantsText || "";
       ui.inputResults.value = saved.resultsText || "";
-      ui.sliderSpeed.value = saved.speed || "3";
+      ui.sliderComplexity.value = COMPLEXITY_DEFAULT;
+      ui.sliderSpeed.value = SPEED_DEFAULT;
 
       const participants = parsedParticipants();
       const results = parsedResults();
@@ -990,10 +997,20 @@
     ui.btnPlayAll.addEventListener("click", togglePlayAll);
 
     ui.sliderComplexity.addEventListener("input", () => {
-      if (ui.sliderComplexity.value === "") ui.sliderComplexity.value = "3";
+      if (ui.sliderComplexity.value === "") ui.sliderComplexity.value = COMPLEXITY_DEFAULT;
+      saveState();
+      if (state.playing) return;
+      if (!state.ladderData) return;
+      if (parsedParticipants().length < 2) return;
+      state.queue = [];
+      ui.labelPlayAll.textContent = t("playAll");
+      ui.btnPlayAll.classList.remove("animate-pulse");
+      buildLadder();
+    });
+    ui.sliderSpeed.addEventListener("input", () => {
+      if (ui.sliderSpeed.value === "") ui.sliderSpeed.value = SPEED_DEFAULT;
       saveState();
     });
-    ui.sliderSpeed.addEventListener("input", saveState);
 
     ui.fullscreenBtn.addEventListener("click", toggleFullscreen);
     document.addEventListener("fullscreenchange", updateFullscreenButton);
