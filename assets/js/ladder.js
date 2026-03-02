@@ -30,7 +30,6 @@
     navSpin: document.getElementById("nav-spin"),
     navLotto: document.getElementById("nav-lotto"),
     navLadder: document.getElementById("nav-ladder"),
-    navLucky: document.getElementById("nav-lucky"),
     fullscreenHint: document.getElementById("fullscreen-hint"),
     fullscreenHintText: document.getElementById("fullscreen-hint-text"),
     langKo: document.getElementById("lang-ko"),
@@ -149,7 +148,6 @@
     ui.navSpin.textContent = t("navSpin");
     ui.navLotto.textContent = t("navLotto");
     ui.navLadder.textContent = t("navLadder");
-    ui.navLucky.textContent = t("navLucky");
     ui.fullscreenHintText.textContent = t("fullscreenHint");
     ui.heroTitle.textContent = t("heroTitle");
     ui.heroSub.textContent = t("heroSub");
