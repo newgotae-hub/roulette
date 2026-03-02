@@ -920,10 +920,10 @@
       }
 
       function diceCssSize(count) {
-        if (count <= 1) return 380;
-        if (count <= 4) return 228;
-        if (count <= 9) return 164;
-        return 132;
+        if (count <= 1) return 300;
+        if (count <= 4) return 184;
+        if (count <= 9) return 132;
+        return 108;
       }
 
       function setModelOrientation(die, x, y, z) {
@@ -961,12 +961,12 @@
         model.setAttribute('tone-mapping', 'aces');
         model.setAttribute('loading', 'eager');
         if (Number.isFinite(sizePx) && sizePx >= 180) {
-          model.setAttribute('camera-orbit', '20deg 52deg 210%');
-          model.setAttribute('field-of-view', '58deg');
+          model.setAttribute('camera-orbit', '20deg 52deg 10.5m');
+          model.setAttribute('field-of-view', '50deg');
           model.setAttribute('camera-target', 'auto auto auto');
         } else {
-          model.setAttribute('camera-orbit', '20deg 56deg 225%');
-          model.setAttribute('field-of-view', '60deg');
+          model.setAttribute('camera-orbit', '20deg 56deg 11.2m');
+          model.setAttribute('field-of-view', '52deg');
           model.setAttribute('camera-target', 'auto auto auto');
         }
         model.setAttribute('orientation', '0deg 0deg 0deg');
