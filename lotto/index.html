@@ -36,6 +36,13 @@
       window.__rltBootLang = lang;
       document.documentElement.lang = lang;
       document.documentElement.classList.add('i18n-pending');
+      // Fail-safe: never keep body hidden even if downstream scripts fail/cached oddly.
+      setTimeout(function () {
+        document.documentElement.classList.remove('i18n-pending');
+      }, 1200);
+      window.addEventListener('load', function () {
+        document.documentElement.classList.remove('i18n-pending');
+      }, { once: true });
       try { window.localStorage.setItem('rlt-lang', lang); } catch (e) {}
     })();
   </script>
