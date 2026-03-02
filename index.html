@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/favicon-r.svg" type="image/svg+xml">
     <title>룰렛 | 랜덤추첨 룰렛 뽑기게임 RLT</title>
     <meta id="meta-description" name="description" content="룰렛 랜덤추첨 뽑기게임 RLT. 명단 붙여넣기, 공백/쉼표/줄바꿈 자동 인식, 당첨자 제외, 전체화면, 내역 저장까지 빠르게 지원합니다.">
     <meta name="keywords" content="룰렛, 랜덤추첨 룰렛, 뽑기게임, 랜덤 뽑기, 추첨 룰렛, 온라인 룰렛">
@@ -20,6 +20,27 @@
     <meta id="meta-twitter-title" name="twitter:title" content="룰렛 | 랜덤추첨 룰렛 뽑기게임 RLT">
     <meta id="meta-twitter-description" name="twitter:description" content="명단 붙여넣기로 바로 쓰는 깔끔한 랜덤 추첨 룰렛">
     <meta name="twitter:image" content="https://randomly-pick.com/og-image.svg">
+    <style>
+      html.i18n-pending body { visibility: hidden; }
+    </style>
+    <script>
+      (function () {
+        var lang = null;
+        var params = new URLSearchParams(window.location.search);
+        var forced = params.get('lang');
+        if (forced === 'ko' || forced === 'en') lang = forced;
+        if (!lang) {
+          try { lang = window.localStorage.getItem('rlt-lang'); } catch (e) {}
+        }
+        if (lang !== 'ko' && lang !== 'en') {
+          lang = (navigator.language || '').toLowerCase().startsWith('ko') ? 'ko' : 'en';
+        }
+        window.__rltBootLang = lang;
+        document.documentElement.lang = lang;
+        document.documentElement.classList.add('i18n-pending');
+        try { window.localStorage.setItem('rlt-lang', lang); } catch (e) {}
+      })();
+    </script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1010168647313500" crossorigin="anonymous"></script>
     <script>
       window.Userback = window.Userback || {};
@@ -261,7 +282,9 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 bg-slate-900 text-white rounded-lg flex items-center justify-center font-semibold text-lg tracking-tighter">R.</div>
+                    <div class="w-8 h-8 min-w-8 min-h-8 aspect-square shrink-0 bg-slate-900 text-white rounded-lg flex items-center justify-center font-semibold text-lg tracking-tighter">
+                        <span>R</span><span style="display:inline-block;font-size:1.18em;line-height:1;transform:translateX(1.4px) translateY(-0.2px);">.</span>
+                    </div>
                     <span class="text-base font-semibold tracking-tight text-slate-900">Randomly Pick</span>
                 </div>
                 <nav class="hidden md:flex items-center gap-8">
@@ -463,6 +486,11 @@
         </div>
     </footer>
 
+    <button id="add-shortcut-btn" class="hidden md:hidden fixed bottom-4 right-4 z-50 bg-slate-900 text-white rounded-full px-4 py-2 text-xs font-semibold shadow-lg border border-slate-700/60">
+        앱처럼 추가
+    </button>
+
+    <script src="/assets/js/shortcut.js"></script>
     <script>
         (function () {
             const state = {
@@ -584,9 +612,9 @@
                     metaTwitterTitle: 'Roulette | Random Draw Spin Wheel Game RLT',
                     metaTwitterDescription: 'A clean random draw roulette game you can use instantly by pasting names.',
                     navSpin: 'Wheel of Names',
-                    navLotto: 'Lotto Draw',
+                    navLotto: 'Lucky Draw',
                     navHistory: 'Ladder Draw',
-                    navGuide: 'Lucky Draw',
+                    navGuide: 'Guide',
                     spinButtonLabel: 'Start',
                     heroTitle: 'Random Draw Roulette Game',
                     heroSubtitle: 'Free random wheel & name picker — spin to choose a winner in seconds.',
@@ -682,6 +710,17 @@
                 el.textContent = t(key);
             }
 
+            function syncLangLinks() {
+                document.querySelectorAll('a[href]').forEach((a) => {
+                    const href = a.getAttribute('href');
+                    if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('javascript:')) return;
+                    const url = new URL(href, window.location.origin);
+                    if (url.origin !== window.location.origin || !url.pathname.startsWith('/')) return;
+                    url.searchParams.set('lang', state.locale);
+                    a.setAttribute('href', `${url.pathname}${url.search}${url.hash}`);
+                });
+            }
+
             function applyStaticI18n() {
                 document.documentElement.lang = state.locale;
                 document.title = t('title');
@@ -738,6 +777,8 @@
                 ui.textarea.placeholder = t('textareaPlaceholder');
                 announce(t('bannerReady'), 'text-slate-500');
                 updateLanguageButtons();
+                syncLangLinks();
+                document.documentElement.classList.remove('i18n-pending');
             }
 
             function showFullscreenHint() {

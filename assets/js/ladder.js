@@ -1,5 +1,5 @@
 (function () {
-  const { parseEntries, detectLocale } = window.RLTUtils;
+  const { detectLocale } = window.RLTUtils;
   const dict = window.RLTI18N;
 
   const VIEW_W = 1000;
@@ -19,7 +19,8 @@
     completedRoutes: new Set(),
     queue: [],
     playing: false,
-    fullscreenHintTimer: null
+    fullscreenHintTimer: null,
+    applyingPreset: false
   };
 
   const ui = {
@@ -74,6 +75,8 @@
     mismatchText: document.getElementById("mismatch-text"),
     btnAutoFill: document.getElementById("btn-autofill"),
     btnAutoTrim: document.getElementById("btn-autotrim"),
+    btnClearParticipants: document.getElementById("btn-clear-participants"),
+    btnClearResults: document.getElementById("btn-clear-results"),
     labelComplexity: document.getElementById("label-complexity"),
     labelSpeed: document.getElementById("label-speed"),
     sliderComplexity: document.getElementById("slider-complexity"),
@@ -182,6 +185,8 @@
     ui.mismatchText.textContent = t("mismatch");
     ui.btnAutoFill.textContent = t("autoFill");
     ui.btnAutoTrim.textContent = t("autoTrim");
+    if (ui.btnClearParticipants) ui.btnClearParticipants.textContent = t("clearAll");
+    if (ui.btnClearResults) ui.btnClearResults.textContent = t("clearAll");
     ui.labelComplexity.textContent = t("complexity");
     ui.labelSpeed.textContent = t("speed");
     ui.btnGenerate.textContent = t("btnGenerate");
@@ -210,12 +215,77 @@
     renderResultsTable();
   }
 
+  function parseLadderEntries(text, options) {
+    const opts = options || {};
+    const allowDuplicates = !!opts.allowDuplicates;
+    const tokens = String(text || "")
+      .split(/[\n\r\t,;|/\\·•ㆍ،，、]+/g)
+      .map((v) => v.trim())
+      .filter(Boolean);
+
+    if (allowDuplicates) return tokens;
+
+    const seen = new Set();
+    const out = [];
+    for (const token of tokens) {
+      if (!seen.has(token)) {
+        seen.add(token);
+        out.push(token);
+      }
+    }
+    return out;
+  }
+
+  function parseResultEntries(text, options) {
+    const opts = options || {};
+    const allowDuplicates = !!opts.allowDuplicates;
+    const tokens = String(text || "")
+      .split(/[\n\r,]+/g)
+      .map((v) => v.trim())
+      .filter(Boolean);
+
+    if (allowDuplicates) return tokens;
+    const seen = new Set();
+    const out = [];
+    for (const token of tokens) {
+      if (!seen.has(token)) {
+        seen.add(token);
+        out.push(token);
+      }
+    }
+    return out;
+  }
+
+  function formatPresetResults(type, results) {
+    const list = Array.isArray(results) ? results : [];
+    if (!list.length) return "";
+
+    if (type === "team") {
+      const mid = Math.ceil(list.length / 2);
+      return `${list.slice(0, mid).join(", ")}\n${list.slice(mid).join(", ")}`;
+    }
+
+    if (type === "seat") {
+      const dead = list.filter((v) => {
+        const k = normalizeLabel(v);
+        return k === "사망" || k === "die" || k === "eliminate" || k === "x";
+      });
+      const live = list.filter((v) => {
+        const k = normalizeLabel(v);
+        return k === "생존" || k === "live" || k === "survive" || k === "o";
+      });
+      if (dead.length && live.length) return `${dead.join(", ")}\n${live.join(", ")}`;
+    }
+
+    return list.join(", ");
+  }
+
   function parsedParticipants() {
-    return parseEntries(ui.inputParticipants.value, { allowDuplicates: false });
+    return parseLadderEntries(ui.inputParticipants.value, { allowDuplicates: false });
   }
 
   function parsedResults() {
-    return parseEntries(ui.inputResults.value, { allowDuplicates: true });
+    return parseResultEntries(ui.inputResults.value, { allowDuplicates: true });
   }
 
   function updateCounts() {
@@ -223,6 +293,7 @@
     const r = parsedResults();
     ui.countParticipants.textContent = t("countPeople", { n: p.length });
     ui.countResults.textContent = t("countItems", { n: r.length });
+    if (state.applyingPreset) return;
     ui.mismatchAlert.classList.toggle("hidden", !(p.length > 0 && p.length !== r.length));
   }
 
@@ -232,7 +303,7 @@
     if (p.length <= r.length) return;
     const out = r.slice();
     for (let i = r.length; i < p.length; i++) out.push(`${t("fillLabel")} ${i + 1}`);
-    ui.inputResults.value = out.join("\n");
+    ui.inputResults.value = out.join(", ");
     updateCounts();
     saveState();
   }
@@ -241,7 +312,19 @@
     const p = parsedParticipants();
     const r = parsedResults();
     if (r.length <= p.length) return;
-    ui.inputResults.value = r.slice(0, p.length).join("\n");
+    ui.inputResults.value = r.slice(0, p.length).join(", ");
+    updateCounts();
+    saveState();
+  }
+
+  function clearParticipants() {
+    ui.inputParticipants.value = "";
+    updateCounts();
+    saveState();
+  }
+
+  function clearResults() {
+    ui.inputResults.value = "";
     updateCounts();
     saveState();
   }
@@ -249,24 +332,70 @@
   function loadPreset(type) {
     const data = {
       class: {
-        ko: { p: ["참가자1", "참가자2", "참가자3", "참가자4", "참가자5"], r: ["1번", "2번", "3번", "4번", "5번"] },
-        en: { p: ["Player1", "Player2", "Player3", "Player4", "Player5"], r: ["Slot1", "Slot2", "Slot3", "Slot4", "Slot5"] }
+        ko: {
+          p: ["민준", "서연", "지후", "하린", "도윤", "지우", "예준", "소윤"],
+          r: ["1번", "2번", "3번", "4번", "5번", "6번", "7번", "8번"]
+        },
+        en: {
+          p: ["Alex", "Emma", "Liam", "Mia", "Noah", "Ava", "Ethan", "Zoe"],
+          r: ["Slot1", "Slot2", "Slot3", "Slot4", "Slot5", "Slot6", "Slot7", "Slot8"]
+        }
       },
       team: {
-        ko: { p: ["민수", "서연", "지후", "하린", "도윤", "지우"], r: ["A팀", "A팀", "A팀", "B팀", "B팀", "B팀"] },
-        en: { p: ["Alex", "Emma", "Liam", "Mia", "Noah", "Ava"], r: ["Team A", "Team A", "Team A", "Team B", "Team B", "Team B"] }
+        ko: {
+          p: ["민수", "서연", "지후", "하린", "도윤", "지우", "예준", "소윤"],
+          r: ["A팀", "A팀", "A팀", "A팀", "B팀", "B팀", "B팀", "B팀"]
+        },
+        en: {
+          p: ["Alex", "Emma", "Liam", "Mia", "Noah", "Ava", "Ethan", "Zoe"],
+          r: ["Team A", "Team A", "Team A", "Team A", "Team B", "Team B", "Team B", "Team B"]
+        }
       },
       seat: {
-        ko: { p: ["참가자1", "참가자2", "참가자3", "참가자4"], r: ["생존", "사망", "생존", "사망"] },
-        en: { p: ["Player1", "Player2", "Player3", "Player4"], r: ["Survive", "Eliminate", "Survive", "Eliminate"] }
+        ko: {
+          p: ["민준", "서연", "지후", "하린", "도윤", "지우", "예준", "소윤"],
+          r: ["생존", "사망", "생존", "사망", "생존", "사망", "생존", "사망"]
+        },
+        en: {
+          p: ["Alex", "Emma", "Liam", "Mia", "Noah", "Ava", "Ethan", "Zoe"],
+          r: ["Survive", "Eliminate", "Survive", "Eliminate", "Survive", "Eliminate", "Survive", "Eliminate"]
+        }
       }
     };
     const pack = (data[type] && data[type][state.locale]) || data[type].ko;
-    ui.inputParticipants.value = pack.p.join("\n");
-    ui.inputResults.value = pack.r.join("\n");
-    updateCounts();
-    buildLadder();
-    saveState();
+    state.applyingPreset = true;
+    try {
+      if (document.activeElement && typeof document.activeElement.blur === "function") {
+        document.activeElement.blur();
+      }
+      ui.inputParticipants.value = pack.p.join("\n");
+      ui.inputResults.value = formatPresetResults(type, pack.r);
+      buildLadder();
+      updateCounts();
+      saveState();
+    } finally {
+      state.applyingPreset = false;
+      updateCounts();
+    }
+  }
+
+  function applyDefaultExampleIfEmpty() {
+    const currentParticipants = parsedParticipants();
+    const currentResults = parsedResults();
+    if (currentParticipants.length > 0 || currentResults.length > 0) return;
+
+    const sample = state.locale === "en"
+      ? {
+          participants: ["Alex", "Emma", "Liam", "Mia", "Noah", "Ava", "Ethan", "Zoe"],
+          results: "Team A, Team A, Team A, Team A\nTeam B, Team B, Team B, Team B"
+        }
+      : {
+          participants: ["민수", "서연", "지후", "하린", "도윤", "지우", "예준", "소윤"],
+          results: "A팀, A팀, A팀, A팀\nB팀, B팀, B팀, B팀"
+        };
+
+    ui.inputParticipants.value = sample.participants.join("\n");
+    ui.inputResults.value = sample.results;
   }
 
   function getX(col, n) {
@@ -283,23 +412,131 @@
     const comp = Number(ui.sliderComplexity.value);
     const rows = Math.max(10, n * 2 + comp * 3);
     const rungs = [];
+    const rungSet = new Set();
+    const rowLoad = Array(rows + 1).fill(0);
 
-    for (let row = 1; row < rows; row++) {
-      let prevPlaced = false;
-      for (let col = 0; col < n - 1; col++) {
-        if (prevPlaced) {
-          prevPlaced = false;
+    function canPlaceRung(row, col, allowAdjacent) {
+      if (col < 0 || col >= n - 1) return false;
+      if (rungSet.has(`${row}:${col}`)) return false;
+      if (!allowAdjacent && (rungSet.has(`${row}:${col - 1}`) || rungSet.has(`${row}:${col + 1}`))) return false;
+      return true;
+    }
+
+    function placeRung(row, col, allowAdjacent) {
+      if (!canPlaceRung(row, col, allowAdjacent)) return false;
+      rungSet.add(`${row}:${col}`);
+      rungs.push({ row, col });
+      rowLoad[row] += 1;
+      return true;
+    }
+
+    function pickBestRowForCol(col, preferredRow, allowAdjacent) {
+      let bestRow = -1;
+      let bestScore = Number.POSITIVE_INFINITY;
+      const maxOffset = Math.min(7, rows - 1);
+
+      for (let offset = 0; offset <= maxOffset; offset++) {
+        const candidates = offset === 0 ? [preferredRow] : [preferredRow - offset, preferredRow + offset];
+        for (const row of candidates) {
+          if (row < 1 || row >= rows) continue;
+          if (!canPlaceRung(row, col, allowAdjacent)) continue;
+          // Favor rows with lower usage to avoid visual clustering.
+          const score = rowLoad[row] * 9 + Math.abs(row - preferredRow);
+          if (score < bestScore) {
+            bestScore = score;
+            bestRow = row;
+          }
+        }
+      }
+
+      if (bestRow !== -1) return bestRow;
+
+      // Fallback: scan all rows and pick least-loaded valid row.
+      for (let row = 1; row < rows; row++) {
+        if (!canPlaceRung(row, col, allowAdjacent)) continue;
+        const score = rowLoad[row] * 10 + Math.random();
+        if (score < bestScore) {
+          bestScore = score;
+          bestRow = row;
+        }
+      }
+      return bestRow;
+    }
+
+    // Distribute rung counts evenly per edge (col), then spread along rows.
+    const edgeCount = Math.max(1, n - 1);
+    const baseTarget = Math.max(2, Math.round(rows * (0.13 + comp * 0.01)));
+    const targets = Array.from({ length: edgeCount }, () => {
+      const variance = Math.random() < 0.5 ? 0 : (Math.random() < 0.5 ? -1 : 1);
+      return Math.max(2, Math.min(rows - 1, baseTarget + variance));
+    });
+
+    for (let col = 0; col < edgeCount; col++) {
+      const target = targets[col];
+      const step = rows / (target + 1);
+      const colPhase = (Math.random() - 0.5) * step * 0.6;
+
+      for (let k = 1; k <= target; k++) {
+        const jitter = (Math.random() - 0.5) * step * 0.2;
+        const preferred = Math.max(1, Math.min(rows - 1, Math.round(step * k + colPhase + jitter)));
+        const row = pickBestRowForCol(col, preferred, false);
+        if (row !== -1) {
+          placeRung(row, col, false);
           continue;
         }
-        const chance = 0.18 + comp * 0.03;
-        if (Math.random() < chance) {
-          rungs.push({ row, col });
-          prevPlaced = true;
-        }
+        // Rare fallback when adjacency constraints are too tight.
+        const relaxedRow = pickBestRowForCol(col, preferred, true);
+        if (relaxedRow !== -1) placeRung(relaxedRow, col, true);
       }
     }
 
-    const rungSet = new Set(rungs.map((r) => `${r.row}:${r.col}`));
+    function hasHorizontalMove(startCol) {
+      let col = startCol;
+      for (let row = 1; row < rows; row++) {
+        const left = rungSet.has(`${row}:${col - 1}`);
+        const right = rungSet.has(`${row}:${col}`);
+        if (left || right) return true;
+        if (left) col -= 1;
+        else if (right) col += 1;
+      }
+      return false;
+    }
+
+    function forceMoveForStart(startCol) {
+      const candidateCols = [];
+      if (startCol - 1 >= 0) candidateCols.push(startCol - 1);
+      if (startCol <= n - 2) candidateCols.push(startCol);
+
+      const rowsOrder = Array.from({ length: rows - 1 }, (_, i) => i + 1)
+        .sort((a, b) => rowLoad[a] - rowLoad[b] || Math.abs(a - rows / 2) - Math.abs(b - rows / 2));
+
+      for (const row of rowsOrder) {
+        for (const col of candidateCols) {
+          if (placeRung(row, col, false)) return true;
+        }
+      }
+
+      // Fallback: allow placement without adjacency rule when fully blocked.
+      for (const row of rowsOrder) {
+        for (const col of candidateCols) {
+          if (placeRung(row, col, true)) return true;
+        }
+      }
+      return false;
+    }
+
+    // Ensure no route stays perfectly vertical from top to bottom.
+    for (let pass = 0; pass < 3; pass++) {
+      let allMoved = true;
+      for (let startCol = 0; startCol < n; startCol++) {
+        if (hasHorizontalMove(startCol)) continue;
+        allMoved = false;
+        forceMoveForStart(startCol);
+      }
+      if (allMoved) break;
+    }
+
+    rungs.sort((a, b) => (a.row - b.row) || (a.col - b.col));
     const routes = [];
 
     for (let i = 0; i < n; i++) {
@@ -382,6 +619,43 @@
     const g = parseInt(clean.slice(2, 4), 16);
     const b = parseInt(clean.slice(4, 6), 16);
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  }
+
+  function normalizeLabel(text) {
+    return String(text || "").trim().toLowerCase();
+  }
+
+  function getSemanticColorByLabel(label) {
+    const key = normalizeLabel(label);
+    const liveSet = new Set(["생존", "o", "live", "survive", "pass", "win", "당첨"]);
+    const dieSet = new Set(["사망", "x", "die", "eliminate", "fail", "lose", "탈락"]);
+    if (liveSet.has(key)) return "#0f766e";
+    if (dieSet.has(key)) return "#be123c";
+    return null;
+  }
+
+  function getLabelColor(label, fallbackIndex) {
+    const semantic = getSemanticColorByLabel(label);
+    if (semantic) return semantic;
+
+    const normalized = normalizeLabel(label);
+    const counts = new Map();
+    for (const value of state.results) {
+      const k = normalizeLabel(value);
+      counts.set(k, (counts.get(k) || 0) + 1);
+    }
+
+    // Keep existing route colors when all labels are unique.
+    if ((counts.get(normalized) || 0) <= 1) return PATH_COLORS[fallbackIndex % PATH_COLORS.length];
+
+    const repeatedLabels = Array.from(counts.entries())
+      .filter(([, count]) => count > 1)
+      .map(([k]) => k)
+      .sort();
+
+    const palette = ["#0f766e", "#1d4ed8", "#b45309", "#7c3aed", "#0369a1", "#9f1239"];
+    const idx = Math.max(0, repeatedLabels.indexOf(normalized));
+    return palette[idx % palette.length];
   }
 
   function applyMatchColor(startIndex, endIndex, color) {
@@ -487,7 +761,7 @@
     paintCompletedPathsDim();
 
     const route = state.ladderData.routes[index];
-    const color = PATH_COLORS[index % PATH_COLORS.length];
+    const color = getLabelColor(state.results[route.end], index);
     const d = buildPathD(route);
 
     Array.from(ui.nodesTop.children).forEach((node) => node.classList.remove("active"));
@@ -509,8 +783,8 @@
     path.getBoundingClientRect();
 
     const speed = Number(ui.sliderSpeed.value);
-    const baseDuration = Math.max(550, len * (0.65 - speed * 0.08));
-    const duration = Math.round(baseDuration * (0.88 + Math.random() * 0.26) * 1.5);
+    const baseDuration = Math.max(450, len * (0.5 - speed * 0.035));
+    const duration = Math.round(baseDuration * (0.92 + Math.random() * 0.2) * 0.8);
     path.style.transition = `stroke-dashoffset ${duration}ms cubic-bezier(0.22, 1, 0.36, 1)`;
     path.style.strokeDashoffset = "0";
 
@@ -564,7 +838,7 @@
     while (state.queue.length > 0) {
       const next = state.queue.shift();
       await playRoute(next);
-      await new Promise((r) => setTimeout(r, 160));
+      await new Promise((r) => setTimeout(r, 140));
     }
 
     state.queue = [];
@@ -594,7 +868,7 @@
       } else {
         results = results.slice(0, participants.length);
       }
-      ui.inputResults.value = results.join("\n");
+      ui.inputResults.value = results.join(", ");
       updateCounts();
     }
 
@@ -633,10 +907,12 @@
     ui.sliderComplexity.value = "3";
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return;
+      if (!raw) {
+        applyDefaultExampleIfEmpty();
+        return;
+      }
       const saved = JSON.parse(raw);
 
-      if (saved.locale === "ko" || saved.locale === "en") state.locale = saved.locale;
       ui.inputParticipants.value = saved.participantsText || "";
       ui.inputResults.value = saved.resultsText || "";
       ui.sliderSpeed.value = saved.speed || "3";
@@ -658,7 +934,7 @@
 
         state.completedRoutes.forEach((idx) => {
           const route = state.ladderData.routes[idx];
-          const color = PATH_COLORS[idx % PATH_COLORS.length];
+          const color = getLabelColor(state.results[route.end], idx);
           const cell = document.getElementById(`table-result-${idx}`);
           const row = document.getElementById(`table-row-${idx}`);
           if (cell && route) {
@@ -670,7 +946,9 @@
           if (route) applyMatchColor(idx, route.end, color);
         });
       }
-    } catch (e) {}
+    } catch (e) {
+      applyDefaultExampleIfEmpty();
+    }
   }
 
   function toggleFullscreen() {
@@ -706,6 +984,8 @@
 
     ui.btnAutoFill.addEventListener("click", autoFillResults);
     ui.btnAutoTrim.addEventListener("click", autoTrimResults);
+    if (ui.btnClearParticipants) ui.btnClearParticipants.addEventListener("click", clearParticipants);
+    if (ui.btnClearResults) ui.btnClearResults.addEventListener("click", clearResults);
     ui.btnGenerate.addEventListener("click", buildLadder);
     ui.btnPlayAll.addEventListener("click", togglePlayAll);
 
@@ -721,6 +1001,12 @@
     ui.presetClass.addEventListener("click", () => loadPreset("class"));
     ui.presetTeam.addEventListener("click", () => loadPreset("team"));
     ui.presetSeat.addEventListener("click", () => loadPreset("seat"));
+
+    // Prevent persistent focus flash on button click.
+    document.addEventListener("pointerup", (event) => {
+      const btn = event.target && event.target.closest ? event.target.closest("button") : null;
+      if (btn && typeof btn.blur === "function") btn.blur();
+    });
   }
 
   restoreState();

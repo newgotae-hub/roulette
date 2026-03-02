@@ -16,12 +16,14 @@
       fullscreen: '전체화면',
       fullscreenExit: '화면해제',
       heroTitle: '로또 번호 추첨기',
+      heroTitleCustom: '랜덤 추첨기',
       heroSubtitle: '빠르고 부드러운 애니메이션, 기본 로또 번호부터 명단 입력까지 지원합니다.',
       tabBasic: '기본 설정',
       tabCustom: '직접 입력',
       labelTotalBalls: '전체 공 개수 (1~100)',
       labelDrawCount: '뽑을 개수',
       labelCustomDrawCount: '뽑을 개수',
+      customPlaceholder: '이름이나 번호를 입력하세요. 줄바꿈, 쉼표, 공백 자동 인식',
       labelAllowDup: '중복 추첨 허용',
       labelSound: '효과음 재생',
       labelSpeed: '추첨 속도',
@@ -54,25 +56,27 @@
       noCopy: '복사할 결과가 없습니다.'
     },
     en: {
-      title: 'Lotto Draw | Random Picker RLT',
-      desc: 'Premium online lotto drawer with smooth motion. Supports default 6/45 mode and custom list input, sorting, CSV export, and fullscreen.',
-      ogTitle: 'Lotto Draw | Random Picker RLT',
-      ogDesc: 'Smooth lotto number picker with custom lists, sorting, and history export.',
-      twTitle: 'Lotto Draw | Random Picker RLT',
-      twDesc: 'Clean UX and smooth motion for lotto number and name draws',
+      title: 'Random Name Picker | Custom List Draw RLT',
+      desc: 'Random Name Picker with smooth animation, custom list draw support, fair random selection, and CSV export.',
+      ogTitle: 'Random Name Picker | Custom List Draw RLT',
+      ogDesc: 'Random Name Picker for giveaways, classrooms, and team picks with smooth draw animation and exportable history.',
+      twTitle: 'Random Name Picker | Custom List Draw RLT',
+      twDesc: 'Random Name Picker with smooth animation and instant custom list draws',
       navSpin: 'Wheel of Names',
-      navLotto: 'Lotto Draw',
+      navLotto: 'Lucky Draw',
       navHistory: 'Ladder Draw',
       navGuide: 'Guide',
       fullscreen: 'Fullscreen',
       fullscreenExit: 'Exit Full',
-      heroTitle: 'Lotto Number Drawer',
-      heroSubtitle: 'Smooth animation and flexible draw modes for numbers and custom lists.',
+      heroTitle: 'Random Name Picker',
+      heroTitleCustom: 'Random Ball Draw',
+      heroSubtitle: 'Random Name Picker with smooth animation for giveaways, classrooms, team picks, and instant custom list draws.',
       tabBasic: 'Basic',
       tabCustom: 'Custom List',
       labelTotalBalls: 'Total Balls (1~100)',
       labelDrawCount: 'Draw Count',
       labelCustomDrawCount: 'Draw Count',
+      customPlaceholder: 'Enter names or items. New lines, commas, and spaces are detected automatically.',
       labelAllowDup: 'Allow Duplicates',
       labelSound: 'Sound Effects',
       labelSpeed: 'Speed',
@@ -129,6 +133,7 @@
     fullscreenLabel: document.getElementById('fullscreen-label'),
     tabBasicBtn: document.getElementById('tab-btn-basic'),
     tabCustomBtn: document.getElementById('tab-btn-custom'),
+    customHint: document.getElementById('custom-list-hint'),
     tabBasic: document.getElementById('tab-basic'),
     tabCustom: document.getElementById('tab-custom'),
     inpTotal: document.getElementById('input-total-balls'),
@@ -143,6 +148,7 @@
     btnReset: document.getElementById('btn-reset'),
     btnDraw: document.getElementById('btn-draw'),
     statusBanner: document.getElementById('status-banner'),
+    machineWrap: document.getElementById('machine-wrap'),
     resultSlots: document.getElementById('result-slots'),
     btnSortOrder: document.getElementById('sort-order'),
     btnSortAsc: document.getElementById('sort-asc'),
@@ -156,6 +162,13 @@
   const CX = 300;
   const CY = 300;
   const RADIUS = 276;
+
+  function getBallRadius(count) {
+    if (count > 80) return 12;
+    if (count > 45) return 16;
+    if (count > 20) return 20;
+    return 24;
+  }
 
   function t(key) {
     const pack = i18n[state.locale] || i18n.ko;
@@ -187,6 +200,7 @@
     setText('label-total-balls', 'labelTotalBalls');
     setText('label-draw-count', 'labelDrawCount');
     setText('label-custom-draw-count', 'labelCustomDrawCount');
+    if (ui.inpCustomList) ui.inpCustomList.placeholder = t('customPlaceholder');
     setText('label-allow-dup', 'labelAllowDup');
     setText('label-sound', 'labelSound');
     setText('label-speed', 'labelSpeed');
@@ -218,6 +232,20 @@
     updateSpeedLabel();
     renderHistory();
     renderSlots(state.currentResult);
+    applyModeHeading();
+    updateCustomHint();
+  }
+
+  function applyModeHeading() {
+    const titleEl = document.getElementById('hero-title');
+    if (!titleEl) return;
+    titleEl.textContent = state.mode === 'custom' ? t('heroTitleCustom') : t('heroTitle');
+  }
+
+  function updateCustomHint() {
+    if (!ui.customHint) return;
+    const showHint = state.locale === 'en' && state.mode === 'basic';
+    ui.customHint.classList.toggle('hidden', !showHint);
   }
 
   function updateSpeedLabel() {
@@ -256,6 +284,7 @@
         this.vy -= Math.random() * 1.2 + 0.5;
         this.vx += (Math.random() - 0.5) * 0.8;
       }
+
       this.vx *= 0.99;
       this.vy *= 0.99;
       this.x += this.vx;
@@ -328,14 +357,81 @@
     state.raf = requestAnimationFrame(loop);
   }
 
+  function pickNextBallId(available, skip) {
+    if (!available.length) return null;
+    if (skip) return available[Math.floor(Math.random() * available.length)];
+
+    const tx = CX;
+    const ty = CY - RADIUS - 20;
+    const topCandidates = [];
+
+    for (const id of available) {
+      const ball = state.balls.find((b) => b.id === id);
+      if (!ball || ball.state === 'drawn') continue;
+
+      const dx = ball.x - tx;
+      const dy = ball.y - ty;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      const upwardBonus = Math.max(0, -ball.vy) * 22;
+      const centerPenalty = Math.abs(dx) * 0.35;
+      const lowerPenalty = Math.max(0, ball.y - (CY + 10)) * 0.28;
+      const jitter = Math.random() * 12;
+      const score = dist + centerPenalty + lowerPenalty - upwardBonus + jitter;
+
+      topCandidates.push({ id, score });
+    }
+
+    if (!topCandidates.length) {
+      return available[Math.floor(Math.random() * available.length)];
+    }
+
+    topCandidates.sort((a, b) => a.score - b.score);
+    const pickBand = topCandidates.slice(0, Math.min(3, topCandidates.length));
+    return pickBand[Math.floor(Math.random() * pickBand.length)].id;
+  }
+
   function initEngine(pool) {
     cancelAnimationFrame(state.raf);
-    let r = 24;
-    if (pool.length > 80) r = 12;
-    else if (pool.length > 45) r = 16;
-    else if (pool.length > 20) r = 20;
+    const r = getBallRadius(pool.length);
     state.balls = pool.map((label, idx) => new Ball(idx, label, r));
     loop();
+  }
+
+  function syncCustomPoolSmooth() {
+    const nextPool = parseEntries(ui.inpCustomList.value, { allowDuplicates: false });
+    const radius = getBallRadius(nextPool.length);
+
+    if (!state.balls.length) {
+      state.pool = nextPool;
+      state.availableIds = nextPool.map((_, i) => i);
+      state.currentResult = [];
+      renderSlots([]);
+      initEngine(nextPool);
+      return;
+    }
+
+    const oldByLabel = new Map(state.balls.map((b) => [b.label, b]));
+    const nextBalls = nextPool.map((label, idx) => {
+      const existing = oldByLabel.get(String(label));
+      if (existing) {
+        existing.id = idx;
+        existing.label = String(label);
+        if (existing.state === 'drawn') existing.state = 'mixing';
+        existing.r = radius;
+        return existing;
+      }
+      const ball = new Ball(idx, label, radius);
+      ball.x = CX + (Math.random() - 0.5) * 80;
+      ball.y = CY + (Math.random() - 0.5) * 80;
+      return ball;
+    });
+
+    state.pool = nextPool;
+    state.availableIds = nextPool.map((_, i) => i);
+    state.currentResult = [];
+    state.balls = nextBalls;
+    renderSlots([]);
   }
 
   function preparePool() {
@@ -368,12 +464,109 @@
       ui.tabCustomBtn.className = 'flex-1 py-2.5 text-xs font-semibold rounded-xl bg-white shadow-sm text-slate-900 border border-slate-200/60';
       ui.tabBasicBtn.className = 'flex-1 py-2.5 text-xs font-medium rounded-xl text-slate-500 hover:text-slate-900';
     }
+    applyModeHeading();
+    updateCustomHint();
     preparePool();
   }
 
   function getDrawCount() {
     const val = Number(state.mode === 'basic' ? ui.inpDrawBasic.value : ui.inpDrawCustom.value) || 1;
     return Math.max(1, val);
+  }
+
+  function getResultBallVisual(id) {
+    const bg = [
+      'linear-gradient(135deg,#fff,#f1f5f9)',
+      'linear-gradient(135deg,#f8fafc,#e2e8f0)',
+      'linear-gradient(135deg,#f1f5f9,#cbd5e1)',
+      'linear-gradient(135deg,#334155,#0f172a)'
+    ][id % 4];
+    return {
+      background: bg,
+      color: id % 4 === 3 ? '#ffffff' : '#0f172a'
+    };
+  }
+
+  function createResultBallNode(item) {
+    const node = document.createElement('div');
+    if (!item) {
+      node.className = 'result-ball empty';
+      node.textContent = '?';
+      return node;
+    }
+    const visual = getResultBallVisual(item.id);
+    node.className = 'result-ball';
+    node.style.background = visual.background;
+    node.style.color = visual.color;
+    node.textContent = item.label;
+    return node;
+  }
+
+  async function animateResultTransfer(item, speed) {
+    if (!ui.machineWrap || !ui.resultSlots) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const target = ui.resultSlots.querySelector('.result-ball.empty');
+    if (!target) return;
+
+    const machineRect = ui.machineWrap.getBoundingClientRect();
+    const targetRect = target.getBoundingClientRect();
+    if (!machineRect.width || !targetRect.width) return;
+
+    const startX = machineRect.left + (CX / 600) * machineRect.width;
+    const startY = machineRect.top + ((CY - RADIUS - 20) / 600) * machineRect.height;
+    const endX = targetRect.left + targetRect.width / 2;
+    const endY = targetRect.top + targetRect.height / 2;
+
+    const visual = getResultBallVisual(item.id);
+    const fly = document.createElement('div');
+    fly.className = 'draw-fly-ball';
+    fly.style.left = `${startX}px`;
+    fly.style.top = `${startY}px`;
+    fly.style.background = visual.background;
+    fly.style.color = visual.color;
+    fly.textContent = item.label;
+    document.body.appendChild(fly);
+
+    const duration = speed === 1 ? 820 : (speed === 2 ? 620 : 460);
+    const peak = Math.max(30, Math.min(96, Math.abs(endY - startY) * 0.38));
+    const curve = (Math.random() * 18 + 10) * (Math.random() < 0.5 ? -1 : 1);
+    const rotateStart = (Math.random() * 22 - 11);
+
+    await new Promise((resolve) => {
+      const started = performance.now();
+      const tick = (now) => {
+        const progress = Math.min(1, (now - started) / duration);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const sideDrift = Math.sin(Math.PI * eased) * curve;
+        const x = startX + (endX - startX) * eased + sideDrift;
+        const y = startY + (endY - startY) * eased - Math.sin(Math.PI * eased) * peak;
+        const scale = 1.16 - eased * 0.22 + Math.sin(Math.PI * eased) * 0.04;
+        const rot = rotateStart * (1 - eased) + 5 * eased;
+
+        fly.style.left = `${x}px`;
+        fly.style.top = `${y}px`;
+        fly.style.transform = `translate(-50%, -50%) scale(${scale}) rotate(${rot}deg)`;
+        fly.style.boxShadow = `inset 0 -2px 6px rgba(15,23,42,0.08), 0 ${10 + (1 - eased) * 6}px ${18 + (1 - eased) * 8}px rgba(15,23,42,0.2)`;
+        fly.style.opacity = progress > 0.8 ? String((1 - progress) / 0.2) : '1';
+
+        if (progress < 1) {
+          requestAnimationFrame(tick);
+          return;
+        }
+
+        const ring = document.createElement('div');
+        ring.className = 'draw-land-ring';
+        ring.style.left = `${endX}px`;
+        ring.style.top = `${endY}px`;
+        document.body.appendChild(ring);
+        setTimeout(() => ring.remove(), 380);
+
+        fly.remove();
+        resolve();
+      };
+      requestAnimationFrame(tick);
+    });
   }
 
   function renderSlots(results) {
@@ -393,33 +586,29 @@
 
     ui.resultSlots.innerHTML = '';
     for (let i = 0; i < drawCount; i++) {
-      const node = document.createElement('div');
       const item = list[i];
-      if (!item) {
-        node.className = 'result-ball empty';
-        node.textContent = '?';
-      } else {
-        node.className = 'result-ball';
-        node.style.background = ['linear-gradient(135deg,#fff,#f1f5f9)','linear-gradient(135deg,#f8fafc,#e2e8f0)','linear-gradient(135deg,#f1f5f9,#cbd5e1)','linear-gradient(135deg,#334155,#0f172a)'][item.id % 4];
-        node.style.color = item.id % 4 === 3 ? '#ffffff' : '#0f172a';
-        node.textContent = item.label;
-      }
+      const node = createResultBallNode(item);
       ui.resultSlots.appendChild(node);
     }
   }
 
   function renderHistory() {
     if (!state.history.length) {
-      ui.historyList.innerHTML = `<div class="h-full flex flex-col items-center justify-center text-slate-400"><iconify-icon icon="solar:ghost-smile-linear" class="text-3xl mb-2"></iconify-icon><p class="text-xs">${t('historyEmpty')}</p></div>`;
+      ui.historyList.innerHTML = `<div class="h-full min-h-[200px] flex flex-col items-center justify-center text-slate-400"><iconify-icon icon="solar:ghost-smile-linear" class="text-3xl mb-2"></iconify-icon><p class="text-xs">${t('historyEmpty')}</p></div>`;
       return;
     }
     ui.historyList.innerHTML = state.history.map((set, i) => `
-      <div class="p-3 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-100 transition-colors">
-        <div class="flex items-center justify-between mb-1.5">
-          <span class="text-[10px] font-bold text-slate-400">SET ${i + 1}</span>
-          <span class="text-[10px] text-slate-400">${set.time}</span>
+      <div class="flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 transition-colors group">
+        <div class="flex items-center gap-3 min-w-0">
+          <span class="flex items-center justify-center w-6 h-6 rounded-full bg-slate-100 text-xs font-medium text-slate-500">${i + 1}</span>
+          <div class="min-w-0">
+            <p class="text-sm font-medium text-slate-900 truncate">${set.results.join(', ')}</p>
+            <p class="text-[11px] text-slate-400">${set.time}</p>
+          </div>
         </div>
-        <div class="text-sm font-medium text-slate-800 break-words leading-snug">${set.results.join(', ')}</div>
+        <button data-history-index="${i}" class="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-red-500 transition-all" aria-label="Remove history item">
+          <iconify-icon icon="solar:close-circle-linear" stroke-width="1.5"></iconify-icon>
+        </button>
       </div>
     `).reverse().join('');
   }
@@ -475,9 +664,11 @@
 
     for (let i = 0; i < count; i++) {
       if (!available.length) break;
-      const pickIndex = Math.floor(Math.random() * available.length);
-      const selectedId = available[pickIndex];
+      const selectedId = pickNextBallId(available, skip);
+      if (selectedId == null) break;
+      const pickIndex = available.indexOf(selectedId);
       const label = state.pool[selectedId];
+      const picked = { id: selectedId, label };
 
       if (!ui.togDup.checked) available.splice(pickIndex, 1);
 
@@ -488,7 +679,9 @@
         await new Promise((r) => setTimeout(r, suctionDelay));
       }
 
-      state.currentResult.push({ id: selectedId, label });
+      if (!skip) await animateResultTransfer(picked, speed);
+
+      state.currentResult.push(picked);
       renderSlots(state.currentResult);
       tone(420, 0.09, 'sine', 0.06);
 
@@ -544,7 +737,14 @@
     ui.tabCustomBtn.addEventListener('click', () => switchTab('custom'));
 
     ui.inpTotal.addEventListener('input', () => !state.drawing && preparePool());
-    ui.inpCustomList.addEventListener('input', () => !state.drawing && preparePool());
+    ui.inpCustomList.addEventListener('input', () => {
+      if (state.drawing) return;
+      if (state.mode === 'custom') {
+        syncCustomPoolSmooth();
+      } else {
+        preparePool();
+      }
+    });
 
     ui.sliderSpeed.addEventListener('input', updateSpeedLabel);
 
@@ -568,6 +768,15 @@
     ui.btnCopy.addEventListener('click', copyResult);
     ui.btnExport.addEventListener('click', exportCsv);
 
+    ui.historyList.addEventListener('click', (event) => {
+      const target = event.target.closest('button[data-history-index]');
+      if (!target) return;
+      const idx = Number(target.getAttribute('data-history-index'));
+      if (Number.isNaN(idx)) return;
+      state.history.splice(idx, 1);
+      renderHistory();
+    });
+
     ui.fullscreenToggle.addEventListener('click', async () => {
       if (document.fullscreenElement) await document.exitFullscreen();
       else await document.documentElement.requestFullscreen();
@@ -578,8 +787,14 @@
     });
   }
 
-  bind();
-  applyI18n();
-  switchTab('basic');
-  preparePool();
+  try {
+    bind();
+    applyI18n();
+    switchTab(state.mode);
+    preparePool();
+  } catch (error) {
+    console.error('[lotto] initialization failed:', error);
+  } finally {
+    document.documentElement.classList.remove('i18n-pending');
+  }
 })();
