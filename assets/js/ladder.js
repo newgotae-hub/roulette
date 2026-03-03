@@ -74,6 +74,7 @@
     presetTeam: document.getElementById("preset-team"),
     presetSeat: document.getElementById("preset-seat"),
     labelParticipants: document.getElementById("label-participants"),
+    participantsLimitHint: document.getElementById("participants-limit-hint"),
     labelResults: document.getElementById("label-results"),
     countParticipants: document.getElementById("count-participants"),
     countResults: document.getElementById("count-results"),
@@ -263,6 +264,7 @@
     ui.presetTeam.textContent = t("presetTeam");
     ui.presetSeat.textContent = t("presetSeat");
     ui.labelParticipants.textContent = t("labelParticipants");
+    if (ui.participantsLimitHint) ui.participantsLimitHint.textContent = t("maxEntries", { n: MAX_PARTICIPANTS });
     ui.labelResults.textContent = t("labelResults");
     ui.inputParticipants.placeholder = t("phParticipants");
     ui.inputResults.placeholder = t("phResults");
@@ -520,21 +522,42 @@
     const currentResults = parsedResults();
     if (currentParticipants.length > 0 || currentResults.length > 0) return;
 
+    const localizedResults = {
+      ko: "A팀(4), B팀(4)",
+      en: "Red Team(4), Blue Team(4)",
+      ja: "赤組(4), 白組(4)",
+      "zh-cn": "红队(4), 蓝队(4)",
+      "zh-tw": "紅隊(4), 藍隊(4)",
+      es: "Equipo Rojo(4), Equipo Azul(4)",
+      fr: "Équipe Rouge(4), Équipe Bleue(4)",
+      de: "Team Rot(4), Team Blau(4)",
+      "pt-br": "Time Vermelho(4), Time Azul(4)",
+      hi: "लाल टीम(4), नीली टीम(4)",
+      ar: "الفريق الأحمر(4), الفريق الأزرق(4)",
+      ru: "Команда Красные(4), Команда Синие(4)",
+      id: "Tim Merah(4), Tim Biru(4)",
+      tr: "Kırmızı Takım(4), Mavi Takım(4)",
+      it: "Squadra Rossa(4), Squadra Blu(4)",
+      vi: "Đội Đỏ(4), Đội Xanh(4)",
+      th: "ทีมแดง(4), ทีมน้ำเงิน(4)",
+      nl: "Team Rood(4), Team Blauw(4)"
+    };
+
     let sample;
     if (state.locale === "ja") {
       sample = {
         participants: ["太郎", "花子", "健太", "美咲", "翔太", "葵", "大輝", "結衣"],
-        results: "Aチーム(4), Bチーム(4)"
+        results: localizedResults.ja
       };
     } else if (state.locale === "ko") {
       sample = {
         participants: ["민수", "서연", "지후", "하린", "도윤", "지우", "예준", "소윤"],
-        results: "A팀(4), B팀(4)"
+        results: localizedResults.ko
       };
     } else {
       sample = {
         participants: ["Alex", "Emma", "Liam", "Mia", "Noah", "Ava", "Ethan", "Zoe"],
-        results: "Team A(4), Team B(4)"
+        results: localizedResults[state.locale] || localizedResults.en
       };
     }
 

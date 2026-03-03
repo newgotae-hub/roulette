@@ -49,7 +49,7 @@
         en: "Ladder Draw | Random Match Generator Randomly Pick",
         ja: "あみだくじ | オンライン抽選ツール"
       };
-      if (bootTitleMap[lang]) document.title = bootTitleMap[lang];
+      document.title = bootTitleMap[lang] || bootTitleMap.en;
       document.documentElement.classList.add("i18n-pending");
       window.setTimeout(function () {
         document.documentElement.classList.remove("i18n-pending");
@@ -416,7 +416,7 @@
                 </h2>
               </div>
               <div class="flex items-center justify-between mb-1">
-                <p class="text-[11px] text-slate-400">최대 15명까지 지원</p>
+                <p id="participants-limit-hint" class="text-[11px] text-slate-400">최대 15명까지 지원</p>
                 <div class="flex items-center gap-1.5">
                   <button id="btn-clear-participants" class="px-2 py-0.5 text-[11px] font-medium text-slate-500 bg-white border border-slate-200 rounded-md hover:bg-slate-50 transition-colors">전체삭제</button>
                   <span id="count-participants" class="text-[11px] font-medium text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">총 0명</span>

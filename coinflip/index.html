@@ -109,7 +109,7 @@
         en: 'Coin a Flip! Heads or Tails',
         ja: 'コイントス | 表か裏かを一瞬で判定'
       };
-      if (bootTitleMap[lang]) document.title = bootTitleMap[lang];
+      document.title = bootTitleMap[lang] || bootTitleMap.en;
       document.documentElement.classList.add('i18n-pending');
       try { window.localStorage.setItem('rlt-lang', lang); } catch (e) {}
     })();
@@ -1441,7 +1441,7 @@
                           navSpin: 'रूलेट',
                           navLotto: 'ड्रॉ',
                           navHistory: 'लैडर',
-                          navCoin: 'कॉइन टॉस',
+                          navCoin: 'कॉइन',
                           navDice: 'डाइस',
                           mnavSpin: 'रूलेट',
                           mnavLotto: 'ड्रॉ',
@@ -1805,7 +1805,7 @@
         mnavDice: 'Dadi',
         languageButton: 'LANGUAGE',
         languageSearchPh: 'Cerca lingua',
-        heroTitle: 'Coin Flip! Testa o Croce',
+        heroTitle: 'Testa o Croce',
         heroSubtitle: 'Lancia 1-20 monete in una volta e ottieni subito il risultato testa/croce.',
         controlsTitle: 'Impostazioni',
         countLabel: 'Numero monete',
@@ -1876,7 +1876,7 @@
         mnavDice: 'Xúc xắc',
         languageButton: 'LANGUAGE',
         languageSearchPh: 'Tìm ngôn ngữ',
-        heroTitle: 'Coin Flip! Sấp Hay Ngửa',
+        heroTitle: 'Sấp Hay Ngửa',
         heroSubtitle: 'Tung 1-20 đồng xu cùng lúc và xem kết quả ngay.',
         controlsTitle: 'Cài đặt',
         countLabel: 'Số lượng xu',
@@ -1947,7 +1947,7 @@
         mnavDice: 'เต๋า',
         languageButton: 'LANGUAGE',
         languageSearchPh: 'ค้นหาภาษา',
-        heroTitle: 'Coin Flip! หัวหรือก้อย',
+        heroTitle: 'หัวหรือก้อย',
         heroSubtitle: 'โยนเหรียญ 1-20 เหรียญพร้อมกันและรู้ผลทันที',
         controlsTitle: 'การตั้งค่า',
         countLabel: 'จำนวนเหรียญ',
@@ -2018,7 +2018,7 @@
         mnavDice: 'Dobbel',
         languageButton: 'LANGUAGE',
         languageSearchPh: 'Taal zoeken',
-        heroTitle: 'Coin Flip! Kop of Munt',
+        heroTitle: 'Kop of Munt',
         heroSubtitle: 'Gooi 1-20 munten tegelijk en krijg direct kop/munt resultaten.',
         controlsTitle: 'Instellingen',
         countLabel: 'Aantal munten',
