@@ -114,7 +114,7 @@
     metaTwitterTitle: document.getElementById("meta-twitter-title"),
     metaTwitterDescription: document.getElementById("meta-twitter-description")
   };
-  const LANG_OPTIONS = ["ko", "en", "ja", "zh-cn", "zh-tw", "es", "fr", "de", "pt-br", "hi"];
+  const LANG_OPTIONS = ["ko", "en", "ja", "zh-cn", "es", "fr", "de", "pt-br", "hi"];
   const LANG_SET = new Set(LANG_OPTIONS);
   const localeNames = {
     ko: { native: "한국어", en: "Korean", flag: "kr" },

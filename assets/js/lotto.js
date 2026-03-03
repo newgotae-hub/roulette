@@ -123,7 +123,7 @@
   i18n.de = { ...i18n.en };
   i18n["pt-br"] = { ...i18n.en };
   i18n.hi = { ...i18n.en };
-  const LANG_OPTIONS = ["ko", "en", "ja", "zh-cn", "zh-tw", "es", "fr", "de", "pt-br", "hi"];
+  const LANG_OPTIONS = ["ko", "en", "ja", "zh-cn", "es", "fr", "de", "pt-br", "hi"];
   const LANG_SET = new Set(LANG_OPTIONS);
   const localeNames = {
     ko: { native: "한국어", en: "Korean", flag: "kr" },
