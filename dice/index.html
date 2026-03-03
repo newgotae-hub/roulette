@@ -1255,8 +1255,7 @@
             const ySpin = current.y + (preY - current.y) * spinEase;
             const zSpin = current.z + (preZ - current.z) * spinEase + wobble * 0.72;
 
-            const alignRaw = Math.max(0, (p - 0.64) / 0.36);
-            const alignEase = 1 - Math.pow(1 - Math.min(1, alignRaw), 3);
+            const alignEase = Math.pow(p, 2.2);
             const x = xSpin + (xTotal - xSpin) * alignEase;
             const y = ySpin + (yTotal - ySpin) * alignEase;
             const z = zSpin + (zTotal - zSpin) * alignEase;
