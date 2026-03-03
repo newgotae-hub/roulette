@@ -377,8 +377,9 @@
                         </div>
                     </div>
                     <div class="relative">
-                        <button id="lang-trigger" class="bg-white border border-slate-200 shadow-sm rounded-full px-3 py-1 text-[11px] font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors">
-                            LANGUAGE
+                        <button id="lang-trigger" class="bg-white border border-slate-200 shadow-sm rounded-full px-3 py-1 text-[11px] font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors inline-flex items-center gap-1.5">
+                            <span id="lang-button-label">LANGUAGE</span>
+                            <img id="lang-current-flag" src="https://flagcdn.com/w20/us.png" alt="English" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
                         </button>
                         <div id="lang-menu" class="hidden absolute right-0 top-full mt-2 z-50 w-56 rounded-xl border border-slate-200 bg-white shadow-xl p-2">
                             <input id="lang-search" type="text" class="w-full mb-2 px-2.5 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/20" placeholder="Search language">
@@ -596,6 +597,8 @@
             const ui = {
                 textarea: document.getElementById('participant-list'),
                 langTrigger: document.getElementById('lang-trigger'),
+                langButtonLabel: document.getElementById('lang-button-label'),
+                langCurrentFlag: document.getElementById('lang-current-flag'),
                 langMenu: document.getElementById('lang-menu'),
                 langSearch: document.getElementById('lang-search'),
                 langList: document.getElementById('lang-list'),
@@ -623,16 +626,16 @@
             };
 
             const localeNames = {
-                ko: { native: '한국어', en: 'Korean' },
-                en: { native: 'English', en: 'English' },
-                ja: { native: '日本語', en: 'Japanese' },
-                'zh-cn': { native: '简体中文', en: 'Chinese (Simplified)' },
-                'zh-tw': { native: '繁體中文', en: 'Chinese (Traditional)' },
-                es: { native: 'Español', en: 'Spanish' },
-                fr: { native: 'Français', en: 'French' },
-                de: { native: 'Deutsch', en: 'German' },
-                'pt-br': { native: 'Português (Brasil)', en: 'Portuguese (Brazil)' },
-                hi: { native: 'हिन्दी', en: 'Hindi' }
+                ko: { native: '한국어', en: 'Korean', flag: 'kr' },
+                en: { native: 'English', en: 'English', flag: 'us' },
+                ja: { native: '日本語', en: 'Japanese', flag: 'jp' },
+                'zh-cn': { native: '简体中文', en: 'Chinese (Simplified)', flag: 'cn' },
+                'zh-tw': { native: '繁體中文', en: 'Chinese (Traditional)', flag: 'tw' },
+                es: { native: 'Español', en: 'Spanish', flag: 'es' },
+                fr: { native: 'Français', en: 'French', flag: 'fr' },
+                de: { native: 'Deutsch', en: 'German', flag: 'de' },
+                'pt-br': { native: 'Português (Brasil)', en: 'Portuguese (Brazil)', flag: 'br' },
+                hi: { native: 'हिन्दी', en: 'Hindi', flag: 'in' }
             };
             const LANG_OPTIONS = ['ko', 'en', 'ja', 'zh-cn', 'zh-tw', 'es', 'fr', 'de', 'pt-br', 'hi'];
             const LANG_SET = new Set(LANG_OPTIONS);
@@ -653,7 +656,7 @@
                     navCoin: '코인던지기',
                     navDice: '주사위굴리기',
                     navGuide: '제비뽑기',
-                    languageButton: '언어',
+                    languageButton: 'LANGUAGE',
                     languageSearchPh: '언어 검색',
                     spinButtonLabel: '시작',
                     heroTitle: '랜덤추첨 룰렛 뽑기게임',
@@ -848,8 +851,10 @@
                 setText('nav-coin', 'navCoin');
                 setText('nav-dice', 'navDice');
                 setText('nav-guide', 'navGuide');
-                ui.langTrigger.textContent = t('languageButton');
+                ui.langButtonLabel.textContent = t('languageButton');
                 ui.langSearch.placeholder = t('languageSearchPh');
+                ui.langCurrentFlag.src = getLocaleFlagUrl(state.locale);
+                ui.langCurrentFlag.alt = (localeNames[state.locale] && localeNames[state.locale].en) || state.locale;
                 setText('spin-button-label', 'spinButtonLabel');
                 setText('hero-title', 'heroTitle');
                 setText('hero-subtitle', 'heroSubtitle');
@@ -912,6 +917,12 @@
                 return `${row.native} (${row.en})`;
             }
 
+            function getLocaleFlagUrl(locale) {
+                const row = localeNames[locale];
+                const code = row && row.flag ? row.flag : 'us';
+                return `https://flagcdn.com/w20/${code}.png`;
+            }
+
             function renderLanguageList(query) {
                 const q = String(query || '').trim().toLowerCase();
                 const filtered = LANG_OPTIONS.filter((code) => {
@@ -922,9 +933,13 @@
                 });
                 ui.langList.innerHTML = filtered.map((code) => {
                     const active = state.locale === code;
+                    const row = localeNames[code] || { native: code, en: code };
                     return `
                         <button type="button" data-lang="${code}" class="w-full text-left px-2.5 py-2 rounded-lg text-xs transition-colors ${active ? 'bg-slate-900 text-white' : 'hover:bg-slate-100 text-slate-700'}">
-                            ${getLocaleLabel(code)}
+                            <span class="inline-flex items-center gap-2">
+                                <img src="${getLocaleFlagUrl(code)}" alt="${row.en}" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
+                                <span>${getLocaleLabel(code)}</span>
+                            </span>
                         </button>
                     `;
                 }).join('');
