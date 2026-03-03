@@ -1,74 +1,704 @@
 <!DOCTYPE html>
-<html lang="tr" dir="ltr">
+<html lang="tr">
 <head>
+  <script>(function(){window.__rltBootLang='tr';try{window.localStorage.setItem('rlt-lang','tr');}catch(e){}})();</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Çekiliş (Türkçe) | Randomly Pick</title>
-  <meta name="description" content="Çekiliş in Türkçe. Fast random tool by Randomly Pick." />
-  <meta name="robots" content="index,follow" />
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-P4JDC9CR');</script>
+  <!-- End Google Tag Manager -->
+  <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
+  <title id="meta-title">무작위 번호 추첨기 | 로또·난수·랜덤번호 뽑기 Randomly Pick</title>
+  <meta id="meta-description" name="description" content="무작위 번호 추첨, 난수추첨, 랜덤번호 추첨을 지원하는 Randomly Pick 로또 추첨기. 6/45 기본 모드와 커스텀 명단 추첨, CSV 저장을 제공합니다." />
+  <meta name="keywords" content="무작위 번호 추첨, 난수추첨, 랜덤번호 추첨, 로또 추첨기, 랜덤추첨, 번호 뽑기" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
   <link rel="canonical" href="https://randomly-pick.com/tr/luckydraw/" />
-  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/luckydraw/" />
-  <link rel="alternate" hreflang="ja" href="https://randomly-pick.com/ja/luckydraw/" />
-  <link rel="alternate" hreflang="zh-cn" href="https://randomly-pick.com/zh-cn/luckydraw/" />
-  <link rel="alternate" hreflang="zh-tw" href="https://randomly-pick.com/zh-tw/luckydraw/" />
-  <link rel="alternate" hreflang="es" href="https://randomly-pick.com/es/luckydraw/" />
-  <link rel="alternate" hreflang="fr" href="https://randomly-pick.com/fr/luckydraw/" />
-  <link rel="alternate" hreflang="de" href="https://randomly-pick.com/de/luckydraw/" />
-  <link rel="alternate" hreflang="pt-br" href="https://randomly-pick.com/pt-br/luckydraw/" />
-  <link rel="alternate" hreflang="hi" href="https://randomly-pick.com/hi/luckydraw/" />
-  <link rel="alternate" hreflang="ar" href="https://randomly-pick.com/ar/luckydraw/" />
-  <link rel="alternate" hreflang="ru" href="https://randomly-pick.com/ru/luckydraw/" />
-  <link rel="alternate" hreflang="id" href="https://randomly-pick.com/id/luckydraw/" />
-  <link rel="alternate" hreflang="tr" href="https://randomly-pick.com/tr/luckydraw/" />
-  <link rel="alternate" hreflang="it" href="https://randomly-pick.com/it/luckydraw/" />
-  <link rel="alternate" hreflang="vi" href="https://randomly-pick.com/vi/luckydraw/" />
-  <link rel="alternate" hreflang="th" href="https://randomly-pick.com/th/luckydraw/" />
-  <link rel="alternate" hreflang="nl" href="https://randomly-pick.com/nl/luckydraw/" />
-  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/luckydraw/" />
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  "name": "Çekiliş",
-  "description": "Çekiliş in Türkçe. Fast random tool by Randomly Pick.",
-  "url": "https://randomly-pick.com/tr/luckydraw/",
-  "inLanguage": "tr"
-}
-  </script>
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Randomly Pick",
-      "item": "https://randomly-pick.com/tr/"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Çekiliş",
-      "item": "https://randomly-pick.com/tr/luckydraw/"
-    }
-  ]
-}
-  </script>
+  <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/luckydraw/" />
+  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/luckydraw/?lang=en" />
+  <link rel="alternate" hreflang="ja" href="https://randomly-pick.com/luckydraw/?lang=ja" />
+  <link rel="alternate" hreflang="zh-cn" href="https://randomly-pick.com/luckydraw/?lang=zh-cn" />
+  <link rel="alternate" hreflang="zh-tw" href="https://randomly-pick.com/luckydraw/?lang=zh-tw" />
+  <link rel="alternate" hreflang="es" href="https://randomly-pick.com/luckydraw/?lang=es" />
+  <link rel="alternate" hreflang="fr" href="https://randomly-pick.com/luckydraw/?lang=fr" />
+  <link rel="alternate" hreflang="de" href="https://randomly-pick.com/luckydraw/?lang=de" />
+  <link rel="alternate" hreflang="pt-br" href="https://randomly-pick.com/luckydraw/?lang=pt-br" />
+  <link rel="alternate" hreflang="hi" href="https://randomly-pick.com/luckydraw/?lang=hi" />
+  <link rel="alternate" hreflang="ar" href="https://randomly-pick.com/luckydraw/?lang=ar" />
+  <link rel="alternate" hreflang="ru" href="https://randomly-pick.com/luckydraw/?lang=ru" />
+  <link rel="alternate" hreflang="id" href="https://randomly-pick.com/luckydraw/?lang=id" />
+  <link rel="alternate" hreflang="tr" href="https://randomly-pick.com/luckydraw/?lang=tr" />
+  <link rel="alternate" hreflang="it" href="https://randomly-pick.com/luckydraw/?lang=it" />
+  <link rel="alternate" hreflang="vi" href="https://randomly-pick.com/luckydraw/?lang=vi" />
+  <link rel="alternate" hreflang="th" href="https://randomly-pick.com/luckydraw/?lang=th" />
+  <link rel="alternate" hreflang="nl" href="https://randomly-pick.com/luckydraw/?lang=nl" />
+  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/luckydraw/" />
+  <meta id="meta-og-title" property="og:title" content="무작위 번호 추첨기 | 로또·난수·랜덤번호 뽑기 Randomly Pick" />
+  <meta id="meta-og-description" property="og:description" content="무작위 번호 추첨, 난수추첨, 랜덤번호 추첨을 지원하는 온라인 로또 추첨기." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://randomly-pick.com/tr/luckydraw/" />
+  <meta property="og:site_name" content="Randomly Pick" />
+  <meta property="og:image" content="https://randomly-pick.com/og-image.svg" />
+  <meta property="og:image:alt" content="Randomly Pick lotto preview image" />
+  <meta property="og:locale" content="ko_KR" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta id="meta-twitter-title" name="twitter:title" content="무작위 번호 추첨기 | 로또·난수·랜덤번호 뽑기 Randomly Pick" />
+  <meta id="meta-twitter-description" name="twitter:description" content="난수추첨과 랜덤번호 추첨을 빠르게 처리하는 로또 번호 추첨기" />
+  <meta name="twitter:image" content="https://randomly-pick.com/og-image.svg" />
   <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;background:#f8fafc;color:#0f172a}
-    main{max-width:760px;margin:0 auto;padding:40px 20px}
-    h1{font-size:28px;margin:0 0 10px}
-    p{color:#334155;line-height:1.6}
-    a{color:#0f172a;font-weight:600}
+    html.i18n-pending body { visibility: hidden; }
   </style>
+  <script>
+    (function () {
+      var supported = ['ko', 'en', 'ja', 'zh-cn', 'zh-tw', 'es', 'fr', 'de', 'pt-br', 'hi', 'ar', 'ru', 'id', 'tr', 'it', 'vi', 'th', 'nl'];
+      function normalizeLang(raw) {
+        var v = String(raw || '').toLowerCase().replace('_', '-');
+        if (!v) return '';
+        if (v === 'zh' || v.indexOf('zh-cn') === 0 || v.indexOf('zh-hans') === 0) return 'zh-cn';
+        if (v.indexOf('zh-tw') === 0 || v.indexOf('zh-hk') === 0 || v.indexOf('zh-hant') === 0) return 'zh-tw';
+        if (v.indexOf('pt-br') === 0) return 'pt-br';
+        if (v.indexOf('ko') === 0) return 'ko';
+        if (v.indexOf('en') === 0) return 'en';
+        if (v.indexOf('ja') === 0) return 'ja';
+        if (v.indexOf('es') === 0) return 'es';
+        if (v.indexOf('fr') === 0) return 'fr';
+        if (v.indexOf('de') === 0) return 'de';
+        if (v.indexOf('hi') === 0) return 'hi';
+        if (v.indexOf('ar') === 0) return 'ar';
+        if (v.indexOf('ru') === 0) return 'ru';
+        if (v.indexOf('id') === 0) return 'id';
+        if (v.indexOf('tr') === 0) return 'tr';
+        if (v.indexOf('it') === 0) return 'it';
+        if (v.indexOf('vi') === 0) return 'vi';
+        if (v.indexOf('th') === 0) return 'th';
+        if (v.indexOf('nl') === 0) return 'nl';
+        return v;
+      }
+      var lang = null;
+      var params = new URLSearchParams(window.location.search);
+      var forced = normalizeLang(params.get('lang'));
+      if (supported.indexOf(forced) !== -1) lang = forced;
+      if (!lang) {
+        try {
+          var cached = normalizeLang(window.localStorage.getItem('rlt-lang'));
+          if (supported.indexOf(cached) !== -1) lang = cached;
+        } catch (e) {}
+      }
+      if (!lang) {
+        var navs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ''];
+        for (var i = 0; i < navs.length; i++) {
+          var cand = normalizeLang(navs[i]);
+          if (supported.indexOf(cand) !== -1) {
+            lang = cand;
+            break;
+          }
+        }
+      }
+      if (!lang) lang = 'en';
+      window.__rltBootLang = lang;
+      document.documentElement.lang = lang;
+      var bootTitleMap = {
+        ko: '무작위 번호 추첨기 | 로또·난수·랜덤번호 뽑기 Randomly Pick',
+        en: 'Random Number Generator & Lucky Draw | Randomly Pick',
+        ja: 'ランダム抽選ツール | 数字・名前のオンライン抽選',
+        'zh-cn': '随机抽签工具 | 数字与名单抽取',
+        'zh-tw': '隨機抽籤工具 | 數字與名單抽取'
+      };
+      if (bootTitleMap[lang]) document.title = bootTitleMap[lang];
+      document.documentElement.classList.add('i18n-pending');
+      // Fail-safe: never keep body hidden even if downstream scripts fail/cached oddly.
+      setTimeout(function () {
+        document.documentElement.classList.remove('i18n-pending');
+      }, 1200);
+      window.addEventListener('load', function () {
+        document.documentElement.classList.remove('i18n-pending');
+      }, { once: true });
+      try { window.localStorage.setItem('rlt-lang', lang); } catch (e) {}
+    })();
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://randomly-pick.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Lucky Draw",
+        "item": "https://randomly-pick.com/luckydraw/"
+      }
+    ]
+  }
+  </script>
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1010168647313500" crossorigin="anonymous"></script>
+  <script>
+    window.Userback = window.Userback || {};
+    Userback.access_token = "A-vV6YCxc6cQKtRBem24yA3IgC8";
+    (function() {
+      var lang = window.__rltBootLang || 'en';
+      Userback.widget_settings = { language: lang === 'ko' ? 'ko' : 'en' };
+    })();
+    (function(d) {
+      var s = d.createElement('script');
+      s.async = true;
+      s.src = 'https://static.userback.io/widget/v1.js';
+      (d.head || d.body).appendChild(s);
+    })(document);
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Randomly Pick. 랜덤 추첨 게임 로또추첨기",
+    "applicationCategory": "GameApplication",
+    "operatingSystem": "Web",
+    "description": "로또 번호 및 커스텀 명단 추첨을 지원하는 랜덤 추첨기",
+    "inLanguage": "ko-KR",
+    "url": "https://randomly-pick.com/luckydraw/",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "KRW"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "로또 추첨기에 원하는 번호나 이름을 넣을 수 있나요?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "네. 직접 입력 모드에서 공백, 쉼표, 줄바꿈 등을 자동 인식해 번호나 이름을 추첨할 수 있습니다."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "추첨 결과는 어떻게 저장하나요?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "추첨 기록 패널에서 CSV 저장 버튼으로 전체 기록을 다운로드할 수 있습니다."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "입력 데이터는 안전하게 보호되나요?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "입력 데이터와 추첨 기록은 브라우저에서만 처리되며 외부 서버로 전송되거나 저장되지 않습니다."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif']
+          },
+          animation: {
+            'soft-pulse': 'softPulse 1.8s ease-in-out infinite'
+          },
+          keyframes: {
+            softPulse: {
+              '0%, 100%': { opacity: '0.65' },
+              '50%': { opacity: '1' }
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    :root { --bg: #f8fafc; }
+    body { background: radial-gradient(circle at 15% 20%, #ffffff 0%, var(--bg) 45%, #eef2f7 100%); }
+    .hide-scrollbar::-webkit-scrollbar { width: 6px; }
+    .hide-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+
+    #machine-shell {
+      position: relative;
+      width: 100%;
+      max-width: 520px;
+      aspect-ratio: 1 / 1;
+    }
+
+    #machine-wrap {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 9999px;
+      background: radial-gradient(circle at 50% 100%, #f1f5f9 0%, #ffffff 80%);
+      box-shadow: inset 0 4px 20px rgba(15, 23, 42, 0.05), inset 0 -10px 30px rgba(255, 255, 255, 0.8), 0 18px 60px rgba(15, 23, 42, 0.08);
+      overflow: hidden;
+    }
+
+    #lotto-canvas { width: 100%; height: 100%; border-radius: 9999px; }
+
+    .tube {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 126px;
+      height: 14px;
+      background: transparent;
+      border: 0;
+      border-radius: 9999px;
+      box-shadow: none;
+      z-index: 6;
+    }
+
+    .tube::before {
+      content: none;
+    }
+
+    .tube::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: -8px;
+      width: 80px;
+      height: 10px;
+      border-radius: 9999px;
+      background: linear-gradient(to bottom, rgba(248, 250, 252, 0.95) 0%, rgba(226, 232, 240, 0.72) 100%);
+      border-top: 1px solid rgba(203, 213, 225, 0.8);
+      opacity: 0.95;
+      pointer-events: none;
+    }
+
+    .glass-highlight {
+      position: absolute;
+      inset: 0;
+      border-radius: 9999px;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.8);
+      pointer-events: none;
+    }
+
+    .result-ball {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+      border: 1px solid #e2e8f0;
+      color: #0f172a;
+      box-shadow: inset 0 -2px 6px rgba(15,23,42,0.08), 0 4px 8px rgba(15,23,42,0.05);
+      animation: popIn 380ms cubic-bezier(0.18, 0.89, 0.32, 1.28) both;
+    }
+    .result-ball.empty {
+      border-style: dashed;
+      color: transparent;
+      background: #f1f5f9;
+      box-shadow: inset 0 2px 4px rgba(15,23,42,0.05);
+      animation: none;
+    }
+
+    .draw-fly-ball {
+      position: fixed;
+      left: 0;
+      top: 0;
+      transform: translate(-50%, -50%);
+      width: 52px;
+      height: 52px;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.95rem;
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      box-shadow: inset 0 -2px 6px rgba(15,23,42,0.08), 0 12px 22px rgba(15,23,42,0.2);
+      z-index: 70;
+      pointer-events: none;
+      will-change: left, top, transform, opacity;
+      overflow: hidden;
+    }
+
+    .draw-fly-ball::before {
+      content: "";
+      position: absolute;
+      top: -40%;
+      left: -65%;
+      width: 56%;
+      height: 180%;
+      background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,0.58), rgba(255,255,255,0));
+      transform: rotate(18deg);
+      animation: flyShine 520ms ease-out 1;
+    }
+
+    .draw-land-ring {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 16px;
+      height: 16px;
+      border-radius: 9999px;
+      border: 2px solid rgba(15, 23, 42, 0.28);
+      transform: translate(-50%, -50%) scale(0.6);
+      opacity: 0.85;
+      pointer-events: none;
+      z-index: 69;
+      animation: landRing 360ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .custom-list-hint {
+      position: absolute;
+      right: 10px;
+      top: -30px;
+      background: #0f172a;
+      color: #ffffff;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      line-height: 1;
+      padding: 6px 8px;
+      border-radius: 9999px;
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.22);
+      pointer-events: none;
+      animation: hintPulse 1.8s ease-in-out infinite;
+      z-index: 5;
+    }
+
+    .custom-list-hint::after {
+      content: "";
+      position: absolute;
+      right: 18px;
+      bottom: -5px;
+      width: 10px;
+      height: 10px;
+      background: #0f172a;
+      transform: rotate(45deg);
+      border-radius: 1px;
+    }
+
+    @keyframes hintPulse {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-2px); }
+    }
+    .fullscreen-hint-pop {
+      animation: hintPopIn 260ms ease-out, hintPulse 1.9s ease-in-out 260ms infinite;
+    }
+    @keyframes hintPopIn {
+      0% { opacity: 0; transform: translateY(6px) scale(0.97); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.85) translateY(4px); opacity: 0; }
+      100% { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
+    @keyframes flyShine {
+      0% { transform: translateX(-120%) rotate(18deg); opacity: 0; }
+      18% { opacity: 0.9; }
+      100% { transform: translateX(300%) rotate(18deg); opacity: 0; }
+    }
+
+    @keyframes landRing {
+      0% { transform: translate(-50%, -50%) scale(0.6); opacity: 0.8; }
+      100% { transform: translate(-50%, -50%) scale(3.2); opacity: 0; }
+    }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: flex; }
+    @media (max-width: 1023px) {
+      #lotto-controls-panel {
+        order: 2;
+      }
+      #lotto-stage-panel {
+        order: 1;
+        position: relative;
+        z-index: 90;
+      }
+      #lotto-results-panel {
+        order: 3;
+      }
+      #lotto-stage-panel #machine-shell,
+      #lotto-stage-panel #machine-wrap,
+      #lotto-stage-panel #lotto-canvas {
+        position: relative;
+        z-index: 95;
+      }
+    }
+  </style>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9415RVEK2W"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-9415RVEK2W');
+  </script>
 </head>
-<body>
-  <main>
-    <h1>Çekiliş - Türkçe</h1>
-    <p>Tam aracı tek tıkla açın:</p>
-    <p><a href="/luckydraw/?lang=tr">/luckydraw/?lang=tr</a></p>
-    <p><a href="/tr/">Dil ana sayfasına dön</a></p>
+<body class="text-slate-900 font-sans antialiased selection:bg-slate-200 selection:text-slate-900 min-h-screen flex flex-col">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P4JDC9CR"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  <header class="sticky top-0 z-50 bg-slate-50/85 backdrop-blur-md border-b border-slate-200/70">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 min-w-8 min-h-8 aspect-square shrink-0 bg-slate-900 text-white rounded-lg flex items-center justify-center font-semibold text-lg tracking-tighter">
+            <span>R</span><span style="display:inline-block;font-size:1.18em;line-height:1;transform:translateX(1.4px) translateY(-0.2px);">.</span>
+          </div>
+          <span class="text-base font-semibold tracking-tight text-slate-900">Randomly Pick</span>
+        </div>
+        <nav class="hidden md:flex items-center gap-8">
+          <a id="nav-spin" href="/roulette/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">룰렛돌리기</a>
+          <a id="nav-lotto" href="/luckydraw/" class="text-sm font-medium text-slate-900">로또추첨기</a>
+          <a id="nav-history" href="/ladder/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">사다리타기</a>
+          <a id="nav-coin" href="/coinflip/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">코인던지기</a>
+          <a id="nav-dice" href="/dice/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">주사위굴리기</a>
+        </nav>
+        <div class="flex items-center gap-2">
+          <div class="relative">
+            <button id="fullscreen-toggle" class="bg-white border border-slate-200 shadow-sm rounded-full px-3 py-1.5 text-xs font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors flex items-center gap-1.5">
+              <iconify-icon id="fullscreen-icon" icon="solar:maximize-linear" stroke-width="1.5"></iconify-icon>
+              <span id="fullscreen-label">전체화면</span>
+            </button>
+            <div id="fullscreen-hint" class="hidden md:block fullscreen-hint-pop absolute right-0 top-full mt-2 z-50 bg-slate-900 text-white text-[11px] px-2.5 py-1.5 rounded-lg shadow-lg whitespace-nowrap pointer-events-none">
+              <span id="fullscreen-hint-text">전체화면을 눌러주세요!</span>
+              <span class="absolute -top-1.5 right-4 w-3 h-3 bg-slate-900 rotate-45"></span>
+            </div>
+          </div>
+          <div class="relative">
+            <button id="lang-trigger" class="bg-white border border-slate-200 shadow-sm rounded-full px-3 py-1 text-[11px] font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors inline-flex items-center gap-1.5">
+              <span id="lang-button-label">LANGUAGE</span>
+              <img id="lang-current-flag" src="https://flagcdn.com/w20/us.png" alt="English" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
+            </button>
+            <div id="lang-menu" class="hidden absolute right-0 top-full mt-2 z-50 w-56 rounded-xl border border-slate-200 bg-white shadow-xl p-2">
+              <input id="lang-search" type="text" class="w-full mb-2 px-2.5 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/20" placeholder="Search language">
+              <div id="lang-list" class="max-h-56 overflow-y-auto hide-scrollbar space-y-1"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="md:hidden border-b border-slate-200/70 bg-white/90 backdrop-blur">
+    <div class="px-4 py-2 overflow-x-auto hide-scrollbar">
+      <nav class="flex items-center gap-2 min-w-max">
+        <a href="/roulette/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">룰렛</a>
+        <a href="/luckydraw/" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-900 text-white">로또</a>
+        <a href="/ladder/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">사다리</a>
+        <a href="/coinflip/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">코인</a>
+        <a href="/dice/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">주사위</a>
+      </nav>
+    </div>
+  </section>
+
+  <main class="flex-grow flex flex-col">
+    <section class="pt-8 pb-5 px-4 sm:px-6 lg:px-8 text-center max-w-3xl mx-auto">
+      <h1 id="hero-title" class="text-3xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-4">로또 번호 추첨기</h1>
+      <p id="hero-subtitle" class="text-base md:text-lg text-slate-500">빠르고 부드러운 애니메이션, 기본 로또 번호부터 명단 입력까지 지원합니다.</p>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div id="lotto-controls-panel" class="lg:col-span-3 space-y-4">
+          <button id="btn-draw" class="w-full h-11 bg-slate-900 rounded-xl flex items-center justify-center text-white shadow-lg hover:scale-[1.02] active:scale-[0.99] transition-all">
+            <span id="label-btn-draw" class="text-sm font-semibold tracking-wide">추첨 시작</span>
+          </button>
+
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col min-h-[380px] lg:h-[600px]">
+            <div class="relative flex items-center p-1 bg-slate-50/60 border-b border-slate-100">
+              <button id="tab-btn-basic" class="flex-1 py-2.5 text-xs font-semibold rounded-xl bg-white shadow-sm text-slate-900 border border-slate-200/60">기본 설정</button>
+              <button id="tab-btn-custom" class="flex-1 py-2.5 text-xs font-medium rounded-xl text-slate-500 hover:text-slate-900">직접 입력</button>
+              <div id="custom-list-hint" class="custom-list-hint hidden">Click Me!</div>
+            </div>
+
+            <div id="tab-basic" class="tab-content active flex-col p-4 space-y-4">
+              <div>
+                <label class="text-xs font-semibold text-slate-700 mb-1.5 block" id="label-total-balls">전체 공 개수 (1~100)</label>
+                <input type="number" id="input-total-balls" value="45" min="1" max="100" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-sm text-slate-900 focus:ring-2 focus:ring-slate-900 focus:outline-none" />
+              </div>
+              <div>
+                <label class="text-xs font-semibold text-slate-700 mb-1.5 block" id="label-draw-count">뽑을 개수</label>
+                <input type="number" id="input-draw-count" value="6" min="1" max="100" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-sm text-slate-900 focus:ring-2 focus:ring-slate-900 focus:outline-none" />
+              </div>
+            </div>
+
+            <div id="tab-custom" class="tab-content flex-col p-4">
+              <textarea id="custom-list" class="w-full h-[190px] min-h-[150px] resize-none bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900" placeholder="이름이나 번호를 입력하세요. 줄바꿈, 쉼표, 공백 자동 인식"></textarea>
+              <div class="mt-3 flex items-center justify-between">
+                <span class="text-xs font-semibold text-slate-700" id="label-custom-draw-count">뽑을 개수</span>
+                <input type="number" id="input-custom-draw-count" value="1" min="1" class="w-20 bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-sm text-slate-900 text-center focus:ring-2 focus:ring-slate-900 focus:outline-none" />
+              </div>
+            </div>
+
+            <div class="p-4 bg-slate-50/60 border-t border-slate-100 space-y-3">
+              <label class="flex items-center justify-between cursor-pointer">
+                <span id="label-allow-dup" class="text-sm font-medium text-slate-700">중복 추첨 허용</span>
+                <div class="relative">
+                  <input id="toggle-dup" type="checkbox" class="sr-only peer" />
+                  <div class="w-9 h-5 bg-slate-200 rounded-full peer peer-checked:bg-slate-900 transition-colors"></div>
+                  <div class="absolute left-0.5 top-0.5 bg-white w-4 h-4 rounded-full transition-transform peer-checked:translate-x-4 shadow-sm"></div>
+                </div>
+              </label>
+
+              <label class="flex items-center justify-between cursor-pointer">
+                <span id="label-sound" class="text-sm font-medium text-slate-700">효과음 재생</span>
+                <div class="relative">
+                  <input id="toggle-sound" type="checkbox" class="sr-only peer" checked />
+                  <div class="w-9 h-5 bg-slate-200 rounded-full peer peer-checked:bg-slate-900 transition-colors"></div>
+                  <div class="absolute left-0.5 top-0.5 bg-white w-4 h-4 rounded-full transition-transform peer-checked:translate-x-4 shadow-sm"></div>
+                </div>
+              </label>
+
+              <div class="space-y-2 pt-1">
+                <div class="flex justify-between items-center">
+                  <span id="label-speed" class="text-sm font-medium text-slate-700">추첨 속도</span>
+                  <span id="label-speed-val" class="text-xs text-slate-500">보통</span>
+                </div>
+                <input id="slider-speed" type="range" min="1" max="3" value="2" class="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-slate-900" />
+              </div>
+
+              <button id="btn-quick-draw" class="w-full bg-white border border-slate-200 rounded-lg py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors flex items-center justify-center gap-1.5 mt-2">
+                <iconify-icon icon="solar:bolt-linear" stroke-width="1.5"></iconify-icon>
+                <span id="label-btn-quick">애니메이션 스킵 (빠른 추첨)</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div id="lotto-stage-panel" class="lg:col-span-6 flex flex-col items-center justify-center min-h-[360px] lg:h-[600px]">
+          <div id="machine-shell">
+            <div class="tube"></div>
+            <div id="machine-wrap">
+              <canvas id="lotto-canvas" width="600" height="600"></canvas>
+              <div class="glass-highlight"></div>
+            </div>
+          </div>
+
+          <div class="mt-5 flex gap-3">
+            <button id="btn-reset" class="w-14 h-14 bg-white border border-slate-200 rounded-full flex items-center justify-center text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors shadow-sm">
+              <iconify-icon icon="solar:refresh-linear" stroke-width="1.5" class="text-xl"></iconify-icon>
+            </button>
+          </div>
+          <p id="status-banner" class="mt-3 text-sm text-slate-500 animate-soft-pulse min-h-[20px]">설정을 확인하고 추첨 시작을 누르세요.</p>
+        </div>
+
+        <div id="lotto-results-panel" class="lg:col-span-3 space-y-4 lg:h-[600px]">
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 flex flex-col items-center">
+            <div class="w-full flex justify-between items-center mb-3">
+              <h2 class="text-sm font-semibold tracking-tight text-slate-900 flex items-center gap-1.5">
+                <iconify-icon icon="solar:stars-linear" class="text-slate-400"></iconify-icon>
+                <span id="label-result-title">이번 추첨 결과</span>
+              </h2>
+              <div class="flex bg-slate-100 rounded-lg p-0.5">
+                <button id="sort-order" class="px-2 py-1 text-[10px] font-semibold rounded-md bg-white text-slate-900 shadow-sm">추첨순</button>
+                <button id="sort-asc" class="px-2 py-1 text-[10px] font-semibold rounded-md text-slate-500 hover:text-slate-900">오름차순</button>
+              </div>
+            </div>
+            <div id="result-slots" class="grid grid-cols-3 gap-2.5 w-full max-w-[220px]"></div>
+            <button id="btn-copy" class="mt-4 text-xs font-medium text-slate-500 hover:text-slate-900 flex items-center gap-1 transition-colors">
+              <iconify-icon icon="solar:copy-linear" stroke-width="1.5"></iconify-icon>
+              <span id="label-btn-copy">결과 복사</span>
+            </button>
+          </div>
+
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col h-[280px] lg:flex-1">
+            <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/60">
+              <h2 class="text-sm font-semibold tracking-tight flex items-center gap-2">
+                <iconify-icon icon="solar:history-linear" stroke-width="1.5" class="text-slate-400"></iconify-icon>
+                <span id="label-history-title">추첨 기록</span>
+              </h2>
+              <button id="btn-export" class="text-xs font-medium text-slate-500 hover:text-slate-900 flex items-center gap-1 transition-colors">
+                <iconify-icon icon="solar:download-minimalistic-linear" stroke-width="1.5"></iconify-icon>
+                <span id="label-btn-export">CSV 저장</span>
+              </button>
+            </div>
+            <div id="history-list" class="flex-grow overflow-y-auto hide-scrollbar p-2 space-y-1 bg-white"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="guide" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-16">
+      <div class="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-sm">
+        <h2 id="guide-title" class="text-xl font-semibold tracking-tight text-slate-900">자주 묻는 질문</h2>
+        <div class="mt-6 space-y-3">
+          <details class="rounded-lg border border-slate-200 p-4">
+            <summary id="faq1-q" class="cursor-pointer text-sm font-medium text-slate-900">원하는 번호나 이름을 넣을 수 있나요?</summary>
+            <p id="faq1-a" class="mt-2 text-sm text-slate-600">네. 직접 입력 탭에서 구분기호를 자동 인식하여 추첨할 수 있습니다.</p>
+          </details>
+          <details class="rounded-lg border border-slate-200 p-4">
+            <summary id="faq2-q" class="cursor-pointer text-sm font-medium text-slate-900">결과를 오름차순으로 볼 수 있나요?</summary>
+            <p id="faq2-a" class="mt-2 text-sm text-slate-600">가능합니다. 추첨순/오름차순 버튼으로 즉시 전환됩니다.</p>
+          </details>
+          <details class="rounded-lg border border-slate-200 p-4">
+            <summary id="faq3-q" class="cursor-pointer text-sm font-medium text-slate-900">추첨 기록은 어떻게 저장하나요?</summary>
+            <p id="faq3-a" class="mt-2 text-sm text-slate-600">CSV 저장 버튼으로 회차별 결과를 다운로드할 수 있습니다.</p>
+          </details>
+          <details class="rounded-lg border border-slate-200 p-4">
+            <summary id="faq4-q" class="cursor-pointer text-sm font-medium text-slate-900">입력 데이터는 안전한가요?</summary>
+            <p id="faq4-a" class="mt-2 text-sm text-slate-600">입력 데이터는 브라우저에서만 처리되며 외부 서버로 전송되지 않습니다.</p>
+          </details>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <footer class="border-t border-slate-200/60 bg-white mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-3">
+      <div class="flex items-center gap-2">
+        <div class="w-6 h-6 bg-slate-200 text-slate-600 rounded flex items-center justify-center font-semibold text-xs tracking-tighter">R.</div>
+        <div class="flex flex-col leading-tight">
+          <span class="text-xs text-slate-500">© 2026 Randomly Pick. All rights reserved.</span>
+          <span class="text-xs text-slate-500">Designed and Developed by Juntae Ko (고준태)</span>
+        </div>
+      </div>
+      <div class="flex gap-6">
+        <a id="footer-terms" href="#" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">이용약관</a>
+        <a id="footer-privacy" href="#" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">개인정보처리방침</a>
+      </div>
+    </div>
+  </footer>
+
+  <button id="add-shortcut-btn" class="hidden md:hidden fixed bottom-4 right-4 z-50 bg-slate-900 text-white rounded-full px-4 py-2 text-xs font-semibold shadow-lg border border-slate-700/60">
+    앱처럼 추가
+  </button>
+
+  <script src="/assets/js/utils.js"></script>
+  <script src="/assets/js/shortcut.js"></script>
+  <script src="/assets/js/lotto.js"></script>
+  <nav aria-label="Related tools" style="padding:16px 20px;border-top:1px solid rgba(15,23,42,.08);background:#fff">
+    <strong style="display:block;margin-bottom:8px;font-size:12px;color:#334155">Related tools</strong>
+    <a href="/tr/roulette/" style="margin-right:12px">Roulette</a>
+    <a href="/tr/luckydraw/" style="margin-right:12px">Lucky Draw</a>
+    <a href="/tr/ladder/" style="margin-right:12px">Ladder</a>
+    <a href="/tr/coinflip/" style="margin-right:12px">Coin Flip</a>
+    <a href="/tr/dice/">Dice</a>
+  </nav>
 </body>
 </html>

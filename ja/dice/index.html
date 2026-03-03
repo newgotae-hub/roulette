@@ -1,74 +1,2735 @@
 <!DOCTYPE html>
-<html lang="ja" dir="ltr">
+<html lang="ja">
 <head>
+  <script>(function(){window.__rltBootLang='ja';try{window.localStorage.setItem('rlt-lang','ja');}catch(e){}})();</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>サイコロ (日本語) | Randomly Pick</title>
-  <meta name="description" content="サイコロ in 日本語. Fast random tool by Randomly Pick." />
-  <meta name="robots" content="index,follow" />
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-P4JDC9CR');</script>
+  <!-- End Google Tag Manager -->
+  <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
+
+  <title>주사위 굴리기 | 랜덤추첨 Randomly Pick</title>
+  <meta id="meta-description" name="description" content="주사위 굴리기를 1~12개까지 한 번에 실행하고 결과를 기록/저장하세요. Randomly Pick 3D 주사위 애니메이션 지원." />
+  <meta name="keywords" content="주사위 굴리기, dice roll, 랜덤 주사위, 온라인 주사위, 랜덤 추첨" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
   <link rel="canonical" href="https://randomly-pick.com/ja/dice/" />
-  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/dice/" />
-  <link rel="alternate" hreflang="ja" href="https://randomly-pick.com/ja/dice/" />
-  <link rel="alternate" hreflang="zh-cn" href="https://randomly-pick.com/zh-cn/dice/" />
-  <link rel="alternate" hreflang="zh-tw" href="https://randomly-pick.com/zh-tw/dice/" />
-  <link rel="alternate" hreflang="es" href="https://randomly-pick.com/es/dice/" />
-  <link rel="alternate" hreflang="fr" href="https://randomly-pick.com/fr/dice/" />
-  <link rel="alternate" hreflang="de" href="https://randomly-pick.com/de/dice/" />
-  <link rel="alternate" hreflang="pt-br" href="https://randomly-pick.com/pt-br/dice/" />
-  <link rel="alternate" hreflang="hi" href="https://randomly-pick.com/hi/dice/" />
-  <link rel="alternate" hreflang="ar" href="https://randomly-pick.com/ar/dice/" />
-  <link rel="alternate" hreflang="ru" href="https://randomly-pick.com/ru/dice/" />
-  <link rel="alternate" hreflang="id" href="https://randomly-pick.com/id/dice/" />
-  <link rel="alternate" hreflang="tr" href="https://randomly-pick.com/tr/dice/" />
-  <link rel="alternate" hreflang="it" href="https://randomly-pick.com/it/dice/" />
-  <link rel="alternate" hreflang="vi" href="https://randomly-pick.com/vi/dice/" />
-  <link rel="alternate" hreflang="th" href="https://randomly-pick.com/th/dice/" />
-  <link rel="alternate" hreflang="nl" href="https://randomly-pick.com/nl/dice/" />
-  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/dice/" />
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  "name": "サイコロ",
-  "description": "サイコロ in 日本語. Fast random tool by Randomly Pick.",
-  "url": "https://randomly-pick.com/ja/dice/",
-  "inLanguage": "ja"
-}
-  </script>
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Randomly Pick",
-      "item": "https://randomly-pick.com/ja/"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "サイコロ",
-      "item": "https://randomly-pick.com/ja/dice/"
-    }
-  ]
-}
-  </script>
+  <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/dice/" />
+  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/dice/?lang=en" />
+  <link rel="alternate" hreflang="ja" href="https://randomly-pick.com/dice/?lang=ja" />
+  <link rel="alternate" hreflang="zh-cn" href="https://randomly-pick.com/dice/?lang=zh-cn" />
+  <link rel="alternate" hreflang="zh-tw" href="https://randomly-pick.com/dice/?lang=zh-tw" />
+  <link rel="alternate" hreflang="es" href="https://randomly-pick.com/dice/?lang=es" />
+  <link rel="alternate" hreflang="fr" href="https://randomly-pick.com/dice/?lang=fr" />
+  <link rel="alternate" hreflang="de" href="https://randomly-pick.com/dice/?lang=de" />
+  <link rel="alternate" hreflang="pt-br" href="https://randomly-pick.com/dice/?lang=pt-br" />
+  <link rel="alternate" hreflang="hi" href="https://randomly-pick.com/dice/?lang=hi" />
+  <link rel="alternate" hreflang="ar" href="https://randomly-pick.com/dice/?lang=ar" />
+  <link rel="alternate" hreflang="ru" href="https://randomly-pick.com/dice/?lang=ru" />
+  <link rel="alternate" hreflang="id" href="https://randomly-pick.com/dice/?lang=id" />
+  <link rel="alternate" hreflang="tr" href="https://randomly-pick.com/dice/?lang=tr" />
+  <link rel="alternate" hreflang="it" href="https://randomly-pick.com/dice/?lang=it" />
+  <link rel="alternate" hreflang="vi" href="https://randomly-pick.com/dice/?lang=vi" />
+  <link rel="alternate" hreflang="th" href="https://randomly-pick.com/dice/?lang=th" />
+  <link rel="alternate" hreflang="nl" href="https://randomly-pick.com/dice/?lang=nl" />
+  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/dice/" />
+
+  <meta id="meta-og-title" property="og:title" content="주사위 굴리기 | 랜덤추첨 Randomly Pick" />
+  <meta id="meta-og-description" property="og:description" content="3D 주사위를 1~12개까지 한 번에 굴리고 결과를 저장하세요." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://randomly-pick.com/ja/dice/" />
+  <meta property="og:site_name" content="Randomly Pick" />
+  <meta property="og:image" content="https://randomly-pick.com/og-image.svg" />
+  <meta property="og:image:alt" content="Randomly Pick dice roll preview image" />
+  <meta property="og:locale" content="ko_KR" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta id="meta-twitter-title" name="twitter:title" content="주사위 굴리기 | 랜덤추첨 Randomly Pick" />
+  <meta id="meta-twitter-description" name="twitter:description" content="3D 주사위를 여러 개 동시에 굴리는 온라인 도구" />
+  <meta name="twitter:image" content="https://randomly-pick.com/og-image.svg" />
+
   <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;background:#f8fafc;color:#0f172a}
-    main{max-width:760px;margin:0 auto;padding:40px 20px}
-    h1{font-size:28px;margin:0 0 10px}
-    p{color:#334155;line-height:1.6}
-    a{color:#0f172a;font-weight:600}
+    html.i18n-pending body { visibility: hidden; }
   </style>
+
+  <script>
+    (function () {
+      var supported = ['ko', 'en', 'ja', 'zh-cn', 'zh-tw', 'es', 'fr', 'de', 'pt-br', 'hi', 'ar', 'ru', 'id', 'tr', 'it', 'vi', 'th', 'nl'];
+      function detectChineseRegion() {
+        var navs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ''];
+        for (var i = 0; i < navs.length; i++) {
+          var raw = String(navs[i] || '').toLowerCase().replace('_', '-');
+          if (!raw.startsWith('zh')) continue;
+          if (raw.indexOf('tw') >= 0 || raw.indexOf('hk') >= 0 || raw.indexOf('mo') >= 0 || raw.indexOf('hant') >= 0) return 'tw';
+          if (raw.indexOf('cn') >= 0 || raw.indexOf('sg') >= 0 || raw.indexOf('hans') >= 0 || raw === 'zh') return 'cn';
+        }
+        try {
+          var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+          if (tz === 'Asia/Taipei') return 'tw';
+          if (tz.indexOf('Asia/Shanghai') === 0 || tz.indexOf('Asia/Chongqing') === 0) return 'cn';
+        } catch (e) {}
+        return 'cn';
+      }
+      function normalizeLang(raw) {
+        var v = String(raw || '').toLowerCase().replace('_', '-');
+        if (!v) return '';
+        if (v === 'zh' || v.indexOf('zh-cn') === 0 || v.indexOf('zh-hans') === 0) return 'zh-cn';
+        if (v.indexOf('zh-tw') === 0 || v.indexOf('zh-hk') === 0 || v.indexOf('zh-hant') === 0) return 'zh-tw';
+        if (v.indexOf('pt-br') === 0) return 'pt-br';
+        if (v.indexOf('ko') === 0) return 'ko';
+        if (v.indexOf('en') === 0) return 'en';
+        if (v.indexOf('ja') === 0) return 'ja';
+        if (v.indexOf('es') === 0) return 'es';
+        if (v.indexOf('fr') === 0) return 'fr';
+        if (v.indexOf('de') === 0) return 'de';
+        if (v.indexOf('hi') === 0) return 'hi';
+        if (v.indexOf('ar') === 0) return 'ar';
+        if (v.indexOf('ru') === 0) return 'ru';
+        if (v.indexOf('id') === 0) return 'id';
+        if (v.indexOf('tr') === 0) return 'tr';
+        if (v.indexOf('it') === 0) return 'it';
+        if (v.indexOf('vi') === 0) return 'vi';
+        if (v.indexOf('th') === 0) return 'th';
+        if (v.indexOf('nl') === 0) return 'nl';
+        return v;
+      }
+      var lang = null;
+      var params = new URLSearchParams(window.location.search);
+      var forced = normalizeLang(params.get('lang'));
+      if (supported.indexOf(forced) !== -1) lang = forced;
+      if (!lang) {
+        try {
+          var cached = normalizeLang(window.localStorage.getItem('rlt-lang'));
+          if (supported.indexOf(cached) !== -1) lang = cached;
+        } catch (e) {}
+      }
+      if (!lang) {
+        var navs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ''];
+        for (var i = 0; i < navs.length; i++) {
+          var cand = normalizeLang(navs[i]);
+          if (supported.indexOf(cand) !== -1) {
+            lang = cand;
+            break;
+          }
+        }
+      }
+      if (!lang) lang = 'en';
+      window.__rltBootLang = lang;
+      window.__rltChineseRegion = detectChineseRegion();
+      document.documentElement.lang = lang;
+      var bootTitleMap = {
+        ko: '주사위 굴리기 | 랜덤추첨 Randomly Pick',
+        en: 'Dice Roll | Roll Dice Online Randomly Pick',
+        ja: 'サイコロ | オンラインダイスロール'
+      };
+      document.title = bootTitleMap[lang] || bootTitleMap.en;
+      document.documentElement.classList.add('i18n-pending');
+      try { window.localStorage.setItem('rlt-lang', lang); } catch (e) {}
+    })();
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Randomly Pick",
+    "url": "https://randomly-pick.com/",
+    "inLanguage": ["ko-KR", "en-US"]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Randomly Pick Services",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Wheel of Names", "url": "https://randomly-pick.com/roulette/" },
+      { "@type": "ListItem", "position": 2, "name": "Lucky Draw", "url": "https://randomly-pick.com/luckydraw/" },
+      { "@type": "ListItem", "position": 3, "name": "Ladder Draw", "url": "https://randomly-pick.com/ladder/" },
+      { "@type": "ListItem", "position": 4, "name": "Coin Flip", "url": "https://randomly-pick.com/coinflip/" },
+      { "@type": "ListItem", "position": 5, "name": "Dice Roll", "url": "https://randomly-pick.com/dice/" }
+    ]
+  }
+  </script>
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1010168647313500" crossorigin="anonymous"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif']
+          },
+          animation: {
+            'soft-pulse': 'softPulse 1.8s ease-in-out infinite'
+          },
+          keyframes: {
+            softPulse: {
+              '0%, 100%': { opacity: '0.65' },
+              '50%': { opacity: '1' }
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --line: #e2e8f0;
+      --winner: #16a34a;
+      --bad: #ef4444;
+    }
+
+    body {
+      background: radial-gradient(circle at 15% 20%, #ffffff 0%, var(--bg) 45%, #eef2f7 100%);
+    }
+
+    .hide-scrollbar::-webkit-scrollbar { width: 6px; }
+    .hide-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+
+    #confetti-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: visible;
+      z-index: 45;
+    }
+
+    .powder-dot {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 9px;
+      height: 9px;
+      border-radius: 9999px;
+      opacity: 0;
+      transform: translate(-50%, -50%);
+      animation: powderBurst 900ms cubic-bezier(0.18, 0.84, 0.3, 1) forwards;
+      animation-delay: var(--delay, 0ms);
+      background: var(--color, #cbd5e1);
+    }
+
+    @keyframes powderBurst {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.4) rotate(0deg); }
+      18% { opacity: 1; }
+      100% { opacity: 0; transform: translate(calc(-50% + var(--tx, 0px)), calc(-50% + var(--ty, 0px))) scale(1.15) rotate(360deg); }
+    }
+
+    .fullscreen-hint-pop {
+      animation: hintPopIn 260ms ease-out, hintBob 1.9s ease-in-out 260ms infinite;
+    }
+
+    @keyframes hintPopIn {
+      0% { opacity: 0; transform: translateY(6px) scale(0.97); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes hintBob {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-2px); }
+    }
+
+    .dice-stage {
+      position: relative;
+      z-index: 9999;
+      isolation: isolate;
+      box-shadow: 0 18px 60px rgba(15, 23, 42, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+      overflow: visible !important;
+    }
+
+    .dice-workspace,
+    .dice-workspace > .grid,
+    .dice-workspace .lg\:col-span-6,
+    .dice-workspace .max-w-\[720px\] {
+      position: relative;
+      overflow: visible !important;
+    }
+
+    .dice-workspace .lg\:col-span-6 {
+      z-index: 2147483000;
+      isolation: isolate;
+    }
+
+    .dice-workspace .lg\:col-span-3 {
+      position: relative;
+      z-index: 20;
+    }
+    @media (max-width: 1023px) {
+      #dice-controls-panel {
+        order: 2;
+      }
+      #dice-stage-panel {
+        order: 1;
+        position: relative;
+        z-index: 2147483200;
+      }
+      #dice-history-panel {
+        order: 3;
+      }
+      #dice-stage-panel .dice-stage,
+      #dice-stage-panel #dice-wrap,
+      #dice-stage-panel #confetti-layer {
+        position: relative;
+        z-index: 2147483250;
+      }
+    }
+
+    #dice-wrap {
+      position: relative;
+      z-index: 2147483100;
+      overflow: visible !important;
+    }
+
+    .dice-slot {
+      position: relative;
+      z-index: 2147483200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 0;
+      overflow: visible;
+    }
+
+    .grid-dice {
+      display: grid;
+      gap: 6px;
+      width: 100%;
+      height: 100%;
+      align-content: center;
+    }
+
+    .grid-dice.single-mode {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: 0;
+    }
+
+    .dice-shell {
+      position: relative;
+      z-index: 2147483300;
+      width: var(--mv-size, min(92vw, 680px));
+      height: var(--mv-size, min(92vw, 680px));
+      border-radius: 24px;
+      overflow: visible;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+      transform: translate3d(0, 0, 0);
+      pointer-events: none;
+    }
+
+    .dice-shell model-viewer {
+      width: 100%;
+      height: 100%;
+      display: block;
+      background: transparent;
+      --poster-color: transparent;
+      --progress-mask: transparent;
+      transform-origin: center center;
+      pointer-events: none;
+      overflow: visible !important;
+      contain: none !important;
+    }
+
+    .dice-shell model-viewer::part(default-progress-bar),
+    .dice-shell model-viewer::part(progress-bar),
+    .dice-shell model-viewer::part(update-bar),
+    .dice-shell model-viewer::part(default-ar-button) {
+      display: none !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+    }
+
+    .dice-badge {
+      position: absolute;
+      z-index: 10030;
+      right: 10px;
+      bottom: 10px;
+      min-width: 28px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #0f172a;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(203, 213, 225, 0.95);
+      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.14);
+      backdrop-filter: blur(8px);
+    }
+
+    .face-chip {
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 6px 8px;
+      text-align: center;
+    }
+
+    .cum-face-card {
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 10px 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mini-die {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+      position: relative;
+    }
+
+    .pip {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 9999px;
+      background: #0f172a;
+    }
+
+    .tl { top: 9px; left: 9px; }
+    .tr { top: 9px; right: 9px; }
+    .ml { top: 22px; left: 9px; }
+    .mm { top: 22px; left: 22px; }
+    .mr { top: 22px; right: 9px; }
+    .bl { bottom: 9px; left: 9px; }
+    .br { bottom: 9px; right: 9px; }
+
+    @media (min-width: 640px) {
+      .grid-dice { gap: 8px; }
+    }
+
+    html:not(:fullscreen) .dice-hero {
+      padding-top: 1.5rem;
+      padding-bottom: 1rem;
+    }
+
+    html:not(:fullscreen) .dice-workspace {
+      margin-top: -0.25rem;
+    }
+
+    html:not(:fullscreen) .dice-panel {
+      min-height: 410px;
+    }
+
+    @media (min-width: 1024px) {
+      html:not(:fullscreen) .dice-panel {
+        height: 540px !important;
+      }
+    }
+  </style>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9415RVEK2W"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-9415RVEK2W');
+  </script>
 </head>
-<body>
-  <main>
-    <h1>サイコロ - 日本語</h1>
-    <p>ワンクリックでツール本体を開けます:</p>
-    <p><a href="/dice/?lang=ja">/dice/?lang=ja</a></p>
-    <p><a href="/ja/">言語ホームに戻る</a></p>
+
+<body class="text-slate-900 font-sans antialiased selection:bg-slate-200 selection:text-slate-900 min-h-screen flex flex-col">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P4JDC9CR"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  <header class="sticky top-0 z-50 bg-slate-50/85 backdrop-blur-md border-b border-slate-200/70">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 min-w-8 min-h-8 aspect-square shrink-0 bg-slate-900 text-white rounded-lg flex items-center justify-center font-semibold text-lg tracking-tighter">
+            <span>R</span><span style="display:inline-block;font-size:1.18em;line-height:1;transform:translateX(1.4px) translateY(-0.2px);">.</span>
+          </div>
+          <span class="text-base font-semibold tracking-tight text-slate-900">Randomly Pick</span>
+        </div>
+        <nav class="hidden md:flex items-center gap-8">
+          <a id="nav-spin" href="/roulette/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">룰렛돌리기</a>
+          <a id="nav-lotto" href="/luckydraw/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">로또추첨기</a>
+          <a id="nav-history" href="/ladder/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">사다리타기</a>
+          <a id="nav-coin" href="/coinflip/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">코인던지기</a>
+          <a id="nav-dice" href="/dice/" class="text-sm font-medium text-slate-900">주사위굴리기</a>
+        </nav>
+        <div class="flex items-center gap-2">
+          <div class="relative">
+            <button id="fullscreen-toggle" class="bg-white border border-slate-200 shadow-sm rounded-full px-3 py-1 text-[11px] font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors flex items-center gap-1.5">
+              <iconify-icon id="fullscreen-icon" icon="solar:maximize-linear" stroke-width="1.5"></iconify-icon>
+              <span id="fullscreen-label">전체화면</span>
+            </button>
+            <div id="fullscreen-hint" class="hidden md:block fullscreen-hint-pop absolute right-0 top-full mt-2 z-50 bg-slate-900 text-white text-[11px] px-2.5 py-1.5 rounded-lg shadow-lg whitespace-nowrap pointer-events-none">
+              <span id="fullscreen-hint-text">전체화면을 눌러주세요!</span>
+              <span class="absolute -top-1.5 right-4 w-3 h-3 bg-slate-900 rotate-45"></span>
+            </div>
+          </div>
+          <div class="relative">
+            <button id="lang-trigger" class="bg-white border border-slate-200 shadow-sm rounded-full px-3 py-1 text-[11px] font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors inline-flex items-center gap-1.5">
+              <span id="lang-button-label">LANGUAGE</span>
+              <img id="lang-current-flag" src="https://flagcdn.com/w20/us.png" alt="English" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
+            </button>
+            <div id="lang-menu" class="hidden absolute right-0 top-full mt-2 z-50 w-56 rounded-xl border border-slate-200 bg-white shadow-xl p-2">
+              <input id="lang-search" type="text" class="w-full mb-2 px-2.5 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/20" placeholder="Search language">
+              <div id="lang-list" class="max-h-56 overflow-y-auto hide-scrollbar space-y-1"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="md:hidden border-b border-slate-200/70 bg-white/90 backdrop-blur">
+    <div class="px-4 py-2 overflow-x-auto hide-scrollbar">
+      <nav class="flex items-center gap-2 min-w-max">
+        <a id="mnav-spin" href="/roulette/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">룰렛</a>
+        <a id="mnav-lotto" href="/luckydraw/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">로또</a>
+        <a id="mnav-history" href="/ladder/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">사다리</a>
+        <a id="mnav-coin" href="/coinflip/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">코인</a>
+        <a id="mnav-dice" href="/dice/" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-900 text-white">주사위</a>
+      </nav>
+    </div>
+  </section>
+
+  <main class="flex-grow flex flex-col">
+    <section class="dice-hero pt-10 pb-8 px-4 sm:px-6 lg:px-8 text-center max-w-3xl mx-auto">
+      <h1 id="hero-title" class="text-3xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-4">주사위 굴리기</h1>
+      <p id="hero-subtitle" class="text-base md:text-lg text-slate-500 font-normal">기본 1개부터 최대 12개까지 동시에 굴리고 결과를 저장하세요.</p>
+    </section>
+
+    <section class="dice-workspace max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-14">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+        <div id="dice-controls-panel" class="lg:col-span-3 space-y-4">
+          <div class="dice-panel bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col min-h-[450px] lg:h-[640px]">
+            <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/60">
+              <h2 class="text-sm font-semibold tracking-tight flex items-center gap-2">
+                <iconify-icon icon="solar:settings-linear" stroke-width="1.5" class="text-slate-400"></iconify-icon>
+                <span id="controls-title">설정</span>
+              </h2>
+              <span id="asset-status" class="text-xs font-medium text-slate-500 bg-slate-100 border border-slate-200 px-2 py-0.5 rounded-full">로딩중</span>
+            </div>
+
+            <div class="p-4 space-y-2.5">
+              <div class="space-y-2">
+                <div class="flex items-center justify-between">
+                  <span id="count-label" class="text-sm font-medium text-slate-700">주사위 개수</span>
+                  <span id="count-value" class="text-xs text-slate-500">1</span>
+                </div>
+
+                <input id="dice-count" type="range" min="1" max="12" value="1" class="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-slate-900">
+
+              </div>
+
+              <div class="space-y-2 pt-1">
+                <div class="flex justify-between items-center">
+                  <span id="duration-label" class="text-sm font-medium text-slate-700">애니메이션 시간</span>
+                  <span id="duration-value" class="text-xs text-slate-500">4초</span>
+                </div>
+                <input id="roll-duration" type="range" min="1" max="6" step="0.1" value="4" class="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-slate-900">
+              </div>
+
+              <div class="space-y-2 pt-1">
+                <span id="bet-label" class="text-sm font-medium text-slate-700">홀 vs 짝</span>
+                <div class="grid grid-cols-1 gap-2">
+                  <textarea id="odd-player" class="w-full h-20 resize-none bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-shadow" placeholder="홀에 배팅하세요!"></textarea>
+                  <textarea id="even-player" class="w-full h-20 resize-none bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-shadow" placeholder="짝에 배팅하세요!"></textarea>
+                </div>
+              </div>
+
+              <div id="motion-note" class="hidden text-xs text-slate-500 bg-slate-50 border border-slate-200 rounded-xl p-3">
+                <span id="motion-note-text">설정된 모션 감소 환경에서는 애니메이션이 단순 표시로 대체됩니다.</span>
+              </div>
+            </div>
+
+            <div class="p-3 pt-2 border-t border-slate-100 bg-slate-50/60 space-y-1.5">
+              <p id="banner" class="text-xs text-slate-500 animate-soft-pulse">준비되면 “굴리기”를 눌러주세요.</p>
+
+              <button id="roll-button" class="w-full bg-slate-900 text-white rounded-xl py-2 text-sm font-semibold hover:bg-slate-800 transition-colors shadow-sm disabled:opacity-60 disabled:cursor-not-allowed">
+                <span id="roll-label">굴리기</span>
+              </button>
+
+            </div>
+          </div>
+        </div>
+
+        <div id="dice-stage-panel" class="lg:col-span-6 flex flex-col items-center justify-start min-h-[420px] lg:h-[640px]">
+          <div class="relative w-full max-w-[720px]">
+            <div class="dice-panel dice-stage bg-transparent rounded-2xl border border-slate-200 overflow-visible p-4 sm:p-6 min-h-[450px] lg:h-[640px] flex flex-col">
+              <div id="confetti-layer" aria-hidden="true"></div>
+              <div id="dice-wrap" class="grid-dice flex-grow"></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="dice-history-panel" class="lg:col-span-3 min-h-[420px] lg:h-[640px]">
+          <div class="dice-panel bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col h-full">
+            <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/60">
+              <h2 class="text-sm font-semibold tracking-tight flex items-center gap-2">
+                <iconify-icon icon="solar:dice-3-linear" stroke-width="1.5" class="text-slate-400"></iconify-icon>
+                <span id="cum-title">면별 누적 횟수</span>
+              </h2>
+            </div>
+            <div class="flex-grow p-3 grid grid-cols-2 gap-2 content-start">
+              <div class="cum-face-card">
+                <div class="mini-die"><span class="pip mm"></span></div>
+                <p id="cum-face-1" class="text-sm font-semibold text-slate-900">0</p>
+              </div>
+              <div class="cum-face-card">
+                <div class="mini-die"><span class="pip tl"></span><span class="pip br"></span></div>
+                <p id="cum-face-2" class="text-sm font-semibold text-slate-900">0</p>
+              </div>
+              <div class="cum-face-card">
+                <div class="mini-die"><span class="pip tl"></span><span class="pip mm"></span><span class="pip br"></span></div>
+                <p id="cum-face-3" class="text-sm font-semibold text-slate-900">0</p>
+              </div>
+              <div class="cum-face-card">
+                <div class="mini-die"><span class="pip tl"></span><span class="pip tr"></span><span class="pip bl"></span><span class="pip br"></span></div>
+                <p id="cum-face-4" class="text-sm font-semibold text-slate-900">0</p>
+              </div>
+              <div class="cum-face-card">
+                <div class="mini-die"><span class="pip tl"></span><span class="pip tr"></span><span class="pip mm"></span><span class="pip bl"></span><span class="pip br"></span></div>
+                <p id="cum-face-5" class="text-sm font-semibold text-slate-900">0</p>
+              </div>
+              <div class="cum-face-card">
+                <div class="mini-die"><span class="pip tl"></span><span class="pip ml"></span><span class="pip bl"></span><span class="pip tr"></span><span class="pip mr"></span><span class="pip br"></span></div>
+                <p id="cum-face-6" class="text-sm font-semibold text-slate-900">0</p>
+              </div>
+            </div>
+            <div class="p-3 border-t border-slate-100 bg-slate-50/60 space-y-1.5">
+              <p id="parity-title" class="text-xs font-semibold text-slate-700">홀짝 리포트</p>
+              <p class="text-xs text-slate-600"><span id="odd-label">홀</span>: <span id="odd-total" class="font-semibold text-slate-900">0</span></p>
+              <p class="text-xs text-slate-600"><span id="even-label">짝</span>: <span id="even-total" class="font-semibold text-slate-900">0</span></p>
+              <p class="text-xs text-slate-500"><span id="last-result-label">최근 결과</span>: <span id="last-parity" class="font-semibold text-slate-700">-</span></p>
+              <p class="text-xs text-slate-500"><span id="winner-label">우승자</span>: <span id="winner-name" class="font-semibold text-slate-900">-</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-16">
+      <div class="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-sm">
+        <h2 id="guide-title" class="text-xl md:text-2xl font-semibold tracking-tight text-slate-900">주사위 굴리기 가이드</h2>
+        <p id="guide-subtitle" class="mt-3 text-sm md:text-base text-slate-600">Randomly Pick 주사위는 브라우저에서만 동작하며 입력/결과가 외부 서버로 전송되지 않습니다.</p>
+
+        <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+          <article class="rounded-xl border border-slate-200 bg-slate-50/60 p-4">
+            <h3 id="g1t" class="text-sm font-semibold text-slate-900">1. 개수 선택</h3>
+            <p id="g1b" class="mt-2 text-sm text-slate-600">기본 1개부터 최대 12개까지 동시에 굴릴 수 있습니다.</p>
+          </article>
+          <article class="rounded-xl border border-slate-200 bg-slate-50/60 p-4">
+            <h3 id="g2t" class="text-sm font-semibold text-slate-900">2. 속도 조절</h3>
+            <p id="g2b" class="mt-2 text-sm text-slate-600">애니메이션 시간을 조절해 빠른 테스트부터 연출형 추첨까지 설정합니다.</p>
+          </article>
+          <article class="rounded-xl border border-slate-200 bg-slate-50/60 p-4">
+            <h3 id="g3t" class="text-sm font-semibold text-slate-900">3. 결과 저장</h3>
+            <p id="g3b" class="mt-2 text-sm text-slate-600">회차별 주사위 값, 합계, 평균을 기록하고 CSV로 저장할 수 있습니다.</p>
+          </article>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <footer class="border-t border-slate-200/60 bg-white mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-3">
+      <div class="flex items-center gap-2">
+        <div class="w-6 h-6 bg-slate-200 text-slate-600 rounded flex items-center justify-center font-semibold text-xs tracking-tighter">R.</div>
+        <div class="flex flex-col leading-tight">
+          <span class="text-xs text-slate-500">© 2026 Randomly Pick. All rights reserved.</span>
+          <span id="footer-copy" class="text-xs text-slate-500">Designed and Developed by Juntae Ko (고준태)</span>
+        </div>
+      </div>
+      <div class="flex gap-6">
+        <a id="footer-terms" href="#" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">이용약관</a>
+        <a id="footer-privacy" href="#" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">개인정보처리방침</a>
+        <a id="footer-contact" href="https://www.instagram.com/juntaeko_tr" target="_blank" rel="noopener noreferrer" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">문의하기</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const state = {
+        locale: window.__rltBootLang || 'en',
+        diceCount: 1,
+        durationSec: 3,
+        rolling: false,
+        cumulative: [0, 0, 0, 0, 0, 0],
+        parityTotals: { odd: 0, even: 0 },
+        lastParity: '',
+        lastWinner: '',
+        lastWinnerFallback: false,
+        reducedMotion: window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+        assets: { ready: false },
+        dice: []
+      };
+
+      const ui = {
+        langTrigger: document.getElementById('lang-trigger'),
+        langButtonLabel: document.getElementById('lang-button-label'),
+        langCurrentFlag: document.getElementById('lang-current-flag'),
+        langMenu: document.getElementById('lang-menu'),
+        langSearch: document.getElementById('lang-search'),
+        langList: document.getElementById('lang-list'),
+        navSpin: document.getElementById('nav-spin'),
+        navLotto: document.getElementById('nav-lotto'),
+        navHistory: document.getElementById('nav-history'),
+        navCoin: document.getElementById('nav-coin'),
+        navDice: document.getElementById('nav-dice'),
+        mnavSpin: document.getElementById('mnav-spin'),
+        mnavLotto: document.getElementById('mnav-lotto'),
+        mnavHistory: document.getElementById('mnav-history'),
+        mnavCoin: document.getElementById('mnav-coin'),
+        mnavDice: document.getElementById('mnav-dice'),
+        fullscreenToggle: document.getElementById('fullscreen-toggle'),
+        fullscreenIcon: document.getElementById('fullscreen-icon'),
+        fullscreenLabel: document.getElementById('fullscreen-label'),
+        fullscreenHint: document.getElementById('fullscreen-hint'),
+        fullscreenHintText: document.getElementById('fullscreen-hint-text'),
+        heroTitle: document.getElementById('hero-title'),
+        heroSubtitle: document.getElementById('hero-subtitle'),
+        controlsTitle: document.getElementById('controls-title'),
+        assetStatus: document.getElementById('asset-status'),
+        diceCount: document.getElementById('dice-count'),
+        countValue: document.getElementById('count-value'),
+        rollDuration: document.getElementById('roll-duration'),
+        durationValue: document.getElementById('duration-value'),
+        betLabel: document.getElementById('bet-label'),
+        oddPlayer: document.getElementById('odd-player'),
+        evenPlayer: document.getElementById('even-player'),
+        motionNote: document.getElementById('motion-note'),
+        motionNoteText: document.getElementById('motion-note-text'),
+        rollButton: document.getElementById('roll-button'),
+        rollLabel: document.getElementById('roll-label'),
+        banner: document.getElementById('banner'),
+        diceWrap: document.getElementById('dice-wrap'),
+        confettiLayer: document.getElementById('confetti-layer'),
+        cumTitle: document.getElementById('cum-title'),
+        parityTitle: document.getElementById('parity-title'),
+        oddLabel: document.getElementById('odd-label'),
+        evenLabel: document.getElementById('even-label'),
+        lastResultLabel: document.getElementById('last-result-label'),
+        winnerLabel: document.getElementById('winner-label'),
+        oddTotal: document.getElementById('odd-total'),
+        evenTotal: document.getElementById('even-total'),
+        lastParity: document.getElementById('last-parity'),
+        winnerName: document.getElementById('winner-name'),
+        guideTitle: document.getElementById('guide-title'),
+        guideSubtitle: document.getElementById('guide-subtitle'),
+        footerCopy: document.getElementById('footer-copy'),
+        footerTerms: document.getElementById('footer-terms'),
+        footerPrivacy: document.getElementById('footer-privacy'),
+        footerContact: document.getElementById('footer-contact'),
+        metaDescription: document.getElementById('meta-description'),
+        metaOgTitle: document.getElementById('meta-og-title'),
+        metaOgDescription: document.getElementById('meta-og-description'),
+        metaTwitterTitle: document.getElementById('meta-twitter-title'),
+        metaTwitterDescription: document.getElementById('meta-twitter-description'),
+        cumulativeCounts: [1, 2, 3, 4, 5, 6].map((n) => document.getElementById(`cum-face-${n}`))
+      };
+
+      const localeNames = {
+        ko: { native: '한국어', en: 'Korean', flag: 'kr' },
+        en: { native: 'English', en: 'English', flag: 'us' },
+        ja: { native: '日本語', en: 'Japanese', flag: 'jp' },
+        'zh-cn': { native: '简体中文', en: 'Chinese', flag: 'cn' },
+        'zh-tw': { native: '繁體中文', en: 'Chinese (Traditional)', flag: 'tw' },
+        es: { native: 'Español', en: 'Spanish', flag: 'es' },
+        fr: { native: 'Français', en: 'French', flag: 'fr' },
+        de: { native: 'Deutsch', en: 'German', flag: 'de' },
+        'pt-br': { native: 'Português (Brasil)', en: 'Portuguese (Brazil)', flag: 'br' },
+        hi: { native: 'हिन्दी', en: 'Hindi', flag: 'in' },
+        ar: { native: 'العربية', en: 'Arabic', flag: 'ae' },
+        ru: { native: 'Русский', en: 'Russian', flag: 'ru' },
+        id: { native: 'Bahasa Indonesia', en: 'Indonesian', flag: 'id' },
+        tr: { native: 'Türkçe', en: 'Turkish', flag: 'tr' },
+        it: { native: 'Italiano', en: 'Italian', flag: 'it' },
+        vi: { native: 'Tiếng Việt', en: 'Vietnamese', flag: 'vn' },
+        th: { native: 'ไทย', en: 'Thai', flag: 'th' },
+        nl: { native: 'Nederlands', en: 'Dutch', flag: 'nl' }
+      };
+      const LANG_OPTIONS = ['ko', 'en', 'ja', 'zh-cn', 'es', 'fr', 'de', 'pt-br', 'hi', 'ar', 'ru', 'id', 'tr', 'it', 'vi', 'th', 'nl'];
+      const SUPPORTED_LOCALES = [...LANG_OPTIONS, 'zh-tw'];
+      const LANG_SET = new Set(SUPPORTED_LOCALES);
+      if (!LANG_SET.has(state.locale)) state.locale = 'en';
+
+      const i18n = {
+        ko: {
+          title: '주사위 굴리기 | 랜덤추첨 Randomly Pick',
+          metaDescription: '주사위 굴리기를 1~12개까지 한 번에 실행하고 결과를 기록/저장하세요. Randomly Pick 3D 주사위 애니메이션 지원.',
+          metaOgTitle: '주사위 굴리기 | 랜덤추첨 Randomly Pick',
+          metaOgDescription: '3D 주사위를 1~12개까지 한 번에 굴리고 결과를 저장하세요.',
+          metaTwitterTitle: '주사위 굴리기 | 랜덤추첨 Randomly Pick',
+          metaTwitterDescription: '3D 주사위를 여러 개 동시에 굴리는 온라인 도구',
+          navSpin: '룰렛돌리기',
+          navLotto: '로또추첨기',
+          navHistory: '사다리타기',
+          navCoin: '코인던지기',
+          navDice: '주사위굴리기',
+          mnavSpin: '룰렛',
+          mnavLotto: '로또',
+          mnavHistory: '사다리',
+          mnavCoin: '코인',
+          mnavDice: '주사위',
+          languageButton: 'LANGUAGE',
+          languageSearchPh: '언어 검색',
+          heroTitle: '주사위 굴리기',
+          heroSubtitle: '기본 1개부터 최대 12개까지 동시에 굴리고 결과를 저장하세요.',
+          controlsTitle: '설정',
+          countLabel: '주사위 개수',
+          durationLabel: '애니메이션 시간',
+          betLabel: '홀 vs 짝',
+          oddNamePh: '홀에 배팅하세요!',
+          evenNamePh: '짝에 배팅하세요!',
+          odd: '홀',
+          even: '짝',
+          parityTitle: '홀짝 리포트',
+          lastResult: '최근 결과',
+          winner: '우승자',
+          noResult: '-',
+          soundLabel: '효과음 재생',
+          sumLabel: '합계',
+          avgLabel: '평균',
+          assetLoading: '로딩중',
+          assetReady: '준비 완료',
+          assetMissing: '불러오기 실패',
+          roll: '굴리기',
+          rolling: '굴리는 중...',
+          bannerReady: '준비되면 “굴리기”를 눌러주세요.',
+          bannerAssets: '주사위 자산을 불러오는 중입니다...',
+          bannerMissing: 'dice.glb 경로를 확인해 주세요.',
+          bannerDone: '완료: 합계 {sum} · 결과 [{rolls}]',
+          cumulativeTitle: '면별 누적 횟수',
+          motionNote: '설정된 모션 감소 환경에서는 애니메이션이 단순 표시로 대체됩니다.',
+          guideTitle: '주사위 굴리기 가이드',
+          guideSubtitle: 'Randomly Pick 주사위는 브라우저에서만 동작하며 입력/결과가 외부 서버로 전송되지 않습니다.',
+          guideStep1Title: '1. 개수 선택',
+          guideStep1Body: '기본 1개부터 최대 12개까지 동시에 굴릴 수 있습니다.',
+          guideStep2Title: '2. 속도 조절',
+          guideStep2Body: '애니메이션 시간을 조절해 빠른 테스트부터 연출형 추첨까지 설정합니다.',
+          guideStep3Title: '3. 결과 저장',
+          guideStep3Body: '회차별 주사위 값, 합계, 평균을 기록하고 CSV로 저장할 수 있습니다.',
+          footerCopy: 'Designed and Developed by Juntae Ko (고준태)',
+          footerTerms: '이용약관',
+          footerPrivacy: '개인정보처리방침',
+          footerContact: '문의하기',
+          fullscreenHint: '전체화면을 눌러주세요!',
+          fullscreen: '전체화면',
+          fullscreenExit: '전체화면 해제',
+          fullscreenUnsupported: '이 브라우저에서는 전체화면을 지원하지 않습니다.',
+          fullscreenFailed: '전체화면 전환에 실패했습니다.',
+          runLabel: '회차',
+          countShort: '개수',
+          sumShort: '합계',
+          avgShort: '평균',
+          rollsShort: '값'
+        },
+        en: {
+          title: 'Dice Roll | Roll Dice Online Randomly Pick',
+          metaDescription: 'Roll 1-12 dice at once with 3D animation. Save history and export results as CSV.',
+          metaOgTitle: 'Dice Roll | Roll Dice Online Randomly Pick',
+          metaOgDescription: 'Roll 1-12 dice at once with 3D animation and export your results.',
+          metaTwitterTitle: 'Dice Roll | Roll Dice Online Randomly Pick',
+          metaTwitterDescription: 'Roll multiple 3D dice in one click.',
+          navSpin: 'Wheel of Names',
+          navLotto: 'Lucky Draw',
+          navHistory: 'Ladder Draw',
+          navCoin: 'Coin Flip',
+          navDice: 'Dice Roll',
+          mnavSpin: 'Wheel',
+          mnavLotto: 'Lucky',
+          mnavHistory: 'Ladder',
+          mnavCoin: 'Coin',
+          mnavDice: 'Dice',
+          languageButton: 'LANGUAGE',
+          languageSearchPh: 'Search language',
+          heroTitle: 'Dice Roll',
+          heroSubtitle: 'Roll from 1 to 12 dice at once and save the results.',
+          controlsTitle: 'Settings',
+          countLabel: 'Dice count',
+          durationLabel: 'Animation time',
+          betLabel: 'Odd vs Even',
+          oddNamePh: 'Bet on odd!',
+          evenNamePh: 'Bet on even!',
+          odd: 'Odd',
+          even: 'Even',
+          parityTitle: 'Odd/Even Report',
+          lastResult: 'Last result',
+          winner: 'Winner',
+          noResult: '-',
+          soundLabel: 'Sound effects',
+          sumLabel: 'Total',
+          avgLabel: 'Average',
+          assetLoading: 'Loading',
+          assetReady: 'Ready',
+          assetMissing: 'Load failed',
+          roll: 'Roll',
+          rolling: 'Rolling...',
+          bannerReady: 'Press “Roll” when ready.',
+          bannerAssets: 'Loading dice assets...',
+          bannerMissing: 'Please check the dice.glb path.',
+          bannerDone: 'Done: Total {sum} · Rolls [{rolls}]',
+          cumulativeTitle: 'Cumulative Face Count',
+          motionNote: 'With reduced-motion enabled, animation is simplified.',
+          guideTitle: 'Dice Roll Guide',
+          guideSubtitle: 'Dice roll runs locally in your browser and is not sent to external servers.',
+          guideStep1Title: '1. Pick count',
+          guideStep1Body: 'Roll from 1 to 12 dice at the same time.',
+          guideStep2Title: '2. Tune speed',
+          guideStep2Body: 'Adjust animation time for quick tests or dramatic reveal.',
+          guideStep3Title: '3. Save results',
+          guideStep3Body: 'Store each run with rolls, total, and average, then export as CSV.',
+          footerCopy: 'Designed and Developed by Juntae Ko (고준태)',
+          footerTerms: 'Terms',
+          footerPrivacy: 'Privacy',
+          footerContact: 'Contact',
+          fullscreenHint: 'Tap Fullscreen for focus mode.',
+          fullscreen: 'Fullscreen',
+          fullscreenExit: 'Exit fullscreen',
+          fullscreenUnsupported: 'Fullscreen is not supported in this browser.',
+          fullscreenFailed: 'Failed to toggle fullscreen.',
+          runLabel: 'Run',
+          countShort: 'Count',
+          sumShort: 'Total',
+          avgShort: 'Avg',
+          rollsShort: 'Rolls'
+        }
+      };
+                                                i18n.ja = {
+                          ...i18n.en,
+                          title: 'サイコロ | オンラインダイスロール',
+                          metaDescription: '1〜12個のサイコロを同時に振って結果を保存。抽選やゲーム進行に使えるダイスロールツールです。',
+                          metaOgTitle: 'サイコロ | オンラインダイスロール',
+                          metaOgDescription: '1〜12個のサイコロを同時に振って履歴保存できます。',
+                          metaTwitterTitle: 'サイコロ | オンラインダイスロール',
+                          metaTwitterDescription: '3Dサイコロをまとめてロール。',
+                          navSpin: 'ルーレット',
+                          navLotto: 'ラッキードロー',
+                          navHistory: 'あみだくじ',
+                          navCoin: 'コイントス',
+                          navDice: 'サイコロ',
+                          mnavSpin: 'ルーレット',
+                          mnavLotto: 'ラッキードロー',
+                          mnavHistory: 'あみだ',
+                          mnavCoin: 'コイン',
+                          mnavDice: 'サイコロ',
+                          languageButton: 'LANGUAGE',
+                          languageSearchPh: '言語を検索',
+                          heroTitle: 'サイコロを振る',
+                          heroSubtitle: '1〜12個を同時にロールして、合計と出目をすぐ確認できます。',
+                          controlsTitle: '設定',
+                          countLabel: 'サイコロ数',
+                          durationLabel: 'アニメーション時間',
+                          betLabel: '奇数 vs 偶数',
+                          oddNamePh: '奇数側にベットする名前を入力',
+                          evenNamePh: '偶数側にベットする名前を入力',
+                          odd: '奇数',
+                          even: '偶数',
+                          parityTitle: '奇偶レポート',
+                          lastResult: '前回結果',
+                          winner: '勝者',
+                          noResult: 'なし',
+                          soundLabel: '効果音',
+                          sumLabel: '合計',
+                          avgLabel: '平均',
+                          assetLoading: '読み込み中',
+                          assetReady: '準備完了',
+                          assetMissing: '読み込み失敗',
+                          roll: '振る',
+                          rolling: 'ロール中...',
+                          bannerReady: '準備ができたら「振る」を押してください。',
+                          bannerAssets: 'サイコロアセットを読み込み中...',
+                          bannerMissing: 'dice.glb のパスを確認してください。',
+                          bannerDone: '完了: 合計 {sum} · 出目 [{rolls}]',
+                          cumulativeTitle: '目ごとの累計回数',
+                          motionNote: '減らす設定が有効な場合、アニメーションは簡略化されます。',
+                          guideTitle: 'ガイド',
+                          guideSubtitle: 'このツールはブラウザ内で動作し、外部サーバーへ送信されません。',
+                          guideStep1Title: '1. 数量を設定',
+                          guideStep1Body: '必要な数を設定してすぐに実行できます。',
+                          guideStep2Title: '2. 時間を調整',
+                          guideStep2Body: '速度を調整して素早い確認や演出に対応できます。',
+                          guideStep3Title: '3. 結果を保存',
+                          guideStep3Body: '履歴を保持し、必要なときにCSVで書き出せます。',
+                          footerCopy: 'Designed and Developed by Juntae Ko (고준태)',
+                          footerTerms: '利用規約',
+                          footerPrivacy: 'プライバシー',
+                          footerContact: 'お問い合わせ',
+                          fullscreenHint: '集中モードは全画面を押してください。',
+                          fullscreen: '全画面',
+                          fullscreenExit: '全画面終了',
+                          fullscreenUnsupported: 'このブラウザは全画面に対応していません。',
+                          fullscreenFailed: '全画面切替に失敗しました。',
+                          runLabel: '回',
+                          countShort: '数',
+                          sumShort: '合計',
+                          avgShort: '平均',
+                          rollsShort: '出目'
+                        };
+                                                i18n['zh-cn'] = {
+                          ...i18n.en,
+                          title: '掷骰子 | 在线随机骰子',
+                          metaDescription: '一次同时掷 1-12 个骰子，自动统计结果并支持导出，适合抽签、课堂和游戏流程。',
+                          metaOgTitle: '掷骰子 | 在线随机骰子',
+                          metaOgDescription: '支持1-12个骰子同时掷出并保存历史。',
+                          metaTwitterTitle: '掷骰子 | 在线随机骰子',
+                          metaTwitterDescription: '一键掷出多个3D骰子。',
+                          navSpin: '转盘',
+                          navLotto: '幸运抽签',
+                          navHistory: '爬梯抽签',
+                          navCoin: '抛硬币',
+                          navDice: '掷骰子',
+                          mnavSpin: '转盘',
+                          mnavLotto: '幸运抽签',
+                          mnavHistory: '爬梯抽签',
+                          mnavCoin: '抛硬币',
+                          mnavDice: '掷骰子',
+                          languageButton: 'LANGUAGE',
+                          languageSearchPh: '搜索语言',
+                          heroTitle: '掷骰子',
+                          heroSubtitle: '支持 1-12 个骰子同时掷出，结果立即可见。',
+                          controlsTitle: '设置',
+                          countLabel: '骰子数量',
+                          durationLabel: '动画时长',
+                          betLabel: '奇数 vs 偶数',
+                          oddNamePh: '请输入押注奇数的姓名',
+                          evenNamePh: '请输入押注偶数的姓名',
+                          odd: '奇数',
+                          even: '偶数',
+                          parityTitle: '奇偶报告',
+                          lastResult: '最近结果',
+                          winner: '获胜者',
+                          noResult: '无',
+                          soundLabel: '音效',
+                          sumLabel: '总和',
+                          avgLabel: '平均',
+                          assetLoading: '加载中',
+                          assetReady: '就绪',
+                          assetMissing: '加载失败',
+                          roll: '开始掷骰',
+                          rolling: '掷骰中...',
+                          bannerReady: '准备好后点击“开始掷骰”。',
+                          bannerAssets: '正在加载骰子资源...',
+                          bannerMissing: '请检查 dice.glb 路径。',
+                          bannerDone: '完成: 总和 {sum} · 点数 [{rolls}]',
+                          cumulativeTitle: '各点数累计次数',
+                          motionNote: '启用减少动态效果后，动画会简化。',
+                          guideTitle: '使用指南',
+                          guideSubtitle: '本工具仅在浏览器本地运行，不会将数据发送到外部服务器。',
+                          guideStep1Title: '1. 设置数量',
+                          guideStep1Body: '先设定数量，再一键开始。',
+                          guideStep2Title: '2. 调整时长',
+                          guideStep2Body: '可按需要调整速度，用于快速检查或展示。',
+                          guideStep3Title: '3. 保存结果',
+                          guideStep3Body: '结果可保留在历史中，并可导出CSV。',
+                          footerCopy: 'Designed and Developed by Juntae Ko (고준태)',
+                          footerTerms: '条款',
+                          footerPrivacy: '隐私',
+                          footerContact: '联系',
+                          fullscreenHint: '点击全屏进入专注模式。',
+                          fullscreen: '全屏',
+                          fullscreenExit: '退出全屏',
+                          fullscreenUnsupported: '当前浏览器不支持全屏。',
+                          fullscreenFailed: '切换全屏失败。',
+                          runLabel: '轮',
+                          countShort: '数量',
+                          sumShort: '总和',
+                          avgShort: '平均',
+                          rollsShort: '点数'
+                        };
+                                                i18n['zh-tw'] = {
+                          ...i18n.en,
+                          title: '擲骰子 | 線上隨機骰子',
+                          metaDescription: '一次可同時擲 1-12 顆骰子，快速查看結果並匯出紀錄，適合抽籤與活動流程。',
+                          metaOgTitle: '擲骰子 | 線上隨機骰子',
+                          metaOgDescription: '支援1-12顆骰子同時擲出並保存歷史。',
+                          metaTwitterTitle: '擲骰子 | 線上隨機骰子',
+                          metaTwitterDescription: '一鍵擲出多顆3D骰子。',
+                          navSpin: '轉盤',
+                          navLotto: '幸運抽籤',
+                          navHistory: '爬梯抽籤',
+                          navCoin: '擲硬幣',
+                          navDice: '擲骰子',
+                          mnavSpin: '轉盤',
+                          mnavLotto: '幸運抽籤',
+                          mnavHistory: '爬梯抽籤',
+                          mnavCoin: '擲硬幣',
+                          mnavDice: '擲骰子',
+                          languageButton: 'LANGUAGE',
+                          languageSearchPh: '搜尋語言',
+                          heroTitle: '擲骰子',
+                          heroSubtitle: '支援 1-12 顆骰子同時擲出，結果立即顯示。',
+                          controlsTitle: '設定',
+                          countLabel: '骰子數量',
+                          durationLabel: '動畫時間',
+                          betLabel: '單數 vs 雙數',
+                          oddNamePh: '請輸入押單數的名字',
+                          evenNamePh: '請輸入押雙數的名字',
+                          odd: '單數',
+                          even: '雙數',
+                          parityTitle: '單雙報告',
+                          lastResult: '最近結果',
+                          winner: '勝者',
+                          noResult: '無',
+                          soundLabel: '音效',
+                          sumLabel: '總和',
+                          avgLabel: '平均',
+                          assetLoading: '載入中',
+                          assetReady: '就緒',
+                          assetMissing: '載入失敗',
+                          roll: '開始擲骰',
+                          rolling: '擲骰中...',
+                          bannerReady: '準備好後請按「開始擲骰」。',
+                          bannerAssets: '正在載入骰子資源...',
+                          bannerMissing: '請檢查 dice.glb 路徑。',
+                          bannerDone: '完成: 總和 {sum} · 點數 [{rolls}]',
+                          cumulativeTitle: '各點數累積次數',
+                          motionNote: '啟用減少動態效果時，動畫會簡化。',
+                          guideTitle: '使用指南',
+                          guideSubtitle: '本工具僅在瀏覽器本機運作，不會將資料傳送到外部伺服器。',
+                          guideStep1Title: '1. 設定數量',
+                          guideStep1Body: '先設定數量，再一鍵開始。',
+                          guideStep2Title: '2. 調整時間',
+                          guideStep2Body: '可依需求調整速度，用於快速確認或展示。',
+                          guideStep3Title: '3. 儲存結果',
+                          guideStep3Body: '結果可保留在歷史中，並可匯出CSV。',
+                          footerCopy: 'Designed and Developed by Juntae Ko (고준태)',
+                          footerTerms: '條款',
+                          footerPrivacy: '隱私',
+                          footerContact: '聯絡',
+                          fullscreenHint: '點擊全螢幕進入專注模式。',
+                          fullscreen: '全螢幕',
+                          fullscreenExit: '離開全螢幕',
+                          fullscreenUnsupported: '此瀏覽器不支援全螢幕。',
+                          fullscreenFailed: '切換全螢幕失敗。',
+                          runLabel: '回合',
+                          countShort: '數量',
+                          sumShort: '總和',
+                          avgShort: '平均',
+                          rollsShort: '點數'
+                        };
+                                                i18n.es = {
+                          ...i18n.en,
+                          title: 'Tirar Dados | Dado Aleatorio Online',
+                          metaDescription: 'Lanza de 1 a 12 dados al mismo tiempo, guarda resultados y exporta en CSV.',
+                          metaOgTitle: 'Tirar Dados | Dado Aleatorio Online',
+                          metaOgDescription: 'Lanza hasta 12 dados a la vez y guarda el historial.',
+                          metaTwitterTitle: 'Tirar Dados | Dado Aleatorio Online',
+                          metaTwitterDescription: 'Lanzamiento múltiple de dados 3D en un clic.',
+                          navSpin: 'Ruleta',
+                          navLotto: 'Sorteo',
+                          navHistory: 'Escalera',
+                          navCoin: 'Moneda',
+                          navDice: 'Dados',
+                          mnavSpin: 'Ruleta',
+                          mnavLotto: 'Sorteo',
+                          mnavHistory: 'Escalera',
+                          mnavCoin: 'Moneda',
+                          mnavDice: 'Dados',
+                          languageButton: 'LANGUAGE',
+                          languageSearchPh: 'Buscar idioma',
+                          heroTitle: 'Tirar dados',
+                          heroSubtitle: 'Lanza varios dados a la vez y revisa total y paridad al instante.',
+                          controlsTitle: 'Configuración',
+                          countLabel: 'Cantidad de dados',
+                          durationLabel: 'Duración de animación',
+                          betLabel: 'Impar vs Par',
+                          oddNamePh: 'Escribe quién apuesta a impar',
+                          evenNamePh: 'Escribe quién apuesta a par',
+                          odd: 'Impar',
+                          even: 'Par',
+                          parityTitle: 'Reporte impar/par',
+                          lastResult: 'Último resultado',
+                          winner: 'Ganador',
+                          noResult: 'Sin',
+                          soundLabel: 'Efectos de sonido',
+                          sumLabel: 'Suma',
+                          avgLabel: 'Promedio',
+                          assetLoading: 'Cargando',
+                          assetReady: 'Listo',
+                          assetMissing: 'Carga fallida',
+                          roll: 'Lanzar',
+                          rolling: 'Lanzando...',
+                          bannerReady: 'Pulsa "Lanzar" cuando estés listo.',
+                          bannerAssets: 'Cargando recursos de dados...',
+                          bannerMissing: 'Revisa la ruta de dice.glb.',
+                          bannerDone: 'Listo: Total {sum} · Tiradas [{rolls}]',
+                          cumulativeTitle: 'Frecuencia por cara',
+                          motionNote: 'Con reducción de movimiento activada, la animación se simplifica.',
+                          guideTitle: 'Guía',
+                          guideSubtitle: 'La herramienta funciona localmente en tu navegador y no envía datos a servidores externos.',
+                          guideStep1Title: '1. Ajusta la cantidad',
+                          guideStep1Body: 'Define la cantidad y ejecuta en un clic.',
+                          guideStep2Title: '2. Ajusta el tiempo',
+                          guideStep2Body: 'Regula la velocidad para revisión rápida o presentación.',
+                          guideStep3Title: '3. Guarda resultados',
+                          guideStep3Body: 'Conserva el historial y exporta CSV cuando lo necesites.',
+                          footerCopy: 'Designed and Developed by Juntae Ko (고준태)',
+                          footerTerms: 'Términos',
+                          footerPrivacy: 'Privacidad',
+                          footerContact: 'Contacto',
+                          fullscreenHint: 'Pulsa pantalla completa para modo enfoque.',
+                          fullscreen: 'Pantalla completa',
+                          fullscreenExit: 'Salir de pantalla completa',
+                          fullscreenUnsupported: 'Tu navegador no admite pantalla completa.',
+                          fullscreenFailed: 'No se pudo cambiar a pantalla completa.',
+                          runLabel: 'Ronda',
+                          countShort: 'Cant.',
+                          sumShort: 'Suma',
+                          avgShort: 'Prom.',
+                          rollsShort: 'Tiradas'
+                        };
+                                                                                                i18n.fr = {
+                                                  ...i18n.en,
+                                                  title: 'Lancer de Dés | Dé en Ligne',
+                                                  metaDescription: 'Lancez 1 à 12 dés en une fois, enregistrez l’historique et exportez les résultats.',
+                                                  metaOgTitle: 'Lancer de Dés | Dé en Ligne',
+                                                  metaOgDescription: 'Lancez jusqu\'à 12 dés en même temps et enregistrez l\'historique.',
+                                                  metaTwitterTitle: 'Lancer de Dés | Dé en Ligne',
+                                                  metaTwitterDescription: 'Lancer multiple de dés 3D en un clic.',
+                                                  navSpin: 'Roulette',
+                                                  navLotto: 'Tirage',
+                                                  navHistory: 'Échelle',
+                                                  navCoin: 'Pile ou Face',
+                                                  navDice: 'Dés',
+                                                  mnavSpin: 'Roulette',
+                                                  mnavLotto: 'Tirage',
+                                                  mnavHistory: 'Échelle',
+                                                  mnavCoin: 'Pièce',
+                                                  mnavDice: 'Dés',
+                                                  languageButton: 'LANGUAGE',
+                                                  languageSearchPh: 'Rechercher une langue',
+                                                  heroTitle: 'Lancer les dés',
+                                                  heroSubtitle: 'Lancez plusieurs dés simultanément et vérifiez les résultats immédiatement.',
+                                                  controlsTitle: 'Paramètres',
+                                                  countLabel: 'Nombre de dés',
+                                                  durationLabel: 'Durée de l’animation',
+                                                  betLabel: 'Impair vs Pair',
+                                                  oddNamePh: 'Nom pour le pari impair',
+                                                  evenNamePh: 'Nom pour le pari pair',
+                                                  odd: 'Impair',
+                                                  even: 'Pair',
+                                                  parityTitle: 'Rapport impair/pair',
+                                                  lastResult: 'Dernier résultat',
+                                                  winner: 'Gagnant',
+                                                  noResult: 'Aucun',
+                                                  soundLabel: 'Effets sonores',
+                                                  sumLabel: 'Somme',
+                                                  avgLabel: 'Moyenne',
+                                                  assetLoading: 'Chargement',
+                                                  assetReady: 'Prêt',
+                                                  assetMissing: 'Échec du chargement',
+                                                  roll: 'Lancer',
+                                                  rolling: 'Lancement...',
+                                                  bannerReady: 'Appuyez sur "Lancer" quand vous êtes prêt.',
+                                                  bannerAssets: 'Chargement des ressources dés...',
+                                                  bannerMissing: 'Vérifiez le chemin de dice.glb.',
+                                                  bannerDone: 'Terminé : Total {sum} · Jets [{rolls}]',
+                                                  cumulativeTitle: 'Cumul par face',
+                                                  motionNote: 'Avec la réduction des animations activée, l\'effet est simplifié.',
+                                                  guideTitle: 'Guide',
+                                                  guideSubtitle: 'L’outil fonctionne localement dans votre navigateur et n’envoie pas de données à des serveurs externes.',
+                                                  guideStep1Title: '1. Réglez la quantité',
+                                                  guideStep1Body: 'Définissez la quantité puis lancez en un clic.',
+                                                  guideStep2Title: '2. Réglez la durée',
+                                                  guideStep2Body: 'Ajustez la vitesse pour un contrôle rapide ou une présentation.',
+                                                  guideStep3Title: '3. Enregistrez les résultats',
+                                                  guideStep3Body: 'Conservez l’historique et exportez en CSV si besoin.',
+                                                  footerCopy: 'Designed and Developed by Juntae Ko (고준태)',
+                                                  footerTerms: 'Conditions',
+                                                  footerPrivacy: 'Confidentialité',
+                                                  footerContact: 'Contact',
+                                                  fullscreenHint: 'Appuyez sur plein écran pour le mode focus.',
+                                                  fullscreen: 'Plein écran',
+                                                  fullscreenExit: 'Quitter le plein écran',
+                                                  fullscreenUnsupported: 'Le plein écran n\'est pas pris en charge.',
+                                                  fullscreenFailed: 'Échec du passage en plein écran.',
+                                                  runLabel: 'Tour',
+                                                  countShort: 'Nb',
+                                                  sumShort: 'Somme',
+                                                  avgShort: 'Moy.',
+                                                  rollsShort: 'Jets'
+                                                };
+                                                i18n.de = {
+                          ...i18n.en,
+                          title: 'Würfeln | Online Zufallswürfel',
+                          metaDescription: 'Wirf 1 bis 12 Würfel gleichzeitig, speichere Ergebnisse und exportiere als CSV.',
+                          metaOgTitle: 'Würfeln | Online Zufallswürfel',
+                          metaOgDescription: 'Wirf bis zu 12 Würfel gleichzeitig und speichere den Verlauf.',
+                          metaTwitterTitle: 'Würfeln | Online Zufallswürfel',
+                          metaTwitterDescription: 'Mehrfacher 3D-Wurf mit einem Klick.',
+                          navSpin: 'Rad',
+                          navLotto: 'Auslosung',
+                          navHistory: 'Leiter',
+                          navCoin: 'Münzwurf',
+                          navDice: 'Würfel',
+                          mnavSpin: 'Rad',
+                          mnavLotto: 'Ziehung',
+                          mnavHistory: 'Leiter',
+                          mnavCoin: 'Münze',
+                          mnavDice: 'Würfel',
+                          languageButton: 'LANGUAGE',
+                          languageSearchPh: 'Sprache suchen',
+                          heroTitle: 'Würfel werfen',
+                          heroSubtitle: 'Mehrere Würfel gleichzeitig rollen und Ergebnis sofort sehen.',
+                          controlsTitle: 'Einstellungen',
+                          countLabel: 'Anzahl Würfel',
+                          durationLabel: 'Animationsdauer',
+                          betLabel: 'Ungerade vs Gerade',
+                          oddNamePh: 'Name für Ungerade-Wette',
+                          evenNamePh: 'Name für Gerade-Wette',
+                          odd: 'Ungerade',
+                          even: 'Gerade',
+                          parityTitle: 'Ungerade/Gerade Bericht',
+                          lastResult: 'Letztes Ergebnis',
+                          winner: 'Gewinner',
+                          noResult: 'Kein',
+                          soundLabel: 'Soundeffekte',
+                          sumLabel: 'Summe',
+                          avgLabel: 'Durchschnitt',
+                          assetLoading: 'Lädt',
+                          assetReady: 'Bereit',
+                          assetMissing: 'Laden fehlgeschlagen',
+                          roll: 'Würfeln',
+                          rolling: 'Wird gewürfelt...',
+                          bannerReady: 'Drücke "Würfeln", wenn du bereit bist.',
+                          bannerAssets: 'Würfel-Assets werden geladen...',
+                          bannerMissing: 'Bitte den Pfad von dice.glb prüfen.',
+                          bannerDone: 'Fertig: Summe {sum} · Würfe [{rolls}]',
+                          cumulativeTitle: 'Häufigkeit je Seite',
+                          motionNote: 'Bei reduzierter Bewegung wird die Animation vereinfacht.',
+                          guideTitle: 'Anleitung',
+                          guideSubtitle: 'Das Tool läuft lokal im Browser und sendet keine Daten an externe Server.',
+                          guideStep1Title: '1. Anzahl festlegen',
+                          guideStep1Body: 'Anzahl einstellen und per Klick starten.',
+                          guideStep2Title: '2. Zeit anpassen',
+                          guideStep2Body: 'Geschwindigkeit für schnellen Check oder Präsentation anpassen.',
+                          guideStep3Title: '3. Ergebnisse speichern',
+                          guideStep3Body: 'Verlauf behalten und bei Bedarf als CSV exportieren.',
+                          footerCopy: 'Designed and Developed by Juntae Ko (고준태)',
+                          footerTerms: 'Nutzungsbedingungen',
+                          footerPrivacy: 'Datenschutz',
+                          footerContact: 'Kontakt',
+                          fullscreenHint: 'Für Fokusmodus Vollbild antippen.',
+                          fullscreen: 'Vollbild',
+                          fullscreenExit: 'Vollbild beenden',
+                          fullscreenUnsupported: 'Vollbild wird nicht unterstützt.',
+                          fullscreenFailed: 'Vollbild-Umschaltung fehlgeschlagen.',
+                          runLabel: 'Runde',
+                          countShort: 'Anz.',
+                          sumShort: 'Summe',
+                          avgShort: 'Ø',
+                          rollsShort: 'Würfe'
+                        };
+                                                i18n['pt-br'] = {
+                          ...i18n.en,
+                          title: 'Rolar Dados | Dado Online',
+                          metaDescription: 'Role de 1 a 12 dados ao mesmo tempo, salve o histórico e exporte os resultados.',
+                          metaOgTitle: 'Rolar Dados | Dado Online',
+                          metaOgDescription: 'Role até 12 dados de uma vez e salve o histórico.',
+                          metaTwitterTitle: 'Rolar Dados | Dado Online',
+                          metaTwitterDescription: 'Rolagem múltipla de dados 3D com um clique.',
+                          navSpin: 'Roleta',
+                          navLotto: 'Sorteio',
+                          navHistory: 'Escada',
+                          navCoin: 'Moeda',
+                          navDice: 'Dados',
+                          mnavSpin: 'Roleta',
+                          mnavLotto: 'Sorteio',
+                          mnavHistory: 'Escada',
+                          mnavCoin: 'Moeda',
+                          mnavDice: 'Dados',
+                          languageButton: 'LANGUAGE',
+                          languageSearchPh: 'Buscar idioma',
+                          heroTitle: 'Rolar dados',
+                          heroSubtitle: 'Role vários dados de uma vez e confira os resultados na hora.',
+                          controlsTitle: 'Configurações',
+                          countLabel: 'Quantidade de dados',
+                          durationLabel: 'Tempo da animação',
+                          betLabel: 'Ímpar vs Par',
+                          oddNamePh: 'Digite quem aposta no ímpar',
+                          evenNamePh: 'Digite quem aposta no par',
+                          odd: 'Ímpar',
+                          even: 'Par',
+                          parityTitle: 'Relatório ímpar/par',
+                          lastResult: 'Último resultado',
+                          winner: 'Vencedor',
+                          noResult: 'Nenhum',
+                          soundLabel: 'Efeitos sonoros',
+                          sumLabel: 'Soma',
+                          avgLabel: 'Média',
+                          assetLoading: 'Carregando',
+                          assetReady: 'Pronto',
+                          assetMissing: 'Falha no carregamento',
+                          roll: 'Rolar',
+                          rolling: 'Rolando...',
+                          bannerReady: 'Clique em "Rolar" quando estiver pronto.',
+                          bannerAssets: 'Carregando recursos dos dados...',
+                          bannerMissing: 'Verifique o caminho de dice.glb.',
+                          bannerDone: 'Concluído: Total {sum} · Resultados [{rolls}]',
+                          cumulativeTitle: 'Acumulado por face',
+                          motionNote: 'Com redução de movimento ativa, a animação é simplificada.',
+                          guideTitle: 'Guia',
+                          guideSubtitle: 'A ferramenta roda localmente no navegador e não envia dados para servidores externos.',
+                          guideStep1Title: '1. Defina a quantidade',
+                          guideStep1Body: 'Escolha a quantidade e execute com um clique.',
+                          guideStep2Title: '2. Ajuste o tempo',
+                          guideStep2Body: 'Ajuste a velocidade para conferência rápida ou apresentação.',
+                          guideStep3Title: '3. Salve os resultados',
+                          guideStep3Body: 'Mantenha o histórico e exporte CSV quando precisar.',
+                          footerCopy: 'Designed and Developed by Juntae Ko (고준태)',
+                          footerTerms: 'Termos',
+                          footerPrivacy: 'Privacidade',
+                          footerContact: 'Contato',
+                          fullscreenHint: 'Toque em tela cheia para o modo foco.',
+                          fullscreen: 'Tela cheia',
+                          fullscreenExit: 'Sair da tela cheia',
+                          fullscreenUnsupported: 'Tela cheia não é suportada neste navegador.',
+                          fullscreenFailed: 'Falha ao alternar tela cheia.',
+                          runLabel: 'Rodada',
+                          countShort: 'Qtd.',
+                          sumShort: 'Soma',
+                          avgShort: 'Méd.',
+                          rollsShort: 'Valores'
+                        };
+                                                i18n.hi = {
+                          ...i18n.en,
+                          title: 'डाइस रोल | ऑनलाइन पासा',
+                          metaDescription: '1 से 12 पासे एक साथ रोल करें, परिणाम सेव करें और CSV निर्यात करें।',
+                          metaOgTitle: 'डाइस रोल | ऑनलाइन पासा',
+                          metaOgDescription: 'एक साथ 12 पासों तक रोल करें और हिस्ट्री सेव करें।',
+                          metaTwitterTitle: 'डाइस रोल | ऑनलाइन पासा',
+                          metaTwitterDescription: 'एक क्लिक में मल्टी 3D डाइस रोल।',
+                          navSpin: 'रूलेट',
+                          navLotto: 'ड्रॉ',
+                          navHistory: 'लैडर',
+                          navCoin: 'कॉइन',
+                          navDice: 'डाइस',
+                          mnavSpin: 'रूलेट',
+                          mnavLotto: 'ड्रॉ',
+                          mnavHistory: 'लैडर',
+                          mnavCoin: 'कॉइन',
+                          mnavDice: 'डाइस',
+                          languageButton: 'LANGUAGE',
+                          languageSearchPh: 'भाषा खोजें',
+                          heroTitle: 'पासा रोल करें',
+                          heroSubtitle: 'एक साथ कई पासे घुमाकर तुरंत परिणाम देखें।',
+                          controlsTitle: 'सेटिंग्स',
+                          countLabel: 'पासों की संख्या',
+                          durationLabel: 'एनीमेशन समय',
+                          betLabel: 'विषम बनाम सम',
+                          oddNamePh: 'विषम पर दांव लगाने वाला नाम लिखें',
+                          evenNamePh: 'सम पर दांव लगाने वाला नाम लिखें',
+                          odd: 'विषम',
+                          even: 'सम',
+                          parityTitle: 'विषम/सम रिपोर्ट',
+                          lastResult: 'पिछला परिणाम',
+                          winner: 'विजेता',
+                          noResult: 'नहीं',
+                          soundLabel: 'साउंड इफेक्ट',
+                          sumLabel: 'कुल',
+                          avgLabel: 'औसत',
+                          assetLoading: 'लोड हो रहा है',
+                          assetReady: 'तैयार',
+                          assetMissing: 'लोड विफल',
+                          roll: 'रोल करें',
+                          rolling: 'रोल हो रहा है...',
+                          bannerReady: 'तैयार हों तो "रोल करें" दबाएँ।',
+                          bannerAssets: 'डाइस एसेट लोड हो रहे हैं...',
+                          bannerMissing: 'dice.glb पथ जांचें।',
+                          bannerDone: 'पूरा: कुल {sum} · रोल [{rolls}]',
+                          cumulativeTitle: 'हर फेस की कुल गिनती',
+                          motionNote: 'Reduced-motion चालू होने पर एनीमेशन सरल किया जाता है।',
+                          guideTitle: 'गाइड',
+                          guideSubtitle: 'यह टूल ब्राउज़र में लोकली चलता है और डेटा बाहरी सर्वर पर नहीं भेजता।',
+                          guideStep1Title: '1. संख्या सेट करें',
+                          guideStep1Body: 'संख्या तय करें और एक क्लिक में चलाएँ।',
+                          guideStep2Title: '2. समय समायोजित करें',
+                          guideStep2Body: 'तेज़ जांच या प्रस्तुति के लिए गति समायोजित करें।',
+                          guideStep3Title: '3. परिणाम सहेजें',
+                          guideStep3Body: 'इतिहास रखें और जरूरत पर CSV निर्यात करें।',
+                          footerCopy: 'Designed and Developed by Juntae Ko (고준태)',
+                          footerTerms: 'नियम',
+                          footerPrivacy: 'गोपनीयता',
+                          footerContact: 'संपर्क',
+                          fullscreenHint: 'फोकस मोड के लिए फुलस्क्रीन दबाएं।',
+                          fullscreen: 'फुलस्क्रीन',
+                          fullscreenExit: 'फुलस्क्रीन बंद करें',
+                          fullscreenUnsupported: 'इस ब्राउज़र में फुलस्क्रीन समर्थित नहीं है।',
+                          fullscreenFailed: 'फुलस्क्रीन बदलने में विफल।',
+                          runLabel: 'राउंड',
+                          countShort: 'सं.',
+                          sumShort: 'कुल',
+                          avgShort: 'औस.',
+                          rollsShort: 'मान'
+                        };
+                                                i18n.ar = {
+                          ...i18n.en,
+                          title: 'رمي النرد | نرد عشوائي أونلاين',
+                          metaDescription: 'ارمِ من 1 إلى 12 نردًا دفعة واحدة واحفظ النتائج وصدّرها بسهولة.',
+                          metaOgTitle: 'رمي النرد | نرد عشوائي أونلاين',
+                          metaOgDescription: 'ارمِ عدة نردات مع حركة ثلاثية الأبعاد واحفظ النتائج.',
+                          metaTwitterTitle: 'رمي النرد | نرد عشوائي أونلاين',
+                          metaTwitterDescription: 'رمي عدة نردات ثلاثية الأبعاد بنقرة واحدة.',
+                          navSpin: 'العجلة',
+                          navLotto: 'السحب',
+                          navHistory: 'السلم',
+                          navCoin: 'العملة',
+                          navDice: 'النرد',
+                          mnavSpin: 'العجلة',
+                          mnavLotto: 'السحب',
+                          mnavHistory: 'السلم',
+                          mnavCoin: 'العملة',
+                          mnavDice: 'النرد',
+                          languageButton: 'LANGUAGE',
+                          languageSearchPh: 'ابحث عن اللغة',
+                          heroTitle: 'رمي النرد',
+                          heroSubtitle: 'نتائج فورية مع عدّاد تراكمي وتقارير واضحة.',
+                          controlsTitle: 'الإعدادات',
+                          countLabel: 'عدد النرد',
+                          durationLabel: 'مدة الحركة',
+                          betLabel: 'فردي مقابل زوجي',
+                          oddNamePh: 'راهن على الفردي!',
+                          evenNamePh: 'راهن على الزوجي!',
+                          odd: 'فردي',
+                          even: 'زوجي',
+                          parityTitle: 'تقرير فردي/زوجي',
+                          lastResult: 'آخر نتيجة',
+                          winner: 'الفائز',
+                          noResult: 'لا يوجد',
+                          soundLabel: 'المؤثرات الصوتية',
+                          sumLabel: 'المجموع',
+                          avgLabel: 'المتوسط',
+                          assetLoading: 'جارٍ التحميل',
+                          assetReady: 'جاهز',
+                          assetMissing: 'فشل التحميل',
+                          roll: 'ارمِ',
+                          rolling: 'جارٍ الرمي...',
+                          bannerReady: 'اضغط "ارمِ" عند الجاهزية.',
+                          bannerAssets: 'جارٍ تحميل موارد النرد...',
+                          bannerMissing: 'تحقق من مسار dice.glb.',
+                          bannerDone: 'تم: المجموع {sum} · القيم [{rolls}]',
+                          cumulativeTitle: 'العدّ التراكمي للوجوه',
+                          motionNote: 'عند تفعيل تقليل الحركة، يتم تبسيط الأنيميشن.',
+                          guideTitle: 'الدليل',
+                          guideSubtitle: 'تعمل الأداة محليًا داخل المتصفح ولا ترسل البيانات إلى خوادم خارجية.',
+                          guideStep1Title: '1. حدّد العدد',
+                          guideStep1Body: 'اختر العدد ثم ابدأ بنقرة واحدة.',
+                          guideStep2Title: '2. اضبط الوقت',
+                          guideStep2Body: 'عدّل السرعة للفحص السريع أو العرض.',
+                          guideStep3Title: '3. احفظ النتائج',
+                          guideStep3Body: 'احتفظ بالسجل وصدّره CSV عند الحاجة.',
+                          footerCopy: 'Designed and Developed by Juntae Ko (고준태)',
+                          footerTerms: 'الشروط',
+                          footerPrivacy: 'الخصوصية',
+                          footerContact: 'تواصل',
+                          fullscreenHint: 'اضغط ملء الشاشة لوضع التركيز.',
+                          fullscreen: 'ملء الشاشة',
+                          fullscreenExit: 'إنهاء ملء الشاشة',
+                          fullscreenUnsupported: 'ملء الشاشة غير مدعوم في هذا المتصفح.',
+                          fullscreenFailed: 'فشل تبديل ملء الشاشة.',
+                          runLabel: 'جولة',
+                          countShort: 'عدد',
+                          sumShort: 'مجموع',
+                          avgShort: 'متوسط',
+                          rollsShort: 'قيم'
+                        };
+                                                i18n.ru = {
+                          ...i18n.en,
+                          title: 'Бросок Кубиков | Онлайн Генератор',
+                          metaDescription: 'Бросайте от 1 до 12 кубиков сразу, сохраняйте результаты и экспортируйте их.',
+                          metaOgTitle: 'Бросок Кубиков | Онлайн Генератор',
+                          metaOgDescription: 'Бросайте несколько кубиков с 3D-анимацией и сохраняйте результаты.',
+                          metaTwitterTitle: 'Бросок Кубиков | Онлайн Генератор',
+                          metaTwitterDescription: 'Множественный 3D-бросок кубиков в один клик.',
+                          navSpin: 'Колесо',
+                          navLotto: 'Розыгрыш',
+                          navHistory: 'Лестница',
+                          navCoin: 'Монета',
+                          navDice: 'Кости',
+                          mnavSpin: 'Колесо',
+                          mnavLotto: 'Розыгрыш',
+                          mnavHistory: 'Лестница',
+                          mnavCoin: 'Монета',
+                          mnavDice: 'Кости',
+                          languageButton: 'LANGUAGE',
+                          languageSearchPh: 'Поиск языка',
+                          heroTitle: 'Бросок Кубиков',
+                          heroSubtitle: 'Мгновенные результаты, статистика и удобный отчет.',
+                          controlsTitle: 'Настройки',
+                          countLabel: 'Количество кубиков',
+                          durationLabel: 'Время анимации',
+                          betLabel: 'Нечет/Чет',
+                          oddNamePh: 'Ставка на нечет!',
+                          evenNamePh: 'Ставка на чет!',
+                          odd: 'Нечет',
+                          even: 'Чет',
+                          parityTitle: 'Отчет Нечет/Чет',
+                          lastResult: 'Последний результат',
+                          winner: 'Победитель',
+                          noResult: 'Нет',
+                          soundLabel: 'Звуковые эффекты',
+                          sumLabel: 'Сумма',
+                          avgLabel: 'Среднее',
+                          assetLoading: 'Загрузка',
+                          assetReady: 'Готово',
+                          assetMissing: 'Ошибка загрузки',
+                          roll: 'Бросить',
+                          rolling: 'Бросаем...',
+                          bannerReady: 'Нажмите "Бросить", когда будете готовы.',
+                          bannerAssets: 'Загрузка ресурсов кубиков...',
+                          bannerMissing: 'Проверьте путь к dice.glb.',
+                          bannerDone: 'Готово: Сумма {sum} · Броски [{rolls}]',
+                          cumulativeTitle: 'Накопленный счет граней',
+                          motionNote: 'При включенном режиме уменьшения движения анимация упрощается.',
+                          guideTitle: 'Гид',
+                          guideSubtitle: 'Инструмент работает локально в браузере и не отправляет данные на внешние серверы.',
+                          guideStep1Title: '1. Укажите количество',
+                          guideStep1Body: 'Задайте количество и запустите одним нажатием.',
+                          guideStep2Title: '2. Настройте время',
+                          guideStep2Body: 'Отрегулируйте скорость для быстрого просмотра или демонстрации.',
+                          guideStep3Title: '3. Сохраните результаты',
+                          guideStep3Body: 'Храните историю и экспортируйте CSV при необходимости.',
+                          footerCopy: 'Designed and Developed by Juntae Ko (고준태)',
+                          footerTerms: 'Условия',
+                          footerPrivacy: 'Конфиденциальность',
+                          footerContact: 'Контакты',
+                          fullscreenHint: 'Нажмите полноэкранный режим для фокуса.',
+                          fullscreen: 'Полный экран',
+                          fullscreenExit: 'Выйти из полного экрана',
+                          fullscreenUnsupported: 'Полноэкранный режим не поддерживается.',
+                          fullscreenFailed: 'Не удалось переключить полноэкранный режим.',
+                          runLabel: 'Раунд',
+                          countShort: 'Кол-во',
+                          sumShort: 'Сумма',
+                          avgShort: 'Сред.',
+                          rollsShort: 'Броски'
+                        };
+                                                i18n.id = {
+                          ...i18n.en,
+                          title: 'Lempar Dadu | Dadu Acak Online',
+                          metaDescription: 'Lempar 1-12 dadu sekaligus, simpan hasil, dan ekspor data dengan mudah.',
+                          metaOgTitle: 'Lempar Dadu | Dadu Acak Online',
+                          metaOgDescription: 'Lempar banyak dadu dengan animasi 3D dan simpan hasilnya.',
+                          metaTwitterTitle: 'Lempar Dadu | Dadu Acak Online',
+                          metaTwitterDescription: 'Lempar banyak dadu 3D dalam satu klik.',
+                          navSpin: 'Roda',
+                          navLotto: 'Undian',
+                          navHistory: 'Tangga',
+                          navCoin: 'Koin',
+                          navDice: 'Dadu',
+                          mnavSpin: 'Roda',
+                          mnavLotto: 'Undian',
+                          mnavHistory: 'Tangga',
+                          mnavCoin: 'Koin',
+                          mnavDice: 'Dadu',
+                          languageButton: 'LANGUAGE',
+                          languageSearchPh: 'Cari bahasa',
+                          heroTitle: 'Lempar Dadu',
+                          heroSubtitle: 'Hasil acak instan dengan statistik yang jelas.',
+                          controlsTitle: 'Pengaturan',
+                          countLabel: 'Jumlah dadu',
+                          durationLabel: 'Waktu animasi',
+                          betLabel: 'Ganjil vs Genap',
+                          oddNamePh: 'Taruhan ganjil!',
+                          evenNamePh: 'Taruhan genap!',
+                          odd: 'Ganjil',
+                          even: 'Genap',
+                          parityTitle: 'Laporan Ganjil/Genap',
+                          lastResult: 'Hasil terakhir',
+                          winner: 'Pemenang',
+                          noResult: 'Tidak',
+                          soundLabel: 'Efek suara',
+                          sumLabel: 'Jumlah',
+                          avgLabel: 'Rata-rata',
+                          assetLoading: 'Memuat',
+                          assetReady: 'Siap',
+                          assetMissing: 'Gagal memuat',
+                          roll: 'Lempar',
+                          rolling: 'Sedang melempar...',
+                          bannerReady: 'Tekan "Lempar" saat siap.',
+                          bannerAssets: 'Memuat aset dadu...',
+                          bannerMissing: 'Periksa path dice.glb.',
+                          bannerDone: 'Selesai: Total {sum} · Hasil [{rolls}]',
+                          cumulativeTitle: 'Hitungan Kumulatif Tiap Sisi',
+                          motionNote: 'Saat reduced-motion aktif, animasi disederhanakan.',
+                          guideTitle: 'Panduan',
+                          guideSubtitle: 'Alat berjalan lokal di browser dan tidak mengirim data ke server eksternal.',
+                          guideStep1Title: '1. Atur jumlah',
+                          guideStep1Body: 'Tentukan jumlah lalu jalankan dengan satu klik.',
+                          guideStep2Title: '2. Atur waktu',
+                          guideStep2Body: 'Sesuaikan kecepatan untuk cek cepat atau presentasi.',
+                          guideStep3Title: '3. Simpan hasil',
+                          guideStep3Body: 'Simpan riwayat dan ekspor CSV saat dibutuhkan.',
+                          footerCopy: 'Designed and Developed by Juntae Ko (고준태)',
+                          footerTerms: 'Ketentuan',
+                          footerPrivacy: 'Privasi',
+                          footerContact: 'Kontak',
+                          fullscreenHint: 'Ketuk layar penuh untuk mode fokus.',
+                          fullscreen: 'Layar penuh',
+                          fullscreenExit: 'Keluar layar penuh',
+                          fullscreenUnsupported: 'Layar penuh tidak didukung di browser ini.',
+                          fullscreenFailed: 'Gagal mengganti mode layar penuh.',
+                          runLabel: 'Putaran',
+                          countShort: 'Jml',
+                          sumShort: 'Jumlah',
+                          avgShort: 'Rata',
+                          rollsShort: 'Nilai'
+                        };
+                                                i18n.tr = {
+                          ...i18n.en,
+                          title: 'Zar Atma | Online Rastgele Zar',
+                          metaDescription: 'Aynı anda 1-12 zar atın, sonuçları kaydedin ve dışa aktarın.',
+                          metaOgTitle: 'Zar Atma | Online Rastgele Zar',
+                          metaOgDescription: '3D animasyonla çoklu zar atın ve sonuçları kaydedin.',
+                          metaTwitterTitle: 'Zar Atma | Online Rastgele Zar',
+                          metaTwitterDescription: 'Tek tıkla birden fazla 3D zar atışı.',
+                          navSpin: 'Çark',
+                          navLotto: 'Çekiliş',
+                          navHistory: 'Merdiven',
+                          navCoin: 'Yazı Tura',
+                          navDice: 'Zar',
+                          mnavSpin: 'Çark',
+                          mnavLotto: 'Çekiliş',
+                          mnavHistory: 'Merdiven',
+                          mnavCoin: 'Para',
+                          mnavDice: 'Zar',
+                          languageButton: 'LANGUAGE',
+                          languageSearchPh: 'Dil ara',
+                          heroTitle: 'Zar Atma',
+                          heroSubtitle: 'Anlık sonuç ve toplu istatistik ile pratik kullanım.',
+                          controlsTitle: 'Ayarlar',
+                          countLabel: 'Zar sayısı',
+                          durationLabel: 'Animasyon süresi',
+                          betLabel: 'Tek vs Çift',
+                          oddNamePh: 'Teke bahis yap!',
+                          evenNamePh: 'Çifte bahis yap!',
+                          odd: 'Tek',
+                          even: 'Çift',
+                          parityTitle: 'Tek/Çift Raporu',
+                          lastResult: 'Sonuç',
+                          winner: 'Kazanan',
+                          noResult: 'Yok',
+                          soundLabel: 'Ses efektleri',
+                          sumLabel: 'Toplam',
+                          avgLabel: 'Ortalama',
+                          assetLoading: 'Yükleniyor',
+                          assetReady: 'Hazır',
+                          assetMissing: 'Yükleme başarısız',
+                          roll: 'At',
+                          rolling: 'Atılıyor...',
+                          bannerReady: 'Hazır olduğunda "At" düğmesine basın.',
+                          bannerAssets: 'Zar varlıkları yükleniyor...',
+                          bannerMissing: 'dice.glb yolunu kontrol edin.',
+                          bannerDone: 'Tamamlandı: Toplam {sum} · Atışlar [{rolls}]',
+                          cumulativeTitle: 'Kümülatif Yüz Sayımı',
+                          motionNote: 'Azaltılmış hareket açıkken animasyon sadeleştirilir.',
+                          guideTitle: 'Rehber',
+                          guideSubtitle: 'Araç tarayıcıda yerel çalışır ve verileri harici sunuculara göndermez.',
+                          guideStep1Title: '1. Adedi ayarla',
+                          guideStep1Body: 'Adedi belirleyip tek tıkla başlatın.',
+                          guideStep2Title: '2. Süreyi ayarla',
+                          guideStep2Body: 'Hızı hızlı kontrol veya sunum için ayarlayın.',
+                          guideStep3Title: '3. Sonuçları kaydet',
+                          guideStep3Body: 'Geçmişi koruyun ve gerekirse CSV dışa aktarın.',
+                          footerCopy: 'Designed and Developed by Juntae Ko (고준태)',
+                          footerTerms: 'Koşullar',
+                          footerPrivacy: 'Gizlilik',
+                          footerContact: 'İletişim',
+                          fullscreenHint: 'Odak modu için tam ekranı açın.',
+                          fullscreen: 'Tam ekran',
+                          fullscreenExit: 'Tam ekrandan çık',
+                          fullscreenUnsupported: 'Bu tarayıcı tam ekranı desteklemiyor.',
+                          fullscreenFailed: 'Tam ekran geçişi başarısız.',
+                          runLabel: 'Tur',
+                          countShort: 'Adet',
+                          sumShort: 'Toplam',
+                          avgShort: 'Ort.',
+                          rollsShort: 'Atış'
+                        };
+      i18n.it = {
+        ...i18n.en,
+        title: 'Lancio Dadi | Dado Online',
+        metaDescription: 'Lancia da 1 a 12 dadi in una volta con animazione 3D. Salva lo storico ed esporta CSV.',
+        metaOgTitle: 'Lancio Dadi | Dado Online',
+        metaOgDescription: 'Lancia più dadi insieme e salva subito i risultati.',
+        metaTwitterTitle: 'Lancio Dadi | Dado Online',
+        metaTwitterDescription: 'Lancio multiplo di dadi 3D in un click.',
+        navSpin: 'Ruota',
+        navLotto: 'Sorteggio',
+        navHistory: 'Scala',
+        navCoin: 'Moneta',
+        navDice: 'Dadi',
+        mnavSpin: 'Ruota',
+        mnavLotto: 'Estrai',
+        mnavHistory: 'Scala',
+        mnavCoin: 'Moneta',
+        mnavDice: 'Dadi',
+        languageButton: 'LANGUAGE',
+        languageSearchPh: 'Cerca lingua',
+        heroTitle: 'Lancio Dadi',
+        heroSubtitle: 'Lancia da 1 a 12 dadi insieme e salva i risultati in modo rapido.',
+        controlsTitle: 'Impostazioni',
+        countLabel: 'Numero dadi',
+        durationLabel: 'Tempo animazione',
+        betLabel: 'Dispari vs Pari',
+        oddNamePh: 'Punta sul dispari!',
+        evenNamePh: 'Punta sul pari!',
+        odd: 'Dispari',
+        even: 'Pari',
+        parityTitle: 'Report Dispari/Pari',
+        lastResult: 'Ultimo risultato',
+        winner: 'Vincitore',
+        noResult: '-',
+        soundLabel: 'Effetti audio',
+        sumLabel: 'Totale',
+        avgLabel: 'Media',
+        assetLoading: 'Caricamento',
+        assetReady: 'Pronto',
+        assetMissing: 'Caricamento fallito',
+        roll: 'Lancia',
+        rolling: 'Lancio in corso...',
+        bannerReady: 'Premi "Lancia" quando sei pronto.',
+        bannerAssets: 'Caricamento risorse dadi...',
+        bannerMissing: 'Controlla il percorso di dice.glb.',
+        bannerDone: 'Completato: Totale {sum} · Lanci [{rolls}]',
+        cumulativeTitle: 'Conteggio Cumulativo Facce',
+        motionNote: 'Con riduzione movimento attiva, l\'animazione viene semplificata.',
+        guideTitle: 'Guida Lancio Dadi',
+        guideSubtitle: 'Il lancio dadi viene eseguito localmente nel browser, senza invio a server esterni.',
+        guideStep1Title: '1. Scegli quanti dadi',
+        guideStep1Body: 'Puoi lanciare da 1 a 12 dadi contemporaneamente.',
+        guideStep2Title: '2. Regola la velocità',
+        guideStep2Body: 'Imposta il tempo di animazione per test veloci o reveal più scenografici.',
+        guideStep3Title: '3. Salva i risultati',
+        guideStep3Body: 'Conserva ogni sessione con valori, totale e media, poi esporta in CSV.',
+        footerCopy: 'Designed and Developed by Juntae Ko (고준태)',
+        footerTerms: 'Termini',
+        footerPrivacy: 'Privacy',
+        footerContact: 'Contatti',
+        fullscreenHint: 'Tocca schermo intero per la modalità focus.',
+        fullscreen: 'Schermo intero',
+        fullscreenExit: 'Esci da schermo intero',
+        fullscreenUnsupported: 'Il fullscreen non è supportato in questo browser.',
+        fullscreenFailed: 'Impossibile attivare il fullscreen.',
+        runLabel: 'Turno',
+        countShort: 'Qta',
+        sumShort: 'Tot',
+        avgShort: 'Med',
+        rollsShort: 'Lanci'
+      };
+      i18n.vi = {
+        ...i18n.en,
+        title: 'Tung Xúc Xắc | Xúc Xắc Online',
+        metaDescription: 'Tung 1-12 xúc xắc cùng lúc với animation 3D. Lưu lịch sử và xuất CSV nhanh.',
+        metaOgTitle: 'Tung Xúc Xắc | Xúc Xắc Online',
+        metaOgDescription: 'Tung nhiều xúc xắc một lần và lưu kết quả ngay.',
+        metaTwitterTitle: 'Tung Xúc Xắc | Xúc Xắc Online',
+        metaTwitterDescription: 'Tung nhiều xúc xắc 3D chỉ với một lần bấm.',
+        navSpin: 'Vòng quay',
+        navLotto: 'Bốc thăm',
+        navHistory: 'Cầu thang',
+        navCoin: 'Tung xu',
+        navDice: 'Xúc xắc',
+        mnavSpin: 'Vòng quay',
+        mnavLotto: 'Bốc thăm',
+        mnavHistory: 'Cầu thang',
+        mnavCoin: 'Xu',
+        mnavDice: 'Xúc xắc',
+        languageButton: 'LANGUAGE',
+        languageSearchPh: 'Tìm ngôn ngữ',
+        heroTitle: 'Tung Xúc Xắc',
+        heroSubtitle: 'Tung từ 1 đến 12 xúc xắc cùng lúc và lưu kết quả dễ dàng.',
+        controlsTitle: 'Cài đặt',
+        countLabel: 'Số lượng xúc xắc',
+        durationLabel: 'Thời gian animation',
+        betLabel: 'Lẻ vs Chẵn',
+        oddNamePh: 'Đặt cược lẻ!',
+        evenNamePh: 'Đặt cược chẵn!',
+        odd: 'Lẻ',
+        even: 'Chẵn',
+        parityTitle: 'Báo Cáo Lẻ/Chẵn',
+        lastResult: 'Kết quả gần nhất',
+        winner: 'Người thắng',
+        noResult: '-',
+        soundLabel: 'Hiệu ứng âm thanh',
+        sumLabel: 'Tổng',
+        avgLabel: 'Trung bình',
+        assetLoading: 'Đang tải',
+        assetReady: 'Sẵn sàng',
+        assetMissing: 'Tải thất bại',
+        roll: 'Tung',
+        rolling: 'Đang tung...',
+        bannerReady: 'Nhấn "Tung" khi đã sẵn sàng.',
+        bannerAssets: 'Đang tải tài nguyên xúc xắc...',
+        bannerMissing: 'Vui lòng kiểm tra đường dẫn dice.glb.',
+        bannerDone: 'Hoàn tất: Tổng {sum} · Kết quả [{rolls}]',
+        cumulativeTitle: 'Tổng Hợp Số Lần Ra Mặt',
+        motionNote: 'Khi bật giảm chuyển động, animation sẽ được đơn giản hóa.',
+        guideTitle: 'Hướng dẫn Tung Xúc Xắc',
+        guideSubtitle: 'Công cụ chạy cục bộ trên trình duyệt và không gửi dữ liệu ra máy chủ ngoài.',
+        guideStep1Title: '1. Chọn số lượng',
+        guideStep1Body: 'Bạn có thể tung từ 1 đến 12 xúc xắc cùng lúc.',
+        guideStep2Title: '2. Điều chỉnh tốc độ',
+        guideStep2Body: 'Tùy chỉnh thời gian animation để kiểm tra nhanh hoặc hiển thị nổi bật hơn.',
+        guideStep3Title: '3. Lưu kết quả',
+        guideStep3Body: 'Lưu từng lượt gồm kết quả, tổng và trung bình rồi xuất CSV khi cần.',
+        footerCopy: 'Designed and Developed by Juntae Ko (고준태)',
+        footerTerms: 'Điều khoản',
+        footerPrivacy: 'Riêng tư',
+        footerContact: 'Liên hệ',
+        fullscreenHint: 'Nhấn toàn màn hình để vào chế độ tập trung.',
+        fullscreen: 'Toàn màn hình',
+        fullscreenExit: 'Thoát toàn màn hình',
+        fullscreenUnsupported: 'Trình duyệt này không hỗ trợ toàn màn hình.',
+        fullscreenFailed: 'Không thể chuyển sang toàn màn hình.',
+        runLabel: 'Lượt',
+        countShort: 'SL',
+        sumShort: 'Tổng',
+        avgShort: 'TB',
+        rollsShort: 'Giá trị'
+      };
+      i18n.th = {
+        ...i18n.en,
+        title: 'ทอยลูกเต๋า | ลูกเต๋าออนไลน์',
+        metaDescription: 'ทอยลูกเต๋า 1-12 ลูกพร้อมกันด้วยแอนิเมชัน 3D บันทึกประวัติและส่งออก CSV ได้ทันที',
+        metaOgTitle: 'ทอยลูกเต๋า | ลูกเต๋าออนไลน์',
+        metaOgDescription: 'ทอยหลายลูกในครั้งเดียวและบันทึกผลได้ทันที',
+        metaTwitterTitle: 'ทอยลูกเต๋า | ลูกเต๋าออนไลน์',
+        metaTwitterDescription: 'ทอยลูกเต๋า 3D หลายลูกในคลิกเดียว',
+        navSpin: 'วงล้อ',
+        navLotto: 'จับสลาก',
+        navHistory: 'บันได',
+        navCoin: 'โยนเหรียญ',
+        navDice: 'ทอยเต๋า',
+        mnavSpin: 'วงล้อ',
+        mnavLotto: 'จับสลาก',
+        mnavHistory: 'บันได',
+        mnavCoin: 'เหรียญ',
+        mnavDice: 'เต๋า',
+        languageButton: 'LANGUAGE',
+        languageSearchPh: 'ค้นหาภาษา',
+        heroTitle: 'ทอยลูกเต๋า',
+        heroSubtitle: 'ทอยลูกเต๋า 1 ถึง 12 ลูกพร้อมกันและบันทึกผลได้ทันที',
+        controlsTitle: 'การตั้งค่า',
+        countLabel: 'จำนวนลูกเต๋า',
+        durationLabel: 'เวลาแอนิเมชัน',
+        betLabel: 'คี่ vs คู่',
+        oddNamePh: 'เดิมพันฝั่งคี่!',
+        evenNamePh: 'เดิมพันฝั่งคู่!',
+        odd: 'คี่',
+        even: 'คู่',
+        parityTitle: 'รายงานคี่/คู่',
+        lastResult: 'ผลล่าสุด',
+        winner: 'ผู้ชนะ',
+        noResult: '-',
+        soundLabel: 'เอฟเฟกต์เสียง',
+        sumLabel: 'ผลรวม',
+        avgLabel: 'ค่าเฉลี่ย',
+        assetLoading: 'กำลังโหลด',
+        assetReady: 'พร้อม',
+        assetMissing: 'โหลดไม่สำเร็จ',
+        roll: 'ทอย',
+        rolling: 'กำลังทอย...',
+        bannerReady: 'กด "ทอย" เมื่อพร้อม',
+        bannerAssets: 'กำลังโหลดทรัพยากรลูกเต๋า...',
+        bannerMissing: 'กรุณาตรวจสอบพาธของ dice.glb',
+        bannerDone: 'เสร็จแล้ว: รวม {sum} · ค่าออก [{rolls}]',
+        cumulativeTitle: 'สถิติสะสมของหน้าเต๋า',
+        motionNote: 'เมื่อเปิดโหมดลดการเคลื่อนไหว แอนิเมชันจะถูกลดรูปแบบ',
+        guideTitle: 'คู่มือทอยลูกเต๋า',
+        guideSubtitle: 'ระบบทำงานในเบราว์เซอร์ของคุณเท่านั้น และไม่ส่งข้อมูลไปเซิร์ฟเวอร์ภายนอก',
+        guideStep1Title: '1. เลือกจำนวนลูกเต๋า',
+        guideStep1Body: 'ทอยลูกเต๋าได้พร้อมกันตั้งแต่ 1 ถึง 12 ลูก',
+        guideStep2Title: '2. ปรับความเร็ว',
+        guideStep2Body: 'ปรับเวลาแอนิเมชันให้เหมาะกับการเช็กเร็วหรือการโชว์ผลแบบลุ้น',
+        guideStep3Title: '3. บันทึกผล',
+        guideStep3Body: 'เก็บผลแต่ละรอบพร้อมค่าออก ผลรวม และค่าเฉลี่ย แล้วส่งออก CSV ได้',
+        footerCopy: 'Designed and Developed by Juntae Ko (고준태)',
+        footerTerms: 'ข้อกำหนด',
+        footerPrivacy: 'ความเป็นส่วนตัว',
+        footerContact: 'ติดต่อ',
+        fullscreenHint: 'แตะเต็มหน้าจอเพื่อโหมดโฟกัส',
+        fullscreen: 'เต็มหน้าจอ',
+        fullscreenExit: 'ออกจากเต็มหน้าจอ',
+        fullscreenUnsupported: 'เบราว์เซอร์นี้ไม่รองรับเต็มหน้าจอ',
+        fullscreenFailed: 'สลับโหมดเต็มหน้าจอไม่สำเร็จ',
+        runLabel: 'รอบ',
+        countShort: 'จำนวน',
+        sumShort: 'รวม',
+        avgShort: 'เฉลี่ย',
+        rollsShort: 'ค่า'
+      };
+      i18n.nl = {
+        ...i18n.en,
+        title: 'Dobbelsteen Gooien | Online Dobbelsteen',
+        metaDescription: 'Gooi 1-12 dobbelstenen tegelijk met 3D-animatie. Bewaar geschiedenis en exporteer als CSV.',
+        metaOgTitle: 'Dobbelsteen Gooien | Online Dobbelsteen',
+        metaOgDescription: 'Gooi meerdere dobbelstenen in één keer en sla resultaten direct op.',
+        metaTwitterTitle: 'Dobbelsteen Gooien | Online Dobbelsteen',
+        metaTwitterDescription: 'Gooi meerdere 3D-dobbelstenen met één klik.',
+        navSpin: 'Namenrad',
+        navLotto: 'Loting',
+        navHistory: 'Ladder',
+        navCoin: 'Munt',
+        navDice: 'Dobbelsteen',
+        mnavSpin: 'Rad',
+        mnavLotto: 'Loting',
+        mnavHistory: 'Ladder',
+        mnavCoin: 'Munt',
+        mnavDice: 'Dobbel',
+        languageButton: 'LANGUAGE',
+        languageSearchPh: 'Taal zoeken',
+        heroTitle: 'Dobbelsteen Gooien',
+        heroSubtitle: 'Gooi 1 tot 12 dobbelstenen tegelijk en bewaar je resultaten.',
+        controlsTitle: 'Instellingen',
+        countLabel: 'Aantal dobbelstenen',
+        durationLabel: 'Animatietijd',
+        betLabel: 'Oneven vs Even',
+        oddNamePh: 'Zet in op oneven!',
+        evenNamePh: 'Zet in op even!',
+        odd: 'Oneven',
+        even: 'Even',
+        parityTitle: 'Oneven/Even Rapport',
+        lastResult: 'Laatste resultaat',
+        winner: 'Winnaar',
+        noResult: '-',
+        soundLabel: 'Geluidseffecten',
+        sumLabel: 'Totaal',
+        avgLabel: 'Gemiddelde',
+        assetLoading: 'Laden',
+        assetReady: 'Gereed',
+        assetMissing: 'Laden mislukt',
+        roll: 'Gooien',
+        rolling: 'Bezig met gooien...',
+        bannerReady: 'Druk op "Gooien" wanneer je klaar bent.',
+        bannerAssets: 'Dobbelsteen-assets laden...',
+        bannerMissing: 'Controleer het pad van dice.glb.',
+        bannerDone: 'Klaar: Totaal {sum} · Worpen [{rolls}]',
+        cumulativeTitle: 'Cumulatieve Ogenstand',
+        motionNote: 'Met verminderde beweging ingeschakeld wordt de animatie vereenvoudigd.',
+        guideTitle: 'Dobbelsteen Gids',
+        guideSubtitle: 'Dobbelsteen gooien draait lokaal in je browser en stuurt niets naar externe servers.',
+        guideStep1Title: '1. Kies het aantal',
+        guideStep1Body: 'Gooi van 1 tot 12 dobbelstenen tegelijk.',
+        guideStep2Title: '2. Stel snelheid in',
+        guideStep2Body: 'Pas de animatietijd aan voor snelle tests of een dramatische reveal.',
+        guideStep3Title: '3. Bewaar resultaten',
+        guideStep3Body: 'Bewaar elke run met worpen, totaal en gemiddelde en exporteer naar CSV.',
+        footerCopy: 'Designed and Developed by Juntae Ko (고준태)',
+        footerTerms: 'Voorwaarden',
+        footerPrivacy: 'Privacy',
+        footerContact: 'Contact',
+        fullscreenHint: 'Tik op volledig scherm voor focusmodus.',
+        fullscreen: 'Volledig scherm',
+        fullscreenExit: 'Volledig scherm afsluiten',
+        fullscreenUnsupported: 'Volledig scherm wordt niet ondersteund in deze browser.',
+        fullscreenFailed: 'Wisselen naar volledig scherm is mislukt.',
+        runLabel: 'Ronde',
+        countShort: 'Aantal',
+        sumShort: 'Totaal',
+        avgShort: 'Gem',
+        rollsShort: 'Worpen'
+      };
+
+      const DICE_GLB_URL = '/dice.glb';
+      const FACE_ORIENTATION = {
+        1: [0, 0, 0],
+        2: [0, 90, 0],
+        3: [90, 0, 0],
+        4: [-90, 0, 0],
+        5: [0, -90, 0],
+        6: [180, 0, 0]
+      };
+      const FACE_SPIN_PROFILE = {
+        1: [1440, 0, -1440],
+        2: [900, 0, -1440],
+        3: [0, -900, -2880],
+        4: [0, 1620, 1440],
+        5: [-1620, 0, -2160],
+        6: [-1800, 0, 2160]
+      };
+
+      function t(key, vars) {
+        const dict = i18n[state.locale] || i18n.en;
+        const raw = dict[key] || i18n.en[key] || i18n.ko[key] || key;
+        if (!vars) return raw;
+        return raw.replace(/\{(\w+)\}/g, (_, k) => (vars[k] ?? ''));
+      }
+
+      function setLocale(next) {
+        if (!LANG_SET.has(next)) return;
+        if (state.locale === next) {
+          closeLangMenu();
+          return;
+        }
+        state.locale = next;
+        try { window.localStorage.setItem('rlt-lang', next); } catch (e) {}
+        try {
+          const url = new URL(window.location.href);
+          const currentToolMatch = url.pathname.match(/^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i);
+          if (currentToolMatch) {
+            const tool = currentToolMatch[2].toLowerCase();
+            const nextPath = next === 'ko' ? `/${tool}/` : `/${next}/${tool}/`;
+            window.history.replaceState({}, '', `${nextPath}${url.hash}`);
+          } else {
+            if (next === 'ko') url.searchParams.delete('lang');
+            else url.searchParams.set('lang', next);
+            window.history.replaceState({}, '', `${url.pathname}${url.search}${url.hash}`);
+          }
+        } catch (e) {}
+        applyI18n();
+        closeLangMenu();
+      }
+
+      function getLocaleLabel(locale) {
+        const row = localeNames[locale];
+        if (!row) return locale;
+        return `${row.native} (${row.en})`;
+      }
+
+      function getLocaleFlagUrl(locale) {
+        const row = localeNames[locale];
+        let code = row && row.flag ? row.flag : 'us';
+        if (locale === 'zh-cn' || locale === 'zh-tw') {
+          code = (window.__rltChineseRegion === 'tw') ? 'tw' : 'cn';
+        }
+        return `https://flagcdn.com/w20/${code}.png`;
+      }
+
+      function renderLanguageList(query) {
+        const q = String(query || '').trim().toLowerCase();
+        const filtered = LANG_OPTIONS.filter((code) => {
+          if (!q) return true;
+          const row = localeNames[code];
+          const haystack = `${code} ${row.native} ${row.en}`.toLowerCase();
+          return haystack.includes(q);
+        });
+        ui.langList.innerHTML = filtered.map((code) => {
+          const active = state.locale === code;
+          const row = localeNames[code] || { native: code, en: code };
+          return `
+            <button type="button" data-lang="${code}" class="w-full text-left px-2.5 py-2 rounded-lg text-xs transition-colors ${active ? 'bg-slate-900 text-white' : 'hover:bg-slate-100 text-slate-700'}">
+              <span class="inline-flex items-center gap-2">
+                <img src="${getLocaleFlagUrl(code)}" alt="${row.en}" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
+                <span>${getLocaleLabel(code)}</span>
+              </span>
+            </button>
+          `;
+        }).join('');
+      }
+
+      function openLangMenu() {
+        ui.langMenu.classList.remove('hidden');
+        renderLanguageList(ui.langSearch.value);
+        window.setTimeout(() => ui.langSearch.focus(), 0);
+      }
+
+      function closeLangMenu() {
+        ui.langMenu.classList.add('hidden');
+      }
+
+      function syncLangLinks() {
+        const toolPathRegex = /^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i;
+        document.querySelectorAll('a[href]').forEach((a) => {
+          const href = a.getAttribute('href');
+          if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('javascript:')) return;
+          const url = new URL(href, window.location.origin);
+          if (url.origin !== window.location.origin || !url.pathname.startsWith('/')) return;
+          const m = url.pathname.match(toolPathRegex);
+          if (m) {
+            const tool = m[2].toLowerCase();
+            url.pathname = state.locale === 'ko' ? `/${tool}/` : `/${state.locale}/${tool}/`;
+            url.searchParams.delete('lang');
+            a.setAttribute('href', `${url.pathname}${url.search}${url.hash}`);
+            return;
+          }
+          if (state.locale === 'ko') url.searchParams.delete('lang');
+          else url.searchParams.set('lang', state.locale);
+          a.setAttribute('href', `${url.pathname}${url.search}${url.hash}`);
+        });
+      }
+
+      function applyI18n() {
+        document.documentElement.lang = state.locale;
+        document.title = t('title');
+        ui.metaDescription.setAttribute('content', t('metaDescription'));
+        ui.metaOgTitle.setAttribute('content', t('metaOgTitle'));
+        ui.metaOgDescription.setAttribute('content', t('metaOgDescription'));
+        ui.metaTwitterTitle.setAttribute('content', t('metaTwitterTitle'));
+        ui.metaTwitterDescription.setAttribute('content', t('metaTwitterDescription'));
+
+        ui.navSpin.textContent = t('navSpin');
+        ui.navLotto.textContent = t('navLotto');
+        ui.navHistory.textContent = t('navHistory');
+        ui.navCoin.textContent = t('navCoin');
+        ui.navDice.textContent = t('navDice');
+        ui.mnavSpin.textContent = t('mnavSpin');
+        ui.mnavLotto.textContent = t('mnavLotto');
+        ui.mnavHistory.textContent = t('mnavHistory');
+        ui.mnavCoin.textContent = t('mnavCoin');
+        ui.mnavDice.textContent = t('mnavDice');
+        ui.langButtonLabel.textContent = t('languageButton');
+        ui.langSearch.placeholder = t('languageSearchPh');
+        ui.langCurrentFlag.src = getLocaleFlagUrl(state.locale);
+        ui.langCurrentFlag.alt = (localeNames[state.locale] && localeNames[state.locale].en) || state.locale;
+
+        ui.heroTitle.textContent = t('heroTitle');
+        ui.heroSubtitle.textContent = t('heroSubtitle');
+        ui.controlsTitle.textContent = t('controlsTitle');
+        ui.assetStatus.textContent = state.assets.ready ? t('assetReady') : t('assetLoading');
+        document.getElementById('count-label').textContent = t('countLabel');
+        document.getElementById('duration-label').textContent = t('durationLabel');
+        ui.betLabel.textContent = t('betLabel');
+        ui.oddPlayer.placeholder = t('oddNamePh');
+        ui.evenPlayer.placeholder = t('evenNamePh');
+        ui.parityTitle.textContent = t('parityTitle');
+        ui.oddLabel.textContent = t('odd');
+        ui.evenLabel.textContent = t('even');
+        ui.lastResultLabel.textContent = t('lastResult');
+        ui.winnerLabel.textContent = t('winner');
+        if (!state.lastParity) {
+          ui.lastParity.textContent = t('noResult');
+          ui.winnerName.textContent = t('noResult');
+        } else {
+          ui.lastParity.textContent = t(state.lastParity);
+        ui.winnerName.textContent = state.lastWinnerFallback ? t(state.lastParity) : (state.lastWinner || t('noResult'));
+        }
+        ui.rollLabel.textContent = state.rolling ? t('rolling') : t('roll');
+        ui.cumTitle.textContent = t('cumulativeTitle');
+        ui.motionNoteText.textContent = t('motionNote');
+        ui.guideTitle.textContent = t('guideTitle');
+        ui.guideSubtitle.textContent = t('guideSubtitle');
+        document.getElementById('g1t').textContent = t('guideStep1Title');
+        document.getElementById('g1b').textContent = t('guideStep1Body');
+        document.getElementById('g2t').textContent = t('guideStep2Title');
+        document.getElementById('g2b').textContent = t('guideStep2Body');
+        document.getElementById('g3t').textContent = t('guideStep3Title');
+        document.getElementById('g3b').textContent = t('guideStep3Body');
+        ui.footerCopy.textContent = t('footerCopy');
+        ui.footerTerms.textContent = t('footerTerms');
+        ui.footerPrivacy.textContent = t('footerPrivacy');
+        ui.footerContact.textContent = t('footerContact');
+        if (ui.fullscreenHintText) ui.fullscreenHintText.textContent = t('fullscreenHint');
+        updateFullscreenButton();
+        updateCountUI();
+        updateDurationUI();
+
+        renderLanguageList(ui.langSearch.value);
+        syncLangLinks();
+        document.documentElement.classList.remove('i18n-pending');
+      }
+
+      function isFullscreenActive() {
+        return !!document.fullscreenElement;
+      }
+
+      function updateFullscreenButton() {
+        if (!ui.fullscreenLabel || !ui.fullscreenIcon) return;
+        if (isFullscreenActive()) {
+          ui.fullscreenLabel.textContent = t('fullscreenExit');
+          ui.fullscreenIcon.setAttribute('icon', 'solar:minimize-linear');
+        } else {
+          ui.fullscreenLabel.textContent = t('fullscreen');
+          ui.fullscreenIcon.setAttribute('icon', 'solar:maximize-linear');
+        }
+      }
+
+      function showFullscreenHint() {
+        if (!ui.fullscreenHint || window.innerWidth < 768) return;
+        ui.fullscreenHint.classList.remove('hidden');
+        window.clearTimeout(showFullscreenHint.timer);
+        showFullscreenHint.timer = window.setTimeout(() => {
+          ui.fullscreenHint.classList.add('hidden');
+        }, 2500);
+      }
+
+      async function toggleFullscreen() {
+        if (!document.fullscreenEnabled) {
+          setBanner(t('fullscreenUnsupported'), 'text-red-500');
+          return;
+        }
+        try {
+          if (isFullscreenActive()) {
+            await document.exitFullscreen();
+          } else {
+            await document.documentElement.requestFullscreen();
+          }
+          updateFullscreenButton();
+          if (ui.fullscreenHint) ui.fullscreenHint.classList.add('hidden');
+        } catch (e) {
+          setBanner(t('fullscreenFailed'), 'text-red-500');
+        }
+      }
+
+      function ensureAudio() {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return null;
+        if (!ensureAudio.ctx) ensureAudio.ctx = new AudioCtx();
+        const ctx = ensureAudio.ctx;
+        if (ctx.state === 'suspended') ctx.resume();
+        return ctx;
+      }
+
+      function beep(freq, duration, type, volume, delaySec) {
+        const audio = ensureAudio();
+        if (!audio) return;
+        const now = audio.currentTime + (delaySec || 0);
+        const osc = audio.createOscillator();
+        const gain = audio.createGain();
+
+        osc.type = type || 'sine';
+        osc.frequency.setValueAtTime(freq, now);
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(volume || 0.06, now + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+        osc.connect(gain);
+        gain.connect(audio.destination);
+        osc.start(now);
+        osc.stop(now + duration + 0.02);
+      }
+
+      function rollSoundStart() {
+        beep(200, 0.08, 'triangle', 0.03, 0.00);
+        beep(250, 0.07, 'triangle', 0.028, 0.06);
+        beep(300, 0.06, 'triangle', 0.024, 0.12);
+      }
+
+      function rollSoundEnd() {
+        beep(392.00, 0.16, 'triangle', 0.04, 0.00);
+        beep(523.25, 0.16, 'triangle', 0.038, 0.03);
+        beep(659.25, 0.18, 'sine', 0.035, 0.06);
+      }
+
+      function triggerPowderBurst() {
+        ui.confettiLayer.innerHTML = '';
+        const colors = ['#0f172a', '#475569', '#94a3b8', '#e2e8f0', '#f8fafc'];
+        const dots = 26;
+        for (let i = 0; i < dots; i++) {
+          const dot = document.createElement('span');
+          const angle = (Math.PI * 2 * i) / dots + (Math.random() * 0.38 - 0.19);
+          const radius = 90 + Math.random() * 140;
+          const tx = Math.cos(angle) * radius;
+          const ty = Math.sin(angle) * radius;
+          const delay = Math.floor(Math.random() * 120);
+          const size = 6 + Math.random() * 8;
+
+          dot.className = 'powder-dot';
+          dot.style.setProperty('--tx', `${tx.toFixed(1)}px`);
+          dot.style.setProperty('--ty', `${ty.toFixed(1)}px`);
+          dot.style.setProperty('--delay', `${delay}ms`);
+          dot.style.setProperty('--color', colors[Math.floor(Math.random() * colors.length)]);
+          dot.style.width = `${size.toFixed(1)}px`;
+          dot.style.height = `${size.toFixed(1)}px`;
+          ui.confettiLayer.appendChild(dot);
+        }
+        window.setTimeout(() => { ui.confettiLayer.innerHTML = ''; }, 1200);
+      }
+
+      function triggerParityFirework(sum) {
+        ui.confettiLayer.innerHTML = '';
+        const parity = (sum % 2 === 0) ? 'even' : 'odd';
+        const palette = parity === 'odd'
+          ? ['#ef4444', '#f97316', '#f59e0b', '#fb7185', '#fde68a']
+          : ['#22d3ee', '#3b82f6', '#6366f1', '#a78bfa', '#67e8f9'];
+        const dots = 42;
+        for (let i = 0; i < dots; i++) {
+          const dot = document.createElement('span');
+          const ring = i % 2 === 0 ? 1 : 2;
+          const angle = (Math.PI * 2 * i) / dots + (Math.random() * 0.44 - 0.22);
+          const baseRadius = ring === 1 ? 100 : 168;
+          const radius = baseRadius + Math.random() * (ring === 1 ? 38 : 54);
+          const tx = Math.cos(angle) * radius;
+          const ty = Math.sin(angle) * radius;
+          const delay = Math.floor(Math.random() * 160) + (ring === 2 ? 80 : 0);
+          const size = ring === 1 ? (7 + Math.random() * 10) : (5 + Math.random() * 8);
+
+          dot.className = 'powder-dot';
+          dot.style.setProperty('--tx', `${tx.toFixed(1)}px`);
+          dot.style.setProperty('--ty', `${ty.toFixed(1)}px`);
+          dot.style.setProperty('--delay', `${delay}ms`);
+          dot.style.setProperty('--color', palette[Math.floor(Math.random() * palette.length)]);
+          dot.style.width = `${size.toFixed(1)}px`;
+          dot.style.height = `${size.toFixed(1)}px`;
+          ui.confettiLayer.appendChild(dot);
+        }
+        window.setTimeout(() => { ui.confettiLayer.innerHTML = ''; }, 1600);
+      }
+
+      async function loadAssets() {
+        ui.assetStatus.textContent = t('assetLoading');
+        setBanner(t('bannerAssets'), 'text-slate-500');
+
+        try {
+          const res = await fetch(DICE_GLB_URL, { method: 'GET', cache: 'no-store' });
+          if (!res.ok) throw new Error('dice asset missing');
+          state.assets.ready = true;
+          ui.assetStatus.textContent = t('assetReady');
+          setBanner(t('bannerReady'), 'text-slate-500');
+          ui.rollButton.disabled = false;
+        } catch (e) {
+          state.assets.ready = false;
+          ui.assetStatus.textContent = t('assetMissing');
+          setBanner(t('bannerMissing'), 'text-red-500');
+          ui.rollButton.disabled = true;
+        }
+      }
+
+      function secureRandomInt6() {
+        try {
+          const buf = new Uint32Array(1);
+          window.crypto.getRandomValues(buf);
+          return (buf[0] % 6) + 1;
+        } catch (e) {
+          return 1 + Math.floor(Math.random() * 6);
+        }
+      }
+
+      function computeGrid(count) {
+        let cols;
+        if (count <= 1) cols = 1;
+        else if (count <= 4) cols = 2;
+        else if (count <= 9) cols = 3;
+        else cols = 4;
+        return { cols, rows: Math.ceil(count / cols) };
+      }
+
+      function diceCssSize(count) {
+        if (count <= 1) return 600;
+        if (count <= 4) return 320;
+        if (count <= 9) return 220;
+        return 172;
+      }
+
+      function setModelOrientation(die, x, y, z) {
+        die.angles = { x, y, z };
+        die.model.setAttribute('orientation', `${x.toFixed(1)}deg ${y.toFixed(1)}deg ${z.toFixed(1)}deg`);
+      }
+
+      function setDieValue(die, value) {
+        const safe = Math.max(1, Math.min(6, Number(value) || 1));
+        die.value = safe;
+        die.badge.textContent = String(safe);
+      }
+
+      function createDieElement(sizePx) {
+        const slot = document.createElement('div');
+        slot.className = 'dice-slot';
+
+        const shell = document.createElement('div');
+        shell.className = 'dice-shell';
+        if (Number.isFinite(sizePx) && sizePx > 0) {
+          shell.style.setProperty('--mv-size', `${sizePx}px`);
+        }
+        shell.setAttribute('role', 'img');
+        shell.setAttribute('aria-label', 'dice');
+
+        const model = document.createElement('model-viewer');
+        model.setAttribute('src', DICE_GLB_URL);
+        model.setAttribute('camera-controls', '');
+        model.setAttribute('disable-zoom', '');
+        model.setAttribute('interaction-prompt', 'none');
+        model.setAttribute('exposure', '1.08');
+        model.setAttribute('shadow-intensity', '1');
+        model.setAttribute('shadow-softness', '0.8');
+        model.setAttribute('environment-image', 'neutral');
+        model.setAttribute('tone-mapping', 'aces');
+        model.setAttribute('loading', 'eager');
+        if (Number.isFinite(sizePx) && sizePx >= 180) {
+          model.setAttribute('camera-orbit', '20deg 42deg 122%');
+          model.setAttribute('field-of-view', '32deg');
+          model.setAttribute('camera-target', '0m 0m 0m');
+        } else {
+          model.setAttribute('camera-orbit', '20deg 44deg 128%');
+          model.setAttribute('field-of-view', '34deg');
+          model.setAttribute('camera-target', '0m 0m 0m');
+        }
+        model.setAttribute('orientation', '0deg 0deg 0deg');
+
+        const badge = document.createElement('span');
+        badge.className = 'dice-badge';
+        badge.textContent = '?';
+
+        shell.appendChild(model);
+        shell.appendChild(badge);
+        slot.appendChild(shell);
+
+        return { slot, shell, model, badge, value: 1, angles: { x: 0, y: 0, z: 0 } };
+      }
+
+      function renderDice() {
+        ui.diceWrap.innerHTML = '';
+        ui.diceWrap.classList.remove('single-mode');
+        state.dice = [];
+        const { cols } = computeGrid(state.diceCount);
+        const size = diceCssSize(state.diceCount);
+
+        if (state.diceCount <= 1) {
+          ui.diceWrap.classList.add('single-mode');
+          ui.diceWrap.style.gridTemplateColumns = '';
+          ui.diceWrap.style.gap = '0';
+          const die = createDieElement(size);
+          state.dice.push(die);
+          ui.diceWrap.appendChild(die.slot);
+          return;
+        }
+
+        ui.diceWrap.style.gridTemplateColumns = `repeat(${cols}, minmax(0, 1fr))`;
+        ui.diceWrap.style.gap = state.diceCount >= 10 ? '4px' : '6px';
+
+        for (let i = 0; i < state.diceCount; i++) {
+          const die = createDieElement(size);
+          state.dice.push(die);
+          ui.diceWrap.appendChild(die.slot);
+        }
+      }
+
+      function formatSeconds(sec) {
+        const v = Number(sec);
+        if (state.locale === 'ko') return `${v.toFixed(1).replace(/\.0$/, '')}초`;
+        return `${v.toFixed(1).replace(/\.0$/, '')}s`;
+      }
+
+      function updateCountUI() {
+        ui.countValue.textContent = String(state.diceCount);
+        ui.diceCount.value = String(state.diceCount);
+      }
+
+      function updateDurationUI() {
+        ui.durationValue.textContent = formatSeconds(state.durationSec);
+        ui.rollDuration.value = String(state.durationSec);
+      }
+
+      function setBanner(text, colorClass) {
+        ui.banner.textContent = text;
+        ui.banner.classList.remove('text-slate-500', 'text-green-600', 'text-red-500');
+        ui.banner.classList.add(colorClass || 'text-slate-500');
+      }
+
+      function updateCumulativeStats(rolls) {
+        for (let i = 0; i < rolls.length; i++) {
+          const face = Math.max(1, Math.min(6, Number(rolls[i]) || 1));
+          state.cumulative[face - 1] += 1;
+        }
+        ui.cumulativeCounts.forEach((el, idx) => { el.textContent = String(state.cumulative[idx]); });
+      }
+
+      function updateParityReport(sum) {
+        const parity = (sum % 2 === 0) ? 'even' : 'odd';
+        const winnerRaw = parity === 'odd' ? ui.oddPlayer.value : ui.evenPlayer.value;
+        const winner = (winnerRaw || '').trim() || t(parity);
+        const winnerFallback = !((winnerRaw || '').trim());
+        state.parityTotals[parity] += 1;
+        state.lastParity = parity;
+        state.lastWinner = winner;
+        state.lastWinnerFallback = winnerFallback;
+        ui.oddTotal.textContent = String(state.parityTotals.odd);
+        ui.evenTotal.textContent = String(state.parityTotals.even);
+        ui.lastParity.textContent = t(parity);
+        ui.winnerName.textContent = winner;
+      }
+
+      function faceTarget(value) {
+        const base = FACE_ORIENTATION[value] || FACE_ORIENTATION[1];
+        return [base[0], base[1], base[2]];
+      }
+
+      async function doRoll() {
+        if (state.rolling) return;
+        if (!state.assets.ready) {
+          setBanner(t('bannerMissing'), 'text-red-500');
+          return;
+        }
+
+        state.rolling = true;
+        ui.rollButton.disabled = true;
+        ui.rollLabel.textContent = t('rolling');
+        setBanner(t('rolling'), 'text-slate-500');
+
+        const results = new Array(state.diceCount).fill(0).map(() => secureRandomInt6());
+        const sum = results.reduce((a, b) => a + b, 0);
+        rollSoundStart();
+
+        if (state.reducedMotion) {
+          state.dice.forEach((die, idx) => {
+            const value = results[idx];
+            const target = faceTarget(value);
+            setModelOrientation(die, target[0], target[1], target[2]);
+            setDieValue(die, value);
+          });
+          rollSoundEnd();
+          triggerParityFirework(sum);
+          setBanner(t('bannerDone', { sum, rolls: results.join(', ') }), 'text-green-600');
+          updateCumulativeStats(results);
+          updateParityReport(sum);
+          state.rolling = false;
+          ui.rollButton.disabled = false;
+          ui.rollLabel.textContent = t('roll');
+          return;
+        }
+
+        const durationMs = Math.floor(state.durationSec * 1000);
+        const maxStagger = Math.min(140, Math.max(0, 10 * state.diceCount));
+        const staggers = state.dice.map(() => Math.floor(Math.random() * maxStagger));
+
+        state.dice.forEach((die, idx) => {
+          const value = results[idx];
+          const target = faceTarget(value);
+          const current = die.angles || { x: 0, y: 0, z: 0 };
+          const normalizeDeg = (deg) => ((deg % 360) + 360) % 360;
+          const shortestAlign = (fromDeg, toDeg) => (((toDeg - fromDeg + 540) % 360) - 180);
+          const spinX = ((4 + Math.floor(Math.random() * 3)) * 360 * (Math.random() < 0.5 ? -1 : 1)) * 0.35;
+          const spinY = ((18 + Math.floor(Math.random() * 9)) * 360) * 0.35;
+          const spinZ = ((3 + Math.floor(Math.random() * 3)) * 360 * (Math.random() < 0.5 ? -1 : 1)) * 0.35;
+          const preX = current.x + spinX;
+          const preY = current.y + spinY;
+          const preZ = current.z + spinZ;
+          const xTotal = preX + shortestAlign(normalizeDeg(preX), target[0]);
+          const yTotal = preY + shortestAlign(normalizeDeg(preY), target[1]);
+          const zTotal = preZ + shortestAlign(normalizeDeg(preZ), target[2]);
+          const wobbleAmp = 14 + Math.random() * 12;
+          const wobblePhase = Math.random() * Math.PI * 2;
+          const startAt = performance.now() + staggers[idx];
+
+          const tick = (now) => {
+            if (now < startAt) {
+              requestAnimationFrame(tick);
+              return;
+            }
+            const p = Math.max(0, Math.min(1, (now - startAt) / durationMs));
+            const spinPhase = Math.min(1, p / 0.78);
+            const spinEase = 1 - Math.pow(1 - spinPhase, 2.4);
+            const decay = 1 - spinPhase;
+            const wobble = Math.sin(spinPhase * Math.PI * 16 + wobblePhase) * wobbleAmp * decay;
+
+            const xSpin = current.x + (preX - current.x) * spinEase + wobble;
+            const ySpin = current.y + (preY - current.y) * spinEase;
+            const zSpin = current.z + (preZ - current.z) * spinEase + wobble * 0.72;
+
+            const alignEase = Math.pow(p, 2.2);
+            const x = xSpin + (xTotal - xSpin) * alignEase;
+            const y = ySpin + (yTotal - ySpin) * alignEase;
+            const z = zSpin + (zTotal - zSpin) * alignEase;
+            setModelOrientation(die, x, y, z);
+            if (p < 1) {
+              requestAnimationFrame(tick);
+            } else {
+              setModelOrientation(die, xTotal, yTotal, zTotal);
+              setDieValue(die, value);
+            }
+          };
+          requestAnimationFrame(tick);
+        });
+
+        await new Promise((resolve) => {
+          window.setTimeout(resolve, durationMs + maxStagger + 80);
+        });
+
+        rollSoundEnd();
+        triggerParityFirework(sum);
+        setBanner(t('bannerDone', { sum, rolls: results.join(', ') }), 'text-green-600');
+        updateCumulativeStats(results);
+        updateParityReport(sum);
+
+        state.rolling = false;
+        ui.rollButton.disabled = false;
+        ui.rollLabel.textContent = t('roll');
+      }
+
+      function wireEvents() {
+        ui.langTrigger.addEventListener('click', (event) => {
+          event.stopPropagation();
+          if (ui.langMenu.classList.contains('hidden')) openLangMenu();
+          else closeLangMenu();
+        });
+        ui.langSearch.addEventListener('input', () => renderLanguageList(ui.langSearch.value));
+        ui.langList.addEventListener('click', (event) => {
+          const btn = event.target.closest('button[data-lang]');
+          if (!btn) return;
+          setLocale(btn.getAttribute('data-lang'));
+        });
+        document.addEventListener('click', (event) => {
+          if (ui.langMenu.classList.contains('hidden')) return;
+          if (ui.langMenu.contains(event.target) || ui.langTrigger.contains(event.target)) return;
+          closeLangMenu();
+        });
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape') closeLangMenu();
+        });
+        ui.fullscreenToggle.addEventListener('click', toggleFullscreen);
+        document.addEventListener('fullscreenchange', updateFullscreenButton);
+
+        ui.diceCount.addEventListener('input', () => {
+          state.diceCount = Math.max(1, Math.min(12, Number(ui.diceCount.value) || 1));
+          updateCountUI();
+          renderDice();
+        });
+
+        ui.rollDuration.addEventListener('input', () => {
+          state.durationSec = Math.max(1, Math.min(6, Number(ui.rollDuration.value) || 1));
+          updateDurationUI();
+        });
+
+        ui.rollButton.addEventListener('click', doRoll);
+      }
+
+      function init() {
+        state.diceCount = 1;
+        state.durationSec = 4;
+        ui.rollButton.disabled = true;
+
+        if (state.reducedMotion) ui.motionNote.classList.remove('hidden');
+
+        updateCountUI();
+        updateDurationUI();
+        applyI18n();
+        ui.cumulativeCounts.forEach((el) => { el.textContent = '0'; });
+        ui.oddTotal.textContent = '0';
+        ui.evenTotal.textContent = '0';
+        state.lastParity = '';
+        state.lastWinner = '';
+        state.lastWinnerFallback = false;
+        ui.lastParity.textContent = t('noResult');
+        ui.winnerName.textContent = t('noResult');
+        renderDice();
+        setBanner(t('bannerAssets'), 'text-slate-500');
+
+        wireEvents();
+        showFullscreenHint();
+        loadAssets();
+      }
+
+      init();
+    })();
+  </script>
+  <nav aria-label="Related tools" style="padding:16px 20px;border-top:1px solid rgba(15,23,42,.08);background:#fff">
+    <strong style="display:block;margin-bottom:8px;font-size:12px;color:#334155">Related tools</strong>
+    <a href="/ja/roulette/" style="margin-right:12px">Roulette</a>
+    <a href="/ja/luckydraw/" style="margin-right:12px">Lucky Draw</a>
+    <a href="/ja/ladder/" style="margin-right:12px">Ladder</a>
+    <a href="/ja/coinflip/" style="margin-right:12px">Coin Flip</a>
+    <a href="/ja/dice/">Dice</a>
+  </nav>
 </body>
 </html>

@@ -1156,11 +1156,20 @@
   }
 
   function syncLangLinks() {
+    const toolPathRegex = /^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i;
     document.querySelectorAll("a[href]").forEach((a) => {
       const href = a.getAttribute("href");
       if (!href || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:") || href.startsWith("javascript:")) return;
       const url = new URL(href, window.location.origin);
       if (url.origin !== window.location.origin || !url.pathname.startsWith("/")) return;
+      const m = url.pathname.match(toolPathRegex);
+      if (m) {
+        const tool = m[2].toLowerCase();
+        url.pathname = state.locale === "ko" ? `/${tool}/` : `/${state.locale}/${tool}/`;
+        url.searchParams.delete("lang");
+        a.setAttribute("href", `${url.pathname}${url.search}${url.hash}`);
+        return;
+      }
       if (state.locale === "ko") url.searchParams.delete("lang");
       else url.searchParams.set("lang", state.locale);
       a.setAttribute("href", `${url.pathname}${url.search}${url.hash}`);
@@ -1752,9 +1761,16 @@
       try { localStorage.setItem('rlt-lang', locale); } catch (e) {}
       try {
         const url = new URL(window.location.href);
-        if (locale === 'ko') url.searchParams.delete('lang');
-        else url.searchParams.set('lang', locale);
-        window.history.replaceState({}, '', `${url.pathname}${url.search}${url.hash}`);
+        const currentToolMatch = url.pathname.match(/^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i);
+        if (currentToolMatch) {
+          const tool = currentToolMatch[2].toLowerCase();
+          const nextPath = locale === 'ko' ? `/${tool}/` : `/${locale}/${tool}/`;
+          window.history.replaceState({}, '', `${nextPath}${url.hash}`);
+        } else {
+          if (locale === 'ko') url.searchParams.delete('lang');
+          else url.searchParams.set('lang', locale);
+          window.history.replaceState({}, '', `${url.pathname}${url.search}${url.hash}`);
+        }
       } catch (e) {}
       applyI18n();
       closeLangMenu();
