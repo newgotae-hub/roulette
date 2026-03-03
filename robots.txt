@@ -29,4 +29,4 @@ Disallow: /
 User-agent: meta-externalagent
 Disallow: /
 
-Sitemap: https://randomly-pick.com/sitemap.xml
+Sitemap: https://randomly-pick.com/sitemap-index.xml
