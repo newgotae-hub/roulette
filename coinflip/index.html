@@ -459,28 +459,7 @@
                   <span id="count-value" class="text-xs text-slate-500">1</span>
                 </div>
 
-                <div class="grid grid-cols-5 gap-2">
-                  <button class="count-chip w-full px-0 py-1.5 text-xs font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="1">1</button>
-                  <button class="count-chip w-full px-0 py-1.5 text-xs font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="2">2</button>
-                  <button class="count-chip w-full px-0 py-1.5 text-xs font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="3">3</button>
-                  <button class="count-chip w-full px-0 py-1.5 text-xs font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="4">4</button>
-                  <button class="count-chip w-full px-0 py-1.5 text-xs font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="5">5</button>
-                  <button class="count-chip w-full px-0 py-1.5 text-xs font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="6">6</button>
-                  <button class="count-chip w-full px-0 py-1.5 text-xs font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="7">7</button>
-                  <button class="count-chip w-full px-0 py-1.5 text-xs font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="8">8</button>
-                  <button class="count-chip w-full px-0 py-1.5 text-xs font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="9">9</button>
-                  <button class="count-chip w-full px-0 py-1.5 text-xs font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="10">10</button>
-                  <button class="count-chip w-full px-0 py-1.5 text-xs font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="11">11</button>
-                  <button class="count-chip w-full px-0 py-1.5 text-xs font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="12">12</button>
-                  <button class="count-chip w-full px-0 py-1.5 text-xs font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="13">13</button>
-                  <button class="count-chip w-full px-0 py-1.5 text-xs font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="14">14</button>
-                  <button class="count-chip w-full px-0 py-1.5 text-xs font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="15">15</button>
-                  <button class="count-chip w-full px-0 py-1.5 text-xs font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="16">16</button>
-                  <button class="count-chip w-full px-0 py-1.5 text-xs font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="17">17</button>
-                  <button class="count-chip w-full px-0 py-1.5 text-xs font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="18">18</button>
-                  <button class="count-chip w-full px-0 py-1.5 text-xs font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="19">19</button>
-                  <button class="count-chip w-full px-0 py-1.5 text-xs font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="20">20</button>
-                </div>
+                <input id="coin-count" type="range" min="1" max="20" value="1" class="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-slate-900">
 
               </div>
 
@@ -642,6 +621,7 @@
         heroSubtitle: document.getElementById('hero-subtitle'),
         controlsTitle: document.getElementById('controls-title'),
         assetStatus: document.getElementById('asset-status'),
+        coinCount: document.getElementById('coin-count'),
         countValue: document.getElementById('count-value'),
         flipDuration: document.getElementById('flip-duration'),
         durationValue: document.getElementById('duration-value'),
@@ -1261,26 +1241,7 @@
         ui.countValue.textContent = state.locale === 'ko'
           ? `${state.coinCount}개`
           : String(state.coinCount);
-        document.querySelectorAll('.count-chip').forEach((btn) => {
-          const n = Number(btn.getAttribute('data-count')) || 0;
-          const active = n === state.coinCount;
-          btn.classList.remove(
-            'bg-slate-50/70',
-            'text-slate-500',
-            'hover:bg-slate-100',
-            'bg-slate-200',
-            'text-slate-900',
-            'border-slate-300',
-            'shadow-inner'
-          );
-          if (active) {
-            btn.classList.add('bg-slate-200', 'text-slate-900', 'border-slate-300', 'shadow-inner');
-            btn.setAttribute('aria-pressed', 'true');
-          } else {
-            btn.classList.add('bg-slate-50/70', 'text-slate-500', 'hover:bg-slate-100');
-            btn.setAttribute('aria-pressed', 'false');
-          }
-        });
+        ui.coinCount.value = String(state.coinCount);
       }
 
       function updateDurationUI() {
@@ -1477,13 +1438,10 @@
         ui.fullscreenToggle.addEventListener('click', toggleFullscreen);
         document.addEventListener('fullscreenchange', updateFullscreenButton);
 
-        document.querySelectorAll('.count-chip').forEach((btn) => {
-          btn.addEventListener('click', () => {
-            const n = Math.max(1, Math.min(20, Number(btn.getAttribute('data-count')) || 1));
-            state.coinCount = n;
-            updateCountUI();
-            renderCoins();
-          });
+        ui.coinCount.addEventListener('input', () => {
+          state.coinCount = Math.max(1, Math.min(20, Number(ui.coinCount.value) || 1));
+          updateCountUI();
+          renderCoins();
         });
 
         ui.flipDuration.addEventListener('input', () => {

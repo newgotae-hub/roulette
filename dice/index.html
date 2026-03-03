@@ -407,7 +407,7 @@
                   <span id="duration-label" class="text-sm font-medium text-slate-700">애니메이션 시간</span>
                   <span id="duration-value" class="text-xs text-slate-500">2.5초</span>
                 </div>
-                <input id="roll-duration" type="range" min="2" max="6" step="0.1" value="2.5" class="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-slate-900">
+                <input id="roll-duration" type="range" min="1" max="6" step="0.1" value="1" class="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-slate-900">
               </div>
 
               <div class="space-y-2 pt-1">
@@ -560,7 +560,7 @@
       const state = {
         locale: (window.__rltBootLang === 'en') ? 'en' : 'ko',
         diceCount: 1,
-        durationSec: 2.5,
+        durationSec: 1,
         rolling: false,
         cumulative: [0, 0, 0, 0, 0, 0],
         parityTotals: { odd: 0, even: 0 },
@@ -1268,7 +1268,7 @@
         });
 
         ui.rollDuration.addEventListener('input', () => {
-          state.durationSec = Math.max(2, Math.min(6, Number(ui.rollDuration.value) || 2.5));
+          state.durationSec = Math.max(1, Math.min(6, Number(ui.rollDuration.value) || 1));
           updateDurationUI();
         });
 
@@ -1277,7 +1277,7 @@
 
       function init() {
         state.diceCount = 1;
-        state.durationSec = 2.5;
+        state.durationSec = 1;
         ui.rollButton.disabled = true;
 
         if (state.reducedMotion) ui.motionNote.classList.remove('hidden');
