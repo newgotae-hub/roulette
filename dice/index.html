@@ -41,16 +41,43 @@
 
   <script>
     (function () {
+      var supported = ['ko', 'en', 'ja', 'zh-cn', 'zh-tw', 'es', 'fr', 'de', 'pt-br', 'hi'];
+      function normalizeLang(raw) {
+        var v = String(raw || '').toLowerCase().replace('_', '-');
+        if (!v) return '';
+        if (v === 'zh' || v.indexOf('zh-cn') === 0 || v.indexOf('zh-hans') === 0) return 'zh-cn';
+        if (v.indexOf('zh-tw') === 0 || v.indexOf('zh-hk') === 0 || v.indexOf('zh-hant') === 0) return 'zh-tw';
+        if (v.indexOf('pt-br') === 0) return 'pt-br';
+        if (v.indexOf('ko') === 0) return 'ko';
+        if (v.indexOf('en') === 0) return 'en';
+        if (v.indexOf('ja') === 0) return 'ja';
+        if (v.indexOf('es') === 0) return 'es';
+        if (v.indexOf('fr') === 0) return 'fr';
+        if (v.indexOf('de') === 0) return 'de';
+        if (v.indexOf('hi') === 0) return 'hi';
+        return v;
+      }
       var lang = null;
       var params = new URLSearchParams(window.location.search);
-      var forced = params.get('lang');
-      if (forced === 'ko' || forced === 'en') lang = forced;
+      var forced = normalizeLang(params.get('lang'));
+      if (supported.indexOf(forced) !== -1) lang = forced;
       if (!lang) {
-        try { lang = window.localStorage.getItem('rlt-lang'); } catch (e) {}
+        try {
+          var cached = normalizeLang(window.localStorage.getItem('rlt-lang'));
+          if (supported.indexOf(cached) !== -1) lang = cached;
+        } catch (e) {}
       }
-      if (lang !== 'ko' && lang !== 'en') {
-        lang = (navigator.language || '').toLowerCase().startsWith('ko') ? 'ko' : 'en';
+      if (!lang) {
+        var navs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ''];
+        for (var i = 0; i < navs.length; i++) {
+          var cand = normalizeLang(navs[i]);
+          if (supported.indexOf(cand) !== -1) {
+            lang = cand;
+            break;
+          }
+        }
       }
+      if (!lang) lang = 'en';
       window.__rltBootLang = lang;
       document.documentElement.lang = lang;
       document.documentElement.classList.add('i18n-pending');
@@ -390,9 +417,14 @@
               <span class="absolute -top-1.5 right-4 w-3 h-3 bg-slate-900 rotate-45"></span>
             </div>
           </div>
-          <div class="flex items-center rounded-full border border-slate-200 bg-white p-0.5">
-            <button id="lang-ko" class="px-2.5 py-1 text-xs font-semibold rounded-full text-slate-900 bg-slate-100">KR</button>
-            <button id="lang-en" class="px-2.5 py-1 text-xs font-semibold rounded-full text-slate-500">EN</button>
+          <div class="relative">
+            <button id="lang-trigger" class="bg-white border border-slate-200 shadow-sm rounded-full px-3 py-1 text-[11px] font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors">
+              LANGUAGE
+            </button>
+            <div id="lang-menu" class="hidden absolute right-0 top-full mt-2 z-50 w-56 rounded-xl border border-slate-200 bg-white shadow-xl p-2">
+              <input id="lang-search" type="text" class="w-full mb-2 px-2.5 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/20" placeholder="Search language">
+              <div id="lang-list" class="max-h-56 overflow-y-auto hide-scrollbar space-y-1"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -402,11 +434,11 @@
   <section class="md:hidden border-b border-slate-200/70 bg-white/90 backdrop-blur">
     <div class="px-4 py-2 overflow-x-auto hide-scrollbar">
       <nav class="flex items-center gap-2 min-w-max">
-        <a href="/roulette/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">룰렛</a>
-        <a href="/luckydraw/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">로또</a>
-        <a href="/ladder/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">사다리</a>
-        <a href="/coinflip/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">코인</a>
-        <a href="/dice/" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-900 text-white">주사위</a>
+        <a id="mnav-spin" href="/roulette/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">룰렛</a>
+        <a id="mnav-lotto" href="/luckydraw/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">로또</a>
+        <a id="mnav-history" href="/ladder/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">사다리</a>
+        <a id="mnav-coin" href="/coinflip/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">코인</a>
+        <a id="mnav-dice" href="/dice/" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-900 text-white">주사위</a>
       </nav>
     </div>
   </section>
@@ -568,7 +600,7 @@
   <script>
     (function () {
       const state = {
-        locale: (window.__rltBootLang === 'en') ? 'en' : 'ko',
+        locale: window.__rltBootLang || 'en',
         diceCount: 1,
         durationSec: 3,
         rolling: false,
@@ -583,13 +615,20 @@
       };
 
       const ui = {
-        langKo: document.getElementById('lang-ko'),
-        langEn: document.getElementById('lang-en'),
+        langTrigger: document.getElementById('lang-trigger'),
+        langMenu: document.getElementById('lang-menu'),
+        langSearch: document.getElementById('lang-search'),
+        langList: document.getElementById('lang-list'),
         navSpin: document.getElementById('nav-spin'),
         navLotto: document.getElementById('nav-lotto'),
         navHistory: document.getElementById('nav-history'),
         navCoin: document.getElementById('nav-coin'),
         navDice: document.getElementById('nav-dice'),
+        mnavSpin: document.getElementById('mnav-spin'),
+        mnavLotto: document.getElementById('mnav-lotto'),
+        mnavHistory: document.getElementById('mnav-history'),
+        mnavCoin: document.getElementById('mnav-coin'),
+        mnavDice: document.getElementById('mnav-dice'),
         fullscreenToggle: document.getElementById('fullscreen-toggle'),
         fullscreenIcon: document.getElementById('fullscreen-icon'),
         fullscreenLabel: document.getElementById('fullscreen-label'),
@@ -633,6 +672,22 @@
         cumulativeCounts: [1, 2, 3, 4, 5, 6].map((n) => document.getElementById(`cum-face-${n}`))
       };
 
+      const localeNames = {
+        ko: { native: '한국어', en: 'Korean' },
+        en: { native: 'English', en: 'English' },
+        ja: { native: '日本語', en: 'Japanese' },
+        'zh-cn': { native: '简体中文', en: 'Chinese (Simplified)' },
+        'zh-tw': { native: '繁體中文', en: 'Chinese (Traditional)' },
+        es: { native: 'Español', en: 'Spanish' },
+        fr: { native: 'Français', en: 'French' },
+        de: { native: 'Deutsch', en: 'German' },
+        'pt-br': { native: 'Português (Brasil)', en: 'Portuguese (Brazil)' },
+        hi: { native: 'हिन्दी', en: 'Hindi' }
+      };
+      const LANG_OPTIONS = ['ko', 'en', 'ja', 'zh-cn', 'zh-tw', 'es', 'fr', 'de', 'pt-br', 'hi'];
+      const LANG_SET = new Set(LANG_OPTIONS);
+      if (!LANG_SET.has(state.locale)) state.locale = 'en';
+
       const i18n = {
         ko: {
           title: '주사위 굴리기 | 랜덤추첨 Randomly Pick',
@@ -646,6 +701,13 @@
           navHistory: '사다리타기',
           navCoin: '코인던지기',
           navDice: '주사위굴리기',
+          mnavSpin: '룰렛',
+          mnavLotto: '로또',
+          mnavHistory: '사다리',
+          mnavCoin: '코인',
+          mnavDice: '주사위',
+          languageButton: '언어',
+          languageSearchPh: '언어 검색',
           heroTitle: '주사위 굴리기',
           heroSubtitle: '기본 1개부터 최대 12개까지 동시에 굴리고 결과를 저장하세요.',
           controlsTitle: '설정',
@@ -709,6 +771,13 @@
           navHistory: 'Ladder Draw',
           navCoin: 'Coin Flip',
           navDice: 'Dice Roll',
+          mnavSpin: 'Wheel',
+          mnavLotto: 'Lucky',
+          mnavHistory: 'Ladder',
+          mnavCoin: 'Coin',
+          mnavDice: 'Dice',
+          languageButton: 'LANGUAGE',
+          languageSearchPh: 'Search language',
           heroTitle: 'Dice Roll',
           heroSubtitle: 'Roll from 1 to 12 dice at once and save the results.',
           controlsTitle: 'Settings',
@@ -761,6 +830,142 @@
           rollsShort: 'Rolls'
         }
       };
+      i18n.ja = {
+        ...i18n.en,
+        title: 'サイコロ | オンラインダイスロール',
+        metaDescription: '1〜12個のサイコロを同時に振って結果を保存。抽選やゲーム進行に使えるダイスロールツールです。',
+        heroTitle: 'サイコロを振る',
+        heroSubtitle: '1〜12個を同時にロールして、合計と出目をすぐ確認できます。',
+        controlsTitle: '設定',
+        countLabel: 'サイコロ数',
+        durationLabel: 'アニメーション時間',
+        betLabel: '奇数 vs 偶数',
+        oddNamePh: '奇数側にベットする名前を入力',
+        evenNamePh: '偶数側にベットする名前を入力',
+        parityTitle: '奇偶レポート',
+        roll: '振る',
+        rolling: 'ロール中...',
+        cumulativeTitle: '目ごとの累計回数'
+      };
+      i18n['zh-cn'] = {
+        ...i18n.en,
+        title: '掷骰子 | 在线随机骰子',
+        metaDescription: '一次同时掷 1-12 个骰子，自动统计结果并支持导出，适合抽签、课堂和游戏流程。',
+        heroTitle: '掷骰子',
+        heroSubtitle: '支持 1-12 个骰子同时掷出，结果立即可见。',
+        controlsTitle: '设置',
+        countLabel: '骰子数量',
+        durationLabel: '动画时长',
+        betLabel: '奇数 vs 偶数',
+        oddNamePh: '请输入押注奇数的姓名',
+        evenNamePh: '请输入押注偶数的姓名',
+        parityTitle: '奇偶报告',
+        roll: '开始掷骰',
+        rolling: '掷骰中...',
+        cumulativeTitle: '各点数累计次数'
+      };
+      i18n['zh-tw'] = {
+        ...i18n.en,
+        title: '擲骰子 | 線上隨機骰子',
+        metaDescription: '一次可同時擲 1-12 顆骰子，快速查看結果並匯出紀錄，適合抽籤與活動流程。',
+        heroTitle: '擲骰子',
+        heroSubtitle: '支援 1-12 顆骰子同時擲出，結果立即顯示。',
+        controlsTitle: '設定',
+        countLabel: '骰子數量',
+        durationLabel: '動畫時間',
+        betLabel: '單數 vs 雙數',
+        oddNamePh: '請輸入押單數的名字',
+        evenNamePh: '請輸入押雙數的名字',
+        parityTitle: '單雙報告',
+        roll: '開始擲骰',
+        rolling: '擲骰中...',
+        cumulativeTitle: '各點數累積次數'
+      };
+      i18n.es = {
+        ...i18n.en,
+        title: 'Tirar Dados | Dado Aleatorio Online',
+        metaDescription: 'Lanza de 1 a 12 dados al mismo tiempo, guarda resultados y exporta en CSV.',
+        heroTitle: 'Tirar dados',
+        heroSubtitle: 'Lanza varios dados a la vez y revisa total y paridad al instante.',
+        controlsTitle: 'Configuración',
+        countLabel: 'Cantidad de dados',
+        durationLabel: 'Duración de animación',
+        betLabel: 'Impar vs Par',
+        oddNamePh: 'Escribe quién apuesta a impar',
+        evenNamePh: 'Escribe quién apuesta a par',
+        parityTitle: 'Reporte impar/par',
+        roll: 'Lanzar',
+        rolling: 'Lanzando...',
+        cumulativeTitle: 'Frecuencia por cara'
+      };
+      i18n.fr = {
+        ...i18n.en,
+        title: 'Lancer de Dés | Dé en Ligne',
+        metaDescription: 'Lancez 1 à 12 dés en une fois, enregistrez l’historique et exportez les résultats.',
+        heroTitle: 'Lancer les dés',
+        heroSubtitle: 'Lancez plusieurs dés simultanément et vérifiez les résultats immédiatement.',
+        controlsTitle: 'Paramètres',
+        countLabel: 'Nombre de dés',
+        durationLabel: 'Durée de l’animation',
+        betLabel: 'Impair vs Pair',
+        oddNamePh: 'Nom pour le pari impair',
+        evenNamePh: 'Nom pour le pari pair',
+        parityTitle: 'Rapport impair/pair',
+        roll: 'Lancer',
+        rolling: 'Lancement...',
+        cumulativeTitle: 'Cumul par face'
+      };
+      i18n.de = {
+        ...i18n.en,
+        title: 'Würfeln | Online Zufallswürfel',
+        metaDescription: 'Wirf 1 bis 12 Würfel gleichzeitig, speichere Ergebnisse und exportiere als CSV.',
+        heroTitle: 'Würfel werfen',
+        heroSubtitle: 'Mehrere Würfel gleichzeitig rollen und Ergebnis sofort sehen.',
+        controlsTitle: 'Einstellungen',
+        countLabel: 'Anzahl Würfel',
+        durationLabel: 'Animationsdauer',
+        betLabel: 'Ungerade vs Gerade',
+        oddNamePh: 'Name für Ungerade-Wette',
+        evenNamePh: 'Name für Gerade-Wette',
+        parityTitle: 'Ungerade/Gerade Bericht',
+        roll: 'Würfeln',
+        rolling: 'Wird gewürfelt...',
+        cumulativeTitle: 'Häufigkeit je Seite'
+      };
+      i18n['pt-br'] = {
+        ...i18n.en,
+        title: 'Rolar Dados | Dado Online',
+        metaDescription: 'Role de 1 a 12 dados ao mesmo tempo, salve o histórico e exporte os resultados.',
+        heroTitle: 'Rolar dados',
+        heroSubtitle: 'Role vários dados de uma vez e confira os resultados na hora.',
+        controlsTitle: 'Configurações',
+        countLabel: 'Quantidade de dados',
+        durationLabel: 'Tempo da animação',
+        betLabel: 'Ímpar vs Par',
+        oddNamePh: 'Digite quem aposta no ímpar',
+        evenNamePh: 'Digite quem aposta no par',
+        parityTitle: 'Relatório ímpar/par',
+        roll: 'Rolar',
+        rolling: 'Rolando...',
+        cumulativeTitle: 'Acumulado por face'
+      };
+      i18n.hi = {
+        ...i18n.en,
+        title: 'डाइस रोल | ऑनलाइन पासा',
+        metaDescription: '1 से 12 पासे एक साथ रोल करें, परिणाम सेव करें और CSV निर्यात करें।',
+        heroTitle: 'पासा रोल करें',
+        heroSubtitle: 'एक साथ कई पासे घुमाकर तुरंत परिणाम देखें।',
+        controlsTitle: 'सेटिंग्स',
+        countLabel: 'पासों की संख्या',
+        durationLabel: 'एनीमेशन समय',
+        betLabel: 'विषम बनाम सम',
+        oddNamePh: 'विषम पर दांव लगाने वाला नाम लिखें',
+        evenNamePh: 'सम पर दांव लगाने वाला नाम लिखें',
+        parityTitle: 'विषम/सम रिपोर्ट',
+        roll: 'रोल करें',
+        rolling: 'रोल हो रहा है...',
+        cumulativeTitle: 'हर फेस की कुल गिनती'
+      };
 
       const DICE_GLB_URL = '/dice.glb';
       const FACE_ORIENTATION = {
@@ -781,30 +986,56 @@
       };
 
       function t(key, vars) {
-        const dict = i18n[state.locale] || i18n.ko;
-        const raw = dict[key] || i18n.ko[key] || key;
+        const dict = i18n[state.locale] || i18n.en;
+        const raw = dict[key] || i18n.en[key] || i18n.ko[key] || key;
         if (!vars) return raw;
         return raw.replace(/\{(\w+)\}/g, (_, k) => (vars[k] ?? ''));
       }
 
       function setLocale(next) {
-        if (next !== 'ko' && next !== 'en') return;
-        if (state.locale === next) return;
+        if (!LANG_SET.has(next)) return;
+        if (state.locale === next) {
+          closeLangMenu();
+          return;
+        }
         state.locale = next;
         try { window.localStorage.setItem('rlt-lang', next); } catch (e) {}
         applyI18n();
+        closeLangMenu();
       }
 
-      function updateLangButtons() {
-        ui.langKo.classList.remove('bg-slate-100', 'text-slate-900', 'text-slate-500');
-        ui.langEn.classList.remove('bg-slate-100', 'text-slate-900', 'text-slate-500');
-        if (state.locale === 'ko') {
-          ui.langKo.classList.add('bg-slate-100', 'text-slate-900');
-          ui.langEn.classList.add('text-slate-500');
-        } else {
-          ui.langEn.classList.add('bg-slate-100', 'text-slate-900');
-          ui.langKo.classList.add('text-slate-500');
-        }
+      function getLocaleLabel(locale) {
+        const row = localeNames[locale];
+        if (!row) return locale;
+        return `${row.native} (${row.en})`;
+      }
+
+      function renderLanguageList(query) {
+        const q = String(query || '').trim().toLowerCase();
+        const filtered = LANG_OPTIONS.filter((code) => {
+          if (!q) return true;
+          const row = localeNames[code];
+          const haystack = `${code} ${row.native} ${row.en}`.toLowerCase();
+          return haystack.includes(q);
+        });
+        ui.langList.innerHTML = filtered.map((code) => {
+          const active = state.locale === code;
+          return `
+            <button type="button" data-lang="${code}" class="w-full text-left px-2.5 py-2 rounded-lg text-xs transition-colors ${active ? 'bg-slate-900 text-white' : 'hover:bg-slate-100 text-slate-700'}">
+              ${getLocaleLabel(code)}
+            </button>
+          `;
+        }).join('');
+      }
+
+      function openLangMenu() {
+        ui.langMenu.classList.remove('hidden');
+        renderLanguageList(ui.langSearch.value);
+        window.setTimeout(() => ui.langSearch.focus(), 0);
+      }
+
+      function closeLangMenu() {
+        ui.langMenu.classList.add('hidden');
       }
 
       function syncLangLinks() {
@@ -813,8 +1044,8 @@
           if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('javascript:')) return;
           const url = new URL(href, window.location.origin);
           if (url.origin !== window.location.origin || !url.pathname.startsWith('/')) return;
-          if (state.locale === 'en') url.searchParams.set('lang', 'en');
-          else url.searchParams.delete('lang');
+          if (state.locale === 'ko') url.searchParams.delete('lang');
+          else url.searchParams.set('lang', state.locale);
           a.setAttribute('href', `${url.pathname}${url.search}${url.hash}`);
         });
       }
@@ -833,6 +1064,13 @@
         ui.navHistory.textContent = t('navHistory');
         ui.navCoin.textContent = t('navCoin');
         ui.navDice.textContent = t('navDice');
+        ui.mnavSpin.textContent = t('mnavSpin');
+        ui.mnavLotto.textContent = t('mnavLotto');
+        ui.mnavHistory.textContent = t('mnavHistory');
+        ui.mnavCoin.textContent = t('mnavCoin');
+        ui.mnavDice.textContent = t('mnavDice');
+        ui.langTrigger.textContent = t('languageButton');
+        ui.langSearch.placeholder = t('languageSearchPh');
 
         ui.heroTitle.textContent = t('heroTitle');
         ui.heroSubtitle.textContent = t('heroSubtitle');
@@ -871,7 +1109,7 @@
         updateCountUI();
         updateDurationUI();
 
-        updateLangButtons();
+        renderLanguageList(ui.langSearch.value);
         syncLangLinks();
         document.documentElement.classList.remove('i18n-pending');
       }
@@ -1294,8 +1532,25 @@
       }
 
       function wireEvents() {
-        ui.langKo.addEventListener('click', () => setLocale('ko'));
-        ui.langEn.addEventListener('click', () => setLocale('en'));
+        ui.langTrigger.addEventListener('click', (event) => {
+          event.stopPropagation();
+          if (ui.langMenu.classList.contains('hidden')) openLangMenu();
+          else closeLangMenu();
+        });
+        ui.langSearch.addEventListener('input', () => renderLanguageList(ui.langSearch.value));
+        ui.langList.addEventListener('click', (event) => {
+          const btn = event.target.closest('button[data-lang]');
+          if (!btn) return;
+          setLocale(btn.getAttribute('data-lang'));
+        });
+        document.addEventListener('click', (event) => {
+          if (ui.langMenu.classList.contains('hidden')) return;
+          if (ui.langMenu.contains(event.target) || ui.langTrigger.contains(event.target)) return;
+          closeLangMenu();
+        });
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape') closeLangMenu();
+        });
         ui.fullscreenToggle.addEventListener('click', toggleFullscreen);
         document.addEventListener('fullscreenchange', updateFullscreenButton);
 

@@ -41,16 +41,43 @@
 
   <script>
     (function () {
+      var supported = ['ko', 'en', 'ja', 'zh-cn', 'zh-tw', 'es', 'fr', 'de', 'pt-br', 'hi'];
+      function normalizeLang(raw) {
+        var v = String(raw || '').toLowerCase().replace('_', '-');
+        if (!v) return '';
+        if (v === 'zh' || v.indexOf('zh-cn') === 0 || v.indexOf('zh-hans') === 0) return 'zh-cn';
+        if (v.indexOf('zh-tw') === 0 || v.indexOf('zh-hk') === 0 || v.indexOf('zh-hant') === 0) return 'zh-tw';
+        if (v.indexOf('pt-br') === 0) return 'pt-br';
+        if (v.indexOf('ko') === 0) return 'ko';
+        if (v.indexOf('en') === 0) return 'en';
+        if (v.indexOf('ja') === 0) return 'ja';
+        if (v.indexOf('es') === 0) return 'es';
+        if (v.indexOf('fr') === 0) return 'fr';
+        if (v.indexOf('de') === 0) return 'de';
+        if (v.indexOf('hi') === 0) return 'hi';
+        return v;
+      }
       var lang = null;
       var params = new URLSearchParams(window.location.search);
-      var forced = params.get('lang');
-      if (forced === 'ko' || forced === 'en') lang = forced;
+      var forced = normalizeLang(params.get('lang'));
+      if (supported.indexOf(forced) !== -1) lang = forced;
       if (!lang) {
-        try { lang = window.localStorage.getItem('rlt-lang'); } catch (e) {}
+        try {
+          var cached = normalizeLang(window.localStorage.getItem('rlt-lang'));
+          if (supported.indexOf(cached) !== -1) lang = cached;
+        } catch (e) {}
       }
-      if (lang !== 'ko' && lang !== 'en') {
-        lang = (navigator.language || '').toLowerCase().startsWith('ko') ? 'ko' : 'en';
+      if (!lang) {
+        var navs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ''];
+        for (var i = 0; i < navs.length; i++) {
+          var cand = normalizeLang(navs[i]);
+          if (supported.indexOf(cand) !== -1) {
+            lang = cand;
+            break;
+          }
+        }
       }
+      if (!lang) lang = 'en';
       window.__rltBootLang = lang;
       document.documentElement.lang = lang;
       document.documentElement.classList.add('i18n-pending');
@@ -431,9 +458,14 @@
               <span class="absolute -top-1.5 right-4 w-3 h-3 bg-slate-900 rotate-45"></span>
             </div>
           </div>
-          <div class="flex items-center rounded-full border border-slate-200 bg-white p-0.5">
-            <button id="lang-ko" class="px-2.5 py-1 text-xs font-semibold rounded-full text-slate-900 bg-slate-100">KR</button>
-            <button id="lang-en" class="px-2.5 py-1 text-xs font-semibold rounded-full text-slate-500">EN</button>
+          <div class="relative">
+            <button id="lang-trigger" class="bg-white border border-slate-200 shadow-sm rounded-full px-3 py-1 text-[11px] font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors">
+              LANGUAGE
+            </button>
+            <div id="lang-menu" class="hidden absolute right-0 top-full mt-2 z-50 w-56 rounded-xl border border-slate-200 bg-white shadow-xl p-2">
+              <input id="lang-search" type="text" class="w-full mb-2 px-2.5 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/20" placeholder="Search language">
+              <div id="lang-list" class="max-h-56 overflow-y-auto hide-scrollbar space-y-1"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -443,11 +475,11 @@
   <section class="md:hidden border-b border-slate-200/70 bg-white/90 backdrop-blur">
     <div class="px-4 py-2 overflow-x-auto hide-scrollbar">
       <nav class="flex items-center gap-2 min-w-max">
-        <a href="/roulette/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">룰렛</a>
-        <a href="/luckydraw/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">로또</a>
-        <a href="/ladder/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">사다리</a>
-        <a href="/coinflip/" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-900 text-white">코인</a>
-        <a href="/dice/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">주사위</a>
+        <a id="mnav-spin" href="/roulette/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">룰렛</a>
+        <a id="mnav-lotto" href="/luckydraw/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">로또</a>
+        <a id="mnav-history" href="/ladder/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">사다리</a>
+        <a id="mnav-coin" href="/coinflip/" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-900 text-white">코인</a>
+        <a id="mnav-dice" href="/dice/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">주사위</a>
       </nav>
     </div>
   </section>
@@ -598,7 +630,7 @@
   <script>
     (function () {
       const state = {
-        locale: (window.__rltBootLang === 'en') ? 'en' : 'ko',
+        locale: window.__rltBootLang || 'en',
         coinCount: 1,
         durationSec: 4,
         flipping: false,
@@ -615,13 +647,20 @@
       };
 
       const ui = {
-        langKo: document.getElementById('lang-ko'),
-        langEn: document.getElementById('lang-en'),
+        langTrigger: document.getElementById('lang-trigger'),
+        langMenu: document.getElementById('lang-menu'),
+        langSearch: document.getElementById('lang-search'),
+        langList: document.getElementById('lang-list'),
         navSpin: document.getElementById('nav-spin'),
         navLotto: document.getElementById('nav-lotto'),
         navHistory: document.getElementById('nav-history'),
         navCoin: document.getElementById('nav-coin'),
         navDice: document.getElementById('nav-dice'),
+        mnavSpin: document.getElementById('mnav-spin'),
+        mnavLotto: document.getElementById('mnav-lotto'),
+        mnavHistory: document.getElementById('mnav-history'),
+        mnavCoin: document.getElementById('mnav-coin'),
+        mnavDice: document.getElementById('mnav-dice'),
         fullscreenToggle: document.getElementById('fullscreen-toggle'),
         fullscreenIcon: document.getElementById('fullscreen-icon'),
         fullscreenLabel: document.getElementById('fullscreen-label'),
@@ -655,6 +694,12 @@
         historyList: document.getElementById('history-list'),
         guideTitle: document.getElementById('guide-title'),
         guideSubtitle: document.getElementById('guide-subtitle'),
+        guideStep1Title: document.getElementById('g1t'),
+        guideStep1Body: document.getElementById('g1b'),
+        guideStep2Title: document.getElementById('g2t'),
+        guideStep2Body: document.getElementById('g2b'),
+        guideStep3Title: document.getElementById('g3t'),
+        guideStep3Body: document.getElementById('g3b'),
         footerCopy: document.getElementById('footer-copy'),
         footerTerms: document.getElementById('footer-terms'),
         footerPrivacy: document.getElementById('footer-privacy'),
@@ -665,6 +710,22 @@
         metaTwitterTitle: document.getElementById('meta-twitter-title'),
         metaTwitterDescription: document.getElementById('meta-twitter-description')
       };
+
+      const localeNames = {
+        ko: { native: '한국어', en: 'Korean' },
+        en: { native: 'English', en: 'English' },
+        ja: { native: '日本語', en: 'Japanese' },
+        'zh-cn': { native: '简体中文', en: 'Chinese (Simplified)' },
+        'zh-tw': { native: '繁體中文', en: 'Chinese (Traditional)' },
+        es: { native: 'Español', en: 'Spanish' },
+        fr: { native: 'Français', en: 'French' },
+        de: { native: 'Deutsch', en: 'German' },
+        'pt-br': { native: 'Português (Brasil)', en: 'Portuguese (Brazil)' },
+        hi: { native: 'हिन्दी', en: 'Hindi' }
+      };
+      const LANG_OPTIONS = ['ko', 'en', 'ja', 'zh-cn', 'zh-tw', 'es', 'fr', 'de', 'pt-br', 'hi'];
+      const LANG_SET = new Set(LANG_OPTIONS);
+      if (!LANG_SET.has(state.locale)) state.locale = 'en';
 
       const i18n = {
         ko: {
@@ -679,6 +740,13 @@
           navHistory: '사다리타기',
           navCoin: '코인던지기',
           navDice: '주사위굴리기',
+          mnavSpin: '룰렛',
+          mnavLotto: '로또',
+          mnavHistory: '사다리',
+          mnavCoin: '코인',
+          mnavDice: '주사위',
+          languageButton: '언어',
+          languageSearchPh: '언어 검색',
           heroTitle: '동전 던지기',
           heroSubtitle: '3D 동전 던지기로 여러개의 동전을 동시에 던지고 결과를 바로 확인하세요.',
           controlsTitle: '설정',
@@ -710,6 +778,12 @@
           motionNote: '설정된 모션 감소 환경에서는 애니메이션이 단순 표시로 대체됩니다.',
           guideTitle: '코인 던지기 가이드',
           guideSubtitle: 'RLT 코인 플립은 브라우저에서만 동작하며 입력/결과가 외부 서버로 전송되지 않습니다.',
+          guideStep1Title: '1. 코인 개수 선택',
+          guideStep1Body: '1~20개까지 한 번에 던지고 앞면/뒷면 개수를 즉시 확인합니다.',
+          guideStep2Title: '2. 애니메이션 시간 조절',
+          guideStep2Body: '원하는 속도로 코인을 던지며, 모션 감소 설정에서는 간단 표시로 대체됩니다.',
+          guideStep3Title: '3. 결과 저장',
+          guideStep3Body: '시간·개수·앞/뒤 결과를 기록하고 CSV로 저장할 수 있습니다.',
           footerCopy: 'Designed and Developed by Juntae Ko (고준태)',
           footerTerms: '이용약관',
           footerPrivacy: '개인정보처리방침',
@@ -736,6 +810,13 @@
           navHistory: 'Ladder Draw',
           navCoin: 'Coin Flip',
           navDice: 'Dice Roll',
+          mnavSpin: 'Wheel',
+          mnavLotto: 'Lucky',
+          mnavHistory: 'Ladder',
+          mnavCoin: 'Coin',
+          mnavDice: 'Dice',
+          languageButton: 'LANGUAGE',
+          languageSearchPh: 'Search language',
           heroTitle: 'Coin a Flip! Heads or Tails',
           heroSubtitle: 'Flip 1-20 coins at once and get instant heads or tails results. Best for random decisions, classroom games, giveaways, and fast probability-style picks.',
           controlsTitle: 'Settings',
@@ -767,6 +848,12 @@
           motionNote: 'With reduced-motion enabled, animation is simplified.',
           guideTitle: 'Coin Flip Guide',
           guideSubtitle: 'Coin flip runs locally in your browser and is not sent to external servers.',
+          guideStep1Title: '1. Set coin count',
+          guideStep1Body: 'Flip 1 to 20 coins at once and check heads/tails instantly.',
+          guideStep2Title: '2. Adjust animation time',
+          guideStep2Body: 'Tune the flip speed for quick checks or dramatic reveals.',
+          guideStep3Title: '3. Save your results',
+          guideStep3Body: 'Keep each run and export coin results as CSV when needed.',
           footerCopy: 'Designed and Developed by Juntae Ko (고준태)',
           footerTerms: 'Terms',
           footerPrivacy: 'Privacy',
@@ -782,33 +869,217 @@
           tailsShort: 'T'
         }
       };
+      i18n.ja = {
+        ...i18n.en,
+        title: 'コイントス | 表か裏かを一瞬で判定',
+        metaDescription: '1〜20枚のコインを同時に投げて、結果を履歴保存。抽選、授業、意思決定に使えるコイントスツールです。',
+        heroTitle: 'コイントス（表・裏）',
+        heroSubtitle: '1〜20枚を同時に投げて、表/裏をすぐ確認。抽選やゲーム進行に最適です。',
+        controlsTitle: '設定',
+        countLabel: 'コイン枚数',
+        durationLabel: 'アニメーション時間',
+        oddEvenNameLabel: '奇数 vs 偶数',
+        oddNamePh: '奇数側にベットする名前を入力',
+        evenNamePh: '偶数側にベットする名前を入力',
+        flip: '投げる',
+        flipping: 'コイントス中...',
+        heads: '表',
+        tails: '裏',
+        historyTitle: '履歴',
+        export: 'CSVを書き出し',
+        guideTitle: 'コイントスガイド',
+        guideSubtitle: 'このページの処理はブラウザ内で完結し、入力内容は外部送信されません。'
+      };
+      i18n['zh-cn'] = {
+        ...i18n.en,
+        title: '抛硬币 | 正反面随机选择器',
+        metaDescription: '一次同时抛 1-20 枚硬币，实时查看正反面结果并保存历史，适合抽签、课堂互动与快速决策。',
+        heroTitle: '抛硬币（正面 / 反面）',
+        heroSubtitle: '支持 1-20 枚同时抛掷，结果立刻可见，适合抽签与随机决策。',
+        controlsTitle: '设置',
+        countLabel: '硬币数量',
+        durationLabel: '动画时长',
+        oddEvenNameLabel: '奇数 vs 偶数',
+        oddNamePh: '请输入押注奇数的姓名',
+        evenNamePh: '请输入押注偶数的姓名',
+        flip: '开始抛硬币',
+        flipping: '抛掷中...',
+        heads: '正面',
+        tails: '反面',
+        historyTitle: '历史记录',
+        export: '导出 CSV',
+        guideTitle: '抛硬币使用指南',
+        guideSubtitle: '工具仅在浏览器本地运行，不会将输入和结果上传到外部服务器。'
+      };
+      i18n['zh-tw'] = {
+        ...i18n.en,
+        title: '擲硬幣 | 正反面隨機選擇器',
+        metaDescription: '一次可同時擲 1-20 枚硬幣，立即顯示正反面結果並保留歷史紀錄，適合抽籤與快速決策。',
+        heroTitle: '擲硬幣（正面 / 反面）',
+        heroSubtitle: '支援 1-20 枚硬幣同時擲出，結果立即可見。',
+        controlsTitle: '設定',
+        countLabel: '硬幣數量',
+        durationLabel: '動畫時間',
+        oddEvenNameLabel: '單數 vs 雙數',
+        oddNamePh: '請輸入押單數的名字',
+        evenNamePh: '請輸入押雙數的名字',
+        flip: '開始擲硬幣',
+        flipping: '擲硬幣中...',
+        heads: '正面',
+        tails: '反面',
+        historyTitle: '歷史紀錄',
+        export: '匯出 CSV',
+        guideTitle: '擲硬幣指南',
+        guideSubtitle: '所有資料僅在瀏覽器端處理，不會傳送到外部伺服器。'
+      };
+      i18n.es = {
+        ...i18n.en,
+        title: 'Lanzar Moneda | Cara o Cruz',
+        metaDescription: 'Lanza de 1 a 20 monedas a la vez, guarda historial y exporta resultados. Ideal para sorteos y decisiones rápidas.',
+        heroTitle: 'Cara o Cruz',
+        heroSubtitle: 'Lanza hasta 20 monedas al mismo tiempo y obtén resultados al instante.',
+        controlsTitle: 'Configuración',
+        countLabel: 'Cantidad de monedas',
+        durationLabel: 'Duración de animación',
+        oddEvenNameLabel: 'Impar vs Par',
+        oddNamePh: 'Escribe quién apuesta a impar',
+        evenNamePh: 'Escribe quién apuesta a par',
+        flip: 'Lanzar',
+        flipping: 'Lanzando...',
+        heads: 'Cara',
+        tails: 'Cruz',
+        historyTitle: 'Historial',
+        export: 'Exportar CSV'
+      };
+      i18n.fr = {
+        ...i18n.en,
+        title: 'Pile ou Face | Lancer de Pièce',
+        metaDescription: 'Lancez 1 à 20 pièces en même temps, consultez l’historique et exportez les résultats en CSV.',
+        heroTitle: 'Pile ou Face',
+        heroSubtitle: 'Lancez plusieurs pièces d’un coup pour une décision rapide et claire.',
+        controlsTitle: 'Paramètres',
+        countLabel: 'Nombre de pièces',
+        durationLabel: 'Durée de l’animation',
+        oddEvenNameLabel: 'Impair vs Pair',
+        oddNamePh: 'Nom pour le pari impair',
+        evenNamePh: 'Nom pour le pari pair',
+        flip: 'Lancer',
+        flipping: 'Lancement...',
+        heads: 'Pile',
+        tails: 'Face',
+        historyTitle: 'Historique',
+        export: 'Exporter CSV'
+      };
+      i18n.de = {
+        ...i18n.en,
+        title: 'Münzwurf | Kopf oder Zahl',
+        metaDescription: 'Wirf 1 bis 20 Münzen gleichzeitig, speichere den Verlauf und exportiere Ergebnisse als CSV.',
+        heroTitle: 'Münze werfen',
+        heroSubtitle: 'Mehrere Münzen gleichzeitig werfen und sofort Kopf/Zahl sehen.',
+        controlsTitle: 'Einstellungen',
+        countLabel: 'Anzahl Münzen',
+        durationLabel: 'Animationsdauer',
+        oddEvenNameLabel: 'Ungerade vs Gerade',
+        oddNamePh: 'Name für Ungerade-Wette',
+        evenNamePh: 'Name für Gerade-Wette',
+        flip: 'Werfen',
+        flipping: 'Wird geworfen...',
+        heads: 'Kopf',
+        tails: 'Zahl',
+        historyTitle: 'Verlauf',
+        export: 'CSV exportieren'
+      };
+      i18n['pt-br'] = {
+        ...i18n.en,
+        title: 'Cara ou Coroa | Jogar Moeda',
+        metaDescription: 'Jogue de 1 a 20 moedas ao mesmo tempo, salve o histórico e exporte os resultados em CSV.',
+        heroTitle: 'Cara ou Coroa',
+        heroSubtitle: 'Jogue várias moedas de uma vez e veja o resultado instantaneamente.',
+        controlsTitle: 'Configurações',
+        countLabel: 'Quantidade de moedas',
+        durationLabel: 'Tempo da animação',
+        oddEvenNameLabel: 'Ímpar vs Par',
+        oddNamePh: 'Digite quem aposta no ímpar',
+        evenNamePh: 'Digite quem aposta no par',
+        flip: 'Jogar',
+        flipping: 'Jogando...',
+        heads: 'Cara',
+        tails: 'Coroa',
+        historyTitle: 'Histórico',
+        export: 'Exportar CSV'
+      };
+      i18n.hi = {
+        ...i18n.en,
+        title: 'कॉइन टॉस | हेड या टेल',
+        metaDescription: '1 से 20 कॉइन एक साथ टॉस करें, हिस्ट्री सेव करें और CSV एक्सपोर्ट करें।',
+        heroTitle: 'कॉइन टॉस',
+        heroSubtitle: 'एक साथ कई कॉइन उछालें और तुरंत हेड/टेल परिणाम देखें।',
+        controlsTitle: 'सेटिंग्स',
+        countLabel: 'कॉइन की संख्या',
+        durationLabel: 'एनीमेशन समय',
+        oddEvenNameLabel: 'विषम बनाम सम',
+        oddNamePh: 'विषम पर दांव लगाने वाला नाम लिखें',
+        evenNamePh: 'सम पर दांव लगाने वाला नाम लिखें',
+        flip: 'टॉस करें',
+        flipping: 'टॉस हो रहा है...',
+        heads: 'हेड',
+        tails: 'टेल',
+        historyTitle: 'इतिहास',
+        export: 'CSV निर्यात करें'
+      };
 
       function t(key, vars) {
-        const dict = i18n[state.locale] || i18n.ko;
-        const raw = dict[key] || i18n.ko[key] || key;
+        const dict = i18n[state.locale] || i18n.en;
+        const raw = dict[key] || i18n.en[key] || i18n.ko[key] || key;
         if (!vars) return raw;
         return raw.replace(/\{(\w+)\}/g, (_, k) => (vars[k] ?? ''));
       }
 
       function setLocale(next) {
-        if (next !== 'ko' && next !== 'en') return;
-        if (state.locale === next) return;
+        if (!LANG_SET.has(next)) return;
+        if (state.locale === next) {
+          closeLangMenu();
+          return;
+        }
         state.locale = next;
         try { window.localStorage.setItem('rlt-lang', next); } catch (e) {}
         applyI18n();
         renderHistory();
+        closeLangMenu();
       }
 
-      function updateLangButtons() {
-        ui.langKo.classList.remove('bg-slate-100', 'text-slate-900', 'text-slate-500');
-        ui.langEn.classList.remove('bg-slate-100', 'text-slate-900', 'text-slate-500');
-        if (state.locale === 'ko') {
-          ui.langKo.classList.add('bg-slate-100', 'text-slate-900');
-          ui.langEn.classList.add('text-slate-500');
-        } else {
-          ui.langEn.classList.add('bg-slate-100', 'text-slate-900');
-          ui.langKo.classList.add('text-slate-500');
-        }
+      function getLocaleLabel(locale) {
+        const row = localeNames[locale];
+        if (!row) return locale;
+        return `${row.native} (${row.en})`;
+      }
+
+      function renderLanguageList(query) {
+        const q = String(query || '').trim().toLowerCase();
+        const filtered = LANG_OPTIONS.filter((code) => {
+          if (!q) return true;
+          const row = localeNames[code];
+          const haystack = `${code} ${row.native} ${row.en}`.toLowerCase();
+          return haystack.includes(q);
+        });
+        ui.langList.innerHTML = filtered.map((code) => {
+          const active = state.locale === code;
+          return `
+            <button type="button" data-lang="${code}" class="w-full text-left px-2.5 py-2 rounded-lg text-xs transition-colors ${active ? 'bg-slate-900 text-white' : 'hover:bg-slate-100 text-slate-700'}">
+              ${getLocaleLabel(code)}
+            </button>
+          `;
+        }).join('');
+      }
+
+      function openLangMenu() {
+        ui.langMenu.classList.remove('hidden');
+        renderLanguageList(ui.langSearch.value);
+        window.setTimeout(() => ui.langSearch.focus(), 0);
+      }
+
+      function closeLangMenu() {
+        ui.langMenu.classList.add('hidden');
       }
 
       function syncLangLinks() {
@@ -817,8 +1088,8 @@
           if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('javascript:')) return;
           const url = new URL(href, window.location.origin);
           if (url.origin !== window.location.origin || !url.pathname.startsWith('/')) return;
-          if (state.locale === 'en') url.searchParams.set('lang', 'en');
-          else url.searchParams.delete('lang');
+          if (state.locale === 'ko') url.searchParams.delete('lang');
+          else url.searchParams.set('lang', state.locale);
           a.setAttribute('href', `${url.pathname}${url.search}${url.hash}`);
         });
       }
@@ -837,6 +1108,13 @@
         ui.navHistory.textContent = t('navHistory');
         ui.navCoin.textContent = t('navCoin');
         ui.navDice.textContent = t('navDice');
+        ui.mnavSpin.textContent = t('mnavSpin');
+        ui.mnavLotto.textContent = t('mnavLotto');
+        ui.mnavHistory.textContent = t('mnavHistory');
+        ui.mnavCoin.textContent = t('mnavCoin');
+        ui.mnavDice.textContent = t('mnavDice');
+        ui.langTrigger.textContent = t('languageButton');
+        ui.langSearch.placeholder = t('languageSearchPh');
 
         ui.heroTitle.textContent = t('heroTitle');
         ui.heroSubtitle.textContent = t('heroSubtitle');
@@ -855,6 +1133,12 @@
         ui.motionNoteText.textContent = t('motionNote');
         ui.guideTitle.textContent = t('guideTitle');
         ui.guideSubtitle.textContent = t('guideSubtitle');
+        ui.guideStep1Title.textContent = t('guideStep1Title');
+        ui.guideStep1Body.textContent = t('guideStep1Body');
+        ui.guideStep2Title.textContent = t('guideStep2Title');
+        ui.guideStep2Body.textContent = t('guideStep2Body');
+        ui.guideStep3Title.textContent = t('guideStep3Title');
+        ui.guideStep3Body.textContent = t('guideStep3Body');
         ui.footerCopy.textContent = t('footerCopy');
         ui.footerTerms.textContent = t('footerTerms');
         ui.footerPrivacy.textContent = t('footerPrivacy');
@@ -865,7 +1149,7 @@
         updateDurationUI();
         renderHistory();
 
-        updateLangButtons();
+        renderLanguageList(ui.langSearch.value);
         syncLangLinks();
         document.documentElement.classList.remove('i18n-pending');
       }
@@ -1457,8 +1741,25 @@
       }
 
       function wireEvents() {
-        ui.langKo.addEventListener('click', () => setLocale('ko'));
-        ui.langEn.addEventListener('click', () => setLocale('en'));
+        ui.langTrigger.addEventListener('click', (event) => {
+          event.stopPropagation();
+          if (ui.langMenu.classList.contains('hidden')) openLangMenu();
+          else closeLangMenu();
+        });
+        ui.langSearch.addEventListener('input', () => renderLanguageList(ui.langSearch.value));
+        ui.langList.addEventListener('click', (event) => {
+          const btn = event.target.closest('button[data-lang]');
+          if (!btn) return;
+          setLocale(btn.getAttribute('data-lang'));
+        });
+        document.addEventListener('click', (event) => {
+          if (ui.langMenu.classList.contains('hidden')) return;
+          if (ui.langMenu.contains(event.target) || ui.langTrigger.contains(event.target)) return;
+          closeLangMenu();
+        });
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape') closeLangMenu();
+        });
         ui.fullscreenToggle.addEventListener('click', toggleFullscreen);
         document.addEventListener('fullscreenchange', updateFullscreenButton);
 
