@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-third-party="ads">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -159,9 +159,7 @@
     ]
   }
   </script>
-
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1010168647313500" crossorigin="anonymous"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.tailwindcss.com"></script>
   <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -493,6 +491,32 @@
     gtag('js', new Date());
     gtag('config', 'G-9415RVEK2W');
   </script>
+
+    <script data-rlt-canonical-patch>
+      (function(){
+        try {
+          var url = new URL(window.location.href);
+          var host = url.hostname.toLowerCase();
+          var m = url.pathname.match(/^\/(?:((?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl))\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i);
+          var changed = false;
+          if (m && url.searchParams.has('lang')) {
+            var qLang = String(url.searchParams.get('lang') || '').toLowerCase();
+            var tool = m[2].toLowerCase();
+            var nextPath = qLang === 'ko' || qLang === '' ? '/' + tool + '/' : '/' + qLang + '/' + tool + '/';
+            if (nextPath !== url.pathname) { url.pathname = nextPath; changed = true; }
+            url.searchParams.delete('lang');
+            changed = true;
+          }
+          if (host === 'www.randomly-pick.com') {
+            url.hostname = 'randomly-pick.com';
+            changed = true;
+          }
+          if (changed) window.location.replace(url.toString());
+        } catch (e) {}
+      })();
+    </script>
+
+    <script defer src="/assets/js/third-party-loader.js"></script>
 </head>
 
 <body class="text-slate-900 font-sans antialiased selection:bg-slate-200 selection:text-slate-900 min-h-screen flex flex-col">

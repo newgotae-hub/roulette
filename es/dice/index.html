@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-third-party="ads">
 <head>
   <script>(function(){window.__rltBootLang='es';try{window.localStorage.setItem('rlt-lang','es');}catch(e){}})();</script>
   <meta charset="UTF-8" />
@@ -160,10 +160,7 @@
     ]
   }
   </script>
-
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1010168647313500" crossorigin="anonymous"></script>
-  
-  <script type="application/ld+json">
+<script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -493,6 +490,32 @@
     gtag('js', new Date());
     gtag('config', 'G-9415RVEK2W');
   </script>
+
+    <script data-rlt-canonical-patch>
+      (function(){
+        try {
+          var url = new URL(window.location.href);
+          var host = url.hostname.toLowerCase();
+          var m = url.pathname.match(/^\/(?:((?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl))\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i);
+          var changed = false;
+          if (m && url.searchParams.has('lang')) {
+            var qLang = String(url.searchParams.get('lang') || '').toLowerCase();
+            var tool = m[2].toLowerCase();
+            var nextPath = qLang === 'ko' || qLang === '' ? '/' + tool + '/' : '/' + qLang + '/' + tool + '/';
+            if (nextPath !== url.pathname) { url.pathname = nextPath; changed = true; }
+            url.searchParams.delete('lang');
+            changed = true;
+          }
+          if (host === 'www.randomly-pick.com') {
+            url.hostname = 'randomly-pick.com';
+            changed = true;
+          }
+          if (changed) window.location.replace(url.toString());
+        } catch (e) {}
+      })();
+    </script>
+
+    <script defer src="/assets/js/third-party-loader.js"></script>
 </head>
 
 <body class="text-slate-900 font-sans antialiased selection:bg-slate-200 selection:text-slate-900 min-h-screen flex flex-col">

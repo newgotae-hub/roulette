@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" data-third-party="ads,userback">
 <head>
   <script>(function(){window.__rltBootLang='ja';try{window.localStorage.setItem('rlt-lang','ja');}catch(e){}})();</script>
   <meta charset="UTF-8" />
@@ -110,25 +110,7 @@
   <meta id="meta-twitter-title" name="twitter:title" content="あみだくじ | オンライン抽選ツール" />
   <meta id="meta-twitter-description" name="twitter:description" content="参加者リスト入力から結果確認まで、1画面で完結するあみだくじ。" />
   <meta name="twitter:image" content="https://randomly-pick.com/og/og-ja.svg" />
-
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1010168647313500" crossorigin="anonymous"></script>
-  <script>
-    window.Userback = window.Userback || {};
-    Userback.access_token = "A-vV6YCxc6cQKtRBem24yA3IgC8";
-    (function() {
-      var lang = window.__rltBootLang || "en";
-      Userback.widget_settings = { language: lang === 'ko' ? 'ko' : 'en' };
-    })();
-    (function(d) {
-      var s = d.createElement('script');
-      s.async = true;
-      s.src = 'https://static.userback.io/widget/v1.js';
-      (d.head || d.body).appendChild(s);
-    })(document);
-  </script>
-
-  
-  <script type="application/ld+json">
+<script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -297,6 +279,32 @@
     gtag('js', new Date());
     gtag('config', 'G-9415RVEK2W');
   </script>
+
+    <script data-rlt-canonical-patch>
+      (function(){
+        try {
+          var url = new URL(window.location.href);
+          var host = url.hostname.toLowerCase();
+          var m = url.pathname.match(/^\/(?:((?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl))\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i);
+          var changed = false;
+          if (m && url.searchParams.has('lang')) {
+            var qLang = String(url.searchParams.get('lang') || '').toLowerCase();
+            var tool = m[2].toLowerCase();
+            var nextPath = qLang === 'ko' || qLang === '' ? '/' + tool + '/' : '/' + qLang + '/' + tool + '/';
+            if (nextPath !== url.pathname) { url.pathname = nextPath; changed = true; }
+            url.searchParams.delete('lang');
+            changed = true;
+          }
+          if (host === 'www.randomly-pick.com') {
+            url.hostname = 'randomly-pick.com';
+            changed = true;
+          }
+          if (changed) window.location.replace(url.toString());
+        } catch (e) {}
+      })();
+    </script>
+
+    <script defer src="/assets/js/third-party-loader.js"></script>
 </head>
 <body class="text-slate-900 font-sans antialiased selection:bg-slate-200 selection:text-slate-900 min-h-screen flex flex-col">
   <!-- Google Tag Manager (noscript) -->
