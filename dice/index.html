@@ -411,7 +411,7 @@
               <span id="asset-status" class="text-xs font-medium text-slate-500 bg-slate-100 border border-slate-200 px-2 py-0.5 rounded-full">로딩중</span>
             </div>
 
-            <div class="p-4 space-y-3">
+            <div class="p-4 space-y-2.5">
               <div class="space-y-2">
                 <div class="flex items-center justify-between">
                   <span id="count-label" class="text-sm font-medium text-slate-700">주사위 개수</span>
@@ -438,24 +438,15 @@
                 </div>
               </div>
 
-              <label class="flex items-center justify-between cursor-pointer group pt-1">
-                <span id="sound-label" class="text-sm font-medium text-slate-700">효과음 재생</span>
-                <div class="relative">
-                  <input id="sound-toggle" type="checkbox" class="sr-only peer" checked>
-                  <div class="w-9 h-5 bg-slate-200 rounded-full peer peer-checked:bg-slate-900 transition-colors"></div>
-                  <div class="absolute left-0.5 top-0.5 bg-white w-4 h-4 rounded-full transition-transform peer-checked:translate-x-4 shadow-sm"></div>
-                </div>
-              </label>
-
               <div id="motion-note" class="hidden text-xs text-slate-500 bg-slate-50 border border-slate-200 rounded-xl p-3">
                 <span id="motion-note-text">설정된 모션 감소 환경에서는 애니메이션이 단순 표시로 대체됩니다.</span>
               </div>
             </div>
 
-            <div class="p-4 border-t border-slate-100 bg-slate-50/60 space-y-2">
+            <div class="p-3 pt-2 border-t border-slate-100 bg-slate-50/60 space-y-1.5">
               <p id="banner" class="text-xs text-slate-500 animate-soft-pulse">준비되면 “굴리기”를 눌러주세요.</p>
 
-              <button id="roll-button" class="w-full bg-slate-900 text-white rounded-xl py-2.5 text-sm font-semibold hover:bg-slate-800 transition-colors shadow-sm disabled:opacity-60 disabled:cursor-not-allowed">
+              <button id="roll-button" class="w-full bg-slate-900 text-white rounded-xl py-2 text-sm font-semibold hover:bg-slate-800 transition-colors shadow-sm disabled:opacity-60 disabled:cursor-not-allowed">
                 <span id="roll-label">굴리기</span>
               </button>
 
@@ -596,7 +587,6 @@
         betLabel: document.getElementById('bet-label'),
         oddPlayer: document.getElementById('odd-player'),
         evenPlayer: document.getElementById('even-player'),
-        soundToggle: document.getElementById('sound-toggle'),
         motionNote: document.getElementById('motion-note'),
         motionNoteText: document.getElementById('motion-note-text'),
         rollButton: document.getElementById('roll-button'),
@@ -841,7 +831,6 @@
           ui.lastParity.textContent = t(state.lastParity);
         ui.winnerName.textContent = state.lastWinnerFallback ? t(state.lastParity) : (state.lastWinner || t('noResult'));
         }
-        document.getElementById('sound-label').textContent = t('soundLabel');
         ui.rollLabel.textContent = state.rolling ? t('rolling') : t('roll');
         ui.cumTitle.textContent = t('cumulativeTitle');
         ui.motionNoteText.textContent = t('motionNote');
@@ -919,7 +908,6 @@
       }
 
       function beep(freq, duration, type, volume, delaySec) {
-        if (!ui.soundToggle.checked) return;
         const audio = ensureAudio();
         if (!audio) return;
         const now = audio.currentTime + (delaySec || 0);

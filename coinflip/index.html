@@ -479,15 +479,6 @@
                 </div>
               </div>
 
-              <label class="flex items-center justify-between cursor-pointer group pt-1">
-                <span id="sound-label" class="text-sm font-medium text-slate-700">효과음 재생</span>
-                <div class="relative">
-                  <input id="sound-toggle" type="checkbox" class="sr-only peer" checked>
-                  <div class="w-9 h-5 bg-slate-200 rounded-full peer peer-checked:bg-slate-900 transition-colors"></div>
-                  <div class="absolute left-0.5 top-0.5 bg-white w-4 h-4 rounded-full transition-transform peer-checked:translate-x-4 shadow-sm"></div>
-                </div>
-              </label>
-
               <div id="motion-note" class="hidden text-xs text-slate-500 bg-slate-50 border border-slate-200 rounded-xl p-3">
                 <span id="motion-note-text">설정된 모션 감소 환경에서는 애니메이션이 단순 표시로 대체됩니다.</span>
               </div>
@@ -628,7 +619,6 @@
         oddEvenNameLabel: document.getElementById('odd-even-name-label'),
         oddPlayer: document.getElementById('odd-player'),
         evenPlayer: document.getElementById('even-player'),
-        soundToggle: document.getElementById('sound-toggle'),
         motionNote: document.getElementById('motion-note'),
         motionNoteText: document.getElementById('motion-note-text'),
         flipButton: document.getElementById('flip-button'),
@@ -837,7 +827,6 @@
         ui.oddEvenNameLabel.textContent = t('oddEvenNameLabel');
         ui.oddPlayer.placeholder = t('oddNamePh');
         ui.evenPlayer.placeholder = t('evenNamePh');
-        document.getElementById('sound-label').textContent = t('soundLabel');
         ui.flipLabel.textContent = state.flipping ? t('flipping') : t('flip');
         ui.headsLabel.textContent = t('heads');
         ui.tailsLabel.textContent = t('tails');
@@ -913,7 +902,6 @@
       }
 
       function beep(freq, duration, type, volume, delaySec) {
-        if (!ui.soundToggle.checked) return;
         const audio = ensureAudio();
         if (!audio) return;
         const now = audio.currentTime + (delaySec || 0);
