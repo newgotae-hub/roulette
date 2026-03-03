@@ -398,20 +398,7 @@
                   <span id="count-value" class="text-xs text-slate-500">1</span>
                 </div>
 
-                <div class="grid grid-cols-5 gap-2">
-                  <button class="count-chip w-full px-0 py-1 text-[11px] font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="1">1</button>
-                  <button class="count-chip w-full px-0 py-1 text-[11px] font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="2">2</button>
-                  <button class="count-chip w-full px-0 py-1 text-[11px] font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="3">3</button>
-                  <button class="count-chip w-full px-0 py-1 text-[11px] font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="4">4</button>
-                  <button class="count-chip w-full px-0 py-1 text-[11px] font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="5">5</button>
-                  <button class="count-chip w-full px-0 py-1 text-[11px] font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="6">6</button>
-                  <button class="count-chip w-full px-0 py-1 text-[11px] font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="7">7</button>
-                  <button class="count-chip w-full px-0 py-1 text-[11px] font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="8">8</button>
-                  <button class="count-chip w-full px-0 py-1 text-[11px] font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="9">9</button>
-                  <button class="count-chip w-full px-0 py-1 text-[11px] font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="10">10</button>
-                  <button class="count-chip w-full px-0 py-1 text-[11px] font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="11">11</button>
-                  <button class="count-chip w-full px-0 py-1 text-[11px] font-semibold rounded-full border border-slate-200 bg-slate-50/70 text-slate-500 hover:bg-slate-100" data-count="12">12</button>
-                </div>
+                <input id="dice-count" type="range" min="1" max="12" value="1" class="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-slate-900">
 
               </div>
 
@@ -600,6 +587,7 @@
         heroSubtitle: document.getElementById('hero-subtitle'),
         controlsTitle: document.getElementById('controls-title'),
         assetStatus: document.getElementById('asset-status'),
+        diceCount: document.getElementById('dice-count'),
         countValue: document.getElementById('count-value'),
         rollDuration: document.getElementById('roll-duration'),
         durationValue: document.getElementById('duration-value'),
@@ -1117,6 +1105,7 @@
 
       function updateCountUI() {
         ui.countValue.textContent = String(state.diceCount);
+        ui.diceCount.value = String(state.diceCount);
       }
 
       function updateDurationUI() {
@@ -1271,14 +1260,11 @@
         ui.fullscreenToggle.addEventListener('click', toggleFullscreen);
         document.addEventListener('fullscreenchange', updateFullscreenButton);
 
-        document.querySelectorAll('.count-chip').forEach((btn) => {
-          btn.addEventListener('click', () => {
-            const n = Math.max(1, Math.min(12, Number(btn.getAttribute('data-count')) || 1));
-            state.diceCount = n;
-            updateCountUI();
-            renderDice();
-            updateTotalStats([]);
-          });
+        ui.diceCount.addEventListener('input', () => {
+          state.diceCount = Math.max(1, Math.min(12, Number(ui.diceCount.value) || 1));
+          updateCountUI();
+          renderDice();
+          updateTotalStats([]);
         });
 
         ui.rollDuration.addEventListener('input', () => {
