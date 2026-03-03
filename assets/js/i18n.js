@@ -176,7 +176,7 @@
     navSpin: "ルーレット",
     navLotto: "ラッキードロー",
     navLadder: "あみだくじ",
-    navCoin: "コイン投げ",
+    navCoin: "コイントス",
     navDice: "サイコロ",
     fullscreenHint: "集中モードは全画面ボタンを押してください。",
     fullscreen: "全画面",
