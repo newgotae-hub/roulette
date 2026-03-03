@@ -1227,16 +1227,16 @@
           const current = die.angles || { x: 0, y: 0, z: 0 };
           const normalizeDeg = (deg) => ((deg % 360) + 360) % 360;
           const shortestAlign = (fromDeg, toDeg) => (((toDeg - fromDeg + 540) % 360) - 180);
-          const spinX = (4 + Math.floor(Math.random() * 3)) * 360 * (Math.random() < 0.5 ? -1 : 1);
-          const spinY = (18 + Math.floor(Math.random() * 9)) * 360;
-          const spinZ = (3 + Math.floor(Math.random() * 3)) * 360 * (Math.random() < 0.5 ? -1 : 1);
+          const spinX = (2 + Math.floor(Math.random() * 2)) * 360 * (Math.random() < 0.5 ? -1 : 1);
+          const spinY = (10 + Math.floor(Math.random() * 4)) * 360;
+          const spinZ = (1 + Math.floor(Math.random() * 2)) * 360 * (Math.random() < 0.5 ? -1 : 1);
           const preX = current.x + spinX;
           const preY = current.y + spinY;
           const preZ = current.z + spinZ;
           const xTotal = preX + shortestAlign(normalizeDeg(preX), target[0]);
           const yTotal = preY + shortestAlign(normalizeDeg(preY), target[1]);
           const zTotal = preZ + shortestAlign(normalizeDeg(preZ), target[2]);
-          const wobbleAmp = 14 + Math.random() * 12;
+          const wobbleAmp = 8 + Math.random() * 8;
           const wobblePhase = Math.random() * Math.PI * 2;
           const startAt = performance.now() + staggers[idx];
 
@@ -1249,7 +1249,7 @@
             const spinPhase = Math.min(1, p / 0.78);
             const spinEase = 1 - Math.pow(1 - spinPhase, 2.4);
             const decay = 1 - spinPhase;
-            const wobble = Math.sin(spinPhase * Math.PI * 16 + wobblePhase) * wobbleAmp * decay;
+            const wobble = Math.sin(spinPhase * Math.PI * 12 + wobblePhase) * wobbleAmp * decay;
 
             const xSpin = current.x + (preX - current.x) * spinEase + wobble;
             const ySpin = current.y + (preY - current.y) * spinEase;
