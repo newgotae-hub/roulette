@@ -161,27 +161,14 @@
     }
 
     .dice-stage {
-      position: relative;
       box-shadow: 0 18px 60px rgba(15, 23, 42, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.6);
-      overflow: visible !important;
-      isolation: isolate;
-      z-index: 5000;
-    }
-
-    .dice-column {
-      position: relative;
-      z-index: 5000;
-      overflow: visible !important;
     }
 
     .dice-slot {
-      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
       min-height: 0;
-      overflow: visible;
-      z-index: 120;
     }
 
     .grid-dice {
@@ -200,9 +187,7 @@
     }
 
     .dice-shell {
-      position: absolute;
-      left: 50%;
-      top: 50%;
+      position: relative;
       width: var(--mv-size, min(92vw, 680px));
       height: var(--mv-size, min(92vw, 680px));
       border-radius: 24px;
@@ -210,9 +195,7 @@
       background: transparent;
       border: 0;
       box-shadow: none;
-      transform: translate(-50%, -50%);
-      z-index: 150;
-      pointer-events: none;
+      transform: translate3d(0, 0, 0);
     }
 
     .dice-shell model-viewer {
@@ -224,7 +207,6 @@
       --progress-mask: transparent;
       transform-origin: center center;
       pointer-events: none;
-      overflow: visible;
     }
 
     .dice-shell model-viewer::part(default-progress-bar),
@@ -253,7 +235,6 @@
       border: 1px solid rgba(203, 213, 225, 0.95);
       box-shadow: 0 6px 20px rgba(15, 23, 42, 0.14);
       backdrop-filter: blur(8px);
-      z-index: 180;
     }
 
     .face-chip {
@@ -435,7 +416,7 @@
           </div>
         </div>
 
-        <div class="dice-column lg:col-span-6 flex flex-col items-center justify-start min-h-[420px] lg:h-[640px]">
+        <div class="lg:col-span-6 flex flex-col items-center justify-start min-h-[420px] lg:h-[640px]">
           <div class="relative w-full max-w-[720px]">
             <div class="dice-panel dice-stage bg-transparent rounded-2xl border border-slate-200 overflow-visible p-4 sm:p-6 min-h-[450px] lg:h-[640px] flex flex-col">
               <div id="confetti-layer" aria-hidden="true"></div>
@@ -962,11 +943,11 @@
         model.setAttribute('tone-mapping', 'aces');
         model.setAttribute('loading', 'eager');
         if (Number.isFinite(sizePx) && sizePx >= 180) {
-          model.setAttribute('camera-orbit', '20deg 38deg 94%');
+          model.setAttribute('camera-orbit', '20deg 70deg 94%');
           model.setAttribute('field-of-view', '32deg');
           model.setAttribute('camera-target', '0m 0m 0m');
         } else {
-          model.setAttribute('camera-orbit', '20deg 38deg 100%');
+          model.setAttribute('camera-orbit', '20deg 70deg 100%');
           model.setAttribute('field-of-view', '34deg');
           model.setAttribute('camera-target', '0m 0m 0m');
         }
@@ -1175,21 +1156,18 @@
         }
 
         const durationMs = Math.floor(state.durationSec * 1000);
-        const maxStagger = 0;
-        const staggers = state.dice.map(() => 0);
+        const maxStagger = Math.min(220, Math.max(0, 12 * state.diceCount));
+        const staggers = state.dice.map(() => Math.floor(Math.random() * maxStagger));
 
         state.dice.forEach((die, idx) => {
           const value = results[idx];
           const target = faceTarget(value);
           const current = die.angles || { x: 0, y: 0, z: 0 };
-          const normalizeDeg = (deg) => ((deg % 360) + 360) % 360;
-          const shortestAlign = (fromDeg, toDeg) => (((toDeg - fromDeg + 540) % 360) - 180);
           const spinsX = (2 + Math.floor(Math.random() * 2)) * 360;
           const spinsY = (4 + Math.floor(Math.random() * 2)) * 360;
-          const spinsZ = (1 + Math.floor(Math.random() * 2)) * 360;
-          const xTotal = current.x + spinsX + shortestAlign(normalizeDeg(current.x), target[0]);
-          const yTotal = current.y + spinsY + shortestAlign(normalizeDeg(current.y), target[1]);
-          const zTotal = current.z + spinsZ + shortestAlign(normalizeDeg(current.z), target[2]);
+          const xTotal = current.x + spinsX + target[0];
+          const yTotal = current.y + spinsY + target[1];
+          const zTotal = current.z + target[2];
           const startAt = performance.now() + staggers[idx];
 
           const tick = (now) => {
@@ -1206,6 +1184,7 @@
             if (p < 1) {
               requestAnimationFrame(tick);
             } else {
+              setModelOrientation(die, target[0], target[1], target[2]);
               setDieValue(die, value);
             }
           };
