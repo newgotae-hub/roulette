@@ -122,7 +122,7 @@
     en: { native: "English", en: "English", flag: "us" },
     ja: { native: "日本語", en: "Japanese", flag: "jp" },
     "zh-cn": { native: "简体中文", en: "Chinese", flag: "cn" },
-    "zh-tw": { native: "繁體中文", en: "Chinese (Taiwaneses)", flag: "tw" },
+    "zh-tw": { native: "繁體中文", en: "Chinese (Traditional)", flag: "tw" },
     es: { native: "Español", en: "Spanish", flag: "es" },
     fr: { native: "Français", en: "French", flag: "fr" },
     de: { native: "Deutsch", en: "German", flag: "de" },
@@ -299,6 +299,12 @@
     state.locale = locale;
     try {
       localStorage.setItem("rlt-lang", locale);
+    } catch (e) {}
+    try {
+      const url = new URL(window.location.href);
+      if (locale === "ko") url.searchParams.delete("lang");
+      else url.searchParams.set("lang", locale);
+      window.history.replaceState({}, "", `${url.pathname}${url.search}${url.hash}`);
     } catch (e) {}
     applyI18n();
     renderNodes();
