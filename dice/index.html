@@ -1227,9 +1227,9 @@
           const current = die.angles || { x: 0, y: 0, z: 0 };
           const normalizeDeg = (deg) => ((deg % 360) + 360) % 360;
           const shortestAlign = (fromDeg, toDeg) => (((toDeg - fromDeg + 540) % 360) - 180);
-          const spinX = (4 + Math.floor(Math.random() * 3)) * 360 * (Math.random() < 0.5 ? -1 : 1);
-          const spinY = (18 + Math.floor(Math.random() * 9)) * 360;
-          const spinZ = (3 + Math.floor(Math.random() * 3)) * 360 * (Math.random() < 0.5 ? -1 : 1);
+          const spinX = ((4 + Math.floor(Math.random() * 3)) * 360 * (Math.random() < 0.5 ? -1 : 1)) * 0.5;
+          const spinY = ((18 + Math.floor(Math.random() * 9)) * 360) * 0.5;
+          const spinZ = ((3 + Math.floor(Math.random() * 3)) * 360 * (Math.random() < 0.5 ? -1 : 1)) * 0.5;
           const preX = current.x + spinX;
           const preY = current.y + spinY;
           const preZ = current.z + spinZ;
