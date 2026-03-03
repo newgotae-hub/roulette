@@ -3,11 +3,11 @@
 
   const i18n = {
     ko: {
-      title: '무작위 번호 추첨기 | 로또·난수·랜덤번호 뽑기 RLT',
-      desc: '무작위 번호 추첨, 난수추첨, 랜덤번호 추첨을 지원하는 RLT 로또 추첨기. 6/45 기본 모드와 커스텀 명단 추첨, CSV 저장을 제공합니다.',
-      ogTitle: '무작위 번호 추첨기 | 로또·난수·랜덤번호 뽑기 RLT',
+      title: '무작위 번호 추첨기 | 로또·난수·랜덤번호 뽑기 Randomly Pick',
+      desc: '무작위 번호 추첨, 난수추첨, 랜덤번호 추첨을 지원하는 Randomly Pick 로또 추첨기. 6/45 기본 모드와 커스텀 명단 추첨, CSV 저장을 제공합니다.',
+      ogTitle: '무작위 번호 추첨기 | 로또·난수·랜덤번호 뽑기 Randomly Pick',
       ogDesc: '무작위 번호 추첨, 난수추첨, 랜덤번호 추첨을 지원하는 온라인 로또 추첨기.',
-      twTitle: '무작위 번호 추첨기 | 로또·난수·랜덤번호 뽑기 RLT',
+      twTitle: '무작위 번호 추첨기 | 로또·난수·랜덤번호 뽑기 Randomly Pick',
       twDesc: '난수추첨과 랜덤번호 추첨을 빠르게 처리하는 로또 번호 추첨기',
       navSpin: '룰렛돌리기',
       navLotto: '로또추첨기',
@@ -59,11 +59,11 @@
       noCopy: '복사할 결과가 없습니다.'
     },
     en: {
-      title: 'Random Number Generator & Lucky Draw | RLT',
+      title: 'Random Number Generator & Lucky Draw | Randomly Pick',
       desc: 'Free random number generator and lucky draw tool with smooth animation, custom list picks, and CSV export.',
-      ogTitle: 'Random Number Generator & Lucky Draw | RLT',
+      ogTitle: 'Random Number Generator & Lucky Draw | Randomly Pick',
       ogDesc: 'Generate random numbers, run lucky draws, and pick winners from custom lists instantly.',
-      twTitle: 'Random Number Generator & Lucky Draw | RLT',
+      twTitle: 'Random Number Generator & Lucky Draw | Randomly Pick',
       twDesc: 'Run random number picks and lucky draws with fast animation and export.',
       navSpin: 'Wheel of Names',
       navLotto: 'Lucky Draw',
@@ -115,6 +115,28 @@
       noCopy: 'Nothing to copy.'
     }
   };
+  i18n.ja = { ...i18n.en };
+  i18n["zh-cn"] = { ...i18n.en };
+  i18n["zh-tw"] = { ...i18n.en };
+  i18n.es = { ...i18n.en };
+  i18n.fr = { ...i18n.en };
+  i18n.de = { ...i18n.en };
+  i18n["pt-br"] = { ...i18n.en };
+  i18n.hi = { ...i18n.en };
+  const LANG_OPTIONS = ["ko", "en", "ja", "zh-cn", "zh-tw", "es", "fr", "de", "pt-br", "hi"];
+  const LANG_SET = new Set(LANG_OPTIONS);
+  const localeNames = {
+    ko: { native: "한국어", en: "Korean", flag: "kr" },
+    en: { native: "English", en: "English", flag: "us" },
+    ja: { native: "日本語", en: "Japanese", flag: "jp" },
+    "zh-cn": { native: "简体中文", en: "Chinese (Simplified)", flag: "cn" },
+    "zh-tw": { native: "繁體中文", en: "Chinese (Traditional)", flag: "tw" },
+    es: { native: "Español", en: "Spanish", flag: "es" },
+    fr: { native: "Français", en: "French", flag: "fr" },
+    de: { native: "Deutsch", en: "German", flag: "de" },
+    "pt-br": { native: "Português (Brasil)", en: "Portuguese (Brazil)", flag: "br" },
+    hi: { native: "हिन्दी", en: "Hindi", flag: "in" }
+  };
 
   const state = {
     locale: detectLocale(),
@@ -133,8 +155,12 @@
   };
 
   const ui = {
-    langKo: document.getElementById('lang-ko'),
-    langEn: document.getElementById('lang-en'),
+    langTrigger: document.getElementById('lang-trigger'),
+    langButtonLabel: document.getElementById('lang-button-label'),
+    langCurrentFlag: document.getElementById('lang-current-flag'),
+    langMenu: document.getElementById('lang-menu'),
+    langSearch: document.getElementById('lang-search'),
+    langList: document.getElementById('lang-list'),
     fullscreenToggle: document.getElementById('fullscreen-toggle'),
     fullscreenIcon: document.getElementById('fullscreen-icon'),
     fullscreenLabel: document.getElementById('fullscreen-label'),
@@ -180,8 +206,64 @@
   }
 
   function t(key) {
-    const pack = i18n[state.locale] || i18n.ko;
-    return pack[key] || i18n.ko[key] || key;
+    const pack = i18n[state.locale] || i18n.en;
+    return pack[key] || i18n.en[key] || i18n.ko[key] || key;
+  }
+
+  function getLocaleLabel(locale) {
+    const row = localeNames[locale];
+    if (!row) return locale;
+    return `${row.native} (${row.en})`;
+  }
+
+  function getLocaleFlagUrl(locale) {
+    const row = localeNames[locale];
+    const code = row && row.flag ? row.flag : "us";
+    return `https://flagcdn.com/w20/${code}.png`;
+  }
+
+  function renderLanguageList(query) {
+    const q = String(query || "").trim().toLowerCase();
+    const filtered = LANG_OPTIONS.filter((code) => {
+      if (!q) return true;
+      const row = localeNames[code];
+      const haystack = `${code} ${row.native} ${row.en}`.toLowerCase();
+      return haystack.includes(q);
+    });
+    ui.langList.innerHTML = filtered.map((code) => {
+      const active = state.locale === code;
+      const row = localeNames[code] || { native: code, en: code };
+      return `
+        <button type="button" data-lang="${code}" class="w-full text-left px-2.5 py-2 rounded-lg text-xs transition-colors ${active ? "bg-slate-900 text-white" : "hover:bg-slate-100 text-slate-700"}">
+          <span class="inline-flex items-center gap-2">
+            <img src="${getLocaleFlagUrl(code)}" alt="${row.en}" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
+            <span>${getLocaleLabel(code)}</span>
+          </span>
+        </button>
+      `;
+    }).join("");
+  }
+
+  function openLangMenu() {
+    ui.langMenu.classList.remove("hidden");
+    renderLanguageList(ui.langSearch.value);
+    window.setTimeout(() => ui.langSearch.focus(), 0);
+  }
+
+  function closeLangMenu() {
+    ui.langMenu.classList.add("hidden");
+  }
+
+  function syncLangLinks() {
+    document.querySelectorAll("a[href]").forEach((a) => {
+      const href = a.getAttribute("href");
+      if (!href || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:") || href.startsWith("javascript:")) return;
+      const url = new URL(href, window.location.origin);
+      if (url.origin !== window.location.origin || !url.pathname.startsWith("/")) return;
+      if (state.locale === "ko") url.searchParams.delete("lang");
+      else url.searchParams.set("lang", state.locale);
+      a.setAttribute("href", `${url.pathname}${url.search}${url.hash}`);
+    });
   }
 
   function setText(id, key) {
@@ -237,9 +319,12 @@
     ui.statusBanner.textContent = t('statusReady');
     ui.fullscreenLabel.textContent = document.fullscreenElement ? t('fullscreenExit') : t('fullscreen');
     if (ui.fullscreenHintText) ui.fullscreenHintText.textContent = t('fullscreenHint');
-
-    ui.langKo.className = `px-2.5 py-1 text-xs font-semibold rounded-full ${state.locale === 'ko' ? 'text-slate-900 bg-slate-100' : 'text-slate-500'}`;
-    ui.langEn.className = `px-2.5 py-1 text-xs font-semibold rounded-full ${state.locale === 'en' ? 'text-slate-900 bg-slate-100' : 'text-slate-500'}`;
+    ui.langButtonLabel.textContent = "LANGUAGE";
+    ui.langSearch.placeholder = "Search language";
+    ui.langCurrentFlag.src = getLocaleFlagUrl(state.locale);
+    ui.langCurrentFlag.alt = (localeNames[state.locale] && localeNames[state.locale].en) || state.locale;
+    renderLanguageList(ui.langSearch.value);
+    syncLangLinks();
 
     updateSpeedLabel();
     renderHistory();
@@ -751,8 +836,30 @@
   }
 
   function bind() {
-    ui.langKo.addEventListener('click', () => { state.locale = 'ko'; localStorage.setItem('rlt-lang', 'ko'); applyI18n(); });
-    ui.langEn.addEventListener('click', () => { state.locale = 'en'; localStorage.setItem('rlt-lang', 'en'); applyI18n(); });
+    ui.langTrigger.addEventListener('click', (event) => {
+      event.stopPropagation();
+      if (ui.langMenu.classList.contains('hidden')) openLangMenu();
+      else closeLangMenu();
+    });
+    ui.langSearch.addEventListener('input', () => renderLanguageList(ui.langSearch.value));
+    ui.langList.addEventListener('click', (event) => {
+      const btn = event.target.closest('button[data-lang]');
+      if (!btn) return;
+      const locale = btn.getAttribute('data-lang');
+      if (!LANG_SET.has(locale)) return;
+      state.locale = locale;
+      try { localStorage.setItem('rlt-lang', locale); } catch (e) {}
+      applyI18n();
+      closeLangMenu();
+    });
+    document.addEventListener('click', (event) => {
+      if (ui.langMenu.classList.contains('hidden')) return;
+      if (ui.langMenu.contains(event.target) || ui.langTrigger.contains(event.target)) return;
+      closeLangMenu();
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') closeLangMenu();
+    });
 
     ui.tabBasicBtn.addEventListener('click', () => switchTab('basic'));
     ui.tabCustomBtn.addEventListener('click', () => switchTab('custom'));

@@ -34,8 +34,12 @@
     navDice: document.getElementById("nav-dice"),
     fullscreenHint: document.getElementById("fullscreen-hint"),
     fullscreenHintText: document.getElementById("fullscreen-hint-text"),
-    langKo: document.getElementById("lang-ko"),
-    langEn: document.getElementById("lang-en"),
+    langTrigger: document.getElementById("lang-trigger"),
+    langButtonLabel: document.getElementById("lang-button-label"),
+    langCurrentFlag: document.getElementById("lang-current-flag"),
+    langMenu: document.getElementById("lang-menu"),
+    langSearch: document.getElementById("lang-search"),
+    langList: document.getElementById("lang-list"),
     fullscreenBtn: document.getElementById("fullscreen-toggle"),
     fullscreenIcon: document.getElementById("fullscreen-icon"),
     fullscreenLabel: document.getElementById("fullscreen-label"),
@@ -110,10 +114,25 @@
     metaTwitterTitle: document.getElementById("meta-twitter-title"),
     metaTwitterDescription: document.getElementById("meta-twitter-description")
   };
+  const LANG_OPTIONS = ["ko", "en", "ja", "zh-cn", "zh-tw", "es", "fr", "de", "pt-br", "hi"];
+  const LANG_SET = new Set(LANG_OPTIONS);
+  const localeNames = {
+    ko: { native: "한국어", en: "Korean", flag: "kr" },
+    en: { native: "English", en: "English", flag: "us" },
+    ja: { native: "日本語", en: "Japanese", flag: "jp" },
+    "zh-cn": { native: "简体中文", en: "Chinese (Simplified)", flag: "cn" },
+    "zh-tw": { native: "繁體中文", en: "Chinese (Traditional)", flag: "tw" },
+    es: { native: "Español", en: "Spanish", flag: "es" },
+    fr: { native: "Français", en: "French", flag: "fr" },
+    de: { native: "Deutsch", en: "German", flag: "de" },
+    "pt-br": { native: "Português (Brasil)", en: "Portuguese (Brazil)", flag: "br" },
+    hi: { native: "हिन्दी", en: "Hindi", flag: "in" }
+  };
+  if (!LANG_SET.has(state.locale)) state.locale = "en";
 
   function t(key, vars) {
-    const pack = dict[state.locale] || dict.ko;
-    let text = pack[key] || dict.ko[key] || key;
+    const pack = dict[state.locale] || dict.en;
+    let text = pack[key] || dict.en[key] || dict.ko[key] || key;
     if (vars) {
       Object.keys(vars).forEach((k) => {
         text = text.replace(`{${k}}`, vars[k]);
@@ -122,9 +141,60 @@
     return text;
   }
 
-  function updateLanguageButtons() {
-    ui.langKo.className = `px-2.5 py-1 text-xs font-semibold rounded-full ${state.locale === "ko" ? "bg-slate-100 text-slate-900" : "text-slate-500"}`;
-    ui.langEn.className = `px-2.5 py-1 text-xs font-semibold rounded-full ${state.locale === "en" ? "bg-slate-100 text-slate-900" : "text-slate-500"}`;
+  function getLocaleFlagUrl(locale) {
+    const row = localeNames[locale];
+    const code = row && row.flag ? row.flag : "us";
+    return `https://flagcdn.com/w20/${code}.png`;
+  }
+
+  function getLocaleLabel(locale) {
+    const row = localeNames[locale];
+    if (!row) return locale;
+    return `${row.native} (${row.en})`;
+  }
+
+  function renderLanguageList(query) {
+    const q = String(query || "").trim().toLowerCase();
+    const filtered = LANG_OPTIONS.filter((code) => {
+      if (!q) return true;
+      const row = localeNames[code];
+      const haystack = `${code} ${row.native} ${row.en}`.toLowerCase();
+      return haystack.includes(q);
+    });
+    ui.langList.innerHTML = filtered.map((code) => {
+      const active = state.locale === code;
+      const row = localeNames[code] || { native: code, en: code };
+      return `
+        <button type="button" data-lang="${code}" class="w-full text-left px-2.5 py-2 rounded-lg text-xs transition-colors ${active ? "bg-slate-900 text-white" : "hover:bg-slate-100 text-slate-700"}">
+          <span class="inline-flex items-center gap-2">
+            <img src="${getLocaleFlagUrl(code)}" alt="${row.en}" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
+            <span>${getLocaleLabel(code)}</span>
+          </span>
+        </button>
+      `;
+    }).join("");
+  }
+
+  function syncLangLinks() {
+    document.querySelectorAll("a[href]").forEach((a) => {
+      const href = a.getAttribute("href");
+      if (!href || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:") || href.startsWith("javascript:")) return;
+      const url = new URL(href, window.location.origin);
+      if (url.origin !== window.location.origin || !url.pathname.startsWith("/")) return;
+      if (state.locale === "ko") url.searchParams.delete("lang");
+      else url.searchParams.set("lang", state.locale);
+      a.setAttribute("href", `${url.pathname}${url.search}${url.hash}`);
+    });
+  }
+
+  function openLangMenu() {
+    ui.langMenu.classList.remove("hidden");
+    renderLanguageList(ui.langSearch.value);
+    window.setTimeout(() => ui.langSearch.focus(), 0);
+  }
+
+  function closeLangMenu() {
+    ui.langMenu.classList.add("hidden");
   }
 
   function updateFullscreenButton() {
@@ -202,15 +272,20 @@
     ui.noResults.textContent = t("noResults");
     ui.footerTerms.textContent = t("footerTerms");
     ui.footerPrivacy.textContent = t("footerPrivacy");
+    ui.langButtonLabel.textContent = "LANGUAGE";
+    ui.langSearch.placeholder = "Search language";
+    ui.langCurrentFlag.src = getLocaleFlagUrl(state.locale);
+    ui.langCurrentFlag.alt = (localeNames[state.locale] && localeNames[state.locale].en) || state.locale;
 
     updateCounts();
     setProgress(false);
     updateFullscreenButton();
-    updateLanguageButtons();
+    renderLanguageList(ui.langSearch.value);
+    syncLangLinks();
   }
 
   function setLocale(locale) {
-    if (locale !== "ko" && locale !== "en") return;
+    if (!LANG_SET.has(locale)) return;
     state.locale = locale;
     try {
       localStorage.setItem("rlt-lang", locale);
@@ -1010,8 +1085,26 @@
   }
 
   function bindEvents() {
-    ui.langKo.addEventListener("click", () => setLocale("ko"));
-    ui.langEn.addEventListener("click", () => setLocale("en"));
+    ui.langTrigger.addEventListener("click", (event) => {
+      event.stopPropagation();
+      if (ui.langMenu.classList.contains("hidden")) openLangMenu();
+      else closeLangMenu();
+    });
+    ui.langSearch.addEventListener("input", () => renderLanguageList(ui.langSearch.value));
+    ui.langList.addEventListener("click", (event) => {
+      const btn = event.target.closest("button[data-lang]");
+      if (!btn) return;
+      setLocale(btn.getAttribute("data-lang"));
+      closeLangMenu();
+    });
+    document.addEventListener("click", (event) => {
+      if (ui.langMenu.classList.contains("hidden")) return;
+      if (ui.langMenu.contains(event.target) || ui.langTrigger.contains(event.target)) return;
+      closeLangMenu();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeLangMenu();
+    });
 
     ui.inputParticipants.addEventListener("input", () => {
       updateCounts();

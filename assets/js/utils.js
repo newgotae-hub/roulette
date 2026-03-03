@@ -1,5 +1,22 @@
 (function () {
   const DELIMITER_RE = /[\s,;|/\\·•ㆍ،，、]+/g;
+  const SUPPORTED_LOCALES = ["ko", "en", "ja", "zh-cn", "zh-tw", "es", "fr", "de", "pt-br", "hi"];
+
+  function normalizeLocale(raw) {
+    const v = String(raw || "").toLowerCase().replace("_", "-");
+    if (!v) return "";
+    if (v === "zh" || v.startsWith("zh-cn") || v.startsWith("zh-hans")) return "zh-cn";
+    if (v.startsWith("zh-tw") || v.startsWith("zh-hk") || v.startsWith("zh-hant")) return "zh-tw";
+    if (v.startsWith("pt-br")) return "pt-br";
+    if (v.startsWith("ko")) return "ko";
+    if (v.startsWith("en")) return "en";
+    if (v.startsWith("ja")) return "ja";
+    if (v.startsWith("es")) return "es";
+    if (v.startsWith("fr")) return "fr";
+    if (v.startsWith("de")) return "de";
+    if (v.startsWith("hi")) return "hi";
+    return v;
+  }
 
   function splitByDelimiters(text) {
     return String(text || "")
@@ -29,8 +46,8 @@
 
   function detectLocale() {
     const params = new URLSearchParams(window.location.search);
-    const forced = params.get("lang");
-    if (forced === "ko" || forced === "en") {
+    const forced = normalizeLocale(params.get("lang"));
+    if (SUPPORTED_LOCALES.includes(forced)) {
       try {
         window.localStorage.setItem("rlt-lang", forced);
       } catch (e) {}
@@ -39,11 +56,16 @@
 
     let saved = null;
     try {
-      saved = window.localStorage.getItem("rlt-lang");
+      saved = normalizeLocale(window.localStorage.getItem("rlt-lang"));
     } catch (e) {}
-    if (saved === "ko" || saved === "en") return saved;
+    if (SUPPORTED_LOCALES.includes(saved)) return saved;
 
-    return (navigator.language || "").toLowerCase().startsWith("ko") ? "ko" : "en";
+    const navs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ""];
+    for (const nav of navs) {
+      const cand = normalizeLocale(nav);
+      if (SUPPORTED_LOCALES.includes(cand)) return cand;
+    }
+    return "en";
   }
 
   function downloadText(filename, content, mime) {
