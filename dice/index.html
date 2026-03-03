@@ -425,9 +425,9 @@
               <div class="space-y-2 pt-1">
                 <div class="flex justify-between items-center">
                   <span id="duration-label" class="text-sm font-medium text-slate-700">애니메이션 시간</span>
-                  <span id="duration-value" class="text-xs text-slate-500">2.5초</span>
+                  <span id="duration-value" class="text-xs text-slate-500">4초</span>
                 </div>
-                <input id="roll-duration" type="range" min="1" max="6" step="0.1" value="3" class="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-slate-900">
+                <input id="roll-duration" type="range" min="1" max="6" step="0.1" value="4" class="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-slate-900">
               </div>
 
               <div class="space-y-2 pt-1">
@@ -1307,7 +1307,7 @@
 
       function init() {
         state.diceCount = 1;
-        state.durationSec = 3;
+        state.durationSec = 4;
         ui.rollButton.disabled = true;
 
         if (state.reducedMotion) ui.motionNote.classList.remove('hidden');
