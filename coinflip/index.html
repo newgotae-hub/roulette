@@ -1288,9 +1288,6 @@
                 <span class="inline-flex items-center gap-1 rounded-full border border-orange-200 bg-orange-50 px-1.5 py-0.5 text-orange-700">
                   <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>${t('tails')} ${item.tails}
                 </span>
-                <span class="inline-flex items-center gap-1 rounded-full border border-sky-200 bg-sky-50 px-1.5 py-0.5 text-sky-700">
-                  ${item.parity === 'odd' ? t('odd') : t('even')}
-                </span>
                 <span class="inline-flex items-center gap-1 rounded-full border border-violet-200 bg-violet-50 px-1.5 py-0.5 text-violet-700">
                   ${t('winner')} ${winnerText}
                 </span>
@@ -1311,8 +1308,8 @@
           return;
         }
         const header = state.locale === 'ko'
-          ? ['순번', '시간', '코인개수', '앞면', '뒷면', '홀짝(앞면수 기준)', '우승자']
-          : ['No.', 'Time', 'Count', 'Heads', 'Tails', 'Odd/Even(by heads)', 'Winner'];
+          ? ['순번', '시간', '코인개수', '앞면', '뒷면', '우승자']
+          : ['No.', 'Time', 'Count', 'Heads', 'Tails', 'Winner'];
 
         const rows = state.history.map((item, idx) => {
           const winnerText = item.winnerFallback
@@ -1324,7 +1321,6 @@
           String(item.count),
           String(item.heads),
           String(item.tails),
-          item.parity === 'odd' ? t('odd') : t('even'),
           winnerText
           ];
         });
