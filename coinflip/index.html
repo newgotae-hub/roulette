@@ -575,7 +575,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-3">
       <div class="flex items-center gap-2">
         <div class="w-6 h-6 bg-slate-200 text-slate-600 rounded flex items-center justify-center font-semibold text-xs tracking-tighter">R.</div>
-        <span id="footer-copy" class="text-xs text-slate-500">© 2026 RLT. Designed for everyone.</span>
+        <span id="footer-copy" class="text-xs text-slate-500">© 2026 RLT. 모두를 위한 랜덤 도구.</span>
       </div>
       <div class="flex gap-6">
         <a id="footer-terms" href="#" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">이용약관</a>
@@ -646,6 +646,7 @@
         historyList: document.getElementById('history-list'),
         guideTitle: document.getElementById('guide-title'),
         guideSubtitle: document.getElementById('guide-subtitle'),
+        footerCopy: document.getElementById('footer-copy'),
         footerTerms: document.getElementById('footer-terms'),
         footerPrivacy: document.getElementById('footer-privacy'),
         footerContact: document.getElementById('footer-contact'),
@@ -700,6 +701,7 @@
           motionNote: '설정된 모션 감소 환경에서는 애니메이션이 단순 표시로 대체됩니다.',
           guideTitle: '코인 던지기 가이드',
           guideSubtitle: 'RLT 코인 플립은 브라우저에서만 동작하며 입력/결과가 외부 서버로 전송되지 않습니다.',
+          footerCopy: '© 2026 RLT. 모두를 위한 랜덤 도구.',
           footerTerms: '이용약관',
           footerPrivacy: '개인정보처리방침',
           footerContact: '문의하기',
@@ -756,6 +758,7 @@
           motionNote: 'With reduced-motion enabled, animation is simplified.',
           guideTitle: 'Coin Flip Guide',
           guideSubtitle: 'Coin flip runs locally in your browser and is not sent to external servers.',
+          footerCopy: '© 2026 RLT. Designed for everyone.',
           footerTerms: 'Terms',
           footerPrivacy: 'Privacy',
           footerContact: 'Contact',
@@ -843,11 +846,15 @@
         ui.motionNoteText.textContent = t('motionNote');
         ui.guideTitle.textContent = t('guideTitle');
         ui.guideSubtitle.textContent = t('guideSubtitle');
+        ui.footerCopy.textContent = t('footerCopy');
         ui.footerTerms.textContent = t('footerTerms');
         ui.footerPrivacy.textContent = t('footerPrivacy');
         ui.footerContact.textContent = t('footerContact');
         if (ui.fullscreenHintText) ui.fullscreenHintText.textContent = t('fullscreenHint');
         updateFullscreenButton();
+        updateCountUI();
+        updateDurationUI();
+        renderHistory();
 
         updateLangButtons();
         syncLangLinks();
@@ -1266,7 +1273,11 @@
           return;
         }
 
-        ui.historyList.innerHTML = state.history.map((item, idx) => `
+        ui.historyList.innerHTML = state.history.map((item, idx) => {
+          const winnerText = item.winnerFallback
+            ? (item.parity === 'odd' ? t('odd') : t('even'))
+            : item.winner;
+          return `
           <div class="flex items-center justify-between px-2.5 py-1.5 rounded-xl hover:bg-slate-50 transition-colors group">
             <div class="flex items-center gap-3 min-w-0">
               <span class="flex items-center justify-center w-6 h-6 rounded-full bg-slate-100 text-xs font-medium text-slate-500">${idx + 1}</span>
@@ -1281,7 +1292,7 @@
                   ${item.parity === 'odd' ? t('odd') : t('even')}
                 </span>
                 <span class="inline-flex items-center gap-1 rounded-full border border-violet-200 bg-violet-50 px-1.5 py-0.5 text-violet-700">
-                  ${t('winner')} ${item.winner}
+                  ${t('winner')} ${winnerText}
                 </span>
                 <span class="text-slate-400 ml-0.5">${item.time}</span>
               </div>
@@ -1290,7 +1301,8 @@
               <iconify-icon icon="solar:close-circle-linear" stroke-width="1.5"></iconify-icon>
             </button>
           </div>
-        `).join('');
+        `;
+        }).join('');
       }
 
       function exportCsv() {
@@ -1302,15 +1314,20 @@
           ? ['순번', '시간', '코인개수', '앞면', '뒷면', '홀짝(앞면수 기준)', '우승자']
           : ['No.', 'Time', 'Count', 'Heads', 'Tails', 'Odd/Even(by heads)', 'Winner'];
 
-        const rows = state.history.map((item, idx) => [
+        const rows = state.history.map((item, idx) => {
+          const winnerText = item.winnerFallback
+            ? (item.parity === 'odd' ? t('odd') : t('even'))
+            : item.winner;
+          return [
           String(idx + 1),
           item.time,
           String(item.count),
           String(item.heads),
           String(item.tails),
           item.parity === 'odd' ? t('odd') : t('even'),
-          item.winner
-        ]);
+          winnerText
+          ];
+        });
         const csv = [header, ...rows].map((line) => line.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(',')).join('\n');
 
         const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
@@ -1339,7 +1356,9 @@
         const now = new Date();
         const parity = (heads % 2 === 0) ? 'even' : 'odd';
         const winnerRaw = parity === 'odd' ? ui.oddPlayer.value : ui.evenPlayer.value;
-        const winner = (winnerRaw || '').trim() || (parity === 'odd' ? t('odd') : t('even'));
+        const winnerText = (winnerRaw || '').trim();
+        const winnerFallback = !winnerText;
+        const winner = winnerText || (parity === 'odd' ? t('odd') : t('even'));
         state.history.push({
           id: `${now.getTime()}-${Math.random().toString(36).slice(2, 8)}`,
           time: toLocalizedTimeString(now),
@@ -1347,7 +1366,8 @@
           heads,
           tails,
           parity,
-          winner
+          winner,
+          winnerFallback
         });
         renderHistory();
       }

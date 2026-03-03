@@ -560,7 +560,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-3">
       <div class="flex items-center gap-2">
         <div class="w-6 h-6 bg-slate-200 text-slate-600 rounded flex items-center justify-center font-semibold text-xs tracking-tighter">R.</div>
-        <span id="footer-copy" class="text-xs text-slate-500">© 2026 RLT. Designed for everyone.</span>
+        <span id="footer-copy" class="text-xs text-slate-500">© 2026 RLT. 모두를 위한 랜덤 도구.</span>
       </div>
       <div class="flex gap-6">
         <a id="footer-terms" href="#" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">이용약관</a>
@@ -580,6 +580,8 @@
         cumulative: [0, 0, 0, 0, 0, 0],
         parityTotals: { odd: 0, even: 0 },
         lastParity: '',
+        lastWinner: '',
+        lastWinnerFallback: false,
         reducedMotion: window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
         assets: { ready: false },
         dice: []
@@ -629,6 +631,7 @@
         winnerName: document.getElementById('winner-name'),
         guideTitle: document.getElementById('guide-title'),
         guideSubtitle: document.getElementById('guide-subtitle'),
+        footerCopy: document.getElementById('footer-copy'),
         footerTerms: document.getElementById('footer-terms'),
         footerPrivacy: document.getElementById('footer-privacy'),
         footerContact: document.getElementById('footer-contact'),
@@ -690,6 +693,7 @@
           guideStep2Body: '애니메이션 시간을 조절해 빠른 테스트부터 연출형 추첨까지 설정합니다.',
           guideStep3Title: '3. 결과 저장',
           guideStep3Body: '회차별 주사위 값, 합계, 평균을 기록하고 CSV로 저장할 수 있습니다.',
+          footerCopy: '© 2026 RLT. 모두를 위한 랜덤 도구.',
           footerTerms: '이용약관',
           footerPrivacy: '개인정보처리방침',
           footerContact: '문의하기',
@@ -752,6 +756,7 @@
           guideStep2Body: 'Adjust animation time for quick tests or dramatic reveal.',
           guideStep3Title: '3. Save results',
           guideStep3Body: 'Store each run with rolls, total, and average, then export as CSV.',
+          footerCopy: '© 2026 RLT. Designed for everyone.',
           footerTerms: 'Terms',
           footerPrivacy: 'Privacy',
           footerContact: 'Contact',
@@ -849,8 +854,13 @@
         ui.oddPlayer.placeholder = t('oddNamePh');
         ui.evenPlayer.placeholder = t('evenNamePh');
         ui.parityTitle.textContent = t('parityTitle');
-        if (!state.lastParity) ui.lastParity.textContent = t('noResult');
-        if (!ui.winnerName.textContent || ui.winnerName.textContent.trim() === '') ui.winnerName.textContent = t('noResult');
+        if (!state.lastParity) {
+          ui.lastParity.textContent = t('noResult');
+          ui.winnerName.textContent = t('noResult');
+        } else {
+          ui.lastParity.textContent = t(state.lastParity);
+          ui.winnerName.textContent = state.lastWinnerFallback ? t(state.lastParity) : (state.lastWinner || t('noResult'));
+        }
         document.getElementById('sound-label').textContent = t('soundLabel');
         ui.rollLabel.textContent = state.rolling ? t('rolling') : t('roll');
         ui.sumLabel.textContent = t('sumLabel');
@@ -865,11 +875,14 @@
         document.getElementById('g2b').textContent = t('guideStep2Body');
         document.getElementById('g3t').textContent = t('guideStep3Title');
         document.getElementById('g3b').textContent = t('guideStep3Body');
+        ui.footerCopy.textContent = t('footerCopy');
         ui.footerTerms.textContent = t('footerTerms');
         ui.footerPrivacy.textContent = t('footerPrivacy');
         ui.footerContact.textContent = t('footerContact');
         if (ui.fullscreenHintText) ui.fullscreenHintText.textContent = t('fullscreenHint');
         updateFullscreenButton();
+        updateCountUI();
+        updateDurationUI();
 
         updateLangButtons();
         syncLangLinks();
@@ -1166,8 +1179,11 @@
         const parity = (sum % 2 === 0) ? 'even' : 'odd';
         const winnerRaw = parity === 'odd' ? ui.oddPlayer.value : ui.evenPlayer.value;
         const winner = (winnerRaw || '').trim() || t(parity);
+        const winnerFallback = !((winnerRaw || '').trim());
         state.parityTotals[parity] += 1;
         state.lastParity = parity;
+        state.lastWinner = winner;
+        state.lastWinnerFallback = winnerFallback;
         ui.oddTotal.textContent = String(state.parityTotals.odd);
         ui.evenTotal.textContent = String(state.parityTotals.even);
         ui.lastParity.textContent = t(parity);
@@ -1303,6 +1319,9 @@
         ui.cumulativeCounts.forEach((el) => { el.textContent = '0'; });
         ui.oddTotal.textContent = '0';
         ui.evenTotal.textContent = '0';
+        state.lastParity = '';
+        state.lastWinner = '';
+        state.lastWinnerFallback = false;
         ui.lastParity.textContent = t('noResult');
         ui.winnerName.textContent = t('noResult');
         renderDice();
