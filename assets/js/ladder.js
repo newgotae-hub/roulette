@@ -290,8 +290,8 @@
     ui.emptySub.textContent = t("emptySub");
     ui.resultTitle.textContent = t("resultTitle");
     ui.noResults.textContent = t("noResults");
-    ui.footerTerms.textContent = t("footerTerms");
-    ui.footerPrivacy.textContent = t("footerPrivacy");
+    ui.footerTerms.textContent = "Terms";
+    ui.footerPrivacy.textContent = "Privacy";
     ui.langButtonLabel.textContent = "LANGUAGE";
     ui.langSearch.placeholder = "Search language";
     ui.langCurrentFlag.src = getLocaleFlagUrl(state.locale);

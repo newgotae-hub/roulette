@@ -574,9 +574,9 @@
                 </div>
             </div>
             <div class="flex gap-6">
-                <a id="footer-terms" href="#" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">ข้อกำหนด</a>
-                <a id="footer-privacy" href="#" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">ความเป็นส่วนตัว</a>
-                <a id="footer-contact" href="https://www.instagram.com/juntaeko_tr" target="_blank" rel="noopener noreferrer" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">ติดต่อ</a>
+                <a id="footer-terms" href="/terms/" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">Terms</a>
+                <a id="footer-privacy" href="/privacy/" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">Privacy</a>
+                <a id="footer-contact" href="https://www.instagram.com/juntaeko_tr" target="_blank" rel="noopener noreferrer" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">Contact</a>
             </div>
         </div>
     </footer>
@@ -2121,9 +2121,9 @@
                 setText('faq7-a', 'faq7A');
                 setText('faq8-q', 'faq8Q');
                 setText('faq8-a', 'faq8A');
-                setText('footer-terms', 'footerTerms');
-                setText('footer-privacy', 'footerPrivacy');
-                setText('footer-contact', 'footerContact');
+                setText('footer-terms', 'footerTerms'); document.getElementById('footer-terms') && (document.getElementById('footer-terms').textContent = 'Terms');
+                setText('footer-privacy', 'footerPrivacy'); document.getElementById('footer-privacy') && (document.getElementById('footer-privacy').textContent = 'Privacy');
+                setText('footer-contact', 'footerContact'); document.getElementById('footer-contact') && (document.getElementById('footer-contact').textContent = 'Contact');
                 setText('fullscreen-hint-text', 'fullscreenHint');
                 ui.textarea.placeholder = t('textareaPlaceholder');
                 announce(t('bannerReady'), 'text-slate-500');

@@ -125,4 +125,22 @@
     <xhtml:link rel="alternate" hreflang="nl" href="https://randomly-pick.com/nl/dice/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/dice/"/>
   </url>
+  <url>
+    <loc>https://randomly-pick.com/privacy/</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://randomly-pick.com/terms/</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://randomly-pick.com/contact/</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
 </urlset>

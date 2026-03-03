@@ -5,6 +5,7 @@ const path = require('path');
 const root = path.resolve(__dirname, '..');
 const langs = ['en','ja','zh-cn','zh-tw','es','fr','de','pt-br','hi','ar','ru','id','tr','it','vi','th','nl'];
 const tools = ['roulette','luckydraw','ladder','coinflip','dice'];
+const legalPages = ['privacy','terms','contact'];
 const today = new Date().toISOString().slice(0, 10);
 
 function write(file, content) {
@@ -25,6 +26,14 @@ for (const tool of tools) {
     main.push(`    <xhtml:link rel="alternate" hreflang="${lang}" href="https://randomly-pick.com/${lang}/${tool}/"/>`);
   }
   main.push(`    <xhtml:link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/${tool}/"/>`);
+  main.push('  </url>');
+}
+for (const page of legalPages) {
+  main.push('  <url>');
+  main.push(`    <loc>https://randomly-pick.com/${page}/</loc>`);
+  main.push(`    <lastmod>${today}</lastmod>`);
+  main.push('    <changefreq>monthly</changefreq>');
+  main.push('    <priority>0.5</priority>');
   main.push('  </url>');
 }
 main.push('</urlset>');

@@ -1226,6 +1226,8 @@
     setText('faq4-a', 'faq4A');
     setText('footer-terms', 'footerTerms');
     setText('footer-privacy', 'footerPrivacy');
+    if (document.getElementById('footer-terms')) document.getElementById('footer-terms').textContent = 'Terms';
+    if (document.getElementById('footer-privacy')) document.getElementById('footer-privacy').textContent = 'Privacy';
     ui.statusBanner.textContent = t('statusReady');
     ui.fullscreenLabel.textContent = document.fullscreenElement ? t('fullscreenExit') : t('fullscreen');
     if (ui.fullscreenHintText) ui.fullscreenHintText.textContent = t('fullscreenHint');
