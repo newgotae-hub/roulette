@@ -337,7 +337,7 @@
 
     @media (min-width: 1024px) {
       html:not(:fullscreen) .dice-panel {
-        height: 470px !important;
+        height: 540px !important;
       }
     }
   </style>
@@ -402,7 +402,7 @@
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
         <div class="lg:col-span-3 space-y-4">
-          <div class="dice-panel bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col min-h-[390px] lg:h-[560px]">
+          <div class="dice-panel bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col min-h-[450px] lg:h-[640px]">
             <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/60">
               <h2 class="text-sm font-semibold tracking-tight flex items-center gap-2">
                 <iconify-icon icon="solar:settings-linear" stroke-width="1.5" class="text-slate-400"></iconify-icon>
@@ -463,16 +463,16 @@
           </div>
         </div>
 
-        <div class="lg:col-span-6 flex flex-col items-center justify-start min-h-[360px] lg:h-[560px]">
+        <div class="lg:col-span-6 flex flex-col items-center justify-start min-h-[420px] lg:h-[640px]">
           <div class="relative w-full max-w-[720px]">
-            <div class="dice-panel dice-stage bg-transparent rounded-2xl border border-slate-200 overflow-visible p-4 sm:p-6 min-h-[390px] lg:h-[560px] flex flex-col">
+            <div class="dice-panel dice-stage bg-transparent rounded-2xl border border-slate-200 overflow-visible p-4 sm:p-6 min-h-[450px] lg:h-[640px] flex flex-col">
               <div id="confetti-layer" aria-hidden="true"></div>
               <div id="dice-wrap" class="grid-dice flex-grow"></div>
             </div>
           </div>
         </div>
 
-        <div class="lg:col-span-3 min-h-[360px] lg:h-[560px]">
+        <div class="lg:col-span-3 min-h-[420px] lg:h-[640px]">
           <div class="dice-panel bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col h-full">
             <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/60">
               <h2 class="text-sm font-semibold tracking-tight flex items-center gap-2">
@@ -505,6 +505,13 @@
                 <div class="mini-die"><span class="pip tl"></span><span class="pip ml"></span><span class="pip bl"></span><span class="pip tr"></span><span class="pip mr"></span><span class="pip br"></span></div>
                 <p id="cum-face-6" class="text-sm font-semibold text-slate-900">0</p>
               </div>
+            </div>
+            <div class="p-3 border-t border-slate-100 bg-slate-50/60 space-y-1.5">
+              <p id="parity-title" class="text-xs font-semibold text-slate-700">홀짝 리포트</p>
+              <p class="text-xs text-slate-600">홀: <span id="odd-total" class="font-semibold text-slate-900">0</span></p>
+              <p class="text-xs text-slate-600">짝: <span id="even-total" class="font-semibold text-slate-900">0</span></p>
+              <p class="text-xs text-slate-500">최근 결과: <span id="last-parity" class="font-semibold text-slate-700">-</span></p>
+              <p class="text-xs text-slate-500">우승자: <span id="winner-name" class="font-semibold text-slate-900">-</span></p>
             </div>
           </div>
         </div>
@@ -598,6 +605,11 @@
         diceWrap: document.getElementById('dice-wrap'),
         confettiLayer: document.getElementById('confetti-layer'),
         cumTitle: document.getElementById('cum-title'),
+        parityTitle: document.getElementById('parity-title'),
+        oddTotal: document.getElementById('odd-total'),
+        evenTotal: document.getElementById('even-total'),
+        lastParity: document.getElementById('last-parity'),
+        winnerName: document.getElementById('winner-name'),
         guideTitle: document.getElementById('guide-title'),
         guideSubtitle: document.getElementById('guide-subtitle'),
         footerCopy: document.getElementById('footer-copy'),
@@ -650,7 +662,7 @@
           bannerReady: '준비되면 “굴리기”를 눌러주세요.',
           bannerAssets: '주사위 자산을 불러오는 중입니다...',
           bannerMissing: 'dice.glb 경로를 확인해 주세요.',
-          bannerDone: '',
+          bannerDone: '완료: 합계 {sum} · 결과 [{rolls}]',
           cumulativeTitle: '면별 누적 횟수',
           motionNote: '설정된 모션 감소 환경에서는 애니메이션이 단순 표시로 대체됩니다.',
           guideTitle: '주사위 굴리기 가이드',
@@ -713,7 +725,7 @@
           bannerReady: 'Press “Roll” when ready.',
           bannerAssets: 'Loading dice assets...',
           bannerMissing: 'Please check the dice.glb path.',
-          bannerDone: '',
+          bannerDone: 'Done: Total {sum} · Rolls [{rolls}]',
           cumulativeTitle: 'Cumulative Face Count',
           motionNote: 'With reduced-motion enabled, animation is simplified.',
           guideTitle: 'Dice Roll Guide',
@@ -821,6 +833,14 @@
         ui.betLabel.textContent = t('betLabel');
         ui.oddPlayer.placeholder = t('oddNamePh');
         ui.evenPlayer.placeholder = t('evenNamePh');
+        ui.parityTitle.textContent = t('parityTitle');
+        if (!state.lastParity) {
+          ui.lastParity.textContent = t('noResult');
+          ui.winnerName.textContent = t('noResult');
+        } else {
+          ui.lastParity.textContent = t(state.lastParity);
+        ui.winnerName.textContent = state.lastWinnerFallback ? t(state.lastParity) : (state.lastWinner || t('noResult'));
+        }
         document.getElementById('sound-label').textContent = t('soundLabel');
         ui.rollLabel.textContent = state.rolling ? t('rolling') : t('roll');
         ui.cumTitle.textContent = t('cumulativeTitle');
@@ -1152,6 +1172,10 @@
         state.lastParity = parity;
         state.lastWinner = winner;
         state.lastWinnerFallback = winnerFallback;
+        ui.oddTotal.textContent = String(state.parityTotals.odd);
+        ui.evenTotal.textContent = String(state.parityTotals.even);
+        ui.lastParity.textContent = t(parity);
+        ui.winnerName.textContent = winner;
       }
 
       function faceTarget(value) {
@@ -1184,7 +1208,7 @@
           });
           rollSoundEnd();
           triggerParityFirework(sum);
-          setBanner('', 'text-slate-500');
+          setBanner(t('bannerDone', { sum, rolls: results.join(', ') }), 'text-green-600');
           updateCumulativeStats(results);
           updateParityReport(sum);
           state.rolling = false;
@@ -1252,7 +1276,7 @@
 
         rollSoundEnd();
         triggerParityFirework(sum);
-        setBanner('', 'text-slate-500');
+        setBanner(t('bannerDone', { sum, rolls: results.join(', ') }), 'text-green-600');
         updateCumulativeStats(results);
         updateParityReport(sum);
 
@@ -1292,9 +1316,13 @@
         updateDurationUI();
         applyI18n();
         ui.cumulativeCounts.forEach((el) => { el.textContent = '0'; });
+        ui.oddTotal.textContent = '0';
+        ui.evenTotal.textContent = '0';
         state.lastParity = '';
         state.lastWinner = '';
         state.lastWinnerFallback = false;
+        ui.lastParity.textContent = t('noResult');
+        ui.winnerName.textContent = t('noResult');
         renderDice();
         setBanner(t('bannerAssets'), 'text-slate-500');
 
