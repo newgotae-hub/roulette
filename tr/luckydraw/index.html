@@ -17,8 +17,8 @@
     <link rel="preconnect" href="https://flagcdn.com" crossorigin>
     <link rel="dns-prefetch" href="https://flagcdn.com">
   <title id="meta-title">무작위 번호 추첨기 | 로또·난수·랜덤번호 뽑기 Randomly Pick</title>
-  <meta id="meta-description" name="description" content="Çekiliş tool in Türkçe. Random picker, spin, and draw utilities by Randomly Pick." />
-  <meta name="keywords" content="무작위 번호 추첨, 난수추첨, 랜덤번호 추첨, 로또 추첨기, 랜덤추첨, 번호 뽑기" />
+  <meta id="meta-description" name="description" content="Akıcı animasyon, özel liste ve CSV dışa aktarma sunan ücretsiz rastgele çekiliş aracı." />
+  <meta name="keywords" content="Rastgele Sayı Üretici, random picker, randomly pick" />
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
   <link rel="canonical" href="https://randomly-pick.com/tr/luckydraw/" />
     <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/luckydraw/">
@@ -40,8 +40,8 @@
     <link rel="alternate" hreflang="th" href="https://randomly-pick.com/th/luckydraw/">
     <link rel="alternate" hreflang="nl" href="https://randomly-pick.com/nl/luckydraw/">
     <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/luckydraw/">
-  <meta id="meta-og-title" property="og:title" content="Çekiliş | Randomly Pick (Türkçe)" />
-  <meta id="meta-og-description" property="og:description" content="Çekiliş tool in Türkçe. Random picker, spin, and draw utilities by Randomly Pick." />
+  <meta id="meta-og-title" property="og:title" content="Rastgele Sayı Üretici | Hızlı Çekiliş" />
+  <meta id="meta-og-description" property="og:description" content="Sayı veya isimleri hızlıca çekin ve geçmişi kaydedin." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://randomly-pick.com/tr/luckydraw/" />
   <meta property="og:site_name" content="Randomly Pick" />
@@ -50,8 +50,8 @@
   <meta property="og:locale" content="tr_TR" />
   <meta property="og:locale:alternate" content="en_US" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta id="meta-twitter-title" name="twitter:title" content="Çekiliş | Randomly Pick (Türkçe)" />
-  <meta id="meta-twitter-description" name="twitter:description" content="Çekiliş tool in Türkçe. Random picker, spin, and draw utilities by Randomly Pick." />
+  <meta id="meta-twitter-title" name="twitter:title" content="Rastgele Sayı Üretici | Hızlı Çekiliş" />
+  <meta id="meta-twitter-description" name="twitter:description" content="Hızlı sayı ve isim çekilişi için çevrimiçi araç." />
   <meta name="twitter:image" content="https://randomly-pick.com/og/og-tr.svg" />
   <style>
     html.i18n-pending body { visibility: hidden; }
@@ -431,11 +431,11 @@
           <span class="text-base font-semibold tracking-tight text-slate-900">Randomly Pick</span>
         </div>
         <nav class="hidden md:flex items-center gap-8">
-          <a id="nav-spin" href="/roulette/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">룰렛돌리기</a>
-          <a id="nav-lotto" href="/luckydraw/" class="text-sm font-medium text-slate-900">로또추첨기</a>
-          <a id="nav-history" href="/ladder/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">사다리타기</a>
-          <a id="nav-coin" href="/coinflip/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">코인던지기</a>
-          <a id="nav-dice" href="/dice/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">주사위굴리기</a>
+          <a id="nav-spin" href="/tr/roulette/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Çark</a>
+          <a id="nav-lotto" href="/tr/luckydraw/" class="text-sm font-medium text-slate-900">Çekiliş</a>
+          <a id="nav-history" href="/tr/ladder/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Merdiven</a>
+          <a id="nav-coin" href="/tr/coinflip/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Yazı Tura</a>
+          <a id="nav-dice" href="/tr/dice/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Zar</a>
         </nav>
         <div class="flex items-center gap-2">
           <div class="relative">
@@ -444,7 +444,7 @@
               <span id="fullscreen-label">전체화면</span>
             </button>
             <div id="fullscreen-hint" class="hidden md:block fullscreen-hint-pop absolute right-0 top-full mt-2 z-50 bg-slate-900 text-white text-[11px] px-2.5 py-1.5 rounded-lg shadow-lg whitespace-nowrap pointer-events-none">
-              <span id="fullscreen-hint-text">전체화면을 눌러주세요!</span>
+              <span id="fullscreen-hint-text">Odak modu için tam ekranı açın.</span>
               <span class="absolute -top-1.5 right-4 w-3 h-3 bg-slate-900 rotate-45"></span>
             </div>
           </div>
@@ -466,57 +466,57 @@
   <section class="md:hidden border-b border-slate-200/70 bg-white/90 backdrop-blur">
     <div class="px-4 py-2 overflow-x-auto hide-scrollbar">
       <nav class="flex items-center gap-2 min-w-max">
-        <a href="/roulette/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">룰렛</a>
-        <a href="/luckydraw/" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-900 text-white">로또</a>
-        <a href="/ladder/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">사다리</a>
-        <a href="/coinflip/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">코인</a>
-        <a href="/dice/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">주사위</a>
+        <a href="/tr/roulette/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">룰렛</a>
+        <a href="/tr/luckydraw/" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-900 text-white">로또</a>
+        <a href="/tr/ladder/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">사다리</a>
+        <a href="/tr/coinflip/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">코인</a>
+        <a href="/tr/dice/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">주사위</a>
       </nav>
     </div>
   </section>
 
   <main class="flex-grow flex flex-col">
     <section class="pt-8 pb-5 px-4 sm:px-6 lg:px-8 text-center max-w-3xl mx-auto">
-      <h1 id="hero-title" class="text-3xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-4">로또 번호 추첨기</h1>
-      <p id="hero-subtitle" class="text-base md:text-lg text-slate-500">빠르고 부드러운 애니메이션, 기본 로또 번호부터 명단 입력까지 지원합니다.</p>
+      <h1 id="hero-title" class="text-3xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-4">Rastgele Çekiliş</h1>
+      <p id="hero-subtitle" class="text-base md:text-lg text-slate-500">Numara veya isim çekilişini hızlıca yapın ve kaydedin.</p>
     </section>
 
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-10">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         <div id="lotto-controls-panel" class="lg:col-span-3 space-y-4">
           <button id="btn-draw" class="w-full h-11 bg-slate-900 rounded-xl flex items-center justify-center text-white shadow-lg hover:scale-[1.02] active:scale-[0.99] transition-all">
-            <span id="label-btn-draw" class="text-sm font-semibold tracking-wide">추첨 시작</span>
+            <span id="label-btn-draw" class="text-sm font-semibold tracking-wide">Çekilişi Başlat</span>
           </button>
 
           <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col min-h-[380px] lg:h-[600px]">
             <div class="relative flex items-center p-1 bg-slate-50/60 border-b border-slate-100">
-              <button id="tab-btn-basic" class="flex-1 py-2.5 text-xs font-semibold rounded-xl bg-white shadow-sm text-slate-900 border border-slate-200/60">기본 설정</button>
-              <button id="tab-btn-custom" class="flex-1 py-2.5 text-xs font-medium rounded-xl text-slate-500 hover:text-slate-900">직접 입력</button>
+              <button id="tab-btn-basic" class="flex-1 py-2.5 text-xs font-semibold rounded-xl bg-white shadow-sm text-slate-900 border border-slate-200/60">Temel</button>
+              <button id="tab-btn-custom" class="flex-1 py-2.5 text-xs font-medium rounded-xl text-slate-500 hover:text-slate-900">Özel liste</button>
               <div id="custom-list-hint" class="custom-list-hint hidden">Click Me!</div>
             </div>
 
             <div id="tab-basic" class="tab-content active flex-col p-4 space-y-4">
               <div>
-                <label class="text-xs font-semibold text-slate-700 mb-1.5 block" id="label-total-balls">전체 공 개수 (1~100)</label>
+                <label class="text-xs font-semibold text-slate-700 mb-1.5 block" id="label-total-balls">Toplam top (1~100)</label>
                 <input type="number" id="input-total-balls" value="45" min="1" max="100" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-sm text-slate-900 focus:ring-2 focus:ring-slate-900 focus:outline-none" />
               </div>
               <div>
-                <label class="text-xs font-semibold text-slate-700 mb-1.5 block" id="label-draw-count">뽑을 개수</label>
+                <label class="text-xs font-semibold text-slate-700 mb-1.5 block" id="label-draw-count">Çekiliş sayısı</label>
                 <input type="number" id="input-draw-count" value="6" min="1" max="100" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-sm text-slate-900 focus:ring-2 focus:ring-slate-900 focus:outline-none" />
               </div>
             </div>
 
             <div id="tab-custom" class="tab-content flex-col p-4">
-              <textarea id="custom-list" class="w-full h-[190px] min-h-[150px] resize-none bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900" placeholder="이름이나 번호를 입력하세요. 줄바꿈, 쉼표, 공백 자동 인식"></textarea>
+              <textarea id="custom-list" class="w-full h-[190px] min-h-[150px] resize-none bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900" placeholder="Ad veya öğe girin. Satır sonu, virgül ve boşluk otomatik algılanır."></textarea>
               <div class="mt-3 flex items-center justify-between">
-                <span class="text-xs font-semibold text-slate-700" id="label-custom-draw-count">뽑을 개수</span>
+                <span class="text-xs font-semibold text-slate-700" id="label-custom-draw-count">Çekiliş sayısı</span>
                 <input type="number" id="input-custom-draw-count" value="1" min="1" class="w-20 bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-sm text-slate-900 text-center focus:ring-2 focus:ring-slate-900 focus:outline-none" />
               </div>
             </div>
 
             <div class="p-4 bg-slate-50/60 border-t border-slate-100 space-y-3">
               <label class="flex items-center justify-between cursor-pointer">
-                <span id="label-allow-dup" class="text-sm font-medium text-slate-700">중복 추첨 허용</span>
+                <span id="label-allow-dup" class="text-sm font-medium text-slate-700">Yinelenenlere izin ver</span>
                 <div class="relative">
                   <input id="toggle-dup" type="checkbox" class="sr-only peer" />
                   <div class="w-9 h-5 bg-slate-200 rounded-full peer peer-checked:bg-slate-900 transition-colors"></div>
@@ -525,7 +525,7 @@
               </label>
 
               <label class="flex items-center justify-between cursor-pointer">
-                <span id="label-sound" class="text-sm font-medium text-slate-700">효과음 재생</span>
+                <span id="label-sound" class="text-sm font-medium text-slate-700">Ses efektleri</span>
                 <div class="relative">
                   <input id="toggle-sound" type="checkbox" class="sr-only peer" checked />
                   <div class="w-9 h-5 bg-slate-200 rounded-full peer peer-checked:bg-slate-900 transition-colors"></div>
@@ -535,7 +535,7 @@
 
               <div class="space-y-2 pt-1">
                 <div class="flex justify-between items-center">
-                  <span id="label-speed" class="text-sm font-medium text-slate-700">추첨 속도</span>
+                  <span id="label-speed" class="text-sm font-medium text-slate-700">Hız</span>
                   <span id="label-speed-val" class="text-xs text-slate-500">보통</span>
                 </div>
                 <input id="slider-speed" type="range" min="1" max="3" value="2" class="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-slate-900" />
@@ -543,7 +543,7 @@
 
               <button id="btn-quick-draw" class="w-full bg-white border border-slate-200 rounded-lg py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors flex items-center justify-center gap-1.5 mt-2">
                 <iconify-icon icon="solar:bolt-linear" stroke-width="1.5"></iconify-icon>
-                <span id="label-btn-quick">애니메이션 스킵 (빠른 추첨)</span>
+                <span id="label-btn-quick">Animasyonu atla (hızlı çekiliş)</span>
               </button>
             </div>
           </div>
@@ -563,7 +563,7 @@
               <iconify-icon icon="solar:refresh-linear" stroke-width="1.5" class="text-xl"></iconify-icon>
             </button>
           </div>
-          <p id="status-banner" class="mt-3 text-sm text-slate-500 animate-soft-pulse min-h-[20px]">설정을 확인하고 추첨 시작을 누르세요.</p>
+          <p id="status-banner" class="mt-3 text-sm text-slate-500 animate-soft-pulse min-h-[20px]">Ayarları kontrol edin ve başlatın.</p>
         </div>
 
         <div id="lotto-results-panel" class="lg:col-span-3 space-y-4 lg:h-[600px]">
@@ -571,17 +571,17 @@
             <div class="w-full flex justify-between items-center mb-3">
               <h2 class="text-sm font-semibold tracking-tight text-slate-900 flex items-center gap-1.5">
                 <iconify-icon icon="solar:stars-linear" class="text-slate-400"></iconify-icon>
-                <span id="label-result-title">이번 추첨 결과</span>
+                <span id="label-result-title">Geçerli sonuç</span>
               </h2>
               <div class="flex bg-slate-100 rounded-lg p-0.5">
-                <button id="sort-order" class="px-2 py-1 text-[10px] font-semibold rounded-md bg-white text-slate-900 shadow-sm">추첨순</button>
-                <button id="sort-asc" class="px-2 py-1 text-[10px] font-semibold rounded-md text-slate-500 hover:text-slate-900">오름차순</button>
+                <button id="sort-order" class="px-2 py-1 text-[10px] font-semibold rounded-md bg-white text-slate-900 shadow-sm">Sıra</button>
+                <button id="sort-asc" class="px-2 py-1 text-[10px] font-semibold rounded-md text-slate-500 hover:text-slate-900">Artan</button>
               </div>
             </div>
             <div id="result-slots" class="grid grid-cols-3 gap-2.5 w-full max-w-[220px]"></div>
             <button id="btn-copy" class="mt-4 text-xs font-medium text-slate-500 hover:text-slate-900 flex items-center gap-1 transition-colors">
               <iconify-icon icon="solar:copy-linear" stroke-width="1.5"></iconify-icon>
-              <span id="label-btn-copy">결과 복사</span>
+              <span id="label-btn-copy">Kopyala</span>
             </button>
           </div>
 
@@ -589,11 +589,11 @@
             <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/60">
               <h2 class="text-sm font-semibold tracking-tight flex items-center gap-2">
                 <iconify-icon icon="solar:history-linear" stroke-width="1.5" class="text-slate-400"></iconify-icon>
-                <span id="label-history-title">추첨 기록</span>
+                <span id="label-history-title">Geçmiş</span>
               </h2>
               <button id="btn-export" class="text-xs font-medium text-slate-500 hover:text-slate-900 flex items-center gap-1 transition-colors">
                 <iconify-icon icon="solar:download-minimalistic-linear" stroke-width="1.5"></iconify-icon>
-                <span id="label-btn-export">CSV 저장</span>
+                <span id="label-btn-export">CSV dışa aktar</span>
               </button>
             </div>
             <div id="history-list" class="flex-grow overflow-y-auto hide-scrollbar p-2 space-y-1 bg-white"></div>
@@ -604,23 +604,23 @@
 
     <section id="guide" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-16">
       <div class="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-sm">
-        <h2 id="guide-title" class="text-xl font-semibold tracking-tight text-slate-900">자주 묻는 질문</h2>
+        <h2 id="guide-title" class="text-xl font-semibold tracking-tight text-slate-900">SSS</h2>
         <div class="mt-6 space-y-3">
           <details class="rounded-lg border border-slate-200 p-4">
-            <summary id="faq1-q" class="cursor-pointer text-sm font-medium text-slate-900">원하는 번호나 이름을 넣을 수 있나요?</summary>
-            <p id="faq1-a" class="mt-2 text-sm text-slate-600">네. 직접 입력 탭에서 구분기호를 자동 인식하여 추첨할 수 있습니다.</p>
+            <summary id="faq1-q" class="cursor-pointer text-sm font-medium text-slate-900">Özel isim veya sayı kullanabilir miyim?</summary>
+            <p id="faq1-a" class="mt-2 text-sm text-slate-600">Evet. Özel liste modunda öğeleri boşluk, virgül, sekme veya satır sonuyla ayırın.</p>
           </details>
           <details class="rounded-lg border border-slate-200 p-4">
-            <summary id="faq2-q" class="cursor-pointer text-sm font-medium text-slate-900">결과를 오름차순으로 볼 수 있나요?</summary>
-            <p id="faq2-a" class="mt-2 text-sm text-slate-600">가능합니다. 추첨순/오름차순 버튼으로 즉시 전환됩니다.</p>
+            <summary id="faq2-q" class="cursor-pointer text-sm font-medium text-slate-900">Sonuçları sıralayabilir miyim?</summary>
+            <p id="faq2-a" class="mt-2 text-sm text-slate-600">Evet. Artan seçeneğiyle metin veya sayı sıralaması yapabilirsiniz.</p>
           </details>
           <details class="rounded-lg border border-slate-200 p-4">
-            <summary id="faq3-q" class="cursor-pointer text-sm font-medium text-slate-900">추첨 기록은 어떻게 저장하나요?</summary>
-            <p id="faq3-a" class="mt-2 text-sm text-slate-600">CSV 저장 버튼으로 회차별 결과를 다운로드할 수 있습니다.</p>
+            <summary id="faq3-q" class="cursor-pointer text-sm font-medium text-slate-900">Geçmişi nasıl kaydederim?</summary>
+            <p id="faq3-a" class="mt-2 text-sm text-slate-600">CSV dışa aktar ile tüm çekilişleri indirebilirsiniz.</p>
           </details>
           <details class="rounded-lg border border-slate-200 p-4">
-            <summary id="faq4-q" class="cursor-pointer text-sm font-medium text-slate-900">입력 데이터는 안전한가요?</summary>
-            <p id="faq4-a" class="mt-2 text-sm text-slate-600">입력 데이터는 브라우저에서만 처리되며 외부 서버로 전송되지 않습니다.</p>
+            <summary id="faq4-q" class="cursor-pointer text-sm font-medium text-slate-900">Verilerim güvenli mi?</summary>
+            <p id="faq4-a" class="mt-2 text-sm text-slate-600">Evet. Tüm işlem tarayıcınızda yerel olarak yapılır.</p>
           </details>
         </div>
       </div>
@@ -637,15 +637,13 @@
         </div>
       </div>
       <div class="flex gap-6">
-        <a id="footer-terms" href="#" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">이용약관</a>
-        <a id="footer-privacy" href="#" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">개인정보처리방침</a>
+        <a id="footer-terms" href="#" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">Koşullar</a>
+        <a id="footer-privacy" href="#" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">Gizlilik</a>
       </div>
     </div>
   </footer>
 
-  <button id="add-shortcut-btn" class="hidden md:hidden fixed bottom-4 right-4 z-50 bg-slate-900 text-white rounded-full px-4 py-2 text-xs font-semibold shadow-lg border border-slate-700/60">
-    앱처럼 추가
-  </button>
+  <button id="add-shortcut-btn" class="hidden md:hidden fixed bottom-4 right-4 z-50 bg-slate-900 text-white rounded-full px-4 py-2 text-xs font-semibold shadow-lg border border-slate-700/60">Add to Home</button>
 
   <script src="/assets/js/utils.js"></script>
   <script src="/assets/js/shortcut.js"></script>

@@ -17,9 +17,9 @@
     <link rel="preconnect" href="https://flagcdn.com" crossorigin>
     <link rel="dns-prefetch" href="https://flagcdn.com">
 
-  <title>抛硬币 | Randomly Pick (简体中文)</title>
-  <meta id="meta-description" name="description" content="抛硬币 tool in 简体中文. Random picker, spin, and draw utilities by Randomly Pick." />
-  <meta name="keywords" content="코인 던지기, 동전 던지기, 코인 플립, coin flip, 동전 앞뒤, 랜덤 추첨" />
+  <title>抛硬币 | 正反面随机选择器</title>
+  <meta id="meta-description" name="description" content="一次同时抛 1-20 枚硬币，实时查看正反面结果并保存历史，适合抽签、课堂互动与快速决策。" />
+  <meta name="keywords" content="抛硬币, random picker, randomly pick" />
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
   <link rel="canonical" href="https://randomly-pick.com/zh-cn/coinflip/" />
     <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/coinflip/">
@@ -42,8 +42,8 @@
     <link rel="alternate" hreflang="nl" href="https://randomly-pick.com/nl/coinflip/">
     <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/coinflip/">
 
-  <meta id="meta-og-title" property="og:title" content="抛硬币 | Randomly Pick (简体中文)" />
-  <meta id="meta-og-description" property="og:description" content="抛硬币 tool in 简体中文. Random picker, spin, and draw utilities by Randomly Pick." />
+  <meta id="meta-og-title" property="og:title" content="抛硬币 | 正反面随机选择器" />
+  <meta id="meta-og-description" property="og:description" content="支持1-20枚硬币同时抛掷并保存历史。" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://randomly-pick.com/zh-cn/coinflip/" />
   <meta property="og:site_name" content="Randomly Pick" />
@@ -52,8 +52,8 @@
   <meta property="og:locale" content="zh_CN" />
   <meta property="og:locale:alternate" content="en_US" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta id="meta-twitter-title" name="twitter:title" content="抛硬币 | Randomly Pick (简体中文)" />
-  <meta id="meta-twitter-description" name="twitter:description" content="抛硬币 tool in 简体中文. Random picker, spin, and draw utilities by Randomly Pick." />
+  <meta id="meta-twitter-title" name="twitter:title" content="抛硬币 | 正反面随机选择器" />
+  <meta id="meta-twitter-description" name="twitter:description" content="一次抛掷1-20枚硬币。" />
   <meta name="twitter:image" content="https://randomly-pick.com/og/og-zh-cn.svg" />
 
   <style>
@@ -551,11 +551,11 @@
           <span class="text-base font-semibold tracking-tight text-slate-900">Randomly Pick</span>
         </div>
         <nav class="hidden md:flex items-center gap-8">
-          <a id="nav-spin" href="/roulette/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">룰렛돌리기</a>
-          <a id="nav-lotto" href="/luckydraw/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">로또추첨기</a>
-          <a id="nav-history" href="/ladder/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">사다리타기</a>
-          <a id="nav-coin" href="/coinflip/" class="text-sm font-medium text-slate-900">코인던지기</a>
-          <a id="nav-dice" href="/dice/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">주사위굴리기</a>
+          <a id="nav-spin" href="/zh-cn/roulette/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">转盘</a>
+          <a id="nav-lotto" href="/zh-cn/luckydraw/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">幸运抽签</a>
+          <a id="nav-history" href="/zh-cn/ladder/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">爬梯抽签</a>
+          <a id="nav-coin" href="/zh-cn/coinflip/" class="text-sm font-medium text-slate-900">抛硬币</a>
+          <a id="nav-dice" href="/zh-cn/dice/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">掷骰子</a>
         </nav>
         <div class="flex items-center gap-2">
           <div class="relative">
@@ -564,7 +564,7 @@
               <span id="fullscreen-label">전체화면</span>
             </button>
             <div id="fullscreen-hint" class="hidden md:block fullscreen-hint-pop absolute right-0 top-full mt-2 z-50 bg-slate-900 text-white text-[11px] px-2.5 py-1.5 rounded-lg shadow-lg whitespace-nowrap pointer-events-none">
-              <span id="fullscreen-hint-text">전체화면을 눌러주세요!</span>
+              <span id="fullscreen-hint-text">点击全屏进入专注模式。</span>
               <span class="absolute -top-1.5 right-4 w-3 h-3 bg-slate-900 rotate-45"></span>
             </div>
           </div>
@@ -574,7 +574,7 @@
               <img id="lang-current-flag" src="https://flagcdn.com/w20/us.png" alt="English" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
             </button>
             <div id="lang-menu" class="hidden absolute right-0 top-full mt-2 z-50 w-56 rounded-xl border border-slate-200 bg-white shadow-xl p-2">
-              <input id="lang-search" type="text" class="w-full mb-2 px-2.5 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/20" placeholder="Search language">
+              <input id="lang-search" type="text" class="w-full mb-2 px-2.5 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/20" placeholder="搜索语言">
               <div id="lang-list" class="max-h-56 overflow-y-auto hide-scrollbar space-y-1"></div>
             </div>
           </div>
@@ -586,19 +586,19 @@
   <section class="md:hidden border-b border-slate-200/70 bg-white/90 backdrop-blur">
     <div class="px-4 py-2 overflow-x-auto hide-scrollbar">
       <nav class="flex items-center gap-2 min-w-max">
-        <a id="mnav-spin" href="/roulette/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">룰렛</a>
-        <a id="mnav-lotto" href="/luckydraw/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">로또</a>
-        <a id="mnav-history" href="/ladder/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">사다리</a>
-        <a id="mnav-coin" href="/coinflip/" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-900 text-white">코인</a>
-        <a id="mnav-dice" href="/dice/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">주사위</a>
+        <a id="mnav-spin" href="/zh-cn/roulette/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">转盘</a>
+        <a id="mnav-lotto" href="/zh-cn/luckydraw/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">幸运抽签</a>
+        <a id="mnav-history" href="/zh-cn/ladder/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">爬梯抽签</a>
+        <a id="mnav-coin" href="/zh-cn/coinflip/" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-900 text-white">抛硬币</a>
+        <a id="mnav-dice" href="/zh-cn/dice/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">掷骰子</a>
       </nav>
     </div>
   </section>
 
   <main class="flex-grow flex flex-col">
     <section class="coin-hero pt-10 pb-8 px-4 sm:px-6 lg:px-8 text-center max-w-3xl mx-auto">
-      <h1 id="hero-title" class="text-3xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-4">동전 던지기</h1>
-      <p id="hero-subtitle" class="text-base md:text-lg text-slate-500 font-normal">3D 동전 던지기로 여러개의 동전을 동시에 던지고 결과를 바로 확인하세요.</p>
+      <h1 id="hero-title" class="text-3xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-4">抛硬币（正面 / 反面）</h1>
+      <p id="hero-subtitle" class="text-base md:text-lg text-slate-500 font-normal">支持 1-20 枚同时抛掷，结果立刻可见，适合抽签与随机决策。</p>
     </section>
 
     <section class="coin-workspace max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-8">
@@ -609,15 +609,15 @@
             <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/60">
               <h2 class="text-sm font-semibold tracking-tight flex items-center gap-2">
                 <iconify-icon icon="solar:settings-linear" stroke-width="1.5" class="text-slate-400"></iconify-icon>
-                <span id="controls-title">설정</span>
+                <span id="controls-title">设置</span>
               </h2>
-              <span id="asset-status" class="text-xs font-medium text-slate-500 bg-slate-100 border border-slate-200 px-2 py-0.5 rounded-full">로딩중</span>
+              <span id="asset-status" class="text-xs font-medium text-slate-500 bg-slate-100 border border-slate-200 px-2 py-0.5 rounded-full">加载中</span>
             </div>
 
             <div class="p-4 space-y-3">
               <div class="space-y-2">
                 <div class="flex items-center justify-between">
-                  <span id="count-label" class="text-sm font-medium text-slate-700">코인 개수</span>
+                  <span id="count-label" class="text-sm font-medium text-slate-700">硬币数量</span>
                   <span id="count-value" class="text-xs text-slate-500">1</span>
                 </div>
 
@@ -627,35 +627,35 @@
 
               <div class="space-y-2 pt-1">
                 <div class="flex justify-between items-center">
-                  <span id="duration-label" class="text-sm font-medium text-slate-700">애니메이션 시간</span>
+                  <span id="duration-label" class="text-sm font-medium text-slate-700">动画时长</span>
                   <span id="duration-value" class="text-xs text-slate-500">4초</span>
                 </div>
                 <input id="flip-duration" type="range" min="2" max="6" step="0.1" value="4" class="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-slate-900">
               </div>
 
               <div class="space-y-2 pt-1">
-                <span id="odd-even-name-label" class="text-sm font-medium text-slate-700">홀 vs 짝</span>
+                <span id="odd-even-name-label" class="text-sm font-medium text-slate-700">奇数 vs 偶数</span>
                 <div class="grid grid-cols-1 gap-2">
-                  <textarea id="odd-player" class="w-full h-20 resize-none bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-shadow" placeholder="홀에 배팅하세요!"></textarea>
-                  <textarea id="even-player" class="w-full h-20 resize-none bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-shadow" placeholder="짝에 배팅하세요!"></textarea>
+                  <textarea id="odd-player" class="w-full h-20 resize-none bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-shadow" placeholder="请输入押注奇数的姓名"></textarea>
+                  <textarea id="even-player" class="w-full h-20 resize-none bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-shadow" placeholder="请输入押注偶数的姓名"></textarea>
                 </div>
               </div>
 
               <div id="motion-note" class="hidden text-xs text-slate-500 bg-slate-50 border border-slate-200 rounded-xl p-3">
-                <span id="motion-note-text">설정된 모션 감소 환경에서는 애니메이션이 단순 표시로 대체됩니다.</span>
+                <span id="motion-note-text">启用减少动态效果后，动画会简化。</span>
               </div>
             </div>
 
             <div class="p-4 border-t border-slate-100 bg-slate-50/60 space-y-2">
-              <p id="banner" class="text-xs text-slate-500 animate-soft-pulse">준비되면 “던지기”를 눌러주세요.</p>
+              <p id="banner" class="text-xs text-slate-500 animate-soft-pulse">准备好后点击“开始抛硬币”。</p>
 
               <button id="flip-button" class="w-full bg-slate-900 text-white rounded-xl py-2.5 text-sm font-semibold hover:bg-slate-800 transition-colors shadow-sm disabled:opacity-60 disabled:cursor-not-allowed">
                 <span id="flip-label">던지기</span>
               </button>
 
               <div class="flex items-center justify-between text-xs">
-                <span id="heads-label" class="text-emerald-700">앞면</span>
-                <span id="tails-label" class="text-orange-700">뒷면</span>
+                <span id="heads-label" class="text-emerald-700">正面</span>
+                <span id="tails-label" class="text-orange-700">反面</span>
               </div>
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2">
@@ -687,11 +687,11 @@
             <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/60">
               <h2 class="text-sm font-semibold tracking-tight flex items-center gap-2">
                 <iconify-icon icon="solar:history-linear" stroke-width="1.5" class="text-slate-400"></iconify-icon>
-                <span id="history-title">기록</span>
+                <span id="history-title">历史记录</span>
               </h2>
               <button id="export-history" class="text-xs font-medium text-slate-500 hover:text-slate-900 flex items-center gap-1 transition-colors">
                 <iconify-icon icon="solar:download-minimalistic-linear" stroke-width="1.5"></iconify-icon>
-                <span id="export-label">엑셀 저장</span>
+                <span id="export-label">导出 CSV</span>
               </button>
             </div>
 
@@ -703,21 +703,21 @@
 
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-16">
       <div class="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-sm">
-        <h2 id="guide-title" class="text-xl md:text-2xl font-semibold tracking-tight text-slate-900">코인 던지기 가이드</h2>
-        <p id="guide-subtitle" class="mt-3 text-sm md:text-base text-slate-600">RLT 코인 플립은 브라우저에서만 동작하며 입력/결과가 외부 서버로 전송되지 않습니다.</p>
+        <h2 id="guide-title" class="text-xl md:text-2xl font-semibold tracking-tight text-slate-900">使用指南</h2>
+        <p id="guide-subtitle" class="mt-3 text-sm md:text-base text-slate-600">本工具仅在浏览器本地运行，不会将数据发送到外部服务器。</p>
 
         <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
           <article class="rounded-xl border border-slate-200 bg-slate-50/60 p-4">
-            <h3 id="g1t" class="text-sm font-semibold text-slate-900">1. 코인 개수 선택</h3>
-            <p id="g1b" class="mt-2 text-sm text-slate-600">1~20개까지 한 번에 던지고 앞면/뒷면 개수를 즉시 확인합니다.</p>
+            <h3 id="g1t" class="text-sm font-semibold text-slate-900">1. 设置数量</h3>
+            <p id="g1b" class="mt-2 text-sm text-slate-600">先设定数量，再一键开始。</p>
           </article>
           <article class="rounded-xl border border-slate-200 bg-slate-50/60 p-4">
-            <h3 id="g2t" class="text-sm font-semibold text-slate-900">2. 애니메이션 시간 조절</h3>
-            <p id="g2b" class="mt-2 text-sm text-slate-600">원하는 속도로 코인을 던지며, 모션 감소 설정에서는 간단 표시로 대체됩니다.</p>
+            <h3 id="g2t" class="text-sm font-semibold text-slate-900">2. 调整时长</h3>
+            <p id="g2b" class="mt-2 text-sm text-slate-600">可按需要调整速度，用于快速检查或展示。</p>
           </article>
           <article class="rounded-xl border border-slate-200 bg-slate-50/60 p-4">
-            <h3 id="g3t" class="text-sm font-semibold text-slate-900">3. 결과 저장</h3>
-            <p id="g3b" class="mt-2 text-sm text-slate-600">시간·개수·앞/뒤 결과를 기록하고 CSV로 저장할 수 있습니다.</p>
+            <h3 id="g3t" class="text-sm font-semibold text-slate-900">3. 保存结果</h3>
+            <p id="g3b" class="mt-2 text-sm text-slate-600">结果可保留在历史中，并可导出CSV。</p>
           </article>
         </div>
       </div>
@@ -734,9 +734,9 @@
         </div>
       </div>
       <div class="flex gap-6">
-        <a id="footer-terms" href="#" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">이용약관</a>
-        <a id="footer-privacy" href="#" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">개인정보처리방침</a>
-        <a id="footer-contact" href="https://www.instagram.com/juntaeko_tr" target="_blank" rel="noopener noreferrer" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">문의하기</a>
+        <a id="footer-terms" href="#" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">条款</a>
+        <a id="footer-privacy" href="#" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">隐私</a>
+        <a id="footer-contact" href="https://www.instagram.com/juntaeko_tr" target="_blank" rel="noopener noreferrer" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">联系</a>
       </div>
     </div>
   </footer>

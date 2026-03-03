@@ -73,9 +73,9 @@
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
     <link rel="preconnect" href="https://flagcdn.com" crossorigin>
     <link rel="dns-prefetch" href="https://flagcdn.com">
-  <title>Sorteio de escada | Randomly Pick (Português (Brasil))</title>
-  <meta id="meta-description" name="description" content="Sorteio de escada tool in Português (Brasil). Random picker, spin, and draw utilities by Randomly Pick." />
-  <meta name="keywords" content="사다리타기, 랜덤추첨, 뽑기게임, 사다리게임, 온라인 사다리, 결과저장" />
+  <title>Sorteio de Escada | Gerador Aleatório Online</title>
+  <meta id="meta-description" name="description" content="Ferramenta online de sorteio em escada. Cole participantes e resultados, execute animações e acompanhe o resultado final." />
+  <meta name="keywords" content="Sorteio de Escada, random picker, randomly pick" />
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
   <link rel="canonical" href="https://randomly-pick.com/pt-br/ladder/" />
     <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/ladder/">
@@ -97,8 +97,8 @@
     <link rel="alternate" hreflang="th" href="https://randomly-pick.com/th/ladder/">
     <link rel="alternate" hreflang="nl" href="https://randomly-pick.com/nl/ladder/">
     <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/ladder/">
-  <meta id="meta-og-title" property="og:title" content="Sorteio de escada | Randomly Pick (Português (Brasil))" />
-  <meta id="meta-og-description" property="og:description" content="Sorteio de escada tool in Português (Brasil). Random picker, spin, and draw utilities by Randomly Pick." />
+  <meta id="meta-og-title" property="og:title" content="Sorteio de Escada | Gerador Aleatório Online" />
+  <meta id="meta-og-description" property="og:description" content="Sorteio visual em escada para eventos, turmas e divisão de equipes." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://randomly-pick.com/pt-br/ladder/" />
   <meta property="og:site_name" content="Randomly Pick" />
@@ -107,8 +107,8 @@
   <meta property="og:locale" content="pt_BR" />
   <meta property="og:locale:alternate" content="en_US" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta id="meta-twitter-title" name="twitter:title" content="Sorteio de escada | Randomly Pick (Português (Brasil))" />
-  <meta id="meta-twitter-description" name="twitter:description" content="Sorteio de escada tool in Português (Brasil). Random picker, spin, and draw utilities by Randomly Pick." />
+  <meta id="meta-twitter-title" name="twitter:title" content="Sorteio de Escada | Gerador Aleatório Online" />
+  <meta id="meta-twitter-description" name="twitter:description" content="Do cadastro da lista ao resultado final em uma única tela." />
   <meta name="twitter:image" content="https://randomly-pick.com/og/og-pt-br.svg" />
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1010168647313500" crossorigin="anonymous"></script>
@@ -313,11 +313,11 @@
           <span class="text-base font-semibold tracking-tight text-slate-900">Randomly Pick</span>
         </div>
         <nav class="hidden md:flex items-center gap-8">
-          <a id="nav-spin" href="/roulette/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">룰렛돌리기</a>
-          <a id="nav-lotto" href="/luckydraw/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">로또추첨기</a>
-          <a id="nav-ladder" href="/ladder/" class="text-sm font-medium text-slate-900">사다리타기</a>
-          <a id="nav-coin" href="/coinflip/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">코인던지기</a>
-          <a id="nav-dice" href="/dice/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">주사위굴리기</a>
+          <a id="nav-spin" href="/pt-br/roulette/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Roleta</a>
+          <a id="nav-lotto" href="/pt-br/luckydraw/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Sorteio</a>
+          <a id="nav-ladder" href="/pt-br/ladder/" class="text-sm font-medium text-slate-900">Escada</a>
+          <a id="nav-coin" href="/pt-br/coinflip/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Moeda</a>
+          <a id="nav-dice" href="/pt-br/dice/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Dados</a>
         </nav>
         <div class="flex items-center gap-2">
           <div class="relative">
@@ -326,7 +326,7 @@
               <span id="fullscreen-label">전체화면</span>
             </button>
             <div id="fullscreen-hint" class="hidden md:block fullscreen-hint-pop absolute right-0 top-full mt-2 z-50 bg-slate-900 text-white text-[11px] px-2.5 py-1.5 rounded-lg shadow-lg whitespace-nowrap pointer-events-none">
-              <span id="fullscreen-hint-text">전체화면을 눌러주세요!</span>
+              <span id="fullscreen-hint-text">Toque em tela cheia para modo foco.</span>
               <span class="absolute -top-1.5 right-4 w-3 h-3 bg-slate-900 rotate-45"></span>
             </div>
           </div>
@@ -348,19 +348,19 @@
   <section class="md:hidden border-b border-slate-200/70 bg-white/90 backdrop-blur">
     <div class="px-4 py-2 overflow-x-auto hide-scrollbar">
       <nav class="flex items-center gap-2 min-w-max">
-        <a href="/roulette/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">룰렛</a>
-        <a href="/luckydraw/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">로또</a>
-        <a href="/ladder/" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-900 text-white">사다리</a>
-        <a href="/coinflip/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">코인</a>
-        <a href="/dice/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">주사위</a>
+        <a href="/pt-br/roulette/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">룰렛</a>
+        <a href="/pt-br/luckydraw/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">로또</a>
+        <a href="/pt-br/ladder/" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-900 text-white">사다리</a>
+        <a href="/pt-br/coinflip/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">코인</a>
+        <a href="/pt-br/dice/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">주사위</a>
       </nav>
     </div>
   </section>
 
   <main class="flex-grow flex flex-col">
     <section id="hero-section" class="pt-8 pb-6 px-4 sm:px-6 lg:px-8 text-center max-w-3xl mx-auto">
-      <h1 id="hero-title" class="text-3xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-3">사다리타기 게임</h1>
-      <p id="hero-subtitle" class="text-sm md:text-base text-slate-500">편리한 명단입력: 띄어쓰기, 콤마, 스페이스, 앤터 등 모든 구분기호를 인식합니다!</p>
+      <h1 id="hero-title" class="text-3xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-3">Sorteio de Escada Online</h1>
+      <p id="hero-subtitle" class="text-sm md:text-base text-slate-500">Entrada rápida de nomes e resultado claro para sorteios transparentes.</p>
     </section>
 
     <section id="ladder-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-14">
@@ -369,9 +369,9 @@
           <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col flex-grow">
             <div class="p-3 border-b border-slate-100 bg-slate-50/60 hide-scrollbar overflow-x-auto whitespace-nowrap">
               <div class="flex gap-2">
-                <button id="preset-team" class="px-2.5 py-1 text-xs font-medium text-slate-600 bg-white border border-slate-200 rounded-md hover:bg-slate-50 transition-colors">팀 나누기</button>
-                <button id="preset-seat" class="px-2.5 py-1 text-xs font-medium text-slate-600 bg-white border border-slate-200 rounded-md hover:bg-slate-50 transition-colors">생존/사망</button>
-                <button id="preset-class" class="px-2.5 py-1 text-xs font-medium text-slate-600 bg-white border border-slate-200 rounded-md hover:bg-slate-50 transition-colors">번호 매칭</button>
+                <button id="preset-team" class="px-2.5 py-1 text-xs font-medium text-slate-600 bg-white border border-slate-200 rounded-md hover:bg-slate-50 transition-colors">Dividir Equipes</button>
+                <button id="preset-seat" class="px-2.5 py-1 text-xs font-medium text-slate-600 bg-white border border-slate-200 rounded-md hover:bg-slate-50 transition-colors">Sobrevive/Elimina</button>
+                <button id="preset-class" class="px-2.5 py-1 text-xs font-medium text-slate-600 bg-white border border-slate-200 rounded-md hover:bg-slate-50 transition-colors">Correspondência de Número</button>
               </div>
             </div>
 
@@ -379,53 +379,53 @@
               <div class="flex items-center mb-0.5">
                 <h2 class="text-xs font-semibold tracking-tight text-slate-700 flex items-center gap-1.5">
                   <iconify-icon icon="solar:users-group-rounded-linear" stroke-width="1.5"></iconify-icon>
-                  <span id="label-participants">참가자 명단</span>
+                  <span id="label-participants">Participantes</span>
                 </h2>
               </div>
               <div class="flex items-center justify-between mb-1">
-                <p id="participants-limit-hint" class="text-[11px] text-slate-400">최대 15명까지 지원</p>
+                <p id="participants-limit-hint" class="text-[11px] text-slate-400">Você pode inserir até 15 participantes.</p>
                 <div class="flex items-center gap-1.5">
-                  <button id="btn-clear-participants" class="px-2 py-0.5 text-[11px] font-medium text-slate-500 bg-white border border-slate-200 rounded-md hover:bg-slate-50 transition-colors">전체삭제</button>
+                  <button id="btn-clear-participants" class="px-2 py-0.5 text-[11px] font-medium text-slate-500 bg-white border border-slate-200 rounded-md hover:bg-slate-50 transition-colors">Limpar Tudo</button>
                   <span id="count-participants" class="text-[11px] font-medium text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">총 0명</span>
                 </div>
               </div>
-              <textarea id="input-participants" class="w-full h-32 lg:h-36 resize-none bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-900 focus:border-slate-900 transition-colors" placeholder="이름을 입력하세요"></textarea>
+              <textarea id="input-participants" class="w-full h-32 lg:h-36 resize-none bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-900 focus:border-slate-900 transition-colors" placeholder="Digite nomes (linha, espaço, vírgula, tab, ponto e vírgula, barra, pipe)"></textarea>
             </div>
 
             <div class="px-4 pt-0 pb-1 flex flex-col min-h-[110px]">
               <div class="flex items-center justify-between mb-2">
                 <h2 class="text-xs font-semibold tracking-tight text-slate-700 flex items-center gap-1.5">
                   <iconify-icon icon="solar:target-linear" stroke-width="1.5"></iconify-icon>
-                  <span id="label-results">결과 항목</span>
+                  <span id="label-results">Resultados</span>
                 </h2>
                 <div class="flex items-center gap-1.5">
-                  <button id="btn-clear-results" class="px-2 py-0.5 text-[11px] font-medium text-slate-500 bg-white border border-slate-200 rounded-md hover:bg-slate-50 transition-colors">전체삭제</button>
+                  <button id="btn-clear-results" class="px-2 py-0.5 text-[11px] font-medium text-slate-500 bg-white border border-slate-200 rounded-md hover:bg-slate-50 transition-colors">Limpar Tudo</button>
                   <span id="count-results" class="text-[11px] font-medium text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">총 0개</span>
                 </div>
               </div>
-              <textarea id="input-results" class="w-full h-24 lg:h-28 resize-none bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-900 focus:border-slate-900 transition-colors" placeholder="결과를 입력하세요 (예: A팀(3), B팀(4))"></textarea>
+              <textarea id="input-results" class="w-full h-24 lg:h-28 resize-none bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-900 focus:border-slate-900 transition-colors" placeholder="Digite resultados (ex.: Time Vermelho(3), Time Azul(4) ou Time Vermelho, Time Azul)"></textarea>
             </div>
 
             <div id="mismatch-alert" class="hidden px-4 pb-3">
               <div class="bg-slate-100 border border-slate-200 rounded-lg p-3 text-xs text-slate-600">
-                <p id="mismatch-text" class="mb-2">참가자와 결과 수가 다릅니다.</p>
+                <p id="mismatch-text" class="mb-2">Quantidade de participantes e resultados diferente. Ajuste com um clique.</p>
                 <div class="grid grid-cols-2 gap-2">
-                  <button id="btn-autofill" class="bg-white border border-slate-300 text-slate-700 py-1.5 rounded-md font-medium hover:bg-slate-50 transition-colors text-[11px]">부족 결과 채우기</button>
-                  <button id="btn-autotrim" class="bg-white border border-slate-300 text-slate-700 py-1.5 rounded-md font-medium hover:bg-slate-50 transition-colors text-[11px]">초과 결과 제거</button>
+                  <button id="btn-autofill" class="bg-white border border-slate-300 text-slate-700 py-1.5 rounded-md font-medium hover:bg-slate-50 transition-colors text-[11px]">Preencher Faltantes</button>
+                  <button id="btn-autotrim" class="bg-white border border-slate-300 text-slate-700 py-1.5 rounded-md font-medium hover:bg-slate-50 transition-colors text-[11px]">Remover Excedentes</button>
                 </div>
               </div>
             </div>
 
             <div id="controls-footer" class="px-4 pb-4 pt-2 border-t border-slate-100 bg-slate-50/60 space-y-2">
               <div class="space-y-1.5 hidden fullscreen-only-control" aria-hidden="true">
-                <span id="label-complexity" class="text-xs font-medium text-slate-700">사다리 복잡도</span>
+                <span id="label-complexity" class="text-xs font-medium text-slate-700">Complexidade da Escada</span>
                 <input id="slider-complexity" type="range" min="0" max="6" value="3" class="w-full" />
               </div>
               <div class="space-y-1.5 hidden fullscreen-only-control" aria-hidden="true">
-                <span id="label-speed" class="text-xs font-medium text-slate-700">애니메이션 속도</span>
+                <span id="label-speed" class="text-xs font-medium text-slate-700">Velocidade da Animação</span>
                 <input id="slider-speed" type="range" min="1" max="5" value="1" class="w-full" />
               </div>
-              <button id="btn-generate" class="w-full bg-slate-900 text-white rounded-lg py-2.5 text-xs font-medium hover:bg-slate-800 active:scale-[0.99] active:translate-y-px transition-all shadow-sm">사다리 생성하기</button>
+              <button id="btn-generate" class="w-full bg-slate-900 text-white rounded-lg py-2.5 text-xs font-medium hover:bg-slate-800 active:scale-[0.99] active:translate-y-px transition-all shadow-sm">Gerar Escada</button>
             </div>
           </div>
         </div>
@@ -450,17 +450,17 @@
             <div id="nodes-bottom" class="absolute bottom-0 left-0 w-full h-12 flex items-center justify-around px-4 z-20 border-t border-slate-100 bg-slate-50/50"></div>
             <div id="ladder-empty" class="absolute inset-0 z-40 bg-white flex flex-col items-center justify-center text-slate-400">
               <iconify-icon icon="solar:map-arrow-down-linear" class="text-4xl mb-3 text-slate-300"></iconify-icon>
-              <p id="empty-main" class="text-sm font-medium text-slate-600 mb-1">명단을 입력하고 생성해주세요</p>
-              <p id="empty-sub" class="text-xs">왼쪽 패널에서 참가자와 결과를 설정합니다.</p>
+              <p id="empty-main" class="text-sm font-medium text-slate-600 mb-1">Insira as listas e gere a escada</p>
+              <p id="empty-sub" class="text-xs">Configure participantes e resultados no painel esquerdo.</p>
             </div>
           </div>
           <div id="results-card" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="p-3 border-b border-slate-100 bg-slate-50/60">
-              <h2 id="label-result-title" class="text-xs font-semibold tracking-tight text-slate-700">매칭 결과</h2>
+              <h2 id="label-result-title" class="text-xs font-semibold tracking-tight text-slate-700">Resultados</h2>
             </div>
             <div id="results-list" class="max-h-52 overflow-y-auto hide-scrollbar p-2 grid grid-cols-2 lg:grid-cols-4 gap-2">
               <div class="col-span-full h-20 flex items-center justify-center text-slate-400">
-                <p id="label-no-results" class="text-xs">사다리를 진행하면 결과가 표시됩니다.</p>
+                <p id="label-no-results" class="text-xs">Execute a escada para ver os resultados.</p>
               </div>
             </div>
           </div>
@@ -470,55 +470,55 @@
 
     <section id="guide" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-16">
       <div class="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-sm">
-        <h2 id="guide-title" class="text-xl md:text-2xl font-semibold tracking-tight text-slate-900">Ladder Draw Guide</h2>
-        <p id="guide-subtitle" class="mt-3 text-sm md:text-base text-slate-600">Randomly Pick Ladder Draw is built for fast list input and clear result tracking on one screen.</p>
+        <h2 id="guide-title" class="text-xl md:text-2xl font-semibold tracking-tight text-slate-900">Guia do Sorteio de Escada</h2>
+        <p id="guide-subtitle" class="mt-3 text-sm md:text-base text-slate-600">Projetado para entrada rápida de lista e leitura clara dos resultados.</p>
         <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
           <article class="rounded-xl border border-slate-200 bg-slate-50/60 p-4">
-            <h3 id="guide-step1-title" class="text-sm font-semibold text-slate-900">1. Enter lists</h3>
-            <p id="guide-step1-body" class="mt-2 text-sm text-slate-600">Supports spaces, commas, line breaks, tabs, and more delimiters for participants and results.</p>
+            <h3 id="guide-step1-title" class="text-sm font-semibold text-slate-900">1. Insira as listas</h3>
+            <p id="guide-step1-body" class="mt-2 text-sm text-slate-600">Suporta espaço, vírgula, quebra de linha, tab e outros separadores.</p>
           </article>
           <article class="rounded-xl border border-slate-200 bg-slate-50/60 p-4">
-            <h3 id="guide-step2-title" class="text-sm font-semibold text-slate-900">2. Generate and run</h3>
-            <p id="guide-step2-body" class="mt-2 text-sm text-slate-600">Adjust complexity and animation speed, then click a participant or auto-play all routes.</p>
+            <h3 id="guide-step2-title" class="text-sm font-semibold text-slate-900">2. Gere e execute</h3>
+            <p id="guide-step2-body" class="mt-2 text-sm text-slate-600">Ajuste complexidade e velocidade, depois clique em um participante ou execute tudo.</p>
           </article>
           <article class="rounded-xl border border-slate-200 bg-slate-50/60 p-4">
-            <h3 id="guide-step3-title" class="text-sm font-semibold text-slate-900">3. Check results</h3>
-            <p id="guide-step3-body" class="mt-2 text-sm text-slate-600">Verify mapped outcomes in the result card below the ladder and keep your draw flow transparent.</p>
+            <h3 id="guide-step3-title" class="text-sm font-semibold text-slate-900">3. Confira os resultados</h3>
+            <p id="guide-step3-body" class="mt-2 text-sm text-slate-600">Veja o resultado final de cada participante no cartão de resultados.</p>
           </article>
         </div>
         <div class="mt-8">
           <h3 id="faq-title" class="text-base font-semibold text-slate-900">FAQ</h3>
           <details class="mt-3 rounded-lg border border-slate-200 p-3">
-            <summary id="faq1-q" class="cursor-pointer text-sm font-medium text-slate-900">What input formats are supported?</summary>
-            <p id="faq1-a" class="mt-2 text-sm text-slate-600">Line breaks, spaces, commas, tabs, semicolons, slashes, and pipes are supported.</p>
+            <summary id="faq1-q" class="cursor-pointer text-sm font-medium text-slate-900">Quais formatos de entrada são suportados?</summary>
+            <p id="faq1-a" class="mt-2 text-sm text-slate-600">Quebras de linha, espaços, vírgulas, tabulações, ponto e vírgula, barras e pipes.</p>
           </details>
           <details class="mt-2 rounded-lg border border-slate-200 p-3">
-            <summary id="faq2-q" class="cursor-pointer text-sm font-medium text-slate-900">Can I auto-fix participant/result mismatch?</summary>
-            <p id="faq2-a" class="mt-2 text-sm text-slate-600">Yes. Use one-click fill or trim buttons to match counts instantly.</p>
+            <summary id="faq2-q" class="cursor-pointer text-sm font-medium text-slate-900">Posso corrigir diferença de quantidade automaticamente?</summary>
+            <p id="faq2-a" class="mt-2 text-sm text-slate-600">Sim. Use preencher ou cortar para alinhar quantidades instantaneamente.</p>
           </details>
           <details class="mt-2 rounded-lg border border-slate-200 p-3">
-            <summary id="faq3-q" class="cursor-pointer text-sm font-medium text-slate-900">Can I save the ladder results?</summary>
-            <p id="faq3-a" class="mt-2 text-sm text-slate-600">You can review results directly in the page and keep draw progress visible route by route.</p>
+            <summary id="faq3-q" class="cursor-pointer text-sm font-medium text-slate-900">Posso salvar os resultados?</summary>
+            <p id="faq3-a" class="mt-2 text-sm text-slate-600">Você pode acompanhar os resultados diretamente na página durante o sorteio.</p>
           </details>
           <details class="mt-2 rounded-lg border border-slate-200 p-3">
-            <summary id="faq4-q" class="cursor-pointer text-sm font-medium text-slate-900">What is a ladder draw?</summary>
-            <p id="faq4-a" class="mt-2 text-sm text-slate-600">A ladder draw maps each participant to one result through randomized horizontal connections.</p>
+            <summary id="faq4-q" class="cursor-pointer text-sm font-medium text-slate-900">O que é sorteio de escada?</summary>
+            <p id="faq4-a" class="mt-2 text-sm text-slate-600">É um método que liga participantes a resultados por conexões horizontais aleatórias.</p>
           </details>
           <details class="mt-2 rounded-lg border border-slate-200 p-3">
-            <summary id="faq5-q" class="cursor-pointer text-sm font-medium text-slate-900">How does it work?</summary>
-            <p id="faq5-a" class="mt-2 text-sm text-slate-600">Create the ladder, select a participant, and the path is traced to its final result automatically.</p>
+            <summary id="faq5-q" class="cursor-pointer text-sm font-medium text-slate-900">Como funciona?</summary>
+            <p id="faq5-a" class="mt-2 text-sm text-slate-600">Gere a escada, escolha um participante e a rota será traçada até o resultado final.</p>
           </details>
           <details class="mt-2 rounded-lg border border-slate-200 p-3">
-            <summary id="faq6-q" class="cursor-pointer text-sm font-medium text-slate-900">Is it fair?</summary>
-            <p id="faq6-a" class="mt-2 text-sm text-slate-600">Each participant follows one route in the same ladder structure, making the process transparent.</p>
+            <summary id="faq6-q" class="cursor-pointer text-sm font-medium text-slate-900">É justo?</summary>
+            <p id="faq6-a" class="mt-2 text-sm text-slate-600">Todos percorrem rotas na mesma estrutura, com processo visível e transparente.</p>
           </details>
           <details class="mt-2 rounded-lg border border-slate-200 p-3">
-            <summary id="faq7-q" class="cursor-pointer text-sm font-medium text-slate-900">Can I use it for giveaways?</summary>
-            <p id="faq7-a" class="mt-2 text-sm text-slate-600">Yes. Ladder draw works for games, events, classroom activities, and giveaway-style picks.</p>
+            <summary id="faq7-q" class="cursor-pointer text-sm font-medium text-slate-900">Serve para sorteio de evento?</summary>
+            <p id="faq7-a" class="mt-2 text-sm text-slate-600">Sim. Funciona para jogos, eventos, turmas e sorteios promocionais.</p>
           </details>
           <details class="mt-2 rounded-lg border border-slate-200 p-3">
-            <summary id="faq8-q" class="cursor-pointer text-sm font-medium text-slate-900">How is my input data handled?</summary>
-            <p id="faq8-a" class="mt-2 text-sm text-slate-600">Input data is processed in your browser and not sent to external servers.</p>
+            <summary id="faq8-q" class="cursor-pointer text-sm font-medium text-slate-900">Como meus dados são tratados?</summary>
+            <p id="faq8-a" class="mt-2 text-sm text-slate-600">Os dados são processados localmente no navegador e não enviados a servidores externos.</p>
           </details>
         </div>
       </div>
@@ -529,15 +529,13 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex items-center justify-between">
       <span class="text-xs text-slate-500">© 2026 Randomly Pick. All rights reserved.</span>
       <div class="flex gap-6">
-        <a id="footer-terms" href="#" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">이용약관</a>
-        <a id="footer-privacy" href="#" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">개인정보처리방침</a>
+        <a id="footer-terms" href="#" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">Termos</a>
+        <a id="footer-privacy" href="#" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">Privacidade</a>
       </div>
     </div>
   </footer>
 
-  <button id="add-shortcut-btn" class="hidden md:hidden fixed bottom-4 right-4 z-50 bg-slate-900 text-white rounded-full px-4 py-2 text-xs font-semibold shadow-lg border border-slate-700/60">
-    앱처럼 추가
-  </button>
+  <button id="add-shortcut-btn" class="hidden md:hidden fixed bottom-4 right-4 z-50 bg-slate-900 text-white rounded-full px-4 py-2 text-xs font-semibold shadow-lg border border-slate-700/60">Add to Home</button>
 
   <script src="/assets/js/utils.js"></script>
   <script src="/assets/js/shortcut.js"></script>
