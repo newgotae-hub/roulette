@@ -2629,9 +2629,6 @@
         }
 
         ui.historyList.innerHTML = state.history.map((item, idx) => {
-          const winnerText = item.winnerFallback
-            ? (item.parity === 'odd' ? t('odd') : t('even'))
-            : item.winner;
           return `
           <div class="flex items-center justify-between px-2.5 py-1.5 rounded-xl hover:bg-slate-50 transition-colors group">
             <div class="flex items-center gap-3 min-w-0">
@@ -2642,9 +2639,6 @@
                 </span>
                 <span class="inline-flex items-center gap-1 rounded-full border border-orange-200 bg-orange-50 px-1.5 py-0.5 text-orange-700">
                   <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>${t('tails')} ${item.tails}
-                </span>
-                <span class="inline-flex items-center gap-1 rounded-full border border-violet-200 bg-violet-50 px-1.5 py-0.5 text-violet-700">
-                  ${t('winner')} ${winnerText}
                 </span>
                 <span class="text-slate-400 ml-0.5">${item.time}</span>
               </div>
@@ -2663,20 +2657,16 @@
           return;
         }
         const header = state.locale === 'ko'
-          ? ['순번', '시간', '코인개수', '앞면', '뒷면', '우승자']
-          : ['No.', 'Time', 'Count', 'Heads', 'Tails', 'Winner'];
+          ? ['순번', '시간', '코인개수', '앞면', '뒷면']
+          : ['No.', 'Time', 'Count', 'Heads', 'Tails'];
 
         const rows = state.history.map((item, idx) => {
-          const winnerText = item.winnerFallback
-            ? (item.parity === 'odd' ? t('odd') : t('even'))
-            : item.winner;
           return [
           String(idx + 1),
           item.time,
           String(item.count),
           String(item.heads),
-          String(item.tails),
-          winnerText
+          String(item.tails)
           ];
         });
         const csv = [header, ...rows].map((line) => line.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(',')).join('\n');

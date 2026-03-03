@@ -462,7 +462,7 @@
 
                         <div class="p-4 flex-grow flex flex-col">
                             <label for="participant-list" class="sr-only">참가자 명단</label>
-                            <textarea id="participant-list" class="w-full h-64 lg:h-full resize-none bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-shadow" placeholder="이름을 입력하거나 엑셀에서 붙여넣으세요. 공백, 쉼표, 줄바꿈, 탭, 세미콜론, 슬래시, 파이프를 지원합니다."></textarea>
+                            <textarea id="participant-list" class="w-full h-64 lg:h-full resize-none bg-slate-50 border border-slate-200 rounded-xl p-3 text-base text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-shadow" placeholder="이름을 입력하거나 엑셀에서 붙여넣으세요. 공백, 쉼표, 줄바꿈, 탭, 세미콜론, 슬래시, 파이프를 지원합니다."></textarea>
 
                             <div class="mt-3 flex gap-2">
                                 <button id="reset-list" class="flex-1 bg-white border border-slate-200 rounded-lg py-2 text-xs font-medium text-slate-600 hover:bg-slate-50 transition-colors flex items-center justify-center gap-1">
@@ -632,6 +632,7 @@
                 spinning: false,
                 rotation: 0,
                 winnerIndex: -1,
+                pendingExclusions: [],
                 audio: null,
                 locale: window.__rltBootLang || 'en'
             };
@@ -2311,26 +2312,30 @@
                     ctx.fillStyle = i % 2 === 0 ? '#f8fafc' : '#e2e8f0';
                     ctx.fill();
 
+                    const mid = start + seg / 2;
+                    const textRadius = radius * 0.58;
+                    const textX = center + Math.cos(mid) * textRadius;
+                    const textY = center + Math.sin(mid) * textRadius;
+
                     ctx.save();
-                    ctx.translate(center, center);
-                    ctx.rotate(start + seg / 2);
-                    ctx.textAlign = 'right';
+                    ctx.translate(textX, textY);
+                    ctx.textAlign = Math.cos(mid) >= 0 ? 'left' : 'right';
                     ctx.textBaseline = 'middle';
                     ctx.fillStyle = '#0f172a';
                     if (names.length > 120) {
-                        ctx.font = '500 11px Inter, sans-serif';
-                    } else if (names.length > 80) {
                         ctx.font = '500 13px Inter, sans-serif';
-                    } else if (names.length > 50) {
+                    } else if (names.length > 80) {
                         ctx.font = '500 15px Inter, sans-serif';
+                    } else if (names.length > 50) {
+                        ctx.font = '500 17px Inter, sans-serif';
                     } else if (names.length > 24) {
-                        ctx.font = '600 18px Inter, sans-serif';
+                        ctx.font = '600 20px Inter, sans-serif';
                     } else {
-                        ctx.font = '700 22px Inter, sans-serif';
+                        ctx.font = '700 24px Inter, sans-serif';
                     }
 
                     const label = names[i].length > 10 ? `${names[i].slice(0, 9)}…` : names[i];
-                    ctx.fillText(label, radius - 26, 0);
+                    ctx.fillText(label, 0, 0);
                     ctx.restore();
                 }
 
@@ -2374,6 +2379,7 @@
                 const parsed = parseParticipants(ui.textarea.value);
                 state.participants = parsed.slice();
                 state.available = parsed.slice();
+                state.pendingExclusions = [];
                 state.rotation = 0;
                 state.winnerIndex = -1;
                 ui.wheel.style.transitionDuration = '0ms';
@@ -2399,6 +2405,7 @@
                 const parsed = parseParticipants(ui.textarea.value);
                 state.participants = parsed.slice();
                 state.available = parsed.slice();
+                state.pendingExclusions = [];
                 state.rotation = 0;
                 state.winnerIndex = -1;
                 ui.wheel.style.transitionDuration = '0ms';
@@ -2519,8 +2526,21 @@
                 return Math.floor(Math.random() * count);
             }
 
+            function applyPendingExclusions() {
+                if (state.pendingExclusions.length === 0) return;
+
+                state.pendingExclusions.forEach((name) => {
+                    const idx = state.available.indexOf(name);
+                    if (idx >= 0) state.available.splice(idx, 1);
+                });
+                state.pendingExclusions = [];
+                updateCount();
+                drawWheel();
+            }
+
             function spin() {
                 if (state.spinning) return;
+                applyPendingExclusions();
                 if (state.available.length === 0) {
                     announce(t('noParticipants'), 'text-red-500');
                     return;
@@ -2558,11 +2578,7 @@
                         time: toLocalizedTimeString(now)
                     });
 
-                    if (ui.autoExclude.checked) {
-                        state.available.splice(winnerIndex, 1);
-                        updateCount();
-                        drawWheel();
-                    }
+                    if (ui.autoExclude.checked) state.pendingExclusions.push(winnerName);
 
                     renderHistory();
                     announce(t('winner', { name: winnerName }), 'text-green-600');

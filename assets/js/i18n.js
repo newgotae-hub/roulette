@@ -16,7 +16,7 @@
       fullscreenHint: "전체화면을 눌러주세요!",
       fullscreen: "전체화면",
       fullscreenExit: "전체화면 해제",
-      heroTitle: "온라인 사다리타기",
+      heroTitle: "사다리타기 게임",
       heroSub: "편리한 명단입력: 띄어쓰기, 콤마, 스페이스, 앤터 등 모든 구분기호를 인식합니다!",
       presetClass: "번호 매칭",
       presetTeam: "팀 나누기",
