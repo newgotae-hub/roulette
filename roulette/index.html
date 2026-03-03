@@ -100,6 +100,12 @@
         window.__rltBootLang = lang;
         window.__rltChineseRegion = detectChineseRegion();
         document.documentElement.lang = lang;
+        var bootTitleMap = {
+          ko: '룰렛돌리기 | 랜덤뽑기 룰렛 추첨기 Randomly Pick',
+          en: 'Wheel of Names | Random Picker & Roulette Spinner Randomly Pick',
+          ja: 'ルーレット抽選 | ランダム当選者選び'
+        };
+        if (bootTitleMap[lang]) document.title = bootTitleMap[lang];
         document.documentElement.classList.add('i18n-pending');
         try { window.localStorage.setItem('rlt-lang', lang); } catch (e) {}
       })();

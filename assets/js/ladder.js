@@ -358,11 +358,11 @@
     if (type === "seat") {
       const dead = list.filter((v) => {
         const k = normalizeLabel(v);
-        return k === "사망" || k === "die" || k === "eliminate" || k === "x";
+        return k === "사망" || k === "die" || k === "eliminate" || k === "x" || k === "脱落";
       });
       const live = list.filter((v) => {
         const k = normalizeLabel(v);
-        return k === "생존" || k === "live" || k === "survive" || k === "o";
+        return k === "생존" || k === "live" || k === "survive" || k === "o" || k === "生存";
       });
       if (dead.length && live.length) return `${dead.join(", ")}\n${live.join(", ")}`;
     }
@@ -426,6 +426,10 @@
           p: ["민준", "서연", "지후", "하린", "도윤", "지우", "예준", "소윤"],
           r: ["1번", "2번", "3번", "4번", "5번", "6번", "7번", "8번"]
         },
+        ja: {
+          p: ["太郎", "花子", "健太", "美咲", "翔太", "葵", "大輝", "結衣"],
+          r: ["1番", "2番", "3番", "4番", "5番", "6番", "7番", "8番"]
+        },
         en: {
           p: ["Alex", "Emma", "Liam", "Mia", "Noah", "Ava", "Ethan", "Zoe"],
           r: ["Slot1", "Slot2", "Slot3", "Slot4", "Slot5", "Slot6", "Slot7", "Slot8"]
@@ -436,6 +440,10 @@
           p: ["민수", "서연", "지후", "하린", "도윤", "지우", "예준", "소윤"],
           r: ["A팀", "A팀", "A팀", "A팀", "B팀", "B팀", "B팀", "B팀"]
         },
+        ja: {
+          p: ["太郎", "花子", "健太", "美咲", "翔太", "葵", "大輝", "結衣"],
+          r: ["Aチーム", "Aチーム", "Aチーム", "Aチーム", "Bチーム", "Bチーム", "Bチーム", "Bチーム"]
+        },
         en: {
           p: ["Alex", "Emma", "Liam", "Mia", "Noah", "Ava", "Ethan", "Zoe"],
           r: ["Team A", "Team A", "Team A", "Team A", "Team B", "Team B", "Team B", "Team B"]
@@ -445,6 +453,10 @@
         ko: {
           p: ["민준", "서연", "지후", "하린", "도윤", "지우", "예준", "소윤"],
           r: ["생존", "사망", "생존", "사망", "생존", "사망", "생존", "사망"]
+        },
+        ja: {
+          p: ["太郎", "花子", "健太", "美咲", "翔太", "葵", "大輝", "結衣"],
+          r: ["生存", "脱落", "生存", "脱落", "生存", "脱落", "生存", "脱落"]
         },
         en: {
           p: ["Alex", "Emma", "Liam", "Mia", "Noah", "Ava", "Ethan", "Zoe"],
@@ -474,15 +486,23 @@
     const currentResults = parsedResults();
     if (currentParticipants.length > 0 || currentResults.length > 0) return;
 
-    const sample = state.locale === "en"
-      ? {
-          participants: ["Alex", "Emma", "Liam", "Mia", "Noah", "Ava", "Ethan", "Zoe"],
-          results: "Team A, Team A, Team A, Team A\nTeam B, Team B, Team B, Team B"
-        }
-      : {
-          participants: ["민수", "서연", "지후", "하린", "도윤", "지우", "예준", "소윤"],
-          results: "A팀, A팀, A팀, A팀\nB팀, B팀, B팀, B팀"
-        };
+    let sample;
+    if (state.locale === "ja") {
+      sample = {
+        participants: ["太郎", "花子", "健太", "美咲", "翔太", "葵", "大輝", "結衣"],
+        results: "Aチーム, Aチーム, Aチーム, Aチーム\nBチーム, Bチーム, Bチーム, Bチーム"
+      };
+    } else if (state.locale === "en") {
+      sample = {
+        participants: ["Alex", "Emma", "Liam", "Mia", "Noah", "Ava", "Ethan", "Zoe"],
+        results: "Team A, Team A, Team A, Team A\nTeam B, Team B, Team B, Team B"
+      };
+    } else {
+      sample = {
+        participants: ["민수", "서연", "지후", "하린", "도윤", "지우", "예준", "소윤"],
+        results: "A팀, A팀, A팀, A팀\nB팀, B팀, B팀, B팀"
+      };
+    }
 
     ui.inputParticipants.value = sample.participants.join("\n");
     ui.inputResults.value = sample.results;

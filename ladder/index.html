@@ -44,6 +44,12 @@
       if (!lang) lang = "en";
       window.__rltBootLang = lang;
       document.documentElement.lang = lang;
+      var bootTitleMap = {
+        ko: "사다리타기 | 온라인 사다리뽑기 - 빠른 입력·결과 저장",
+        en: "Ladder Draw | Random Match Generator Randomly Pick",
+        ja: "あみだくじ | オンライン抽選ツール"
+      };
+      if (bootTitleMap[lang]) document.title = bootTitleMap[lang];
       document.documentElement.classList.add("i18n-pending");
       window.setTimeout(function () {
         document.documentElement.classList.remove("i18n-pending");

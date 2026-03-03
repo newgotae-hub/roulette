@@ -104,6 +104,12 @@
       window.__rltBootLang = lang;
       window.__rltChineseRegion = detectChineseRegion();
       document.documentElement.lang = lang;
+      var bootTitleMap = {
+        ko: '코인 던지기 | 동전 던지기 랜덤추첨 RLT',
+        en: 'Coin a Flip! Heads or Tails',
+        ja: 'コイントス | 表か裏かを一瞬で判定'
+      };
+      if (bootTitleMap[lang]) document.title = bootTitleMap[lang];
       document.documentElement.classList.add('i18n-pending');
       try { window.localStorage.setItem('rlt-lang', lang); } catch (e) {}
     })();

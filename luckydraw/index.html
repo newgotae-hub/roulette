@@ -84,6 +84,12 @@
       if (!lang) lang = 'en';
       window.__rltBootLang = lang;
       document.documentElement.lang = lang;
+      var bootTitleMap = {
+        ko: '무작위 번호 추첨기 | 로또·난수·랜덤번호 뽑기 Randomly Pick',
+        en: 'Random Number Generator & Lucky Draw | Randomly Pick',
+        ja: 'ランダム抽選ツール | 数字・名前のオンライン抽選'
+      };
+      if (bootTitleMap[lang]) document.title = bootTitleMap[lang];
       document.documentElement.classList.add('i18n-pending');
       // Fail-safe: never keep body hidden even if downstream scripts fail/cached oddly.
       setTimeout(function () {
