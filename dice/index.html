@@ -424,6 +424,18 @@
                 <input id="roll-duration" type="range" min="2" max="6" step="0.1" value="2.5" class="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-slate-900">
               </div>
 
+              <div class="space-y-2 pt-1">
+                <span id="bet-label" class="text-sm font-medium text-slate-700">홀/짝 베팅</span>
+                <div class="grid grid-cols-2 gap-2">
+                  <select id="bet-side" class="w-full px-2 py-1.5 text-xs rounded-lg border border-slate-200 bg-white text-slate-700">
+                    <option value="odd">홀</option>
+                    <option value="even">짝</option>
+                  </select>
+                  <input id="bet-amount" type="number" min="1" step="1" value="1000" class="w-full px-2 py-1.5 text-xs rounded-lg border border-slate-200 bg-white text-slate-700" />
+                </div>
+                <p id="bet-feedback" class="text-[11px] text-slate-500">-</p>
+              </div>
+
               <label class="flex items-center justify-between cursor-pointer group pt-1">
                 <span id="sound-label" class="text-sm font-medium text-slate-700">효과음 재생</span>
                 <div class="relative">
@@ -518,6 +530,12 @@
                 <p id="cum-face-6" class="text-sm font-semibold text-slate-900">0</p>
               </div>
             </div>
+            <div class="p-3 border-t border-slate-100 bg-slate-50/60 space-y-1.5">
+              <p id="parity-title" class="text-xs font-semibold text-slate-700">홀짝 리포트</p>
+              <p class="text-xs text-slate-600">홀: <span id="odd-total" class="font-semibold text-slate-900">0</span></p>
+              <p class="text-xs text-slate-600">짝: <span id="even-total" class="font-semibold text-slate-900">0</span></p>
+              <p class="text-xs text-slate-500">최근 결과: <span id="last-parity" class="font-semibold text-slate-700">-</span></p>
+            </div>
           </div>
         </div>
       </div>
@@ -568,6 +586,8 @@
         durationSec: 2.5,
         rolling: false,
         cumulative: [0, 0, 0, 0, 0, 0],
+        parityTotals: { odd: 0, even: 0 },
+        lastParity: '',
         reducedMotion: window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
         assets: { ready: false },
         dice: []
@@ -594,6 +614,10 @@
         countValue: document.getElementById('count-value'),
         rollDuration: document.getElementById('roll-duration'),
         durationValue: document.getElementById('duration-value'),
+        betLabel: document.getElementById('bet-label'),
+        betSide: document.getElementById('bet-side'),
+        betAmount: document.getElementById('bet-amount'),
+        betFeedback: document.getElementById('bet-feedback'),
         soundToggle: document.getElementById('sound-toggle'),
         motionNote: document.getElementById('motion-note'),
         motionNoteText: document.getElementById('motion-note-text'),
@@ -607,6 +631,10 @@
         diceWrap: document.getElementById('dice-wrap'),
         confettiLayer: document.getElementById('confetti-layer'),
         cumTitle: document.getElementById('cum-title'),
+        parityTitle: document.getElementById('parity-title'),
+        oddTotal: document.getElementById('odd-total'),
+        evenTotal: document.getElementById('even-total'),
+        lastParity: document.getElementById('last-parity'),
         guideTitle: document.getElementById('guide-title'),
         guideSubtitle: document.getElementById('guide-subtitle'),
         footerTerms: document.getElementById('footer-terms'),
@@ -639,6 +667,16 @@
           controlsTitle: '설정',
           countLabel: '주사위 개수',
           durationLabel: '애니메이션 시간',
+          betLabel: '홀/짝 베팅',
+          betAmount: '베팅금',
+          odd: '홀',
+          even: '짝',
+          parityTitle: '홀짝 리포트',
+          lastResult: '최근 결과',
+          noResult: '-',
+          betWin: '베팅 적중 +{amount}',
+          betLose: '베팅 실패 -{amount}',
+          betSkipped: '베팅 없음',
           soundLabel: '효과음 재생',
           sumLabel: '합계',
           avgLabel: '평균',
@@ -692,6 +730,16 @@
           controlsTitle: 'Settings',
           countLabel: 'Dice count',
           durationLabel: 'Animation time',
+          betLabel: 'Odd/Even Bet',
+          betAmount: 'Bet amount',
+          odd: 'Odd',
+          even: 'Even',
+          parityTitle: 'Odd/Even Report',
+          lastResult: 'Last result',
+          noResult: '-',
+          betWin: 'Bet won +{amount}',
+          betLose: 'Bet lost -{amount}',
+          betSkipped: 'No bet',
           soundLabel: 'Sound effects',
           sumLabel: 'Total',
           avgLabel: 'Average',
@@ -807,6 +855,12 @@
         ui.assetStatus.textContent = state.assets.ready ? t('assetReady') : t('assetLoading');
         document.getElementById('count-label').textContent = t('countLabel');
         document.getElementById('duration-label').textContent = t('durationLabel');
+        ui.betLabel.textContent = t('betLabel');
+        ui.betSide.options[0].textContent = t('odd');
+        ui.betSide.options[1].textContent = t('even');
+        ui.betAmount.setAttribute('aria-label', t('betAmount'));
+        ui.parityTitle.textContent = t('parityTitle');
+        if (!state.lastParity) ui.lastParity.textContent = t('noResult');
         document.getElementById('sound-label').textContent = t('soundLabel');
         ui.rollLabel.textContent = state.rolling ? t('rolling') : t('roll');
         ui.sumLabel.textContent = t('sumLabel');
@@ -1118,6 +1172,33 @@
         ui.cumulativeCounts.forEach((el, idx) => { el.textContent = String(state.cumulative[idx]); });
       }
 
+      function updateParityReport(sum) {
+        const parity = (sum % 2 === 0) ? 'even' : 'odd';
+        state.parityTotals[parity] += 1;
+        state.lastParity = parity;
+        ui.oddTotal.textContent = String(state.parityTotals.odd);
+        ui.evenTotal.textContent = String(state.parityTotals.even);
+        ui.lastParity.textContent = t(parity);
+      }
+
+      function updateBetFeedback(sum) {
+        const chosen = ui.betSide.value === 'even' ? 'even' : 'odd';
+        const parity = (sum % 2 === 0) ? 'even' : 'odd';
+        const amount = Math.max(0, Math.floor(Number(ui.betAmount.value) || 0));
+        if (!amount) {
+          ui.betFeedback.textContent = t('betSkipped');
+          ui.betFeedback.className = 'text-[11px] text-slate-500';
+          return;
+        }
+        if (chosen === parity) {
+          ui.betFeedback.textContent = t('betWin', { amount: String(amount) });
+          ui.betFeedback.className = 'text-[11px] text-green-600 font-medium';
+        } else {
+          ui.betFeedback.textContent = t('betLose', { amount: String(amount) });
+          ui.betFeedback.className = 'text-[11px] text-red-600 font-medium';
+        }
+      }
+
       function faceTarget(value) {
         const base = FACE_ORIENTATION[value] || FACE_ORIENTATION[1];
         return [base[0], base[1], base[2]];
@@ -1136,6 +1217,7 @@
         setBanner(t('rolling'), 'text-slate-500');
 
         const results = new Array(state.diceCount).fill(0).map(() => secureRandomInt6());
+        const sum = results.reduce((a, b) => a + b, 0);
         updateTotalStats(results);
         rollSoundStart();
 
@@ -1148,8 +1230,10 @@
           });
           rollSoundEnd();
           triggerPowderBurst();
-          setBanner(t('bannerDone', { sum: results.reduce((a, b) => a + b, 0), rolls: results.join(', ') }), 'text-green-600');
+          setBanner(t('bannerDone', { sum, rolls: results.join(', ') }), 'text-green-600');
           updateCumulativeStats(results);
+          updateParityReport(sum);
+          updateBetFeedback(sum);
           state.rolling = false;
           ui.rollButton.disabled = false;
           ui.rollLabel.textContent = t('roll');
@@ -1202,8 +1286,10 @@
 
         rollSoundEnd();
         triggerPowderBurst();
-        setBanner(t('bannerDone', { sum: results.reduce((a, b) => a + b, 0), rolls: results.join(', ') }), 'text-green-600');
+        setBanner(t('bannerDone', { sum, rolls: results.join(', ') }), 'text-green-600');
         updateCumulativeStats(results);
+        updateParityReport(sum);
+        updateBetFeedback(sum);
 
         state.rolling = false;
         ui.rollButton.disabled = false;
@@ -1252,6 +1338,10 @@
         updateDurationUI();
         applyI18n();
         ui.cumulativeCounts.forEach((el) => { el.textContent = '0'; });
+        ui.oddTotal.textContent = '0';
+        ui.evenTotal.textContent = '0';
+        ui.lastParity.textContent = t('noResult');
+        ui.betFeedback.textContent = t('betSkipped');
         renderDice();
         updateTotalStats([]);
         setBanner(t('bannerAssets'), 'text-slate-500');
