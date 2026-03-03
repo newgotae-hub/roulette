@@ -2278,6 +2278,8 @@
                 const size = ui.wheel.width;
                 const center = size / 2;
                 const radius = center - 8;
+                const evenColors = ['#f8fafc', '#e2e8f0'];
+                const oddLastColor = '#cbd5e1';
 
                 ctx.clearRect(0, 0, size, size);
 
@@ -2309,17 +2311,15 @@
                     ctx.moveTo(center, center);
                     ctx.arc(center, center, radius, start, end);
                     ctx.closePath();
-                    ctx.fillStyle = i % 2 === 0 ? '#f8fafc' : '#e2e8f0';
+                    const isOddCount = names.length % 2 === 1;
+                    const isLastOddSegment = isOddCount && names.length > 1 && i === names.length - 1;
+                    ctx.fillStyle = isLastOddSegment ? oddLastColor : evenColors[i % 2];
                     ctx.fill();
 
-                    const mid = start + seg / 2;
-                    const textRadius = radius * 0.58;
-                    const textX = center + Math.cos(mid) * textRadius;
-                    const textY = center + Math.sin(mid) * textRadius;
-
                     ctx.save();
-                    ctx.translate(textX, textY);
-                    ctx.textAlign = Math.cos(mid) >= 0 ? 'left' : 'right';
+                    ctx.translate(center, center);
+                    ctx.rotate(start + seg / 2);
+                    ctx.textAlign = 'right';
                     ctx.textBaseline = 'middle';
                     ctx.fillStyle = '#0f172a';
                     if (names.length > 120) {
@@ -2335,7 +2335,7 @@
                     }
 
                     const label = names[i].length > 10 ? `${names[i].slice(0, 9)}…` : names[i];
-                    ctx.fillText(label, 0, 0);
+                    ctx.fillText(label, radius - 26, 0);
                     ctx.restore();
                 }
 
@@ -2662,8 +2662,6 @@
             ui.applyButton.addEventListener('click', () => applyList(false));
             ui.resetButton.addEventListener('click', () => {
                 ui.textarea.value = '';
-                state.history = [];
-                renderHistory();
                 applyList(true);
             });
             ui.spinButton.addEventListener('click', spin);
