@@ -813,7 +813,8 @@
           if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('javascript:')) return;
           const url = new URL(href, window.location.origin);
           if (url.origin !== window.location.origin || !url.pathname.startsWith('/')) return;
-          url.searchParams.set('lang', state.locale);
+          if (state.locale === 'en') url.searchParams.set('lang', 'en');
+          else url.searchParams.delete('lang');
           a.setAttribute('href', `${url.pathname}${url.search}${url.hash}`);
         });
       }
