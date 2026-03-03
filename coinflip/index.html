@@ -492,6 +492,14 @@
                 <input id="flip-duration" type="range" min="2" max="6" step="0.1" value="4" class="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-slate-900">
               </div>
 
+              <div class="space-y-2 pt-1">
+                <span id="odd-even-name-label" class="text-sm font-medium text-slate-700">홀/짝 이름</span>
+                <div class="grid grid-cols-2 gap-2">
+                  <input id="odd-player" type="text" placeholder="홀 이름" class="w-full px-2 py-1.5 text-xs rounded-lg border border-slate-200 bg-white text-slate-700" />
+                  <input id="even-player" type="text" placeholder="짝 이름" class="w-full px-2 py-1.5 text-xs rounded-lg border border-slate-200 bg-white text-slate-700" />
+                </div>
+              </div>
+
               <label class="flex items-center justify-between cursor-pointer group pt-1">
                 <span id="sound-label" class="text-sm font-medium text-slate-700">효과음 재생</span>
                 <div class="relative">
@@ -606,6 +614,7 @@
         durationSec: 4,
         flipping: false,
         history: [],
+        players: { odd: '', even: '' },
         reducedMotion: window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
         assets: {
           heads: null,
@@ -636,6 +645,9 @@
         countValue: document.getElementById('count-value'),
         flipDuration: document.getElementById('flip-duration'),
         durationValue: document.getElementById('duration-value'),
+        oddEvenNameLabel: document.getElementById('odd-even-name-label'),
+        oddPlayer: document.getElementById('odd-player'),
+        evenPlayer: document.getElementById('even-player'),
         soundToggle: document.getElementById('sound-toggle'),
         motionNote: document.getElementById('motion-note'),
         motionNoteText: document.getElementById('motion-note-text'),
@@ -666,22 +678,29 @@
 
       const i18n = {
         ko: {
-          title: '코인 던지기 | 동전 던지기 랜덤추첨 RLT',
+          title: 'Coin a Flip! Heads or Tails Random Picker',
           metaDescription: '코인 던지기(동전 던지기)를 1~20개까지 한 번에 실행하고 결과를 기록/저장하세요. RLT 초고화질 코인 플립 애니메이션 지원.',
-          metaOgTitle: '코인 던지기 | 동전 던지기 랜덤추첨 RLT',
+          metaOgTitle: 'Coin a Flip! Heads or Tails Random Picker',
           metaOgDescription: '초고화질 코인 플립 애니메이션으로 1~20개까지 한 번에 코인을 던지고 결과를 저장하세요.',
-          metaTwitterTitle: '코인 던지기 | 동전 던지기 랜덤추첨 RLT',
+          metaTwitterTitle: 'Coin a Flip! Heads or Tails Random Picker',
           metaTwitterDescription: '초고화질 코인으로 1~20개까지 한 번에 코인 던지기',
           navSpin: '룰렛돌리기',
           navLotto: '로또추첨기',
           navHistory: '사다리타기',
           navCoin: '코인던지기',
           navDice: '주사위굴리기',
-          heroTitle: '동전 던지기',
+          heroTitle: 'Coin a Flip! Heads or Tails Random Picker',
           heroSubtitle: '3D 동전 던지기로 여러개의 동전을 동시에 던지고 결과를 바로 확인하세요.',
           controlsTitle: '설정',
           countLabel: '코인 개수',
           durationLabel: '애니메이션 시간',
+          oddEvenNameLabel: '홀/짝 이름',
+          oddNamePh: '홀 이름',
+          evenNamePh: '짝 이름',
+          odd: '홀',
+          even: '짝',
+          winner: '우승자',
+          parityByHeads: '앞면수 기준',
           soundLabel: '효과음 재생',
           assetLoading: '로딩중',
           assetReady: '준비 완료',
@@ -715,22 +734,29 @@
           tailsShort: '뒤'
         },
         en: {
-          title: 'Coin Flip | Flip a Coin Randomly RLT',
+          title: 'Coin a Flip! Heads or Tails Random Picker',
           metaDescription: 'Flip 1-20 coins at once with premium coin animation. Save history and export results as CSV.',
-          metaOgTitle: 'Coin Flip | Flip a Coin Randomly RLT',
+          metaOgTitle: 'Coin a Flip! Heads or Tails Random Picker',
           metaOgDescription: 'Flip 1-20 coins at once with premium animation and export your results.',
-          metaTwitterTitle: 'Coin Flip | Flip a Coin Randomly RLT',
+          metaTwitterTitle: 'Coin a Flip! Heads or Tails Random Picker',
           metaTwitterDescription: 'Flip 1-20 coins at once with premium animation.',
           navSpin: 'Wheel of Names',
           navLotto: 'Lucky Draw',
           navHistory: 'Ladder Draw',
           navCoin: 'Coin Flip',
           navDice: 'Dice Roll',
-          heroTitle: 'Coin Flip | Heads or Tails Random Picker',
+          heroTitle: 'Coin a Flip! Heads or Tails Random Picker',
           heroSubtitle: 'Flip 1-20 coins at once and get instant heads or tails results. Best for random decisions, classroom games, giveaways, and fast probability-style picks.',
           controlsTitle: 'Settings',
           countLabel: 'Coin count',
           durationLabel: 'Animation time',
+          oddEvenNameLabel: 'Odd/Even Names',
+          oddNamePh: 'Odd name',
+          evenNamePh: 'Even name',
+          odd: 'Odd',
+          even: 'Even',
+          winner: 'Winner',
+          parityByHeads: 'by heads count',
           soundLabel: 'Sound effects',
           assetLoading: 'Loading',
           assetReady: 'Ready',
@@ -825,6 +851,9 @@
         ui.assetStatus.textContent = state.assets.ready ? t('assetReady') : t('assetLoading');
         document.getElementById('count-label').textContent = t('countLabel');
         document.getElementById('duration-label').textContent = t('durationLabel');
+        ui.oddEvenNameLabel.textContent = t('oddEvenNameLabel');
+        ui.oddPlayer.placeholder = t('oddNamePh');
+        ui.evenPlayer.placeholder = t('evenNamePh');
         document.getElementById('sound-label').textContent = t('soundLabel');
         ui.flipLabel.textContent = state.flipping ? t('flipping') : t('flip');
         ui.headsLabel.textContent = t('heads');
@@ -1287,6 +1316,12 @@
                 <span class="inline-flex items-center gap-1 rounded-full border border-orange-200 bg-orange-50 px-1.5 py-0.5 text-orange-700">
                   <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>${t('tails')} ${item.tails}
                 </span>
+                <span class="inline-flex items-center gap-1 rounded-full border border-sky-200 bg-sky-50 px-1.5 py-0.5 text-sky-700">
+                  ${item.parity === 'odd' ? t('odd') : t('even')}
+                </span>
+                <span class="inline-flex items-center gap-1 rounded-full border border-violet-200 bg-violet-50 px-1.5 py-0.5 text-violet-700">
+                  ${t('winner')} ${item.winner}
+                </span>
                 <span class="text-slate-400 ml-0.5">${item.time}</span>
               </div>
             </div>
@@ -1303,10 +1338,18 @@
           return;
         }
         const header = state.locale === 'ko'
-          ? ['순번', '시간', '코인개수', '앞면', '뒷면']
-          : ['No.', 'Time', 'Count', 'Heads', 'Tails'];
+          ? ['순번', '시간', '코인개수', '앞면', '뒷면', '홀짝(앞면수 기준)', '우승자']
+          : ['No.', 'Time', 'Count', 'Heads', 'Tails', 'Odd/Even(by heads)', 'Winner'];
 
-        const rows = state.history.map((item, idx) => [String(idx + 1), item.time, String(item.count), String(item.heads), String(item.tails)]);
+        const rows = state.history.map((item, idx) => [
+          String(idx + 1),
+          item.time,
+          String(item.count),
+          String(item.heads),
+          String(item.tails),
+          item.parity === 'odd' ? t('odd') : t('even'),
+          item.winner
+        ]);
         const csv = [header, ...rows].map((line) => line.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(',')).join('\n');
 
         const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
@@ -1333,12 +1376,17 @@
 
       function pushHistory(heads, tails) {
         const now = new Date();
+        const parity = (heads % 2 === 0) ? 'even' : 'odd';
+        const winnerRaw = parity === 'odd' ? ui.oddPlayer.value : ui.evenPlayer.value;
+        const winner = (winnerRaw || '').trim() || (parity === 'odd' ? t('odd') : t('even'));
         state.history.push({
           id: `${now.getTime()}-${Math.random().toString(36).slice(2, 8)}`,
           time: toLocalizedTimeString(now),
           count: state.coinCount,
           heads,
-          tails
+          tails,
+          parity,
+          winner
         });
         renderHistory();
       }
@@ -1368,7 +1416,7 @@
           state.coins.forEach((coin, idx) => setCoinFace(coin, results[idx] ? 'tails' : 'heads'));
           flipSoundEnd();
           triggerPowderBurst();
-          setBanner(t('bannerReady'), 'text-slate-500');
+          setBanner(t('bannerDone', { h: heads, t: tails }), 'text-green-600');
           pushHistory(heads, tails);
           state.flipping = false;
           ui.flipButton.disabled = false;
@@ -1415,7 +1463,7 @@
 
         flipSoundEnd();
         triggerPowderBurst();
-        setBanner(t('bannerReady'), 'text-slate-500');
+        setBanner(t('bannerDone', { h: heads, t: tails }), 'text-green-600');
         pushHistory(heads, tails);
 
         state.flipping = false;
