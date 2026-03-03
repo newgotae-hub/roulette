@@ -335,10 +335,39 @@
   function parseResultEntries(text, options) {
     const opts = options || {};
     const allowDuplicates = !!opts.allowDuplicates;
-    const tokens = String(text || "")
+    const chunks = String(text || "")
       .split(/[\n\r,]+/g)
       .map((v) => v.trim())
       .filter(Boolean);
+    const tokens = [];
+
+    for (const chunk of chunks) {
+      const pattern = /(.+?)\s*[\(（]\s*(\d+)\s*[\)）]/g;
+      let cursor = 0;
+      let hasCountPattern = false;
+      let match;
+
+      while ((match = pattern.exec(chunk)) !== null) {
+        hasCountPattern = true;
+        const prefix = chunk.slice(cursor, match.index).trim();
+        if (prefix) tokens.push(prefix);
+
+        const label = (match[1] || "").trim();
+        const count = Number(match[2]);
+        if (label && Number.isFinite(count) && count > 0) {
+          for (let i = 0; i < count; i++) tokens.push(label);
+        }
+        cursor = match.index + match[0].length;
+      }
+
+      if (!hasCountPattern) {
+        tokens.push(chunk);
+        continue;
+      }
+
+      const suffix = chunk.slice(cursor).trim();
+      if (suffix) tokens.push(suffix);
+    }
 
     if (allowDuplicates) return tokens;
     const seen = new Set();
@@ -397,8 +426,7 @@
     const p = parsedParticipants();
     const r = parsedResults();
     if (p.length <= r.length) return;
-    const out = r.slice();
-    for (let i = r.length; i < p.length; i++) out.push(`${t("fillLabel")} ${i + 1}`);
+    const out = buildBalancedResults(r, p.length);
     ui.inputResults.value = out.join(", ");
     updateCounts();
     saveState();
@@ -496,17 +524,17 @@
     if (state.locale === "ja") {
       sample = {
         participants: ["太郎", "花子", "健太", "美咲", "翔太", "葵", "大輝", "結衣"],
-        results: "Aチーム, Aチーム, Aチーム, Aチーム\nBチーム, Bチーム, Bチーム, Bチーム"
+        results: "Aチーム(4), Bチーム(4)"
       };
-    } else if (state.locale === "en") {
+    } else if (state.locale === "ko") {
       sample = {
-        participants: ["Alex", "Emma", "Liam", "Mia", "Noah", "Ava", "Ethan", "Zoe"],
-        results: "Team A, Team A, Team A, Team A\nTeam B, Team B, Team B, Team B"
+        participants: ["민수", "서연", "지후", "하린", "도윤", "지우", "예준", "소윤"],
+        results: "A팀(4), B팀(4)"
       };
     } else {
       sample = {
-        participants: ["민수", "서연", "지후", "하린", "도윤", "지우", "예준", "소윤"],
-        results: "A팀, A팀, A팀, A팀\nB팀, B팀, B팀, B팀"
+        participants: ["Alex", "Emma", "Liam", "Mia", "Noah", "Ava", "Ethan", "Zoe"],
+        results: "Team A(4), Team B(4)"
       };
     }
 
@@ -1011,9 +1039,7 @@
 
     if (participants.length !== results.length) {
       if (participants.length > results.length) {
-        const out = results.slice();
-        for (let i = out.length; i < participants.length; i++) out.push(`${t("fillLabel")} ${i + 1}`);
-        results = out;
+        results = buildBalancedResults(results, participants.length);
       } else {
         results = results.slice(0, participants.length);
       }
@@ -1036,6 +1062,42 @@
     setProgress(false);
 
     saveState();
+  }
+
+  function buildBalancedResults(results, targetLength) {
+    const out = Array.isArray(results) ? results.slice() : [];
+    if (targetLength <= out.length) return out.slice(0, targetLength);
+
+    if (!out.length) {
+      for (let i = 0; i < targetLength; i++) out.push(`${t("fillLabel")} ${i + 1}`);
+      return out;
+    }
+
+    const order = [];
+    const counts = new Map();
+    for (const value of out) {
+      if (!counts.has(value)) {
+        counts.set(value, 0);
+        order.push(value);
+      }
+      counts.set(value, counts.get(value) + 1);
+    }
+
+    while (out.length < targetLength) {
+      let pick = order[0];
+      let minCount = counts.get(pick);
+      for (let i = 1; i < order.length; i++) {
+        const label = order[i];
+        const c = counts.get(label);
+        if (c < minCount) {
+          pick = label;
+          minCount = c;
+        }
+      }
+      out.push(pick);
+      counts.set(pick, counts.get(pick) + 1);
+    }
+    return out;
   }
 
   function saveState() {
