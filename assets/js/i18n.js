@@ -174,7 +174,7 @@
     seoTwitterTitle: "あみだくじ | オンライン抽選ツール",
     seoTwitterDesc: "参加者リスト入力から結果確認まで、1画面で完結するあみだくじ。",
     navSpin: "ルーレット",
-    navLotto: "抽選ボール",
+    navLotto: "ラッキードロー",
     navLadder: "あみだくじ",
     navCoin: "コイン投げ",
     navDice: "サイコロ",

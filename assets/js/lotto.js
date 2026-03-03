@@ -124,7 +124,7 @@
     twTitle: 'ランダム抽選ツール | 数字・名前のオンライン抽選',
     twDesc: '数字抽選・名前抽選を高速に実行し、結果を保存できます。',
     navSpin: 'ルーレット',
-    navLotto: '抽選ボール',
+    navLotto: 'ラッキードロー',
     navHistory: 'あみだくじ',
     navCoin: 'コイン投げ',
     navDice: 'サイコロ',
