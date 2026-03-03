@@ -684,6 +684,14 @@
         5: [0, -90, 0],
         6: [180, 0, 0]
       };
+      const FACE_SPIN_PROFILE = {
+        1: [720, 0, -720],
+        2: [450, 0, -720],
+        3: [0, -450, -1440],
+        4: [0, 810, 720],
+        5: [-810, 0, -1080],
+        6: [-900, 0, 1080]
+      };
 
       function t(key, vars) {
         const dict = i18n[state.locale] || i18n.ko;
@@ -1178,14 +1186,16 @@
         state.dice.forEach((die, idx) => {
           const value = results[idx];
           const target = faceTarget(value);
+          const spinProfile = FACE_SPIN_PROFILE[value] || FACE_SPIN_PROFILE[1];
           const current = die.angles || { x: 0, y: 0, z: 0 };
           const normalizeDeg = (deg) => ((deg % 360) + 360) % 360;
           const shortestAlign = (fromDeg, toDeg) => (((toDeg - fromDeg + 540) % 360) - 180);
-          const spinsX = (2 + Math.floor(Math.random() * 2)) * 360;
-          const spinsY = (4 + Math.floor(Math.random() * 2)) * 360;
-          const xTotal = current.x + spinsX + shortestAlign(normalizeDeg(current.x), target[0]);
-          const yTotal = current.y + spinsY + shortestAlign(normalizeDeg(current.y), target[1]);
-          const zTotal = current.z + shortestAlign(normalizeDeg(current.z), target[2]);
+          const preX = current.x + spinProfile[0];
+          const preY = current.y + spinProfile[1];
+          const preZ = current.z + spinProfile[2];
+          const xTotal = preX + shortestAlign(normalizeDeg(preX), target[0]);
+          const yTotal = preY + shortestAlign(normalizeDeg(preY), target[1]);
+          const zTotal = preZ + shortestAlign(normalizeDeg(preZ), target[2]);
           const startAt = performance.now() + staggers[idx];
 
           const tick = (now) => {
