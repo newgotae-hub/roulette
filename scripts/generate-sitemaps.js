@@ -5,7 +5,7 @@ const path = require('path');
 const root = path.resolve(__dirname, '..');
 const langs = ['en','ja','zh-cn','zh-tw','es','fr','de','pt-br','hi','ar','ru','id','tr','it','vi','th','nl'];
 const tools = ['roulette','luckydraw','ladder','coinflip','dice'];
-const legalPages = ['privacy','terms','contact'];
+const legalPages = ['privacy','terms','contact','about'];
 const today = new Date().toISOString().slice(0, 10);
 
 function write(file, content) {
