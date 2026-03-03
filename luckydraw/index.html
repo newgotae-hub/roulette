@@ -404,6 +404,25 @@
 
     .tab-content { display: none; }
     .tab-content.active { display: flex; }
+    @media (max-width: 1023px) {
+      #lotto-controls-panel {
+        order: 2;
+      }
+      #lotto-stage-panel {
+        order: 1;
+        position: relative;
+        z-index: 90;
+      }
+      #lotto-results-panel {
+        order: 3;
+      }
+      #lotto-stage-panel #machine-shell,
+      #lotto-stage-panel #machine-wrap,
+      #lotto-stage-panel #lotto-canvas {
+        position: relative;
+        z-index: 95;
+      }
+    }
   </style>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-9415RVEK2W"></script>
@@ -481,7 +500,7 @@
 
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-10">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        <div class="lg:col-span-3 space-y-4">
+        <div id="lotto-controls-panel" class="lg:col-span-3 space-y-4">
           <button id="btn-draw" class="w-full h-11 bg-slate-900 rounded-xl flex items-center justify-center text-white shadow-lg hover:scale-[1.02] active:scale-[0.99] transition-all">
             <span id="label-btn-draw" class="text-sm font-semibold tracking-wide">추첨 시작</span>
           </button>
@@ -547,7 +566,7 @@
           </div>
         </div>
 
-        <div class="lg:col-span-6 flex flex-col items-center justify-center min-h-[360px] lg:h-[600px]">
+        <div id="lotto-stage-panel" class="lg:col-span-6 flex flex-col items-center justify-center min-h-[360px] lg:h-[600px]">
           <div id="machine-shell">
             <div class="tube"></div>
             <div id="machine-wrap">
@@ -564,7 +583,7 @@
           <p id="status-banner" class="mt-3 text-sm text-slate-500 animate-soft-pulse min-h-[20px]">설정을 확인하고 추첨 시작을 누르세요.</p>
         </div>
 
-        <div class="lg:col-span-3 space-y-4 lg:h-[600px]">
+        <div id="lotto-results-panel" class="lg:col-span-3 space-y-4 lg:h-[600px]">
           <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 flex flex-col items-center">
             <div class="w-full flex justify-between items-center mb-3">
               <h2 class="text-sm font-semibold tracking-tight text-slate-900 flex items-center gap-1.5">

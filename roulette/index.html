@@ -109,19 +109,8 @@
       window.Userback = window.Userback || {};
       Userback.access_token = "A-vV6YCxc6cQKtRBem24yA3IgC8";
       (function() {
-        var lang = null;
-        var params = new URLSearchParams(window.location.search);
-        var forced = params.get('lang');
-        if (forced === 'ko' || forced === 'en') {
-          lang = forced;
-        }
-        if (!lang) {
-          try { lang = window.localStorage.getItem('rlt-lang'); } catch (e) {}
-        }
-        if (lang !== 'ko' && lang !== 'en') {
-          lang = (navigator.language || '').toLowerCase().startsWith('ko') ? 'ko' : 'en';
-        }
-        Userback.widget_settings = { language: lang };
+        var lang = window.__rltBootLang || 'en';
+        Userback.widget_settings = { language: lang === 'ko' ? 'ko' : 'en' };
       })();
       (function(d) {
         var s = d.createElement('script');s.async = true;s.src = 'https://static.userback.io/widget/v1.js';(d.head || d.body).appendChild(s);
@@ -356,6 +345,26 @@
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-2px); }
         }
+        @media (max-width: 1023px) {
+            #roulette-controls {
+                order: 2;
+            }
+            #roulette-center {
+                order: 1;
+                position: relative;
+                z-index: 90;
+            }
+            #history {
+                order: 3;
+            }
+            #roulette-center #wheel-shadow,
+            #roulette-center #wheel,
+            #roulette-center #spin-button,
+            #roulette-center #confetti-layer {
+                position: relative;
+                z-index: 95;
+            }
+        }
 
     </style>
     <!-- Google tag (gtag.js) -->
@@ -435,7 +444,7 @@
 
         <section id="roulette" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-14">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-                <div class="lg:col-span-3 space-y-4">
+                <div id="roulette-controls" class="lg:col-span-3 space-y-4">
                     <div id="roster-card" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col min-h-[450px] lg:h-[640px]">
                         <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/60">
                             <h2 class="text-sm font-semibold tracking-tight flex items-center gap-2">

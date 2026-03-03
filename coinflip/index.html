@@ -217,6 +217,25 @@
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-2px); }
     }
+    @media (max-width: 1023px) {
+      #coin-controls-panel {
+        order: 2;
+      }
+      #coin-stage-panel {
+        order: 1;
+        position: relative;
+        z-index: 90;
+      }
+      #coin-history-panel {
+        order: 3;
+      }
+      #coin-stage-panel .coin-stage,
+      #coin-stage-panel #coins-wrap,
+      #coin-stage-panel #confetti-layer {
+        position: relative;
+        z-index: 95;
+      }
+    }
 
     .coin-stage {
       box-shadow: 0 18px 60px rgba(15, 23, 42, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.6);
@@ -518,7 +537,7 @@
     <section class="coin-workspace max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-8">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
-        <div class="lg:col-span-3 space-y-4">
+        <div id="coin-controls-panel" class="lg:col-span-3 space-y-4">
           <div class="coin-panel bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col min-h-[410px] lg:h-[590px]">
             <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/60">
               <h2 class="text-sm font-semibold tracking-tight flex items-center gap-2">
@@ -586,7 +605,7 @@
           </div>
         </div>
 
-        <div class="lg:col-span-6 flex flex-col items-center justify-start min-h-[380px] lg:h-[590px]">
+        <div id="coin-stage-panel" class="lg:col-span-6 flex flex-col items-center justify-start min-h-[380px] lg:h-[590px]">
           <div class="relative w-full max-w-[720px]">
             <div class="coin-panel coin-stage bg-transparent rounded-2xl border border-slate-200 overflow-visible p-4 sm:p-6 min-h-[410px] lg:h-[590px] flex flex-col">
               <div id="confetti-layer" aria-hidden="true"></div>
@@ -596,7 +615,7 @@
           </div>
         </div>
 
-        <div class="lg:col-span-3 min-h-[380px] lg:h-[590px]">
+        <div id="coin-history-panel" class="lg:col-span-3 min-h-[380px] lg:h-[590px]">
           <div class="coin-panel bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col h-full">
             <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/60">
               <h2 class="text-sm font-semibold tracking-tight flex items-center gap-2">

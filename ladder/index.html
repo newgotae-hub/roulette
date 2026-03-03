@@ -3,6 +3,57 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    html.i18n-pending body { visibility: hidden; }
+  </style>
+  <script>
+    (function () {
+      function normalizeLang(raw) {
+        const v = String(raw || "").toLowerCase().replace("_", "-");
+        if (!v) return "";
+        if (v === "zh" || v.startsWith("zh-cn") || v.startsWith("zh-hans")) return "zh-cn";
+        if (v.startsWith("zh-tw") || v.startsWith("zh-hk") || v.startsWith("zh-mo") || v.startsWith("zh-hant")) return "zh-tw";
+        if (v.startsWith("pt-br")) return "pt-br";
+        const base = v.split("-")[0];
+        const aliases = { jp: "ja", kr: "ko", cn: "zh-cn", tw: "zh-tw" };
+        return aliases[base] || v;
+      }
+      var supported = ["ko", "en", "ja", "zh-cn", "zh-tw", "es", "fr", "de", "pt-br", "hi", "ar", "ru", "id", "tr", "it", "vi", "th", "nl"];
+      var lang = "";
+      try {
+        var params = new URLSearchParams(window.location.search);
+        var forced = normalizeLang(params.get("lang"));
+        if (supported.indexOf(forced) !== -1) lang = forced;
+      } catch (e) {}
+      if (!lang) {
+        try {
+          var cached = normalizeLang(window.localStorage.getItem("rlt-lang"));
+          if (supported.indexOf(cached) !== -1) lang = cached;
+        } catch (e) {}
+      }
+      if (!lang) {
+        var navs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ""];
+        for (var i = 0; i < navs.length; i++) {
+          var cand = normalizeLang(navs[i]);
+          if (supported.indexOf(cand) !== -1) {
+            lang = cand;
+            break;
+          }
+        }
+      }
+      if (!lang) lang = "en";
+      window.__rltBootLang = lang;
+      document.documentElement.lang = lang;
+      document.documentElement.classList.add("i18n-pending");
+      window.setTimeout(function () {
+        document.documentElement.classList.remove("i18n-pending");
+      }, 2200);
+      window.addEventListener("load", function () {
+        document.documentElement.classList.remove("i18n-pending");
+      }, { once: true });
+      try { window.localStorage.setItem("rlt-lang", lang); } catch (e) {}
+    })();
+  </script>
   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -38,15 +89,8 @@
     window.Userback = window.Userback || {};
     Userback.access_token = "A-vV6YCxc6cQKtRBem24yA3IgC8";
     (function() {
-      var lang = null;
-      var params = new URLSearchParams(window.location.search);
-      var forced = params.get('lang');
-      if (forced === 'ko' || forced === 'en') lang = forced;
-      if (!lang) {
-        try { lang = window.localStorage.getItem('rlt-lang'); } catch (e) {}
-      }
-      if (lang !== 'ko' && lang !== 'en') lang = (navigator.language || '').toLowerCase().startsWith('ko') ? 'ko' : 'en';
-      Userback.widget_settings = { language: lang };
+      var lang = window.__rltBootLang || "en";
+      Userback.widget_settings = { language: lang === 'ko' ? 'ko' : 'en' };
     })();
     (function(d) {
       var s = d.createElement('script');
@@ -254,6 +298,23 @@
 
     body:not(.is-fullscreen) #controls-panel .fullscreen-only-control { display: none; }
     body.is-fullscreen #controls-panel .fullscreen-only-control { display: block; }
+    @media (max-width: 1023px) {
+      #controls-panel {
+        order: 2;
+      }
+      #ladder-panel {
+        order: 1;
+        position: relative;
+        z-index: 90;
+      }
+      #ladder-panel #ladder-shell,
+      #ladder-panel #ladder-svg,
+      #ladder-panel #nodes-top,
+      #ladder-panel #nodes-bottom {
+        position: relative;
+        z-index: 95;
+      }
+    }
   </style>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-9415RVEK2W"></script>

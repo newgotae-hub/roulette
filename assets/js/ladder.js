@@ -290,6 +290,7 @@
     updateFullscreenButton();
     renderLanguageList(ui.langSearch.value);
     syncLangLinks();
+    document.documentElement.classList.remove("i18n-pending");
   }
 
   function setLocale(locale) {
