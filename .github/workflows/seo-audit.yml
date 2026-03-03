@@ -1,0 +1,19 @@
+name: SEO Audit
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Generate sitemaps
+        run: bash scripts/update-sitemaps.sh
+      - name: Run SEO report (strict)
+        run: bash scripts/seo-report.sh --strict
