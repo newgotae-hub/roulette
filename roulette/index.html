@@ -38,6 +38,21 @@
     <script>
       (function () {
         var supported = ['ko', 'en', 'ja', 'zh-cn', 'zh-tw', 'es', 'fr', 'de', 'pt-br', 'hi'];
+        function detectChineseRegion() {
+          var navs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ''];
+          for (var i = 0; i < navs.length; i++) {
+            var raw = String(navs[i] || '').toLowerCase().replace('_', '-');
+            if (!raw.startsWith('zh')) continue;
+            if (raw.indexOf('tw') >= 0 || raw.indexOf('hk') >= 0 || raw.indexOf('mo') >= 0 || raw.indexOf('hant') >= 0) return 'tw';
+            if (raw.indexOf('cn') >= 0 || raw.indexOf('sg') >= 0 || raw.indexOf('hans') >= 0 || raw === 'zh') return 'cn';
+          }
+          try {
+            var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+            if (tz === 'Asia/Taipei') return 'tw';
+            if (tz.indexOf('Asia/Shanghai') === 0 || tz.indexOf('Asia/Chongqing') === 0) return 'cn';
+          } catch (e) {}
+          return 'cn';
+        }
         function normalizeLang(raw) {
           var v = String(raw || '').toLowerCase().replace('_', '-');
           if (!v) return '';
@@ -75,6 +90,7 @@
         }
         if (!lang) lang = 'en';
         window.__rltBootLang = lang;
+        window.__rltChineseRegion = detectChineseRegion();
         document.documentElement.lang = lang;
         document.documentElement.classList.add('i18n-pending');
         try { window.localStorage.setItem('rlt-lang', lang); } catch (e) {}
@@ -797,14 +813,178 @@
                     fullscreenFailed: 'Failed to toggle fullscreen.'
                 }
             };
-            i18n.ja = { ...i18n.en };
-            i18n['zh-cn'] = { ...i18n.en };
-            i18n['zh-tw'] = { ...i18n.en };
-            i18n.es = { ...i18n.en };
-            i18n.fr = { ...i18n.en };
-            i18n.de = { ...i18n.en };
-            i18n['pt-br'] = { ...i18n.en };
-            i18n.hi = { ...i18n.en };
+            i18n.ja = {
+                ...i18n.en,
+                navLotto: 'ラッキードロー',
+                navHistory: 'あみだくじ',
+                navCoin: 'コイントス',
+                navDice: 'サイコロ',
+                navGuide: 'ガイド',
+                spinButtonLabel: '開始',
+                heroTitle: 'ランダム抽選ルーレット',
+                heroSubtitle: '名前リストを入れて回すだけ。すぐに当選者を決められます。',
+                rosterTitle: '参加者リスト',
+                resetLabel: 'リセット',
+                applyLabel: '適用',
+                autoExcludeLabel: '当選者を自動除外',
+                soundLabel: '効果音',
+                durationLabel: '抽選時間',
+                historyTitle: '当選履歴',
+                exportLabel: 'CSV出力',
+                guideTitle: 'ルーレット抽選ガイド',
+                guideSubtitle: '名簿入力から抽選、履歴保存までを1画面で完了できます。',
+                bannerReady: 'リストを適用してSPINを押してください。',
+                spinning: '抽選中...',
+                winner: '当選: {name}'
+            };
+            i18n['zh-cn'] = {
+                ...i18n.en,
+                navLotto: '抽签器',
+                navHistory: '爬梯抽签',
+                navCoin: '抛硬币',
+                navDice: '掷骰子',
+                navGuide: '指南',
+                spinButtonLabel: '开始',
+                heroTitle: '随机抽奖转盘',
+                heroSubtitle: '粘贴名单后立即开始抽选，适合活动与课堂。',
+                rosterTitle: '参与者名单',
+                resetLabel: '重置',
+                applyLabel: '应用',
+                autoExcludeLabel: '中奖者自动排除',
+                soundLabel: '音效',
+                durationLabel: '抽奖时长',
+                historyTitle: '中奖记录',
+                exportLabel: '导出 CSV',
+                guideTitle: '转盘抽奖使用指南',
+                guideSubtitle: '从输入名单到保存中奖记录，全部在同一页面完成。',
+                bannerReady: '请先应用名单，再点击 SPIN。',
+                spinning: '抽奖中...',
+                winner: '中奖者: {name}'
+            };
+            i18n['zh-tw'] = {
+                ...i18n.en,
+                navLotto: '抽籤器',
+                navHistory: '爬梯抽籤',
+                navCoin: '擲硬幣',
+                navDice: '擲骰子',
+                navGuide: '指南',
+                spinButtonLabel: '開始',
+                heroTitle: '隨機抽獎轉盤',
+                heroSubtitle: '貼上名單就能立即抽選，活動與課堂都好用。',
+                rosterTitle: '參與者名單',
+                resetLabel: '重設',
+                applyLabel: '套用',
+                autoExcludeLabel: '中獎者自動排除',
+                soundLabel: '音效',
+                durationLabel: '抽獎時間',
+                historyTitle: '中獎紀錄',
+                exportLabel: '匯出 CSV',
+                guideTitle: '轉盤抽獎指南',
+                guideSubtitle: '從名單輸入到中獎紀錄保存，全部可在同頁完成。',
+                bannerReady: '請先套用名單，再按 SPIN。',
+                spinning: '抽獎中...',
+                winner: '中獎者: {name}'
+            };
+            i18n.es = {
+                ...i18n.en,
+                navLotto: 'Sorteo',
+                navHistory: 'Escalera',
+                navCoin: 'Moneda',
+                navDice: 'Dados',
+                navGuide: 'Guia',
+                spinButtonLabel: 'Iniciar',
+                heroTitle: 'Ruleta de Sorteo Aleatorio',
+                heroSubtitle: 'Pega tu lista y elige un ganador al instante.',
+                rosterTitle: 'Participantes',
+                resetLabel: 'Reiniciar',
+                applyLabel: 'Aplicar',
+                autoExcludeLabel: 'Excluir ganadores automaticamente',
+                soundLabel: 'Sonido',
+                durationLabel: 'Duracion del giro',
+                historyTitle: 'Historial de ganadores',
+                exportLabel: 'Exportar CSV',
+                guideTitle: 'Guia de ruleta aleatoria'
+            };
+            i18n.fr = {
+                ...i18n.en,
+                navLotto: 'Tirage',
+                navHistory: 'Echelle',
+                navCoin: 'Pile ou Face',
+                navDice: 'Des',
+                navGuide: 'Guide',
+                spinButtonLabel: 'Lancer',
+                heroTitle: 'Roue de Tirage Aleatoire',
+                heroSubtitle: 'Collez votre liste et tirez un gagnant en un clic.',
+                rosterTitle: 'Participants',
+                resetLabel: 'Reinitialiser',
+                applyLabel: 'Appliquer',
+                autoExcludeLabel: 'Exclure automatiquement les gagnants',
+                soundLabel: 'Effets sonores',
+                durationLabel: 'Duree du tirage',
+                historyTitle: 'Historique des gagnants',
+                exportLabel: 'Exporter CSV',
+                guideTitle: 'Guide de la roue aleatoire'
+            };
+            i18n.de = {
+                ...i18n.en,
+                navLotto: 'Auslosung',
+                navHistory: 'Leiter',
+                navCoin: 'Muenzwurf',
+                navDice: 'Wuerfel',
+                navGuide: 'Anleitung',
+                spinButtonLabel: 'Start',
+                heroTitle: 'Zufallsrad fuer Gewinner',
+                heroSubtitle: 'Liste einfuegen, drehen und sofort einen Gewinner ziehen.',
+                rosterTitle: 'Teilnehmer',
+                resetLabel: 'Zuruecksetzen',
+                applyLabel: 'Anwenden',
+                autoExcludeLabel: 'Gewinner automatisch ausschliessen',
+                soundLabel: 'Soundeffekte',
+                durationLabel: 'Drehdauer',
+                historyTitle: 'Gewinnerverlauf',
+                exportLabel: 'CSV exportieren',
+                guideTitle: 'Guide fuer das Zufallsrad'
+            };
+            i18n['pt-br'] = {
+                ...i18n.en,
+                navLotto: 'Sorteio',
+                navHistory: 'Escada',
+                navCoin: 'Cara ou Coroa',
+                navDice: 'Dados',
+                navGuide: 'Guia',
+                spinButtonLabel: 'Iniciar',
+                heroTitle: 'Roleta de Sorteio Aleatorio',
+                heroSubtitle: 'Cole a lista e escolha um vencedor em segundos.',
+                rosterTitle: 'Participantes',
+                resetLabel: 'Redefinir',
+                applyLabel: 'Aplicar',
+                autoExcludeLabel: 'Excluir vencedores automaticamente',
+                soundLabel: 'Efeitos sonoros',
+                durationLabel: 'Tempo de giro',
+                historyTitle: 'Historico de vencedores',
+                exportLabel: 'Exportar CSV',
+                guideTitle: 'Guia da roleta aleatoria'
+            };
+            i18n.hi = {
+                ...i18n.en,
+                navLotto: 'लकी ड्रॉ',
+                navHistory: 'लैडर ड्रॉ',
+                navCoin: 'कॉइन फ्लिप',
+                navDice: 'डाइस रोल',
+                navGuide: 'गाइड',
+                spinButtonLabel: 'शुरू',
+                heroTitle: 'रैंडम ड्रॉ रूलेट',
+                heroSubtitle: 'नामों की सूची पेस्ट करें और तुरंत विजेता चुनें।',
+                rosterTitle: 'प्रतिभागी सूची',
+                resetLabel: 'रीसेट',
+                applyLabel: 'लागू करें',
+                autoExcludeLabel: 'विजेताओं को ऑटो-एक्सक्लूड करें',
+                soundLabel: 'साउंड इफेक्ट',
+                durationLabel: 'स्पिन समय',
+                historyTitle: 'विजेता इतिहास',
+                exportLabel: 'CSV एक्सपोर्ट',
+                guideTitle: 'रूलेट गाइड'
+            };
 
             function detectLocale() {
                 if (LANG_SET.has(window.__rltBootLang)) return window.__rltBootLang;
@@ -922,7 +1102,10 @@
 
             function getLocaleFlagUrl(locale) {
                 const row = localeNames[locale];
-                const code = row && row.flag ? row.flag : 'us';
+                let code = row && row.flag ? row.flag : 'us';
+                if (locale === 'zh-cn' || locale === 'zh-tw') {
+                    code = (window.__rltChineseRegion === 'tw') ? 'tw' : 'cn';
+                }
                 return `https://flagcdn.com/w20/${code}.png`;
             }
 
