@@ -2559,6 +2559,7 @@
         return [base[0], base[1], base[2]];
       }
 
+
       async function doRoll() {
         if (state.rolling) return;
         if (!state.assets.ready) {
@@ -2571,21 +2572,25 @@
         ui.rollLabel.textContent = t('rolling');
         setBanner(t('rolling'), 'text-slate-500');
 
-        const results = new Array(state.diceCount).fill(0).map(() => secureRandomInt6());
-        const sum = results.reduce((a, b) => a + b, 0);
+        const targetValues = new Array(state.diceCount).fill(0).map(() => secureRandomInt6());
         rollSoundStart();
 
         if (state.reducedMotion) {
           state.dice.forEach((die, idx) => {
-            const value = results[idx];
+            const value = targetValues[idx];
             const target = faceTarget(value);
             setModelOrientation(die, target[0], target[1], target[2]);
             setDieValue(die, value);
           });
+          const finalValues = state.dice.map((die, idx) => {
+            const fallback = targetValues[idx] || 1;
+            return Math.max(1, Math.min(6, Number(die.value) || Number(die.badge.textContent) || fallback));
+          });
+          const sum = finalValues.reduce((a, b) => a + b, 0);
           rollSoundEnd();
           triggerParityFirework(sum);
-          setBanner(t('bannerDone', { sum, rolls: results.join(', ') }), 'text-green-600');
-          updateCumulativeStats(results);
+          setBanner(t('bannerDone', { sum, rolls: finalValues.join(', ') }), 'text-green-600');
+          updateCumulativeStats(finalValues);
           updateParityReport(sum);
           state.rolling = false;
           ui.rollButton.disabled = false;
@@ -2597,8 +2602,8 @@
         const maxStagger = Math.min(140, Math.max(0, 10 * state.diceCount));
         const staggers = state.dice.map(() => Math.floor(Math.random() * maxStagger));
 
-        state.dice.forEach((die, idx) => {
-          const value = results[idx];
+        const animationPromises = state.dice.map((die, idx) => new Promise((resolve) => {
+          const value = targetValues[idx];
           const target = faceTarget(value);
           const current = die.angles || { x: 0, y: 0, z: 0 };
           const normalizeDeg = (deg) => ((deg % 360) + 360) % 360;
@@ -2615,6 +2620,14 @@
           const wobbleAmp = 14 + Math.random() * 12;
           const wobblePhase = Math.random() * Math.PI * 2;
           const startAt = performance.now() + staggers[idx];
+          let settled = false;
+          const settle = () => {
+            if (settled) return;
+            settled = true;
+            setModelOrientation(die, xTotal, yTotal, zTotal);
+            setDieValue(die, value);
+            resolve();
+          };
 
           const tick = (now) => {
             if (now < startAt) {
@@ -2639,28 +2652,29 @@
             if (p < 1) {
               requestAnimationFrame(tick);
             } else {
-              setModelOrientation(die, xTotal, yTotal, zTotal);
-              setDieValue(die, value);
+              settle();
             }
           };
           requestAnimationFrame(tick);
+          window.setTimeout(settle, durationMs + maxStagger + 220);
+        }));
+        await Promise.all(animationPromises);
+        const finalValues = state.dice.map((die, idx) => {
+          const fallback = targetValues[idx] || 1;
+          return Math.max(1, Math.min(6, Number(die.value) || Number(die.badge.textContent) || fallback));
         });
-
-        await new Promise((resolve) => {
-          window.setTimeout(resolve, durationMs + maxStagger + 80);
-        });
+        const sum = finalValues.reduce((a, b) => a + b, 0);
 
         rollSoundEnd();
         triggerParityFirework(sum);
-        setBanner(t('bannerDone', { sum, rolls: results.join(', ') }), 'text-green-600');
-        updateCumulativeStats(results);
+        setBanner(t('bannerDone', { sum, rolls: finalValues.join(', ') }), 'text-green-600');
+        updateCumulativeStats(finalValues);
         updateParityReport(sum);
 
         state.rolling = false;
         ui.rollButton.disabled = false;
         ui.rollLabel.textContent = t('roll');
       }
-
       function wireEvents() {
         ui.langTrigger.addEventListener('click', (event) => {
           event.stopPropagation();
