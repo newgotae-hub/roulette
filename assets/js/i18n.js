@@ -1,11 +1,11 @@
 (function () {
   const i18n = {
     ko: {
-      seoTitle: "사다리타기 | 온라인 사다리뽑기 랜덤추첨 RLT",
-      seoDesc: "사다리타기와 사다리 뽑기를 빠르게 처리하는 RLT. 명단/결과 입력, 자동 맞춤, 애니메이션 추첨을 지원합니다.",
-      seoOgTitle: "사다리타기 | 온라인 사다리뽑기 랜덤추첨 RLT",
+      seoTitle: "사다리타기 | 온라인 사다리뽑기 랜덤추첨 Randomly Pick",
+      seoDesc: "사다리타기와 사다리 뽑기를 빠르게 처리하는 Randomly Pick. 명단/결과 입력, 자동 맞춤, 애니메이션 추첨을 지원합니다.",
+      seoOgTitle: "사다리타기 | 온라인 사다리뽑기 랜덤추첨 Randomly Pick",
       seoOgDesc: "사다리타기와 사다리 뽑기를 위한 온라인 추첨 도구. 실시간 자동 맞춤과 애니메이션 지원.",
-      seoTwitterTitle: "사다리타기 | 온라인 사다리뽑기 랜덤추첨 RLT",
+      seoTwitterTitle: "사다리타기 | 온라인 사다리뽑기 랜덤추첨 Randomly Pick",
       seoTwitterDesc: "사다리타기 명단/결과 입력부터 추첨까지 빠르게 처리하는 온라인 도구",
       navSpin: "룰렛돌리기",
       navLotto: "로또추첨기",
@@ -41,7 +41,7 @@
       playAll: "전체 자동재생",
       stopAll: "중지",
       guideTitle: "사다리타기 가이드",
-      guideSubtitle: "RLT 사다리타기는 빠른 입력과 결과 확인에 집중한 랜덤 추첨 도구입니다.",
+      guideSubtitle: "Randomly Pick 사다리타기는 빠른 입력과 결과 확인에 집중한 랜덤 추첨 도구입니다.",
       guideStep1Title: "1. 명단 입력",
       guideStep1Body: "참가자와 결과 모두 띄어쓰기, 쉼표, 줄바꿈, 탭 등 다양한 구분기호를 자동 인식합니다.",
       guideStep2Title: "2. 생성 후 실행",
@@ -83,11 +83,11 @@
       footerPrivacy: "개인정보처리방침"
     },
     en: {
-      seoTitle: "Ladder Draw | Random Match Generator RLT",
+      seoTitle: "Ladder Draw | Random Match Generator Randomly Pick",
       seoDesc: "Online ladder draw and random match generator. Paste participants and results, run animated routes, and track outcomes instantly.",
-      seoOgTitle: "Ladder Draw | Random Match Generator RLT",
+      seoOgTitle: "Ladder Draw | Random Match Generator Randomly Pick",
       seoOgDesc: "Random ladder game with fast input, balanced routes, and instant result tracking.",
-      seoTwitterTitle: "Ladder Draw | Random Match Generator RLT",
+      seoTwitterTitle: "Ladder Draw | Random Match Generator Randomly Pick",
       seoTwitterDesc: "Run random ladder matches with smooth animation and instant outcome mapping.",
       navSpin: "Wheel of Names",
       navLotto: "Lucky Draw",
@@ -123,7 +123,7 @@
       playAll: "Auto Play All",
       stopAll: "Stop",
       guideTitle: "Ladder Draw Guide",
-      guideSubtitle: "RLT Ladder Draw is built for fast list input and clear result tracking on one screen.",
+      guideSubtitle: "Randomly Pick Ladder Draw is built for fast list input and clear result tracking on one screen.",
       guideStep1Title: "1. Enter lists",
       guideStep1Body: "Supports spaces, commas, line breaks, tabs, and more delimiters for participants and results.",
       guideStep2Title: "2. Generate and run",
