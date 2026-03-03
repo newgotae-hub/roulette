@@ -188,7 +188,8 @@
   i18n.th = { ...i18n.en, title: 'สุ่มตัวเลขออนไลน์ | จับสลากรวดเร็ว', heroTitle: 'สุ่มจับสลาก', heroSubtitle: 'สุ่มตัวเลขหรือรายชื่ออย่างรวดเร็ว พร้อมบันทึกผล', btnDraw: 'เริ่มจับสลาก' };
   i18n.nl = { ...i18n.en, title: 'Willekeurige Nummergenerator | Snelle Loting', heroTitle: 'Willekeurige Loting', heroSubtitle: 'Trek snel nummers of namen en bewaar de resultaten.', btnDraw: 'Start loting' };
   const LANG_OPTIONS = ["ko", "en", "ja", "zh-cn", "es", "fr", "de", "pt-br", "hi", "ar", "ru", "id", "tr", "it", "vi", "th", "nl"];
-  const LANG_SET = new Set(LANG_OPTIONS);
+  const SUPPORTED_LOCALES = [...LANG_OPTIONS, "zh-tw"];
+  const LANG_SET = new Set(SUPPORTED_LOCALES);
   const localeNames = {
     ko: { native: "한국어", en: "Korean", flag: "kr" },
     en: { native: "English", en: "English", flag: "us" },
