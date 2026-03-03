@@ -2,31 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://randomly-pick.com/</loc>
-    <lastmod>2026-03-03</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://randomly-pick.com/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://randomly-pick.com/?lang=en"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://randomly-pick.com/?lang=ja"/>
-    <xhtml:link rel="alternate" hreflang="zh-cn" href="https://randomly-pick.com/?lang=zh-cn"/>
-    <xhtml:link rel="alternate" hreflang="zh-tw" href="https://randomly-pick.com/?lang=zh-tw"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://randomly-pick.com/?lang=es"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://randomly-pick.com/?lang=fr"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://randomly-pick.com/?lang=de"/>
-    <xhtml:link rel="alternate" hreflang="pt-br" href="https://randomly-pick.com/?lang=pt-br"/>
-    <xhtml:link rel="alternate" hreflang="hi" href="https://randomly-pick.com/?lang=hi"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://randomly-pick.com/?lang=ar"/>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://randomly-pick.com/?lang=ru"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://randomly-pick.com/?lang=id"/>
-    <xhtml:link rel="alternate" hreflang="tr" href="https://randomly-pick.com/?lang=tr"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://randomly-pick.com/?lang=it"/>
-    <xhtml:link rel="alternate" hreflang="vi" href="https://randomly-pick.com/?lang=vi"/>
-    <xhtml:link rel="alternate" hreflang="th" href="https://randomly-pick.com/?lang=th"/>
-    <xhtml:link rel="alternate" hreflang="nl" href="https://randomly-pick.com/?lang=nl"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/"/>
-  </url>
-  <url>
     <loc>https://randomly-pick.com/roulette/</loc>
     <lastmod>2026-03-03</lastmod>
     <changefreq>daily</changefreq>
