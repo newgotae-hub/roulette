@@ -168,6 +168,19 @@
       overflow: visible !important;
     }
 
+    .dice-workspace,
+    .dice-workspace > .grid,
+    .dice-workspace .lg\:col-span-6,
+    .dice-workspace .max-w-\[720px\] {
+      position: relative;
+      overflow: visible !important;
+    }
+
+    .dice-workspace .lg\:col-span-6 {
+      z-index: 20000;
+      isolation: isolate;
+    }
+
     #dice-wrap {
       position: relative;
       z-index: 10000;
@@ -222,6 +235,8 @@
       --progress-mask: transparent;
       transform-origin: center center;
       pointer-events: none;
+      overflow: visible !important;
+      contain: none !important;
     }
 
     .dice-shell model-viewer::part(default-progress-bar),
