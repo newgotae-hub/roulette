@@ -165,6 +165,22 @@
       footerPrivacy: "Privacy"
     }
   };
+  i18n.ja = { ...i18n.en, seoTitle: "あみだくじ | オンライン抽選ツール", heroTitle: "オンラインあみだくじ", guideTitle: "あみだくじガイド" };
+  i18n["zh-cn"] = { ...i18n.en, seoTitle: "爬梯抽签 | 在线随机分配工具", heroTitle: "在线爬梯抽签", guideTitle: "使用指南" };
+  i18n["zh-tw"] = { ...i18n.en, seoTitle: "爬梯抽籤 | 線上隨機分配工具", heroTitle: "線上爬梯抽籤", guideTitle: "使用指南" };
+  i18n.es = { ...i18n.en, seoTitle: "Sorteo de Escalera | Generador Aleatorio", heroTitle: "Sorteo de Escalera Online", guideTitle: "Guía de uso" };
+  i18n.fr = { ...i18n.en, seoTitle: "Tirage Échelle | Générateur Aléatoire", heroTitle: "Tirage Échelle en Ligne", guideTitle: "Guide d'utilisation" };
+  i18n.de = { ...i18n.en, seoTitle: "Leiterziehung | Zufallszuordnung Online", heroTitle: "Online Leiterziehung", guideTitle: "Anleitung" };
+  i18n["pt-br"] = { ...i18n.en, seoTitle: "Sorteio Escada | Gerador Aleatório", heroTitle: "Sorteio de Escada Online", guideTitle: "Guia de uso" };
+  i18n.hi = { ...i18n.en, seoTitle: "लैडर ड्रॉ | ऑनलाइन रैंडम मैचिंग", heroTitle: "ऑनलाइन लैडर ड्रॉ", guideTitle: "उपयोग गाइड" };
+  i18n.ar = { ...i18n.en, seoTitle: "سحب السلم | توزيع عشوائي أونلاين", heroTitle: "سحب السلم أونلاين", guideTitle: "دليل الاستخدام" };
+  i18n.ru = { ...i18n.en, seoTitle: "Лестничная Жеребьевка | Онлайн Генератор", heroTitle: "Онлайн Лестничная Жеребьевка", guideTitle: "Руководство" };
+  i18n.id = { ...i18n.en, seoTitle: "Ladder Draw | Pengacak Acak Online", heroTitle: "Ladder Draw Online", guideTitle: "Panduan" };
+  i18n.tr = { ...i18n.en, seoTitle: "Merdiven Çekilişi | Online Rastgele Eşleştirme", heroTitle: "Online Merdiven Çekilişi", guideTitle: "Kullanım Rehberi" };
+  i18n.it = { ...i18n.en, seoTitle: "Estrazione a Scala | Generatore Casuale", heroTitle: "Estrazione a Scala Online", guideTitle: "Guida" };
+  i18n.vi = { ...i18n.en, seoTitle: "Bốc Thăm Cầu Thang | Ghép Ngẫu Nhiên Online", heroTitle: "Bốc Thăm Cầu Thang Online", guideTitle: "Hướng dẫn" };
+  i18n.th = { ...i18n.en, seoTitle: "สุ่มบันได | จับคู่แบบสุ่มออนไลน์", heroTitle: "สุ่มบันไดออนไลน์", guideTitle: "คู่มือการใช้งาน" };
+  i18n.nl = { ...i18n.en, seoTitle: "Ladder Draw | Online Willekeurige Koppeling", heroTitle: "Online Ladder Draw", guideTitle: "Handleiding" };
 
   window.RLTI18N = i18n;
 })();

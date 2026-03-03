@@ -114,7 +114,7 @@
     metaTwitterTitle: document.getElementById("meta-twitter-title"),
     metaTwitterDescription: document.getElementById("meta-twitter-description")
   };
-  const LANG_OPTIONS = ["ko", "en", "ja", "zh-cn", "es", "fr", "de", "pt-br", "hi"];
+  const LANG_OPTIONS = ["ko", "en", "ja", "zh-cn", "es", "fr", "de", "pt-br", "hi", "ar", "ru", "id", "tr", "it", "vi", "th", "nl"];
   const LANG_SET = new Set(LANG_OPTIONS);
   const localeNames = {
     ko: { native: "한국어", en: "Korean", flag: "kr" },
@@ -126,7 +126,15 @@
     fr: { native: "Français", en: "French", flag: "fr" },
     de: { native: "Deutsch", en: "German", flag: "de" },
     "pt-br": { native: "Português (Brasil)", en: "Portuguese (Brazil)", flag: "br" },
-    hi: { native: "हिन्दी", en: "Hindi", flag: "in" }
+    hi: { native: "हिन्दी", en: "Hindi", flag: "in" },
+    ar: { native: "العربية", en: "Arabic", flag: "ae" },
+    ru: { native: "Русский", en: "Russian", flag: "ru" },
+    id: { native: "Bahasa Indonesia", en: "Indonesian", flag: "id" },
+    tr: { native: "Türkçe", en: "Turkish", flag: "tr" },
+    it: { native: "Italiano", en: "Italian", flag: "it" },
+    vi: { native: "Tiếng Việt", en: "Vietnamese", flag: "vn" },
+    th: { native: "ไทย", en: "Thai", flag: "th" },
+    nl: { native: "Nederlands", en: "Dutch", flag: "nl" }
   };
   if (!LANG_SET.has(state.locale)) state.locale = "en";
 

@@ -37,7 +37,7 @@
     </style>
     <script>
       (function () {
-        var supported = ['ko', 'en', 'ja', 'zh-cn', 'zh-tw', 'es', 'fr', 'de', 'pt-br', 'hi'];
+        var supported = ['ko', 'en', 'ja', 'zh-cn', 'zh-tw', 'es', 'fr', 'de', 'pt-br', 'hi', 'ar', 'ru', 'id', 'tr', 'it', 'vi', 'th', 'nl'];
         function detectChineseRegion() {
           var navs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ''];
           for (var i = 0; i < navs.length; i++) {
@@ -66,6 +66,14 @@
           if (v.indexOf('fr') === 0) return 'fr';
           if (v.indexOf('de') === 0) return 'de';
           if (v.indexOf('hi') === 0) return 'hi';
+          if (v.indexOf('ar') === 0) return 'ar';
+          if (v.indexOf('ru') === 0) return 'ru';
+          if (v.indexOf('id') === 0) return 'id';
+          if (v.indexOf('tr') === 0) return 'tr';
+          if (v.indexOf('it') === 0) return 'it';
+          if (v.indexOf('vi') === 0) return 'vi';
+          if (v.indexOf('th') === 0) return 'th';
+          if (v.indexOf('nl') === 0) return 'nl';
           return v;
         }
         var lang = null;
@@ -654,9 +662,17 @@
                 fr: { native: 'Français', en: 'French', flag: 'fr' },
                 de: { native: 'Deutsch', en: 'German', flag: 'de' },
                 'pt-br': { native: 'Português (Brasil)', en: 'Portuguese (Brazil)', flag: 'br' },
-                hi: { native: 'हिन्दी', en: 'Hindi', flag: 'in' }
+                hi: { native: 'हिन्दी', en: 'Hindi', flag: 'in' },
+                ar: { native: 'العربية', en: 'Arabic', flag: 'ae' },
+                ru: { native: 'Русский', en: 'Russian', flag: 'ru' },
+                id: { native: 'Bahasa Indonesia', en: 'Indonesian', flag: 'id' },
+                tr: { native: 'Türkçe', en: 'Turkish', flag: 'tr' },
+                it: { native: 'Italiano', en: 'Italian', flag: 'it' },
+                vi: { native: 'Tiếng Việt', en: 'Vietnamese', flag: 'vn' },
+                th: { native: 'ไทย', en: 'Thai', flag: 'th' },
+                nl: { native: 'Nederlands', en: 'Dutch', flag: 'nl' }
             };
-            const LANG_OPTIONS = ['ko', 'en', 'ja', 'zh-cn', 'es', 'fr', 'de', 'pt-br', 'hi'];
+            const LANG_OPTIONS = ['ko', 'en', 'ja', 'zh-cn', 'es', 'fr', 'de', 'pt-br', 'hi', 'ar', 'ru', 'id', 'tr', 'it', 'vi', 'th', 'nl'];
             const LANG_SET = new Set(LANG_OPTIONS);
             if (!LANG_SET.has(state.locale)) state.locale = 'en';
 
@@ -985,6 +1001,14 @@
                 exportLabel: 'CSV एक्सपोर्ट',
                 guideTitle: 'रूलेट गाइड'
             };
+            i18n.ar = { ...i18n.en, title: 'عجلة الأسماء | اختيار عشوائي سريع', metaDescription: 'أداة عجلة عشوائية للاسم الفائز والسحوبات مع حفظ النتائج وتصديرها.', heroTitle: 'عجلة السحب العشوائي', heroSubtitle: 'ألصق القائمة وابدأ الدوران لاختيار فائز خلال ثوانٍ.', spinButtonLabel: 'ابدأ', rosterTitle: 'المشاركون', historyTitle: 'سجل الفائزين' };
+            i18n.ru = { ...i18n.en, title: 'Колесо Имен | Случайный Выбор Онлайн', metaDescription: 'Крутите колесо имен, выбирайте победителей и сохраняйте историю розыгрышей.', heroTitle: 'Колесо Случайного Выбора', heroSubtitle: 'Вставьте список и выберите победителя за секунды.', spinButtonLabel: 'Старт', rosterTitle: 'Участники', historyTitle: 'История победителей' };
+            i18n.id = { ...i18n.en, title: 'Wheel of Names | Pengacak Nama', metaDescription: 'Putar roda nama untuk memilih pemenang secara acak dan simpan riwayat hasil.', heroTitle: 'Roda Undian Acak', heroSubtitle: 'Tempel daftar peserta lalu putar untuk memilih pemenang.', spinButtonLabel: 'Mulai', rosterTitle: 'Peserta', historyTitle: 'Riwayat pemenang' };
+            i18n.tr = { ...i18n.en, title: 'İsim Çarkı | Rastgele Seçici', metaDescription: 'İsim çarkını çevirin, kazananı rastgele seçin ve geçmişi dışa aktarın.', heroTitle: 'Rastgele Çekiliş Çarkı', heroSubtitle: 'Listeyi yapıştırın ve saniyeler içinde kazananı belirleyin.', spinButtonLabel: 'Başlat', rosterTitle: 'Katılımcılar', historyTitle: 'Kazanan geçmişi' };
+            i18n.it = { ...i18n.en, title: 'Ruota dei Nomi | Scelta Casuale', metaDescription: 'Estrai un vincitore con la ruota casuale, salva lo storico ed esporta i risultati.', heroTitle: 'Ruota Estrazione Casuale', heroSubtitle: 'Incolla la lista e scegli un vincitore in pochi secondi.', spinButtonLabel: 'Avvia', rosterTitle: 'Partecipanti', historyTitle: 'Storico vincitori' };
+            i18n.vi = { ...i18n.en, title: 'Vòng Quay Tên | Chọn Ngẫu Nhiên', metaDescription: 'Quay vòng tên để chọn người thắng ngẫu nhiên, lưu lịch sử và xuất kết quả.', heroTitle: 'Vòng Quay Bốc Thăm', heroSubtitle: 'Dán danh sách và chọn người thắng chỉ trong vài giây.', spinButtonLabel: 'Bắt đầu', rosterTitle: 'Người tham gia', historyTitle: 'Lịch sử trúng' };
+            i18n.th = { ...i18n.en, title: 'วงล้อสุ่มรายชื่อ | ตัวเลือกผู้ชนะ', metaDescription: 'หมุนวงล้อสุ่มรายชื่อ เลือกผู้ชนะ และบันทึกประวัติผลลัพธ์ได้ทันที', heroTitle: 'วงล้อสุ่มจับผู้ชนะ', heroSubtitle: 'วางรายชื่อแล้วหมุน เพื่อสุ่มผู้ชนะอย่างรวดเร็ว', spinButtonLabel: 'เริ่ม', rosterTitle: 'ผู้เข้าร่วม', historyTitle: 'ประวัติผู้ชนะ' };
+            i18n.nl = { ...i18n.en, title: 'Namenrad | Willekeurige Keuze', metaDescription: 'Draai het namenrad, kies willekeurig een winnaar en exporteer de geschiedenis.', heroTitle: 'Willekeurig Namenrad', heroSubtitle: 'Plak je lijst en kies binnen seconden een winnaar.', spinButtonLabel: 'Start', rosterTitle: 'Deelnemers', historyTitle: 'Winnaarsgeschiedenis' };
 
             function detectLocale() {
                 if (LANG_SET.has(window.__rltBootLang)) return window.__rltBootLang;

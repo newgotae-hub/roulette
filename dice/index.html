@@ -41,7 +41,7 @@
 
   <script>
     (function () {
-      var supported = ['ko', 'en', 'ja', 'zh-cn', 'zh-tw', 'es', 'fr', 'de', 'pt-br', 'hi'];
+      var supported = ['ko', 'en', 'ja', 'zh-cn', 'zh-tw', 'es', 'fr', 'de', 'pt-br', 'hi', 'ar', 'ru', 'id', 'tr', 'it', 'vi', 'th', 'nl'];
       function detectChineseRegion() {
         var navs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ''];
         for (var i = 0; i < navs.length; i++) {
@@ -70,6 +70,14 @@
         if (v.indexOf('fr') === 0) return 'fr';
         if (v.indexOf('de') === 0) return 'de';
         if (v.indexOf('hi') === 0) return 'hi';
+        if (v.indexOf('ar') === 0) return 'ar';
+        if (v.indexOf('ru') === 0) return 'ru';
+        if (v.indexOf('id') === 0) return 'id';
+        if (v.indexOf('tr') === 0) return 'tr';
+        if (v.indexOf('it') === 0) return 'it';
+        if (v.indexOf('vi') === 0) return 'vi';
+        if (v.indexOf('th') === 0) return 'th';
+        if (v.indexOf('nl') === 0) return 'nl';
         return v;
       }
       var lang = null;
@@ -704,9 +712,17 @@
         fr: { native: 'Français', en: 'French', flag: 'fr' },
         de: { native: 'Deutsch', en: 'German', flag: 'de' },
         'pt-br': { native: 'Português (Brasil)', en: 'Portuguese (Brazil)', flag: 'br' },
-        hi: { native: 'हिन्दी', en: 'Hindi', flag: 'in' }
+        hi: { native: 'हिन्दी', en: 'Hindi', flag: 'in' },
+        ar: { native: 'العربية', en: 'Arabic', flag: 'ae' },
+        ru: { native: 'Русский', en: 'Russian', flag: 'ru' },
+        id: { native: 'Bahasa Indonesia', en: 'Indonesian', flag: 'id' },
+        tr: { native: 'Türkçe', en: 'Turkish', flag: 'tr' },
+        it: { native: 'Italiano', en: 'Italian', flag: 'it' },
+        vi: { native: 'Tiếng Việt', en: 'Vietnamese', flag: 'vn' },
+        th: { native: 'ไทย', en: 'Thai', flag: 'th' },
+        nl: { native: 'Nederlands', en: 'Dutch', flag: 'nl' }
       };
-      const LANG_OPTIONS = ['ko', 'en', 'ja', 'zh-cn', 'es', 'fr', 'de', 'pt-br', 'hi'];
+      const LANG_OPTIONS = ['ko', 'en', 'ja', 'zh-cn', 'es', 'fr', 'de', 'pt-br', 'hi', 'ar', 'ru', 'id', 'tr', 'it', 'vi', 'th', 'nl'];
       const LANG_SET = new Set(LANG_OPTIONS);
       if (!LANG_SET.has(state.locale)) state.locale = 'en';
 
@@ -988,6 +1004,14 @@
         rolling: 'रोल हो रहा है...',
         cumulativeTitle: 'हर फेस की कुल गिनती'
       };
+      i18n.ar = { ...i18n.en, title: 'رمي النرد | نرد عشوائي أونلاين', metaDescription: 'ارمِ من 1 إلى 12 نردًا دفعة واحدة واحفظ النتائج وصدّرها بسهولة.', heroTitle: 'رمي النرد', heroSubtitle: 'نتائج فورية مع عدّاد تراكمي وتقارير واضحة.', controlsTitle: 'الإعدادات', roll: 'ارمِ' };
+      i18n.ru = { ...i18n.en, title: 'Бросок Кубиков | Онлайн Генератор', metaDescription: 'Бросайте от 1 до 12 кубиков сразу, сохраняйте результаты и экспортируйте их.', heroTitle: 'Бросок Кубиков', heroSubtitle: 'Мгновенные результаты, статистика и удобный отчет.', controlsTitle: 'Настройки', roll: 'Бросить' };
+      i18n.id = { ...i18n.en, title: 'Lempar Dadu | Dadu Acak Online', metaDescription: 'Lempar 1-12 dadu sekaligus, simpan hasil, dan ekspor data dengan mudah.', heroTitle: 'Lempar Dadu', heroSubtitle: 'Hasil acak instan dengan statistik yang jelas.', controlsTitle: 'Pengaturan', roll: 'Lempar' };
+      i18n.tr = { ...i18n.en, title: 'Zar Atma | Online Rastgele Zar', metaDescription: 'Aynı anda 1-12 zar atın, sonuçları kaydedin ve dışa aktarın.', heroTitle: 'Zar Atma', heroSubtitle: 'Anlık sonuç ve toplu istatistik ile pratik kullanım.', controlsTitle: 'Ayarlar', roll: 'At' };
+      i18n.it = { ...i18n.en, title: 'Lancio Dadi | Dado Casuale Online', metaDescription: 'Lancia 1-12 dadi insieme, salva i risultati ed esporta facilmente.', heroTitle: 'Lancio Dadi', heroSubtitle: 'Risultati immediati con statistiche cumulative.', controlsTitle: 'Impostazioni', roll: 'Lancia' };
+      i18n.vi = { ...i18n.en, title: 'Tung Xúc Xắc | Xúc Xắc Ngẫu Nhiên', metaDescription: 'Tung 1-12 xúc xắc cùng lúc, lưu lịch sử và xuất kết quả nhanh.', heroTitle: 'Tung Xúc Xắc', heroSubtitle: 'Kết quả tức thì kèm thống kê cộng dồn dễ theo dõi.', controlsTitle: 'Cài đặt', roll: 'Tung' };
+      i18n.th = { ...i18n.en, title: 'ทอยลูกเต๋า | สุ่มลูกเต๋าออนไลน์', metaDescription: 'ทอยลูกเต๋า 1-12 ลูกพร้อมกัน บันทึกผลและส่งออกข้อมูลได้ทันที', heroTitle: 'ทอยลูกเต๋า', heroSubtitle: 'ผลลัพธ์ทันใจ พร้อมสถิติสะสมอ่านง่าย', controlsTitle: 'การตั้งค่า', roll: 'ทอย' };
+      i18n.nl = { ...i18n.en, title: 'Dobbelsteen Gooien | Online Willekeurige Dobbelsteen', metaDescription: 'Gooi 1-12 dobbelstenen tegelijk, bewaar resultaten en exporteer eenvoudig.', heroTitle: 'Dobbelsteen Gooien', heroSubtitle: 'Directe uitkomsten met duidelijke cumulatieve statistiek.', controlsTitle: 'Instellingen', roll: 'Gooien' };
 
       const DICE_GLB_URL = '/dice.glb';
       const FACE_ORIENTATION = {

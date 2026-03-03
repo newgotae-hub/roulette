@@ -37,7 +37,7 @@
   </style>
   <script>
     (function () {
-      var supported = ['ko', 'en', 'ja', 'zh-cn', 'zh-tw', 'es', 'fr', 'de', 'pt-br', 'hi'];
+      var supported = ['ko', 'en', 'ja', 'zh-cn', 'zh-tw', 'es', 'fr', 'de', 'pt-br', 'hi', 'ar', 'ru', 'id', 'tr', 'it', 'vi', 'th', 'nl'];
       function normalizeLang(raw) {
         var v = String(raw || '').toLowerCase().replace('_', '-');
         if (!v) return '';
@@ -51,6 +51,14 @@
         if (v.indexOf('fr') === 0) return 'fr';
         if (v.indexOf('de') === 0) return 'de';
         if (v.indexOf('hi') === 0) return 'hi';
+        if (v.indexOf('ar') === 0) return 'ar';
+        if (v.indexOf('ru') === 0) return 'ru';
+        if (v.indexOf('id') === 0) return 'id';
+        if (v.indexOf('tr') === 0) return 'tr';
+        if (v.indexOf('it') === 0) return 'it';
+        if (v.indexOf('vi') === 0) return 'vi';
+        if (v.indexOf('th') === 0) return 'th';
+        if (v.indexOf('nl') === 0) return 'nl';
         return v;
       }
       var lang = null;

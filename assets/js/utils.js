@@ -1,6 +1,6 @@
 (function () {
   const DELIMITER_RE = /[\s,;|/\\·•ㆍ،，、]+/g;
-  const SUPPORTED_LOCALES = ["ko", "en", "ja", "zh-cn", "zh-tw", "es", "fr", "de", "pt-br", "hi"];
+  const SUPPORTED_LOCALES = ["ko", "en", "ja", "zh-cn", "zh-tw", "es", "fr", "de", "pt-br", "hi", "ar", "ru", "id", "tr", "it", "vi", "th", "nl"];
 
   function normalizeLocale(raw) {
     const v = String(raw || "").toLowerCase().replace("_", "-");
@@ -15,6 +15,14 @@
     if (v.startsWith("fr")) return "fr";
     if (v.startsWith("de")) return "de";
     if (v.startsWith("hi")) return "hi";
+    if (v.startsWith("ar")) return "ar";
+    if (v.startsWith("ru")) return "ru";
+    if (v.startsWith("id")) return "id";
+    if (v.startsWith("tr")) return "tr";
+    if (v.startsWith("it")) return "it";
+    if (v.startsWith("vi")) return "vi";
+    if (v.startsWith("th")) return "th";
+    if (v.startsWith("nl")) return "nl";
     return v;
   }
 

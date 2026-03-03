@@ -41,7 +41,7 @@
 
   <script>
     (function () {
-      var supported = ['ko', 'en', 'ja', 'zh-cn', 'zh-tw', 'es', 'fr', 'de', 'pt-br', 'hi'];
+      var supported = ['ko', 'en', 'ja', 'zh-cn', 'zh-tw', 'es', 'fr', 'de', 'pt-br', 'hi', 'ar', 'ru', 'id', 'tr', 'it', 'vi', 'th', 'nl'];
       function detectChineseRegion() {
         var navs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ''];
         for (var i = 0; i < navs.length; i++) {
@@ -70,6 +70,14 @@
         if (v.indexOf('fr') === 0) return 'fr';
         if (v.indexOf('de') === 0) return 'de';
         if (v.indexOf('hi') === 0) return 'hi';
+        if (v.indexOf('ar') === 0) return 'ar';
+        if (v.indexOf('ru') === 0) return 'ru';
+        if (v.indexOf('id') === 0) return 'id';
+        if (v.indexOf('tr') === 0) return 'tr';
+        if (v.indexOf('it') === 0) return 'it';
+        if (v.indexOf('vi') === 0) return 'vi';
+        if (v.indexOf('th') === 0) return 'th';
+        if (v.indexOf('nl') === 0) return 'nl';
         return v;
       }
       var lang = null;
@@ -743,9 +751,17 @@
         fr: { native: 'Français', en: 'French', flag: 'fr' },
         de: { native: 'Deutsch', en: 'German', flag: 'de' },
         'pt-br': { native: 'Português (Brasil)', en: 'Portuguese (Brazil)', flag: 'br' },
-        hi: { native: 'हिन्दी', en: 'Hindi', flag: 'in' }
+        hi: { native: 'हिन्दी', en: 'Hindi', flag: 'in' },
+        ar: { native: 'العربية', en: 'Arabic', flag: 'ae' },
+        ru: { native: 'Русский', en: 'Russian', flag: 'ru' },
+        id: { native: 'Bahasa Indonesia', en: 'Indonesian', flag: 'id' },
+        tr: { native: 'Türkçe', en: 'Turkish', flag: 'tr' },
+        it: { native: 'Italiano', en: 'Italian', flag: 'it' },
+        vi: { native: 'Tiếng Việt', en: 'Vietnamese', flag: 'vn' },
+        th: { native: 'ไทย', en: 'Thai', flag: 'th' },
+        nl: { native: 'Nederlands', en: 'Dutch', flag: 'nl' }
       };
-      const LANG_OPTIONS = ['ko', 'en', 'ja', 'zh-cn', 'es', 'fr', 'de', 'pt-br', 'hi'];
+      const LANG_OPTIONS = ['ko', 'en', 'ja', 'zh-cn', 'es', 'fr', 'de', 'pt-br', 'hi', 'ar', 'ru', 'id', 'tr', 'it', 'vi', 'th', 'nl'];
       const LANG_SET = new Set(LANG_OPTIONS);
       if (!LANG_SET.has(state.locale)) state.locale = 'en';
 
@@ -1049,6 +1065,14 @@
         historyTitle: 'इतिहास',
         export: 'CSV निर्यात करें'
       };
+      i18n.ar = { ...i18n.en, title: 'قلب العملة | اختيار عشوائي بين وجه وكتابة', metaDescription: 'ارمِ من 1 إلى 20 عملة دفعة واحدة واحفظ النتائج. مناسب للقرارات السريعة والسحوبات.', heroTitle: 'قلب العملة', heroSubtitle: 'نتيجة فورية لوجه أو كتابة مع سجل قابل للتصدير.', controlsTitle: 'الإعدادات', historyTitle: 'السجل', flip: 'ارمِ العملة' };
+      i18n.ru = { ...i18n.en, title: 'Подброс монеты | Орел или решка', metaDescription: 'Подбрасывайте от 1 до 20 монет сразу, сохраняйте историю и экспортируйте CSV.', heroTitle: 'Орел или решка', heroSubtitle: 'Быстрый и наглядный случайный выбор для игр и решений.', controlsTitle: 'Настройки', historyTitle: 'История', flip: 'Бросить' };
+      i18n.id = { ...i18n.en, title: 'Lempar Koin | Head atau Tail', metaDescription: 'Lempar 1-20 koin sekaligus, simpan riwayat, dan ekspor hasil ke CSV.', heroTitle: 'Lempar Koin', heroSubtitle: 'Pilihan acak cepat untuk keputusan, kelas, dan giveaway.', controlsTitle: 'Pengaturan', historyTitle: 'Riwayat', flip: 'Lempar' };
+      i18n.tr = { ...i18n.en, title: 'Yazı Tura | Çevrimiçi Para Atma', metaDescription: 'Aynı anda 1-20 para atın, geçmişi kaydedin ve CSV olarak dışa aktarın.', heroTitle: 'Yazı Tura', heroSubtitle: 'Hızlı kararlar ve çekilişler için anlık rastgele sonuç.', controlsTitle: 'Ayarlar', historyTitle: 'Geçmiş', flip: 'At' };
+      i18n.it = { ...i18n.en, title: 'Lancio Moneta | Testa o Croce', metaDescription: 'Lancia da 1 a 20 monete insieme, salva lo storico ed esporta in CSV.', heroTitle: 'Testa o Croce', heroSubtitle: 'Scelta casuale immediata per giochi, lezioni e decisioni.', controlsTitle: 'Impostazioni', historyTitle: 'Cronologia', flip: 'Lancia' };
+      i18n.vi = { ...i18n.en, title: 'Tung Đồng Xu | Sấp hay Ngửa', metaDescription: 'Tung 1-20 đồng xu cùng lúc, lưu lịch sử và xuất CSV nhanh chóng.', heroTitle: 'Tung Đồng Xu', heroSubtitle: 'Kết quả ngẫu nhiên tức thì cho bốc thăm và quyết định nhanh.', controlsTitle: 'Cài đặt', historyTitle: 'Lịch sử', flip: 'Tung' };
+      i18n.th = { ...i18n.en, title: 'โยนเหรียญ | หัวหรือก้อย', metaDescription: 'โยนเหรียญ 1-20 เหรียญพร้อมกัน บันทึกประวัติ และส่งออก CSV ได้ทันที', heroTitle: 'โยนเหรียญ', heroSubtitle: 'สุ่มผลแบบทันที เหมาะกับกิจกรรม เกม และการตัดสินใจเร็ว', controlsTitle: 'การตั้งค่า', historyTitle: 'ประวัติ', flip: 'โยนเหรียญ' };
+      i18n.nl = { ...i18n.en, title: 'Munt Gooien | Kop of Munt', metaDescription: 'Gooi 1-20 munten tegelijk, bewaar geschiedenis en exporteer naar CSV.', heroTitle: 'Munt Gooien', heroSubtitle: 'Snelle willekeurige keuze voor les, spel en loting.', controlsTitle: 'Instellingen', historyTitle: 'Geschiedenis', flip: 'Gooien' };
 
       function t(key, vars) {
         const dict = i18n[state.locale] || i18n.en;

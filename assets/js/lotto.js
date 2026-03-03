@@ -123,7 +123,15 @@
   i18n.de = { ...i18n.en };
   i18n["pt-br"] = { ...i18n.en };
   i18n.hi = { ...i18n.en };
-  const LANG_OPTIONS = ["ko", "en", "ja", "zh-cn", "es", "fr", "de", "pt-br", "hi"];
+  i18n.ar = { ...i18n.en, title: 'مولد أرقام عشوائي | سحب سريع أونلاين', heroTitle: 'سحب عشوائي', heroSubtitle: 'سحب أرقام أو أسماء بسرعة مع حفظ النتائج.', btnDraw: 'ابدأ السحب' };
+  i18n.ru = { ...i18n.en, title: 'Генератор Случайных Чисел | Быстрый Розыгрыш', heroTitle: 'Случайный Розыгрыш', heroSubtitle: 'Быстрый выбор чисел или имен с сохранением истории.', btnDraw: 'Начать розыгрыш' };
+  i18n.id = { ...i18n.en, title: 'Generator Angka Acak | Lucky Draw Online', heroTitle: 'Undian Acak', heroSubtitle: 'Tarik angka atau nama dengan cepat dan simpan hasil.', btnDraw: 'Mulai Undian' };
+  i18n.tr = { ...i18n.en, title: 'Rastgele Sayı Üretici | Hızlı Çekiliş', heroTitle: 'Rastgele Çekiliş', heroSubtitle: 'Numara veya isim çekilişini hızlıca yapın ve kaydedin.', btnDraw: 'Çekilişi Başlat' };
+  i18n.it = { ...i18n.en, title: 'Generatore Numeri Casuali | Estrazione Rapida', heroTitle: 'Estrazione Casuale', heroSubtitle: 'Estrai numeri o nomi rapidamente e salva i risultati.', btnDraw: 'Avvia Estrazione' };
+  i18n.vi = { ...i18n.en, title: 'Trình Tạo Số Ngẫu Nhiên | Bốc Thăm Nhanh', heroTitle: 'Bốc Thăm Ngẫu Nhiên', heroSubtitle: 'Rút số hoặc tên nhanh, lưu kết quả dễ dàng.', btnDraw: 'Bắt đầu bốc thăm' };
+  i18n.th = { ...i18n.en, title: 'สุ่มตัวเลขออนไลน์ | จับสลากรวดเร็ว', heroTitle: 'สุ่มจับสลาก', heroSubtitle: 'สุ่มตัวเลขหรือรายชื่ออย่างรวดเร็ว พร้อมบันทึกผล', btnDraw: 'เริ่มจับสลาก' };
+  i18n.nl = { ...i18n.en, title: 'Willekeurige Nummergenerator | Snelle Loting', heroTitle: 'Willekeurige Loting', heroSubtitle: 'Trek snel nummers of namen en bewaar de resultaten.', btnDraw: 'Start loting' };
+  const LANG_OPTIONS = ["ko", "en", "ja", "zh-cn", "es", "fr", "de", "pt-br", "hi", "ar", "ru", "id", "tr", "it", "vi", "th", "nl"];
   const LANG_SET = new Set(LANG_OPTIONS);
   const localeNames = {
     ko: { native: "한국어", en: "Korean", flag: "kr" },
@@ -135,7 +143,15 @@
     fr: { native: "Français", en: "French", flag: "fr" },
     de: { native: "Deutsch", en: "German", flag: "de" },
     "pt-br": { native: "Português (Brasil)", en: "Portuguese (Brazil)", flag: "br" },
-    hi: { native: "हिन्दी", en: "Hindi", flag: "in" }
+    hi: { native: "हिन्दी", en: "Hindi", flag: "in" },
+    ar: { native: "العربية", en: "Arabic", flag: "ae" },
+    ru: { native: "Русский", en: "Russian", flag: "ru" },
+    id: { native: "Bahasa Indonesia", en: "Indonesian", flag: "id" },
+    tr: { native: "Türkçe", en: "Turkish", flag: "tr" },
+    it: { native: "Italiano", en: "Italian", flag: "it" },
+    vi: { native: "Tiếng Việt", en: "Vietnamese", flag: "vn" },
+    th: { native: "ไทย", en: "Thai", flag: "th" },
+    nl: { native: "Nederlands", en: "Dutch", flag: "nl" }
   };
 
   const state = {
