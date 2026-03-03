@@ -1767,7 +1767,8 @@
         if (currentToolMatch) {
           const tool = currentToolMatch[2].toLowerCase();
           const nextPath = locale === 'ko' ? `/${tool}/` : `/${locale}/${tool}/`;
-          window.history.replaceState({}, '', `${nextPath}${url.hash}`);
+          window.location.assign(`${nextPath}${url.hash}`);
+          return;
         } else {
           if (locale === 'ko') url.searchParams.delete('lang');
           else url.searchParams.set('lang', locale);

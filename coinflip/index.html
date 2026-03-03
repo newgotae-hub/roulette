@@ -2164,7 +2164,8 @@
           if (currentToolMatch) {
             const tool = currentToolMatch[2].toLowerCase();
             const nextPath = next === 'ko' ? `/${tool}/` : `/${next}/${tool}/`;
-            window.history.replaceState({}, '', `${nextPath}${url.hash}`);
+            window.location.assign(`${nextPath}${url.hash}`);
+                        return;
           } else {
             if (next === 'ko') url.searchParams.delete('lang');
             else url.searchParams.set('lang', next);
