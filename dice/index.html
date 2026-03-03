@@ -261,6 +261,43 @@
       text-align: center;
     }
 
+    .cum-face-card {
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 10px 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mini-die {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+      position: relative;
+    }
+
+    .pip {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 9999px;
+      background: #0f172a;
+    }
+
+    .tl { top: 9px; left: 9px; }
+    .tr { top: 9px; right: 9px; }
+    .ml { top: 22px; left: 9px; }
+    .mm { top: 22px; left: 22px; }
+    .mr { top: 22px; right: 9px; }
+    .bl { bottom: 9px; left: 9px; }
+    .br { bottom: 9px; right: 9px; }
+
     @media (min-width: 640px) {
       .grid-dice { gap: 8px; }
     }
@@ -445,16 +482,42 @@
           <div class="dice-panel bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col h-full">
             <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/60">
               <h2 class="text-sm font-semibold tracking-tight flex items-center gap-2">
-                <iconify-icon icon="solar:history-linear" stroke-width="1.5" class="text-slate-400"></iconify-icon>
-                <span id="history-title">기록</span>
+                <iconify-icon icon="solar:dice-3-linear" stroke-width="1.5" class="text-slate-400"></iconify-icon>
+                <span id="cum-title">면별 누적 횟수</span>
               </h2>
-              <button id="export-history" class="text-xs font-medium text-slate-500 hover:text-slate-900 flex items-center gap-1 transition-colors">
-                <iconify-icon icon="solar:download-minimalistic-linear" stroke-width="1.5"></iconify-icon>
-                <span id="export-label">엑셀 저장</span>
-              </button>
             </div>
-
-            <div id="history-list" class="flex-grow overflow-y-auto hide-scrollbar p-2 space-y-0.5"></div>
+            <div class="flex-grow p-3 grid grid-cols-2 gap-2 content-start">
+              <div class="cum-face-card">
+                <div class="mini-die"><span class="pip mm"></span></div>
+                <p class="text-xs text-slate-500">1</p>
+                <p id="cum-face-1" class="text-sm font-semibold text-slate-900">0</p>
+              </div>
+              <div class="cum-face-card">
+                <div class="mini-die"><span class="pip tl"></span><span class="pip br"></span></div>
+                <p class="text-xs text-slate-500">2</p>
+                <p id="cum-face-2" class="text-sm font-semibold text-slate-900">0</p>
+              </div>
+              <div class="cum-face-card">
+                <div class="mini-die"><span class="pip tl"></span><span class="pip mm"></span><span class="pip br"></span></div>
+                <p class="text-xs text-slate-500">3</p>
+                <p id="cum-face-3" class="text-sm font-semibold text-slate-900">0</p>
+              </div>
+              <div class="cum-face-card">
+                <div class="mini-die"><span class="pip tl"></span><span class="pip tr"></span><span class="pip bl"></span><span class="pip br"></span></div>
+                <p class="text-xs text-slate-500">4</p>
+                <p id="cum-face-4" class="text-sm font-semibold text-slate-900">0</p>
+              </div>
+              <div class="cum-face-card">
+                <div class="mini-die"><span class="pip tl"></span><span class="pip tr"></span><span class="pip mm"></span><span class="pip bl"></span><span class="pip br"></span></div>
+                <p class="text-xs text-slate-500">5</p>
+                <p id="cum-face-5" class="text-sm font-semibold text-slate-900">0</p>
+              </div>
+              <div class="cum-face-card">
+                <div class="mini-die"><span class="pip tl"></span><span class="pip ml"></span><span class="pip bl"></span><span class="pip tr"></span><span class="pip mr"></span><span class="pip br"></span></div>
+                <p class="text-xs text-slate-500">6</p>
+                <p id="cum-face-6" class="text-sm font-semibold text-slate-900">0</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -504,7 +567,7 @@
         diceCount: 1,
         durationSec: 2.5,
         rolling: false,
-        history: [],
+        cumulative: [0, 0, 0, 0, 0, 0],
         reducedMotion: window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
         assets: { ready: false },
         dice: []
@@ -543,10 +606,7 @@
         banner: document.getElementById('banner'),
         diceWrap: document.getElementById('dice-wrap'),
         confettiLayer: document.getElementById('confetti-layer'),
-        historyTitle: document.getElementById('history-title'),
-        exportHistory: document.getElementById('export-history'),
-        exportLabel: document.getElementById('export-label'),
-        historyList: document.getElementById('history-list'),
+        cumTitle: document.getElementById('cum-title'),
         guideTitle: document.getElementById('guide-title'),
         guideSubtitle: document.getElementById('guide-subtitle'),
         footerTerms: document.getElementById('footer-terms'),
@@ -557,7 +617,8 @@
         metaOgDescription: document.getElementById('meta-og-description'),
         metaTwitterTitle: document.getElementById('meta-twitter-title'),
         metaTwitterDescription: document.getElementById('meta-twitter-description'),
-        faceCounts: [1, 2, 3, 4, 5, 6].map((n) => document.getElementById(`face-${n}`))
+        faceCounts: [1, 2, 3, 4, 5, 6].map((n) => document.getElementById(`face-${n}`)),
+        cumulativeCounts: [1, 2, 3, 4, 5, 6].map((n) => document.getElementById(`cum-face-${n}`))
       };
 
       const i18n = {
@@ -590,10 +651,7 @@
           bannerAssets: '주사위 자산을 불러오는 중입니다...',
           bannerMissing: 'dice.glb 경로를 확인해 주세요.',
           bannerDone: '완료: 합계 {sum} · 결과 [{rolls}]',
-          historyTitle: '기록',
-          export: '엑셀 저장',
-          noHistory: '아직 기록이 없습니다.',
-          exportEmpty: '내보낼 기록이 없습니다.',
+          cumulativeTitle: '면별 누적 횟수',
           motionNote: '설정된 모션 감소 환경에서는 애니메이션이 단순 표시로 대체됩니다.',
           guideTitle: '주사위 굴리기 가이드',
           guideSubtitle: 'RLT 주사위는 브라우저에서만 동작하며 입력/결과가 외부 서버로 전송되지 않습니다.',
@@ -646,10 +704,7 @@
           bannerAssets: 'Loading dice assets...',
           bannerMissing: 'Please check the dice.glb path.',
           bannerDone: 'Done: Total {sum} · Rolls [{rolls}]',
-          historyTitle: 'History',
-          export: 'Export CSV',
-          noHistory: 'No history yet.',
-          exportEmpty: 'There is no history to export.',
+          cumulativeTitle: 'Cumulative Face Count',
           motionNote: 'With reduced-motion enabled, animation is simplified.',
           guideTitle: 'Dice Roll Guide',
           guideSubtitle: 'Dice roll runs locally in your browser and is not sent to external servers.',
@@ -706,7 +761,6 @@
         state.locale = next;
         try { window.localStorage.setItem('rlt-lang', next); } catch (e) {}
         applyI18n();
-        renderHistory();
       }
 
       function updateLangButtons() {
@@ -757,8 +811,7 @@
         ui.rollLabel.textContent = state.rolling ? t('rolling') : t('roll');
         ui.sumLabel.textContent = t('sumLabel');
         ui.avgLabel.textContent = t('avgLabel');
-        ui.historyTitle.textContent = t('historyTitle');
-        ui.exportLabel.textContent = t('export');
+        ui.cumTitle.textContent = t('cumulativeTitle');
         ui.motionNoteText.textContent = t('motionNote');
         ui.guideTitle.textContent = t('guideTitle');
         ui.guideSubtitle.textContent = t('guideSubtitle');
@@ -1057,88 +1110,12 @@
         updateFaceStats(results);
       }
 
-      function renderHistory() {
-        if (!state.history.length) {
-          ui.historyList.innerHTML = `
-            <div class="h-full min-h-[260px] flex flex-col items-center justify-center text-slate-400">
-              <iconify-icon icon="solar:ghost-smile-linear" class="text-3xl mb-2"></iconify-icon>
-              <p class="text-xs">${t('noHistory')}</p>
-            </div>
-          `;
-          return;
+      function updateCumulativeStats(rolls) {
+        for (let i = 0; i < rolls.length; i++) {
+          const face = Math.max(1, Math.min(6, Number(rolls[i]) || 1));
+          state.cumulative[face - 1] += 1;
         }
-
-        ui.historyList.innerHTML = state.history.map((item, idx) => {
-          const label = `${t('countShort')} ${item.count} · ${t('sumShort')} ${item.sum} · ${t('avgShort')} ${item.avg.toFixed(2)}`;
-          const detail = `${t('rollsShort')}: [${item.rolls.join(', ')}]`;
-          return `
-            <div class="flex items-start justify-between p-3 rounded-xl hover:bg-slate-50 transition-colors group gap-3">
-              <div class="flex items-start gap-3 min-w-0">
-                <span class="mt-0.5 flex items-center justify-center w-6 h-6 rounded-full bg-slate-100 text-xs font-medium text-slate-500">${idx + 1}</span>
-                <div class="min-w-0">
-                  <p class="text-sm font-medium text-slate-900 truncate">${label}</p>
-                  <p class="text-[11px] text-slate-500 truncate">${detail}</p>
-                  <p class="text-[11px] text-slate-400">${item.time}</p>
-                </div>
-              </div>
-              <button data-history-id="${item.id}" class="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-red-500 transition-all" aria-label="remove">
-                <iconify-icon icon="solar:close-circle-linear" stroke-width="1.5"></iconify-icon>
-              </button>
-            </div>
-          `;
-        }).join('');
-      }
-
-      function exportCsv() {
-        if (!state.history.length) {
-          setBanner(t('exportEmpty'), 'text-red-500');
-          return;
-        }
-        const header = state.locale === 'ko'
-          ? ['순번', '시간', '주사위개수', '합계', '평균', '결과']
-          : ['No.', 'Time', 'Count', 'Total', 'Average', 'Rolls'];
-
-        const rows = state.history.map((item, idx) => [
-          String(idx + 1),
-          item.time,
-          String(item.count),
-          String(item.sum),
-          item.avg.toFixed(2),
-          item.rolls.join(' ')
-        ]);
-        const csv = [header, ...rows].map((line) => line.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(',')).join('\n');
-
-        const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        const stamp = new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-');
-        a.href = url;
-        a.download = `rlt-diceroll-${stamp}.csv`;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        URL.revokeObjectURL(url);
-      }
-
-      function toLocalizedTimeString(date) {
-        return date.toLocaleTimeString(state.locale === 'ko' ? 'ko-KR' : 'en-US', {
-          hour: '2-digit', minute: '2-digit', second: '2-digit'
-        });
-      }
-
-      function pushHistory(rolls) {
-        const now = new Date();
-        const sum = rolls.reduce((acc, n) => acc + n, 0);
-        const avg = sum / rolls.length;
-        state.history.push({
-          id: `${now.getTime()}-${Math.random().toString(36).slice(2, 8)}`,
-          time: toLocalizedTimeString(now),
-          count: state.diceCount,
-          rolls: rolls.slice(),
-          sum,
-          avg
-        });
-        renderHistory();
+        ui.cumulativeCounts.forEach((el, idx) => { el.textContent = String(state.cumulative[idx]); });
       }
 
       function faceTarget(value) {
@@ -1172,7 +1149,7 @@
           rollSoundEnd();
           triggerPowderBurst();
           setBanner(t('bannerDone', { sum: results.reduce((a, b) => a + b, 0), rolls: results.join(', ') }), 'text-green-600');
-          pushHistory(results);
+          updateCumulativeStats(results);
           state.rolling = false;
           ui.rollButton.disabled = false;
           ui.rollLabel.textContent = t('roll');
@@ -1226,7 +1203,7 @@
         rollSoundEnd();
         triggerPowderBurst();
         setBanner(t('bannerDone', { sum: results.reduce((a, b) => a + b, 0), rolls: results.join(', ') }), 'text-green-600');
-        pushHistory(results);
+        updateCumulativeStats(results);
 
         state.rolling = false;
         ui.rollButton.disabled = false;
@@ -1262,15 +1239,6 @@
         });
 
         ui.rollButton.addEventListener('click', doRoll);
-        ui.exportHistory.addEventListener('click', exportCsv);
-
-        ui.historyList.addEventListener('click', (event) => {
-          const target = event.target.closest('button[data-history-id]');
-          if (!target) return;
-          const id = target.getAttribute('data-history-id');
-          state.history = state.history.filter((x) => x.id !== id);
-          renderHistory();
-        });
       }
 
       function init() {
@@ -1283,7 +1251,7 @@
         updateCountUI();
         updateDurationUI();
         applyI18n();
-        renderHistory();
+        ui.cumulativeCounts.forEach((el) => { el.textContent = '0'; });
         renderDice();
         updateTotalStats([]);
         setBanner(t('bannerAssets'), 'text-slate-500');
