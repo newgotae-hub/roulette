@@ -250,7 +250,7 @@
     fullscreenExit: '離開全螢幕',
     heroTitle: '隨機抽籤',
     heroTitleCustom: '自訂名單抽籤',
-    heroSubtitle: '適用於抽獎活動、課堂點名、分組挑選的隨機抽籤工具。',
+    heroSubtitle: '適用於抽籤活動、課堂點名、分組挑選的隨機抽籤工具。',
     tabBasic: '基本設定',
     tabCustom: '自訂名單',
     labelTotalBalls: '總球數 (1~100)',
