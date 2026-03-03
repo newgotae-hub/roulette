@@ -17,6 +17,23 @@
         ]
       },
       {
+        "source": "**/*.html",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache, no-store, must-revalidate"
+          },
+          {
+            "key": "Pragma",
+            "value": "no-cache"
+          },
+          {
+            "key": "Expires",
+            "value": "0"
+          }
+        ]
+      },
+      {
         "source": "/ads.txt",
         "headers": [
           {
@@ -51,12 +68,6 @@
         "source": "/:tool/index.html",
         "destination": "/:tool/",
         "type": 301
-      }
-    ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/404.html"
       }
     ]
   }
