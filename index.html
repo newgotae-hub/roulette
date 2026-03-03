@@ -37,16 +37,51 @@
     </style>
     <script>
       (function () {
+        var supported = ['ko', 'en', 'ja', 'zh-cn', 'zh-tw', 'es', 'fr', 'de', 'pt-br', 'hi', 'ar', 'ru', 'id', 'tr', 'it', 'vi', 'th', 'nl'];
+        function normalizeLang(raw) {
+          var v = String(raw || '').toLowerCase().replace('_', '-');
+          if (!v) return '';
+          if (v === 'zh' || v.indexOf('zh-cn') === 0 || v.indexOf('zh-hans') === 0) return 'zh-cn';
+          if (v.indexOf('zh-tw') === 0 || v.indexOf('zh-hk') === 0 || v.indexOf('zh-hant') === 0) return 'zh-tw';
+          if (v.indexOf('pt-br') === 0) return 'pt-br';
+          if (v.indexOf('ko') === 0) return 'ko';
+          if (v.indexOf('en') === 0) return 'en';
+          if (v.indexOf('ja') === 0) return 'ja';
+          if (v.indexOf('es') === 0) return 'es';
+          if (v.indexOf('fr') === 0) return 'fr';
+          if (v.indexOf('de') === 0) return 'de';
+          if (v.indexOf('hi') === 0) return 'hi';
+          if (v.indexOf('ar') === 0) return 'ar';
+          if (v.indexOf('ru') === 0) return 'ru';
+          if (v.indexOf('id') === 0) return 'id';
+          if (v.indexOf('tr') === 0) return 'tr';
+          if (v.indexOf('it') === 0) return 'it';
+          if (v.indexOf('vi') === 0) return 'vi';
+          if (v.indexOf('th') === 0) return 'th';
+          if (v.indexOf('nl') === 0) return 'nl';
+          return v;
+        }
         var lang = null;
         var params = new URLSearchParams(window.location.search);
-        var forced = params.get('lang');
-        if (forced === 'ko' || forced === 'en') lang = forced;
+        var forced = normalizeLang(params.get('lang'));
+        if (supported.indexOf(forced) !== -1) lang = forced;
         if (!lang) {
-          try { lang = window.localStorage.getItem('rlt-lang'); } catch (e) {}
+          try {
+            var cached = normalizeLang(window.localStorage.getItem('rlt-lang'));
+            if (supported.indexOf(cached) !== -1) lang = cached;
+          } catch (e) {}
         }
-        if (lang !== 'ko' && lang !== 'en') {
-          lang = (navigator.language || '').toLowerCase().startsWith('ko') ? 'ko' : 'en';
+        if (!lang) {
+          var navs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ''];
+          for (var i = 0; i < navs.length; i++) {
+            var cand = normalizeLang(navs[i]);
+            if (supported.indexOf(cand) !== -1) {
+              lang = cand;
+              break;
+            }
+          }
         }
+        if (!lang) lang = 'en';
         window.__rltBootLang = lang;
         document.documentElement.lang = lang;
         document.documentElement.classList.add('i18n-pending');
@@ -103,22 +138,11 @@
     </script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1010168647313500" crossorigin="anonymous"></script>
     <script>
-      window.Userback = window.Userback || {};
-      Userback.access_token = "A-vV6YCxc6cQKtRBem24yA3IgC8";
-      (function() {
-        var lang = null;
-        var params = new URLSearchParams(window.location.search);
-        var forced = params.get('lang');
-        if (forced === 'ko' || forced === 'en') {
-          lang = forced;
-        }
-        if (!lang) {
-          try { lang = window.localStorage.getItem('rlt-lang'); } catch (e) {}
-        }
-        if (lang !== 'ko' && lang !== 'en') {
-          lang = (navigator.language || '').toLowerCase().startsWith('ko') ? 'ko' : 'en';
-        }
-        Userback.widget_settings = { language: lang };
+    window.Userback = window.Userback || {};
+    Userback.access_token = "A-vV6YCxc6cQKtRBem24yA3IgC8";
+    (function() {
+        var lang = window.__rltBootLang || 'en';
+        Userback.widget_settings = { language: lang === 'ko' ? 'ko' : 'en' };
       })();
       (function(d) {
         var s = d.createElement('script');s.async = true;s.src = 'https://static.userback.io/widget/v1.js';(d.head || d.body).appendChild(s);
@@ -589,7 +613,7 @@
                 rotation: 0,
                 winnerIndex: -1,
                 audio: null,
-                locale: 'ko'
+                locale: window.__rltBootLang || 'en'
             };
 
             const ui = {
@@ -768,11 +792,38 @@
                     fullscreenFailed: 'Failed to toggle fullscreen.'
                 }
             };
+            const LANG_OPTIONS = ['ko', 'en', 'ja', 'zh-cn', 'zh-tw', 'es', 'fr', 'de', 'pt-br', 'hi', 'ar', 'ru', 'id', 'tr', 'it', 'vi', 'th', 'nl'];
+            const LANG_SET = new Set(LANG_OPTIONS);
+            if (!LANG_SET.has(state.locale)) state.locale = 'en';
+
+            function normalizeLocale(raw) {
+                const v = String(raw || '').toLowerCase().replace('_', '-');
+                if (!v) return '';
+                if (v === 'zh' || v.startsWith('zh-cn') || v.startsWith('zh-hans')) return 'zh-cn';
+                if (v.startsWith('zh-tw') || v.startsWith('zh-hk') || v.startsWith('zh-hant')) return 'zh-tw';
+                if (v.startsWith('pt-br')) return 'pt-br';
+                if (v.startsWith('ko')) return 'ko';
+                if (v.startsWith('en')) return 'en';
+                if (v.startsWith('ja')) return 'ja';
+                if (v.startsWith('es')) return 'es';
+                if (v.startsWith('fr')) return 'fr';
+                if (v.startsWith('de')) return 'de';
+                if (v.startsWith('hi')) return 'hi';
+                if (v.startsWith('ar')) return 'ar';
+                if (v.startsWith('ru')) return 'ru';
+                if (v.startsWith('id')) return 'id';
+                if (v.startsWith('tr')) return 'tr';
+                if (v.startsWith('it')) return 'it';
+                if (v.startsWith('vi')) return 'vi';
+                if (v.startsWith('th')) return 'th';
+                if (v.startsWith('nl')) return 'nl';
+                return v;
+            }
 
             function detectLocale() {
                 const params = new URLSearchParams(window.location.search);
-                const forced = params.get('lang');
-                if (forced === 'ko' || forced === 'en') {
+                const forced = normalizeLocale(params.get('lang'));
+                if (LANG_SET.has(forced)) {
                     try {
                         window.localStorage.setItem('rlt-lang', forced);
                     } catch (e) {}
@@ -781,17 +832,21 @@
 
                 let saved = null;
                 try {
-                    saved = window.localStorage.getItem('rlt-lang');
+                    saved = normalizeLocale(window.localStorage.getItem('rlt-lang'));
                 } catch (e) {}
-                if (saved === 'ko' || saved === 'en') return saved;
+                if (LANG_SET.has(saved)) return saved;
 
-                const browserLang = (navigator.language || '').toLowerCase();
-                return browserLang.startsWith('ko') ? 'ko' : 'en';
+                const navs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ''];
+                for (const nav of navs) {
+                    const cand = normalizeLocale(nav);
+                    if (LANG_SET.has(cand)) return cand;
+                }
+                return 'en';
             }
 
             function t(key, vars) {
-                const dict = i18n[state.locale] || i18n.ko;
-                const raw = dict[key] || i18n.ko[key] || key;
+                const dict = i18n[state.locale] || i18n.en;
+                const raw = dict[key] || i18n.en[key] || i18n.ko[key] || key;
                 if (!vars) return raw;
                 return raw.replace(/\{(\w+)\}/g, (_, k) => (vars[k] ?? ''));
             }
@@ -808,7 +863,8 @@
                     if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('javascript:')) return;
                     const url = new URL(href, window.location.origin);
                     if (url.origin !== window.location.origin || !url.pathname.startsWith('/')) return;
-                    url.searchParams.set('lang', state.locale);
+                    if (state.locale === 'ko') url.searchParams.delete('lang');
+                    else url.searchParams.set('lang', state.locale);
                     a.setAttribute('href', `${url.pathname}${url.search}${url.hash}`);
                 });
             }
@@ -885,24 +941,27 @@
             }
 
             function updateLanguageButtons() {
-                const active = 'bg-slate-100 text-slate-900';
-                const inactive = 'text-slate-500';
-                const activeAria = state.locale === 'ko' ? ui.langKo : ui.langEn;
-                const inactiveAria = state.locale === 'ko' ? ui.langEn : ui.langKo;
-
                 ui.langKo.classList.remove('bg-slate-100', 'text-slate-900', 'text-slate-500');
                 ui.langEn.classList.remove('bg-slate-100', 'text-slate-900', 'text-slate-500');
 
                 if (state.locale === 'ko') {
                     ui.langKo.classList.add('bg-slate-100', 'text-slate-900');
                     ui.langEn.classList.add('text-slate-500');
+                    ui.langKo.setAttribute('aria-pressed', 'true');
+                    ui.langEn.setAttribute('aria-pressed', 'false');
                 } else {
-                    ui.langEn.classList.add('bg-slate-100', 'text-slate-900');
-                    ui.langKo.classList.add('text-slate-500');
+                    if (state.locale === 'en') {
+                        ui.langEn.classList.add('bg-slate-100', 'text-slate-900');
+                        ui.langKo.classList.add('text-slate-500');
+                        ui.langKo.setAttribute('aria-pressed', 'false');
+                        ui.langEn.setAttribute('aria-pressed', 'true');
+                    } else {
+                        ui.langKo.classList.add('text-slate-500');
+                        ui.langEn.classList.add('text-slate-500');
+                        ui.langKo.setAttribute('aria-pressed', 'false');
+                        ui.langEn.setAttribute('aria-pressed', 'false');
+                    }
                 }
-
-                activeAria.setAttribute('aria-pressed', 'true');
-                inactiveAria.setAttribute('aria-pressed', 'false');
             }
 
             function setLocale(nextLocale) {
