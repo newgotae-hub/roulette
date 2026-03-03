@@ -115,14 +115,70 @@
       noCopy: 'Nothing to copy.'
     }
   };
-  i18n.ja = { ...i18n.en };
-  i18n["zh-cn"] = { ...i18n.en };
-  i18n["zh-tw"] = { ...i18n.en };
-  i18n.es = { ...i18n.en };
-  i18n.fr = { ...i18n.en };
-  i18n.de = { ...i18n.en };
-  i18n["pt-br"] = { ...i18n.en };
-  i18n.hi = { ...i18n.en };
+  i18n.ja = {
+    ...i18n.en,
+    title: 'ランダム抽選ツール | 数字・名前のオンライン抽選',
+    desc: '数字抽選と名前抽選をすばやく実行。アニメーション抽選、履歴保存、CSV出力に対応。',
+    ogTitle: 'ランダム抽選ツール | 数字・名前のオンライン抽選',
+    ogDesc: '数字や名前をランダム抽選して、そのまま履歴管理できる抽選ツール。',
+    twTitle: 'ランダム抽選ツール | 数字・名前のオンライン抽選',
+    twDesc: '数字抽選・名前抽選を高速に実行し、結果を保存できます。',
+    navSpin: 'ルーレット',
+    navLotto: '抽選ボール',
+    navHistory: 'あみだくじ',
+    navCoin: 'コイン投げ',
+    navDice: 'サイコロ',
+    navGuide: 'ガイド',
+    fullscreenHint: '集中モードは全画面を押してください。',
+    fullscreen: '全画面',
+    fullscreenExit: '終了',
+    heroTitle: 'ランダム抽選ツール',
+    heroTitleCustom: 'カスタム抽選',
+    heroSubtitle: '数字・名前をスムーズに抽選して、結果をすぐに確認できます。',
+    tabBasic: '基本設定',
+    tabCustom: '直接入力',
+    labelTotalBalls: '全体数 (1~100)',
+    labelDrawCount: '抽選数',
+    labelCustomDrawCount: '抽選数',
+    customPlaceholder: '名前または項目を入力。改行・カンマ・空白を自動認識します。',
+    labelAllowDup: '重複抽選を許可',
+    labelSound: '効果音',
+    labelSpeed: '抽選速度',
+    speed1: '遅い', speed2: '標準', speed3: '速い',
+    btnQuick: 'アニメーション省略（高速抽選）',
+    btnDraw: '抽選開始',
+    statusReady: '設定を確認して抽選開始を押してください。',
+    statusDrawing: '抽選中です...',
+    statusDone: '抽選が完了しました。',
+    statusErrorNum: '入力値を確認してください。',
+    resultTitle: '今回の結果',
+    sortOrder: '抽選順',
+    sortAsc: '昇順',
+    btnCopy: 'コピー',
+    historyTitle: '抽選履歴',
+    btnExport: 'CSV保存',
+    historyEmpty: '履歴がありません。',
+    guideTitle: 'よくある質問',
+    faq1Q: '任意の名前や番号で抽選できますか？',
+    faq1A: 'はい。直接入力タブで改行・空白・カンマ区切りの項目を抽選できます。',
+    faq2Q: '結果を並び替えできますか？',
+    faq2A: '昇順ボタンで数値/文字順に並び替えられます。',
+    faq3Q: '履歴は保存できますか？',
+    faq3A: 'CSV保存ボタンで抽選履歴をファイルとして保存できます。',
+    faq4Q: '入力データは安全ですか？',
+    faq4A: 'すべてブラウザ内で処理され、外部サーバーに送信されません。',
+    footerTerms: '利用規約',
+    footerPrivacy: 'プライバシー',
+    copied: 'コピーしました！',
+    noCopy: 'コピーできる結果がありません。'
+  };
+  i18n["zh-cn"] = { ...i18n.en, title: '随机抽签工具 | 数字与名单抽取', heroTitle: '随机抽签', btnDraw: '开始抽签' };
+  i18n["zh-tw"] = { ...i18n.en, title: '隨機抽籤工具 | 數字與名單抽取', heroTitle: '隨機抽籤', btnDraw: '開始抽籤' };
+  i18n.es = { ...i18n.en, title: 'Sorteador Aleatorio | Números y Nombres', heroTitle: 'Sorteo Aleatorio', btnDraw: 'Iniciar sorteo' };
+  i18n.fr = { ...i18n.en, title: 'Tirage Aléatoire | Nombres et Noms', heroTitle: 'Tirage Aléatoire', btnDraw: 'Lancer le tirage' };
+  i18n.de = { ...i18n.en, title: 'Zufallsziehung | Zahlen und Namen', heroTitle: 'Zufallsziehung', btnDraw: 'Ziehung starten' };
+  i18n["pt-br"] = { ...i18n.en, title: 'Sorteador Aleatório | Números e Nomes', heroTitle: 'Sorteio Aleatório', btnDraw: 'Iniciar sorteio' };
+  i18n.hi = { ...i18n.en, title: 'रैंडम ड्रॉ टूल | नंबर और नाम चयन', heroTitle: 'रैंडम ड्रॉ', btnDraw: 'ड्रॉ शुरू करें' };
   i18n.ar = { ...i18n.en, title: 'مولد أرقام عشوائي | سحب سريع أونلاين', heroTitle: 'سحب عشوائي', heroSubtitle: 'سحب أرقام أو أسماء بسرعة مع حفظ النتائج.', btnDraw: 'ابدأ السحب' };
   i18n.ru = { ...i18n.en, title: 'Генератор Случайных Чисел | Быстрый Розыгрыш', heroTitle: 'Случайный Розыгрыш', heroSubtitle: 'Быстрый выбор чисел или имен с сохранением истории.', btnDraw: 'Начать розыгрыш' };
   i18n.id = { ...i18n.en, title: 'Generator Angka Acak | Lucky Draw Online', heroTitle: 'Undian Acak', heroSubtitle: 'Tarik angka atau nama dengan cepat dan simpan hasil.', btnDraw: 'Mulai Undian' };
