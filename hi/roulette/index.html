@@ -409,23 +409,15 @@
                                 <iconify-icon icon="solar:users-group-rounded-linear" stroke-width="1.5" class="text-slate-400"></iconify-icon>
                                 <span id="roster-title">प्रतिभागी सूची</span>
                             </h2>
-                            <span id="participant-count" class="text-xs font-medium text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">कुल 0</span>
+                            <div class="flex items-center gap-2"><button id="reset-list" class="bg-white border border-slate-200 rounded-lg px-2.5 py-1 text-xs font-medium text-slate-600 hover:bg-slate-50 transition-colors flex items-center justify-center gap-1"><iconify-icon icon="solar:trash-bin-trash-linear" stroke-width="1.5"></iconify-icon><span id="reset-label">초기화</span></button><span id="participant-count" class="hidden" aria-hidden="true"></span></div>
                         </div>
 
                         <div class="p-4 flex-grow flex flex-col">
                             <label for="participant-list" class="sr-only">प्रतिभागी सूची</label>
-                            <textarea id="participant-list" class="w-full h-16 md:h-64 lg:h-full resize-none bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm md:text-base text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-shadow" placeholder="नाम लिखें या Excel से पेस्ट करें। स्पेस, कॉमा, नई पंक्ति, टैब, सेमीकोलन, स्लैश और पाइप समर्थित।"></textarea>
+                            <textarea id="participant-list" class="w-full h-24 md:h-64 lg:h-full resize-none bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm md:text-base text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-shadow" placeholder="नाम लिखें या Excel से पेस्ट करें। स्पेस, कॉमा, नई पंक्ति, टैब, सेमीकोलन, स्लैश और पाइप समर्थित।"></textarea>
 
-                            <div class="mt-3 flex gap-2">
-                                <button id="reset-list" class="flex-1 bg-white border border-slate-200 rounded-lg py-2 text-xs font-medium text-slate-600 hover:bg-slate-50 transition-colors flex items-center justify-center gap-1">
-                                    <iconify-icon icon="solar:trash-bin-trash-linear" stroke-width="1.5"></iconify-icon>
-                                    <span id="reset-label">रीसेट</span>
-                                </button>
-                                <button id="apply-list" class="flex-1 bg-slate-900 text-white rounded-lg py-2 text-xs font-medium hover:bg-slate-800 transition-colors flex items-center justify-center gap-1 shadow-sm">
-                                    <iconify-icon icon="solar:check-circle-linear" stroke-width="1.5"></iconify-icon>
-                                    <span id="apply-label">लागू करें</span>
-                                </button>
-                            </div>
+                            <button id="apply-list" class="hidden" type="button" aria-hidden="true" tabindex="-1"></button>
+
                         </div>
 
                         <div class="hidden md:block p-4 border-t border-slate-100 bg-slate-50/60 space-y-4">
