@@ -243,13 +243,13 @@
     }
     @media (max-width: 1023px) {
       #coin-controls-panel {
-        order: 2;
+        order: 3;
       }
       #coin-stage-panel {
         order: 1;
       }
       #coin-history-panel {
-        order: 3;
+        order: 4;
       }
     }
 
@@ -586,13 +586,13 @@
   </section>
 
   <main class="flex-grow flex flex-col">
-    <section class="coin-hero pt-10 pb-8 px-4 sm:px-6 lg:px-8 text-center max-w-3xl mx-auto">
+    <section class="coin-hero pt-4 pb-2 md:pt-10 md:pb-8 px-4 sm:px-6 lg:px-8 text-center max-w-3xl mx-auto">
       <h1 id="hero-title" class="text-3xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-4">동전 던지기</h1>
-      <p id="hero-subtitle" class="text-base md:text-lg text-slate-500 font-normal">3D 동전 던지기로 여러개의 동전을 동시에 던지고 결과를 바로 확인하세요.</p>
+      <p id="hero-subtitle" class="hidden"></p>
     </section>
 
-    <section class="coin-workspace max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-8">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+    <section class="coin-workspace max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-4 md:pb-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 md:gap-6 items-start">
 
         <div id="coin-controls-panel" class="lg:col-span-3 space-y-4">
           <div class="coin-panel bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col min-h-[410px] lg:h-[590px]">
@@ -639,7 +639,7 @@
             <div class="p-4 border-t border-slate-100 bg-slate-50/60 space-y-2">
               <p id="banner" class="text-xs text-slate-500 animate-soft-pulse">준비되면 “던지기”를 눌러주세요.</p>
 
-              <button id="flip-button" class="w-full bg-slate-900 text-white rounded-xl py-2.5 text-sm font-semibold hover:bg-slate-800 transition-colors shadow-sm disabled:opacity-60 disabled:cursor-not-allowed">
+              <button id="flip-button" class="hidden md:block w-full bg-slate-900 text-white rounded-xl py-2.5 text-sm font-semibold hover:bg-slate-800 transition-colors shadow-sm disabled:opacity-60 disabled:cursor-not-allowed">
                 <span id="flip-label">던지기</span>
               </button>
 
@@ -670,6 +670,9 @@
               <div id="coins-wrap" class="grid-coins flex-grow"></div>
             </div>
           </div>
+          <button id="flip-button-mobile" class="md:hidden mt-3 w-full max-w-[720px] bg-slate-900 text-white rounded-xl py-2.5 text-sm font-semibold hover:bg-slate-800 transition-colors shadow-sm disabled:opacity-60 disabled:cursor-not-allowed">
+            <span id="flip-label-mobile">던지기</span>
+          </button>
         </div>
 
         <div id="coin-history-panel" class="lg:col-span-3 min-h-[380px] lg:h-[590px]">
@@ -815,7 +818,9 @@
         motionNote: document.getElementById('motion-note'),
         motionNoteText: document.getElementById('motion-note-text'),
         flipButton: document.getElementById('flip-button'),
+        flipButtonMobile: document.getElementById('flip-button-mobile'),
         flipLabel: document.getElementById('flip-label'),
+        flipLabelMobile: document.getElementById('flip-label-mobile'),
         headsLabel: document.getElementById('heads-label'),
         tailsLabel: document.getElementById('tails-label'),
         headsCount: document.getElementById('heads-count'),
@@ -2286,6 +2291,7 @@
         ui.oddPlayer.placeholder = t('oddNamePh');
         ui.evenPlayer.placeholder = t('evenNamePh');
         ui.flipLabel.textContent = state.flipping ? t('flipping') : t('flip');
+        if (ui.flipLabelMobile) ui.flipLabelMobile.textContent = state.flipping ? t('flipping') : t('flip');
         ui.headsLabel.textContent = t('heads');
         ui.tailsLabel.textContent = t('tails');
         ui.historyTitle.textContent = t('historyTitle');
@@ -2819,7 +2825,9 @@
 
         state.flipping = true;
         ui.flipButton.disabled = true;
+        if (ui.flipButtonMobile) ui.flipButtonMobile.disabled = true;
         ui.flipLabel.textContent = t('flipping');
+        if (ui.flipLabelMobile) ui.flipLabelMobile.textContent = t('flipping');
         setBanner(t('flipping'), 'text-slate-500');
 
         const results = new Array(state.coinCount).fill(false).map(() => secureRandomBit());
@@ -2839,7 +2847,9 @@
           pushHistory(heads, tails);
           state.flipping = false;
           ui.flipButton.disabled = false;
+          if (ui.flipButtonMobile) ui.flipButtonMobile.disabled = false;
           ui.flipLabel.textContent = t('flip');
+          if (ui.flipLabelMobile) ui.flipLabelMobile.textContent = t('flip');
           return;
         }
 
@@ -2887,7 +2897,9 @@
 
         state.flipping = false;
         ui.flipButton.disabled = false;
+        if (ui.flipButtonMobile) ui.flipButtonMobile.disabled = false;
         ui.flipLabel.textContent = t('flip');
+        if (ui.flipLabelMobile) ui.flipLabelMobile.textContent = t('flip');
       }
 
       function wireEvents() {
@@ -2925,6 +2937,7 @@
         });
 
         ui.flipButton.addEventListener('click', doFlip);
+        if (ui.flipButtonMobile) ui.flipButtonMobile.addEventListener('click', doFlip);
         ui.exportHistory.addEventListener('click', exportCsv);
 
         ui.historyList.addEventListener('click', (event) => {
@@ -2940,6 +2953,7 @@
         state.coinCount = 1;
         state.durationSec = 4;
         ui.flipButton.disabled = true;
+        if (ui.flipButtonMobile) ui.flipButtonMobile.disabled = true;
 
         if (state.reducedMotion) ui.motionNote.classList.remove('hidden');
 
