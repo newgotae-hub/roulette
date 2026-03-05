@@ -1088,6 +1088,8 @@
     btnQuick: document.getElementById('btn-quick-draw'),
     btnReset: document.getElementById('btn-reset'),
     btnDraw: document.getElementById('btn-draw'),
+    btnResetMobile: document.getElementById('btn-reset-mobile'),
+    btnDrawMobile: document.getElementById('btn-draw-mobile'),
     statusBanner: document.getElementById('status-banner'),
     machineWrap: document.getElementById('machine-wrap'),
     resultSlots: document.getElementById('result-slots'),
@@ -1244,6 +1246,7 @@
     setText('label-speed', 'labelSpeed');
     setText('label-btn-quick', 'btnQuick');
     setText('label-btn-draw', 'btnDraw');
+    setText('label-btn-draw-mobile', 'btnDraw');
     setText('label-result-title', 'resultTitle');
     setText('sort-order', 'sortOrder');
     setText('sort-asc', 'sortAsc');
@@ -1631,17 +1634,11 @@
   function renderSlots(results) {
     const drawCount = getDrawCount();
     const list = [...results];
-    if (state.sortMode === 'asc') {
-      list.sort((a, b) => {
-        const na = Number(a.label); const nb = Number(b.label);
-        if (!Number.isNaN(na) && !Number.isNaN(nb)) return na - nb;
-        return a.label.localeCompare(b.label);
-      });
-    }
 
-    const columns = drawCount <= 4 ? drawCount : (drawCount <= 6 ? 3 : 5);
+    const mobile = window.matchMedia && window.matchMedia('(max-width: 1023px)').matches;
+    const columns = mobile ? 6 : (drawCount <= 4 ? drawCount : (drawCount <= 6 ? 3 : 5));
     ui.resultSlots.style.gridTemplateColumns = `repeat(${columns}, minmax(0, 1fr))`;
-    ui.resultSlots.style.maxWidth = drawCount > 6 ? '320px' : '240px';
+    ui.resultSlots.style.maxWidth = mobile ? '100%' : (drawCount > 6 ? '320px' : '240px');
 
     ui.resultSlots.innerHTML = '';
     for (let i = 0; i < drawCount; i++) {
@@ -1675,13 +1672,15 @@
   function setLocked(flag) {
     state.drawing = flag;
     ui.btnDraw.disabled = flag;
+    if (ui.btnDrawMobile) ui.btnDrawMobile.disabled = flag;
     ui.btnQuick.disabled = flag;
     ui.btnReset.disabled = flag;
+    if (ui.btnResetMobile) ui.btnResetMobile.disabled = flag;
     ui.inpTotal.disabled = flag;
     ui.inpDrawBasic.disabled = flag;
     ui.inpCustomList.disabled = flag;
     ui.inpDrawCustom.disabled = flag;
-    ui.statusBanner.textContent = flag ? t('statusDrawing') : t('statusDone');
+    if (ui.statusBanner) ui.statusBanner.textContent = flag ? t('statusDrawing') : '';
   }
 
   function tone(freq, dur, type, vol) {
@@ -1751,13 +1750,6 @@
 
     const time = new Date().toLocaleTimeString(state.locale === 'ko' ? 'ko-KR' : 'en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
     const save = [...state.currentResult];
-    if (state.sortMode === 'asc') {
-      save.sort((a, b) => {
-        const na = Number(a.label); const nb = Number(b.label);
-        if (!Number.isNaN(na) && !Number.isNaN(nb)) return na - nb;
-        return a.label.localeCompare(b.label);
-      });
-    }
     state.history.push({ time, results: save.map((r) => r.label) });
     renderHistory();
 
@@ -1847,21 +1839,18 @@
     ui.sliderSpeed.addEventListener('input', updateSpeedLabel);
 
     ui.btnDraw.addEventListener('click', () => drawSequence(false));
+    if (ui.btnDrawMobile) ui.btnDrawMobile.addEventListener('click', () => drawSequence(false));
     ui.btnQuick.addEventListener('click', () => drawSequence(true));
     ui.btnReset.addEventListener('click', preparePool);
+    if (ui.btnResetMobile) ui.btnResetMobile.addEventListener('click', preparePool);
 
-    ui.btnSortOrder.addEventListener('click', () => {
-      state.sortMode = 'order';
-      ui.btnSortOrder.className = 'px-2 py-1 text-[10px] font-semibold rounded-md bg-white text-slate-900 shadow-sm';
-      ui.btnSortAsc.className = 'px-2 py-1 text-[10px] font-semibold rounded-md text-slate-500 hover:text-slate-900';
-      renderSlots(state.currentResult);
-    });
-    ui.btnSortAsc.addEventListener('click', () => {
-      state.sortMode = 'asc';
-      ui.btnSortAsc.className = 'px-2 py-1 text-[10px] font-semibold rounded-md bg-white text-slate-900 shadow-sm';
-      ui.btnSortOrder.className = 'px-2 py-1 text-[10px] font-semibold rounded-md text-slate-500 hover:text-slate-900';
-      renderSlots(state.currentResult);
-    });
+    state.sortMode = 'order';
+    if (ui.btnSortOrder) {
+      ui.btnSortOrder.className = 'hidden';
+    }
+    if (ui.btnSortAsc) {
+      ui.btnSortAsc.className = 'hidden';
+    }
 
     ui.btnCopy.addEventListener('click', copyResult);
     ui.btnExport.addEventListener('click', exportCsv);

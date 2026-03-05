@@ -395,6 +395,9 @@
         order: 2;
       }
       #lotto-controls-panel {
+        order: 4;
+      }
+      #lotto-mobile-actions {
         order: 3;
       }
       #result-slots {
@@ -521,7 +524,7 @@
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-6 md:pb-10">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 md:gap-6 items-start">
         <div id="lotto-controls-panel" class="lg:col-span-3 space-y-4">
-          <button id="btn-draw" class="w-full h-11 bg-slate-900 rounded-xl flex items-center justify-center text-white shadow-lg hover:scale-[1.02] active:scale-[0.99] transition-all">
+          <button id="btn-draw" class="hidden md:flex w-full h-11 bg-slate-900 rounded-xl items-center justify-center text-white shadow-lg hover:scale-[1.02] active:scale-[0.99] transition-all">
             <span id="label-btn-draw" class="text-sm font-semibold tracking-wide">ड्रॉ शुरू करें</span>
           </button>
 
@@ -595,12 +598,12 @@
             </div>
           </div>
 
-          <div class="mt-5 flex gap-3">
+          <div class="hidden md:flex mt-5 gap-3">
             <button id="btn-reset" class="w-14 h-14 bg-white border border-slate-200 rounded-full flex items-center justify-center text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors shadow-sm">
               <iconify-icon icon="solar:refresh-linear" stroke-width="1.5" class="text-xl"></iconify-icon>
             </button>
           </div>
-          <p id="status-banner" class="mt-3 text-sm text-slate-500 animate-soft-pulse min-h-[20px]">सेटिंग जांचें और शुरू करें दबाएं।</p>
+          <p id="status-banner" class="hidden md:block mt-3 text-sm text-slate-500 animate-soft-pulse min-h-[20px]">सेटिंग जांचें और शुरू करें दबाएं।</p>
         </div>
 
         <div id="lotto-results-panel" class="lg:col-span-3 space-y-4 lg:h-[600px]">
@@ -610,7 +613,7 @@
                 <iconify-icon icon="solar:stars-linear" class="text-slate-400"></iconify-icon>
                 <span id="label-result-title">वर्तमान परिणाम</span>
               </h2>
-              <div class="flex bg-slate-100 rounded-lg p-0.5">
+              <div class="hidden">
                 <button id="sort-order" class="px-2 py-1 text-[10px] font-semibold rounded-md bg-white text-slate-900 shadow-sm">क्रम</button>
                 <button id="sort-asc" class="px-2 py-1 text-[10px] font-semibold rounded-md text-slate-500 hover:text-slate-900">आरोही</button>
               </div>
@@ -636,6 +639,16 @@
             <div id="history-list" class="flex-grow overflow-y-auto hide-scrollbar p-2 space-y-1 bg-white"></div>
           </div>
         </div>
+
+        <div id="lotto-mobile-actions" class="md:hidden flex gap-2">
+          <button id="btn-reset-mobile" class="flex-1 h-11 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-slate-700 font-semibold text-sm">
+            <span id="label-btn-reset-mobile">초기화</span>
+          </button>
+          <button id="btn-draw-mobile" class="flex-1 h-11 bg-slate-900 rounded-xl flex items-center justify-center text-white font-semibold text-sm">
+            <span id="label-btn-draw-mobile">추첨 시작</span>
+          </button>
+        </div>
+
       </div>
     </section>
 
