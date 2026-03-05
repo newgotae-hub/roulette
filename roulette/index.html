@@ -535,7 +535,7 @@
                         <div id="confetti-layer" aria-hidden="true"></div>
                     </div>
 
-                    <p id="winner-banner" class="mt-6 min-h-7 text-sm md:text-base text-slate-500 animate-soft-pulse">명단을 적용한 뒤 SPIN을 눌러 추첨하세요.</p>
+                    <p id="winner-banner" class="hidden md:block mt-6 min-h-7 text-sm md:text-base text-slate-500 animate-soft-pulse">명단을 적용한 뒤 SPIN을 눌러 추첨하세요.</p>
                 </div>
 
                 <div id="history" class="order-3 lg:order-none lg:col-span-3 min-h-[420px] lg:h-[640px]">
@@ -2498,7 +2498,7 @@
                 }
 
                 if (state.available.length === 0) {
-                    announce(t('needAtLeastOne'), 'text-red-500');
+                    if (window.matchMedia && window.matchMedia('(max-width: 1023px)').matches) { announce('', 'text-slate-500'); } else { announce(t('needAtLeastOne'), 'text-red-500'); }
                 } else {
                     announce(t('applied', { count: state.available.length }), 'text-slate-500');
                 }
@@ -2519,7 +2519,7 @@
                 drawWheel();
 
                 if (parsed.length === 0) {
-                    announce(t('needAtLeastOne'), 'text-red-500');
+                    if (window.matchMedia && window.matchMedia('(max-width: 1023px)').matches) { announce('', 'text-slate-500'); } else { announce(t('needAtLeastOne'), 'text-red-500'); }
                 }
             }
 
