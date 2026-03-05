@@ -2590,6 +2590,14 @@
         ui.rollDuration.value = String(state.durationSec);
       }
 
+      function setRollingLock(flag) {
+        ui.rollButton.disabled = !!flag;
+        ui.diceCount.disabled = !!flag;
+        ui.rollDuration.disabled = !!flag;
+        ui.oddPlayer.disabled = !!flag;
+        ui.evenPlayer.disabled = !!flag;
+      }
+
       function setBanner(text, colorClass) {
         ui.banner.textContent = text;
         ui.banner.classList.remove('text-slate-500', 'text-green-600', 'text-red-500');
@@ -2631,22 +2639,29 @@
           return;
         }
 
+        const activeDice = state.dice.slice();
+        if (!activeDice.length) {
+          renderDice();
+        }
+        const diceAtRoll = activeDice.length ? activeDice : state.dice.slice();
+        if (!diceAtRoll.length) return;
+
         state.rolling = true;
-        ui.rollButton.disabled = true;
+        setRollingLock(true);
         ui.rollLabel.textContent = t('rolling');
         setBanner(t('rolling'), 'text-slate-500');
 
-        const targetValues = new Array(state.diceCount).fill(0).map(() => secureRandomInt6());
+        const targetValues = new Array(diceAtRoll.length).fill(0).map(() => secureRandomInt6());
         rollSoundStart();
 
         if (state.reducedMotion) {
-          state.dice.forEach((die, idx) => {
+          diceAtRoll.forEach((die, idx) => {
             const value = targetValues[idx];
             const target = faceTarget(value);
             setModelOrientation(die, target[0], target[1], target[2]);
             setDieValue(die, value);
           });
-          const finalValues = state.dice.map((die, idx) => {
+          const finalValues = diceAtRoll.map((die, idx) => {
             const fallback = targetValues[idx] || 1;
             return Math.max(1, Math.min(6, Number(die.value) || Number(die.badge.textContent) || fallback));
           });
@@ -2657,16 +2672,16 @@
           updateCumulativeStats(finalValues);
           updateParityReport(sum);
           state.rolling = false;
-          ui.rollButton.disabled = false;
+          setRollingLock(false);
           ui.rollLabel.textContent = t('roll');
           return;
         }
 
         const durationMs = Math.floor(state.durationSec * 1000);
-        const maxStagger = Math.min(140, Math.max(0, 10 * state.diceCount));
-        const staggers = state.dice.map(() => Math.floor(Math.random() * maxStagger));
+        const maxStagger = Math.min(140, Math.max(0, 10 * diceAtRoll.length));
+        const staggers = diceAtRoll.map(() => Math.floor(Math.random() * maxStagger));
 
-        const animationPromises = state.dice.map((die, idx) => new Promise((resolve) => {
+        const animationPromises = diceAtRoll.map((die, idx) => new Promise((resolve) => {
           const value = targetValues[idx];
           const target = faceTarget(value);
           const current = die.angles || { x: 0, y: 0, z: 0 };
@@ -2723,7 +2738,7 @@
           window.setTimeout(settle, durationMs + maxStagger + 220);
         }));
         await Promise.all(animationPromises);
-        const finalValues = state.dice.map((die, idx) => {
+        const finalValues = diceAtRoll.map((die, idx) => {
           const fallback = targetValues[idx] || 1;
           return Math.max(1, Math.min(6, Number(die.value) || Number(die.badge.textContent) || fallback));
         });
@@ -2736,7 +2751,7 @@
         updateParityReport(sum);
 
         state.rolling = false;
-        ui.rollButton.disabled = false;
+        setRollingLock(false);
         ui.rollLabel.textContent = t('roll');
       }
 
@@ -2764,12 +2779,14 @@
         document.addEventListener('fullscreenchange', updateFullscreenButton);
 
         ui.diceCount.addEventListener('input', () => {
+          if (state.rolling) return;
           state.diceCount = Math.max(1, Math.min(12, Number(ui.diceCount.value) || 1));
           updateCountUI();
           renderDice();
         });
 
         ui.rollDuration.addEventListener('input', () => {
+          if (state.rolling) return;
           state.durationSec = Math.max(1, Math.min(6, Number(ui.rollDuration.value) || 1));
           updateDurationUI();
         });
@@ -2780,7 +2797,7 @@
       function init() {
         state.diceCount = 1;
         state.durationSec = 4;
-        ui.rollButton.disabled = true;
+        setRollingLock(true);
 
         if (state.reducedMotion) ui.motionNote.classList.remove('hidden');
 
