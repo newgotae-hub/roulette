@@ -2639,6 +2639,13 @@
         return [base[0], base[1], base[2]];
       }
 
+      function settleDieToFace(die, value) {
+        const target = faceTarget(value);
+        // Force final pose to the canonical face orientation so visual face and score never diverge.
+        setModelOrientation(die, target[0], target[1], target[2]);
+        setDieValue(die, value);
+      }
+
       async function doRoll() {
         if (state.rolling) return;
         if (!state.assets.ready) {
@@ -2664,9 +2671,7 @@
         if (state.reducedMotion) {
           diceAtRoll.forEach((die, idx) => {
             const value = targetValues[idx];
-            const target = faceTarget(value);
-            setModelOrientation(die, target[0], target[1], target[2]);
-            setDieValue(die, value);
+            settleDieToFace(die, value);
           });
           const finalValues = targetValues.slice();
           const sum = finalValues.reduce((a, b) => a + b, 0);
@@ -2743,8 +2748,8 @@
         }));
         await Promise.all(animationPromises);
         const finalValues = targetValues.slice();
-        // Keep UI badges and recorded values sourced from the same finalized roll values.
-        diceAtRoll.forEach((die, idx) => setDieValue(die, finalValues[idx]));
+        // Keep visual top face, badges, and recorded values sourced from the same finalized roll values.
+        diceAtRoll.forEach((die, idx) => settleDieToFace(die, finalValues[idx]));
         const sum = finalValues.reduce((a, b) => a + b, 0);
 
         rollSoundEnd();
