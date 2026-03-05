@@ -2636,7 +2636,9 @@
 
       function faceTarget(value) {
         const base = FACE_ORIENTATION[value] || FACE_ORIENTATION[1];
-        return [base[0], base[1], base[2]];
+        // FACE_ORIENTATION is front-facing calibration; shift by -90deg on X so the
+        // finalized value is the face visible on the top side.
+        return [base[0] - 90, base[1], base[2]];
       }
 
       function settleDieToFace(die, value) {
