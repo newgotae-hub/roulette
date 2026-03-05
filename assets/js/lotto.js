@@ -20,7 +20,7 @@
       fullscreenExit: '화면해제',
       heroTitle: '로또 번호 추첨기',
       heroTitleCustom: '랜덤 추첨기',
-      heroSubtitle: '빠르고 부드러운 애니메이션, 기본 로또 번호부터 명단 입력까지 지원합니다.',
+      heroSubtitle: '기본 로또 번호부터 명단 입력까지 지원합니다.',
       tabBasic: '기본 설정',
       tabCustom: '직접 입력',
       labelTotalBalls: '전체 공 개수 (1~100)',

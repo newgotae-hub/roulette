@@ -388,22 +388,25 @@
     .tab-content { display: none; }
     .tab-content.active { display: flex; }
     @media (max-width: 1023px) {
-      #lotto-controls-panel {
-        order: 2;
-      }
       #lotto-stage-panel {
         order: 1;
-        position: relative;
-        z-index: 90;
       }
       #lotto-results-panel {
+        order: 2;
+      }
+      #lotto-controls-panel {
         order: 3;
       }
-      #lotto-stage-panel #machine-shell,
-      #lotto-stage-panel #machine-wrap,
-      #lotto-stage-panel #lotto-canvas {
-        position: relative;
-        z-index: 95;
+      #result-slots {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 6px;
+        max-width: 100%;
+      }
+      .result-ball {
+        width: 34px;
+        height: 34px;
+        font-size: 12px;
+        border-width: 2px;
       }
     }
   </style>
@@ -447,7 +450,7 @@
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P4JDC9CR"
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
-  <header class="sticky top-0 z-50 bg-slate-50/85 backdrop-blur-md border-b border-slate-200/70">
+  <header class="hidden md:block sticky top-0 z-50 bg-slate-50/85 backdrop-blur-md border-b border-slate-200/70">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
         <div class="flex items-center gap-2">
@@ -502,13 +505,13 @@
   </section>
 
   <main class="flex-grow flex flex-col">
-    <section class="pt-8 pb-5 px-4 sm:px-6 lg:px-8 text-center max-w-3xl mx-auto">
+    <section class="pt-3 pb-2 md:pt-8 md:pb-5 px-4 sm:px-6 lg:px-8 text-center max-w-3xl mx-auto">
       <h1 id="hero-title" class="text-3xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-4">Random Name Picker</h1>
-      <p id="hero-subtitle" class="text-base md:text-lg text-slate-500">Random Name Picker with smooth animation for giveaways, classrooms, team picks, and instant custom list draws.</p>
+      <p id="hero-subtitle" class="hidden md:block text-base md:text-lg text-slate-500">Random Name Picker with smooth animation for giveaways, classrooms, team picks, and instant custom list draws.</p>
     </section>
 
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-10">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-6 md:pb-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 md:gap-6 items-start">
         <div id="lotto-controls-panel" class="lg:col-span-3 space-y-4">
           <button id="btn-draw" class="w-full h-11 bg-slate-900 rounded-xl flex items-center justify-center text-white shadow-lg hover:scale-[1.02] active:scale-[0.99] transition-all">
             <span id="label-btn-draw" class="text-sm font-semibold tracking-wide">Start Draw</span>
@@ -575,7 +578,7 @@
           </div>
         </div>
 
-        <div id="lotto-stage-panel" class="lg:col-span-6 flex flex-col items-center justify-center min-h-[360px] lg:h-[600px]">
+        <div id="lotto-stage-panel" class="lg:col-span-6 flex flex-col items-center justify-center min-h-[260px] md:min-h-[360px] lg:h-[600px]">
           <div id="machine-shell">
             <div class="tube"></div>
             <div id="machine-wrap">
