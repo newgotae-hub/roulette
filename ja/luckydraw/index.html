@@ -492,7 +492,7 @@
     </div>
   </header>
 
-  <section class="md:hidden border-b border-slate-200/70 bg-white/90 backdrop-blur">
+  <section class="md:hidden relative border-b border-slate-200/70 bg-white/90 backdrop-blur">
     <div class="px-4 py-2 overflow-x-auto hide-scrollbar">
       <nav class="flex items-center gap-2 min-w-max">
         <a href="/ja/roulette/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">ルーレット</a>
@@ -500,7 +500,15 @@
         <a href="/ja/ladder/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">あみだ</a>
         <a href="/ja/coinflip/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">コイン</a>
         <a href="/ja/dice/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">サイコロ</a>
+        <button id="lang-trigger-mobile" type="button" aria-label="Change language" class="px-2.5 py-1.5 rounded-full border border-slate-200 bg-white text-slate-600">
+          <img id="lang-current-flag-mobile" src="https://flagcdn.com/w20/us.png" alt="English" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
+        </button>
       </nav>
+    </div>
+
+    <div id="lang-menu-mobile" class="hidden fixed right-4 top-14 w-56 rounded-xl border border-slate-200 bg-white shadow-xl p-2" style="z-index:2147483647">
+      <input id="lang-search-mobile" type="text" class="w-full mb-2 px-2.5 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/20" placeholder="Search language">
+      <div id="lang-list-mobile" class="max-h-56 overflow-y-auto hide-scrollbar space-y-1"></div>
     </div>
   </section>
 

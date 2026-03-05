@@ -1062,6 +1062,11 @@
     langMenu: document.getElementById('lang-menu'),
     langSearch: document.getElementById('lang-search'),
     langList: document.getElementById('lang-list'),
+    langTriggerMobile: document.getElementById('lang-trigger-mobile'),
+    langCurrentFlagMobile: document.getElementById('lang-current-flag-mobile'),
+    langMenuMobile: document.getElementById('lang-menu-mobile'),
+    langSearchMobile: document.getElementById('lang-search-mobile'),
+    langListMobile: document.getElementById('lang-list-mobile'),
     fullscreenToggle: document.getElementById('fullscreen-toggle'),
     fullscreenIcon: document.getElementById('fullscreen-icon'),
     fullscreenLabel: document.getElementById('fullscreen-label'),
@@ -1123,7 +1128,8 @@
     return `https://flagcdn.com/w20/${code}.png`;
   }
 
-  function renderLanguageList(query) {
+  function renderLanguageList(query, listEl) {
+    if (!listEl) return;
     const q = String(query || "").trim().toLowerCase();
     const filtered = LANG_OPTIONS.filter((code) => {
       if (!q) return true;
@@ -1131,7 +1137,7 @@
       const haystack = `${code} ${row.native} ${row.en}`.toLowerCase();
       return haystack.includes(q);
     });
-    ui.langList.innerHTML = filtered.map((code) => {
+    listEl.innerHTML = filtered.map((code) => {
       const active = state.locale === code;
       const row = localeNames[code] || { native: code, en: code };
       return `
@@ -1145,14 +1151,43 @@
     }).join("");
   }
 
-  function openLangMenu() {
-    ui.langMenu.classList.remove("hidden");
-    renderLanguageList(ui.langSearch.value);
-    window.setTimeout(() => ui.langSearch.focus(), 0);
+  function openLangMenu(menuEl, searchEl, listEl) {
+    if (!menuEl) return;
+    menuEl.classList.remove("hidden");
+    renderLanguageList(searchEl ? searchEl.value : '', listEl);
+    if (searchEl) window.setTimeout(() => searchEl.focus(), 0);
   }
 
-  function closeLangMenu() {
-    ui.langMenu.classList.add("hidden");
+  function closeLangMenu(menuEl) {
+    if (!menuEl) return;
+    menuEl.classList.add("hidden");
+  }
+
+  function closeAllLangMenus() {
+    closeLangMenu(ui.langMenu);
+    closeLangMenu(ui.langMenuMobile);
+  }
+
+  function selectLocale(locale) {
+    if (!LANG_SET.has(locale)) return;
+    state.locale = locale;
+    try { localStorage.setItem('rlt-lang', locale); } catch (e) {}
+    try {
+      const url = new URL(window.location.href);
+      const currentToolMatch = url.pathname.match(/^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i);
+      if (currentToolMatch) {
+        const tool = currentToolMatch[2].toLowerCase();
+        const nextPath = locale === 'ko' ? `/${tool}/` : `/${locale}/${tool}/`;
+        window.location.assign(`${nextPath}${url.hash}`);
+        return;
+      } else {
+        if (locale === 'ko') url.searchParams.delete('lang');
+        else url.searchParams.set('lang', locale);
+        window.history.replaceState({}, '', `${url.pathname}${url.search}${url.hash}`);
+      }
+    } catch (e) {}
+    applyI18n();
+    closeAllLangMenus();
   }
 
   function syncLangLinks() {
@@ -1233,9 +1268,15 @@
     if (ui.fullscreenHintText) ui.fullscreenHintText.textContent = t('fullscreenHint');
     ui.langButtonLabel.textContent = "LANGUAGE";
     ui.langSearch.placeholder = "Search language";
+    if (ui.langSearchMobile) ui.langSearchMobile.placeholder = "Search language";
     ui.langCurrentFlag.src = getLocaleFlagUrl(state.locale);
     ui.langCurrentFlag.alt = (localeNames[state.locale] && localeNames[state.locale].en) || state.locale;
-    renderLanguageList(ui.langSearch.value);
+    if (ui.langCurrentFlagMobile) {
+      ui.langCurrentFlagMobile.src = getLocaleFlagUrl(state.locale);
+      ui.langCurrentFlagMobile.alt = (localeNames[state.locale] && localeNames[state.locale].en) || state.locale;
+    }
+    renderLanguageList(ui.langSearch.value, ui.langList);
+    if (ui.langListMobile) renderLanguageList(ui.langSearchMobile ? ui.langSearchMobile.value : '', ui.langListMobile);
     syncLangLinks();
 
     updateSpeedLabel();
@@ -1748,43 +1789,46 @@
   }
 
   function bind() {
-    ui.langTrigger.addEventListener('click', (event) => {
-      event.stopPropagation();
-      if (ui.langMenu.classList.contains('hidden')) openLangMenu();
-      else closeLangMenu();
-    });
-    ui.langSearch.addEventListener('input', () => renderLanguageList(ui.langSearch.value));
-    ui.langList.addEventListener('click', (event) => {
-      const btn = event.target.closest('button[data-lang]');
-      if (!btn) return;
-      const locale = btn.getAttribute('data-lang');
-      if (!LANG_SET.has(locale)) return;
-      state.locale = locale;
-      try { localStorage.setItem('rlt-lang', locale); } catch (e) {}
-      try {
-        const url = new URL(window.location.href);
-        const currentToolMatch = url.pathname.match(/^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i);
-        if (currentToolMatch) {
-          const tool = currentToolMatch[2].toLowerCase();
-          const nextPath = locale === 'ko' ? `/${tool}/` : `/${locale}/${tool}/`;
-          window.location.assign(`${nextPath}${url.hash}`);
-          return;
-        } else {
-          if (locale === 'ko') url.searchParams.delete('lang');
-          else url.searchParams.set('lang', locale);
-          window.history.replaceState({}, '', `${url.pathname}${url.search}${url.hash}`);
-        }
-      } catch (e) {}
-      applyI18n();
-      closeLangMenu();
-    });
+    if (ui.langTrigger) {
+      ui.langTrigger.addEventListener('click', (event) => {
+        event.stopPropagation();
+        if (ui.langMenu.classList.contains('hidden')) openLangMenu(ui.langMenu, ui.langSearch, ui.langList);
+        else closeLangMenu(ui.langMenu);
+      });
+    }
+    if (ui.langTriggerMobile) {
+      ui.langTriggerMobile.addEventListener('click', (event) => {
+        event.stopPropagation();
+        if (ui.langMenuMobile.classList.contains('hidden')) openLangMenu(ui.langMenuMobile, ui.langSearchMobile, ui.langListMobile);
+        else closeLangMenu(ui.langMenuMobile);
+      });
+    }
+    if (ui.langSearch) ui.langSearch.addEventListener('input', () => renderLanguageList(ui.langSearch.value, ui.langList));
+    if (ui.langSearchMobile) ui.langSearchMobile.addEventListener('input', () => renderLanguageList(ui.langSearchMobile.value, ui.langListMobile));
+
+    if (ui.langList) {
+      ui.langList.addEventListener('click', (event) => {
+        const btn = event.target.closest('button[data-lang]');
+        if (!btn) return;
+        selectLocale(btn.getAttribute('data-lang'));
+      });
+    }
+    if (ui.langListMobile) {
+      ui.langListMobile.addEventListener('click', (event) => {
+        const btn = event.target.closest('button[data-lang]');
+        if (!btn) return;
+        selectLocale(btn.getAttribute('data-lang'));
+      });
+    }
+
     document.addEventListener('click', (event) => {
-      if (ui.langMenu.classList.contains('hidden')) return;
-      if (ui.langMenu.contains(event.target) || ui.langTrigger.contains(event.target)) return;
-      closeLangMenu();
+      const inDesktop = ui.langMenu && (ui.langMenu.contains(event.target) || (ui.langTrigger && ui.langTrigger.contains(event.target)));
+      const inMobile = ui.langMenuMobile && (ui.langMenuMobile.contains(event.target) || (ui.langTriggerMobile && ui.langTriggerMobile.contains(event.target)));
+      if (inDesktop || inMobile) return;
+      closeAllLangMenus();
     });
     document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') closeLangMenu();
+      if (event.key === 'Escape') closeAllLangMenus();
     });
 
     ui.tabBasicBtn.addEventListener('click', () => switchTab('basic'));
