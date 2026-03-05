@@ -1134,9 +1134,10 @@
       } else {
         results = results.slice(0, participants.length);
       }
-      ui.inputResults.value = results.join(", ");
-      updateCounts();
     }
+    results = interleaveResults(results);
+    ui.inputResults.value = results.join(", ");
+    updateCounts();
 
     state.participants = participants;
     state.results = results;
@@ -1191,6 +1192,35 @@
     return out;
   }
 
+  function interleaveResults(results) {
+    const list = Array.isArray(results) ? results.filter((x) => String(x || "").trim()) : [];
+    if (list.length <= 2) return list;
+
+    const order = [];
+    const buckets = new Map();
+    for (const value of list) {
+      if (!buckets.has(value)) {
+        buckets.set(value, []);
+        order.push(value);
+      }
+      buckets.get(value).push(value);
+    }
+    if (order.length <= 1) return list;
+
+    const out = [];
+    let added;
+    do {
+      added = false;
+      for (const label of order) {
+        const bucket = buckets.get(label);
+        if (!bucket || !bucket.length) continue;
+        out.push(bucket.shift());
+        added = true;
+      }
+    } while (added);
+    return out;
+  }
+
   function saveState() {
     const payload = {
       locale: state.locale,
@@ -1222,11 +1252,12 @@
       ui.sliderSpeed.value = SPEED_DEFAULT;
 
       const participants = parsedParticipants();
-      const results = parsedResults();
+      const results = interleaveResults(parsedResults());
 
       if (saved.ladderData && Array.isArray(saved.ladderData.routes) && participants.length >= 2 && participants.length <= MAX_PARTICIPANTS) {
         state.participants = participants;
         state.results = results.slice(0, participants.length);
+        ui.inputResults.value = state.results.join(", ");
         state.ladderData = saved.ladderData;
         state.completedRoutes = new Set(Array.isArray(saved.completedRoutes) ? saved.completedRoutes : []);
 
