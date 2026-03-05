@@ -582,23 +582,23 @@
 
     const localizedResults = {
       ko: "A팀(3), B팀(3)",
-      en: "Red Team(3), Blue Team(3)",
-      ja: "赤組(3), 白組(3)",
-      "zh-cn": "红队(3), 蓝队(3)",
-      "zh-tw": "紅隊(3), 藍隊(3)",
-      es: "Equipo Rojo(3), Equipo Azul(3)",
-      fr: "Équipe Rouge(3), Équipe Bleue(3)",
-      de: "Team Rot(3), Team Blau(3)",
-      "pt-br": "Time Vermelho(3), Time Azul(3)",
-      hi: "लाल टीम(3), नीली टीम(3)",
-      ar: "الفريق الأحمر(3), الفريق الأزرق(3)",
-      ru: "Команда Красные(3), Команда Синие(3)",
-      id: "Tim Merah(3), Tim Biru(3)",
-      tr: "Kırmızı Takım(3), Mavi Takım(3)",
-      it: "Squadra Rossa(3), Squadra Blu(3)",
-      vi: "Đội Đỏ(3), Đội Xanh(3)",
-      th: "ทีมแดง(3), ทีมน้ำเงิน(3)",
-      nl: "Team Rood(3), Team Blauw(3)"
+      en: "Team A(3), Team B(3)",
+      ja: "Aチーム(3), Bチーム(3)",
+      "zh-cn": "A队(3), B队(3)",
+      "zh-tw": "A隊(3), B隊(3)",
+      es: "Equipo A(3), Equipo B(3)",
+      fr: "Équipe A(3), Équipe B(3)",
+      de: "Team A(3), Team B(3)",
+      "pt-br": "Time A(3), Time B(3)",
+      hi: "टीम A(3), टीम B(3)",
+      ar: "فريق A(3), فريق B(3)",
+      ru: "Команда A(3), Команда B(3)",
+      id: "Tim A(3), Tim B(3)",
+      tr: "Takım A(3), Takım B(3)",
+      it: "Squadra A(3), Squadra B(3)",
+      vi: "Đội A(3), Đội B(3)",
+      th: "ทีม A(3), ทีม B(3)",
+      nl: "Team A(3), Team B(3)"
     };
 
     let sample;
