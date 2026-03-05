@@ -2240,6 +2240,9 @@
       }
 
       function applyI18n() {
+        const setText = (el, value) => {
+          if (el) el.textContent = value;
+        };
         document.documentElement.lang = state.locale;
         document.title = t('title');
         ui.metaDescription.setAttribute('content', t('metaDescription'));
@@ -2267,38 +2270,38 @@
         ui.heroSubtitle.textContent = t('heroSubtitle');
         ui.controlsTitle.textContent = t('controlsTitle');
         ui.assetStatus.textContent = state.assets.ready ? t('assetReady') : t('assetLoading');
-        document.getElementById('count-label').textContent = t('countLabel');
-        document.getElementById('duration-label').textContent = t('durationLabel');
-        ui.betLabel.textContent = t('betLabel');
+        setText(document.getElementById('count-label'), t('countLabel'));
+        setText(document.getElementById('duration-label'), t('durationLabel'));
+        setText(ui.betLabel, t('betLabel'));
         ui.oddPlayer.placeholder = t('oddNamePh');
         ui.evenPlayer.placeholder = t('evenNamePh');
-        ui.parityTitle.textContent = t('parityTitle');
-        ui.oddLabel.textContent = t('odd');
-        ui.evenLabel.textContent = t('even');
-        ui.lastResultLabel.textContent = t('lastResult');
-        ui.winnerLabel.textContent = t('winner');
+        setText(ui.parityTitle, t('parityTitle'));
+        setText(ui.oddLabel, t('odd'));
+        setText(ui.evenLabel, t('even'));
+        setText(ui.lastResultLabel, t('lastResult'));
+        setText(ui.winnerLabel, t('winner'));
         if (!state.lastParity) {
-          ui.lastParity.textContent = t('noResult');
-          ui.winnerName.textContent = t('noResult');
+          setText(ui.lastParity, t('noResult'));
+          setText(ui.winnerName, t('noResult'));
         } else {
-          ui.lastParity.textContent = t(state.lastParity);
-        ui.winnerName.textContent = state.lastWinnerFallback ? t(state.lastParity) : (state.lastWinner || t('noResult'));
+          setText(ui.lastParity, t(state.lastParity));
+          setText(ui.winnerName, state.lastWinnerFallback ? t(state.lastParity) : (state.lastWinner || t('noResult')));
         }
-        ui.rollLabel.textContent = state.rolling ? t('rolling') : t('roll');
-        ui.cumTitle.textContent = t('cumulativeTitle');
-        ui.motionNoteText.textContent = t('motionNote');
-        ui.guideTitle.textContent = t('guideTitle');
-        ui.guideSubtitle.textContent = t('guideSubtitle');
-        document.getElementById('g1t').textContent = t('guideStep1Title');
-        document.getElementById('g1b').textContent = t('guideStep1Body');
-        document.getElementById('g2t').textContent = t('guideStep2Title');
-        document.getElementById('g2b').textContent = t('guideStep2Body');
-        document.getElementById('g3t').textContent = t('guideStep3Title');
-        document.getElementById('g3b').textContent = t('guideStep3Body');
-        ui.footerCopy.textContent = t('footerCopy');
-        ui.footerTerms.textContent = 'Terms';
-        ui.footerPrivacy.textContent = 'Privacy';
-        ui.footerContact.textContent = 'Contact';
+        setText(ui.rollLabel, state.rolling ? t('rolling') : t('roll'));
+        setText(ui.cumTitle, t('cumulativeTitle'));
+        setText(ui.motionNoteText, t('motionNote'));
+        setText(ui.guideTitle, t('guideTitle'));
+        setText(ui.guideSubtitle, t('guideSubtitle'));
+        setText(document.getElementById('g1t'), t('guideStep1Title'));
+        setText(document.getElementById('g1b'), t('guideStep1Body'));
+        setText(document.getElementById('g2t'), t('guideStep2Title'));
+        setText(document.getElementById('g2b'), t('guideStep2Body'));
+        setText(document.getElementById('g3t'), t('guideStep3Title'));
+        setText(document.getElementById('g3b'), t('guideStep3Body'));
+        setText(ui.footerCopy, t('footerCopy'));
+        setText(ui.footerTerms, 'Terms');
+        setText(ui.footerPrivacy, 'Privacy');
+        setText(ui.footerContact, 'Contact');
         if (ui.fullscreenHintText) ui.fullscreenHintText.textContent = t('fullscreenHint');
         updateFullscreenButton();
         updateCountUI();

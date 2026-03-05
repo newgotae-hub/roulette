@@ -2258,6 +2258,9 @@
       }
 
       function applyI18n() {
+        const setText = (el, value) => {
+          if (el) el.textContent = value;
+        };
         document.documentElement.lang = state.locale;
         document.title = t('title');
         ui.metaDescription.setAttribute('content', t('metaDescription'));
@@ -2285,30 +2288,30 @@
         ui.heroSubtitle.textContent = t('heroSubtitle');
         ui.controlsTitle.textContent = t('controlsTitle');
         ui.assetStatus.textContent = state.assets.ready ? t('assetReady') : t('assetLoading');
-        document.getElementById('count-label').textContent = t('countLabel');
-        document.getElementById('duration-label').textContent = t('durationLabel');
-        ui.oddEvenNameLabel.textContent = t('oddEvenNameLabel');
+        setText(document.getElementById('count-label'), t('countLabel'));
+        setText(document.getElementById('duration-label'), t('durationLabel'));
+        setText(ui.oddEvenNameLabel, t('oddEvenNameLabel'));
         ui.oddPlayer.placeholder = t('oddNamePh');
         ui.evenPlayer.placeholder = t('evenNamePh');
-        ui.flipLabel.textContent = state.flipping ? t('flipping') : t('flip');
+        setText(ui.flipLabel, state.flipping ? t('flipping') : t('flip'));
         if (ui.flipLabelMobile) ui.flipLabelMobile.textContent = state.flipping ? t('flipping') : t('flip');
-        ui.headsLabel.textContent = t('heads');
-        ui.tailsLabel.textContent = t('tails');
-        ui.historyTitle.textContent = t('historyTitle');
-        ui.exportLabel.textContent = t('export');
-        ui.motionNoteText.textContent = t('motionNote');
-        ui.guideTitle.textContent = t('guideTitle');
-        ui.guideSubtitle.textContent = t('guideSubtitle');
-        ui.guideStep1Title.textContent = t('guideStep1Title');
-        ui.guideStep1Body.textContent = t('guideStep1Body');
-        ui.guideStep2Title.textContent = t('guideStep2Title');
-        ui.guideStep2Body.textContent = t('guideStep2Body');
-        ui.guideStep3Title.textContent = t('guideStep3Title');
-        ui.guideStep3Body.textContent = t('guideStep3Body');
-        ui.footerCopy.textContent = t('footerCopy');
-        ui.footerTerms.textContent = 'Terms';
-        ui.footerPrivacy.textContent = 'Privacy';
-        ui.footerContact.textContent = 'Contact';
+        setText(ui.headsLabel, t('heads'));
+        setText(ui.tailsLabel, t('tails'));
+        setText(ui.historyTitle, t('historyTitle'));
+        setText(ui.exportLabel, t('export'));
+        setText(ui.motionNoteText, t('motionNote'));
+        setText(ui.guideTitle, t('guideTitle'));
+        setText(ui.guideSubtitle, t('guideSubtitle'));
+        setText(ui.guideStep1Title, t('guideStep1Title'));
+        setText(ui.guideStep1Body, t('guideStep1Body'));
+        setText(ui.guideStep2Title, t('guideStep2Title'));
+        setText(ui.guideStep2Body, t('guideStep2Body'));
+        setText(ui.guideStep3Title, t('guideStep3Title'));
+        setText(ui.guideStep3Body, t('guideStep3Body'));
+        setText(ui.footerCopy, t('footerCopy'));
+        setText(ui.footerTerms, 'Terms');
+        setText(ui.footerPrivacy, 'Privacy');
+        setText(ui.footerContact, 'Contact');
         if (ui.fullscreenHintText) ui.fullscreenHintText.textContent = t('fullscreenHint');
         updateFullscreenButton();
         updateCountUI();
