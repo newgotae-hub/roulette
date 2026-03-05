@@ -331,7 +331,7 @@
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
-    <header class="sticky top-0 z-50 bg-slate-50/85 backdrop-blur-md border-b border-slate-200/70">
+    <header class="hidden md:block sticky top-0 z-50 bg-slate-50/85 backdrop-blur-md border-b border-slate-200/70">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center gap-2">
@@ -386,15 +386,15 @@
     </section>
 
     <main class="flex-grow flex flex-col">
-        <section id="hero-section" class="pt-10 pb-8 px-4 sm:px-6 lg:px-8 text-center max-w-3xl mx-auto">
+        <section id="hero-section" class="pt-3 pb-2 md:pt-10 md:pb-8 px-4 sm:px-6 lg:px-8 text-center max-w-3xl mx-auto">
             <h1 id="hero-title" class="text-3xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-4">Roue de Tirage Aleatoire</h1>
-            <p id="hero-subtitle" class="text-base md:text-lg text-slate-500 font-normal">Collez votre liste et tirez un gagnant en un clic.</p>
+            <p id="hero-subtitle" class="hidden md:block text-base md:text-lg text-slate-500 font-normal">Collez votre liste et tirez un gagnant en un clic.</p>
         </section>
 
-        <section id="roulette" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-14">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <section id="roulette" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-6 md:pb-14">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 md:gap-6 items-start">
                 <div id="roulette-controls" class="lg:col-span-3 space-y-4">
-                    <div id="roster-card" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col min-h-[450px] lg:h-[640px]">
+                    <div id="roster-card" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col min-h-0 md:min-h-[450px] lg:h-[640px]">
                         <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/60">
                             <h2 class="text-sm font-semibold tracking-tight flex items-center gap-2">
                                 <iconify-icon icon="solar:users-group-rounded-linear" stroke-width="1.5" class="text-slate-400"></iconify-icon>
@@ -405,7 +405,7 @@
 
                         <div class="p-4 flex-grow flex flex-col">
                             <label for="participant-list" class="sr-only">Liste des participants</label>
-                            <textarea id="participant-list" class="w-full h-64 lg:h-full resize-none bg-slate-50 border border-slate-200 rounded-xl p-3 text-base text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-shadow" placeholder="Saisissez des noms ou collez depuis Excel. Prend en charge espaces, virgules, retours ligne, tabulations, point-virgule, slash et pipe."></textarea>
+                            <textarea id="participant-list" class="w-full h-16 md:h-64 lg:h-full resize-none bg-slate-50 border border-slate-200 rounded-xl p-3 text-base text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-shadow" placeholder="Saisissez des noms ou collez depuis Excel. Prend en charge espaces, virgules, retours ligne, tabulations, point-virgule, slash et pipe."></textarea>
 
                             <div class="mt-3 flex gap-2">
                                 <button id="reset-list" class="flex-1 bg-white border border-slate-200 rounded-lg py-2 text-xs font-medium text-slate-600 hover:bg-slate-50 transition-colors flex items-center justify-center gap-1">
@@ -419,7 +419,7 @@
                             </div>
                         </div>
 
-                        <div class="p-4 border-t border-slate-100 bg-slate-50/60 space-y-4">
+                        <div class="hidden md:block p-4 border-t border-slate-100 bg-slate-50/60 space-y-4">
                             <label class="flex items-center justify-between cursor-pointer group">
                                 <span id="auto-exclude-label" class="text-sm font-medium text-slate-700">Exclure automatiquement les gagnants</span>
                                 <div class="relative">
@@ -449,8 +449,8 @@
                     </div>
                 </div>
 
-                <div id="roulette-center" class="lg:col-span-6 flex flex-col items-center justify-start lg:justify-center min-h-[420px] lg:h-[640px]">
-                    <div class="relative w-full max-w-[560px] aspect-square flex items-center justify-center">
+                <div id="roulette-center" class="lg:col-span-6 flex flex-col items-center justify-start lg:justify-center min-h-[240px] md:min-h-[420px] lg:h-[640px]">
+                    <div class="relative w-full max-w-[300px] md:max-w-[560px] aspect-square flex items-center justify-center">
                         <div class="absolute -top-5 left-1/2 -translate-x-1/2 z-30 drop-shadow-md">
                             <iconify-icon icon="solar:map-arrow-down-bold" class="text-slate-900 text-5xl"></iconify-icon>
                         </div>
