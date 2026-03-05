@@ -294,9 +294,18 @@
             }
             #roulette-center {
                 order: 1;
+                position: relative;
+                z-index: 90;
             }
             #history {
                 order: 3;
+            }
+            #roulette-center #wheel-shadow,
+            #roulette-center #wheel,
+            #roulette-center #spin-button,
+            #roulette-center #confetti-layer {
+                position: relative;
+                z-index: 95;
             }
         }
 
