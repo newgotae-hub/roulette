@@ -32,6 +32,8 @@
     navLadder: document.getElementById("nav-ladder"),
     navCoin: document.getElementById("nav-coin"),
     navDice: document.getElementById("nav-dice"),
+    mnavCoin: document.getElementById("mnav-coin"),
+    mnavDice: document.getElementById("mnav-dice"),
     fullscreenHint: document.getElementById("fullscreen-hint"),
     fullscreenHintText: document.getElementById("fullscreen-hint-text"),
     langTrigger: document.getElementById("lang-trigger"),
@@ -213,6 +215,10 @@
       else url.searchParams.set("lang", state.locale);
       a.setAttribute("href", `${url.pathname}${url.search}${url.hash}`);
     });
+  }
+
+  function toolPath(tool) {
+    return state.locale === "ko" ? `/${tool}/` : `/${state.locale}/${tool}/`;
   }
 
   function openLangMenu() {
@@ -1344,6 +1350,18 @@
 
     ui.fullscreenBtn.addEventListener("click", toggleFullscreen);
     document.addEventListener("fullscreenchange", updateFullscreenButton);
+
+    const forceNav = (el, tool) => {
+      if (!el) return;
+      el.addEventListener("click", (event) => {
+        event.preventDefault();
+        window.location.assign(toolPath(tool));
+      });
+    };
+    forceNav(ui.navCoin, "coinflip");
+    forceNav(ui.mnavCoin, "coinflip");
+    forceNav(ui.navDice, "dice");
+    forceNav(ui.mnavDice, "dice");
 
     ui.presetClass.addEventListener("click", () => loadPreset("class"));
     ui.presetTeam.addEventListener("click", () => loadPreset("team"));
