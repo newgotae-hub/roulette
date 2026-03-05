@@ -108,6 +108,8 @@
     emptySub: document.getElementById("empty-sub"),
     btnPlayAll: document.getElementById("btn-playall"),
     labelPlayAll: document.getElementById("label-playall"),
+    btnPlayAllFooter: document.getElementById("btn-playall-footer"),
+    labelPlayAllFooter: document.getElementById("label-playall-footer"),
     progressText: document.getElementById("progress-text"),
     resultsCard: document.getElementById("results-card"),
     resultTitle: document.getElementById("label-result-title"),
@@ -244,6 +246,14 @@
     ui.progressText.textContent = running ? t("progressRunning") : t("progressIdle");
   }
 
+  function setPlayAllUi(active) {
+    const text = active ? t("stopAll") : t("playAll");
+    if (ui.labelPlayAll) ui.labelPlayAll.textContent = text;
+    if (ui.labelPlayAllFooter) ui.labelPlayAllFooter.textContent = text;
+    if (ui.btnPlayAll) ui.btnPlayAll.classList.toggle("animate-pulse", active);
+    if (ui.btnPlayAllFooter) ui.btnPlayAllFooter.classList.toggle("animate-pulse", active);
+  }
+
   function applyI18n() {
     document.documentElement.lang = state.locale;
     document.title = t("seoTitle");
@@ -302,7 +312,7 @@
     ui.labelComplexity.textContent = t("complexity");
     ui.labelSpeed.textContent = t("speed");
     ui.btnGenerate.textContent = t("btnGenerate");
-    ui.labelPlayAll.textContent = state.queue.length > 0 ? t("stopAll") : t("playAll");
+    setPlayAllUi(state.queue.length > 0);
     ui.emptyMain.textContent = t("emptyMain");
     ui.emptySub.textContent = t("emptySub");
     ui.resultTitle.textContent = t("resultTitle");
@@ -1093,8 +1103,7 @@
     if (!state.ladderData) return;
     if (state.queue.length > 0) {
       state.queue = [];
-      ui.labelPlayAll.textContent = t("playAll");
-      ui.btnPlayAll.classList.remove("animate-pulse");
+      setPlayAllUi(false);
       return;
     }
 
@@ -1105,8 +1114,7 @@
     if (!remaining.length) return;
 
     state.queue = remaining;
-    ui.labelPlayAll.textContent = t("stopAll");
-    ui.btnPlayAll.classList.add("animate-pulse");
+    setPlayAllUi(true);
 
     while (state.queue.length > 0) {
       const next = state.queue.shift();
@@ -1115,8 +1123,7 @@
     }
 
     state.queue = [];
-    ui.labelPlayAll.textContent = t("playAll");
-    ui.btnPlayAll.classList.remove("animate-pulse");
+    setPlayAllUi(false);
   }
 
   function buildLadder() {
@@ -1336,6 +1343,7 @@
     if (ui.btnClearResults) ui.btnClearResults.addEventListener("click", clearResults);
     ui.btnGenerate.addEventListener("click", buildLadder);
     ui.btnPlayAll.addEventListener("click", togglePlayAll);
+    if (ui.btnPlayAllFooter) ui.btnPlayAllFooter.addEventListener("click", togglePlayAll);
 
     ui.sliderComplexity.addEventListener("input", () => {
       if (ui.sliderComplexity.value === "") ui.sliderComplexity.value = COMPLEXITY_DEFAULT;
@@ -1344,8 +1352,7 @@
       if (!state.ladderData) return;
       if (parsedParticipants().length < 2) return;
       state.queue = [];
-      ui.labelPlayAll.textContent = t("playAll");
-      ui.btnPlayAll.classList.remove("animate-pulse");
+      setPlayAllUi(false);
       buildLadder();
     });
     ui.sliderSpeed.addEventListener("input", () => {

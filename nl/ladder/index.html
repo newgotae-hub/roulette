@@ -456,14 +456,18 @@
               <div class="space-y-1.5 hidden fullscreen-only-control" aria-hidden="true">
                 <span id="label-speed" class="text-xs font-medium text-slate-700">Animatiesnelheid</span>
                 <input id="slider-speed" type="range" min="1" max="5" value="1" class="w-full" />
+              </div>              <div class="grid grid-cols-2 gap-2">
+                <button id="btn-generate" class="w-full bg-slate-900 text-white rounded-lg py-2.5 text-xs font-medium hover:bg-slate-800 active:scale-[0.99] active:translate-y-px transition-all shadow-sm">사다리 생성</button>
+                <button id="btn-playall-footer" class="w-full bg-white border border-slate-200 text-slate-700 rounded-lg py-2.5 text-xs font-medium hover:bg-slate-50 active:scale-[0.99] active:translate-y-px transition-all shadow-sm">
+                  <span id="label-playall-footer">전체 자동재생</span>
+                </button>
               </div>
-              <button id="btn-generate" class="w-full bg-slate-900 text-white rounded-lg py-2.5 text-xs font-medium hover:bg-slate-800 active:scale-[0.99] active:translate-y-px transition-all shadow-sm">Ladder Maken</button>
             </div>
           </div>
         </div>
 
         <div id="ladder-panel" class="lg:col-span-9 relative flex flex-col gap-4">
-          <div id="ladder-top-controls" class="hidden md:flex absolute right-2 -top-9 z-30 items-center gap-2">
+          <div id="ladder-top-controls" class="hidden absolute right-2 -top-9 z-30 items-center gap-2">
             <div id="progress-text" class="text-[11px] font-medium text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full">Wachten</div>
             <button id="btn-playall" class="bg-white/90 backdrop-blur border border-slate-200 shadow-sm rounded-full px-4 py-2 text-xs font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-colors flex items-center gap-1.5">
               <iconify-icon icon="solar:play-linear" stroke-width="1.5"></iconify-icon>

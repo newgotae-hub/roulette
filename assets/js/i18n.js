@@ -37,7 +37,7 @@
       allowDup: "참가자 중복 허용",
       complexity: "사다리 복잡도",
       speed: "애니메이션 속도",
-      btnGenerate: "사다리 생성하기",
+      btnGenerate: "사다리생성",
       playAll: "전체 자동재생",
       stopAll: "중지",
       guideTitle: "사다리타기 가이드",
