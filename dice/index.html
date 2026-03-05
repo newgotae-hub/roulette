@@ -456,9 +456,24 @@
           var m = url.pathname.match(/^\/(?:((?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl))\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i);
           var changed = false;
           if (m && url.searchParams.has('lang')) {
-            var qLang = String(url.searchParams.get('lang') || '').toLowerCase();
+            var rawLang = String(url.searchParams.get('lang') || '').toLowerCase();
+            var qLang = rawLang.replace('_', '-');
+            var aliases = { jp: 'ja', kr: 'ko', cn: 'zh-cn', tw: 'zh-tw' };
+            if (qLang === 'zh' || qLang.indexOf('zh-cn') === 0 || qLang.indexOf('zh-hans') === 0) qLang = 'zh-cn';
+            else if (qLang.indexOf('zh-tw') === 0 || qLang.indexOf('zh-hk') === 0 || qLang.indexOf('zh-mo') === 0 || qLang.indexOf('zh-hant') === 0) qLang = 'zh-tw';
+            else if (qLang.indexOf('pt-br') === 0) qLang = 'pt-br';
+            else {
+              var base = qLang.split('-')[0];
+              qLang = aliases[base] || base;
+            }
+            var supportedLang = {
+              ko: 1, en: 1, ja: 1, 'zh-cn': 1, 'zh-tw': 1, es: 1, fr: 1, de: 1,
+              'pt-br': 1, hi: 1, ar: 1, ru: 1, id: 1, tr: 1, it: 1, vi: 1, th: 1, nl: 1
+            };
+            var currentLocale = (m[1] || 'ko').toLowerCase();
+            var resolvedLang = supportedLang[qLang] ? qLang : currentLocale;
             var tool = m[2].toLowerCase();
-            var nextPath = qLang === 'ko' || qLang === '' ? '/' + tool + '/' : '/' + qLang + '/' + tool + '/';
+            var nextPath = resolvedLang === 'ko' ? '/' + tool + '/' : '/' + resolvedLang + '/' + tool + '/';
             if (nextPath !== url.pathname) { url.pathname = nextPath; changed = true; }
             url.searchParams.delete('lang');
             changed = true;
