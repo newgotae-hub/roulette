@@ -373,15 +373,24 @@
         </div>
     </header>
 
-    <section class="md:hidden border-b border-slate-200/70 bg-white/90 backdrop-blur">
-        <div class="px-4 py-2 overflow-x-auto hide-scrollbar">
+    <section class="md:hidden relative border-b border-slate-200/70 bg-white/90 backdrop-blur">
+        <div class="relative px-4 py-2 overflow-x-auto hide-scrollbar">
             <nav class="flex items-center gap-2 min-w-max">
                 <a href="/hi/roulette/" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-900 text-white">रूलेट</a>
                 <a href="/hi/luckydraw/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">लोटो</a>
                 <a href="/hi/ladder/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">लैडर</a>
                 <a href="/hi/coinflip/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">कॉइन</a>
                 <a href="/hi/dice/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">डाइस</a>
+                <button id="lang-trigger-mobile" type="button" aria-label="Change language" class="px-2.5 py-1.5 rounded-full border border-slate-200 bg-white text-slate-600">
+                    <img id="lang-current-flag-mobile" src="https://flagcdn.com/w20/us.png" alt="English" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
+                </button>
+
             </nav>
+
+            <div id="lang-menu-mobile" class="hidden absolute right-4 top-full mt-2 z-50 w-56 rounded-xl border border-slate-200 bg-white shadow-xl p-2">
+                <input id="lang-search-mobile" type="text" class="w-full mb-2 px-2.5 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/20" placeholder="Search language">
+                <div id="lang-list-mobile" class="max-h-56 overflow-y-auto hide-scrollbar space-y-1"></div>
+            </div>
         </div>
     </section>
 
@@ -637,6 +646,11 @@
                 langMenu: document.getElementById('lang-menu'),
                 langSearch: document.getElementById('lang-search'),
                 langList: document.getElementById('lang-list'),
+                langTriggerMobile: document.getElementById('lang-trigger-mobile'),
+                langCurrentFlagMobile: document.getElementById('lang-current-flag-mobile'),
+                langMenuMobile: document.getElementById('lang-menu-mobile'),
+                langSearchMobile: document.getElementById('lang-search-mobile'),
+                langListMobile: document.getElementById('lang-list-mobile'),
                 navSpin: document.getElementById('nav-spin'),
                 navHistory: document.getElementById('nav-history'),
                 navGuide: document.getElementById('nav-guide'),
@@ -2114,8 +2128,13 @@
                 setText('nav-guide', 'navGuide');
                 ui.langButtonLabel.textContent = t('languageButton');
                 ui.langSearch.placeholder = t('languageSearchPh');
+                if (ui.langSearchMobile) ui.langSearchMobile.placeholder = t('languageSearchPh');
                 ui.langCurrentFlag.src = getLocaleFlagUrl(state.locale);
                 ui.langCurrentFlag.alt = (localeNames[state.locale] && localeNames[state.locale].en) || state.locale;
+                if (ui.langCurrentFlagMobile) {
+                    ui.langCurrentFlagMobile.src = getLocaleFlagUrl(state.locale);
+                    ui.langCurrentFlagMobile.alt = (localeNames[state.locale] && localeNames[state.locale].en) || state.locale;
+                }
                 setText('spin-button-label', 'spinButtonLabel');
                 setText('hero-title', 'heroTitle');
                 setText('hero-subtitle', 'heroSubtitle');
@@ -2158,7 +2177,8 @@
                 setText('fullscreen-hint-text', 'fullscreenHint');
                 ui.textarea.placeholder = t('textareaPlaceholder');
                 announce(t('bannerReady'), 'text-slate-500');
-                renderLanguageList(ui.langSearch.value);
+                renderLanguageList(ui.langSearch.value, ui.langList);
+                if (ui.langListMobile) renderLanguageList(ui.langSearchMobile ? ui.langSearchMobile.value : '', ui.langListMobile);
                 syncLangLinks();
                 document.documentElement.classList.remove('i18n-pending');
             }
@@ -2187,7 +2207,8 @@
                 return `https://flagcdn.com/w20/${code}.png`;
             }
 
-            function renderLanguageList(query) {
+            function renderLanguageList(query, listEl) {
+                if (!listEl) return;
                 const q = String(query || '').trim().toLowerCase();
                 const filtered = LANG_OPTIONS.filter((code) => {
                     if (!q) return true;
@@ -2195,7 +2216,7 @@
                     const haystack = `${code} ${row.native} ${row.en}`.toLowerCase();
                     return haystack.includes(q);
                 });
-                ui.langList.innerHTML = filtered.map((code) => {
+                listEl.innerHTML = filtered.map((code) => {
                     const active = state.locale === code;
                     const row = localeNames[code] || { native: code, en: code };
                     return `
@@ -2209,20 +2230,27 @@
                 }).join('');
             }
 
-            function openLangMenu() {
-                ui.langMenu.classList.remove('hidden');
-                renderLanguageList(ui.langSearch.value);
-                window.setTimeout(() => ui.langSearch.focus(), 0);
+            function openLangMenu(menuEl, searchEl, listEl) {
+                if (!menuEl) return;
+                menuEl.classList.remove('hidden');
+                renderLanguageList(searchEl ? searchEl.value : '', listEl);
+                if (searchEl) window.setTimeout(() => searchEl.focus(), 0);
             }
 
-            function closeLangMenu() {
-                ui.langMenu.classList.add('hidden');
+            function closeLangMenu(menuEl) {
+                if (!menuEl) return;
+                menuEl.classList.add('hidden');
+            }
+
+            function closeAllLangMenus() {
+                closeLangMenu(ui.langMenu);
+                closeLangMenu(ui.langMenuMobile);
             }
 
             function setLocale(nextLocale) {
                 if (!LANG_SET.has(nextLocale)) return;
                 if (state.locale === nextLocale) {
-                    closeLangMenu();
+                    closeAllLangMenus();
                     return;
                 }
                 state.locale = nextLocale;
@@ -2249,7 +2277,7 @@
                 drawWheel();
                 renderHistory();
                 updateFullscreenButton();
-                closeLangMenu();
+                closeAllLangMenus();
             }
 
             function normalize(deg) {
@@ -2675,24 +2703,44 @@
             ui.exportHistory.addEventListener('click', exportCsv);
             ui.fullscreenToggle.addEventListener('click', toggleFullscreen);
             document.addEventListener('fullscreenchange', updateFullscreenButton);
-            ui.langTrigger.addEventListener('click', (event) => {
-                event.stopPropagation();
-                if (ui.langMenu.classList.contains('hidden')) openLangMenu();
-                else closeLangMenu();
-            });
-            ui.langSearch.addEventListener('input', () => renderLanguageList(ui.langSearch.value));
-            ui.langList.addEventListener('click', (event) => {
-                const btn = event.target.closest('button[data-lang]');
-                if (!btn) return;
-                setLocale(btn.getAttribute('data-lang'));
-            });
+            if (ui.langTrigger) {
+                ui.langTrigger.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    if (ui.langMenu.classList.contains('hidden')) openLangMenu(ui.langMenu, ui.langSearch, ui.langList);
+                    else closeLangMenu(ui.langMenu);
+                });
+            }
+            if (ui.langTriggerMobile) {
+                ui.langTriggerMobile.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    if (ui.langMenuMobile.classList.contains('hidden')) openLangMenu(ui.langMenuMobile, ui.langSearchMobile, ui.langListMobile);
+                    else closeLangMenu(ui.langMenuMobile);
+                });
+            }
+            if (ui.langSearch) ui.langSearch.addEventListener('input', () => renderLanguageList(ui.langSearch.value, ui.langList));
+            if (ui.langSearchMobile) ui.langSearchMobile.addEventListener('input', () => renderLanguageList(ui.langSearchMobile.value, ui.langListMobile));
+            if (ui.langList) {
+                ui.langList.addEventListener('click', (event) => {
+                    const btn = event.target.closest('button[data-lang]');
+                    if (!btn) return;
+                    setLocale(btn.getAttribute('data-lang'));
+                });
+            }
+            if (ui.langListMobile) {
+                ui.langListMobile.addEventListener('click', (event) => {
+                    const btn = event.target.closest('button[data-lang]');
+                    if (!btn) return;
+                    setLocale(btn.getAttribute('data-lang'));
+                });
+            }
             document.addEventListener('click', (event) => {
-                if (ui.langMenu.classList.contains('hidden')) return;
-                if (ui.langMenu.contains(event.target) || ui.langTrigger.contains(event.target)) return;
-                closeLangMenu();
+                const inDesktop = ui.langMenu && (ui.langMenu.contains(event.target) || (ui.langTrigger && ui.langTrigger.contains(event.target)));
+                const inMobile = ui.langMenuMobile && (ui.langMenuMobile.contains(event.target) || (ui.langTriggerMobile && ui.langTriggerMobile.contains(event.target)));
+                if (inDesktop || inMobile) return;
+                closeAllLangMenus();
             });
             document.addEventListener('keydown', (event) => {
-                if (event.key === 'Escape') closeLangMenu();
+                if (event.key === 'Escape') closeAllLangMenus();
             });
 
             ui.historyList.addEventListener('click', (event) => {
