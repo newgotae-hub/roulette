@@ -556,7 +556,8 @@
       if (document.activeElement && typeof document.activeElement.blur === "function") {
         document.activeElement.blur();
       }
-      ui.inputParticipants.value = pack.p.join("\n");
+      const mobile = window.matchMedia && window.matchMedia("(max-width: 1023px)").matches;
+      ui.inputParticipants.value = mobile ? pack.p.join(", ") : pack.p.join("\n");
       ui.inputResults.value = formatPresetResults(type, pack.r);
       buildLadder();
       updateCounts();
@@ -614,7 +615,7 @@
       };
     }
 
-    ui.inputParticipants.value = sample.participants.join("\n");
+    ui.inputParticipants.value = mobile ? sample.participants.join(", ") : sample.participants.join("\n");
     ui.inputResults.value = sample.results;
   }
 
