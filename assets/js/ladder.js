@@ -40,6 +40,11 @@
     langMenu: document.getElementById("lang-menu"),
     langSearch: document.getElementById("lang-search"),
     langList: document.getElementById("lang-list"),
+    langTriggerMobile: document.getElementById("lang-trigger-mobile"),
+    langCurrentFlagMobile: document.getElementById("lang-current-flag-mobile"),
+    langMenuMobile: document.getElementById("lang-menu-mobile"),
+    langSearchMobile: document.getElementById("lang-search-mobile"),
+    langListMobile: document.getElementById("lang-list-mobile"),
     fullscreenBtn: document.getElementById("fullscreen-toggle"),
     fullscreenIcon: document.getElementById("fullscreen-icon"),
     fullscreenLabel: document.getElementById("fullscreen-label"),
@@ -163,7 +168,9 @@
     return `${row.native} (${row.en})`;
   }
 
-  function renderLanguageList(query) {
+  function renderLanguageList(query, listEl) {
+    const target = listEl || ui.langList;
+    if (!target) return;
     const q = String(query || "").trim().toLowerCase();
     const filtered = LANG_OPTIONS.filter((code) => {
       if (!q) return true;
@@ -171,7 +178,7 @@
       const haystack = `${code} ${row.native} ${row.en}`.toLowerCase();
       return haystack.includes(q);
     });
-    ui.langList.innerHTML = filtered.map((code) => {
+    target.innerHTML = filtered.map((code) => {
       const active = state.locale === code;
       const row = localeNames[code] || { native: code, en: code };
       return `
@@ -207,13 +214,22 @@
   }
 
   function openLangMenu() {
+    if (!ui.langMenu || !ui.langSearch) return;
     ui.langMenu.classList.remove("hidden");
-    renderLanguageList(ui.langSearch.value);
+    renderLanguageList(ui.langSearch.value, ui.langList);
     window.setTimeout(() => ui.langSearch.focus(), 0);
   }
 
-  function closeLangMenu() {
-    ui.langMenu.classList.add("hidden");
+  function openLangMenuMobile() {
+    if (!ui.langMenuMobile || !ui.langSearchMobile) return;
+    ui.langMenuMobile.classList.remove("hidden");
+    renderLanguageList(ui.langSearchMobile.value, ui.langListMobile);
+    window.setTimeout(() => ui.langSearchMobile.focus(), 0);
+  }
+
+  function closeAllLangMenus() {
+    if (ui.langMenu) ui.langMenu.classList.add("hidden");
+    if (ui.langMenuMobile) ui.langMenuMobile.classList.add("hidden");
   }
 
   function updateFullscreenButton() {
@@ -294,13 +310,19 @@
     ui.footerPrivacy.textContent = "Privacy";
     ui.langButtonLabel.textContent = "LANGUAGE";
     ui.langSearch.placeholder = "Search language";
+    if (ui.langSearchMobile) ui.langSearchMobile.placeholder = "Search language";
     ui.langCurrentFlag.src = getLocaleFlagUrl(state.locale);
     ui.langCurrentFlag.alt = (localeNames[state.locale] && localeNames[state.locale].en) || state.locale;
+    if (ui.langCurrentFlagMobile) {
+      ui.langCurrentFlagMobile.src = getLocaleFlagUrl(state.locale);
+      ui.langCurrentFlagMobile.alt = (localeNames[state.locale] && localeNames[state.locale].en) || state.locale;
+    }
 
     updateCounts();
     setProgress(false);
     updateFullscreenButton();
-    renderLanguageList(ui.langSearch.value);
+    renderLanguageList(ui.langSearch.value, ui.langList);
+    if (ui.langListMobile) renderLanguageList(ui.langSearchMobile ? ui.langSearchMobile.value : "", ui.langListMobile);
     syncLangLinks();
     document.documentElement.classList.remove("i18n-pending");
   }
@@ -540,40 +562,41 @@
     if (currentParticipants.length > 0 || currentResults.length > 0) return;
 
     const localizedResults = {
-      ko: "A팀(4), B팀(4)",
-      en: "Red Team(4), Blue Team(4)",
-      ja: "赤組(4), 白組(4)",
-      "zh-cn": "红队(4), 蓝队(4)",
-      "zh-tw": "紅隊(4), 藍隊(4)",
-      es: "Equipo Rojo(4), Equipo Azul(4)",
-      fr: "Équipe Rouge(4), Équipe Bleue(4)",
-      de: "Team Rot(4), Team Blau(4)",
-      "pt-br": "Time Vermelho(4), Time Azul(4)",
-      hi: "लाल टीम(4), नीली टीम(4)",
-      ar: "الفريق الأحمر(4), الفريق الأزرق(4)",
-      ru: "Команда Красные(4), Команда Синие(4)",
-      id: "Tim Merah(4), Tim Biru(4)",
-      tr: "Kırmızı Takım(4), Mavi Takım(4)",
-      it: "Squadra Rossa(4), Squadra Blu(4)",
-      vi: "Đội Đỏ(4), Đội Xanh(4)",
-      th: "ทีมแดง(4), ทีมน้ำเงิน(4)",
-      nl: "Team Rood(4), Team Blauw(4)"
+      ko: "A팀(3), B팀(3)",
+      en: "Red Team(3), Blue Team(3)",
+      ja: "赤組(3), 白組(3)",
+      "zh-cn": "红队(3), 蓝队(3)",
+      "zh-tw": "紅隊(3), 藍隊(3)",
+      es: "Equipo Rojo(3), Equipo Azul(3)",
+      fr: "Équipe Rouge(3), Équipe Bleue(3)",
+      de: "Team Rot(3), Team Blau(3)",
+      "pt-br": "Time Vermelho(3), Time Azul(3)",
+      hi: "लाल टीम(3), नीली टीम(3)",
+      ar: "الفريق الأحمر(3), الفريق الأزرق(3)",
+      ru: "Команда Красные(3), Команда Синие(3)",
+      id: "Tim Merah(3), Tim Biru(3)",
+      tr: "Kırmızı Takım(3), Mavi Takım(3)",
+      it: "Squadra Rossa(3), Squadra Blu(3)",
+      vi: "Đội Đỏ(3), Đội Xanh(3)",
+      th: "ทีมแดง(3), ทีมน้ำเงิน(3)",
+      nl: "Team Rood(3), Team Blauw(3)"
     };
 
     let sample;
+    const mobile = window.matchMedia && window.matchMedia("(max-width: 1023px)").matches;
     if (state.locale === "ja") {
       sample = {
-        participants: ["太郎", "花子", "健太", "美咲", "翔太", "葵", "大輝", "結衣"],
+        participants: mobile ? ["太郎", "花子", "健太", "美咲", "翔太", "葵"] : ["太郎", "花子", "健太", "美咲", "翔太", "葵", "大輝", "結衣"],
         results: localizedResults.ja
       };
     } else if (state.locale === "ko") {
       sample = {
-        participants: ["민수", "서연", "지후", "하린", "도윤", "지우", "예준", "소윤"],
+        participants: mobile ? ["민수", "서연", "지후", "하린", "도윤", "지우"] : ["민수", "서연", "지후", "하린", "도윤", "지우", "예준", "소윤"],
         results: localizedResults.ko
       };
     } else {
       sample = {
-        participants: ["Alex", "Emma", "Liam", "Mia", "Noah", "Ava", "Ethan", "Zoe"],
+        participants: mobile ? ["Alex", "Emma", "Liam", "Mia", "Noah", "Ava"] : ["Alex", "Emma", "Liam", "Mia", "Noah", "Ava", "Ethan", "Zoe"],
         results: localizedResults[state.locale] || localizedResults.en
       };
     }
@@ -1223,25 +1246,46 @@
   }
 
   function bindEvents() {
-    ui.langTrigger.addEventListener("click", (event) => {
-      event.stopPropagation();
-      if (ui.langMenu.classList.contains("hidden")) openLangMenu();
-      else closeLangMenu();
-    });
-    ui.langSearch.addEventListener("input", () => renderLanguageList(ui.langSearch.value));
-    ui.langList.addEventListener("click", (event) => {
-      const btn = event.target.closest("button[data-lang]");
-      if (!btn) return;
-      setLocale(btn.getAttribute("data-lang"));
-      closeLangMenu();
-    });
+    if (ui.langTrigger) {
+      ui.langTrigger.addEventListener("click", (event) => {
+        event.stopPropagation();
+        if (ui.langMenu && ui.langMenu.classList.contains("hidden")) openLangMenu();
+        else closeAllLangMenus();
+      });
+    }
+    if (ui.langSearch) ui.langSearch.addEventListener("input", () => renderLanguageList(ui.langSearch.value, ui.langList));
+    if (ui.langList) {
+      ui.langList.addEventListener("click", (event) => {
+        const btn = event.target.closest("button[data-lang]");
+        if (!btn) return;
+        setLocale(btn.getAttribute("data-lang"));
+        closeAllLangMenus();
+      });
+    }
+    if (ui.langTriggerMobile) {
+      ui.langTriggerMobile.addEventListener("click", (event) => {
+        event.stopPropagation();
+        if (ui.langMenuMobile && ui.langMenuMobile.classList.contains("hidden")) openLangMenuMobile();
+        else closeAllLangMenus();
+      });
+    }
+    if (ui.langSearchMobile) ui.langSearchMobile.addEventListener("input", () => renderLanguageList(ui.langSearchMobile.value, ui.langListMobile));
+    if (ui.langListMobile) {
+      ui.langListMobile.addEventListener("click", (event) => {
+        const btn = event.target.closest("button[data-lang]");
+        if (!btn) return;
+        setLocale(btn.getAttribute("data-lang"));
+        closeAllLangMenus();
+      });
+    }
     document.addEventListener("click", (event) => {
-      if (ui.langMenu.classList.contains("hidden")) return;
-      if (ui.langMenu.contains(event.target) || ui.langTrigger.contains(event.target)) return;
-      closeLangMenu();
+      const inDesktop = ui.langMenu && (ui.langMenu.contains(event.target) || (ui.langTrigger && ui.langTrigger.contains(event.target)));
+      const inMobile = ui.langMenuMobile && (ui.langMenuMobile.contains(event.target) || (ui.langTriggerMobile && ui.langTriggerMobile.contains(event.target)));
+      if (inDesktop || inMobile) return;
+      closeAllLangMenus();
     });
     document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") closeLangMenu();
+      if (event.key === "Escape") closeAllLangMenus();
     });
 
     ui.inputParticipants.addEventListener("input", () => {

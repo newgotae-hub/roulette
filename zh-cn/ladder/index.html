@@ -257,6 +257,9 @@
       #controls-panel {
         order: 2;
       }
+      #results-panel {
+        order: 3;
+      }
       #ladder-panel {
         order: 1;
         position: relative;
@@ -311,7 +314,7 @@
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P4JDC9CR"
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
-  <header class="sticky top-0 z-50 bg-slate-50/85 backdrop-blur-md border-b border-slate-200/70">
+  <header class="hidden md:block sticky top-0 z-50 bg-slate-50/85 backdrop-blur-md border-b border-slate-200/70">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
         <div class="flex items-center gap-2">
@@ -353,22 +356,31 @@
     </div>
   </header>
 
-  <section class="md:hidden border-b border-slate-200/70 bg-white/90 backdrop-blur">
-    <div class="px-4 py-2 overflow-x-auto hide-scrollbar">
-      <nav class="flex items-center gap-2 min-w-max">
+  <section class="md:hidden relative border-b border-slate-200/70 bg-white/90 backdrop-blur">
+    <div class="px-4 py-2 flex items-center gap-2">
+      <div class="flex-1 overflow-x-auto hide-scrollbar pr-2">
+        <nav class="flex items-center gap-2 min-w-max">
         <a href="/zh-cn/roulette/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">转盘</a>
         <a href="/zh-cn/luckydraw/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">乐透</a>
         <a href="/zh-cn/ladder/" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-900 text-white">梯子</a>
         <a href="/zh-cn/coinflip/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">硬币</a>
         <a href="/zh-cn/dice/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">骰子</a>
       </nav>
+      </div>
+      <button id="lang-trigger-mobile" type="button" aria-label="Change language" class="px-2.5 py-1.5 rounded-full border border-slate-200 bg-white text-slate-600">
+        <img id="lang-current-flag-mobile" src="https://flagcdn.com/w20/us.png" alt="English" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
+      </button>
+    </div>
+    <div id="lang-menu-mobile" class="hidden fixed right-4 top-14 w-56 rounded-xl border border-slate-200 bg-white shadow-xl p-2" style="z-index:2147483647">
+      <input id="lang-search-mobile" type="text" class="w-full mb-2 px-2.5 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/20" placeholder="Search language">
+      <div id="lang-list-mobile" class="max-h-56 overflow-y-auto hide-scrollbar space-y-1"></div>
     </div>
   </section>
 
   <main class="flex-grow flex flex-col">
-    <section id="hero-section" class="pt-8 pb-6 px-4 sm:px-6 lg:px-8 text-center max-w-3xl mx-auto">
+    <section id="hero-section" class="hidden md:block pt-8 pb-6 px-4 sm:px-6 lg:px-8 text-center max-w-3xl mx-auto">
       <h1 id="hero-title" class="text-3xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-3">在线梯子抽签</h1>
-      <p id="hero-subtitle" class="text-sm md:text-base text-slate-500">快速输入名单，清晰展示路径与结果，适合分组与随机分配。</p>
+      <p id="hero-subtitle" class="hidden"></p>
     </section>
 
     <section id="ladder-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-14">
@@ -462,6 +474,10 @@
               <p id="empty-sub" class="text-xs">请在左侧面板设置参与者与结果。</p>
             </div>
           </div>
+        </div>
+
+        <div id="results-panel" class="lg:col-span-9">
+
           <div id="results-card" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
             <div class="p-3 border-b border-slate-100 bg-slate-50/60">
               <h2 id="label-result-title" class="text-xs font-semibold tracking-tight text-slate-700">匹配结果</h2>
