@@ -5,6 +5,7 @@
   const VIEW_W = 1000;
   const VIEW_H = 800;
   const STORAGE_KEY = "rlt-ladder-state";
+  const MOBILE_SEED_KEY = "rlt-ladder-mobile-seeded-v1";
   const MAX_PARTICIPANTS = 15;
   const COMPLEXITY_DEFAULT = "3";
   const SPEED_DEFAULT = "1";
@@ -557,9 +558,11 @@
   }
 
   function applyDefaultExampleIfEmpty() {
+    let force = false;
+    if (arguments && arguments.length > 0) force = !!arguments[0];
     const currentParticipants = parsedParticipants();
     const currentResults = parsedResults();
-    if (currentParticipants.length > 0 || currentResults.length > 0) return;
+    if (!force && (currentParticipants.length > 0 || currentResults.length > 0)) return;
 
     const localizedResults = {
       ko: "A팀(3), B팀(3)",
@@ -603,6 +606,36 @@
 
     ui.inputParticipants.value = sample.participants.join("\n");
     ui.inputResults.value = sample.results;
+  }
+
+  function isMobileViewport() {
+    return !!(window.matchMedia && window.matchMedia("(max-width: 1023px)").matches);
+  }
+
+  function resetMobileSeedFromQuery() {
+    try {
+      const url = new URL(window.location.href);
+      if (url.searchParams.get("mobile_seed") !== "reset") return;
+      localStorage.removeItem(MOBILE_SEED_KEY);
+      localStorage.removeItem(STORAGE_KEY);
+      url.searchParams.delete("mobile_seed");
+      window.history.replaceState({}, "", `${url.pathname}${url.search}${url.hash}`);
+    } catch (e) {}
+  }
+
+  function seedMobileDefaultLadderOnce() {
+    if (!isMobileViewport()) return;
+    try {
+      if (localStorage.getItem(MOBILE_SEED_KEY) === "1") return;
+    } catch (e) {}
+
+    applyDefaultExampleIfEmpty(true);
+    updateCounts();
+    buildLadder();
+    saveState();
+    try {
+      localStorage.setItem(MOBILE_SEED_KEY, "1");
+    } catch (e) {}
   }
 
   function getX(col, n) {
@@ -1334,7 +1367,9 @@
     });
   }
 
+  resetMobileSeedFromQuery();
   restoreState();
+  seedMobileDefaultLadderOnce();
   bindEvents();
   applyI18n();
   updateCounts();
