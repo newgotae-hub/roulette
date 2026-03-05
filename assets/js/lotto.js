@@ -1852,7 +1852,7 @@
       ui.btnSortAsc.className = 'hidden';
     }
 
-    ui.btnCopy.addEventListener('click', copyResult);
+    if (ui.btnCopy) ui.btnCopy.addEventListener('click', copyResult);
     ui.btnExport.addEventListener('click', exportCsv);
 
     ui.historyList.addEventListener('click', (event) => {

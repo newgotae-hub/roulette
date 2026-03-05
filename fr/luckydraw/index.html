@@ -609,11 +609,17 @@
         <div id="lotto-results-panel" class="lg:col-span-3 space-y-4 lg:h-[600px]">
           <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 flex flex-col items-center">
             <div id="result-slots" class="grid grid-cols-3 gap-2.5 w-full max-w-[220px]"></div>
-            <button id="btn-copy" class="mt-4 text-xs font-medium text-slate-500 hover:text-slate-900 flex items-center gap-1 transition-colors">
-              <iconify-icon icon="solar:copy-linear" stroke-width="1.5"></iconify-icon>
-              <span id="label-btn-copy">Copier</span>
-            </button>
           </div>
+
+
+        <div id="lotto-mobile-actions" class="md:hidden flex gap-2">
+          <button id="btn-reset-mobile" class="flex-1 h-11 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-slate-700 font-semibold text-sm">
+            <span id="label-btn-reset-mobile">초기화</span>
+          </button>
+          <button id="btn-draw-mobile" class="flex-1 h-11 bg-slate-900 rounded-xl flex items-center justify-center text-white font-semibold text-sm">
+            <span id="label-btn-draw-mobile">추첨 시작</span>
+          </button>
+        </div>
 
           <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col h-[280px] lg:flex-1">
             <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/60">
@@ -628,15 +634,6 @@
             </div>
             <div id="history-list" class="flex-grow overflow-y-auto hide-scrollbar p-2 space-y-1 bg-white"></div>
           </div>
-        </div>
-
-        <div id="lotto-mobile-actions" class="md:hidden flex gap-2">
-          <button id="btn-reset-mobile" class="flex-1 h-11 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-slate-700 font-semibold text-sm">
-            <span id="label-btn-reset-mobile">초기화</span>
-          </button>
-          <button id="btn-draw-mobile" class="flex-1 h-11 bg-slate-900 rounded-xl flex items-center justify-center text-white font-semibold text-sm">
-            <span id="label-btn-draw-mobile">추첨 시작</span>
-          </button>
         </div>
 
       </div>
