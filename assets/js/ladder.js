@@ -5,7 +5,6 @@
   const VIEW_W = 1000;
   const VIEW_H = 800;
   const STORAGE_KEY = "rlt-ladder-state";
-  const MOBILE_SEED_KEY = "rlt-ladder-mobile-seeded-v1";
   const MAX_PARTICIPANTS = 15;
   const COMPLEXITY_DEFAULT = "3";
   const SPEED_DEFAULT = "1";
@@ -623,30 +622,12 @@
     return !!(window.matchMedia && window.matchMedia("(max-width: 1023px)").matches);
   }
 
-  function resetMobileSeedFromQuery() {
-    try {
-      const url = new URL(window.location.href);
-      if (url.searchParams.get("mobile_seed") !== "reset") return;
-      localStorage.removeItem(MOBILE_SEED_KEY);
-      localStorage.removeItem(STORAGE_KEY);
-      url.searchParams.delete("mobile_seed");
-      window.history.replaceState({}, "", `${url.pathname}${url.search}${url.hash}`);
-    } catch (e) {}
-  }
-
-  function seedMobileDefaultLadderOnce() {
+  function applyMobileDefaultLadderAlways() {
     if (!isMobileViewport()) return;
-    try {
-      if (localStorage.getItem(MOBILE_SEED_KEY) === "1") return;
-    } catch (e) {}
-
     applyDefaultExampleIfEmpty(true);
     updateCounts();
     buildLadder();
     saveState();
-    try {
-      localStorage.setItem(MOBILE_SEED_KEY, "1");
-    } catch (e) {}
   }
 
   function getX(col, n) {
@@ -1375,9 +1356,8 @@
     });
   }
 
-  resetMobileSeedFromQuery();
   restoreState();
-  seedMobileDefaultLadderOnce();
+  applyMobileDefaultLadderAlways();
   bindEvents();
   applyI18n();
   updateCounts();
