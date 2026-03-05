@@ -2153,6 +2153,13 @@
                 el.textContent = t(key);
             }
 
+            function updateTextareaPlaceholder() {
+                const mobile = window.matchMedia && window.matchMedia('(max-width: 1023px)').matches;
+                ui.textarea.placeholder = mobile
+                    ? '이름을 입력하세요. 공백, 쉼표, 줄바꿈 등 다양하게 지원합니다.'
+                    : t('textareaPlaceholder');
+            }
+
             function syncLangLinks() {
                 const toolPathRegex = /^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i;
                 document.querySelectorAll('a[href]').forEach((a) => {
@@ -2238,7 +2245,7 @@
                 setText('footer-privacy', 'footerPrivacy'); document.getElementById('footer-privacy') && (document.getElementById('footer-privacy').textContent = 'Privacy');
                 setText('footer-contact', 'footerContact'); document.getElementById('footer-contact') && (document.getElementById('footer-contact').textContent = 'Contact');
                 setText('fullscreen-hint-text', 'fullscreenHint');
-                ui.textarea.placeholder = t('textareaPlaceholder');
+                updateTextareaPlaceholder();
                 announce(t('bannerReady'), 'text-slate-500');
                 renderLanguageList(ui.langSearch.value, ui.langList);
                 if (ui.langListMobile) renderLanguageList(ui.langSearchMobile ? ui.langSearchMobile.value : '', ui.langListMobile);
@@ -2755,6 +2762,7 @@
             ui.spinDuration.addEventListener('input', () => {
                 updateSpinDurationLabel();
             });
+            window.addEventListener('resize', updateTextareaPlaceholder);
 
             ui.textarea.addEventListener('input', syncLiveList);
             ui.applyButton.addEventListener('click', () => applyList(false));
