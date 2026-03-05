@@ -2505,6 +2505,10 @@
         die.badge.textContent = String(safe);
       }
 
+      function normalizeRollValues(values) {
+        return (Array.isArray(values) ? values : []).map((v) => Math.max(1, Math.min(6, Number(v) || 1)));
+      }
+
       function createDieElement(sizePx) {
         const slot = document.createElement('div');
         slot.className = 'dice-slot';
@@ -2654,7 +2658,7 @@
         ui.rollLabel.textContent = t('rolling');
         setBanner(t('rolling'), 'text-slate-500');
 
-        const targetValues = new Array(diceAtRoll.length).fill(0).map(() => secureRandomInt6());
+        const targetValues = normalizeRollValues(new Array(diceAtRoll.length).fill(0).map(() => secureRandomInt6()));
         rollSoundStart();
 
         if (state.reducedMotion) {
@@ -2664,10 +2668,7 @@
             setModelOrientation(die, target[0], target[1], target[2]);
             setDieValue(die, value);
           });
-          const finalValues = diceAtRoll.map((die, idx) => {
-            const fallback = targetValues[idx] || 1;
-            return Math.max(1, Math.min(6, Number(die.value) || Number(die.badge.textContent) || fallback));
-          });
+          const finalValues = targetValues.slice();
           const sum = finalValues.reduce((a, b) => a + b, 0);
           rollSoundEnd();
           triggerParityFirework(sum);
@@ -2741,10 +2742,9 @@
           window.setTimeout(settle, durationMs + maxStagger + 220);
         }));
         await Promise.all(animationPromises);
-        const finalValues = diceAtRoll.map((die, idx) => {
-          const fallback = targetValues[idx] || 1;
-          return Math.max(1, Math.min(6, Number(die.value) || Number(die.badge.textContent) || fallback));
-        });
+        const finalValues = targetValues.slice();
+        // Keep UI badges and recorded values sourced from the same finalized roll values.
+        diceAtRoll.forEach((die, idx) => setDieValue(die, finalValues[idx]));
         const sum = finalValues.reduce((a, b) => a + b, 0);
 
         rollSoundEnd();
