@@ -393,7 +393,7 @@
 
         <section id="roulette" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-6 md:pb-14">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 md:gap-6 items-start">
-                <div id="roulette-controls" class="lg:col-span-3 space-y-4">
+                <div id="roulette-controls" class="order-2 lg:order-none lg:col-span-3 space-y-4">
                     <div id="roster-card" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col min-h-0 md:min-h-[450px] lg:h-[640px]">
                         <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/60">
                             <h2 class="text-sm font-semibold tracking-tight flex items-center gap-2">
@@ -405,7 +405,7 @@
 
                         <div class="p-4 flex-grow flex flex-col">
                             <label for="participant-list" class="sr-only">प्रतिभागी सूची</label>
-                            <textarea id="participant-list" class="w-full h-16 md:h-64 lg:h-full resize-none bg-slate-50 border border-slate-200 rounded-xl p-3 text-base text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-shadow" placeholder="नाम लिखें या Excel से पेस्ट करें। स्पेस, कॉमा, नई पंक्ति, टैब, सेमीकोलन, स्लैश और पाइप समर्थित।"></textarea>
+                            <textarea id="participant-list" class="w-full h-16 md:h-64 lg:h-full resize-none bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm md:text-base text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-shadow" placeholder="नाम लिखें या Excel से पेस्ट करें। स्पेस, कॉमा, नई पंक्ति, टैब, सेमीकोलन, स्लैश और पाइप समर्थित।"></textarea>
 
                             <div class="mt-3 flex gap-2">
                                 <button id="reset-list" class="flex-1 bg-white border border-slate-200 rounded-lg py-2 text-xs font-medium text-slate-600 hover:bg-slate-50 transition-colors flex items-center justify-center gap-1">
@@ -449,7 +449,7 @@
                     </div>
                 </div>
 
-                <div id="roulette-center" class="lg:col-span-6 flex flex-col items-center justify-start lg:justify-center min-h-[240px] md:min-h-[420px] lg:h-[640px]">
+                <div id="roulette-center" class="order-1 lg:order-none lg:col-span-6 flex flex-col items-center justify-start lg:justify-center min-h-[240px] md:min-h-[420px] lg:h-[640px]">
                     <div class="relative w-full max-w-[300px] md:max-w-[560px] aspect-square flex items-center justify-center">
                         <div class="absolute -top-5 left-1/2 -translate-x-1/2 z-30 drop-shadow-md">
                             <iconify-icon icon="solar:map-arrow-down-bold" class="text-slate-900 text-5xl"></iconify-icon>
@@ -2302,11 +2302,9 @@
                     ctx.font = '700 34px Inter, sans-serif';
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
-                    ctx.fillText(t('wheelEmptyTitle'), center, center - radius * 0.42);
 
                     ctx.fillStyle = '#64748b';
                     ctx.font = '500 18px Inter, sans-serif';
-                    ctx.fillText(t('wheelEmptySub'), center, center - radius * 0.31);
                     return;
                 }
 
