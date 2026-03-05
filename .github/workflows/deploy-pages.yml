@@ -25,6 +25,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Predeploy smoke check (coinflip/dice)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 4173 >/tmp/predeploy-http.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID || true' EXIT
+          sleep 1
+
+          for path in /coinflip/ /dice/; do
+            code=$(curl -s -o /tmp/predeploy-page.html -w "%{http_code}" "http://127.0.0.1:4173${path}")
+            if [ "$code" != "200" ]; then
+              echo "FAIL: ${path} returned HTTP ${code}"
+              exit 1
+            fi
+            title=$(grep -o '<title>[^<]*</title>' /tmp/predeploy-page.html | head -n 1 || true)
+            echo "PASS: ${path} HTTP 200 ${title}"
+          done
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
