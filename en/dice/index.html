@@ -353,6 +353,12 @@
       align-items: center;
       justify-content: center;
       padding-top: 0;
+      padding-bottom: 0;
+    }
+
+    html:not(:fullscreen) .grid-dice.single-mode {
+      padding-top: 16px;
+      padding-bottom: 8px;
     }
 
     .dice-shell {
@@ -2536,7 +2542,15 @@
       }
 
       function diceCssSize(count) {
-        if (count <= 1) return 600;
+        const wrapRect = ui.diceWrap ? ui.diceWrap.getBoundingClientRect() : null;
+        const wrapWidth = wrapRect && wrapRect.width ? wrapRect.width : window.innerWidth * 0.9;
+        const wrapHeight = wrapRect && wrapRect.height ? wrapRect.height : window.innerHeight * 0.58;
+
+        if (count <= 1) {
+          const maxByWidth = Math.max(320, Math.min(680, wrapWidth - 12));
+          const maxByHeight = Math.max(320, Math.min(680, wrapHeight - 24));
+          return Math.floor(Math.min(maxByWidth, maxByHeight));
+        }
         if (count <= 4) return 320;
         if (count <= 9) return 220;
         return 172;
