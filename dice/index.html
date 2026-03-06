@@ -2121,13 +2121,15 @@
       };
 
       const DICE_GLB_URL = '/dice.glb';
-      const FACE_ORIENTATION = {
-        1: [0, 0, 0],
-        2: [0, 90, 0],
-        3: [90, 0, 0],
-        4: [-90, 0, 0],
-        5: [0, -90, 0],
-        6: [180, 0, 0]
+      const TOP_FACE_ORIENTATION = {
+        // Calibrated against forced-face browser captures so the visible top face
+        // matches the recorded roll value in the final settled pose.
+        1: [90, 0, 0],
+        2: [-90, 0, 0],
+        3: [-90, 90, 0],
+        4: [-90, -90, 0],
+        5: [0, 0, 0],
+        6: [-180, 0, 0]
       };
       const FACE_SPIN_PROFILE = {
         1: [1440, 0, -1440],
@@ -2635,10 +2637,8 @@
       }
 
       function faceTarget(value) {
-        const base = FACE_ORIENTATION[value] || FACE_ORIENTATION[1];
-        // FACE_ORIENTATION is front-facing calibration; shift by -90deg on X so the
-        // finalized value is the face visible on the top side.
-        return [base[0] - 90, base[1], base[2]];
+        const target = TOP_FACE_ORIENTATION[value] || TOP_FACE_ORIENTATION[1];
+        return target.slice();
       }
 
       function settleDieToFace(die, value) {
