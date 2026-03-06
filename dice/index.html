@@ -300,6 +300,16 @@
       overflow: visible;
     }
 
+    .dice-slot.is-rollable {
+      cursor: pointer;
+    }
+
+    .dice-slot.is-rollable:focus-visible {
+      outline: 2px solid rgba(15, 23, 42, 0.24);
+      outline-offset: 6px;
+      border-radius: 28px;
+    }
+
     .grid-dice {
       display: grid;
       gap: 6px;
@@ -2307,6 +2317,7 @@
         updateFullscreenButton();
         updateCountUI();
         updateDurationUI();
+        syncDiceInteractivity();
 
         renderLanguageList(ui.langSearch.value);
         syncLangLinks();
@@ -2461,11 +2472,13 @@
           ui.assetStatus.textContent = t('assetReady');
           setBanner(t('bannerReady'), 'text-slate-500');
           ui.rollButton.disabled = false;
+          syncDiceInteractivity();
         } catch (e) {
           state.assets.ready = false;
           ui.assetStatus.textContent = t('assetMissing');
           setBanner(t('bannerMissing'), 'text-red-500');
           ui.rollButton.disabled = true;
+          syncDiceInteractivity();
         }
       }
 
@@ -2515,6 +2528,9 @@
       function createDieElement(sizePx) {
         const slot = document.createElement('div');
         slot.className = 'dice-slot';
+        slot.tabIndex = -1;
+        slot.setAttribute('role', 'button');
+        slot.setAttribute('aria-disabled', 'true');
 
         const shell = document.createElement('div');
         shell.className = 'dice-shell';
@@ -2554,6 +2570,17 @@
         shell.appendChild(badge);
         slot.appendChild(shell);
 
+        const triggerRoll = () => {
+          if (!slot.classList.contains('is-rollable')) return;
+          void doRoll();
+        };
+        slot.addEventListener('click', triggerRoll);
+        slot.addEventListener('keydown', (event) => {
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+          event.preventDefault();
+          triggerRoll();
+        });
+
         return { slot, shell, model, badge, value: 1, angles: { x: 0, y: 0, z: 0 } };
       }
 
@@ -2571,6 +2598,7 @@
           const die = createDieElement(size);
           state.dice.push(die);
           ui.diceWrap.appendChild(die.slot);
+          syncDiceInteractivity();
           return;
         }
 
@@ -2582,6 +2610,7 @@
           state.dice.push(die);
           ui.diceWrap.appendChild(die.slot);
         }
+        syncDiceInteractivity();
       }
 
       function formatSeconds(sec) {
@@ -2600,12 +2629,23 @@
         ui.rollDuration.value = String(state.durationSec);
       }
 
+      function syncDiceInteractivity() {
+        const enabled = state.assets.ready && !state.rolling;
+        state.dice.forEach((die) => {
+          die.slot.classList.toggle('is-rollable', enabled);
+          die.slot.tabIndex = enabled ? 0 : -1;
+          die.slot.setAttribute('aria-disabled', enabled ? 'false' : 'true');
+          die.slot.setAttribute('aria-label', t('roll'));
+        });
+      }
+
       function setRollingLock(flag) {
         ui.rollButton.disabled = !!flag;
         ui.diceCount.disabled = !!flag;
         ui.rollDuration.disabled = !!flag;
         ui.oddPlayer.disabled = !!flag;
         ui.evenPlayer.disabled = !!flag;
+        syncDiceInteractivity();
       }
 
       function setBanner(text, colorClass) {

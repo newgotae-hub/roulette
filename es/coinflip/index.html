@@ -304,6 +304,16 @@
       perspective: 1100px;
     }
 
+    .coin-slot.is-flip-ready {
+      cursor: pointer;
+    }
+
+    .coin-slot.is-flip-ready:focus-visible {
+      outline: 2px solid rgba(15, 23, 42, 0.24);
+      outline-offset: 6px;
+      border-radius: 9999px;
+    }
+
     .coin-3d {
       position: relative;
       width: var(--coin-size, 140px);
@@ -2371,6 +2381,7 @@
         updateFullscreenButton();
         updateCountUI();
         updateDurationUI();
+        syncCoinInteractivity();
         renderHistory();
 
         renderLanguageList(ui.langSearch.value);
@@ -2624,6 +2635,7 @@
           ui.assetStatus.textContent = t('assetReady');
           ui.banner.textContent = t('bannerReady');
           ui.flipButton.disabled = false;
+          syncCoinInteractivity();
           return;
         }
 
@@ -2640,11 +2652,13 @@
           ui.assetStatus.textContent = t('assetReady');
           ui.banner.textContent = t('bannerReady');
           ui.flipButton.disabled = false;
+          syncCoinInteractivity();
         } catch (e) {
           state.assets.ready = false;
           ui.assetStatus.textContent = t('assetMissing');
           ui.banner.textContent = t('bannerMissing');
           ui.flipButton.disabled = true;
+          syncCoinInteractivity();
         }
       }
 
@@ -2684,6 +2698,9 @@
       function createCoinElement(sizePx) {
         const slot = document.createElement('div');
         slot.className = 'coin-slot';
+        slot.tabIndex = -1;
+        slot.setAttribute('role', 'button');
+        slot.setAttribute('aria-disabled', 'true');
 
         const coin = document.createElement('div');
         coin.className = 'spline-coin-shell';
@@ -2716,6 +2733,17 @@
 
         slot.appendChild(coin);
 
+        const triggerFlip = () => {
+          if (!slot.classList.contains('is-flip-ready')) return;
+          void doFlip();
+        };
+        slot.addEventListener('click', triggerFlip);
+        slot.addEventListener('keydown', (event) => {
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+          event.preventDefault();
+          triggerFlip();
+        });
+
         return { slot, el: coin, model, result: 'heads' };
       }
 
@@ -2735,6 +2763,7 @@
           state.coins.push(coin);
           ui.coinsWrap.appendChild(coin.slot);
           setCoinFace(coin, 'heads');
+          syncCoinInteractivity();
           return;
         }
 
@@ -2746,6 +2775,7 @@
           ui.coinsWrap.appendChild(coin.slot);
           setCoinFace(coin, 'heads');
         }
+        syncCoinInteractivity();
       }
 
       function formatSeconds(sec) {
@@ -2764,6 +2794,18 @@
       function updateDurationUI() {
         ui.durationValue.textContent = formatSeconds(state.durationSec);
         ui.flipDuration.value = String(state.durationSec);
+      }
+
+      function syncCoinInteractivity() {
+        const enabled = state.assets.ready && !state.flipping;
+        if (ui.flipButton) ui.flipButton.disabled = !enabled;
+        if (ui.flipButtonMobile) ui.flipButtonMobile.disabled = !enabled;
+        state.coins.forEach((coin) => {
+          coin.slot.classList.toggle('is-flip-ready', enabled);
+          coin.slot.tabIndex = enabled ? 0 : -1;
+          coin.slot.setAttribute('aria-disabled', enabled ? 'false' : 'true');
+          coin.slot.setAttribute('aria-label', t('flip'));
+        });
       }
 
       function setBanner(text, colorClass) {
@@ -2877,6 +2919,7 @@
 
         state.flipping = true;
         ui.flipButton.disabled = true;
+          syncCoinInteractivity();
         ui.flipLabel.textContent = t('flipping');
         setBanner(t('flipping'), 'text-slate-500');
 
@@ -2897,6 +2940,7 @@
           pushHistory(heads, tails);
           state.flipping = false;
           ui.flipButton.disabled = false;
+          syncCoinInteractivity();
           ui.flipLabel.textContent = t('flip');
           return;
         }
@@ -2945,6 +2989,7 @@
 
         state.flipping = false;
         ui.flipButton.disabled = false;
+          syncCoinInteractivity();
         ui.flipLabel.textContent = t('flip');
       }
 
@@ -2998,6 +3043,7 @@
         state.coinCount = 1;
         state.durationSec = 4;
         ui.flipButton.disabled = true;
+          syncCoinInteractivity();
 
         if (state.reducedMotion) ui.motionNote.classList.remove('hidden');
 
