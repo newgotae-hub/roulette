@@ -6,6 +6,9 @@ const root = path.resolve(__dirname, '..');
 const langs = ['en','ja','zh-cn','zh-tw','es','fr','de','pt-br','hi','ar','ru','id','tr','it','vi','th','nl'];
 const tools = ['roulette','luckydraw','ladder','coinflip','dice'];
 const legalPages = ['privacy','terms','contact','about'];
+const localizedLegalLangs = ['en', 'ja', 'zh-cn', 'zh-tw'];
+const localizedLegalPages = ['privacy', 'terms', 'contact'];
+const guidePages = ['guides', 'guides/fair-random-draw', 'guides/event-draw-checklist', 'guides/winner-records'];
 const today = new Date().toISOString().slice(0, 10);
 
 function write(file, content) {
@@ -48,6 +51,14 @@ for (const page of legalPages) {
   main.push('    <priority>0.5</priority>');
   main.push('  </url>');
 }
+for (const page of guidePages) {
+  main.push('  <url>');
+  main.push(`    <loc>https://randomly-pick.com/${page}/</loc>`);
+  main.push(`    <lastmod>${today}</lastmod>`);
+  main.push('    <changefreq>weekly</changefreq>');
+  main.push(page === 'guides' ? '    <priority>0.6</priority>' : '    <priority>0.7</priority>');
+  main.push('  </url>');
+}
 main.push('</urlset>');
 
 const locales = [];
@@ -66,6 +77,16 @@ for (const lang of langs) {
     locales.push(`    <lastmod>${today}</lastmod>`);
     locales.push('    <changefreq>weekly</changefreq>');
     locales.push('    <priority>0.6</priority>');
+    locales.push('  </url>');
+  }
+}
+for (const lang of localizedLegalLangs) {
+  for (const page of localizedLegalPages) {
+    locales.push('  <url>');
+    locales.push(`    <loc>https://randomly-pick.com/${lang}/${page}/</loc>`);
+    locales.push(`    <lastmod>${today}</lastmod>`);
+    locales.push('    <changefreq>monthly</changefreq>');
+    locales.push('    <priority>0.4</priority>');
     locales.push('  </url>');
   }
 }

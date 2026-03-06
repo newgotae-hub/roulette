@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>당첨 기록을 남겨야 하는 이유 | Randomly Pick</title>
+  <meta name="description" content="랜덤 추첨 결과를 CSV와 로그로 남겨야 하는 이유, 분쟁 대응과 재검토 요청 대응 방법을 정리한 가이드입니다." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://randomly-pick.com/guides/winner-records/" />
+  <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
+  <style>
+    body { margin:0; font-family:"Noto Sans KR", Arial, sans-serif; background:#f8fafc; color:#0f172a; }
+    main { max-width: 860px; margin:0 auto; padding:32px 18px 64px; line-height:1.8; }
+    article { background:#fff; border:1px solid #e2e8f0; border-radius:24px; padding:30px 24px; box-shadow:0 16px 36px rgba(15,23,42,.05); }
+    h1 { margin:0 0 12px; font-size: clamp(30px, 4vw, 40px); line-height:1.18; }
+    h2 { margin-top:28px; font-size:22px; }
+    p, li { color:#475569; }
+    .meta { color:#64748b; font-size:14px; }
+    a { color:#111827; }
+    .links { display:flex; flex-wrap:wrap; gap:12px; margin-top:28px; }
+    .btn { display:inline-flex; align-items:center; justify-content:center; padding:10px 14px; border:1px solid #cbd5e1; border-radius:999px; text-decoration:none; font-weight:700; }
+  </style>
+</head>
+<body>
+  <main>
+    <article>
+      <p class="meta">운영 가이드 3</p>
+      <h1>당첨 기록을 남겨야 하는 이유</h1>
+      <p>많은 운영자가 추첨 자체에는 신경을 쓰지만, 결과 기록은 나중 문제로 미룹니다. 그런데 실제 분쟁은 대개 추첨 순간이 아니라 그 이후에 생깁니다. “왜 내가 빠졌나요?”, “이미 당첨된 사람 아닌가요?”, “몇 번째 라운드 결과였나요?” 같은 질문이 들어오면 기억만으로는 설명이 어렵습니다. 그래서 기록은 선택이 아니라 운영 장치에 가깝습니다.</p>
+
+      <h2>1. 기록은 재검토 요청에 바로 답하게 해줍니다</h2>
+      <p>당첨 내역을 시간순으로 남겨두면, 어떤 회차에서 누가 선택되었는지 바로 확인할 수 있습니다. 특히 연속 추첨을 여러 번 진행한 행사에서는 순서가 조금만 섞여도 혼란이 생기기 쉬운데, CSV처럼 구조화된 기록이 있으면 다시 확인하기가 쉽습니다.</p>
+
+      <h2>2. 운영 실수와 알고리즘 문제를 구분할 수 있습니다</h2>
+      <p>사용자 불만이 들어왔을 때 실제 원인이 랜덤 로직인지, 명단 입력 실수인지, 제외 규칙 설정인지 구분하려면 당시 상태를 알아야 합니다. 기록이 없으면 모든 것이 추측이 됩니다. 반대로 기록이 있으면 문제를 훨씬 빠르게 좁힐 수 있습니다.</p>
+
+      <h2>3. 내부 공유도 쉬워집니다</h2>
+      <p>이벤트 담당자가 여러 명일 때는 추첨을 누른 사람과 문의를 받는 사람이 다를 수 있습니다. 기록을 남겨두면 담당자가 바뀌어도 같은 기준으로 답변할 수 있습니다. 방송이나 커뮤니티 운영에서는 이 부분이 생각보다 중요합니다.</p>
+
+      <h2>4. 무엇을 남겨야 하나요?</h2>
+      <ul>
+        <li>추첨 회차와 시간</li>
+        <li>당첨자 이름 또는 번호</li>
+        <li>당첨자 제외 적용 여부</li>
+        <li>필요하면 당시 사용한 명단 버전</li>
+      </ul>
+      <p>모든 원본 입력값을 무조건 저장할 필요는 없지만, 나중에 질문이 들어왔을 때 결과를 설명할 수 있을 정도의 최소 정보는 남겨 두는 편이 좋습니다.</p>
+
+      <h2>5. CSV 저장은 가장 현실적인 방법입니다</h2>
+      <p>화면 캡처는 순간 증거로는 좋지만, 나중에 정리하거나 검색하기는 어렵습니다. 반면 CSV는 엑셀이나 스프레드시트로 바로 열 수 있고, 여러 회차를 한 번에 관리하기 좋습니다. Randomly Pick처럼 회차별 기록을 바로 내보낼 수 있는 도구는 행사 운영에서 실용성이 큽니다.</p>
+
+      <div class="links">
+        <a class="btn" href="/guides/">가이드 목록</a>
+        <a class="btn" href="/luckydraw/">번호 추첨기 열기</a>
+        <a class="btn" href="/guides/fair-random-draw/">처음 가이드</a>
+      </div>
+    </article>
+  </main>
+</body>
+</html>
