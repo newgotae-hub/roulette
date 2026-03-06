@@ -337,11 +337,13 @@
     ui.emptySub.textContent = t("emptySub");
     ui.resultTitle.textContent = t("resultTitle");
     ui.noResults.textContent = t("noResults");
-    ui.footerTerms.textContent = "Terms";
-    ui.footerPrivacy.textContent = "Privacy";
-    ui.langButtonLabel.textContent = "LANGUAGE";
-    ui.langSearch.placeholder = "Search language";
-    if (ui.langSearchMobile) ui.langSearchMobile.placeholder = "Search language";
+    var langButtonText = state.locale === "ko" ? "언어" : "LANGUAGE";
+    var langSearchPlaceholder = state.locale === "ko" ? "언어 검색" : "Search language";
+    ui.footerTerms.textContent = t("footerTerms");
+    ui.footerPrivacy.textContent = t("footerPrivacy");
+    ui.langButtonLabel.textContent = langButtonText;
+    ui.langSearch.placeholder = langSearchPlaceholder;
+    if (ui.langSearchMobile) ui.langSearchMobile.placeholder = langSearchPlaceholder;
     ui.langCurrentFlag.src = getLocaleFlagUrl(state.locale);
     ui.langCurrentFlag.alt = (localeNames[state.locale] && localeNames[state.locale].en) || state.locale;
     if (ui.langCurrentFlagMobile) {

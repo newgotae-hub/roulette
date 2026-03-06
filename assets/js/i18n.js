@@ -41,7 +41,7 @@
       playAll: "전체 자동재생",
       stopAll: "중지",
       guideTitle: "사다리타기 가이드",
-      guideSubtitle: "Randomly Pick 사다리타기는 빠른 입력과 결과 확인에 집중한 랜덤 추첨 도구입니다.",
+      guideSubtitle: "Randomly Pick 사다리타기는 명단 입력과 결과 확인을 한 화면에서 처리하는 랜덤 추첨 도구입니다.",
       guideStep1Title: "1. 명단 입력",
       guideStep1Body: "참가자와 결과 모두 띄어쓰기, 쉼표, 줄바꿈, 탭 등 다양한 구분기호를 자동 인식합니다.",
       guideStep2Title: "2. 생성 후 실행",

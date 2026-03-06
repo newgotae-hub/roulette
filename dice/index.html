@@ -524,11 +524,11 @@
           </div>
           <div class="relative">
             <button id="lang-trigger" class="bg-white border border-slate-200 shadow-sm rounded-full px-3 py-1 text-[11px] font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors inline-flex items-center gap-1.5">
-              <span id="lang-button-label">LANGUAGE</span>
-              <img id="lang-current-flag" src="https://flagcdn.com/w20/us.png" alt="English" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
+              <span id="lang-button-label">언어</span>
+              <img id="lang-current-flag" src="https://flagcdn.com/w20/kr.png" alt="한국어" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
             </button>
             <div id="lang-menu" class="hidden absolute right-0 top-full mt-2 z-50 w-56 rounded-xl border border-slate-200 bg-white shadow-xl p-2">
-              <input id="lang-search" type="text" class="w-full mb-2 px-2.5 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/20" placeholder="Search language">
+              <input id="lang-search" type="text" class="w-full mb-2 px-2.5 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/20" placeholder="언어 검색">
               <div id="lang-list" class="max-h-56 overflow-y-auto hide-scrollbar space-y-1"></div>
             </div>
           </div>
@@ -601,7 +601,7 @@
             </div>
 
             <div class="p-3 pt-2 border-t border-slate-100 bg-slate-50/60 space-y-1.5">
-              <p id="banner" class="text-xs text-slate-500 animate-soft-pulse">Ready to roll.</p>
+              <p id="banner" class="text-xs text-slate-500 animate-soft-pulse">준비되면 “굴리기”를 눌러주세요.</p>
 
               <button id="roll-button" class="w-full bg-slate-900 text-white rounded-xl py-2 text-sm font-semibold hover:bg-slate-800 transition-colors shadow-sm disabled:opacity-60 disabled:cursor-not-allowed">
                 <span id="roll-label">굴리기</span>
@@ -722,15 +722,15 @@
       <div class="flex items-center gap-2">
         <div class="w-6 h-6 bg-slate-200 text-slate-600 rounded flex items-center justify-center font-semibold text-xs tracking-tighter">R.</div>
         <div class="flex flex-col leading-tight">
-          <span class="text-xs text-slate-500">© 2026 Randomly Pick. All rights reserved.</span>
-          <a id="footer-copy" href="https://www.instagram.com/juntaeko_tr" target="_blank" rel="noopener noreferrer" class="text-xs text-slate-500">Designed and Developed by Juntae Ko (고준태)</a>
+          <span class="text-xs text-slate-500">© 2026 Randomly Pick. 모든 권리 보유.</span>
+          <a id="footer-copy" href="https://www.instagram.com/juntaeko_tr" target="_blank" rel="noopener noreferrer" class="text-xs text-slate-500">제작: Juntae Ko (고준태)</a>
         </div>
       </div>
       <div class="flex gap-6">
-        <a id="footer-terms" href="/terms/" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">Terms</a>
-        <a id="footer-privacy" href="/privacy/" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">Privacy</a>
-        <a id="footer-about" href="/about/" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">About</a>
-        <a id="footer-contact" href="https://www.instagram.com/juntaeko_tr" target="_blank" rel="noopener noreferrer" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">Contact</a>
+        <a id="footer-terms" href="/terms/" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">이용약관</a>
+        <a id="footer-privacy" href="/privacy/" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">개인정보처리방침</a>
+        <a id="footer-about" href="/about/" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">소개</a>
+        <a id="footer-contact" href="/contact/" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">문의</a>
       </div>
     </div>
   </footer>
@@ -862,7 +862,7 @@
           mnavHistory: '사다리',
           mnavCoin: '코인',
           mnavDice: '주사위',
-          languageButton: 'LANGUAGE',
+          languageButton: '언어',
           languageSearchPh: '언어 검색',
           heroTitle: '주사위 굴리기',
           heroSubtitle: '기본 1개부터 최대 12개까지 동시에 굴리고 결과를 저장하세요.',
@@ -893,14 +893,14 @@
           cumulativeTitle: '면별 누적 횟수',
           motionNote: '설정된 모션 감소 환경에서는 애니메이션이 단순 표시로 대체됩니다.',
           guideTitle: '주사위 굴리기 가이드',
-          guideSubtitle: 'Randomly Pick 주사위는 브라우저에서만 동작하며 입력/결과가 외부 서버로 전송되지 않습니다.',
+          guideSubtitle: 'Randomly Pick 주사위는 브라우저에서만 동작하며 결과 확인과 기록 저장을 한 화면에서 처리할 수 있습니다.',
           guideStep1Title: '1. 개수 선택',
           guideStep1Body: '기본 1개부터 최대 12개까지 동시에 굴릴 수 있습니다.',
           guideStep2Title: '2. 속도 조절',
           guideStep2Body: '애니메이션 시간을 조절해 빠른 테스트부터 연출형 추첨까지 설정합니다.',
           guideStep3Title: '3. 결과 저장',
           guideStep3Body: '회차별 주사위 값, 합계, 평균을 기록하고 CSV로 저장할 수 있습니다.',
-          footerCopy: 'Designed and Developed by Juntae Ko (고준태)',
+          footerCopy: '제작: Juntae Ko (고준태)',
           footerTerms: '이용약관',
           footerPrivacy: '개인정보처리방침',
           footerContact: '문의하기',

@@ -1272,14 +1272,14 @@
     setText('faq4-a', 'faq4A');
     setText('footer-terms', 'footerTerms');
     setText('footer-privacy', 'footerPrivacy');
-    if (document.getElementById('footer-terms')) document.getElementById('footer-terms').textContent = 'Terms';
-    if (document.getElementById('footer-privacy')) document.getElementById('footer-privacy').textContent = 'Privacy';
+    if (document.getElementById('footer-terms')) document.getElementById('footer-terms').textContent = t('footerTerms');
+    if (document.getElementById('footer-privacy')) document.getElementById('footer-privacy').textContent = t('footerPrivacy');
     ui.statusBanner.textContent = t('statusReady');
     ui.fullscreenLabel.textContent = document.fullscreenElement ? t('fullscreenExit') : t('fullscreen');
     if (ui.fullscreenHintText) ui.fullscreenHintText.textContent = t('fullscreenHint');
-    ui.langButtonLabel.textContent = "LANGUAGE";
-    ui.langSearch.placeholder = "Search language";
-    if (ui.langSearchMobile) ui.langSearchMobile.placeholder = "Search language";
+    ui.langButtonLabel.textContent = state.locale === 'ko' ? '언어' : 'LANGUAGE';
+    ui.langSearch.placeholder = state.locale === 'ko' ? '언어 검색' : 'Search language';
+    if (ui.langSearchMobile) ui.langSearchMobile.placeholder = state.locale === 'ko' ? '언어 검색' : 'Search language';
     ui.langCurrentFlag.src = getLocaleFlagUrl(state.locale);
     ui.langCurrentFlag.alt = (localeNames[state.locale] && localeNames[state.locale].en) || state.locale;
     if (ui.langCurrentFlagMobile) {

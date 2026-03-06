@@ -402,11 +402,11 @@
           </div>
           <div class="relative">
             <button id="lang-trigger" class="bg-white border border-slate-200 shadow-sm rounded-full px-3 py-1 text-[11px] font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors inline-flex items-center gap-1.5">
-              <span id="lang-button-label">LANGUAGE</span>
-              <img id="lang-current-flag" src="https://flagcdn.com/w20/us.png" alt="English" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
+              <span id="lang-button-label">언어</span>
+              <img id="lang-current-flag" src="https://flagcdn.com/w20/kr.png" alt="한국어" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
             </button>
             <div id="lang-menu" class="hidden absolute right-0 top-full mt-2 z-50 w-56 rounded-xl border border-slate-200 bg-white shadow-xl p-2">
-              <input id="lang-search" type="text" class="w-full mb-2 px-2.5 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/20" placeholder="Search language">
+              <input id="lang-search" type="text" class="w-full mb-2 px-2.5 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/20" placeholder="언어 검색">
               <div id="lang-list" class="max-h-56 overflow-y-auto hide-scrollbar space-y-1"></div>
             </div>
           </div>
@@ -426,12 +426,12 @@
         <a id="mnav-dice" href="/dice/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">주사위</a>
       </nav>
       </div>
-      <button id="lang-trigger-mobile" type="button" aria-label="Change language" class="px-2.5 py-1.5 rounded-full border border-slate-200 bg-white text-slate-600">
-        <img id="lang-current-flag-mobile" src="https://flagcdn.com/w20/us.png" alt="English" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
+      <button id="lang-trigger-mobile" type="button" aria-label="언어 변경" class="px-2.5 py-1.5 rounded-full border border-slate-200 bg-white text-slate-600">
+        <img id="lang-current-flag-mobile" src="https://flagcdn.com/w20/kr.png" alt="한국어" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
       </button>
     </div>
     <div id="lang-menu-mobile" class="hidden fixed right-4 top-14 w-56 rounded-xl border border-slate-200 bg-white shadow-xl p-2" style="z-index:2147483647">
-      <input id="lang-search-mobile" type="text" class="w-full mb-2 px-2.5 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/20" placeholder="Search language">
+      <input id="lang-search-mobile" type="text" class="w-full mb-2 px-2.5 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/20" placeholder="언어 검색">
       <div id="lang-list-mobile" class="max-h-56 overflow-y-auto hide-scrollbar space-y-1"></div>
     </div>
   </section>
@@ -555,55 +555,55 @@
 
     <section id="guide" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-16">
       <div class="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-sm">
-        <h2 id="guide-title" class="text-xl md:text-2xl font-semibold tracking-tight text-slate-900">Ladder Draw Guide</h2>
-        <p id="guide-subtitle" class="mt-3 text-sm md:text-base text-slate-600">Randomly Pick Ladder Draw is built for fast list input and clear result tracking on one screen.</p>
+        <h2 id="guide-title" class="text-xl md:text-2xl font-semibold tracking-tight text-slate-900">사다리타기 가이드</h2>
+        <p id="guide-subtitle" class="mt-3 text-sm md:text-base text-slate-600">Randomly Pick 사다리타기는 명단 입력과 결과 확인을 한 화면에서 처리하는 랜덤 추첨 도구입니다.</p>
         <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
           <article class="rounded-xl border border-slate-200 bg-slate-50/60 p-4">
-            <h3 id="guide-step1-title" class="text-sm font-semibold text-slate-900">1. Enter lists</h3>
-            <p id="guide-step1-body" class="mt-2 text-sm text-slate-600">Supports spaces, commas, line breaks, tabs, and more delimiters for participants and results.</p>
+            <h3 id="guide-step1-title" class="text-sm font-semibold text-slate-900">1. 명단 입력</h3>
+            <p id="guide-step1-body" class="mt-2 text-sm text-slate-600">참가자와 결과 모두 띄어쓰기, 쉼표, 줄바꿈, 탭 등 다양한 구분기호를 자동 인식합니다.</p>
           </article>
           <article class="rounded-xl border border-slate-200 bg-slate-50/60 p-4">
-            <h3 id="guide-step2-title" class="text-sm font-semibold text-slate-900">2. Generate and run</h3>
-            <p id="guide-step2-body" class="mt-2 text-sm text-slate-600">Adjust complexity and animation speed, then click a participant or auto-play all routes.</p>
+            <h3 id="guide-step2-title" class="text-sm font-semibold text-slate-900">2. 생성 후 실행</h3>
+            <p id="guide-step2-body" class="mt-2 text-sm text-slate-600">복잡도와 애니메이션 속도를 설정한 뒤, 참가자를 클릭하거나 전체 자동재생을 사용할 수 있습니다.</p>
           </article>
           <article class="rounded-xl border border-slate-200 bg-slate-50/60 p-4">
-            <h3 id="guide-step3-title" class="text-sm font-semibold text-slate-900">3. Check results</h3>
-            <p id="guide-step3-body" class="mt-2 text-sm text-slate-600">Verify mapped outcomes in the result card below the ladder and keep your draw flow transparent.</p>
+            <h3 id="guide-step3-title" class="text-sm font-semibold text-slate-900">3. 결과 확인</h3>
+            <p id="guide-step3-body" class="mt-2 text-sm text-slate-600">사다리 아래 결과 카드에서 매칭된 결과를 한눈에 확인할 수 있습니다.</p>
           </article>
         </div>
         <div class="mt-8">
           <h3 id="faq-title" class="text-base font-semibold text-slate-900">FAQ</h3>
           <details class="mt-3 rounded-lg border border-slate-200 p-3">
-            <summary id="faq1-q" class="cursor-pointer text-sm font-medium text-slate-900">What input formats are supported?</summary>
-            <p id="faq1-a" class="mt-2 text-sm text-slate-600">Line breaks, spaces, commas, tabs, semicolons, slashes, and pipes are supported.</p>
+            <summary id="faq1-q" class="cursor-pointer text-sm font-medium text-slate-900">어떤 입력 형식을 지원하나요?</summary>
+            <p id="faq1-a" class="mt-2 text-sm text-slate-600">줄바꿈, 공백, 쉼표, 탭, 세미콜론, 슬래시, 파이프 등 다양한 구분기호를 지원합니다.</p>
           </details>
           <details class="mt-2 rounded-lg border border-slate-200 p-3">
-            <summary id="faq2-q" class="cursor-pointer text-sm font-medium text-slate-900">Can I auto-fix participant/result mismatch?</summary>
-            <p id="faq2-a" class="mt-2 text-sm text-slate-600">Yes. Use one-click fill or trim buttons to match counts instantly.</p>
+            <summary id="faq2-q" class="cursor-pointer text-sm font-medium text-slate-900">참가자/결과 수가 다르면 자동으로 맞출 수 있나요?</summary>
+            <p id="faq2-a" class="mt-2 text-sm text-slate-600">네. 부족 결과 채우기 또는 초과 결과 제거 버튼을 한 번 눌러 바로 맞출 수 있습니다.</p>
           </details>
           <details class="mt-2 rounded-lg border border-slate-200 p-3">
-            <summary id="faq3-q" class="cursor-pointer text-sm font-medium text-slate-900">Can I save the ladder results?</summary>
-            <p id="faq3-a" class="mt-2 text-sm text-slate-600">You can review results directly in the page and keep draw progress visible route by route.</p>
+            <summary id="faq3-q" class="cursor-pointer text-sm font-medium text-slate-900">사다리 결과를 확인할 수 있나요?</summary>
+            <p id="faq3-a" class="mt-2 text-sm text-slate-600">네. 사다리 아래 결과 카드에서 진행 순서대로 결과를 확인할 수 있습니다.</p>
           </details>
           <details class="mt-2 rounded-lg border border-slate-200 p-3">
-            <summary id="faq4-q" class="cursor-pointer text-sm font-medium text-slate-900">What is a ladder draw?</summary>
-            <p id="faq4-a" class="mt-2 text-sm text-slate-600">A ladder draw maps each participant to one result through randomized horizontal connections.</p>
+            <summary id="faq4-q" class="cursor-pointer text-sm font-medium text-slate-900">사다리타기란 무엇인가요?</summary>
+            <p id="faq4-a" class="mt-2 text-sm text-slate-600">랜덤으로 생성된 연결선을 따라 참가자와 결과를 매칭하는 추첨 방식입니다.</p>
           </details>
           <details class="mt-2 rounded-lg border border-slate-200 p-3">
-            <summary id="faq5-q" class="cursor-pointer text-sm font-medium text-slate-900">How does it work?</summary>
-            <p id="faq5-a" class="mt-2 text-sm text-slate-600">Create the ladder, select a participant, and the path is traced to its final result automatically.</p>
+            <summary id="faq5-q" class="cursor-pointer text-sm font-medium text-slate-900">어떻게 동작하나요?</summary>
+            <p id="faq5-a" class="mt-2 text-sm text-slate-600">사다리를 생성한 뒤 참가자를 선택하면 경로가 따라 내려가며 최종 결과가 표시됩니다.</p>
           </details>
           <details class="mt-2 rounded-lg border border-slate-200 p-3">
-            <summary id="faq6-q" class="cursor-pointer text-sm font-medium text-slate-900">Is it fair?</summary>
-            <p id="faq6-a" class="mt-2 text-sm text-slate-600">Each participant follows one route in the same ladder structure, making the process transparent.</p>
+            <summary id="faq6-q" class="cursor-pointer text-sm font-medium text-slate-900">공정한가요?</summary>
+            <p id="faq6-a" class="mt-2 text-sm text-slate-600">같은 사다리 구조에서 각 참가자가 자신의 경로를 따라가므로 과정이 투명하게 보입니다.</p>
           </details>
           <details class="mt-2 rounded-lg border border-slate-200 p-3">
-            <summary id="faq7-q" class="cursor-pointer text-sm font-medium text-slate-900">Can I use it for giveaways?</summary>
-            <p id="faq7-a" class="mt-2 text-sm text-slate-600">Yes. Ladder draw works for games, events, classroom activities, and giveaway-style picks.</p>
+            <summary id="faq7-q" class="cursor-pointer text-sm font-medium text-slate-900">이벤트 추첨에도 사용할 수 있나요?</summary>
+            <p id="faq7-a" class="mt-2 text-sm text-slate-600">네. 게임, 이벤트, 모임, 경품 추첨 등 다양한 상황에서 사용할 수 있습니다.</p>
           </details>
           <details class="mt-2 rounded-lg border border-slate-200 p-3">
-            <summary id="faq8-q" class="cursor-pointer text-sm font-medium text-slate-900">How is my input data handled?</summary>
-            <p id="faq8-a" class="mt-2 text-sm text-slate-600">Input data is processed in your browser and not sent to external servers.</p>
+            <summary id="faq8-q" class="cursor-pointer text-sm font-medium text-slate-900">입력한 데이터는 어떻게 처리되나요?</summary>
+            <p id="faq8-a" class="mt-2 text-sm text-slate-600">입력 데이터는 브라우저에서 처리되며 외부 서버로 전송되지 않습니다.</p>
           </details>
         </div>
       </div>
@@ -662,11 +662,11 @@
 
   <footer class="border-t border-slate-200/60 bg-white mt-auto">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex items-center justify-between">
-      <span class="text-xs text-slate-500">© 2026 Randomly Pick. All rights reserved.</span>
+      <span class="text-xs text-slate-500">© 2026 Randomly Pick. 모든 권리 보유.</span>
       <div class="flex gap-6">
-        <a id="footer-terms" href="/terms/" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">Terms</a>
-        <a id="footer-privacy" href="/privacy/" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">Privacy</a>
-        <a id="footer-about" href="/about/" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">About</a>
+        <a id="footer-terms" href="/terms/" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">이용약관</a>
+        <a id="footer-privacy" href="/privacy/" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">개인정보처리방침</a>
+        <a id="footer-about" href="/about/" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">소개</a>
       </div>
     </div>
   </footer>

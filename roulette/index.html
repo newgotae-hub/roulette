@@ -177,34 +177,34 @@
         },
         {
           "@type": "Question",
-          "name": "What is a random wheel?",
+          "name": "랜덤 휠이 무엇인가요?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "A random wheel is a digital spinner that selects one option from a list at random. It is commonly used for games, classroom picks, and quick decisions."
+            "text": "랜덤 휠은 입력한 목록 중 하나를 무작위로 선택해 주는 디지털 돌림판입니다. 게임, 수업, 간단한 의사결정 상황에서 자주 사용됩니다."
           }
         },
         {
           "@type": "Question",
-          "name": "How does it work?",
+          "name": "어떻게 동작하나요?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "You enter names or options, spin the wheel, and one result is selected automatically. In this tool, list updates are reflected in real time and winners can be excluded for later spins."
+            "text": "이름이나 항목을 입력한 뒤 휠을 돌리면 한 항목이 자동 선택됩니다. 이 도구는 목록 변경을 실시간으로 반영하고, 당첨자를 다음 추첨에서 제외할 수 있습니다."
           }
         },
         {
           "@type": "Question",
-          "name": "Is it fair?",
+          "name": "공정한가요?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. Each active entry has an equal chance by default. If winner exclusion is enabled, already selected entries are removed from the next rounds."
+            "text": "네. 기본적으로 활성 항목은 동일한 확률로 선택됩니다. 당첨자 제외를 켜면 이미 선택된 항목은 다음 라운드에서 제외됩니다."
           }
         },
         {
           "@type": "Question",
-          "name": "Can I use it for giveaways?",
+          "name": "이벤트 경품 추첨에도 사용할 수 있나요?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. You can use it for giveaways, events, and contests. For transparency, save the winner history as CSV after each draw."
+            "text": "네. 경품 이벤트, 행사, 콘텐츠 추첨에 사용할 수 있습니다. 투명한 운영을 위해 추첨 뒤 당첨 내역을 CSV로 저장할 수 있습니다."
           }
         },
         {
@@ -414,11 +414,11 @@
                     </div>
                     <div class="relative">
                         <button id="lang-trigger" class="bg-white border border-slate-200 shadow-sm rounded-full px-3 py-1 text-[11px] font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors inline-flex items-center gap-1.5">
-                            <span id="lang-button-label">LANGUAGE</span>
-                            <img id="lang-current-flag" src="https://flagcdn.com/w20/us.png" alt="English" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
+                            <span id="lang-button-label">언어</span>
+                            <img id="lang-current-flag" src="https://flagcdn.com/w20/kr.png" alt="한국어" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
                         </button>
                         <div id="lang-menu" class="hidden absolute right-0 top-full mt-2 z-50 w-56 rounded-xl border border-slate-200 bg-white shadow-xl p-2">
-                            <input id="lang-search" type="text" class="w-full mb-2 px-2.5 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/20" placeholder="Search language">
+                            <input id="lang-search" type="text" class="w-full mb-2 px-2.5 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/20" placeholder="언어 검색">
                             <div id="lang-list" class="max-h-56 overflow-y-auto hide-scrollbar space-y-1"></div>
                         </div>
                     </div>
@@ -435,15 +435,15 @@
                 <a href="/ladder/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">사다리</a>
                 <a href="/coinflip/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">코인</a>
                 <a href="/dice/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">주사위</a>
-                <button id="lang-trigger-mobile" type="button" aria-label="Change language" class="px-2.5 py-1.5 rounded-full border border-slate-200 bg-white text-slate-600">
-                    <img id="lang-current-flag-mobile" src="https://flagcdn.com/w20/us.png" alt="English" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
+                <button id="lang-trigger-mobile" type="button" aria-label="언어 변경" class="px-2.5 py-1.5 rounded-full border border-slate-200 bg-white text-slate-600">
+                    <img id="lang-current-flag-mobile" src="https://flagcdn.com/w20/kr.png" alt="한국어" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
                 </button>
 
             </nav>
         </div>
 
         <div id="lang-menu-mobile" class="hidden fixed right-4 top-14 w-56 rounded-xl border border-slate-200 bg-white shadow-xl p-2" style="z-index:2147483647">
-                <input id="lang-search-mobile" type="text" class="w-full mb-2 px-2.5 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/20" placeholder="Search language">
+                <input id="lang-search-mobile" type="text" class="w-full mb-2 px-2.5 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/20" placeholder="언어 검색">
                 <div id="lang-list-mobile" class="max-h-56 overflow-y-auto hide-scrollbar space-y-1"></div>
             </div>
     </section>
@@ -519,7 +519,7 @@
                         <div id="confetti-layer" aria-hidden="true"></div>
                     </div>
 
-                    <p id="winner-banner" class="hidden md:block mt-6 min-h-7 text-sm md:text-base text-slate-500 animate-soft-pulse">명단을 적용한 뒤 SPIN을 눌러 추첨하세요.</p>
+                    <p id="winner-banner" class="hidden md:block mt-6 min-h-7 text-sm md:text-base text-slate-500 animate-soft-pulse">명단을 적용한 뒤 시작을 눌러 추첨하세요.</p>
                 </div>
 
                 <div id="history" class="order-3 lg:order-none lg:col-span-3 min-h-[420px] lg:h-[640px]">
@@ -544,7 +544,7 @@
         <section id="guide" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-16">
             <div class="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-sm">
                 <h2 id="guide-title" class="text-xl md:text-2xl font-semibold tracking-tight text-slate-900">룰렛 돌리기 · 랜덤 돌림판 가이드</h2>
-                <p id="guide-subtitle" class="mt-3 text-sm md:text-base text-slate-600">Randomly Pick은 빠르게 돌리고, 바로 저장하는 데 집중한 온라인 룰렛입니다. 명단 입력부터 당첨 내역 관리까지 한 화면에서 처리할 수 있습니다.</p>
+                <p id="guide-subtitle" class="mt-3 text-sm md:text-base text-slate-600">Randomly Pick은 명단 입력부터 추첨 기록 저장까지 한 화면에서 처리할 수 있는 온라인 룰렛입니다.</p>
                 <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
                     <article class="rounded-xl border border-slate-200 bg-slate-50/60 p-4">
                         <h3 id="guide-step1-title" class="text-sm font-semibold text-slate-900">1. 명단 입력</h3>
@@ -574,20 +574,20 @@
                         <p id="faq3-a" class="mt-2 text-sm text-slate-600">네. 당첨 내역의 엑셀 저장 버튼으로 CSV 파일을 내려받아 바로 확인할 수 있습니다.</p>
                     </details>
                     <details class="mt-2 rounded-lg border border-slate-200 p-3">
-                        <summary id="faq4-q" class="cursor-pointer text-sm font-medium text-slate-900">What is a random wheel?</summary>
-                        <p id="faq4-a" class="mt-2 text-sm text-slate-600">A random wheel is a digital spinner that selects one option from a list at random.</p>
+                        <summary id="faq4-q" class="cursor-pointer text-sm font-medium text-slate-900">랜덤 휠이 무엇인가요?</summary>
+                        <p id="faq4-a" class="mt-2 text-sm text-slate-600">랜덤 휠은 입력한 목록 중 하나를 무작위로 선택해 주는 디지털 돌림판입니다.</p>
                     </details>
                     <details class="mt-2 rounded-lg border border-slate-200 p-3">
-                        <summary id="faq5-q" class="cursor-pointer text-sm font-medium text-slate-900">How does it work?</summary>
-                        <p id="faq5-a" class="mt-2 text-sm text-slate-600">Enter your list, spin the wheel, and one result is selected. Real-time list updates and winner exclusion are supported.</p>
+                        <summary id="faq5-q" class="cursor-pointer text-sm font-medium text-slate-900">어떻게 동작하나요?</summary>
+                        <p id="faq5-a" class="mt-2 text-sm text-slate-600">이름이나 항목을 입력한 뒤 휠을 돌리면 한 항목이 자동 선택됩니다. 실시간 목록 반영과 당첨자 제외 기능도 지원합니다.</p>
                     </details>
                     <details class="mt-2 rounded-lg border border-slate-200 p-3">
-                        <summary id="faq6-q" class="cursor-pointer text-sm font-medium text-slate-900">Is it fair?</summary>
-                        <p id="faq6-a" class="mt-2 text-sm text-slate-600">Yes. Each active entry has an equal chance by default.</p>
+                        <summary id="faq6-q" class="cursor-pointer text-sm font-medium text-slate-900">공정한가요?</summary>
+                        <p id="faq6-a" class="mt-2 text-sm text-slate-600">네. 기본적으로 활성 항목은 동일한 확률로 선택됩니다.</p>
                     </details>
                     <details class="mt-2 rounded-lg border border-slate-200 p-3">
-                        <summary id="faq7-q" class="cursor-pointer text-sm font-medium text-slate-900">Can I use it for giveaways?</summary>
-                        <p id="faq7-a" class="mt-2 text-sm text-slate-600">Yes. It works well for giveaways and contests, and you can export winner history as CSV.</p>
+                        <summary id="faq7-q" class="cursor-pointer text-sm font-medium text-slate-900">이벤트 경품 추첨에도 사용할 수 있나요?</summary>
+                        <p id="faq7-a" class="mt-2 text-sm text-slate-600">네. 경품 이벤트, 행사, 콘텐츠 추첨에 사용할 수 있고 당첨 내역을 CSV로 저장할 수 있습니다.</p>
                     </details>
                     <details class="mt-2 rounded-lg border border-slate-200 p-3">
                         <summary id="faq8-q" class="cursor-pointer text-sm font-medium text-slate-900">내가 입력한 데이터가 어떻게 처리되나요?</summary>
@@ -653,15 +653,15 @@
             <div class="flex items-center gap-2">
                 <div class="w-6 h-6 bg-slate-200 text-slate-600 rounded flex items-center justify-center font-semibold text-xs tracking-tighter">R.</div>
                 <div class="flex flex-col leading-tight">
-                    <span class="text-xs text-slate-500">© 2026 Randomly Pick. All rights reserved.</span>
-                    <a href="https://www.instagram.com/juntaeko_tr" target="_blank" rel="noopener noreferrer" class="text-xs text-slate-500">Designed and Developed by Juntae Ko (고준태)</a>
+                    <span class="text-xs text-slate-500">© 2026 Randomly Pick. 모든 권리 보유.</span>
+                    <a href="https://www.instagram.com/juntaeko_tr" target="_blank" rel="noopener noreferrer" class="text-xs text-slate-500">제작: Juntae Ko (고준태)</a>
                 </div>
             </div>
             <div class="flex gap-6">
-                <a id="footer-terms" href="/terms/" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">Terms</a>
-                <a id="footer-privacy" href="/privacy/" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">Privacy</a>
-        <a id="footer-about" href="/about/" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">About</a>
-                <a id="footer-contact" href="https://www.instagram.com/juntaeko_tr" target="_blank" rel="noopener noreferrer" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">Contact</a>
+                <a id="footer-terms" href="/terms/" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">이용약관</a>
+                <a id="footer-privacy" href="/privacy/" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">개인정보처리방침</a>
+        <a id="footer-about" href="/about/" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">소개</a>
+                <a id="footer-contact" href="/contact/" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">문의</a>
             </div>
         </div>
     </footer>
@@ -763,7 +763,7 @@
                     navCoin: '코인던지기',
                     navDice: '주사위굴리기',
                     navGuide: '제비뽑기',
-                    languageButton: 'LANGUAGE',
+                    languageButton: '언어',
                     languageSearchPh: '언어 검색',
                     spinButtonLabel: '시작',
                     heroTitle: '랜덤 룰렛 돌리기 · 돌림판 추첨기',
@@ -777,7 +777,7 @@
                     historyTitle: '당첨 내역',
                     exportLabel: '엑셀 저장',
                     guideTitle: '룰렛 돌리기 · 랜덤 돌림판 가이드',
-                    guideSubtitle: 'Randomly Pick은 빠르게 돌리고, 바로 저장하는 데 집중한 온라인 룰렛입니다. 명단 입력부터 당첨 내역 관리까지 한 화면에서 처리할 수 있습니다.',
+                    guideSubtitle: 'Randomly Pick은 명단 입력부터 추첨 기록 저장까지 한 화면에서 처리할 수 있는 온라인 룰렛입니다.',
                     guideStep1Title: '1. 명단 입력',
                     guideStep1Body: '공백, 쉼표, 줄바꿈, 탭 등 다양한 구분기호를 자동 인식해 실시간으로 룰렛에 반영합니다.',
                     guideStep2Title: '2. 룰렛 추첨',
@@ -791,7 +791,7 @@
                     faq2A: '가능합니다. 왼쪽 옵션의 당첨자 자동 제외를 켜면 이미 뽑힌 항목이 자동 제외됩니다.',
                     faq3Q: '추첨 기록을 엑셀에서 볼 수 있나요?',
                     faq3A: '네. 당첨 내역의 엑셀 저장 버튼으로 CSV 파일을 내려받아 바로 확인할 수 있습니다.',
-                    faq4Q: '랜덤 휠(Random Wheel)이 무엇인가요?',
+                    faq4Q: '랜덤 휠이 무엇인가요?',
                     faq4A: '랜덤 휠은 입력한 목록 중 하나를 무작위로 선택해 주는 디지털 돌림판입니다.',
                     faq5Q: '어떻게 동작하나요?',
                     faq5A: '이름이나 항목을 입력한 뒤 휠을 돌리면 한 항목이 자동 선택됩니다. 실시간 목록 반영과 당첨자 제외 기능도 지원합니다.',
@@ -805,7 +805,7 @@
                     footerPrivacy: '개인정보처리방침',
                     footerContact: '문의하기',
                     textareaPlaceholder: '이름을 입력하세요. 공백, 쉼표, 줄바꿈, 세미콜론 등 다양한 구분표시가 가능합니다!',
-                    bannerReady: '명단을 적용한 뒤 SPIN을 눌러 추첨하세요.',
+                    bannerReady: '명단을 적용한 뒤 시작을 눌러 추첨하세요.',
                     count: '총 {count}명',
                     seconds: '{value}초',
                     wheelEmptyTitle: '명단을 입력하세요',
@@ -814,7 +814,7 @@
                     historyDeleteAria: '내역 삭제',
                     resetDone: '명단이 초기화되었습니다.',
                     needAtLeastOne: '최소 1명 이상 입력해 주세요.',
-                    applied: '{count}명 적용 완료. SPIN으로 추첨을 시작하세요.',
+                    applied: '{count}명 적용 완료. 시작을 눌러 추첨을 시작하세요.',
                     noParticipants: '추첨할 인원이 없습니다. 명단을 먼저 적용해 주세요.',
                     spinning: '추첨 중...',
                     winner: '당첨: {name}',
