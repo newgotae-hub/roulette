@@ -97,27 +97,7 @@
           if (v.indexOf('nl') === 0) return 'nl';
           return v;
         }
-        var lang = null;
-        var params = new URLSearchParams(window.location.search);
-        var forced = normalizeLang(params.get('lang'));
-        if (supported.indexOf(forced) !== -1) lang = forced;
-        if (!lang) {
-          try {
-            var cached = normalizeLang(window.localStorage.getItem('rlt-lang'));
-            if (supported.indexOf(cached) !== -1) lang = cached;
-          } catch (e) {}
-        }
-        if (!lang) {
-          var navs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ''];
-          for (var i = 0; i < navs.length; i++) {
-            var cand = normalizeLang(navs[i]);
-            if (supported.indexOf(cand) !== -1) {
-              lang = cand;
-              break;
-            }
-          }
-        }
-        if (!lang) lang = 'en';
+        var lang = 'ko';
         window.__rltBootLang = lang;
         window.__rltChineseRegion = detectChineseRegion();
         document.documentElement.lang = lang;
@@ -128,7 +108,6 @@
       };
       document.title = bootTitleMap[lang] || bootTitleMap.en;
         document.documentElement.classList.add('i18n-pending');
-        try { window.localStorage.setItem('rlt-lang', lang); } catch (e) {}
       })();
     </script>
 <script type="application/ld+json">
