@@ -2471,14 +2471,12 @@
           state.assets.ready = true;
           ui.assetStatus.textContent = t('assetReady');
           setBanner(t('bannerReady'), 'text-slate-500');
-          ui.rollButton.disabled = false;
-          syncDiceInteractivity();
+          setRollingLock(false);
         } catch (e) {
           state.assets.ready = false;
           ui.assetStatus.textContent = t('assetMissing');
           setBanner(t('bannerMissing'), 'text-red-500');
-          ui.rollButton.disabled = true;
-          syncDiceInteractivity();
+          setRollingLock(true);
         }
       }
 
