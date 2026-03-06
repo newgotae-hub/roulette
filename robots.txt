@@ -1,10 +1,9 @@
-# randomly-pick.com robots policy
-
-# Allow major search engines to crawl and index
 User-agent: *
 Allow: /
 
-# Optional: block AI training crawlers via standard robots directives
+User-agent: Yeti
+Allow: /
+
 User-agent: GPTBot
 Disallow: /
 

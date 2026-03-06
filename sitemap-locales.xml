@@ -7,12 +7,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://randomly-pick.com/en/roulette/</loc>
-    <lastmod>2026-03-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://randomly-pick.com/en/luckydraw/</loc>
     <lastmod>2026-03-06</lastmod>
     <changefreq>weekly</changefreq>
@@ -38,12 +32,6 @@
   </url>
   <url>
     <loc>https://randomly-pick.com/ja/</loc>
-    <lastmod>2026-03-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://randomly-pick.com/ja/roulette/</loc>
     <lastmod>2026-03-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -79,12 +67,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://randomly-pick.com/zh-cn/roulette/</loc>
-    <lastmod>2026-03-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://randomly-pick.com/zh-cn/luckydraw/</loc>
     <lastmod>2026-03-06</lastmod>
     <changefreq>weekly</changefreq>
@@ -110,12 +92,6 @@
   </url>
   <url>
     <loc>https://randomly-pick.com/zh-tw/</loc>
-    <lastmod>2026-03-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://randomly-pick.com/zh-tw/roulette/</loc>
     <lastmod>2026-03-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -151,12 +127,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://randomly-pick.com/es/roulette/</loc>
-    <lastmod>2026-03-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://randomly-pick.com/es/luckydraw/</loc>
     <lastmod>2026-03-06</lastmod>
     <changefreq>weekly</changefreq>
@@ -182,12 +152,6 @@
   </url>
   <url>
     <loc>https://randomly-pick.com/fr/</loc>
-    <lastmod>2026-03-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://randomly-pick.com/fr/roulette/</loc>
     <lastmod>2026-03-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -223,12 +187,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://randomly-pick.com/de/roulette/</loc>
-    <lastmod>2026-03-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://randomly-pick.com/de/luckydraw/</loc>
     <lastmod>2026-03-06</lastmod>
     <changefreq>weekly</changefreq>
@@ -254,12 +212,6 @@
   </url>
   <url>
     <loc>https://randomly-pick.com/pt-br/</loc>
-    <lastmod>2026-03-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://randomly-pick.com/pt-br/roulette/</loc>
     <lastmod>2026-03-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -295,12 +247,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://randomly-pick.com/hi/roulette/</loc>
-    <lastmod>2026-03-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://randomly-pick.com/hi/luckydraw/</loc>
     <lastmod>2026-03-06</lastmod>
     <changefreq>weekly</changefreq>
@@ -326,12 +272,6 @@
   </url>
   <url>
     <loc>https://randomly-pick.com/ar/</loc>
-    <lastmod>2026-03-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://randomly-pick.com/ar/roulette/</loc>
     <lastmod>2026-03-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -367,12 +307,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://randomly-pick.com/ru/roulette/</loc>
-    <lastmod>2026-03-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://randomly-pick.com/ru/luckydraw/</loc>
     <lastmod>2026-03-06</lastmod>
     <changefreq>weekly</changefreq>
@@ -398,12 +332,6 @@
   </url>
   <url>
     <loc>https://randomly-pick.com/id/</loc>
-    <lastmod>2026-03-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://randomly-pick.com/id/roulette/</loc>
     <lastmod>2026-03-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -439,12 +367,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://randomly-pick.com/tr/roulette/</loc>
-    <lastmod>2026-03-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://randomly-pick.com/tr/luckydraw/</loc>
     <lastmod>2026-03-06</lastmod>
     <changefreq>weekly</changefreq>
@@ -470,12 +392,6 @@
   </url>
   <url>
     <loc>https://randomly-pick.com/it/</loc>
-    <lastmod>2026-03-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://randomly-pick.com/it/roulette/</loc>
     <lastmod>2026-03-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -511,12 +427,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://randomly-pick.com/vi/roulette/</loc>
-    <lastmod>2026-03-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://randomly-pick.com/vi/luckydraw/</loc>
     <lastmod>2026-03-06</lastmod>
     <changefreq>weekly</changefreq>
@@ -547,12 +457,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://randomly-pick.com/th/roulette/</loc>
-    <lastmod>2026-03-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://randomly-pick.com/th/luckydraw/</loc>
     <lastmod>2026-03-06</lastmod>
     <changefreq>weekly</changefreq>
@@ -578,12 +482,6 @@
   </url>
   <url>
     <loc>https://randomly-pick.com/nl/</loc>
-    <lastmod>2026-03-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://randomly-pick.com/nl/roulette/</loc>
     <lastmod>2026-03-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>

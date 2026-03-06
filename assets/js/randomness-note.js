@@ -160,7 +160,9 @@
   }
 
   function detectTool() {
-    if (window.location.pathname === "/") return "roulette";
+    if (/^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/?)?$/i.test(window.location.pathname)) {
+      return "roulette";
+    }
     const match = window.location.pathname.match(/\/(roulette|luckydraw|ladder|coinflip|dice)\/?$/i);
     return match && match[1] ? match[1].toLowerCase() : "";
   }

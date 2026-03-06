@@ -32,7 +32,10 @@ for (const tool of tools) {
   main.push('    <priority>0.9</priority>');
   main.push(`    <xhtml:link rel="alternate" hreflang="ko" href="${koHref}"/>`);
   for (const lang of langs) {
-    main.push(`    <xhtml:link rel="alternate" hreflang="${lang}" href="https://randomly-pick.com/${lang}/${tool}/"/>`);
+    const href = tool === 'roulette'
+      ? `https://randomly-pick.com/${lang}/`
+      : `https://randomly-pick.com/${lang}/${tool}/`;
+    main.push(`    <xhtml:link rel="alternate" hreflang="${lang}" href="${href}"/>`);
   }
   main.push(`    <xhtml:link rel="alternate" hreflang="x-default" href="${xDefault}"/>`);
   main.push('  </url>');
@@ -57,7 +60,7 @@ for (const lang of langs) {
   locales.push('    <changefreq>weekly</changefreq>');
   locales.push('    <priority>0.6</priority>');
   locales.push('  </url>');
-  for (const tool of tools) {
+  for (const tool of tools.filter((name) => name !== 'roulette')) {
     locales.push('  <url>');
     locales.push(`    <loc>https://randomly-pick.com/${lang}/${tool}/</loc>`);
     locales.push(`    <lastmod>${today}</lastmod>`);

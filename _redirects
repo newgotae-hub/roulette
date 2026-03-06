@@ -1,6 +1,40 @@
 # Root roulette canonicalization
 /roulette / 301
 /roulette/ / 301
+/en/roulette /en/ 301
+/en/roulette/ /en/ 301
+/ja/roulette /ja/ 301
+/ja/roulette/ /ja/ 301
+/zh-cn/roulette /zh-cn/ 301
+/zh-cn/roulette/ /zh-cn/ 301
+/zh-tw/roulette /zh-tw/ 301
+/zh-tw/roulette/ /zh-tw/ 301
+/es/roulette /es/ 301
+/es/roulette/ /es/ 301
+/fr/roulette /fr/ 301
+/fr/roulette/ /fr/ 301
+/de/roulette /de/ 301
+/de/roulette/ /de/ 301
+/pt-br/roulette /pt-br/ 301
+/pt-br/roulette/ /pt-br/ 301
+/hi/roulette /hi/ 301
+/hi/roulette/ /hi/ 301
+/ar/roulette /ar/ 301
+/ar/roulette/ /ar/ 301
+/ru/roulette /ru/ 301
+/ru/roulette/ /ru/ 301
+/id/roulette /id/ 301
+/id/roulette/ /id/ 301
+/tr/roulette /tr/ 301
+/tr/roulette/ /tr/ 301
+/it/roulette /it/ 301
+/it/roulette/ /it/ 301
+/vi/roulette /vi/ 301
+/vi/roulette/ /vi/ 301
+/th/roulette /th/ 301
+/th/roulette/ /th/ 301
+/nl/roulette /nl/ 301
+/nl/roulette/ /nl/ 301
 
 # Legacy lucky draw path
 /lotto /luckydraw/ 301

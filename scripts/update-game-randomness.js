@@ -10,7 +10,10 @@ const SCRIPT_TOOLS = ['ladder', 'luckydraw'];
 function allFiles(tool) {
   const files = [path.join(ROOT, tool, 'index.html')];
   if (tool === 'roulette') files.unshift(path.join(ROOT, 'index.html'));
-  for (const locale of LOCALES) files.push(path.join(ROOT, locale, tool, 'index.html'));
+  for (const locale of LOCALES) {
+    if (tool === 'roulette') files.push(path.join(ROOT, locale, 'index.html'));
+    files.push(path.join(ROOT, locale, tool, 'index.html'));
+  }
   return files.filter((file) => fs.existsSync(file));
 }
 
