@@ -1,6 +1,20 @@
 (function () {
   const { detectLocale } = window.RLTUtils;
   const dict = window.RLTI18N;
+  const Random = window.RLTRandom || {
+    bool: () => Math.random() >= 0.5,
+    float: () => Math.random(),
+    shuffle: (list) => {
+      const out = Array.isArray(list) ? list.slice() : [];
+      for (let i = out.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const tmp = out[i];
+        out[i] = out[j];
+        out[j] = tmp;
+      }
+      return out;
+    }
+  };
 
   const VIEW_W = 1000;
   const VIEW_H = 800;
@@ -9,6 +23,7 @@
   const COMPLEXITY_DEFAULT = "3";
   const SPEED_DEFAULT = "1";
   const MIN_ROUTE_DURATION_MS = 2000;
+  const ARRIVAL_ADVANCE_MS = 500;
   const PATH_COLORS = [
     "#0f172a", "#1d4ed8", "#0f766e", "#b45309", "#7c3aed",
     "#be123c", "#0369a1", "#334155", "#4d7c0f", "#9f1239"
@@ -648,7 +663,7 @@
   function buildLadderData(participants, results) {
     const n = participants.length;
     const comp = Math.max(0, Math.min(6, Number(ui.sliderComplexity.value) || Number(COMPLEXITY_DEFAULT)));
-    const rows = Math.max(10, n * 2 + comp * 3);
+    const rows = Math.max(10, n * 2 + comp * 2);
     const rungs = [];
     const rungSet = new Set();
     const rowLoad = Array(rows + 1).fill(0);
@@ -692,7 +707,7 @@
       // Fallback: scan all rows and pick least-loaded valid row.
       for (let row = 1; row < rows; row++) {
         if (!canPlaceRung(row, col, allowAdjacent)) continue;
-        const score = rowLoad[row] * 10 + Math.random();
+        const score = rowLoad[row] * 10 + Random.float();
         if (score < bestScore) {
           bestScore = score;
           bestRow = row;
@@ -703,19 +718,19 @@
 
     // Distribute rung counts evenly per edge (col), then spread along rows.
     const edgeCount = Math.max(1, n - 1);
-    const baseTarget = Math.max(2, Math.round(rows * (0.13 + comp * 0.01)));
+    const baseTarget = Math.max(2, Math.round(rows * (0.11 + comp * 0.009)));
     const targets = Array.from({ length: edgeCount }, () => {
-      const variance = Math.random() < 0.5 ? 0 : (Math.random() < 0.5 ? -1 : 1);
+      const variance = Random.bool() ? 0 : (Random.bool() ? -1 : 1);
       return Math.max(2, Math.min(rows - 1, baseTarget + variance));
     });
 
     for (let col = 0; col < edgeCount; col++) {
       const target = targets[col];
       const step = rows / (target + 1);
-      const colPhase = (Math.random() - 0.5) * step * 0.6;
+      const colPhase = (Random.float() - 0.5) * step * 0.6;
 
       for (let k = 1; k <= target; k++) {
-        const jitter = (Math.random() - 0.5) * step * 0.2;
+        const jitter = (Random.float() - 0.5) * step * 0.2;
         const preferred = Math.max(1, Math.min(rows - 1, Math.round(step * k + colPhase + jitter)));
         const row = pickBestRowForCol(col, preferred, false);
         if (row !== -1) {
@@ -1053,7 +1068,7 @@
         finish();
       };
       path.addEventListener("transitionend", onEnd, { once: true });
-      const earlyArrivalMs = 900;
+      const earlyArrivalMs = 900 + ARRIVAL_ADVANCE_MS;
       const tick = (now) => {
         if (done) return;
         if (now - startedAt >= Math.max(0, duration - earlyArrivalMs)) {
@@ -1136,6 +1151,7 @@
       }
     }
     results = interleaveResults(results);
+    results = Random.shuffle(results);
     ui.inputResults.value = results.join(", ");
     updateCounts();
 

@@ -762,6 +762,8 @@
       </div>
     </div>
   </footer>
+  <script src="/assets/js/random.js"></script>
+  <script src="/assets/js/randomness-note.js"></script>
 
   <script>
     (function () {
@@ -2594,13 +2596,7 @@
       }
 
       function secureRandomBit() {
-        try {
-          const buf = new Uint32Array(1);
-          window.crypto.getRandomValues(buf);
-          return (buf[0] & 1) === 1;
-        } catch (e) {
-          return Math.random() >= 0.5;
-        }
+        return window.RLTRandom ? window.RLTRandom.bool() : Math.random() >= 0.5;
       }
 
       function computeGrid(count) {

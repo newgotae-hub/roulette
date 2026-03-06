@@ -1,5 +1,13 @@
 (function () {
   const { parseEntries, detectLocale, downloadText } = window.RLTUtils;
+  const Random = window.RLTRandom || {
+    bool: () => Math.random() >= 0.5,
+    choice: (list) => {
+      if (!Array.isArray(list) || !list.length) return undefined;
+      return list[Math.floor(Math.random() * list.length)];
+    },
+    float: () => Math.random()
+  };
 
   const i18n = {
     ko: {
@@ -1421,36 +1429,7 @@
 
   function pickNextBallId(available, skip) {
     if (!available.length) return null;
-    if (skip) return available[Math.floor(Math.random() * available.length)];
-
-    const tx = CX;
-    const ty = CY - RADIUS - 20;
-    const topCandidates = [];
-
-    for (const id of available) {
-      const ball = state.balls.find((b) => b.id === id);
-      if (!ball || ball.state === 'drawn') continue;
-
-      const dx = ball.x - tx;
-      const dy = ball.y - ty;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-
-      const upwardBonus = Math.max(0, -ball.vy) * 22;
-      const centerPenalty = Math.abs(dx) * 0.35;
-      const lowerPenalty = Math.max(0, ball.y - (CY + 10)) * 0.28;
-      const jitter = Math.random() * 12;
-      const score = dist + centerPenalty + lowerPenalty - upwardBonus + jitter;
-
-      topCandidates.push({ id, score });
-    }
-
-    if (!topCandidates.length) {
-      return available[Math.floor(Math.random() * available.length)];
-    }
-
-    topCandidates.sort((a, b) => a.score - b.score);
-    const pickBand = topCandidates.slice(0, Math.min(3, topCandidates.length));
-    return pickBand[Math.floor(Math.random() * pickBand.length)].id;
+    return Random.choice(available);
   }
 
   function initEngine(pool) {

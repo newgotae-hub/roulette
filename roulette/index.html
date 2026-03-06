@@ -687,6 +687,8 @@
     </button>
 
     <script src="/assets/js/shortcut.js"></script>
+    <script src="/assets/js/random.js"></script>
+    <script src="/assets/js/randomness-note.js"></script>
     <script>
         (function () {
             const state = {
@@ -2625,7 +2627,8 @@
 
             function pickWinner() {
                 const count = state.available.length;
-                return Math.floor(Math.random() * count);
+                if (count <= 0) return -1;
+                return window.RLTRandom ? window.RLTRandom.index(count) : Math.floor(Math.random() * count);
             }
 
             function applyPendingExclusions() {

@@ -734,6 +734,9 @@
       </div>
     </div>
   </footer>
+  <script src="/assets/js/random.js"></script>
+  <script src="/assets/js/dice-orientation.js"></script>
+  <script src="/assets/js/randomness-note.js"></script>
 
   <script>
     (function () {
@@ -2121,16 +2124,6 @@
       };
 
       const DICE_GLB_URL = '/dice.glb';
-      const TOP_FACE_ORIENTATION = {
-        // Calibrated against forced-face browser captures so the visible top face
-        // matches the recorded roll value in the final settled pose.
-        1: [90, 0, 0],
-        2: [-90, 0, 0],
-        3: [-90, 90, 0],
-        4: [-90, -90, 0],
-        5: [0, 0, 0],
-        6: [-180, 0, 0]
-      };
       const FACE_SPIN_PROFILE = {
         1: [1440, 0, -1440],
         2: [900, 0, -1440],
@@ -2471,13 +2464,7 @@
       }
 
       function secureRandomInt6() {
-        try {
-          const buf = new Uint32Array(1);
-          window.crypto.getRandomValues(buf);
-          return (buf[0] % 6) + 1;
-        } catch (e) {
-          return 1 + Math.floor(Math.random() * 6);
-        }
+        return window.RLTRandom ? window.RLTRandom.range(1, 7) : (1 + Math.floor(Math.random() * 6));
       }
 
       function computeGrid(count) {
@@ -2637,8 +2624,8 @@
       }
 
       function faceTarget(value) {
-        const target = TOP_FACE_ORIENTATION[value] || TOP_FACE_ORIENTATION[1];
-        return target.slice();
+        if (window.RLTDiceOrientation) return window.RLTDiceOrientation.faceTarget(value);
+        return value === 1 ? [90, 0, 0] : [0, 0, 0];
       }
 
       function settleDieToFace(die, value) {

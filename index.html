@@ -1,85 +1,124 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" dir="ltr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="noindex,follow" />
-  <link rel="canonical" href="https://randomly-pick.com/roulette/" />
-  <meta http-equiv="refresh" content="0; url=/roulette/" />
-  <title>Redirecting...</title>
-  <script>
-    (function () {
-      function normalizeLang(raw) {
-        var v = String(raw || '').toLowerCase().replace('_', '-');
-        if (!v) return '';
-        if (v === 'zh' || v.indexOf('zh-cn') === 0 || v.indexOf('zh-hans') === 0) return 'zh-cn';
-        if (v.indexOf('zh-tw') === 0 || v.indexOf('zh-hk') === 0 || v.indexOf('zh-hant') === 0) return 'zh-tw';
-        if (v.indexOf('pt-br') === 0) return 'pt-br';
-        if (v.indexOf('ko') === 0) return 'ko';
-        if (v.indexOf('en') === 0) return 'en';
-        if (v.indexOf('ja') === 0) return 'ja';
-        if (v.indexOf('es') === 0) return 'es';
-        if (v.indexOf('fr') === 0) return 'fr';
-        if (v.indexOf('de') === 0) return 'de';
-        if (v.indexOf('hi') === 0) return 'hi';
-        if (v.indexOf('ar') === 0) return 'ar';
-        if (v.indexOf('ru') === 0) return 'ru';
-        if (v.indexOf('id') === 0) return 'id';
-        if (v.indexOf('tr') === 0) return 'tr';
-        if (v.indexOf('it') === 0) return 'it';
-        if (v.indexOf('vi') === 0) return 'vi';
-        if (v.indexOf('th') === 0) return 'th';
-        if (v.indexOf('nl') === 0) return 'nl';
-        return v;
-      }
-
-      var supported = ['ko', 'en', 'ja', 'zh-cn', 'zh-tw', 'es', 'fr', 'de', 'pt-br', 'hi', 'ar', 'ru', 'id', 'tr', 'it', 'vi', 'th', 'nl'];
-      var lang = '';
-
-      try {
-        var params = new URLSearchParams(window.location.search);
-        var forced = normalizeLang(params.get('lang'));
-        if (supported.indexOf(forced) !== -1) lang = forced;
-      } catch (e) {}
-
-      if (!lang) {
-        try {
-          var cached = normalizeLang(window.localStorage.getItem('rlt-lang'));
-          if (supported.indexOf(cached) !== -1) lang = cached;
-        } catch (e) {}
-      }
-
-      if (!lang) {
-        var navs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ''];
-        for (var i = 0; i < navs.length; i++) {
-          var cand = normalizeLang(navs[i]);
-          if (supported.indexOf(cand) !== -1) {
-            lang = cand;
-            break;
-          }
-        }
-      }
-
-      if (!lang) lang = 'en';
-      try { window.localStorage.setItem('rlt-lang', lang); } catch (e) {}
-
-      var target = new URL('/roulette/', window.location.origin);
-      var current = new URLSearchParams(window.location.search);
-
-      current.forEach(function (value, key) {
-        if (key !== 'lang') target.searchParams.set(key, value);
-      });
-
-      if (lang !== 'ko') target.searchParams.set('lang', lang);
-
-      window.location.replace(target.pathname + target.search + window.location.hash);
-    })();
+  <title>Randomly Pick | 랜덤 추첨 도구 모음</title>
+  <meta name="description" content="룰렛, 번호 추첨, 사다리타기, 코인 던지기, 주사위 굴리기를 한 곳에서 제공하는 Randomly Pick 홈입니다." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://randomly-pick.com/" />
+  <meta property="og:url" content="https://randomly-pick.com/" />
+  <meta property="og:image" content="https://randomly-pick.com/og/og-en.svg" />
+  <meta name="twitter:image" content="https://randomly-pick.com/og/og-en.svg" />
+  <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/" />
+  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/" />
+  <link rel="alternate" hreflang="ja" href="https://randomly-pick.com/ja/" />
+  <link rel="alternate" hreflang="zh-cn" href="https://randomly-pick.com/zh-cn/" />
+  <link rel="alternate" hreflang="zh-tw" href="https://randomly-pick.com/zh-tw/" />
+  <link rel="alternate" hreflang="es" href="https://randomly-pick.com/es/" />
+  <link rel="alternate" hreflang="fr" href="https://randomly-pick.com/fr/" />
+  <link rel="alternate" hreflang="de" href="https://randomly-pick.com/de/" />
+  <link rel="alternate" hreflang="pt-br" href="https://randomly-pick.com/pt-br/" />
+  <link rel="alternate" hreflang="hi" href="https://randomly-pick.com/hi/" />
+  <link rel="alternate" hreflang="ar" href="https://randomly-pick.com/ar/" />
+  <link rel="alternate" hreflang="ru" href="https://randomly-pick.com/ru/" />
+  <link rel="alternate" hreflang="id" href="https://randomly-pick.com/id/" />
+  <link rel="alternate" hreflang="tr" href="https://randomly-pick.com/tr/" />
+  <link rel="alternate" hreflang="it" href="https://randomly-pick.com/it/" />
+  <link rel="alternate" hreflang="vi" href="https://randomly-pick.com/vi/" />
+  <link rel="alternate" hreflang="th" href="https://randomly-pick.com/th/" />
+  <link rel="alternate" hreflang="nl" href="https://randomly-pick.com/nl/" />
+  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Randomly Pick | 랜덤 추첨 도구 모음",
+  "description": "룰렛, 번호 추첨, 사다리타기, 코인 던지기, 주사위 굴리기를 한 곳에서 제공하는 Randomly Pick 홈입니다.",
+  "url": "https://randomly-pick.com/",
+  "inLanguage": "ko"
+}
   </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Randomly Pick",
+      "item": "https://randomly-pick.com/"
+    }
+  ]
+}
+  </script>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;background:#f8fafc;color:#0f172a}
+    main{max-width:840px;margin:0 auto;padding:40px 20px 64px}
+    h1{font-size:30px;margin:0 0 10px}
+    h2{font-size:20px;margin:28px 0 10px}
+    p{color:#334155;line-height:1.7}
+    ul{padding-left:18px}
+    li{margin:8px 0}
+    a{color:#0f172a}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:18px}
+    .card{display:block;padding:16px 18px;border:1px solid #cbd5e1;border-radius:14px;background:#fff;text-decoration:none;box-shadow:0 8px 24px rgba(15,23,42,.04)}
+    .card strong{display:block;margin-bottom:6px}
+    .muted{color:#475569;font-size:14px}
+    .langs{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+    .langs a{font-size:14px}
+  </style>
 </head>
 <body>
-  <noscript>
-    <meta http-equiv="refresh" content="0; url=/roulette/" />
-    <a href="/roulette/">Continue</a>
-  </noscript>
+  <main>
+    <h1>Randomly Pick</h1>
+    <p>한 번에 하나를 골라야 할 때 쓰는 랜덤 도구 모음입니다. 이름 뽑기, 번호 추첨, 팀 나누기, 코인 던지기, 주사위 굴리기를 브라우저에서 바로 사용할 수 있습니다.</p>
+
+    <div class="grid">
+      <a class="card" href="/roulette/">
+        <strong>룰렛 돌리기</strong>
+        <span class="muted">이름이나 항목을 넣고 균등하게 1개를 선택합니다.</span>
+      </a>
+      <a class="card" href="/luckydraw/">
+        <strong>번호 추첨기</strong>
+        <span class="muted">남은 항목 중 하나를 랜덤으로 뽑고 기록을 저장할 수 있습니다.</span>
+      </a>
+      <a class="card" href="/ladder/">
+        <strong>사다리타기</strong>
+        <span class="muted">결과 라벨을 먼저 섞어 참가자마다 같은 확률이 되도록 구성합니다.</span>
+      </a>
+      <a class="card" href="/coinflip/">
+        <strong>코인 던지기</strong>
+        <span class="muted">앞면과 뒷면을 50:50으로 결정합니다.</span>
+      </a>
+      <a class="card" href="/dice/">
+        <strong>주사위 굴리기</strong>
+        <span class="muted">1부터 6까지 같은 확률로 결과를 보여줍니다.</span>
+      </a>
+    </div>
+
+    <h2>다른 언어</h2>
+    <p>언어별 홈으로 바로 들어갈 수도 있습니다.</p>
+    <div class="langs">
+      <a href="/en/">English</a>
+      <a href="/ja/">日本語</a>
+      <a href="/zh-cn/">简体中文</a>
+      <a href="/zh-tw/">繁體中文</a>
+      <a href="/es/">Español</a>
+      <a href="/fr/">Français</a>
+      <a href="/de/">Deutsch</a>
+      <a href="/pt-br/">Português (Brasil)</a>
+      <a href="/hi/">हिन्दी</a>
+      <a href="/ar/">العربية</a>
+      <a href="/ru/">Русский</a>
+      <a href="/id/">Bahasa Indonesia</a>
+      <a href="/tr/">Türkçe</a>
+      <a href="/it/">Italiano</a>
+      <a href="/vi/">Tiếng Việt</a>
+      <a href="/th/">ไทย</a>
+      <a href="/nl/">Nederlands</a>
+    </div>
+  </main>
 </body>
 </html>

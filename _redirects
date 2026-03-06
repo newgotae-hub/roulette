@@ -1,0 +1,52 @@
+# Legacy lucky draw path
+/lotto /luckydraw/ 301
+/lotto/ /luckydraw/ 301
+/lotto/* /luckydraw/:splat 301
+
+# Legacy locale aliases for coinflip
+/ko-kr/coinflip /coinflip/ 301
+/ko-kr/coinflip/ /coinflip/ 301
+/ja-jp/coinflip /ja/coinflip/ 301
+/ja-jp/coinflip/ /ja/coinflip/ 301
+/zh-hans/coinflip /zh-cn/coinflip/ 301
+/zh-hans/coinflip/ /zh-cn/coinflip/ 301
+/zh-hans-cn/coinflip /zh-cn/coinflip/ 301
+/zh-hans-cn/coinflip/ /zh-cn/coinflip/ 301
+/zh-hk/coinflip /zh-tw/coinflip/ 301
+/zh-hk/coinflip/ /zh-tw/coinflip/ 301
+/es-es/coinflip /es/coinflip/ 301
+/es-es/coinflip/ /es/coinflip/ 301
+/fr-fr/coinflip /fr/coinflip/ 301
+/fr-fr/coinflip/ /fr/coinflip/ 301
+/hi-in/coinflip /hi/coinflip/ 301
+/hi-in/coinflip/ /hi/coinflip/ 301
+/id-id/coinflip /id/coinflip/ 301
+/id-id/coinflip/ /id/coinflip/ 301
+/it-it/coinflip /it/coinflip/ 301
+/it-it/coinflip/ /it/coinflip/ 301
+/ru-ru/coinflip /ru/coinflip/ 301
+/ru-ru/coinflip/ /ru/coinflip/ 301
+
+# Legacy locale aliases for dice
+/ko-kr/dice /dice/ 301
+/ko-kr/dice/ /dice/ 301
+/ja-jp/dice /ja/dice/ 301
+/ja-jp/dice/ /ja/dice/ 301
+/zh-hans/dice /zh-cn/dice/ 301
+/zh-hans/dice/ /zh-cn/dice/ 301
+/zh-hans-cn/dice /zh-cn/dice/ 301
+/zh-hans-cn/dice/ /zh-cn/dice/ 301
+/zh-hk/dice /zh-tw/dice/ 301
+/zh-hk/dice/ /zh-tw/dice/ 301
+/es-es/dice /es/dice/ 301
+/es-es/dice/ /es/dice/ 301
+/fr-fr/dice /fr/dice/ 301
+/fr-fr/dice/ /fr/dice/ 301
+/hi-in/dice /hi/dice/ 301
+/hi-in/dice/ /hi/dice/ 301
+/id-id/dice /id/dice/ 301
+/id-id/dice/ /id/dice/ 301
+/it-it/dice /it/dice/ 301
+/it-it/dice/ /it/dice/ 301
+/ru-ru/dice /ru/dice/ 301
+/ru-ru/dice/ /ru/dice/ 301

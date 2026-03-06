@@ -616,6 +616,8 @@
     <button id="add-shortcut-btn" class="hidden md:hidden fixed bottom-4 right-4 z-50 bg-slate-900 text-white rounded-full px-4 py-2 text-xs font-semibold shadow-lg border border-slate-700/60">Add to Home</button>
 
     <script src="/assets/js/shortcut.js"></script>
+    <script src="/assets/js/random.js"></script>
+    <script src="/assets/js/randomness-note.js"></script>
     <script>
         (function () {
             const state = {
@@ -2554,7 +2556,8 @@
 
             function pickWinner() {
                 const count = state.available.length;
-                return Math.floor(Math.random() * count);
+                if (count <= 0) return -1;
+                return window.RLTRandom ? window.RLTRandom.index(count) : Math.floor(Math.random() * count);
             }
 
             function applyPendingExclusions() {
