@@ -6,6 +6,26 @@ const ROOT = path.resolve(__dirname, '..');
 const LOCALES = ['en','ja','zh-cn','zh-tw','es','fr','de','pt-br','hi','ar','ru','id','tr','it','vi','th','nl'];
 const TOOLS = ['index.html', 'roulette/index.html', 'ladder/index.html', 'luckydraw/index.html', 'coinflip/index.html', 'dice/index.html'];
 const LOCALIZED_LEGAL = new Set(['en', 'ja', 'zh-cn', 'zh-tw']);
+const CONTACT_LABELS = {
+  ko: '문의',
+  en: 'Contact',
+  ja: 'お問い合わせ',
+  'zh-cn': '联系',
+  'zh-tw': '聯絡',
+  es: 'Contacto',
+  fr: 'Contact',
+  de: 'Kontakt',
+  'pt-br': 'Contato',
+  hi: 'संपर्क',
+  ar: 'تواصل',
+  ru: 'Контакты',
+  id: 'Kontak',
+  tr: 'İletişim',
+  it: 'Contatti',
+  vi: 'Liên hệ',
+  th: 'ติดต่อ',
+  nl: 'Contact'
+};
 
 function legalBase(locale) {
   if (!locale || locale === 'ko') return '';
@@ -37,6 +57,11 @@ for (const rel of TOOLS.concat(LOCALES.flatMap((locale) => TOOLS.map((tool) => `
   html = html.replace(/id="footer-terms" href="\/terms\//g, `id="footer-terms" href="${targetHref(locale, 'terms')}`);
   html = html.replace(/id="footer-privacy" href="\/privacy\//g, `id="footer-privacy" href="${targetHref(locale, 'privacy')}`);
   html = html.replace(/id="footer-contact" href="\/contact\//g, `id="footer-contact" href="${targetHref(locale, 'contact')}`);
+  if (!html.includes('id="footer-contact"') && html.includes('id="footer-about"')) {
+    const contactLabel = CONTACT_LABELS[locale] || CONTACT_LABELS.en;
+    const contactLink = `\n        <a id="footer-contact" href="${targetHref(locale, 'contact')}" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">${contactLabel}</a>`;
+    html = html.replace(/(<a id="footer-about"[^\n]+<\/a>)/, `$1${contactLink}`);
+  }
 
   html = replaceAll(html, "setText('footer-terms', 'footerTerms'); document.getElementById('footer-terms') && (document.getElementById('footer-terms').textContent = 'Terms');", "setText('footer-terms', 'footerTerms');");
   html = replaceAll(html, "setText('footer-privacy', 'footerPrivacy'); document.getElementById('footer-privacy') && (document.getElementById('footer-privacy').textContent = 'Privacy');", "setText('footer-privacy', 'footerPrivacy');");

@@ -1106,7 +1106,8 @@
     btnCopy: document.getElementById('btn-copy'),
     historyList: document.getElementById('history-list'),
     btnExport: document.getElementById('btn-export'),
-    canvas: document.getElementById('lotto-canvas')
+    canvas: document.getElementById('lotto-canvas'),
+    footerContact: document.getElementById('footer-contact')
   };
 
   const ctx = ui.canvas.getContext('2d');
@@ -1136,6 +1137,30 @@
     const row = localeNames[locale];
     const code = row && row.flag ? row.flag : "us";
     return `https://flagcdn.com/w20/${code}.png`;
+  }
+
+  function getFooterContactLabel(locale) {
+    const labels = {
+      ko: '문의하기',
+      en: 'Contact',
+      ja: 'お問い合わせ',
+      'zh-cn': '联系',
+      'zh-tw': '聯絡',
+      es: 'Contacto',
+      fr: 'Contact',
+      de: 'Kontakt',
+      'pt-br': 'Contato',
+      hi: 'संपर्क',
+      ar: 'تواصل',
+      ru: 'Контакты',
+      id: 'Kontak',
+      tr: 'İletişim',
+      it: 'Contatti',
+      vi: 'Liên hệ',
+      th: 'ติดต่อ',
+      nl: 'Contact'
+    };
+    return labels[locale] || labels.en;
   }
 
   function renderLanguageList(query, listEl) {
@@ -1274,6 +1299,7 @@
     setText('footer-privacy', 'footerPrivacy');
     if (document.getElementById('footer-terms')) document.getElementById('footer-terms').textContent = t('footerTerms');
     if (document.getElementById('footer-privacy')) document.getElementById('footer-privacy').textContent = t('footerPrivacy');
+    if (ui.footerContact) ui.footerContact.textContent = getFooterContactLabel(state.locale);
     ui.statusBanner.textContent = t('statusReady');
     ui.fullscreenLabel.textContent = document.fullscreenElement ? t('fullscreenExit') : t('fullscreen');
     if (ui.fullscreenHintText) ui.fullscreenHintText.textContent = t('fullscreenHint');

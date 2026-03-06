@@ -133,6 +133,7 @@
     noResults: document.getElementById("label-no-results"),
     footerTerms: document.getElementById("footer-terms"),
     footerPrivacy: document.getElementById("footer-privacy"),
+    footerContact: document.getElementById("footer-contact"),
     metaDescription: document.getElementById("meta-description"),
     metaOgTitle: document.getElementById("meta-og-title"),
     metaOgDescription: document.getElementById("meta-og-description"),
@@ -185,6 +186,30 @@
     const row = localeNames[locale];
     if (!row) return locale;
     return `${row.native} (${row.en})`;
+  }
+
+  function getFooterContactLabel(locale) {
+    const labels = {
+      ko: "문의하기",
+      en: "Contact",
+      ja: "お問い合わせ",
+      "zh-cn": "联系",
+      "zh-tw": "聯絡",
+      es: "Contacto",
+      fr: "Contact",
+      de: "Kontakt",
+      "pt-br": "Contato",
+      hi: "संपर्क",
+      ar: "تواصل",
+      ru: "Контакты",
+      id: "Kontak",
+      tr: "İletişim",
+      it: "Contatti",
+      vi: "Liên hệ",
+      th: "ติดต่อ",
+      nl: "Contact"
+    };
+    return labels[locale] || labels.en;
   }
 
   function renderLanguageList(query, listEl) {
@@ -341,6 +366,7 @@
     var langSearchPlaceholder = state.locale === "ko" ? "언어 검색" : "Search language";
     ui.footerTerms.textContent = t("footerTerms");
     ui.footerPrivacy.textContent = t("footerPrivacy");
+    if (ui.footerContact) ui.footerContact.textContent = getFooterContactLabel(state.locale);
     ui.langButtonLabel.textContent = langButtonText;
     ui.langSearch.placeholder = langSearchPlaceholder;
     if (ui.langSearchMobile) ui.langSearchMobile.placeholder = langSearchPlaceholder;

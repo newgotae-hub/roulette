@@ -15,5 +15,7 @@ jobs:
           node-version: '20'
       - name: Generate sitemaps
         run: bash scripts/update-sitemaps.sh
+      - name: Run AdSense readiness check
+        run: node scripts/adsense-readiness-check.js
       - name: Run SEO report (strict)
         run: bash scripts/seo-report.sh --strict
