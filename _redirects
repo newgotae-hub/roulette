@@ -1,3 +1,7 @@
+# Korean roulette canonical root
+/roulette / 301
+/roulette/ / 301
+
 # Legacy lucky draw path
 /lotto /luckydraw/ 301
 /lotto/ /luckydraw/ 301

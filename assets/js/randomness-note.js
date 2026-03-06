@@ -160,6 +160,7 @@
   }
 
   function detectTool() {
+    if (window.location.pathname === "/") return "roulette";
     const match = window.location.pathname.match(/\/(roulette|luckydraw|ladder|coinflip|dice)\/?$/i);
     return match && match[1] ? match[1].toLowerCase() : "";
   }

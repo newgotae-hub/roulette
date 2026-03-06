@@ -15,28 +15,26 @@ function write(file, content) {
 const main = [];
 main.push('<?xml version="1.0" encoding="UTF-8"?>');
 main.push('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">');
-main.push('  <url>');
-main.push('    <loc>https://randomly-pick.com/</loc>');
-main.push(`    <lastmod>${today}</lastmod>`);
-main.push('    <changefreq>weekly</changefreq>');
-main.push('    <priority>0.8</priority>');
-main.push('    <xhtml:link rel="alternate" hreflang="ko" href="https://randomly-pick.com/"/>');
-for (const lang of langs) {
-  main.push(`    <xhtml:link rel="alternate" hreflang="${lang}" href="https://randomly-pick.com/${lang}/"/>`);
-}
-main.push('    <xhtml:link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/"/>');
-main.push('  </url>');
 for (const tool of tools) {
+  const loc = tool === 'roulette'
+    ? 'https://randomly-pick.com/'
+    : `https://randomly-pick.com/${tool}/`;
+  const xDefault = tool === 'roulette'
+    ? 'https://randomly-pick.com/'
+    : `https://randomly-pick.com/en/${tool}/`;
+  const koHref = tool === 'roulette'
+    ? 'https://randomly-pick.com/'
+    : `https://randomly-pick.com/${tool}/`;
   main.push('  <url>');
-  main.push(`    <loc>https://randomly-pick.com/${tool}/</loc>`);
+  main.push(`    <loc>${loc}</loc>`);
   main.push(`    <lastmod>${today}</lastmod>`);
   main.push('    <changefreq>daily</changefreq>');
   main.push('    <priority>0.9</priority>');
-  main.push(`    <xhtml:link rel="alternate" hreflang="ko" href="https://randomly-pick.com/${tool}/"/>`);
+  main.push(`    <xhtml:link rel="alternate" hreflang="ko" href="${koHref}"/>`);
   for (const lang of langs) {
     main.push(`    <xhtml:link rel="alternate" hreflang="${lang}" href="https://randomly-pick.com/${lang}/${tool}/"/>`);
   }
-  main.push(`    <xhtml:link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/${tool}/"/>`);
+  main.push(`    <xhtml:link rel="alternate" hreflang="x-default" href="${xDefault}"/>`);
   main.push('  </url>');
 }
 for (const page of legalPages) {
