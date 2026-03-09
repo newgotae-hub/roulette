@@ -45,6 +45,601 @@
     ],
     "redirects": [
       {
+        "source": "/roulette",
+        "destination": "/",
+        "type": 301
+      },
+      {
+        "source": "/roulette/",
+        "destination": "/",
+        "type": 301
+      },
+      {
+        "source": "/lotto",
+        "destination": "/luckydraw/",
+        "type": 301
+      },
+      {
+        "source": "/lotto/",
+        "destination": "/luckydraw/",
+        "type": 301
+      },
+      {
+        "source": "/lotto/:rest*",
+        "destination": "/luckydraw/:rest*",
+        "type": 301
+      },
+      {
+        "source": "/en/roulette",
+        "destination": "/en/",
+        "type": 301
+      },
+      {
+        "source": "/en/roulette/",
+        "destination": "/en/",
+        "type": 301
+      },
+      {
+        "source": "/ja/roulette",
+        "destination": "/ja/",
+        "type": 301
+      },
+      {
+        "source": "/ja/roulette/",
+        "destination": "/ja/",
+        "type": 301
+      },
+      {
+        "source": "/zh-cn/roulette",
+        "destination": "/zh-cn/",
+        "type": 301
+      },
+      {
+        "source": "/zh-cn/roulette/",
+        "destination": "/zh-cn/",
+        "type": 301
+      },
+      {
+        "source": "/zh-tw/roulette",
+        "destination": "/zh-tw/",
+        "type": 301
+      },
+      {
+        "source": "/zh-tw/roulette/",
+        "destination": "/zh-tw/",
+        "type": 301
+      },
+      {
+        "source": "/es/roulette",
+        "destination": "/es/",
+        "type": 301
+      },
+      {
+        "source": "/es/roulette/",
+        "destination": "/es/",
+        "type": 301
+      },
+      {
+        "source": "/fr/roulette",
+        "destination": "/fr/",
+        "type": 301
+      },
+      {
+        "source": "/fr/roulette/",
+        "destination": "/fr/",
+        "type": 301
+      },
+      {
+        "source": "/de/roulette",
+        "destination": "/de/",
+        "type": 301
+      },
+      {
+        "source": "/de/roulette/",
+        "destination": "/de/",
+        "type": 301
+      },
+      {
+        "source": "/pt-br/roulette",
+        "destination": "/pt-br/",
+        "type": 301
+      },
+      {
+        "source": "/pt-br/roulette/",
+        "destination": "/pt-br/",
+        "type": 301
+      },
+      {
+        "source": "/hi/roulette",
+        "destination": "/hi/",
+        "type": 301
+      },
+      {
+        "source": "/hi/roulette/",
+        "destination": "/hi/",
+        "type": 301
+      },
+      {
+        "source": "/ar/roulette",
+        "destination": "/ar/",
+        "type": 301
+      },
+      {
+        "source": "/ar/roulette/",
+        "destination": "/ar/",
+        "type": 301
+      },
+      {
+        "source": "/ru/roulette",
+        "destination": "/ru/",
+        "type": 301
+      },
+      {
+        "source": "/ru/roulette/",
+        "destination": "/ru/",
+        "type": 301
+      },
+      {
+        "source": "/id/roulette",
+        "destination": "/id/",
+        "type": 301
+      },
+      {
+        "source": "/id/roulette/",
+        "destination": "/id/",
+        "type": 301
+      },
+      {
+        "source": "/tr/roulette",
+        "destination": "/tr/",
+        "type": 301
+      },
+      {
+        "source": "/tr/roulette/",
+        "destination": "/tr/",
+        "type": 301
+      },
+      {
+        "source": "/it/roulette",
+        "destination": "/it/",
+        "type": 301
+      },
+      {
+        "source": "/it/roulette/",
+        "destination": "/it/",
+        "type": 301
+      },
+      {
+        "source": "/vi/roulette",
+        "destination": "/vi/",
+        "type": 301
+      },
+      {
+        "source": "/vi/roulette/",
+        "destination": "/vi/",
+        "type": 301
+      },
+      {
+        "source": "/th/roulette",
+        "destination": "/th/",
+        "type": 301
+      },
+      {
+        "source": "/th/roulette/",
+        "destination": "/th/",
+        "type": 301
+      },
+      {
+        "source": "/nl/roulette",
+        "destination": "/nl/",
+        "type": 301
+      },
+      {
+        "source": "/nl/roulette/",
+        "destination": "/nl/",
+        "type": 301
+      },
+      {
+        "source": "/ko-kr/coinflip",
+        "destination": "/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/ko-kr/coinflip/",
+        "destination": "/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/ko-kr/dice",
+        "destination": "/dice/",
+        "type": 301
+      },
+      {
+        "source": "/ko-kr/dice/",
+        "destination": "/dice/",
+        "type": 301
+      },
+      {
+        "source": "/ja-jp/coinflip",
+        "destination": "/ja/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/ja-jp/coinflip/",
+        "destination": "/ja/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/ja-jp/dice",
+        "destination": "/ja/dice/",
+        "type": 301
+      },
+      {
+        "source": "/ja-jp/dice/",
+        "destination": "/ja/dice/",
+        "type": 301
+      },
+      {
+        "source": "/zh-hans/coinflip",
+        "destination": "/zh-cn/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/zh-hans/coinflip/",
+        "destination": "/zh-cn/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/zh-hans/dice",
+        "destination": "/zh-cn/dice/",
+        "type": 301
+      },
+      {
+        "source": "/zh-hans/dice/",
+        "destination": "/zh-cn/dice/",
+        "type": 301
+      },
+      {
+        "source": "/zh-hans-cn/coinflip",
+        "destination": "/zh-cn/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/zh-hans-cn/coinflip/",
+        "destination": "/zh-cn/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/zh-hans-cn/dice",
+        "destination": "/zh-cn/dice/",
+        "type": 301
+      },
+      {
+        "source": "/zh-hans-cn/dice/",
+        "destination": "/zh-cn/dice/",
+        "type": 301
+      },
+      {
+        "source": "/zh-hk/coinflip",
+        "destination": "/zh-tw/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/zh-hk/coinflip/",
+        "destination": "/zh-tw/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/zh-hk/dice",
+        "destination": "/zh-tw/dice/",
+        "type": 301
+      },
+      {
+        "source": "/zh-hk/dice/",
+        "destination": "/zh-tw/dice/",
+        "type": 301
+      },
+      {
+        "source": "/zh-hant/coinflip",
+        "destination": "/zh-tw/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/zh-hant/coinflip/",
+        "destination": "/zh-tw/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/zh-hant/dice",
+        "destination": "/zh-tw/dice/",
+        "type": 301
+      },
+      {
+        "source": "/zh-hant/dice/",
+        "destination": "/zh-tw/dice/",
+        "type": 301
+      },
+      {
+        "source": "/zh-mo/coinflip",
+        "destination": "/zh-tw/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/zh-mo/coinflip/",
+        "destination": "/zh-tw/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/zh-mo/dice",
+        "destination": "/zh-tw/dice/",
+        "type": 301
+      },
+      {
+        "source": "/zh-mo/dice/",
+        "destination": "/zh-tw/dice/",
+        "type": 301
+      },
+      {
+        "source": "/es-es/coinflip",
+        "destination": "/es/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/es-es/coinflip/",
+        "destination": "/es/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/es-es/dice",
+        "destination": "/es/dice/",
+        "type": 301
+      },
+      {
+        "source": "/es-es/dice/",
+        "destination": "/es/dice/",
+        "type": 301
+      },
+      {
+        "source": "/fr-fr/coinflip",
+        "destination": "/fr/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/fr-fr/coinflip/",
+        "destination": "/fr/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/fr-fr/dice",
+        "destination": "/fr/dice/",
+        "type": 301
+      },
+      {
+        "source": "/fr-fr/dice/",
+        "destination": "/fr/dice/",
+        "type": 301
+      },
+      {
+        "source": "/de-de/coinflip",
+        "destination": "/de/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/de-de/coinflip/",
+        "destination": "/de/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/de-de/dice",
+        "destination": "/de/dice/",
+        "type": 301
+      },
+      {
+        "source": "/de-de/dice/",
+        "destination": "/de/dice/",
+        "type": 301
+      },
+      {
+        "source": "/en-us/coinflip",
+        "destination": "/en/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/en-us/coinflip/",
+        "destination": "/en/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/en-us/dice",
+        "destination": "/en/dice/",
+        "type": 301
+      },
+      {
+        "source": "/en-us/dice/",
+        "destination": "/en/dice/",
+        "type": 301
+      },
+      {
+        "source": "/hi-in/coinflip",
+        "destination": "/hi/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/hi-in/coinflip/",
+        "destination": "/hi/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/hi-in/dice",
+        "destination": "/hi/dice/",
+        "type": 301
+      },
+      {
+        "source": "/hi-in/dice/",
+        "destination": "/hi/dice/",
+        "type": 301
+      },
+      {
+        "source": "/id-id/coinflip",
+        "destination": "/id/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/id-id/coinflip/",
+        "destination": "/id/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/id-id/dice",
+        "destination": "/id/dice/",
+        "type": 301
+      },
+      {
+        "source": "/id-id/dice/",
+        "destination": "/id/dice/",
+        "type": 301
+      },
+      {
+        "source": "/it-it/coinflip",
+        "destination": "/it/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/it-it/coinflip/",
+        "destination": "/it/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/it-it/dice",
+        "destination": "/it/dice/",
+        "type": 301
+      },
+      {
+        "source": "/it-it/dice/",
+        "destination": "/it/dice/",
+        "type": 301
+      },
+      {
+        "source": "/ru-ru/coinflip",
+        "destination": "/ru/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/ru-ru/coinflip/",
+        "destination": "/ru/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/ru-ru/dice",
+        "destination": "/ru/dice/",
+        "type": 301
+      },
+      {
+        "source": "/ru-ru/dice/",
+        "destination": "/ru/dice/",
+        "type": 301
+      },
+      {
+        "source": "/th-th/coinflip",
+        "destination": "/th/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/th-th/coinflip/",
+        "destination": "/th/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/th-th/dice",
+        "destination": "/th/dice/",
+        "type": 301
+      },
+      {
+        "source": "/th-th/dice/",
+        "destination": "/th/dice/",
+        "type": 301
+      },
+      {
+        "source": "/tr-tr/coinflip",
+        "destination": "/tr/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/tr-tr/coinflip/",
+        "destination": "/tr/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/tr-tr/dice",
+        "destination": "/tr/dice/",
+        "type": 301
+      },
+      {
+        "source": "/tr-tr/dice/",
+        "destination": "/tr/dice/",
+        "type": 301
+      },
+      {
+        "source": "/vi-vn/coinflip",
+        "destination": "/vi/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/vi-vn/coinflip/",
+        "destination": "/vi/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/vi-vn/dice",
+        "destination": "/vi/dice/",
+        "type": 301
+      },
+      {
+        "source": "/vi-vn/dice/",
+        "destination": "/vi/dice/",
+        "type": 301
+      },
+      {
+        "source": "/ar-ae/coinflip",
+        "destination": "/ar/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/ar-ae/coinflip/",
+        "destination": "/ar/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/ar-ae/dice",
+        "destination": "/ar/dice/",
+        "type": 301
+      },
+      {
+        "source": "/ar-ae/dice/",
+        "destination": "/ar/dice/",
+        "type": 301
+      },
+      {
+        "source": "/nl-nl/coinflip",
+        "destination": "/nl/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/nl-nl/coinflip/",
+        "destination": "/nl/coinflip/",
+        "type": 301
+      },
+      {
+        "source": "/nl-nl/dice",
+        "destination": "/nl/dice/",
+        "type": 301
+      },
+      {
+        "source": "/nl-nl/dice/",
+        "destination": "/nl/dice/",
+        "type": 301
+      },
+      {
         "source": "/:lang/:tool",
         "destination": "/:lang/:tool/",
         "type": 301

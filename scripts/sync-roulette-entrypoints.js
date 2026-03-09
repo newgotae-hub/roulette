@@ -99,13 +99,13 @@ const SET_LOCALE = `            function setLocale(nextLocale) {
             }`;
 
 function writeIfChanged(file, next) {
-  const prev = fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : null;
+  const prev = fs.readFileSync(file, 'utf8');
   if (prev === next) return false;
   fs.writeFileSync(file, next, 'utf8');
   return true;
 }
 
-function updateRouletteFile(file) {
+function updateIndexFile(file, locale) {
   let html = fs.readFileSync(file, 'utf8');
 
   html = html.replace(/<script data-rlt-canonical-patch>[\s\S]*?<\/script>/, CANONICAL_PATCH);
@@ -113,26 +113,31 @@ function updateRouletteFile(file) {
   html = html.replace(/function setLocale\(nextLocale\) \{[\s\S]*?\n\s*\}\n(?=\n\s*function normalize)/, `${SET_LOCALE}\n`);
   html = html.replace(/href="\/favicon-r\.svg"/g, 'href="https://randomly-pick.com/favicon-r.svg"');
 
-  for (const locale of LOCALES) {
-    const escaped = locale.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    html = html.replace(new RegExp(`https://randomly-pick\\.com/${escaped}/roulette/`, 'g'), `https://randomly-pick.com/${locale}/`);
-    html = html.replace(new RegExp(`href="/${escaped}/roulette/"`, 'g'), `href="/${locale}/"`);
+  if (locale === 'ko') {
+    html = html.replace(/href="\/roulette\/"/g, 'href="/"');
+  } else {
+    html = html.replace(new RegExp(`href="/${locale}/roulette/"`, 'g'), `href="/${locale}/"`);
   }
 
   return html;
 }
 
-let changed = 0;
-
-for (const file of [path.join(ROOT, 'index.html'), path.join(ROOT, 'roulette', 'index.html')]) {
-  changed += writeIfChanged(file, updateRouletteFile(file)) ? 1 : 0;
+function removeIfExists(file) {
+  if (!fs.existsSync(file)) return false;
+  fs.unlinkSync(file);
+  return true;
 }
+
+let changed = 0;
+let removed = 0;
+
+changed += writeIfChanged(path.join(ROOT, 'index.html'), updateIndexFile(path.join(ROOT, 'index.html'), 'ko')) ? 1 : 0;
+removed += removeIfExists(path.join(ROOT, 'roulette', 'index.html')) ? 1 : 0;
 
 for (const locale of LOCALES) {
-  const rouletteFile = path.join(ROOT, locale, 'roulette', 'index.html');
-  const updated = updateRouletteFile(rouletteFile);
-  changed += writeIfChanged(rouletteFile, updated) ? 1 : 0;
-  changed += writeIfChanged(path.join(ROOT, locale, 'index.html'), updated) ? 1 : 0;
+  const indexFile = path.join(ROOT, locale, 'index.html');
+  changed += writeIfChanged(indexFile, updateIndexFile(indexFile, locale)) ? 1 : 0;
+  removed += removeIfExists(path.join(ROOT, locale, 'roulette', 'index.html')) ? 1 : 0;
 }
 
-console.log(`synced roulette entrypoints: ${changed}`);
+console.log(`synced roulette entrypoints: updated=${changed} removed=${removed}`);
