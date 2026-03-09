@@ -35,7 +35,6 @@
       labelDrawCount: '뽑을 개수',
       labelCustomDrawCount: '뽑을 개수',
       customPlaceholder: '이름이나 번호를 입력하세요. 줄바꿈, 쉼표, 공백 자동 인식',
-      labelAllowDup: '중복 추첨 허용',
       labelSound: '효과음 재생',
       labelSpeed: '추첨 속도',
       speed1: '느림', speed2: '보통', speed3: '빠름',
@@ -91,7 +90,6 @@
       labelDrawCount: 'Draw Count',
       labelCustomDrawCount: 'Draw Count',
       customPlaceholder: 'Enter names or items. New lines, commas, and spaces are detected automatically.',
-      labelAllowDup: 'Allow Duplicates',
       labelSound: 'Sound Effects',
       labelSpeed: 'Speed',
       speed1: 'Slow', speed2: 'Normal', speed3: 'Fast',
@@ -149,7 +147,6 @@
     labelDrawCount: '抽選数',
     labelCustomDrawCount: '抽選数',
     customPlaceholder: '名前または項目を入力。改行・カンマ・空白を自動認識します。',
-    labelAllowDup: '重複抽選を許可',
     labelSound: '効果音',
     labelSpeed: '抽選速度',
     speed1: '遅い', speed2: '標準', speed3: '速い',
@@ -206,7 +203,6 @@
     labelDrawCount: '抽取数量',
     labelCustomDrawCount: '抽取数量',
     customPlaceholder: '请输入姓名或项目。自动识别换行、逗号和空格。',
-    labelAllowDup: '允许重复抽取',
     labelSound: '音效',
     labelSpeed: '速度',
     speed1: '慢',
@@ -265,7 +261,6 @@
     labelDrawCount: '抽取數量',
     labelCustomDrawCount: '抽取數量',
     customPlaceholder: '請輸入姓名或項目。自動辨識換行、逗號與空白。',
-    labelAllowDup: '允許重複抽取',
     labelSound: '音效',
     labelSpeed: '速度',
     speed1: '慢',
@@ -324,7 +319,6 @@
           labelDrawCount: 'Cantidad a sortear',
           labelCustomDrawCount: 'Cantidad a sortear',
           customPlaceholder: 'Ingresa nombres o elementos. Se detectan saltos de línea, comas y espacios automáticamente.',
-          labelAllowDup: 'Permitir duplicados',
           labelSound: 'Efectos de sonido',
           labelSpeed: 'Velocidad',
           speed1: 'Lento',
@@ -383,7 +377,6 @@
           labelDrawCount: 'Nombre de tirages',
           labelCustomDrawCount: 'Nombre de tirages',
           customPlaceholder: 'Entrez des noms ou des éléments. Les retours à la ligne, virgules et espaces sont détectés automatiquement.',
-          labelAllowDup: 'Autoriser les doublons',
           labelSound: 'Effets sonores',
           labelSpeed: 'Vitesse',
           speed1: 'Lent',
@@ -442,7 +435,6 @@
           labelDrawCount: 'Anzahl Ziehungen',
           labelCustomDrawCount: 'Anzahl Ziehungen',
           customPlaceholder: 'Namen oder Einträge eingeben. Zeilenumbrüche, Kommas und Leerzeichen werden automatisch erkannt.',
-          labelAllowDup: 'Duplikate erlauben',
           labelSound: 'Soundeffekte',
           labelSpeed: 'Geschwindigkeit',
           speed1: 'Langsam',
@@ -526,7 +518,6 @@
           labelDrawCount: 'ड्रॉ संख्या',
           labelCustomDrawCount: 'ड्रॉ संख्या',
           customPlaceholder: 'नाम या आइटम दर्ज करें। नई पंक्ति, कॉमा और स्पेस अपने आप पहचाने जाते हैं।',
-          labelAllowDup: 'डुप्लिकेट अनुमति दें',
           labelSound: 'साउंड इफेक्ट',
           labelSpeed: 'स्पीड',
           speed1: 'धीमा',
@@ -585,7 +576,6 @@
           labelDrawCount: 'عدد السحوبات',
           labelCustomDrawCount: 'عدد السحوبات',
           customPlaceholder: 'أدخل أسماء أو عناصر. يتم اكتشاف السطر الجديد والفاصلة والمسافة تلقائيًا.',
-          labelAllowDup: 'السماح بالتكرار',
           labelSound: 'المؤثرات الصوتية',
           labelSpeed: 'السرعة',
           speed1: 'بطيء',
@@ -644,7 +634,6 @@
           labelDrawCount: 'Количество выборов',
           labelCustomDrawCount: 'Количество выборов',
           customPlaceholder: 'Введите имена или элементы. Переносы строк, запятые и пробелы распознаются автоматически.',
-          labelAllowDup: 'Разрешить дубликаты',
           labelSound: 'Звуковые эффекты',
           labelSpeed: 'Скорость',
           speed1: 'Медленно',
@@ -703,7 +692,6 @@
           labelDrawCount: 'Jumlah undian',
           labelCustomDrawCount: 'Jumlah undian',
           customPlaceholder: 'Masukkan nama atau item. Baris baru, koma, dan spasi terdeteksi otomatis.',
-          labelAllowDup: 'Izinkan duplikat',
           labelSound: 'Efek suara',
           labelSpeed: 'Kecepatan',
           speed1: 'Lambat',
@@ -762,7 +750,6 @@
           labelDrawCount: 'Çekiliş sayısı',
           labelCustomDrawCount: 'Çekiliş sayısı',
           customPlaceholder: 'Ad veya öğe girin. Satır sonu, virgül ve boşluk otomatik algılanır.',
-          labelAllowDup: 'Yinelenenlere izin ver',
           labelSound: 'Ses efektleri',
           labelSpeed: 'Hız',
           speed1: 'Yavaş',
@@ -821,7 +808,6 @@
     labelDrawCount: 'Numero Estrazioni',
     labelCustomDrawCount: 'Numero Estrazioni',
     customPlaceholder: 'Inserisci nomi o elementi. Righe, virgole e spazi vengono riconosciuti automaticamente.',
-    labelAllowDup: 'Consenti Ripetizioni',
     labelSound: 'Effetti Sonori',
     labelSpeed: 'Velocità',
     speed1: 'Lenta', speed2: 'Normale', speed3: 'Veloce',
@@ -878,7 +864,6 @@
     labelDrawCount: 'Số lượng rút',
     labelCustomDrawCount: 'Số lượng rút',
     customPlaceholder: 'Nhập tên hoặc mục. Tự nhận diện xuống dòng, dấu phẩy và khoảng trắng.',
-    labelAllowDup: 'Cho phép trùng',
     labelSound: 'Âm thanh',
     labelSpeed: 'Tốc độ',
     speed1: 'Chậm', speed2: 'Vừa', speed3: 'Nhanh',
@@ -935,7 +920,6 @@
     labelDrawCount: 'จำนวนที่สุ่ม',
     labelCustomDrawCount: 'จำนวนที่สุ่ม',
     customPlaceholder: 'กรอกชื่อหรือรายการ ระบบแยกบรรทัดใหม่ เครื่องหมายจุลภาค และช่องว่างอัตโนมัติ',
-    labelAllowDup: 'อนุญาตซ้ำ',
     labelSound: 'เสียงเอฟเฟกต์',
     labelSpeed: 'ความเร็ว',
     speed1: 'ช้า', speed2: 'ปกติ', speed3: 'เร็ว',
@@ -992,7 +976,6 @@
     labelDrawCount: 'Aantal trekkingen',
     labelCustomDrawCount: 'Aantal trekkingen',
     customPlaceholder: 'Voer namen of items in. Nieuwe regels, komma’s en spaties worden automatisch herkend.',
-    labelAllowDup: 'Duplicaten toestaan',
     labelSound: 'Geluidseffecten',
     labelSpeed: 'Snelheid',
     speed1: 'Langzaam', speed2: 'Normaal', speed3: 'Snel',
@@ -1089,7 +1072,6 @@
     inpDrawBasic: document.getElementById('input-draw-count'),
     inpCustomList: document.getElementById('custom-list'),
     inpDrawCustom: document.getElementById('input-custom-draw-count'),
-    togDup: document.getElementById('toggle-dup'),
     togSound: document.getElementById('toggle-sound'),
     sliderSpeed: document.getElementById('slider-speed'),
     labelSpeedVal: document.getElementById('label-speed-val'),
@@ -1274,7 +1256,6 @@
     setText('label-draw-count', 'labelDrawCount');
     setText('label-custom-draw-count', 'labelCustomDrawCount');
     if (ui.inpCustomList) ui.inpCustomList.placeholder = t('customPlaceholder');
-    setText('label-allow-dup', 'labelAllowDup');
     setText('label-sound', 'labelSound');
     setText('label-speed', 'labelSpeed');
     setText('label-btn-quick', 'btnQuick');
@@ -1719,7 +1700,7 @@
 
     let available = [...state.availableIds];
     let count = drawCount;
-    if (!ui.togDup.checked && count > available.length) count = available.length;
+    if (count > available.length) count = available.length;
 
     const speed = Number(ui.sliderSpeed.value);
     const suctionDelay = skip ? 0 : (speed === 1 ? 700 : speed === 2 ? 450 : 250);
@@ -1733,7 +1714,7 @@
       const label = state.pool[selectedId];
       const picked = { id: selectedId, label };
 
-      if (!ui.togDup.checked) available.splice(pickIndex, 1);
+      available.splice(pickIndex, 1);
 
       const ball = state.balls.find((b) => b.id === selectedId);
       if (ball && !skip) {
@@ -1757,13 +1738,8 @@
     const save = [...state.currentResult];
     state.history.push({ time, results: save.map((r) => r.label) });
     renderHistory();
-
-    if (!ui.togDup.checked) {
-      state.availableIds = [...available];
-      state.balls = state.balls.filter((b) => available.includes(b.id));
-    } else {
-      initEngine(state.pool);
-    }
+    state.availableIds = [...available];
+    state.balls = state.balls.filter((b) => available.includes(b.id));
 
     setLocked(false);
   }

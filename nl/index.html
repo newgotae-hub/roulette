@@ -419,13 +419,22 @@
 
                         <div class="p-4 flex-grow flex flex-col">
                             <label for="participant-list" class="sr-only">Deelnemerslijst</label>
-                            <textarea id="participant-list" class="w-full h-24 md:h-64 lg:h-full resize-none bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm md:text-base text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-shadow" placeholder="Typ namen of plak uit Excel. Ondersteunt spaties, komma's, regeleinden, tabs, puntkomma's, slashes en pipes."></textarea>
+                            <textarea id="participant-list" class="w-full h-24 md:h-56 lg:h-auto lg:flex-1 lg:min-h-0 resize-none bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm md:text-base text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-shadow" placeholder="Typ namen of plak uit Excel. Ondersteunt spaties, komma's, regeleinden, tabs, puntkomma's, slashes en pipes."></textarea>
 
                             <button id="apply-list" class="hidden" type="button" aria-hidden="true" tabindex="-1"></button>
 
                         </div>
 
-                        <div class="hidden md:block p-4 border-t border-slate-100 bg-slate-50/60 space-y-4">
+                        <div class="hidden md:block p-4 border-t border-slate-100 bg-slate-50/60 space-y-3">
+                                                        <label class="flex items-center justify-between cursor-pointer group">
+                                <span id="allow-duplicates-label" class="text-sm font-medium text-slate-700">Duplicaten toestaan</span>
+                                <div class="relative">
+                                    <input id="allow-duplicates" type="checkbox" class="sr-only peer" checked>
+                                    <div class="w-9 h-5 bg-slate-200 rounded-full peer peer-checked:bg-slate-900 transition-colors"></div>
+                                    <div class="absolute left-0.5 top-0.5 bg-white w-4 h-4 rounded-full transition-transform peer-checked:translate-x-4 shadow-sm"></div>
+                                </div>
+                            </label>
+
                             <label class="flex items-center justify-between cursor-pointer group">
                                 <span id="auto-exclude-label" class="text-sm font-medium text-slate-700">Winnaars automatisch uitsluiten</span>
                                 <div class="relative">
@@ -656,6 +665,7 @@
                 count: document.getElementById('participant-count'),
                 applyButton: document.getElementById('apply-list'),
                 resetButton: document.getElementById('reset-list'),
+                allowDuplicates: document.getElementById('allow-duplicates'),
                 autoExclude: document.getElementById('auto-exclude'),
                 soundToggle: document.getElementById('sound-toggle'),
                 spinDuration: document.getElementById('spin-duration'),
@@ -722,6 +732,7 @@
                     resetLabel: '초기화',
                     applyLabel: '적용하기',
                     autoExcludeLabel: '당첨자 자동 제외',
+                    allowDuplicatesLabel: '중복참여',
                     soundLabel: '효과음 재생',
                     durationLabel: '추첨 시간',
                     historyTitle: '당첨 내역',
@@ -797,6 +808,7 @@
                     resetLabel: 'Reset',
                     applyLabel: 'Apply',
                     autoExcludeLabel: 'Auto-exclude winners',
+                    allowDuplicatesLabel: 'Allow duplicates',
                     soundLabel: 'Sound effects',
                     durationLabel: 'Spin duration',
                     historyTitle: 'Winning History',
@@ -874,6 +886,7 @@
                           resetLabel: 'リセット',
                           applyLabel: '適用',
                           autoExcludeLabel: '当選者を自動除外',
+                    allowDuplicatesLabel: '重複参加',
                           soundLabel: '効果音',
                           durationLabel: '抽選時間',
                           historyTitle: '当選履歴',
@@ -950,6 +963,7 @@
                           resetLabel: '重置',
                           applyLabel: '应用',
                           autoExcludeLabel: '中奖者自动排除',
+                    allowDuplicatesLabel: '允许重复',
                           soundLabel: '音效',
                           durationLabel: '抽奖时长',
                           historyTitle: '中奖记录',
@@ -1026,6 +1040,7 @@
                           resetLabel: '重設',
                           applyLabel: '套用',
                           autoExcludeLabel: '中選者自動排除',
+                    allowDuplicatesLabel: '允許重複',
                           soundLabel: '音效',
                           durationLabel: '抽籤時間',
                           historyTitle: '抽籤紀錄',
@@ -1102,6 +1117,7 @@
                                                                                                   resetLabel: 'Reiniciar',
                                                                                                   applyLabel: 'Aplicar',
                                                                                                   autoExcludeLabel: 'Excluir ganadores automaticamente',
+                    allowDuplicatesLabel: 'Permitir duplicados',
                                                                                                   soundLabel: 'Sonido',
                                                                                                   durationLabel: 'Duracion del giro',
                                                                                                   historyTitle: 'Historial de ganadores',
@@ -1178,6 +1194,7 @@
                                                   resetLabel: 'Reinitialiser',
                                                   applyLabel: 'Appliquer',
                                                   autoExcludeLabel: 'Exclure automatiquement les gagnants',
+                    allowDuplicatesLabel: 'Autoriser les doublons',
                                                   soundLabel: 'Effets sonores',
                                                   durationLabel: 'Duree du tirage',
                                                   historyTitle: 'Historique des gagnants',
@@ -1254,6 +1271,7 @@
                                                                                                   resetLabel: 'Zuruecksetzen',
                                                                                                   applyLabel: 'Anwenden',
                                                                                                   autoExcludeLabel: 'Gewinner automatisch ausschliessen',
+                    allowDuplicatesLabel: 'Duplikate erlauben',
                                                                                                   soundLabel: 'Soundeffekte',
                                                                                                   durationLabel: 'Drehdauer',
                                                                                                   historyTitle: 'Gewinnerverlauf',
@@ -1330,6 +1348,7 @@
                                                                                                   resetLabel: 'Redefinir',
                                                                                                   applyLabel: 'Aplicar',
                                                                                                   autoExcludeLabel: 'Excluir vencedores automaticamente',
+                    allowDuplicatesLabel: 'Permitir duplicados',
                                                                                                   soundLabel: 'Efeitos sonoros',
                                                                                                   durationLabel: 'Tempo de giro',
                                                                                                   historyTitle: 'Historico de vencedores',
@@ -1406,6 +1425,7 @@
                                                   resetLabel: 'रीसेट',
                                                   applyLabel: 'लागू करें',
                                                   autoExcludeLabel: 'विजेताओं को ऑटो-एक्सक्लूड करें',
+                    allowDuplicatesLabel: 'डुप्लिकेट अनुमति',
                                                   soundLabel: 'साउंड इफेक्ट',
                                                   durationLabel: 'स्पिन समय',
                                                   historyTitle: 'विजेता इतिहास',
@@ -1482,6 +1502,7 @@
                                                   resetLabel: 'إعادة تعيين',
                                                   applyLabel: 'تطبيق',
                                                   autoExcludeLabel: 'استبعاد الفائزين تلقائيًا',
+                    allowDuplicatesLabel: 'السماح بالتكرار',
                                                   soundLabel: 'المؤثرات الصوتية',
                                                   durationLabel: 'مدة الدوران',
                                                   historyTitle: 'سجل الفائزين',
@@ -1558,6 +1579,7 @@
                                                                                                   resetLabel: 'Сброс',
                                                                                                   applyLabel: 'Применить',
                                                                                                   autoExcludeLabel: 'Автоисключение победителей',
+                    allowDuplicatesLabel: 'Разрешить дубликаты',
                                                                                                   soundLabel: 'Звуковые эффекты',
                                                                                                   durationLabel: 'Длительность вращения',
                                                                                                   historyTitle: 'История победителей',
@@ -1634,6 +1656,7 @@
                                                                                                   resetLabel: 'Atur ulang',
                                                                                                   applyLabel: 'Terapkan',
                                                                                                   autoExcludeLabel: 'Keluarkan pemenang otomatis',
+                    allowDuplicatesLabel: 'Izinkan duplikat',
                                                                                                   soundLabel: 'Efek suara',
                                                                                                   durationLabel: 'Durasi putar',
                                                                                                   historyTitle: 'Riwayat pemenang',
@@ -1710,6 +1733,7 @@
                                                   resetLabel: 'Sıfırla',
                                                   applyLabel: 'Uygula',
                                                   autoExcludeLabel: 'Kazananları otomatik çıkar',
+                    allowDuplicatesLabel: 'Tekrara izin ver',
                                                   soundLabel: 'Ses efektleri',
                                                   durationLabel: 'Dönüş süresi',
                                                   historyTitle: 'Kazanan geçmişi',
@@ -2148,6 +2172,7 @@
                 setText('roster-title', 'rosterTitle');
                 setText('reset-label', 'resetLabel');
                 setText('apply-label', 'applyLabel');
+                setText('allow-duplicates-label', 'allowDuplicatesLabel');
                 setText('auto-exclude-label', 'autoExcludeLabel');
                 setText('sound-label', 'soundLabel');
                 setText('duration-label', 'durationLabel');
@@ -2297,11 +2322,13 @@
             }
 
             function parseParticipants(raw) {
-                return raw
+                const parsed = raw
                     .split(/[\s,;|/\\·•ㆍ،，、]+/)
                     .map((v) => v.trim())
-                    .filter(Boolean)
-                    .filter((v, i, arr) => arr.indexOf(v) === i);
+                    .filter(Boolean);
+
+                if (!ui.allowDuplicates || ui.allowDuplicates.checked) return parsed;
+                return parsed.filter((v, i, arr) => arr.indexOf(v) === i);
             }
 
             function toLocalizedTimeString(date) {
@@ -2708,6 +2735,7 @@
             window.addEventListener('resize', updateTextareaPlaceholder);
 
             ui.textarea.addEventListener('input', syncLiveList);
+            ui.allowDuplicates.addEventListener('change', syncLiveList);
             ui.applyButton.addEventListener('click', () => applyList(false));
             ui.resetButton.addEventListener('click', () => {
                 ui.textarea.value = '';
