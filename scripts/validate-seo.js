@@ -61,6 +61,23 @@ function hasRefresh(html) {
   return /<meta http-equiv="refresh"/i.test(html);
 }
 
+function hasUnsafeSyncLangLinks(source) {
+  const match = source.match(/function syncLangLinks\(\)\s*\{[\s\S]*?\n\s*\}/);
+  return !!(match && /searchParams\.set\((['"])lang\1,\s*state\.locale\)/.test(match[0]));
+}
+
+function hasSafeCanonicalPatch(html) {
+  return html.includes('data-rlt-canonical-patch') && html.includes('supportedLangs');
+}
+
+function hasSafeLegalPatch(html) {
+  return html.includes('data-rlt-legal-canonical-patch');
+}
+
+function hasSafeAboutPatch(html) {
+  return html.includes('data-rlt-about-canonical-patch');
+}
+
 function extractLocalHrefs(html) {
   const hrefs = [];
   for (const match of html.matchAll(/href="([^"]+)"/g)) {
@@ -111,6 +128,7 @@ for (const file of files) {
   pages.set(pagePath, {
     file,
     pagePath,
+    html,
     canonical: extractCanonical(html),
     noindex: isNoindex(html),
     refresh: hasRefresh(html),
@@ -129,6 +147,14 @@ for (const page of pages.values()) {
   if (page.refresh) findings.push(`${page.pagePath}: meta refresh redirect page should not be deployed.`);
   if (page.noindex) findings.push(`${page.pagePath}: noindex page should not be deployed.`);
   if (page.canonical !== page.pagePath) findings.push(`${page.pagePath}: canonical mismatch (${page.canonical || 'missing'}).`);
+  if (hasUnsafeSyncLangLinks(page.html)) findings.push(`${page.pagePath}: syncLangLinks adds ?lang= to non-tool links.`);
+
+  const isToolIndex = page.pagePath === '/' || /^\/(?:en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/$/.test(page.pagePath);
+  const isToolPage = /^\/(?:(?:en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?(?:luckydraw|ladder|coinflip|dice)\/$/.test(page.pagePath);
+  const isLegalPage = /^\/(?:(?:en|ja|zh-cn|zh-tw)\/)?(?:contact|privacy|terms)\/$/.test(page.pagePath);
+  if ((isToolIndex || isToolPage) && !hasSafeCanonicalPatch(page.html)) findings.push(`${page.pagePath}: missing safe query normalization patch.`);
+  if (isLegalPage && !hasSafeLegalPatch(page.html)) findings.push(`${page.pagePath}: missing legal page query normalization patch.`);
+  if (page.pagePath === '/about/' && !hasSafeAboutPatch(page.html)) findings.push(`${page.pagePath}: missing about page query normalization patch.`);
 
   const indexable = !page.refresh && !page.noindex && page.canonical === page.pagePath;
   if (indexable && !sitemaps.has(page.pagePath)) findings.push(`${page.pagePath}: indexable page missing from sitemap.`);
@@ -145,6 +171,11 @@ for (const page of pages.values()) {
     if (pages.has(href)) continue;
     findings.push(`${page.pagePath}: internal link target missing ${href}.`);
   }
+}
+
+for (const rel of ['assets/js/lotto.js', 'assets/js/ladder.js', 'scripts/sync-roulette-entrypoints.js', 'scripts/seo-hosting-patch.js']) {
+  const source = fs.readFileSync(path.join(ROOT, rel), 'utf8');
+  if (hasUnsafeSyncLangLinks(source)) findings.push(`${rel}: source still appends ?lang= to non-tool links.`);
 }
 
 if (findings.length) {

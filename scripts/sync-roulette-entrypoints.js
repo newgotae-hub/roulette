@@ -11,6 +11,7 @@ const CANONICAL_PATCH = `    <script data-rlt-canonical-patch>
         try {
           var url = new URL(window.location.href);
           var host = url.hostname.toLowerCase();
+          var supportedLangs = /^${LANG_PATTERN}$/i;
           var toolPathRegex = /^\\/(?:((${LANG_PATTERN}))\\/)?(roulette|luckydraw|ladder|coinflip|dice)\\/?$/i;
           var rootPathRegex = /^\\/(?:((${LANG_PATTERN}))\\/?)?$/i;
           var toolMatch = url.pathname.match(toolPathRegex);
@@ -19,10 +20,12 @@ const CANONICAL_PATCH = `    <script data-rlt-canonical-patch>
           if ((toolMatch || rootMatch) && url.searchParams.has('lang')) {
             var qLang = String(url.searchParams.get('lang') || '').toLowerCase();
             var tool = toolMatch ? toolMatch[3].toLowerCase() : 'roulette';
-            var nextPath = qLang === 'ko' || qLang === ''
-              ? (tool === 'roulette' ? '/' : '/' + tool + '/')
-              : (tool === 'roulette' ? '/' + qLang + '/' : '/' + qLang + '/' + tool + '/');
-            if (nextPath !== url.pathname) { url.pathname = nextPath; changed = true; }
+            if (supportedLangs.test(qLang)) {
+              var nextPath = qLang === 'ko' || qLang === ''
+                ? (tool === 'roulette' ? '/' : '/' + tool + '/')
+                : (tool === 'roulette' ? '/' + qLang + '/' : '/' + qLang + '/' + tool + '/');
+              if (nextPath !== url.pathname) { url.pathname = nextPath; changed = true; }
+            }
             url.searchParams.delete('lang');
             changed = true;
           }
@@ -54,8 +57,7 @@ const SYNC_LANG_LINKS = `            function syncLangLinks() {
                         a.setAttribute('href', \`\${url.pathname}\${url.search}\${url.hash}\`);
                         return;
                     }
-                    if (state.locale === 'ko') url.searchParams.delete('lang');
-                    else url.searchParams.set('lang', state.locale);
+                    url.searchParams.delete('lang');
                     a.setAttribute('href', \`\${url.pathname}\${url.search}\${url.hash}\`);
                 });
             }`;

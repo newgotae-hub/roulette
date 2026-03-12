@@ -5,6 +5,8 @@ const path = require('path');
 const ROOT = path.resolve(__dirname, '..');
 const LOCALES = ['ko', 'en', 'ja', 'zh-cn', 'zh-tw'];
 const LEGAL_PAGES = ['contact', 'privacy', 'terms'];
+const QUERY_LANG_PATTERN = '(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)';
+const LOCALIZED_LEGAL_PATTERN = '(?:en|ja|zh-cn|zh-tw)';
 const DATE_TEXT = {
   ko: '2026년 3월 6일',
   en: 'March 6, 2026',
@@ -507,6 +509,40 @@ function hreflangs(slug, currentLocale) {
   return lines.join('\n');
 }
 
+function legalCanonicalPatch(slug) {
+  return `  <script data-rlt-legal-canonical-patch>
+    (function(){
+      try {
+        var url = new URL(window.location.href);
+        var host = url.hostname.toLowerCase();
+        var supportedLangs = /^${QUERY_LANG_PATTERN}$/i;
+        var localizedLegalLangs = /^${LOCALIZED_LEGAL_PATTERN}$/i;
+        var legalPathRegex = /^\\/(?:(?:${QUERY_LANG_PATTERN})\\/)?${slug}\\/?$/i;
+        var changed = false;
+        if (legalPathRegex.test(url.pathname) && url.searchParams.has('lang')) {
+          var qLang = String(url.searchParams.get('lang') || '').toLowerCase();
+          if (supportedLangs.test(qLang)) {
+            var nextPath = '/' + '${slug}' + '/';
+            if (localizedLegalLangs.test(qLang)) nextPath = '/' + qLang + '/' + '${slug}' + '/';
+            else if (qLang !== 'ko') nextPath = '/en/' + '${slug}' + '/';
+            if (nextPath !== url.pathname) {
+              url.pathname = nextPath;
+              changed = true;
+            }
+          }
+          url.searchParams.delete('lang');
+          changed = true;
+        }
+        if (host === 'www.randomly-pick.com') {
+          url.hostname = 'randomly-pick.com';
+          changed = true;
+        }
+        if (changed) window.location.replace(url.toString());
+      } catch (e) {}
+    })();
+  </script>`;
+}
+
 function layout(locale, slug, pageTitle, description, bodyContent) {
   const homePath = I18N[locale].homePath;
   return `<!doctype html>
@@ -519,6 +555,7 @@ function layout(locale, slug, pageTitle, description, bodyContent) {
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://randomly-pick.com${localePath(locale, slug)}" />
 ${hreflangs(slug, locale)}
+${legalCanonicalPatch(slug)}
   <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
   <style>
     :root {

@@ -251,8 +251,7 @@
         a.setAttribute("href", `${url.pathname}${url.search}${url.hash}`);
         return;
       }
-      if (state.locale === "ko") url.searchParams.delete("lang");
-      else url.searchParams.set("lang", state.locale);
+      url.searchParams.delete("lang");
       a.setAttribute("href", `${url.pathname}${url.search}${url.hash}`);
     });
   }
