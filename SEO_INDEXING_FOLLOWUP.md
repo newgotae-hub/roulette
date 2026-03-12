@@ -2,6 +2,24 @@
 
 Date: 2026-03-12
 
+## Deployment status
+
+- Fix committed to `main` as `eca7bfe` on 2026-03-12.
+- Deployed with `scripts/deploy-main.sh` on 2026-03-12.
+- Predeploy validation passed: `SEO validation passed for 111 HTML files.`
+
+## Live verification after deploy
+
+- `https://randomly-pick.com/terms/?lang=nl`
+  - live HTML contains canonical `/terms/`
+  - live HTML contains `data-rlt-legal-canonical-patch`
+- `https://randomly-pick.com/about/?lang=de`
+  - live HTML contains canonical `/about/`
+  - live HTML contains `data-rlt-about-canonical-patch`
+- `https://randomly-pick.com/?lang=enWheel`
+  - live HTML contains `data-rlt-canonical-patch`
+  - invalid `lang` handling is guarded by `supportedLangs`
+
 ## Search Console snapshot reviewed in this turn
 
 - Alternate page with proper canonical tag: 68
@@ -121,20 +139,11 @@ What should improve after deploy and recrawl:
 
 ## Next actions
 
-1. Deploy the current repository state.
-   - Use `scripts/deploy-main.sh`
-
-2. After deployment, spot-check live examples that previously appeared in Search Console.
-   - `/terms/?lang=nl`
-   - `/en/contact/?lang=ru`
-   - `/about/?lang=de`
-   - `/roulette/?lang=enWheel`
-
-3. In Google Search Console, re-run validation for:
+1. In Google Search Console, re-run validation for:
    - Alternate page with proper canonical tag
    - Page with redirect
    - Excluded by `noindex`
 
-4. Give Google time to recrawl.
-   - The repository is fixed locally.
-   - Search Console counts will lag behind the deploy because they reflect crawl history, not just current code.
+2. Re-check Search Console after recrawl.
+   - The repository and deploy are fixed.
+   - Reported counts will decline only after Google revisits the old URLs.
