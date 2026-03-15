@@ -61,3 +61,8 @@ How to use it:
 
 - Added a dedicated shuffle action to the team split result toolbar across localized team-generator pages.
 - Wired random-mode shuffle to reshuffle assignments and balanced-mode shuffle to swap nearby members while keeping team sizes fixed and score balance disruption minimal.
+
+### Korean team split hero copy simplified
+
+- Updated the Korean `/team-generator/` hero title to `팀 나누기 (랜덤/균형)` and simplified the supporting description.
+- Removed the duplicate default results-intro sentence on the Korean page and hid the empty result meta block until generated results need to show mode-specific guidance.

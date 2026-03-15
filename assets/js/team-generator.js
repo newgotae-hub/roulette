@@ -586,12 +586,18 @@
   }
 
   function renderSummary(result) {
+    const setResultMeta = (message) => {
+      const content = String(message || "").trim();
+      ui.resultMeta.textContent = content;
+      ui.resultMeta.classList.toggle("hidden", !content);
+    };
+
     if (!result) {
       ui.summaryMode.textContent = t("modeBeforeGenerate");
       ui.summarySize.textContent = "-";
       ui.summaryScore.textContent = "-";
       ui.summaryTotal.textContent = "-";
-      ui.resultMeta.textContent = t("resultMetaDefault");
+      setResultMeta(t("resultMetaDefault"));
       return;
     }
 
@@ -603,9 +609,9 @@
     ui.summaryTotal.textContent = result.parsed.scoredCount > 0
       ? result.teamTotals.map((value) => formatScore(value)).join(" / ")
       : t("summaryParticipants", { count: result.parsed.players.length });
-    ui.resultMeta.textContent = result.effectiveMode === "balanced"
+    setResultMeta(result.effectiveMode === "balanced"
       ? t("resultMetaBalanced")
-      : t("resultMetaRandom");
+      : t("resultMetaRandom"));
   }
 
   function renderTeams(result) {
