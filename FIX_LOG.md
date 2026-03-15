@@ -66,3 +66,8 @@ How to use it:
 
 - Updated the Korean `/team-generator/` hero title to `팀 나누기 (랜덤/균형)` and simplified the supporting description.
 - Removed the duplicate default results-intro sentence on the Korean page and hid the empty result meta block until generated results need to show mode-specific guidance.
+
+### Team split script cache-busting for stale localized copy
+
+- Added version query parameters to `team-generator` script includes across all localized team split pages.
+- This forces browsers to fetch the updated `team-generator-i18n.js` and `team-generator.js` files instead of reusing stale cached copies that could reapply old text after deployment.
