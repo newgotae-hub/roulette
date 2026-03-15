@@ -287,7 +287,7 @@
           var url = new URL(window.location.href);
           var host = url.hostname.toLowerCase();
           var supportedLangs = /^(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)$/i;
-          var m = url.pathname.match(/^\/(?:((?:(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)))\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i);
+          var m = url.pathname.match(/^\/(?:((?:(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)))\/)?(roulette|luckydraw|ladder|team-generator|coinflip|dice)\/?$/i);
           var changed = false;
           if (m && url.searchParams.has('lang')) {
             var qLang = String(url.searchParams.get('lang') || '').toLowerCase();
@@ -328,6 +328,7 @@
           <a id="nav-spin" href="/pt-br/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Roleta</a>
           <a id="nav-lotto" href="/pt-br/luckydraw/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Sorteio</a>
           <a id="nav-ladder" href="/pt-br/ladder/" class="text-sm font-medium text-slate-900">Escada</a>
+          <a id="nav-team" href="/pt-br/team-generator/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Times</a>
           <a id="nav-coin" href="/pt-br/coinflip/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Moeda</a>
           <a id="nav-dice" href="/pt-br/dice/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Dados</a>
         </nav>
@@ -364,6 +365,7 @@
         <a href="/pt-br/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Roleta</a>
         <a href="/pt-br/luckydraw/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Loto</a>
         <a href="/pt-br/ladder/" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-900 text-white">Escada</a>
+        <a id="mnav-team" href="/pt-br/team-generator/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Times</a>
         <a id="mnav-coin" href="/pt-br/coinflip/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Moeda</a>
         <a id="mnav-dice" href="/pt-br/dice/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Dado</a>
       </nav>

@@ -428,7 +428,7 @@
           var url = new URL(window.location.href);
           var host = url.hostname.toLowerCase();
           var supportedLangs = /^(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)$/i;
-          var m = url.pathname.match(/^\/(?:((?:(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)))\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i);
+          var m = url.pathname.match(/^\/(?:((?:(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)))\/)?(roulette|luckydraw|ladder|team-generator|coinflip|dice)\/?$/i);
           var changed = false;
           if (m && url.searchParams.has('lang')) {
             var qLang = String(url.searchParams.get('lang') || '').toLowerCase();
@@ -469,6 +469,7 @@
           <a id="nav-spin" href="/vi/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Vòng quay</a>
           <a id="nav-lotto" href="/vi/luckydraw/" class="text-sm font-medium text-slate-900">Bốc thăm</a>
           <a id="nav-history" href="/vi/ladder/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Cầu thang</a>
+          <a id="nav-team" href="/vi/team-generator/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Chia đội</a>
           <a id="nav-coin" href="/vi/coinflip/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Tung xu</a>
           <a id="nav-dice" href="/vi/dice/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Xúc xắc</a>
         </nav>
@@ -504,6 +505,7 @@
         <a href="/vi/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Vòng quay</a>
         <a href="/vi/luckydraw/" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-900 text-white">Lotto</a>
         <a href="/vi/ladder/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Thang</a>
+        <a id="mnav-team" href="/vi/team-generator/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Đội</a>
         <a href="/vi/coinflip/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Xu</a>
         <a href="/vi/dice/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Xúc xắc</a>
         <button id="lang-trigger-mobile" type="button" aria-label="Change language" class="px-2.5 py-1.5 rounded-full border border-slate-200 bg-white text-slate-600">

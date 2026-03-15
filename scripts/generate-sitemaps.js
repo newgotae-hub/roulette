@@ -4,7 +4,7 @@ const path = require('path');
 
 const root = path.resolve(__dirname, '..');
 const langs = ['en','ja','zh-cn','zh-tw','es','fr','de','pt-br','hi','ar','ru','id','tr','it','vi','th','nl'];
-const tools = ['roulette','luckydraw','ladder','coinflip','dice'];
+const tools = ['roulette','luckydraw','ladder','team-generator','coinflip','dice'];
 const legalPages = ['privacy','terms','contact','about'];
 const localizedLegalLangs = ['en', 'ja', 'zh-cn', 'zh-tw'];
 const localizedLegalPages = ['privacy', 'terms', 'contact'];

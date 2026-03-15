@@ -342,7 +342,7 @@
           var url = new URL(window.location.href);
           var host = url.hostname.toLowerCase();
           var supportedLangs = /^(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)$/i;
-          var m = url.pathname.match(/^\/(?:((?:(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)))\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i);
+          var m = url.pathname.match(/^\/(?:((?:(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)))\/)?(roulette|luckydraw|ladder|team-generator|coinflip|dice)\/?$/i);
           var changed = false;
           if (m && url.searchParams.has('lang')) {
             var qLang = String(url.searchParams.get('lang') || '').toLowerCase();
@@ -383,6 +383,7 @@
           <a id="nav-spin" href="/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">룰렛돌리기</a>
           <a id="nav-lotto" href="/luckydraw/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">로또추첨기</a>
           <a id="nav-ladder" href="/ladder/" class="text-sm font-medium text-slate-900">사다리타기</a>
+          <a id="nav-team" href="/team-generator/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">팀 나누기</a>
           <a id="nav-coin" href="/coinflip/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">코인던지기</a>
           <a id="nav-dice" href="/dice/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">주사위굴리기</a>
         </nav>
@@ -419,6 +420,7 @@
         <a href="/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">룰렛</a>
         <a href="/luckydraw/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">로또</a>
         <a href="/ladder/" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-900 text-white">사다리</a>
+        <a id="mnav-team" href="/team-generator/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">팀</a>
         <a id="mnav-coin" href="/coinflip/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">코인</a>
         <a id="mnav-dice" href="/dice/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">주사위</a>
       </nav>

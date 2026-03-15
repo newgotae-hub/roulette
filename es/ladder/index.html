@@ -287,7 +287,7 @@
           var url = new URL(window.location.href);
           var host = url.hostname.toLowerCase();
           var supportedLangs = /^(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)$/i;
-          var m = url.pathname.match(/^\/(?:((?:(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)))\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i);
+          var m = url.pathname.match(/^\/(?:((?:(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)))\/)?(roulette|luckydraw|ladder|team-generator|coinflip|dice)\/?$/i);
           var changed = false;
           if (m && url.searchParams.has('lang')) {
             var qLang = String(url.searchParams.get('lang') || '').toLowerCase();
@@ -328,6 +328,7 @@
           <a id="nav-spin" href="/es/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Ruleta</a>
           <a id="nav-lotto" href="/es/luckydraw/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Sorteo</a>
           <a id="nav-ladder" href="/es/ladder/" class="text-sm font-medium text-slate-900">Escalera</a>
+          <a id="nav-team" href="/es/team-generator/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Equipos</a>
           <a id="nav-coin" href="/es/coinflip/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Moneda</a>
           <a id="nav-dice" href="/es/dice/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Dados</a>
         </nav>
@@ -364,6 +365,7 @@
         <a href="/es/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Ruleta</a>
         <a href="/es/luckydraw/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Lotto</a>
         <a href="/es/ladder/" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-900 text-white">Escalera</a>
+        <a id="mnav-team" href="/es/team-generator/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Equipos</a>
         <a id="mnav-coin" href="/es/coinflip/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Moneda</a>
         <a id="mnav-dice" href="/es/dice/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Dados</a>
       </nav>

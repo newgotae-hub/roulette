@@ -510,7 +510,7 @@
           var url = new URL(window.location.href);
           var host = url.hostname.toLowerCase();
           var supportedLangs = /^(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)$/i;
-          var m = url.pathname.match(/^\/(?:((?:(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)))\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i);
+          var m = url.pathname.match(/^\/(?:((?:(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)))\/)?(roulette|luckydraw|ladder|team-generator|coinflip|dice)\/?$/i);
           var changed = false;
           if (m && url.searchParams.has('lang')) {
             var qLang = String(url.searchParams.get('lang') || '').toLowerCase();
@@ -552,6 +552,7 @@
           <a id="nav-spin" href="/ar/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">العجلة</a>
           <a id="nav-lotto" href="/ar/luckydraw/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">السحب</a>
           <a id="nav-history" href="/ar/ladder/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">السلم</a>
+          <a id="nav-team" href="/ar/team-generator/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">تقسيم الفرق</a>
           <a id="nav-coin" href="/ar/coinflip/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">العملة</a>
           <a id="nav-dice" href="/ar/dice/" class="text-sm font-medium text-slate-900">النرد</a>
         </nav>
@@ -587,6 +588,7 @@
         <a id="mnav-spin" href="/ar/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">العجلة</a>
         <a id="mnav-lotto" href="/ar/luckydraw/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">السحب</a>
         <a id="mnav-history" href="/ar/ladder/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">السلم</a>
+        <a id="mnav-team" href="/ar/team-generator/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">فرق</a>
         <a id="mnav-coin" href="/ar/coinflip/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">العملة</a>
         <a id="mnav-dice" href="/ar/dice/" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-900 text-white">النرد</a>
       </nav>
@@ -2216,7 +2218,7 @@
         try { window.localStorage.setItem('rlt-lang', next); } catch (e) {}
         try {
           const url = new URL(window.location.href);
-          const currentToolMatch = url.pathname.match(/^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i);
+          const currentToolMatch = url.pathname.match(/^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?(roulette|luckydraw|ladder|team-generator|coinflip|dice)\/?$/i);
           if (currentToolMatch) {
             const tool = currentToolMatch[2].toLowerCase();
             const nextPath = next === 'ko' ? `/${tool}/` : `/${next}/${tool}/`;
@@ -2280,7 +2282,7 @@
       }
 
             function syncLangLinks() {
-        const toolPathRegex = /^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i;
+        const toolPathRegex = /^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?(roulette|luckydraw|ladder|team-generator|coinflip|dice)\/?$/i;
         document.querySelectorAll("a[href]").forEach((a) => {
           const href = a.getAttribute("href");
           if (!href || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:") || href.startsWith("javascript:")) return;

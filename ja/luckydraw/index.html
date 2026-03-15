@@ -428,7 +428,7 @@
           var url = new URL(window.location.href);
           var host = url.hostname.toLowerCase();
           var supportedLangs = /^(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)$/i;
-          var m = url.pathname.match(/^\/(?:((?:(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)))\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i);
+          var m = url.pathname.match(/^\/(?:((?:(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)))\/)?(roulette|luckydraw|ladder|team-generator|coinflip|dice)\/?$/i);
           var changed = false;
           if (m && url.searchParams.has('lang')) {
             var qLang = String(url.searchParams.get('lang') || '').toLowerCase();
@@ -469,6 +469,7 @@
           <a id="nav-spin" href="/ja/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">ルーレット</a>
           <a id="nav-lotto" href="/ja/luckydraw/" class="text-sm font-medium text-slate-900">ラッキードロー</a>
           <a id="nav-history" href="/ja/ladder/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">あみだくじ</a>
+          <a id="nav-team" href="/ja/team-generator/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">チーム分け</a>
           <a id="nav-coin" href="/ja/coinflip/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">コイントス</a>
           <a id="nav-dice" href="/ja/dice/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">サイコロ</a>
         </nav>
@@ -504,6 +505,7 @@
         <a href="/ja/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">ルーレット</a>
         <a href="/ja/luckydraw/" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-900 text-white">ロト</a>
         <a href="/ja/ladder/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">あみだ</a>
+        <a id="mnav-team" href="/ja/team-generator/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">チーム</a>
         <a href="/ja/coinflip/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">コイン</a>
         <a href="/ja/dice/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">サイコロ</a>
         <button id="lang-trigger-mobile" type="button" aria-label="Change language" class="px-2.5 py-1.5 rounded-full border border-slate-200 bg-white text-slate-600">

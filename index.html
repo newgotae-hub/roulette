@@ -355,7 +355,7 @@
           var url = new URL(window.location.href);
           var host = url.hostname.toLowerCase();
           var supportedLangs = /^(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)$/i;
-          var toolPathRegex = /^\/(?:(((?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)))\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i;
+          var toolPathRegex = /^\/(?:(((?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)))\/)?(roulette|luckydraw|ladder|team-generator|coinflip|dice)\/?$/i;
           var rootPathRegex = /^\/(?:(((?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)))\/?)?$/i;
           var toolMatch = url.pathname.match(toolPathRegex);
           var rootMatch = url.pathname.match(rootPathRegex);
@@ -402,6 +402,7 @@
                     <a id="nav-spin" href="/" class="text-sm font-medium text-slate-900">룰렛돌리기</a>
                     <a id="nav-lotto" href="/luckydraw/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">로또추첨기</a>
                     <a id="nav-history" href="/ladder/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">사다리타기</a>
+                    <a id="nav-team" href="/team-generator/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">팀 나누기</a>
                     <a id="nav-coin" href="/coinflip/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">코인던지기</a>
                     <a id="nav-dice" href="/dice/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">주사위굴리기</a>
                 </nav>
@@ -437,6 +438,7 @@
                 <a href="/" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-900 text-white">룰렛</a>
                 <a href="/luckydraw/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">로또</a>
                 <a href="/ladder/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">사다리</a>
+                <a id="mnav-team" href="/team-generator/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">팀</a>
                 <a href="/coinflip/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">코인</a>
                 <a href="/dice/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">주사위</a>
                 <button id="lang-trigger-mobile" type="button" aria-label="언어 변경" class="px-2.5 py-1.5 rounded-full border border-slate-200 bg-white text-slate-600">
@@ -671,6 +673,7 @@
           <div class="mt-3 flex flex-wrap gap-2 text-sm">
             <a href="/luckydraw/" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">로또/번호 추첨기</a>
             <a href="/ladder/" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">사다리타기</a>
+            <a href="/team-generator/" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">팀 나누기</a>
             <a href="/coinflip/" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">코인 던지기</a>
             <a href="/dice/" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">주사위 굴리기</a>
           </div>
@@ -2191,7 +2194,7 @@
             }
 
                                     function syncLangLinks() {
-                const toolPathRegex = /^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i;
+                const toolPathRegex = /^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?(roulette|luckydraw|ladder|team-generator|coinflip|dice)\/?$/i;
                 const rootPathRegex = /^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/?)?$/i;
                 document.querySelectorAll('a[href]').forEach((a) => {
                     const href = a.getAttribute('href');
@@ -2363,7 +2366,7 @@
                 } catch (e) {}
                 try {
                     const url = new URL(window.location.href);
-                    const toolPathRegex = /^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i;
+                    const toolPathRegex = /^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?(roulette|luckydraw|ladder|team-generator|coinflip|dice)\/?$/i;
                     const rootPathRegex = /^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/?)?$/i;
                     const currentToolMatch = url.pathname.match(toolPathRegex);
                     const currentRootMatch = url.pathname.match(rootPathRegex);

@@ -510,7 +510,7 @@
           var url = new URL(window.location.href);
           var host = url.hostname.toLowerCase();
           var supportedLangs = /^(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)$/i;
-          var m = url.pathname.match(/^\/(?:((?:(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)))\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i);
+          var m = url.pathname.match(/^\/(?:((?:(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)))\/)?(roulette|luckydraw|ladder|team-generator|coinflip|dice)\/?$/i);
           var changed = false;
           if (m && url.searchParams.has('lang')) {
             var qLang = String(url.searchParams.get('lang') || '').toLowerCase();
@@ -552,6 +552,7 @@
           <a id="nav-spin" href="/ru/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Колесо</a>
           <a id="nav-lotto" href="/ru/luckydraw/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Розыгрыш</a>
           <a id="nav-history" href="/ru/ladder/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Лестница</a>
+          <a id="nav-team" href="/ru/team-generator/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Команды</a>
           <a id="nav-coin" href="/ru/coinflip/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Монета</a>
           <a id="nav-dice" href="/ru/dice/" class="text-sm font-medium text-slate-900">Кости</a>
         </nav>
@@ -587,6 +588,7 @@
         <a id="mnav-spin" href="/ru/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Колесо</a>
         <a id="mnav-lotto" href="/ru/luckydraw/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Розыгрыш</a>
         <a id="mnav-history" href="/ru/ladder/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Лестница</a>
+        <a id="mnav-team" href="/ru/team-generator/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Команды</a>
         <a id="mnav-coin" href="/ru/coinflip/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Монета</a>
         <a id="mnav-dice" href="/ru/dice/" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-900 text-white">Кости</a>
       </nav>
@@ -2216,7 +2218,7 @@
         try { window.localStorage.setItem('rlt-lang', next); } catch (e) {}
         try {
           const url = new URL(window.location.href);
-          const currentToolMatch = url.pathname.match(/^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i);
+          const currentToolMatch = url.pathname.match(/^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?(roulette|luckydraw|ladder|team-generator|coinflip|dice)\/?$/i);
           if (currentToolMatch) {
             const tool = currentToolMatch[2].toLowerCase();
             const nextPath = next === 'ko' ? `/${tool}/` : `/${next}/${tool}/`;
@@ -2280,7 +2282,7 @@
       }
 
             function syncLangLinks() {
-        const toolPathRegex = /^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i;
+        const toolPathRegex = /^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?(roulette|luckydraw|ladder|team-generator|coinflip|dice)\/?$/i;
         document.querySelectorAll("a[href]").forEach((a) => {
           const href = a.getAttribute("href");
           if (!href || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:") || href.startsWith("javascript:")) return;

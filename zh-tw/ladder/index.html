@@ -287,7 +287,7 @@
           var url = new URL(window.location.href);
           var host = url.hostname.toLowerCase();
           var supportedLangs = /^(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)$/i;
-          var m = url.pathname.match(/^\/(?:((?:(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)))\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i);
+          var m = url.pathname.match(/^\/(?:((?:(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)))\/)?(roulette|luckydraw|ladder|team-generator|coinflip|dice)\/?$/i);
           var changed = false;
           if (m && url.searchParams.has('lang')) {
             var qLang = String(url.searchParams.get('lang') || '').toLowerCase();
@@ -328,6 +328,7 @@
           <a id="nav-spin" href="/zh-tw/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">轉盤</a>
           <a id="nav-lotto" href="/zh-tw/luckydraw/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">幸運抽籤</a>
           <a id="nav-ladder" href="/zh-tw/ladder/" class="text-sm font-medium text-slate-900">爬梯抽籤</a>
+          <a id="nav-team" href="/zh-tw/team-generator/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">分組</a>
           <a id="nav-coin" href="/zh-tw/coinflip/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">擲硬幣</a>
           <a id="nav-dice" href="/zh-tw/dice/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">擲骰子</a>
         </nav>
@@ -364,6 +365,7 @@
         <a href="/zh-tw/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">轉盤</a>
         <a href="/zh-tw/luckydraw/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">樂透</a>
         <a href="/zh-tw/ladder/" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-900 text-white">梯子</a>
+        <a id="mnav-team" href="/zh-tw/team-generator/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">分組</a>
         <a id="mnav-coin" href="/zh-tw/coinflip/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">硬幣</a>
         <a id="mnav-dice" href="/zh-tw/dice/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">骰子</a>
       </nav>

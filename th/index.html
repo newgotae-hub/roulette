@@ -305,7 +305,7 @@
           var url = new URL(window.location.href);
           var host = url.hostname.toLowerCase();
           var supportedLangs = /^(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)$/i;
-          var toolPathRegex = /^\/(?:(((?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)))\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i;
+          var toolPathRegex = /^\/(?:(((?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)))\/)?(roulette|luckydraw|ladder|team-generator|coinflip|dice)\/?$/i;
           var rootPathRegex = /^\/(?:(((?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)))\/?)?$/i;
           var toolMatch = url.pathname.match(toolPathRegex);
           var rootMatch = url.pathname.match(rootPathRegex);
@@ -352,6 +352,7 @@
                     <a id="nav-spin" href="/th/" class="text-sm font-medium text-slate-900">วงล้อ</a>
                     <a id="nav-lotto" href="/th/luckydraw/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">จับสลาก</a>
                     <a id="nav-history" href="/th/ladder/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">บันได</a>
+                    <a id="nav-team" href="/th/team-generator/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">แบ่งทีม</a>
                     <a id="nav-coin" href="/th/coinflip/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">โยนเหรียญ</a>
                     <a id="nav-dice" href="/th/dice/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">ทอยเต๋า</a>
                 </nav>
@@ -387,6 +388,7 @@
                 <a href="/th/" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-900 text-white">วงล้อ</a>
                 <a href="/th/luckydraw/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">ลอตโต</a>
                 <a href="/th/ladder/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">บันได</a>
+                <a id="mnav-team" href="/th/team-generator/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">ทีม</a>
                 <a href="/th/coinflip/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">เหรียญ</a>
                 <a href="/th/dice/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">ลูกเต๋า</a>
                 <button id="lang-trigger-mobile" type="button" aria-label="Change language" class="px-2.5 py-1.5 rounded-full border border-slate-200 bg-white text-slate-600">
@@ -2121,7 +2123,7 @@
             }
 
                                     function syncLangLinks() {
-                const toolPathRegex = /^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i;
+                const toolPathRegex = /^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?(roulette|luckydraw|ladder|team-generator|coinflip|dice)\/?$/i;
                 const rootPathRegex = /^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/?)?$/i;
                 document.querySelectorAll('a[href]').forEach((a) => {
                     const href = a.getAttribute('href');
@@ -2293,7 +2295,7 @@
                 } catch (e) {}
                 try {
                     const url = new URL(window.location.href);
-                    const toolPathRegex = /^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i;
+                    const toolPathRegex = /^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?(roulette|luckydraw|ladder|team-generator|coinflip|dice)\/?$/i;
                     const rootPathRegex = /^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/?)?$/i;
                     const currentToolMatch = url.pathname.match(toolPathRegex);
                     const currentRootMatch = url.pathname.match(rootPathRegex);

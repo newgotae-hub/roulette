@@ -428,7 +428,7 @@
           var url = new URL(window.location.href);
           var host = url.hostname.toLowerCase();
           var supportedLangs = /^(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)$/i;
-          var m = url.pathname.match(/^\/(?:((?:(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)))\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i);
+          var m = url.pathname.match(/^\/(?:((?:(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)))\/)?(roulette|luckydraw|ladder|team-generator|coinflip|dice)\/?$/i);
           var changed = false;
           if (m && url.searchParams.has('lang')) {
             var qLang = String(url.searchParams.get('lang') || '').toLowerCase();
@@ -469,6 +469,7 @@
           <a id="nav-spin" href="/ru/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Колесо</a>
           <a id="nav-lotto" href="/ru/luckydraw/" class="text-sm font-medium text-slate-900">Розыгрыш</a>
           <a id="nav-history" href="/ru/ladder/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Лестница</a>
+          <a id="nav-team" href="/ru/team-generator/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Команды</a>
           <a id="nav-coin" href="/ru/coinflip/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Монета</a>
           <a id="nav-dice" href="/ru/dice/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Кости</a>
         </nav>
@@ -504,6 +505,7 @@
         <a href="/ru/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Колесо</a>
         <a href="/ru/luckydraw/" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-900 text-white">Лото</a>
         <a href="/ru/ladder/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Лестница</a>
+        <a id="mnav-team" href="/ru/team-generator/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Команды</a>
         <a href="/ru/coinflip/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Монета</a>
         <a href="/ru/dice/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Кубики</a>
         <button id="lang-trigger-mobile" type="button" aria-label="Change language" class="px-2.5 py-1.5 rounded-full border border-slate-200 bg-white text-slate-600">

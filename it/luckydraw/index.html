@@ -428,7 +428,7 @@
           var url = new URL(window.location.href);
           var host = url.hostname.toLowerCase();
           var supportedLangs = /^(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)$/i;
-          var m = url.pathname.match(/^\/(?:((?:(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)))\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i);
+          var m = url.pathname.match(/^\/(?:((?:(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)))\/)?(roulette|luckydraw|ladder|team-generator|coinflip|dice)\/?$/i);
           var changed = false;
           if (m && url.searchParams.has('lang')) {
             var qLang = String(url.searchParams.get('lang') || '').toLowerCase();
@@ -469,6 +469,7 @@
           <a id="nav-spin" href="/it/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Ruota</a>
           <a id="nav-lotto" href="/it/luckydraw/" class="text-sm font-medium text-slate-900">Sorteggio</a>
           <a id="nav-history" href="/it/ladder/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Scala</a>
+          <a id="nav-team" href="/it/team-generator/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Squadre</a>
           <a id="nav-coin" href="/it/coinflip/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Moneta</a>
           <a id="nav-dice" href="/it/dice/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Dadi</a>
         </nav>
@@ -504,6 +505,7 @@
         <a href="/it/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Ruota</a>
         <a href="/it/luckydraw/" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-900 text-white">Lotto</a>
         <a href="/it/ladder/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Scala</a>
+        <a id="mnav-team" href="/it/team-generator/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Squadre</a>
         <a href="/it/coinflip/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Moneta</a>
         <a href="/it/dice/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Dadi</a>
         <button id="lang-trigger-mobile" type="button" aria-label="Change language" class="px-2.5 py-1.5 rounded-full border border-slate-200 bg-white text-slate-600">
