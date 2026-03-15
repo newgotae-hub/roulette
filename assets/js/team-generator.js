@@ -104,6 +104,7 @@
     fullscreenLabel: document.getElementById("fullscreen-label"),
     fullscreenHint: document.getElementById("fullscreen-hint"),
     fullscreenHintText: document.getElementById("fullscreen-hint-text"),
+    workspaceShell: document.getElementById("workspace-shell"),
     rosterInput: document.getElementById("roster-input"),
     teamCount: document.getElementById("team-count"),
     teamCountHint: document.getElementById("team-count-hint"),
@@ -917,6 +918,22 @@
     }, 2400);
   }
 
+  function scrollWorkspaceIntoView() {
+    if (!ui.workspaceShell) return;
+    const top = ui.workspaceShell.getBoundingClientRect().top + window.scrollY - 8;
+    window.scrollTo({ top: Math.max(0, top), left: 0, behavior: "auto" });
+  }
+
+  function syncFullscreenLayout() {
+    const active = !!document.fullscreenElement;
+    document.body.classList.toggle("team-fullscreen-active", active);
+    updateFullscreenButton();
+    if (!active) return;
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(scrollWorkspaceIntoView);
+    });
+  }
+
   async function toggleFullscreen() {
     if (!document.fullscreenEnabled) return;
     if (ui.fullscreenHint) ui.fullscreenHint.classList.add("hidden");
@@ -927,12 +944,11 @@
         await document.documentElement.requestFullscreen();
       }
     } catch (error) {}
-    updateFullscreenButton();
   }
 
   function bindEvents() {
     if (ui.fullscreenToggle) ui.fullscreenToggle.addEventListener("click", toggleFullscreen);
-    document.addEventListener("fullscreenchange", updateFullscreenButton);
+    document.addEventListener("fullscreenchange", syncFullscreenLayout);
 
     ui.rosterInput.addEventListener("input", () => {
       invalidateResult();
@@ -965,29 +981,35 @@
     ui.copyBtn.addEventListener("click", copyResults);
     ui.exportBtn.addEventListener("click", exportCsv);
 
-    ui.clearBtn.addEventListener("click", () => {
-      ui.rosterInput.value = "";
-      invalidateResult();
-      refreshPreview();
-    });
+    if (ui.clearBtn) {
+      ui.clearBtn.addEventListener("click", () => {
+        ui.rosterInput.value = "";
+        invalidateResult();
+        refreshPreview();
+      });
+    }
 
-    ui.sampleRandomBtn.addEventListener("click", () => {
-      ui.rosterInput.value = SAMPLE_RANDOM.join("\n");
-      ui.teamCount.value = "2";
-      setSelectedMode("random");
-      invalidateResult();
-      refreshPreview();
-      generateTeams();
-    });
+    if (ui.sampleRandomBtn) {
+      ui.sampleRandomBtn.addEventListener("click", () => {
+        ui.rosterInput.value = SAMPLE_RANDOM.join("\n");
+        ui.teamCount.value = "2";
+        setSelectedMode("random");
+        invalidateResult();
+        refreshPreview();
+        generateTeams();
+      });
+    }
 
-    ui.sampleBalancedBtn.addEventListener("click", () => {
-      ui.rosterInput.value = SAMPLE_BALANCED.join("\n");
-      ui.teamCount.value = "3";
-      setSelectedMode("balanced");
-      invalidateResult();
-      refreshPreview();
-      generateTeams();
-    });
+    if (ui.sampleBalancedBtn) {
+      ui.sampleBalancedBtn.addEventListener("click", () => {
+        ui.rosterInput.value = SAMPLE_BALANCED.join("\n");
+        ui.teamCount.value = "3";
+        setSelectedMode("balanced");
+        invalidateResult();
+        refreshPreview();
+        generateTeams();
+      });
+    }
   }
 
   function init() {
@@ -996,7 +1018,7 @@
     renderTeams(null);
     bindEvents();
     refreshPreview();
-    updateFullscreenButton();
+    syncFullscreenLayout();
     showFullscreenHint();
   }
 
