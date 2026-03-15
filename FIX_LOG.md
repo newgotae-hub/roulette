@@ -185,3 +185,11 @@ How to use it:
 - Confirmed live `https://randomly-pick.com/sitemap.xml` and `https://randomly-pick.com/sitemap-index.xml` currently return byte-identical XML, so the issue was not malformed sitemap content.
 - Standardized the public crawler-facing sitemap directive in `robots.txt` to `https://randomly-pick.com/sitemap.xml`, since that is the URL Search Console is accepting reliably.
 - Extended the SEO validator so future deploys fail if `robots.txt` stops advertising `https://randomly-pick.com/sitemap.xml`.
+
+### 2026-03-15 - Team-generator locale pages resynced and guarded against translation drift
+
+- Repaired the shared team-generator locale bundle so bad locale values such as the Japanese mixed-language stat label and the Traditional Chinese example-title drift were removed.
+- Added shared locale keys for localized example headers and language-toggle aria labels, and extended the runtime i18n apply path to keep those fields synced on load.
+- Added `scripts/sync-team-generator-locales.js` and used it to resync all 18 team-generator locale pages so visible static HTML no longer falls back to stale English copy.
+- Extended `scripts/validate-seo.js` so future deploys fail if team-generator locale HTML drifts from the shared bundle or if obvious English static copy returns on non-English pages.
+- Detailed notes: [TEAM_GENERATOR_TRANSLATION_AUDIT_2026-03-15.md](/home/user/roulette/TEAM_GENERATOR_TRANSLATION_AUDIT_2026-03-15.md)
