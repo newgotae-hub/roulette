@@ -78,6 +78,16 @@ How to use it:
 - Added fullscreen-specific workspace layout rules so the hero and guide sections are hidden while the controls and results panels fit the viewport more tightly.
 - Updated fullscreen behavior to jump directly to the team split workspace after entering fullscreen and refreshed the team split script URLs again to force clients onto the new layout logic.
 - Increased the team split roster textarea height after compacting the top control area so the freed space goes back into the main input field in both normal and fullscreen layouts.
+
+### Dice and coin 3D runtime pinned to a stable `model-viewer` build
+
+- Confirmed the team-split rollout and later favicon-related work did not change the dice/coin roll logic; both pages had been loading `model-viewer` from an unversioned CDN URL since the original GLB integration on `2026-03-02`.
+- Pinned every root and localized dice/coin page to `@google/model-viewer@3.5.0` so the uploaded `dice.glb` and `stylized_pirate_coin.glb` no longer depend on whichever runtime version unpkg serves at request time.
+- Kept the existing `model-viewer`-based 3D motion path and GLB asset references instead of adding another wrapper-animation workaround.
+- Detailed notes: [DICE_COIN_MOTION_ROOT_CAUSE_2026-03-15.md](/home/user/roulette/DICE_COIN_MOTION_ROOT_CAUSE_2026-03-15.md)
+
+### Team split top controls compressed further
+
 - Further compressed the top control cluster by reducing card padding, label sizes, quick team-count buttons, and summary stat box height so the mode/team-count/participant block takes less vertical space before the roster input.
 
 ### Korean team split stat copy and team-count spacing polish

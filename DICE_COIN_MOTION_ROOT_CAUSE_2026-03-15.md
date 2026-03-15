@@ -2,39 +2,34 @@
 
 Date: 2026-03-15
 
-Status: Updated after confirming the shell-transform workaround stayed removed and the Korean root pages now keep the original 3D `model-viewer` rotation path even when motion reduction is enabled.
+Status: Updated after confirming the shell-transform workaround stayed removed and the actual unstable dependency was the unversioned `model-viewer` runtime loaded from CDN.
 
 ## Summary
 
-- Dice and coin animation code was still present, but the visible rotation path was not rendering reliably.
-- Both tools were also short-circuiting to their final result when `prefers-reduced-motion: reduce` was active.
-- The combined result was that users could hear the sound and see the final result change, but not see an obvious roll or flip motion.
+- Dice and coin animation code was still present, and both pages were still using the uploaded GLB assets.
+- The unstable point was the unversioned `model-viewer` runtime URL, which allowed renderer behavior to change without any repository diff in the roll/flip logic.
+- The user-visible result was that sound and final results still updated, but the expected 3D roll/flip motion no longer rendered reliably.
 
 ## Root Cause
 
-- `dice/index.html` and `coinflip/index.html` were driving visible motion by repeatedly updating the inner `model-viewer` `orientation` during `requestAnimationFrame`.
-- In the live browser/runtime combination, that inner-orientation path was not producing a reliable visible spin even though the final result state still updated.
-- On top of that, `prefers-reduced-motion: reduce` had an early return that skipped the animation loop entirely.
-- The same embedded logic existed in every localized dice and coin page, so the behavior was global across locales.
+- `dice/index.html` and `coinflip/index.html` drive motion by repeatedly updating the inner `model-viewer` `orientation` during `requestAnimationFrame`.
+- That renderer path depends on `model-viewer`, and every root/localized dice and coin page had been loading it from `https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js` with no version pin.
+- Git history showed the loader URL had not changed since the original GLB integration on `2026-03-02`, and the later team-split rollout did not touch the dice/coin motion code.
+- Because the runtime URL was unversioned, renderer behavior could change even when the repository code for dice/coin stayed the same.
 
-## Attempted Fix
+## Rejected Workarounds
 
-- Removed the instant-result reduced-motion shortcut from dice and coin pages.
-- Kept reduced-motion support, but changed it to a shorter and less intense animation instead of zero motion.
-- Moved the visible roll/flip animation to the outer dice/coin shell `transform`, which is independent of whether inner `model-viewer` orientation updates animate smoothly in that browser.
-- Kept the final face/result mapping on the underlying model so the end pose still matches the recorded outcome.
-- Updated the Korean reduced-motion note so it now explains that animation becomes shorter and simpler instead of being replaced by a static result.
+- A shell-transform workaround made the dice and coin look like flat 2D planes instead of rotating the uploaded 3D models, so it was rejected.
+- Reduced-motion-only changes were not sufficient as a root fix because they did not address the unstable external runtime dependency.
 
 ## Final Resolution
 
-- The shell-transform workaround was rejected because it made the dice and coin look like flat 2D planes instead of rotating 3D models.
-- The production baseline was restored to the last known-good `2026-03-12` implementation from `eca7bfe`.
-- On top of that restored baseline, the Korean root pages removed the reduced-motion early-return branch so the existing `model-viewer` orientation animation still runs on the uploaded 3D assets instead of snapping straight to the result.
-- No wrapper `rotateX/rotateY/rotateZ` helper is used for the live dice/coin motion path in those root pages.
+- The production baseline keeps the original `model-viewer`-driven 3D motion path instead of wrapper transforms.
+- Every root and localized dice/coin page now loads `https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js` so the GLB renderer no longer floats with the latest CDN runtime.
+- No GLB asset path was removed or replaced: dice still uses `/dice.glb`, and coin still uses `/stylized_pirate_coin.glb`.
 
 ## Attempt Validation
 
-- Verified the Korean root `dice/index.html` and `coinflip/index.html` do not contain the earlier shell-transform helper functions.
-- Verified both Korean root pages use reduced-motion timing variables instead of the old early-return shortcut.
-- Verified the motion-note banner is no longer shown on the Korean root pages, avoiding stale messaging.
+- Verified the root and localized dice/coin pages all reference the pinned `@google/model-viewer@3.5.0` loader instead of the floating unpkg latest URL.
+- Verified the live code path still points at `/dice.glb` and `/stylized_pirate_coin.glb`.
 - Ran `git diff --check`.
