@@ -77,3 +77,4 @@ How to use it:
 - Removed the roster helper note and the sample/clear helper buttons from the team split input panel, and moved the shuffle action next to the main generate button.
 - Added fullscreen-specific workspace layout rules so the hero and guide sections are hidden while the controls and results panels fit the viewport more tightly.
 - Updated fullscreen behavior to jump directly to the team split workspace after entering fullscreen and refreshed the team split script URLs again to force clients onto the new layout logic.
+- Increased the team split roster textarea height after compacting the top control area so the freed space goes back into the main input field in both normal and fullscreen layouts.
