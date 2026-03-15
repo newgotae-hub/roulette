@@ -132,6 +132,12 @@ How to use it:
 - Added wrapper transform helpers and 3D shell styling across all localized dice and coin pages so users can see the roll/flip motion again while keeping the final recorded face consistent.
 - Updated the root-cause note to capture the deeper rendering issue in addition to the reduced-motion shortcut.
 
+### Dice and coin motion restored by rolling back to the last known-good build
+
+- Reverted the dice and coin pages to the exact `2026-03-12` implementation from commit `eca7bfe`, per user request to restore the previously working 3D animation code instead of layering on more fixes.
+- This rollback removed the later reduced-motion and shell-transform motion experiments from all localized dice and coin pages.
+- Updated the investigation note to mark the shell-transform workaround as superseded and record that the final production resolution was a rollback.
+
 ### Footer contact links now open Userback first
 
 - Updated the shared third-party loader so footer `문의하기` / `Contact` links open the Userback widget on plain left-click before falling back to the existing contact page.

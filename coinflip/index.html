@@ -412,10 +412,6 @@
       border: 0;
       box-shadow: none;
       transform: translate3d(0, 0, 0);
-      transform-style: preserve-3d;
-      will-change: transform;
-      backface-visibility: hidden;
-      contain: layout paint style;
     }
 
     .spline-coin-shell iframe {
@@ -504,7 +500,7 @@
           var url = new URL(window.location.href);
           var host = url.hostname.toLowerCase();
           var supportedLangs = /^(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)$/i;
-          var m = url.pathname.match(/^\/(?:((?:(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)))\/)?(roulette|luckydraw|ladder|team-generator|coinflip|dice)\/?$/i);
+          var m = url.pathname.match(/^\/(?:((?:(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)))\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i);
           var changed = false;
           if (m && url.searchParams.has('lang')) {
             var qLang = String(url.searchParams.get('lang') || '').toLowerCase();
@@ -546,7 +542,6 @@
           <a id="nav-spin" href="/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">룰렛돌리기</a>
           <a id="nav-lotto" href="/luckydraw/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">로또추첨기</a>
           <a id="nav-history" href="/ladder/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">사다리타기</a>
-          <a id="nav-team" href="/team-generator/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">팀 나누기</a>
           <a id="nav-coin" href="/coinflip/" class="text-sm font-medium text-slate-900">코인던지기</a>
           <a id="nav-dice" href="/dice/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">주사위굴리기</a>
         </nav>
@@ -582,7 +577,6 @@
         <a id="mnav-spin" href="/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">룰렛</a>
         <a id="mnav-lotto" href="/luckydraw/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">로또</a>
         <a id="mnav-history" href="/ladder/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">사다리</a>
-        <a id="mnav-team" href="/team-generator/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">팀</a>
         <a id="mnav-coin" href="/coinflip/" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-900 text-white">코인</a>
         <a id="mnav-dice" href="/dice/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">주사위</a>
       </nav>
@@ -636,7 +630,7 @@
               </div>
 
               <div id="motion-note" class="hidden text-xs text-slate-500 bg-slate-50 border border-slate-200 rounded-xl p-3">
-                <span id="motion-note-text">설정된 모션 감소 환경에서는 애니메이션이 더 짧고 단순하게 재생됩니다.</span>
+                <span id="motion-note-text">설정된 모션 감소 환경에서는 애니메이션이 단순 표시로 대체됩니다.</span>
               </div>
             </div>
 
@@ -930,7 +924,7 @@
           export: '엑셀 저장',
           noHistory: '아직 기록이 없습니다.',
           exportEmpty: '내보낼 기록이 없습니다.',
-          motionNote: '설정된 모션 감소 환경에서는 애니메이션이 더 짧고 단순하게 재생됩니다.',
+          motionNote: '설정된 모션 감소 환경에서는 애니메이션이 단순 표시로 대체됩니다.',
           guideTitle: '코인 던지기 가이드',
           guideSubtitle: '코인 던지기는 브라우저에서만 동작하며 결과 확인과 기록 저장을 한 화면에서 처리할 수 있습니다.',
           guideStep1Title: '1. 코인 개수 선택',
@@ -2178,7 +2172,7 @@
         try { window.localStorage.setItem('rlt-lang', next); } catch (e) {}
         try {
           const url = new URL(window.location.href);
-          const currentToolMatch = url.pathname.match(/^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?(roulette|luckydraw|ladder|team-generator|coinflip|dice)\/?$/i);
+          const currentToolMatch = url.pathname.match(/^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i);
           if (currentToolMatch) {
             const tool = currentToolMatch[2].toLowerCase();
             const nextPath = next === 'ko' ? `/${tool}/` : `/${next}/${tool}/`;
@@ -2243,7 +2237,7 @@
       }
 
             function syncLangLinks() {
-        const toolPathRegex = /^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?(roulette|luckydraw|ladder|team-generator|coinflip|dice)\/?$/i;
+        const toolPathRegex = /^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i;
         document.querySelectorAll("a[href]").forEach((a) => {
           const href = a.getAttribute("href");
           if (!href || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:") || href.startsWith("javascript:")) return;
@@ -2626,20 +2620,9 @@
         return 96;
       }
 
-      function setCoinShellTransform(coin, x, y) {
-        if (!coin || !coin.el) return;
-        coin.el.style.transform = `translate3d(0, 0, 0) rotateX(${x.toFixed(1)}deg) rotateY(${y.toFixed(1)}deg)`;
-      }
-
-      function resetCoinShellTransform(coin) {
-        if (!coin || !coin.el) return;
-        coin.el.style.transform = 'translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg)';
-      }
-
       function setCoinFace(coin, side) {
         coin.result = side === 'tails' ? 'tails' : 'heads';
         coin.el.setAttribute('data-side', coin.result);
-        resetCoinShellTransform(coin);
         if (coin.model) {
           const y = coin.result === 'tails' ? 180 : 0;
           coin.model.setAttribute('orientation', `0deg ${y}deg 0deg`);
@@ -2885,22 +2868,30 @@
         ui.tailsCount.textContent = String(tails);
         flipSoundStart();
 
-        const reducedMotion = state.reducedMotion;
-        const durationMs = reducedMotion
-          ? Math.min(820, Math.max(360, Math.floor(state.durationSec * 320)))
-          : Math.floor(state.durationSec * 1000);
-        const maxStagger = reducedMotion
-          ? Math.min(70, Math.max(0, 4 * state.coinCount))
-          : Math.min(220, Math.max(0, 12 * state.coinCount));
+        if (state.reducedMotion) {
+          state.coins.forEach((coin, idx) => setCoinFace(coin, results[idx] ? 'tails' : 'heads'));
+          flipSoundEnd();
+          triggerPowderBurst();
+          setBanner(t('bannerDone', { h: heads, t: tails }), 'text-green-600');
+          pushHistory(heads, tails);
+          state.flipping = false;
+          ui.flipButton.disabled = false;
+          syncCoinInteractivity();
+          if (ui.flipButtonMobile) ui.flipButtonMobile.disabled = false;
+          ui.flipLabel.textContent = t('flip');
+          if (ui.flipLabelMobile) ui.flipLabelMobile.textContent = t('flip');
+          return;
+        }
+
+        const durationMs = Math.floor(state.durationSec * 1000);
+        const maxStagger = Math.min(220, Math.max(0, 12 * state.coinCount));
         const staggers = state.coins.map(() => Math.floor(Math.random() * maxStagger));
 
         state.coins.forEach((coin, idx) => {
           const resultSide = results[idx] ? 'tails' : 'heads';
-          const spinTurns = reducedMotion ? 1 + Math.floor(Math.random() * 2) : 4 + Math.floor(Math.random() * 5);
+          const spinTurns = 4 + Math.floor(Math.random() * 5);
           const endY = spinTurns * 360 + (resultSide === 'tails' ? 180 : 0);
-          const endX = reducedMotion
-            ? (1 + Math.floor(Math.random() * 2)) * 180
-            : (2 + Math.floor(Math.random() * 3)) * 360;
+          const endX = (2 + Math.floor(Math.random() * 3)) * 360;
           coin.result = resultSide;
 
           if (coin.model) {
@@ -2916,7 +2907,7 @@
               const eased = 1 - Math.pow(1 - p, 3);
               const x = xTotal * eased;
               const y = yTotal * eased;
-              setCoinShellTransform(coin, x, y);
+              coin.model.setAttribute('orientation', `${x.toFixed(1)}deg ${y.toFixed(1)}deg 0deg`);
               if (p < 1) requestAnimationFrame(tick);
             };
             requestAnimationFrame(tick);
@@ -2924,7 +2915,7 @@
         });
 
         await new Promise((resolve) => {
-          window.setTimeout(resolve, durationMs + maxStagger + (reducedMotion ? 60 : 80));
+          window.setTimeout(resolve, durationMs + maxStagger + 80);
         });
 
         state.coins.forEach((coin) => setCoinFace(coin, coin.result));
