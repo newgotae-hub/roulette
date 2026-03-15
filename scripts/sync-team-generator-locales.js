@@ -6,6 +6,7 @@ const ROOT = path.resolve(__dirname, '..');
 const I18N_PATH = path.join(ROOT, 'assets/js/team-generator-i18n.js');
 const ASSET_VERSION = '20260315-team-i18n3';
 const LOCALES = ['ko', 'en', 'ja', 'zh-cn', 'zh-tw', 'es', 'fr', 'de', 'pt-br', 'hi', 'ar', 'ru', 'id', 'tr', 'it', 'vi', 'th', 'nl'];
+const LOCALIZED_LEGAL = new Set(['en', 'ja', 'zh-cn', 'zh-tw']);
 const TEXT_IDS = [
   ['nav-spin', 'navSpin'],
   ['nav-lotto', 'navLotto'],
@@ -121,6 +122,16 @@ function localeFile(locale) {
     : path.join(ROOT, locale, 'team-generator', 'index.html');
 }
 
+function legalBase(locale) {
+  if (!locale || locale === 'ko') return '';
+  if (LOCALIZED_LEGAL.has(locale)) return `/${locale}`;
+  return '/en';
+}
+
+function targetHref(locale, slug) {
+  return `${legalBase(locale)}/${slug}/`.replace('//', '/');
+}
+
 function replaceTextById(html, id, value) {
   const pattern = new RegExp(`(<([a-z0-9:-]+)[^>]*\\bid="${escapeRegExp(id)}"[^>]*>)([\\s\\S]*?)(</\\2>)`, 'i');
   if (!pattern.test(html)) throw new Error(`Missing text node id="${id}"`);
@@ -210,6 +221,10 @@ function syncPage(locale, data) {
   for (const [id, attr, key] of ATTRIBUTE_IDS) {
     html = replaceAttributeById(html, id, attr, data[key]);
   }
+
+  html = replaceAttributeById(html, 'footer-terms', 'href', targetHref(locale, 'terms'));
+  html = replaceAttributeById(html, 'footer-privacy', 'href', targetHref(locale, 'privacy'));
+  html = replaceAttributeById(html, 'footer-contact', 'href', targetHref(locale, 'contact'));
 
   html = syncExampleBlocks(html, data);
   html = html.replace(/\/assets\/js\/team-generator-i18n\.js\?v=[^"]+/g, `/assets/js/team-generator-i18n.js?v=${ASSET_VERSION}`);

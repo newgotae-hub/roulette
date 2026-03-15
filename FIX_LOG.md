@@ -167,6 +167,13 @@ How to use it:
 - Hid the outdated reduced-motion note on those root pages because it no longer matches the live behavior.
 - Root-cause notes: [DICE_COIN_MOTION_ROOT_CAUSE_2026-03-15.md](/home/user/roulette/DICE_COIN_MOTION_ROOT_CAUSE_2026-03-15.md)
 
+### 2026-03-15 - Multilingual footer fallback and legal-link parity tightened
+
+- Reused the vetted team-generator locale wording to normalize static footer fallback labels for Terms, Privacy, About, and Contact across the multilingual home, lucky-draw, ladder, coin-flip, and dice pages.
+- Extended `scripts/sync-legal-links.js` so localized footer labels and locale-aware legal links can be regenerated consistently instead of drifting page by page.
+- Extended `scripts/sync-team-generator-locales.js` so localized team-generator pages now ship the correct static legal-link hrefs as well, instead of relying on runtime rewriting.
+- Extended `scripts/validate-seo.js` to fail if any localized tool or team-generator page drifts on footer fallback text or locale-aware legal hrefs.
+
 ### 2026-03-15 - AdSense approval pass reduced script noise and added English support content
 
 - Disabled site-wide Userback auto-loading for approval review by removing the `userback` mode from deployed HTML pages and stopping the shared third-party loader from booting the widget on idle.

@@ -6,6 +6,66 @@ const ROOT = path.resolve(__dirname, '..');
 const LOCALES = ['en','ja','zh-cn','zh-tw','es','fr','de','pt-br','hi','ar','ru','id','tr','it','vi','th','nl'];
 const TOOLS = ['index.html', 'roulette/index.html', 'ladder/index.html', 'luckydraw/index.html', 'coinflip/index.html', 'dice/index.html'];
 const LOCALIZED_LEGAL = new Set(['en', 'ja', 'zh-cn', 'zh-tw']);
+const TERMS_LABELS = {
+  ko: '이용약관',
+  en: 'Terms',
+  ja: '利用規約',
+  'zh-cn': '条款',
+  'zh-tw': '條款',
+  es: 'Términos',
+  fr: 'Conditions',
+  de: 'AGB',
+  'pt-br': 'Termos',
+  hi: 'नियम',
+  ar: 'الشروط',
+  ru: 'Условия',
+  id: 'Ketentuan',
+  tr: 'Koşullar',
+  it: 'Termini',
+  vi: 'Điều khoản',
+  th: 'เงื่อนไข',
+  nl: 'Voorwaarden'
+};
+const PRIVACY_LABELS = {
+  ko: '개인정보처리방침',
+  en: 'Privacy',
+  ja: 'プライバシー',
+  'zh-cn': '隐私',
+  'zh-tw': '隱私',
+  es: 'Privacidad',
+  fr: 'Confidentialité',
+  de: 'Datenschutz',
+  'pt-br': 'Privacidade',
+  hi: 'प्राइवेसी',
+  ar: 'الخصوصية',
+  ru: 'Конфиденциальность',
+  id: 'Privasi',
+  tr: 'Gizlilik',
+  it: 'Informativa privacy',
+  vi: 'Riêng tư',
+  th: 'ความเป็นส่วนตัว',
+  nl: 'Privacybeleid'
+};
+const ABOUT_LABELS = {
+  ko: '소개',
+  en: 'About',
+  ja: '紹介',
+  'zh-cn': '关于',
+  'zh-tw': '關於',
+  es: 'Acerca de',
+  fr: 'À propos',
+  de: 'Über uns',
+  'pt-br': 'Sobre',
+  hi: 'परिचय',
+  ar: 'حول',
+  ru: 'О сервисе',
+  id: 'Tentang',
+  tr: 'Hakkında',
+  it: 'Info',
+  vi: 'Giới thiệu',
+  th: 'เกี่ยวกับ',
+  nl: 'Over'
+};
 const CONTACT_LABELS = {
   ko: '문의',
   en: 'Contact',
@@ -17,11 +77,11 @@ const CONTACT_LABELS = {
   de: 'Kontakt',
   'pt-br': 'Contato',
   hi: 'संपर्क',
-  ar: 'تواصل',
+  ar: 'اتصال',
   ru: 'Контакты',
   id: 'Kontak',
   tr: 'İletişim',
-  it: 'Contatti',
+  it: 'Contatto',
   vi: 'Liên hệ',
   th: 'ติดต่อ',
   nl: 'Contact'
@@ -46,6 +106,12 @@ function replaceAll(text, from, to) {
   return text.split(from).join(to);
 }
 
+function replaceFooterLink(html, id, href, label) {
+  const pattern = new RegExp(`(<a[^>]*id="${id}"[^>]*href=")[^"]*("([^>]*)>)([\\s\\S]*?)(</a>)`, 'i');
+  if (!pattern.test(html)) return html;
+  return html.replace(pattern, `$1${href}$2${label}$5`);
+}
+
 let changed = 0;
 for (const rel of TOOLS.concat(LOCALES.flatMap((locale) => TOOLS.map((tool) => `${locale}/${tool}`)))) {
   const file = path.join(ROOT, rel);
@@ -54,9 +120,10 @@ for (const rel of TOOLS.concat(LOCALES.flatMap((locale) => TOOLS.map((tool) => `
   let html = fs.readFileSync(file, 'utf8');
   const original = html;
 
-  html = html.replace(/id="footer-terms" href="\/terms\//g, `id="footer-terms" href="${targetHref(locale, 'terms')}`);
-  html = html.replace(/id="footer-privacy" href="\/privacy\//g, `id="footer-privacy" href="${targetHref(locale, 'privacy')}`);
-  html = html.replace(/id="footer-contact" href="\/contact\//g, `id="footer-contact" href="${targetHref(locale, 'contact')}`);
+  html = replaceFooterLink(html, 'footer-terms', targetHref(locale, 'terms'), TERMS_LABELS[locale] || TERMS_LABELS.en);
+  html = replaceFooterLink(html, 'footer-privacy', targetHref(locale, 'privacy'), PRIVACY_LABELS[locale] || PRIVACY_LABELS.en);
+  html = replaceFooterLink(html, 'footer-about', '/about/', ABOUT_LABELS[locale] || ABOUT_LABELS.en);
+  html = replaceFooterLink(html, 'footer-contact', targetHref(locale, 'contact'), CONTACT_LABELS[locale] || CONTACT_LABELS.en);
   if (!html.includes('id="footer-contact"') && html.includes('id="footer-about"')) {
     const contactLabel = CONTACT_LABELS[locale] || CONTACT_LABELS.en;
     const contactLink = `\n        <a id="footer-contact" href="${targetHref(locale, 'contact')}" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">${contactLabel}</a>`;

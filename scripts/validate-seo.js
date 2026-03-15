@@ -10,6 +10,27 @@ const FLOATING_MODEL_VIEWER_URL = 'https://unpkg.com/@google/model-viewer/dist/m
 const OPERATOR_INSTAGRAM_URL = 'https://www.instagram.com/juntaeko_tr';
 const ROBOTS_TXT = fs.readFileSync(path.join(ROOT, 'robots.txt'), 'utf8');
 const THIRD_PARTY_LOADER = fs.readFileSync(path.join(ROOT, 'assets/js/third-party-loader.js'), 'utf8');
+const LOCALIZED_LEGAL = new Set(['en', 'ja', 'zh-cn', 'zh-tw']);
+const FOOTER_LABELS = {
+  ko: { terms: '이용약관', privacy: '개인정보처리방침', about: '소개', contact: '문의' },
+  en: { terms: 'Terms', privacy: 'Privacy', about: 'About', contact: 'Contact' },
+  ja: { terms: '利用規約', privacy: 'プライバシー', about: '紹介', contact: 'お問い合わせ' },
+  'zh-cn': { terms: '条款', privacy: '隐私', about: '关于', contact: '联系' },
+  'zh-tw': { terms: '條款', privacy: '隱私', about: '關於', contact: '聯絡' },
+  es: { terms: 'Términos', privacy: 'Privacidad', about: 'Acerca de', contact: 'Contacto' },
+  fr: { terms: 'Conditions', privacy: 'Confidentialité', about: 'À propos', contact: 'Contact' },
+  de: { terms: 'AGB', privacy: 'Datenschutz', about: 'Über uns', contact: 'Kontakt' },
+  'pt-br': { terms: 'Termos', privacy: 'Privacidade', about: 'Sobre', contact: 'Contato' },
+  hi: { terms: 'नियम', privacy: 'प्राइवेसी', about: 'परिचय', contact: 'संपर्क' },
+  ar: { terms: 'الشروط', privacy: 'الخصوصية', about: 'حول', contact: 'اتصال' },
+  ru: { terms: 'Условия', privacy: 'Конфиденциальность', about: 'О сервисе', contact: 'Контакты' },
+  id: { terms: 'Ketentuan', privacy: 'Privasi', about: 'Tentang', contact: 'Kontak' },
+  tr: { terms: 'Koşullar', privacy: 'Gizlilik', about: 'Hakkında', contact: 'İletişim' },
+  it: { terms: 'Termini', privacy: 'Informativa privacy', about: 'Info', contact: 'Contatto' },
+  vi: { terms: 'Điều khoản', privacy: 'Riêng tư', about: 'Giới thiệu', contact: 'Liên hệ' },
+  th: { terms: 'เงื่อนไข', privacy: 'ความเป็นส่วนตัว', about: 'เกี่ยวกับ', contact: 'ติดต่อ' },
+  nl: { terms: 'Voorwaarden', privacy: 'Privacybeleid', about: 'Over', contact: 'Contact' }
+};
 const ALIAS_REDIRECTS = {
   'ko-kr': 'ko',
   'ja-jp': 'ja',
@@ -76,13 +97,21 @@ function extractElementTextById(html, id) {
 }
 
 function extractAttributeById(html, id, attr) {
-  const match = html.match(new RegExp(`<[^>]*\\bid="${escapeRegExp(id)}"[^>]*\\b${escapeRegExp(attr)}="([^"]*)"[^>]*>`, 'i'));
-  return match ? match[1] : null;
+  const tagMatch = html.match(new RegExp(`<[^>]*\\bid="${escapeRegExp(id)}"[^>]*>`, 'i'));
+  if (!tagMatch) return null;
+  const attrMatch = tagMatch[0].match(new RegExp(`\\b${escapeRegExp(attr)}="([^"]*)"`, 'i'));
+  return attrMatch ? attrMatch[1] : null;
 }
 
 function extractCodeById(html, id) {
   const match = html.match(new RegExp(`<code[^>]*\\bid="${escapeRegExp(id)}"[^>]*>([\\s\\S]*?)<\\/code>`, 'i'));
   return match ? match[1].replace(/\r\n/g, '\n').trim() : null;
+}
+
+function footerHrefFor(locale, slug) {
+  if (!locale || locale === 'ko') return `/${slug}/`;
+  if (LOCALIZED_LEGAL.has(locale)) return `/${locale}/${slug}/`;
+  return `/en/${slug}/`;
 }
 
 function buildTeamGeneratorExampleTable(data) {
@@ -250,6 +279,43 @@ function validateTrustComplianceSignals(page, findings) {
     }
     if (!/\/about\/|\/privacy\/|\/terms\//.test(page.html)) {
       findings.push(`${page.pagePath}: contact page should link to policy pages.`);
+    }
+  }
+}
+
+function localeFromFooterPage(pagePath) {
+  if (
+    pagePath === '/' ||
+    /^\/(?:luckydraw|ladder|coinflip|dice|team-generator)\/$/.test(pagePath)
+  ) {
+    return 'ko';
+  }
+  const match = pagePath.match(/^\/(en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)(?:\/(?:luckydraw|ladder|coinflip|dice|team-generator))?\/$/);
+  return match ? match[1] : null;
+}
+
+function validateLocalizedFooterFallback(page, findings) {
+  const locale = localeFromFooterPage(page.pagePath);
+  if (!locale) return;
+
+  const labels = FOOTER_LABELS[locale];
+  if (!labels) return;
+
+  const checks = [
+    ['footer-terms', labels.terms, footerHrefFor(locale, 'terms')],
+    ['footer-privacy', labels.privacy, footerHrefFor(locale, 'privacy')],
+    ['footer-about', labels.about, '/about/'],
+    ['footer-contact', labels.contact, footerHrefFor(locale, 'contact')]
+  ];
+
+  for (const [id, text, href] of checks) {
+    const actualText = extractElementTextById(page.html, id);
+    const actualHref = extractAttributeById(page.html, id, 'href');
+    if (actualText !== text) {
+      findings.push(`${page.pagePath}: ${id} text drifted (${actualText || 'missing'}).`);
+    }
+    if (actualHref !== href) {
+      findings.push(`${page.pagePath}: ${id} href drifted (${actualHref || 'missing'}).`);
     }
   }
 }
@@ -426,6 +492,7 @@ for (const page of pages.values()) {
   validateDiceCoin3DRuntime(page, findings);
   validateEnglishAcquisitionSignals(page, findings);
   validateTrustComplianceSignals(page, findings);
+  validateLocalizedFooterFallback(page, findings);
   validateTeamGeneratorLocaleSync(page, findings);
 
   const indexable = !page.refresh && !page.noindex && page.canonical === page.pagePath;
