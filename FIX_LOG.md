@@ -80,6 +80,12 @@ How to use it:
 - Increased the team split roster textarea height after compacting the top control area so the freed space goes back into the main input field in both normal and fullscreen layouts.
 - Further compressed the top control cluster by reducing card padding, label sizes, quick team-count buttons, and summary stat box height so the mode/team-count/participant block takes less vertical space before the roster input.
 
+### Korean team split stat copy and team-count spacing polish
+
+- Changed the Korean stat note from `Excel 두 열 그대로 복사` to `엑셀파일 그대로 복사`.
+- Changed the Korean mode summary from `랜덤 / 밸런스` to `랜덤 / 균형`.
+- Reworked the team-count quick buttons into a fixed five-column row beside the numeric input so the `2` through `6` buttons fill the remaining width more evenly instead of ending awkwardly after `6`.
+
 ### Footer contact links now open Userback first
 
 - Updated the shared third-party loader so footer `문의하기` / `Contact` links open the Userback widget on plain left-click before falling back to the existing contact page.
