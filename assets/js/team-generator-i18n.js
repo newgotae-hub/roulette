@@ -106,8 +106,7 @@
     setText('roster-label', 'rosterLabel'); setText('roster-hint', 'rosterHint'); setText('roster-note', 'rosterNote');
     const roster = document.getElementById('roster-input'); if (roster) roster.placeholder = data.rosterPlaceholder;
     setText('sample-random-btn', 'sampleRandomBtn'); setText('sample-balanced-btn', 'sampleBalancedBtn'); setText('clear-btn', 'clearBtn'); setText('generate-btn-label', 'generateBtn');
-    setText('results-title', 'resultsTitle'); setText('result-meta', 'resultsIntro'); setText('reroll-btn', 'rerollBtn'); setText('shuffle-btn', 'shuffleBtn'); setText('copy-btn', 'copyBtn'); setText('export-btn', 'exportBtn');
-    setText('summary-mode-label', 'summaryModeLabel'); setText('summary-size-label', 'summarySizeLabel'); setText('summary-average-label', 'summaryAverageLabel'); setText('summary-total-label', 'summaryTotalLabel');
+    setText('results-title', 'resultsTitle'); setText('reroll-btn', 'rerollBtn'); setText('copy-btn', 'copyBtn'); setText('export-btn', 'exportBtn');
     setText('empty-title', 'emptyTitle'); setText('empty-body', 'emptyBody');
     setText('howto-title', 'howToTitle'); setText('howto-1', 'howTo1'); setText('howto-2', 'howTo2'); setText('howto-3', 'howTo3'); setText('howto-4', 'howTo4'); setText('howto-5', 'howTo5');
     setText('example-title', 'exampleTitle');

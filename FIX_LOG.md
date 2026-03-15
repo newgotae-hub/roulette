@@ -108,6 +108,12 @@ How to use it:
 - Reduced the normal team-generator roster textarea height across all localized pages so the default layout no longer pushes the input panel too far below the fold.
 - Kept the larger fullscreen roster clamp unchanged, since that expanded layout was already using the extra vertical space correctly.
 
+### 2026-03-15 - Team split result header simplified and shuffle removed
+
+- Removed the separate shuffle action from the team-generator input panel and widened the main generate button to a single full-width primary action.
+- Collapsed the result header across all localized team-generator pages so only the title plus `다시 배정` / copy / CSV actions remain above the team cards.
+- Removed the extra result intro, warning block, and MODE / TEAM SIZE / TEAM AVG / TEAM TOTAL summary strip to cut the empty vertical space above the results.
+
 ### Dice and coin reduced-motion animation fallback now keeps visible motion
 
 - Identified that both dice and coin pages were skipping their animation loops entirely when `prefers-reduced-motion` was active, which made the motion appear missing.

@@ -111,7 +111,6 @@
     quickTeamButtons: Array.from(document.querySelectorAll("[data-team-count]")),
     generateBtn: document.getElementById("generate-btn"),
     rerollBtn: document.getElementById("reroll-btn"),
-    shuffleBtn: document.getElementById("shuffle-btn"),
     copyBtn: document.getElementById("copy-btn"),
     exportBtn: document.getElementById("export-btn"),
     clearBtn: document.getElementById("clear-btn"),
@@ -120,13 +119,6 @@
     participantCount: document.getElementById("participant-count"),
     scoredCount: document.getElementById("scored-count"),
     missingCount: document.getElementById("missing-count"),
-    warningBox: document.getElementById("warning-box"),
-    warningList: document.getElementById("warning-list"),
-    resultMeta: document.getElementById("result-meta"),
-    summaryMode: document.getElementById("summary-mode"),
-    summarySize: document.getElementById("summary-size"),
-    summaryScore: document.getElementById("summary-score"),
-    summaryTotal: document.getElementById("summary-total"),
     emptyState: document.getElementById("empty-state"),
     teamGrid: document.getElementById("team-grid"),
     toast: document.getElementById("toast")
@@ -454,105 +446,6 @@
     return finalizeTeams(best ? best.teams : createTeams(capacities), true);
   }
 
-  function cloneTeams(teams) {
-    return teams.map((team) => ({
-      id: team.id,
-      capacity: team.capacity,
-      members: team.members.slice(),
-      total: team.total
-    }));
-  }
-
-  function buildTargets(players, capacities) {
-    const totalScore = players.reduce((sum, player) => sum + player.score, 0);
-    return capacities.map((capacity) => totalScore * (capacity / Math.max(1, players.length)));
-  }
-
-  function pickBalancedShuffleMove(teams, targets) {
-    const baseObjective = calcObjective(teams, targets);
-    const candidates = [];
-
-    for (let leftIndex = 0; leftIndex < teams.length; leftIndex += 1) {
-      for (let rightIndex = leftIndex + 1; rightIndex < teams.length; rightIndex += 1) {
-        const leftTeam = teams[leftIndex];
-        const rightTeam = teams[rightIndex];
-        const basePairObjective = teamObjective(leftTeam.total, targets[leftIndex]) + teamObjective(rightTeam.total, targets[rightIndex]);
-
-        for (let a = 0; a < leftTeam.members.length; a += 1) {
-          for (let b = 0; b < rightTeam.members.length; b += 1) {
-            const leftPlayer = leftTeam.members[a];
-            const rightPlayer = rightTeam.members[b];
-            const nextLeftTotal = leftTeam.total - leftPlayer.score + rightPlayer.score;
-            const nextRightTotal = rightTeam.total - rightPlayer.score + leftPlayer.score;
-            const nextPairObjective = teamObjective(nextLeftTotal, targets[leftIndex]) + teamObjective(nextRightTotal, targets[rightIndex]);
-            const objective = baseObjective - basePairObjective + nextPairObjective;
-
-            candidates.push({
-              leftIndex,
-              rightIndex,
-              a,
-              b,
-              nextLeftTotal,
-              nextRightTotal,
-              objective
-            });
-          }
-        }
-      }
-    }
-
-    if (!candidates.length) return null;
-
-    candidates.sort((left, right) => {
-      if (left.objective !== right.objective) return left.objective - right.objective;
-      return Random.float() < 0.5 ? -1 : 1;
-    });
-
-    const bestObjective = candidates[0].objective;
-    const tolerance = Math.max(0.25, bestObjective * 0.03, baseObjective * 0.08);
-    const shortlist = candidates
-      .filter((candidate) => candidate.objective <= bestObjective + tolerance)
-      .slice(0, 12);
-
-    return Random.shuffle(shortlist.length ? shortlist : candidates.slice(0, 12))[0] || candidates[0];
-  }
-
-  function shuffleBalancedTeams(result) {
-    const teams = cloneTeams(result.teams);
-    const targets = buildTargets(result.parsed.players, result.capacities);
-    const move = pickBalancedShuffleMove(teams, targets);
-
-    if (!move) return finalizeTeams(teams, true);
-
-    const leftTeam = teams[move.leftIndex];
-    const rightTeam = teams[move.rightIndex];
-    const leftPlayer = leftTeam.members[move.a];
-    leftTeam.members[move.a] = rightTeam.members[move.b];
-    rightTeam.members[move.b] = leftPlayer;
-    leftTeam.total = move.nextLeftTotal;
-    rightTeam.total = move.nextRightTotal;
-
-    return finalizeTeams(teams, true);
-  }
-
-  function collectWarnings(parsed, requestedTeamCount, effectiveTeamCount, requestedMode, effectiveMode) {
-    const warnings = [];
-    if (parsed.headerSkipped) warnings.push(t("warningHeaderSkipped"));
-    if (requestedTeamCount > MAX_TEAM_COUNT) warnings.push(t("warningMaxTeamCount", { max: MAX_TEAM_COUNT }));
-    if (parsed.players.length >= 2 && requestedTeamCount > parsed.players.length) {
-      warnings.push(t("warningTeamCountAdjusted", { count: effectiveTeamCount }));
-    }
-    if (requestedMode === "balanced" && effectiveMode === "random") {
-      warnings.push(t("warningBalancedFallback"));
-    } else if (requestedMode === "balanced" && parsed.missingCount > 0) {
-      warnings.push(t("warningMissingScores", {
-        count: parsed.missingCount,
-        score: formatScoreText(parsed.imputedScore)
-      }));
-    }
-    return warnings;
-  }
-
   function buildResult(parsed, teams, requestedMode, effectiveMode, capacities) {
     const totals = teams.map((team) => team.total);
     const averages = teams.map((team) => team.members.length ? team.total / team.members.length : 0);
@@ -576,44 +469,7 @@
     };
   }
 
-  function renderWarnings(warnings) {
-    if (!warnings.length) {
-      ui.warningBox.classList.add("hidden");
-      ui.warningList.innerHTML = "";
-      return;
-    }
-    ui.warningBox.classList.remove("hidden");
-    ui.warningList.innerHTML = warnings.map((warning) => `<li>${warning}</li>`).join("");
-  }
-
-  function renderSummary(result) {
-    const setResultMeta = (message) => {
-      const content = String(message || "").trim();
-      ui.resultMeta.textContent = content;
-      ui.resultMeta.classList.toggle("hidden", !content);
-    };
-
-    if (!result) {
-      ui.summaryMode.textContent = t("modeBeforeGenerate");
-      ui.summarySize.textContent = "-";
-      ui.summaryScore.textContent = "-";
-      ui.summaryTotal.textContent = "-";
-      setResultMeta(t("resultMetaDefault"));
-      return;
-    }
-
-    ui.summaryMode.textContent = result.effectiveMode === "balanced" ? t("modeBalanced") : t("modeRandom");
-    ui.summarySize.textContent = result.teams.map((team) => formatMemberCount(team.members.length)).join(" / ");
-    ui.summaryScore.textContent = result.parsed.scoredCount > 0
-      ? result.teamAverages.map((value) => formatScore(value)).join(" / ")
-      : t("summaryNoScore");
-    ui.summaryTotal.textContent = result.parsed.scoredCount > 0
-      ? result.teamTotals.map((value) => formatScore(value)).join(" / ")
-      : t("summaryParticipants", { count: result.parsed.players.length });
-    setResultMeta(result.effectiveMode === "balanced"
-      ? t("resultMetaBalanced")
-      : t("resultMetaRandom"));
-  }
+  function renderSummary() {}
 
   function renderTeams(result) {
     if (!result) {
@@ -661,7 +517,6 @@
     const canGenerate = state.parsed.players.length >= 2;
     ui.generateBtn.disabled = !canGenerate;
     ui.rerollBtn.disabled = !canGenerate;
-    if (ui.shuffleBtn) ui.shuffleBtn.disabled = !state.result;
     ui.copyBtn.disabled = !state.result;
     ui.exportBtn.disabled = !state.result;
   }
@@ -708,7 +563,6 @@
       ui.teamCountHint.textContent = t("teamCountHintDefault");
     }
 
-    renderWarnings(collectWarnings(state.parsed, requestedTeamCount, effectiveTeamCount, requestedMode, effectiveMode));
     setQuickTeamButtonsActive(Math.min(effectiveTeamCount, MAX_TEAM_COUNT));
     updateActionState();
     saveState();
@@ -741,7 +595,6 @@
 
     if (state.parsed.players.length < 2) {
       invalidateResult();
-      renderWarnings([t("validationMinPlayers")]);
       showToast(t("toastNeedPlayers"));
       return;
     }
@@ -757,35 +610,6 @@
       : assignRandomTeams(state.parsed.players, capacities);
 
     state.result = buildResult(state.parsed, teams, requestedMode, effectiveMode, capacities);
-    renderWarnings(collectWarnings(state.parsed, requestedTeamCount, effectiveTeamCount, requestedMode, effectiveMode));
-    renderSummary(state.result);
-    renderTeams(state.result);
-    updateActionState();
-    saveState();
-  }
-
-  function shuffleTeams() {
-    if (!state.result) return;
-
-    const teams = state.result.effectiveMode === "balanced"
-      ? shuffleBalancedTeams(state.result)
-      : assignRandomTeams(state.result.parsed.players, state.result.capacities);
-
-    state.result = buildResult(
-      state.result.parsed,
-      teams,
-      state.result.requestedMode,
-      state.result.effectiveMode,
-      state.result.capacities
-    );
-
-    renderWarnings(collectWarnings(
-      state.result.parsed,
-      Math.floor(Number(ui.teamCount.value) || state.result.teams.length),
-      state.result.teams.length,
-      state.result.requestedMode,
-      state.result.effectiveMode
-    ));
     renderSummary(state.result);
     renderTeams(state.result);
     updateActionState();
@@ -977,7 +801,6 @@
 
     ui.generateBtn.addEventListener("click", generateTeams);
     ui.rerollBtn.addEventListener("click", generateTeams);
-    if (ui.shuffleBtn) ui.shuffleBtn.addEventListener("click", shuffleTeams);
     ui.copyBtn.addEventListener("click", copyResults);
     ui.exportBtn.addEventListener("click", exportCsv);
 
