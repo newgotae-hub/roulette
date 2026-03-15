@@ -98,6 +98,11 @@ How to use it:
 - Fixed the broken Korean newline inside `assets/js/team-generator-i18n.js` so the localized team-generator bundle parses correctly again.
 - Refreshed the shared `team-generator` script version across every localized page so stale cached `0`-score copy is invalidated after deployment.
 
+### 2026-03-15 - Team split roster textarea enlarged
+
+- Increased the team-generator roster textarea height across all localized pages so the left input panel uses more of the available vertical space in normal view.
+- Raised the fullscreen roster textarea clamp as well so the expanded layout keeps the larger input area instead of shrinking back too aggressively.
+
 ### Dice and coin reduced-motion animation fallback now keeps visible motion
 
 - Identified that both dice and coin pages were skipping their animation loops entirely when `prefers-reduced-motion` was active, which made the motion appear missing.
