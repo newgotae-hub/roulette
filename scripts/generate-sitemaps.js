@@ -9,6 +9,7 @@ const legalPages = ['privacy','terms','contact','about'];
 const localizedLegalLangs = ['en', 'ja', 'zh-cn', 'zh-tw'];
 const localizedLegalPages = ['privacy', 'terms', 'contact'];
 const guidePages = ['guides', 'guides/fair-random-draw', 'guides/event-draw-checklist', 'guides/winner-records'];
+const localizedGuideLangs = ['en'];
 const today = new Date().toISOString().slice(0, 10);
 
 function write(file, content) {
@@ -87,6 +88,16 @@ for (const lang of localizedLegalLangs) {
     locales.push(`    <lastmod>${today}</lastmod>`);
     locales.push('    <changefreq>monthly</changefreq>');
     locales.push('    <priority>0.4</priority>');
+    locales.push('  </url>');
+  }
+}
+for (const lang of localizedGuideLangs) {
+  for (const page of guidePages) {
+    locales.push('  <url>');
+    locales.push(`    <loc>https://randomly-pick.com/${lang}/${page}/</loc>`);
+    locales.push(`    <lastmod>${today}</lastmod>`);
+    locales.push('    <changefreq>weekly</changefreq>');
+    locales.push(page === 'guides' ? '    <priority>0.5</priority>' : '    <priority>0.6</priority>');
     locales.push('  </url>');
   }
 }

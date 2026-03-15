@@ -195,7 +195,6 @@
     document.documentElement.setAttribute('data-adsense-state', hasContent ? 'eligible' : 'suppressed-low-content');
 
     if (cfg.indexOf('ads') >= 0 && hasContent) loadAds();
-    if (cfg.indexOf('userback') >= 0) loadUserback();
   }
 
   if ('requestIdleCallback' in window) {

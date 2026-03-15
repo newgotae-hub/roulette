@@ -32,13 +32,11 @@ function patchOne(file) {
   // Ensure deferred third-party loader is present.
   if (!html.includes('/assets/js/third-party-loader.js')) {
     let modes = ['ads'];
-    if (/(roulette|ladder|luckydraw)\/index\.html$/.test(file)) modes.push('userback');
     const tag = `\n    <script defer src="/assets/js/third-party-loader.js"></script>\n`;
     html = html.replace(/<html\s+lang="([^"]+)"[^>]*>/i, `<html lang="$1" data-third-party="${modes.join(',')}">`);
     html = html.replace('</head>', `${tag}</head>`);
   } else if (!/data-third-party=/.test(html)) {
     let modes = ['ads'];
-    if (/(roulette|ladder|luckydraw)\/index\.html$/.test(file)) modes.push('userback');
     html = html.replace(/<html\s+lang="([^"]+)"[^>]*>/i, `<html lang="$1" data-third-party="${modes.join(',')}">`);
   }
 

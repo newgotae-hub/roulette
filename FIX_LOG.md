@@ -167,6 +167,15 @@ How to use it:
 - Hid the outdated reduced-motion note on those root pages because it no longer matches the live behavior.
 - Root-cause notes: [DICE_COIN_MOTION_ROOT_CAUSE_2026-03-15.md](/home/user/roulette/DICE_COIN_MOTION_ROOT_CAUSE_2026-03-15.md)
 
+### 2026-03-15 - AdSense approval pass reduced script noise and added English support content
+
+- Disabled site-wide Userback auto-loading for approval review by removing the `userback` mode from deployed HTML pages and stopping the shared third-party loader from booting the widget on idle.
+- Added an English guide hub and three English long-form guide pages so the English-first surface now has original explanatory content beyond the interactive tools themselves.
+- Strengthened the existing Korean guide pages with `hreflang` pairing and direct links to About, Privacy, Terms, and Contact so trust signals are visible on guide pages too.
+- Added an English guide-links block to the English homepage and updated the sitemap generator so the new English guide pages are indexed and discoverable.
+- Extended `scripts/adsense-readiness-check.js` and `scripts/deploy-main.sh` so deploys now fail if Userback auto-load returns, if the English guide set disappears, if homepages lose guide-hub links, or if guide pages lose trust links.
+- Detailed notes: [ADSENSE_APPROVAL_PASS_2026-03-15.md](/home/user/roulette/ADSENSE_APPROVAL_PASS_2026-03-15.md)
+
 ### 2026-03-15 - Trust surface hardened for AdSense review and operator clarity
 
 - Reversed the shared footer-contact interception so `문의` / `Contact` links now remain direct contact/legal routes instead of opening Userback first on plain left-click.

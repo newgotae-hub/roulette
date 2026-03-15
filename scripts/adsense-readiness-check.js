@@ -5,6 +5,16 @@ const path = require('path');
 const ROOT = path.resolve(__dirname, '..');
 const LOCALES = ['en','ja','zh-cn','zh-tw','es','fr','de','pt-br','hi','ar','ru','id','tr','it','vi','th','nl'];
 const PAGES = ['index.html', 'roulette/index.html', 'ladder/index.html', 'luckydraw/index.html', 'coinflip/index.html', 'dice/index.html'];
+const REQUIRED_GUIDE_FILES = [
+  'guides/index.html',
+  'guides/fair-random-draw/index.html',
+  'guides/event-draw-checklist/index.html',
+  'guides/winner-records/index.html',
+  'en/guides/index.html',
+  'en/guides/fair-random-draw/index.html',
+  'en/guides/event-draw-checklist/index.html',
+  'en/guides/winner-records/index.html'
+];
 const MIN_CONTENT_UNITS = 400;
 
 function normalizeText(value) {
@@ -52,6 +62,19 @@ function resolveLocalTarget(href) {
   return path.join(ROOT, cleaned, 'index.html');
 }
 
+function walk(dir, out = []) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (entry.name === '.git' || entry.name === 'node_modules') continue;
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      walk(full, out);
+    } else if (entry.isFile() && entry.name === 'index.html') {
+      out.push(path.relative(ROOT, full).replace(/\\/g, '/'));
+    }
+  }
+  return out;
+}
+
 function readFile(rel) {
   return fs.readFileSync(path.join(ROOT, rel), 'utf8');
 }
@@ -60,9 +83,52 @@ const files = [
   ...PAGES,
   ...LOCALES.flatMap((locale) => PAGES.map((page) => `${locale}/${page}`))
 ].filter((rel) => fs.existsSync(path.join(ROOT, rel)));
+const htmlFiles = walk(ROOT);
 
 const findings = [];
 const summaries = [];
+
+for (const rel of htmlFiles) {
+  const html = readFile(rel);
+  if (/<html[^>]*data-third-party="[^"]*\buserback\b/i.test(html)) {
+    findings.push(`${rel}: Userback auto-load should stay disabled during AdSense review.`);
+  }
+}
+
+const thirdPartyLoader = readFile('assets/js/third-party-loader.js');
+if (/cfg\.indexOf\('userback'\)\s*>=\s*0\)\s*loadUserback\(\)/.test(thirdPartyLoader)) {
+  findings.push('assets/js/third-party-loader.js: Userback must not auto-load during AdSense review.');
+}
+
+for (const rel of REQUIRED_GUIDE_FILES) {
+  if (!fs.existsSync(path.join(ROOT, rel))) {
+    findings.push(`${rel}: required guide page is missing.`);
+  }
+}
+
+const homepageGuideChecks = [
+  ['index.html', '/guides/'],
+  ['en/index.html', '/en/guides/']
+];
+
+for (const [rel, href] of homepageGuideChecks) {
+  const html = readFile(rel);
+  if (!html.includes(`href="${href}"`)) {
+    findings.push(`${rel}: missing visible guide-hub link (${href}).`);
+  }
+}
+
+for (const rel of REQUIRED_GUIDE_FILES.filter((file) => fs.existsSync(path.join(ROOT, file)))) {
+  const html = readFile(rel);
+  const expectedLinks = rel.startsWith('en/')
+    ? ['/about/', '/en/privacy/', '/en/contact/']
+    : ['/about/', '/privacy/', '/contact/'];
+  for (const href of expectedLinks) {
+    if (!html.includes(`href="${href}"`)) {
+      findings.push(`${rel}: missing trust link ${href}.`);
+    }
+  }
+}
 
 for (const rel of files) {
   const html = readFile(rel);
@@ -84,7 +150,7 @@ for (const rel of files) {
     findings.push(`${rel}: content units ${units} below threshold ${MIN_CONTENT_UNITS}.`);
   }
 
-  for (const id of ['footer-terms', 'footer-privacy', 'footer-contact']) {
+  for (const id of ['footer-terms', 'footer-privacy', 'footer-about', 'footer-contact']) {
     const match = html.match(new RegExp(`<a[^>]*id=["']${id}["'][^>]*href=["']([^"']+)["']`, 'i'));
     if (!match) {
       findings.push(`${rel}: missing ${id} link.`);
