@@ -92,6 +92,12 @@ How to use it:
 - Added `whitespace-pre-line` to the hero description so the newline renders visibly instead of collapsing into one paragraph.
 - Refreshed the shared `team-generator` script version across every localized page so browsers fetch the updated Korean i18n copy immediately.
 
+### Team split missing-score copy aligned with average scoring
+
+- Replaced remaining team-generator UI copy that still said blank scores are treated as `0` so it now explains that missing scores use the average of the entered scores.
+- Fixed the broken Korean newline inside `assets/js/team-generator-i18n.js` so the localized team-generator bundle parses correctly again.
+- Refreshed the shared `team-generator` script version across every localized page so stale cached `0`-score copy is invalidated after deployment.
+
 ### Footer contact links now open Userback first
 
 - Updated the shared third-party loader so footer `문의하기` / `Contact` links open the Userback widget on plain left-click before falling back to the existing contact page.
