@@ -26,6 +26,13 @@ const I18N = {
       heading: '문의하기',
       intro: '서비스 문의, 버그 제보, 광고·제휴 요청은 아래 이메일로 보내주세요.',
       emailLabel: '이메일',
+      operatorLabel: '운영자',
+      operatorName: 'Juntae Ko',
+      operatorDetail: 'Randomly Pick 운영과 문의 응답은 아래 이메일 창구를 기준으로 처리됩니다.',
+      policyLabel: '안내 페이지',
+      aboutLabel: '소개',
+      privacyLabel: '개인정보처리방침',
+      termsLabel: '이용약관',
       detail1: '오류 제보 시에는 페이지 주소, 사용 언어, 기기 종류, 브라우저 정보를 함께 보내주시면 재현과 수정이 빨라집니다.',
       detail2: '광고 검토나 제휴 문의는 목적과 노출 위치, 기간을 함께 적어주시면 확인이 수월합니다.'
     },
@@ -55,11 +62,11 @@ const I18N = {
         },
         {
           title: '3. 브라우저 내부 처리',
-          body: 'Randomly Pick의 핵심 추첨 기능은 브라우저 안에서 동작하도록 설계되어 있습니다. 사용자가 입력한 명단과 현재 추첨 상태는 별도 전송이 필요한 외부 서비스가 없는 한 서버에 저장되지 않습니다.'
+          body: 'Randomly Pick의 핵심 추첨 기능은 브라우저 안에서 동작하도록 설계되어 있습니다. 일부 편의 기능은 localStorage 같은 브라우저 저장소를 사용할 수 있지만, 사용자가 입력한 명단과 현재 추첨 상태는 별도 전송이 필요한 외부 서비스가 없는 한 서버에 저장되지 않습니다.'
         },
         {
           title: '4. 쿠키와 외부 서비스',
-          body: '사이트는 기본 기능, 방문 분석, 광고 운영을 위해 쿠키 또는 유사 기술을 사용할 수 있습니다. 또한 Google AdSense, Google Analytics, Google Tag Manager, Microsoft Clarity, Userback 같은 외부 서비스를 사용할 수 있으며, 이들 서비스는 각자의 정책에 따라 데이터를 처리할 수 있습니다.'
+          body: '사이트는 기본 기능, 방문 분석, 광고 운영을 위해 쿠키, localStorage 또는 유사 기술을 사용할 수 있습니다. 또한 Google AdSense, Google Analytics, Google Tag Manager, Microsoft Clarity, Userback 같은 외부 서비스를 사용할 수 있으며, 이들 서비스는 각자의 정책에 따라 데이터를 처리할 수 있습니다. EEA, 영국, 스위스처럼 관련 법령이나 광고 플랫폼 정책이 적용되는 지역에서는 개인 맞춤 광고 전에 동의 배너나 CMP를 통해 선택을 요청할 수 있으며, 동의가 없으면 비개인화 광고 또는 제한된 광고만 표시될 수 있습니다.'
         },
         {
           title: '5. 보관 기간과 이용자 권리',
@@ -119,6 +126,13 @@ const I18N = {
       heading: 'Contact',
       intro: 'For support, bug reports, advertising, or partnership inquiries, contact us by email.',
       emailLabel: 'Email',
+      operatorLabel: 'Operator',
+      operatorName: 'Juntae Ko',
+      operatorDetail: 'Randomly Pick is operated and supported through the contact channel below.',
+      policyLabel: 'Policy links',
+      aboutLabel: 'About',
+      privacyLabel: 'Privacy Policy',
+      termsLabel: 'Terms of Service',
       detail1: 'When reporting an issue, include the page URL, language, device type, and browser so we can reproduce it quickly.',
       detail2: 'For advertising or partnership requests, include your goal, preferred placement, and schedule.'
     },
@@ -148,11 +162,11 @@ const I18N = {
         },
         {
           title: '3. Browser-local processing',
-          body: 'The core random-draw features are designed to run in your browser. Participant lists and draw state are not stored on our servers unless a third-party integration specifically requires it.'
+          body: 'The core random-draw features are designed to run in your browser. Some convenience features may use browser storage such as localStorage, but participant lists and draw state are not stored on our servers unless a third-party integration specifically requires it.'
         },
         {
           title: '4. Cookies and third-party services',
-          body: 'The site may use cookies or similar technologies for core functionality, analytics, and advertising. We may also use third-party services such as Google AdSense, Google Analytics, Google Tag Manager, Microsoft Clarity, and Userback, each of which may process data under its own policies.'
+          body: 'The site may use cookies, localStorage, or similar technologies for core functionality, analytics, and advertising. We may also use third-party services such as Google AdSense, Google Analytics, Google Tag Manager, Microsoft Clarity, and Userback, each of which may process data under its own policies. For visitors in the EEA, UK, and Switzerland, consent choices may be requested through a banner or CMP before personalized ads are shown. If consent is not available, advertising may be limited or non-personalized.'
         },
         {
           title: '5. Retention and user rights',
@@ -212,6 +226,13 @@ const I18N = {
       heading: 'お問い合わせ',
       intro: 'サポート、バグ報告、広告・提携に関するご相談は、以下のメールアドレスまでご連絡ください。',
       emailLabel: 'メール',
+      operatorLabel: '運営者',
+      operatorName: 'Juntae Ko',
+      operatorDetail: 'Randomly Pick の運営とお問い合わせ対応は、以下のメール窓口を中心に行っています。',
+      policyLabel: '関連ページ',
+      aboutLabel: 'サイト紹介',
+      privacyLabel: 'プライバシーポリシー',
+      termsLabel: '利用規約',
       detail1: '不具合報告の際は、ページURL、使用言語、端末種類、ブラウザ情報を添えていただくと再現と修正が早くなります。',
       detail2: '広告や提携のご相談では、目的、希望掲載位置、期間をご記載ください。'
     },
@@ -241,11 +262,11 @@ const I18N = {
         },
         {
           title: '3. ブラウザ内での処理',
-          body: '主要な抽選機能はブラウザ内で動作するよう設計されています。参加者リストや抽選状態は、特定の外部連携が必要な場合を除き、当サイトのサーバーに保存されません。'
+          body: '主要な抽選機能はブラウザ内で動作するよう設計されています。一部の補助機能では localStorage などのブラウザ保存領域を使う場合がありますが、参加者リストや抽選状態は、特定の外部連携が必要な場合を除き、当サイトのサーバーに保存されません。'
         },
         {
           title: '4. Cookie と外部サービス',
-          body: 'サイトでは基本機能、アクセス解析、広告配信のために Cookie または類似技術を使用する場合があります。また、Google AdSense、Google Analytics、Google Tag Manager、Microsoft Clarity、Userback などの外部サービスを利用する場合があり、各サービスは独自のポリシーに基づいてデータを処理することがあります。'
+          body: 'サイトでは基本機能、アクセス解析、広告配信のために Cookie、localStorage、または類似技術を使用する場合があります。また、Google AdSense、Google Analytics、Google Tag Manager、Microsoft Clarity、Userback などの外部サービスを利用する場合があり、各サービスは独自のポリシーに基づいてデータを処理することがあります。EEA、英国、スイスなど、法令や広告プラットフォームの要件が適用される地域では、パーソナライズ広告の前に同意バナーや CMP を通じて選択をお願いする場合があります。同意が得られない場合、非パーソナライズ広告または制限付き広告のみが表示されることがあります。'
         },
         {
           title: '5. 保存期間と利用者の権利',
@@ -305,6 +326,13 @@ const I18N = {
       heading: '联系我们',
       intro: '如需技术支持、错误反馈、广告投放或合作咨询，请通过以下邮箱联系我们。',
       emailLabel: '邮箱',
+      operatorLabel: '运营者',
+      operatorName: 'Juntae Ko',
+      operatorDetail: 'Randomly Pick 的运营与咨询回复以上述邮箱渠道为主。',
+      policyLabel: '相关页面',
+      aboutLabel: '关于本站',
+      privacyLabel: '隐私政策',
+      termsLabel: '使用条款',
       detail1: '提交问题时，请附上页面地址、使用语言、设备类型和浏览器信息，以便我们更快复现问题。',
       detail2: '如需广告或合作咨询，请说明目的、期望展示位置和时间安排。'
     },
@@ -334,11 +362,11 @@ const I18N = {
         },
         {
           title: '3. 浏览器本地处理',
-          body: '核心随机抽取功能被设计为在浏览器中运行。除非某些第三方集成功能明确需要，否则参与名单和抽签状态不会存储到我们的服务器。'
+          body: '核心随机抽取功能被设计为在浏览器中运行。部分辅助功能可能会使用 localStorage 等浏览器存储，但除非某些第三方集成功能明确需要，否则参与名单和抽签状态不会存储到我们的服务器。'
         },
         {
           title: '4. Cookie 与第三方服务',
-          body: '网站可能会为基础功能、统计分析和广告使用 Cookie 或类似技术。我们也可能使用 Google AdSense、Google Analytics、Google Tag Manager、Microsoft Clarity、Userback 等第三方服务，这些服务会按照各自的政策处理数据。'
+          body: '网站可能会为基础功能、统计分析和广告使用 Cookie、localStorage 或类似技术。我们也可能使用 Google AdSense、Google Analytics、Google Tag Manager、Microsoft Clarity、Userback 等第三方服务，这些服务会按照各自的政策处理数据。对于位于 EEA、英国和瑞士的访客，在展示个性化广告前，可能会通过同意横幅或 CMP 请求你的选择。如果无法获得同意，广告可能只会以非个性化或受限形式展示。'
         },
         {
           title: '5. 保存期限与用户权利',
@@ -398,6 +426,13 @@ const I18N = {
       heading: '聯絡我們',
       intro: '若需技術支援、錯誤回報、廣告投放或合作洽詢，請透過以下信箱聯絡我們。',
       emailLabel: '電子郵件',
+      operatorLabel: '營運者',
+      operatorName: 'Juntae Ko',
+      operatorDetail: 'Randomly Pick 的營運與聯絡回覆以上述電子郵件管道為主。',
+      policyLabel: '相關頁面',
+      aboutLabel: '關於本站',
+      privacyLabel: '隱私權政策',
+      termsLabel: '使用條款',
       detail1: '回報問題時，請附上頁面網址、使用語言、裝置類型與瀏覽器資訊，方便我們更快重現問題。',
       detail2: '若是廣告或合作洽詢，請一併說明目的、希望曝光的位置與時程。'
     },
@@ -427,11 +462,11 @@ const I18N = {
         },
         {
           title: '3. 瀏覽器本地處理',
-          body: '核心隨機抽取功能設計為在瀏覽器中執行。除非某些第三方整合明確需要，否則參與名單與抽籤狀態不會儲存在我們的伺服器。'
+          body: '核心隨機抽取功能設計為在瀏覽器中執行。部分輔助功能可能會使用 localStorage 等瀏覽器儲存空間，但除非某些第三方整合明確需要，否則參與名單與抽籤狀態不會儲存在我們的伺服器。'
         },
         {
           title: '4. Cookie 與第三方服務',
-          body: '網站可能會為基本功能、流量分析與廣告使用 Cookie 或類似技術。我們也可能使用 Google AdSense、Google Analytics、Google Tag Manager、Microsoft Clarity、Userback 等第三方服務，這些服務會依照各自政策處理資料。'
+          body: '網站可能會為基本功能、流量分析與廣告使用 Cookie、localStorage 或類似技術。我們也可能使用 Google AdSense、Google Analytics、Google Tag Manager、Microsoft Clarity、Userback 等第三方服務，這些服務會依照各自政策處理資料。對於位於 EEA、英國與瑞士的訪客，在顯示個人化廣告前，可能會透過同意橫幅或 CMP 請求你的選擇。若無法取得同意，廣告可能僅以非個人化或受限形式顯示。'
         },
         {
           title: '5. 保存期間與使用者權利',
@@ -603,8 +638,11 @@ function renderContact(locale) {
   const body = `      <h1>${esc(t.heading)}</h1>
       <p>${esc(t.intro)}</p>
       <p><strong>${esc(t.emailLabel)}:</strong> <a href="mailto:newgotae@gmail.com">newgotae@gmail.com</a></p>
+      <p><strong>${esc(t.operatorLabel)}:</strong> ${esc(t.operatorName)}</p>
+      <p>${esc(t.operatorDetail)}</p>
       <p>${esc(t.detail1)}</p>
-      <p>${esc(t.detail2)}</p>`;
+      <p>${esc(t.detail2)}</p>
+      <p><strong>${esc(t.policyLabel)}:</strong> <a href="/about/">${esc(t.aboutLabel)}</a> · <a href="${localePath(locale, 'privacy')}">${esc(t.privacyLabel)}</a> · <a href="${localePath(locale, 'terms')}">${esc(t.termsLabel)}</a></p>`;
   return layout(locale, 'contact', t.title, t.description, body);
 }
 

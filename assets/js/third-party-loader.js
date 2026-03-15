@@ -162,7 +162,7 @@
   }
 
   function bindUserbackTriggers() {
-    var triggers = document.querySelectorAll('#footer-contact, [data-userback-trigger]');
+    var triggers = document.querySelectorAll('[data-userback-trigger]');
     var i;
 
     for (i = 0; i < triggers.length; i += 1) {

@@ -167,6 +167,15 @@ How to use it:
 - Hid the outdated reduced-motion note on those root pages because it no longer matches the live behavior.
 - Root-cause notes: [DICE_COIN_MOTION_ROOT_CAUSE_2026-03-15.md](/home/user/roulette/DICE_COIN_MOTION_ROOT_CAUSE_2026-03-15.md)
 
+### 2026-03-15 - Trust surface hardened for AdSense review and operator clarity
+
+- Reversed the shared footer-contact interception so `문의` / `Contact` links now remain direct contact/legal routes instead of opening Userback first on plain left-click.
+- Replaced the footer operator Instagram links across the deployed HTML pages with the internal `/about/` page so operator identity and policy links stay on-site.
+- Expanded the generated contact and privacy pages in Korean, English, Japanese, Simplified Chinese, and Traditional Chinese with operator identification, direct policy links, browser-storage disclosure, and consent-region wording for EEA, UK, and Switzerland traffic.
+- Expanded `/about/` with explicit operator/publisher information, browser-local processing notes, advertising/cookie disclosures, and direct links to contact, privacy, and terms.
+- Extended `scripts/validate-seo.js` so deploys fail if footer operator links regress back to Instagram, if footer contact is intercepted again, or if the strengthened about/contact/privacy trust signals disappear.
+- Detailed notes: [ADSENSE_TRUST_SURFACE_HARDENING_2026-03-15.md](/home/user/roulette/ADSENSE_TRUST_SURFACE_HARDENING_2026-03-15.md)
+
 ### Footer contact links now open Userback first
 
 - Updated the shared third-party loader so footer `문의하기` / `Contact` links open the Userback widget on plain left-click before falling back to the existing contact page.

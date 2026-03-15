@@ -7,7 +7,9 @@ const LOCALES = ['en', 'ja', 'zh-cn', 'zh-tw', 'es', 'fr', 'de', 'pt-br', 'hi', 
 const TEAM_GENERATOR_LOCALES = ['ko', ...LOCALES];
 const PINNED_MODEL_VIEWER_URL = 'https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js';
 const FLOATING_MODEL_VIEWER_URL = 'https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js';
+const OPERATOR_INSTAGRAM_URL = 'https://www.instagram.com/juntaeko_tr';
 const ROBOTS_TXT = fs.readFileSync(path.join(ROOT, 'robots.txt'), 'utf8');
+const THIRD_PARTY_LOADER = fs.readFileSync(path.join(ROOT, 'assets/js/third-party-loader.js'), 'utf8');
 const ALIAS_REDIRECTS = {
   'ko-kr': 'ko',
   'ja-jp': 'ja',
@@ -219,6 +221,39 @@ function validateEnglishAcquisitionSignals(page, findings) {
   }
 }
 
+function validateTrustComplianceSignals(page, findings) {
+  if (page.html.includes(OPERATOR_INSTAGRAM_URL)) {
+    findings.push(`${page.pagePath}: operator footer link should stay on-site, not Instagram.`);
+  }
+
+  if (page.pagePath === '/about/') {
+    if (!page.html.includes('Operator and Publisher')) {
+      findings.push(`${page.pagePath}: about page should identify the operator/publisher.`);
+    }
+    if (!page.html.includes('EEA, UK, and Switzerland')) {
+      findings.push(`${page.pagePath}: about page should include consent-region disclosure.`);
+    }
+  }
+
+  if (page.pagePath === '/privacy/' || page.pagePath === '/en/privacy/') {
+    if (!page.html.includes('localStorage')) {
+      findings.push(`${page.pagePath}: privacy page should mention browser storage usage.`);
+    }
+    if (!/EEA|UK|Switzerland/.test(page.html)) {
+      findings.push(`${page.pagePath}: privacy page should mention consent-region disclosure.`);
+    }
+  }
+
+  if (page.pagePath === '/contact/' || page.pagePath === '/en/contact/') {
+    if (!/Operator|운영자/.test(page.html)) {
+      findings.push(`${page.pagePath}: contact page should identify the operator.`);
+    }
+    if (!/\/about\/|\/privacy\/|\/terms\//.test(page.html)) {
+      findings.push(`${page.pagePath}: contact page should link to policy pages.`);
+    }
+  }
+}
+
 const TEAM_GENERATOR_TEXT_CHECKS = [
   ['lang-button-label', 'langButton'],
   ['chip-missing', 'chipMissing'],
@@ -390,6 +425,7 @@ for (const page of pages.values()) {
   if (page.pagePath === '/about/' && !hasSafeAboutPatch(page.html)) findings.push(`${page.pagePath}: missing about page query normalization patch.`);
   validateDiceCoin3DRuntime(page, findings);
   validateEnglishAcquisitionSignals(page, findings);
+  validateTrustComplianceSignals(page, findings);
   validateTeamGeneratorLocaleSync(page, findings);
 
   const indexable = !page.refresh && !page.noindex && page.canonical === page.pagePath;
@@ -423,6 +459,10 @@ if (!TEAM_GENERATOR_I18N_SOURCE.includes('"seoTitle":"Random Team Generator | Ba
 
 if (!TEAM_GENERATOR_I18N_SOURCE.includes('"heroTitle":"Random Team Generator and Balanced Team Splitter"')) {
   findings.push('assets/js/team-generator-i18n.js: missing English team-generator hero title update.');
+}
+
+if (THIRD_PARTY_LOADER.includes("querySelectorAll('#footer-contact, [data-userback-trigger]')")) {
+  findings.push('assets/js/third-party-loader.js: footer contact must not be intercepted by Userback.');
 }
 
 for (const locale of TEAM_GENERATOR_LOCALES) {
