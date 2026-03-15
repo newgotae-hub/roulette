@@ -1,10 +1,15 @@
 (function () {
   var MIN_ADSENSE_CONTENT_UNITS = 400;
+  var USERBACK_WIDGET_URL = 'https://static.userback.io/widget/v1.js';
+  var USERBACK_OPEN_TIMEOUT_MS = 8000;
+  var userbackLoadStarted = false;
 
-  function injectScript(src, attrs) {
+  function injectScript(src, attrs, onload, onerror) {
     var s = document.createElement('script');
     s.src = src;
     s.async = true;
+    if (typeof onload === 'function') s.onload = onload;
+    if (typeof onerror === 'function') s.onerror = onerror;
     if (attrs) {
       Object.keys(attrs).forEach(function (k) {
         if (attrs[k] != null) s.setAttribute(k, attrs[k]);
@@ -60,6 +65,10 @@
     return !!document.querySelector('script[src*="googlesyndication.com/pagead/js/adsbygoogle.js"]');
   }
 
+  function hasUserbackScript() {
+    return !!document.querySelector('script[src*="static.userback.io/widget/v1.js"]');
+  }
+
   function loadAds() {
     if (hasAdsScript()) return;
     injectScript('https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1010168647313500', {
@@ -67,12 +76,113 @@
     });
   }
 
-  function loadUserback() {
-    window.Userback = window.Userback || {};
-    window.Userback.access_token = 'A-vV6YCxc6cQKtRBem24yA3IgC8';
+  function prepareUserbackConfig() {
+    var api = window.Userback;
+    if (!api || (typeof api !== 'object' && typeof api !== 'function')) {
+      api = {};
+      window.Userback = api;
+    }
+    api.access_token = 'A-vV6YCxc6cQKtRBem24yA3IgC8';
     var lang = window.__rltBootLang || document.documentElement.lang || 'en';
-    window.Userback.widget_settings = { language: String(lang).toLowerCase().startsWith('ko') ? 'ko' : 'en' };
-    injectScript('https://static.userback.io/widget/v1.js');
+    api.widget_settings = { language: String(lang).toLowerCase().startsWith('ko') ? 'ko' : 'en' };
+    return api;
+  }
+
+  function hasUserbackOpen() {
+    return !!(
+      (window.Userback && typeof window.Userback.open === 'function') ||
+      typeof window.Userback === 'function'
+    );
+  }
+
+  function loadUserback() {
+    prepareUserbackConfig();
+    if (hasUserbackOpen() || userbackLoadStarted || hasUserbackScript()) return;
+
+    userbackLoadStarted = true;
+    injectScript(USERBACK_WIDGET_URL, null, function () {
+      userbackLoadStarted = false;
+    }, function () {
+      userbackLoadStarted = false;
+    });
+  }
+
+  function waitForUserbackReady(callback) {
+    var startedAt = Date.now();
+
+    function check() {
+      if (hasUserbackOpen()) {
+        callback(null);
+        return;
+      }
+
+      if (Date.now() - startedAt >= USERBACK_OPEN_TIMEOUT_MS) {
+        callback(new Error('Userback did not become ready in time.'));
+        return;
+      }
+
+      window.setTimeout(check, 120);
+    }
+
+    check();
+  }
+
+  function openUserbackWidget() {
+    var api = window.Userback;
+    if (!api) return false;
+
+    if (typeof api.open === 'function') {
+      api.open();
+      return true;
+    }
+
+    if (typeof api === 'function') {
+      try {
+        api('open');
+        return true;
+      } catch (e) {}
+    }
+
+    return false;
+  }
+
+  function shouldInterceptContactClick(event) {
+    return !event.defaultPrevented &&
+      (typeof event.button !== 'number' || event.button === 0) &&
+      !event.metaKey &&
+      !event.ctrlKey &&
+      !event.shiftKey &&
+      !event.altKey;
+  }
+
+  function fallbackToContactHref(trigger) {
+    var href = trigger && trigger.getAttribute ? trigger.getAttribute('href') : '';
+    if (!href) return;
+    window.location.href = href;
+  }
+
+  function bindUserbackTriggers() {
+    var triggers = document.querySelectorAll('#footer-contact, [data-userback-trigger]');
+    var i;
+
+    for (i = 0; i < triggers.length; i += 1) {
+      if (triggers[i].getAttribute('data-userback-bound') === 'true') continue;
+
+      triggers[i].setAttribute('data-userback-bound', 'true');
+      triggers[i].addEventListener('click', function (event) {
+        var trigger = event.currentTarget;
+
+        if (!shouldInterceptContactClick(event)) return;
+
+        event.preventDefault();
+        loadUserback();
+        waitForUserbackReady(function (error) {
+          if (error || !openUserbackWidget()) {
+            fallbackToContactHref(trigger);
+          }
+        });
+      });
+    }
   }
 
   function run() {
@@ -80,6 +190,7 @@
     var contentUnitCount = getPublisherContentUnits();
     var hasContent = contentUnitCount >= MIN_ADSENSE_CONTENT_UNITS;
 
+    bindUserbackTriggers();
     document.documentElement.setAttribute('data-adsense-units', String(contentUnitCount));
     document.documentElement.setAttribute('data-adsense-state', hasContent ? 'eligible' : 'suppressed-low-content');
 
