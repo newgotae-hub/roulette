@@ -193,3 +193,11 @@ How to use it:
 - Added `scripts/sync-team-generator-locales.js` and used it to resync all 18 team-generator locale pages so visible static HTML no longer falls back to stale English copy.
 - Extended `scripts/validate-seo.js` so future deploys fail if team-generator locale HTML drifts from the shared bundle or if obvious English static copy returns on non-English pages.
 - Detailed notes: [TEAM_GENERATOR_TRANSLATION_AUDIT_2026-03-15.md](/home/user/roulette/TEAM_GENERATOR_TRANSLATION_AUDIT_2026-03-15.md)
+
+### 2026-03-15 - English SEO copy refreshed for wheel, lucky draw, ladder, dice, and coin flip
+
+- Updated the English coin-flip title across all embedded English locale copies from `Coin a Flip!` to the final user-approved phrasing `Flip a Coin! Heads or Tails`, and tightened the validator to catch casing regressions.
+- Expanded the English dice hero copy and duplicated English dice metadata so the page now targets online dice-roller use cases such as board games, classrooms, tabletop RPGs, giveaways, and quick random decisions.
+- Reworked the English homepage hero and metadata to emphasize `Wheel of Names`, `Lucky Draw`, and `Random Name Picker` together for stronger English acquisition coverage.
+- Renamed the English lucky-draw hero toward `Lucky Draw`, strengthened its metadata and explainer copy for random number, name-picking, raffle, and custom-list intent, and aligned the shared English boot title.
+- Added a visible two-line English ladder description plus stronger ladder metadata for giveaway, classroom, random-team, and matchup intent, and extended the validator to guard the new English ladder and dice copy.

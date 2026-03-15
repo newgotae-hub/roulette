@@ -155,6 +155,9 @@ function validateEnglishAcquisitionSignals(page, findings) {
     if (!/Wheel of Names/i.test(title)) {
       findings.push(`${page.pagePath}: title should target "Wheel of Names".`);
     }
+    if (!page.html.includes('Lucky Draw')) {
+      findings.push(`${page.pagePath}: page should mention "Lucky Draw".`);
+    }
     if (!page.html.includes('Random Name Picker')) {
       findings.push(`${page.pagePath}: page should mention "Random Name Picker".`);
     }
@@ -168,11 +171,30 @@ function validateEnglishAcquisitionSignals(page, findings) {
     if (!/Random Number Generator/i.test(title)) {
       findings.push(`${page.pagePath}: title should target "Random Number Generator".`);
     }
+    if (!page.html.includes('Lucky Draw')) {
+      findings.push(`${page.pagePath}: page should mention "Lucky Draw".`);
+    }
     if (!page.html.includes('Name Picker')) {
       findings.push(`${page.pagePath}: page should mention "Name Picker".`);
     }
     if (hasEmptySoftwareApplicationDescription(page.html)) {
       findings.push(`${page.pagePath}: SoftwareApplication description must not be empty.`);
+    }
+  }
+
+  if (page.pagePath === '/en/dice/') {
+    if (!page.html.includes('tabletop RPGs')) {
+      findings.push(`${page.pagePath}: page should include the expanded English dice SEO copy.`);
+    }
+  }
+
+  if (page.pagePath === '/en/ladder/') {
+    const title = extractTitle(page.html);
+    if (!/Online Ladder Draw/i.test(title)) {
+      findings.push(`${page.pagePath}: title should target "Online Ladder Draw".`);
+    }
+    if (!page.html.includes('event matchups')) {
+      findings.push(`${page.pagePath}: page should include the visible English ladder description.`);
     }
   }
 
@@ -186,6 +208,13 @@ function validateEnglishAcquisitionSignals(page, findings) {
     }
     if (!page.html.includes('"@type": "FAQPage"')) {
       findings.push(`${page.pagePath}: missing FAQPage structured data.`);
+    }
+  }
+
+  if (page.pagePath === '/en/coinflip/') {
+    const title = extractTitle(page.html);
+    if (!/Flip a Coin!/.test(title)) {
+      findings.push(`${page.pagePath}: title should use "Flip a Coin!" phrasing.`);
     }
   }
 }
