@@ -55,3 +55,9 @@ How to use it:
 - Added the desktop fullscreen button and focus hint to every localized `/team-generator/` page so its top header matches the other game pages.
 - Reused the same locale-specific fullscreen labels already used on the existing tools, including fullscreen exit text wiring in `assets/js/team-generator.js`.
 - Added the missing mobile language-toggle `aria-label` values on the localized team split pages so the header controls now line up with the other tool pages.
+- Detailed notes: [TEAM_SPLIT_HEADER_PARITY_FOLLOWUP.md](/home/user/roulette/TEAM_SPLIT_HEADER_PARITY_FOLLOWUP.md)
+
+### Team generator shuffle action for result variations
+
+- Added a dedicated shuffle action to the team split result toolbar across localized team-generator pages.
+- Wired random-mode shuffle to reshuffle assignments and balanced-mode shuffle to swap nearby members while keeping team sizes fixed and score balance disruption minimal.
