@@ -86,6 +86,12 @@ How to use it:
 - Kept the existing `model-viewer`-based 3D motion path and GLB asset references instead of adding another wrapper-animation workaround.
 - Detailed notes: [DICE_COIN_MOTION_ROOT_CAUSE_2026-03-15.md](/home/user/roulette/DICE_COIN_MOTION_ROOT_CAUSE_2026-03-15.md)
 
+### Dice and coin 3D runtime guardrail and recovery runbook
+
+- Extended the dice/coin root-cause note with explicit prevention rules and a step-by-step recovery runbook for future regressions.
+- Added a deployment validator guard in [scripts/validate-seo.js](/home/user/roulette/scripts/validate-seo.js) so deploys now fail if any dice/coin page drops the pinned `model-viewer` URL or its required GLB asset reference.
+- Detailed notes: [DICE_COIN_MOTION_ROOT_CAUSE_2026-03-15.md](/home/user/roulette/DICE_COIN_MOTION_ROOT_CAUSE_2026-03-15.md)
+
 ### Team split top controls compressed further
 
 - Further compressed the top control cluster by reducing card padding, label sizes, quick team-count buttons, and summary stat box height so the mode/team-count/participant block takes less vertical space before the roster input.

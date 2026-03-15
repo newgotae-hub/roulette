@@ -33,3 +33,30 @@ Status: Updated after confirming the shell-transform workaround stayed removed a
 - Verified the root and localized dice/coin pages all reference the pinned `@google/model-viewer@3.5.0` loader instead of the floating unpkg latest URL.
 - Verified the live code path still points at `/dice.glb` and `/stylized_pirate_coin.glb`.
 - Ran `git diff --check`.
+
+## Prevention Rules
+
+- Do not switch dice/coin pages back to an unversioned `model-viewer` CDN URL.
+- If `model-viewer` must be upgraded, update every root and localized `dice/coinflip` page in the same change and test the live 3D roll/flip visually before deployment.
+- Keep the GLB asset paths unchanged unless the asset files themselves are being intentionally replaced:
+  - Dice: `/dice.glb`
+  - Coin: `/stylized_pirate_coin.glb`
+- Do not reintroduce wrapper `transform`-based fake rotation for production fixes. It makes the uploaded 3D assets look flat.
+- Deployment now includes a validator guard in [scripts/validate-seo.js](/home/user/roulette/scripts/validate-seo.js) that fails if:
+  - Any dice/coin page uses the floating `model-viewer` URL
+  - Any dice/coin page is missing the pinned `@google/model-viewer@3.5.0` URL
+  - Any dice/coin page loses its required GLB asset reference
+
+## Recovery Runbook
+
+If the dice or coin stops visibly rotating again, check in this order:
+
+1. Confirm the page still loads the pinned runtime:
+   - `rg -n "model-viewer@3.5.0|model-viewer/dist/model-viewer.min.js" dice coinflip en ja zh-cn zh-tw es fr de pt-br hi ar ru id tr it vi th nl`
+2. Confirm the page still points at the 3D asset:
+   - Dice pages must contain `/dice.glb`
+   - Coin pages must contain `/stylized_pirate_coin.glb`
+3. Run the deploy validator locally:
+   - `node scripts/validate-seo.js`
+4. If the validator passes but live motion still regresses, test a controlled `model-viewer` version bump or rollback in one branch and verify actual browser rendering before shipping.
+5. Deploy only through [scripts/deploy-main.sh](/home/user/roulette/scripts/deploy-main.sh) so the validator always runs before push.

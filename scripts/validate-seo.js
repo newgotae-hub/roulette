@@ -4,6 +4,8 @@ const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
 const LOCALES = ['en', 'ja', 'zh-cn', 'zh-tw', 'es', 'fr', 'de', 'pt-br', 'hi', 'ar', 'ru', 'id', 'tr', 'it', 'vi', 'th', 'nl'];
+const PINNED_MODEL_VIEWER_URL = 'https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js';
+const FLOATING_MODEL_VIEWER_URL = 'https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js';
 const ALIAS_REDIRECTS = {
   'ko-kr': 'ko',
   'ja-jp': 'ja',
@@ -76,6 +78,24 @@ function hasSafeLegalPatch(html) {
 
 function hasSafeAboutPatch(html) {
   return html.includes('data-rlt-about-canonical-patch');
+}
+
+function validateDiceCoin3DRuntime(page, findings) {
+  const isDicePage = /^\/(?:(?:en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?dice\/$/.test(page.pagePath);
+  const isCoinPage = /^\/(?:(?:en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?coinflip\/$/.test(page.pagePath);
+  if (!isDicePage && !isCoinPage) return;
+
+  if (!page.html.includes(PINNED_MODEL_VIEWER_URL)) {
+    findings.push(`${page.pagePath}: missing pinned model-viewer runtime (${PINNED_MODEL_VIEWER_URL}).`);
+  }
+  if (page.html.includes(FLOATING_MODEL_VIEWER_URL)) {
+    findings.push(`${page.pagePath}: floating model-viewer runtime must not be deployed.`);
+  }
+
+  const requiredAsset = isDicePage ? '/dice.glb' : '/stylized_pirate_coin.glb';
+  if (!page.html.includes(requiredAsset)) {
+    findings.push(`${page.pagePath}: missing required 3D asset reference ${requiredAsset}.`);
+  }
 }
 
 function extractLocalHrefs(html) {
@@ -155,6 +175,7 @@ for (const page of pages.values()) {
   if ((isToolIndex || isToolPage) && !hasSafeCanonicalPatch(page.html)) findings.push(`${page.pagePath}: missing safe query normalization patch.`);
   if (isLegalPage && !hasSafeLegalPatch(page.html)) findings.push(`${page.pagePath}: missing legal page query normalization patch.`);
   if (page.pagePath === '/about/' && !hasSafeAboutPatch(page.html)) findings.push(`${page.pagePath}: missing about page query normalization patch.`);
+  validateDiceCoin3DRuntime(page, findings);
 
   const indexable = !page.refresh && !page.noindex && page.canonical === page.pagePath;
   if (indexable && !sitemaps.has(page.pagePath)) findings.push(`${page.pagePath}: indexable page missing from sitemap.`);
