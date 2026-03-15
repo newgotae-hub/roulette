@@ -540,7 +540,7 @@
           var url = new URL(window.location.href);
           var host = url.hostname.toLowerCase();
           var supportedLangs = /^(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)$/i;
-          var m = url.pathname.match(/^\/(?:((?:(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)))\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i);
+          var m = url.pathname.match(/^\/(?:((?:(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)))\/)?(roulette|luckydraw|ladder|team-generator|coinflip|dice)\/?$/i);
           var changed = false;
           if (m && url.searchParams.has('lang')) {
             var qLang = String(url.searchParams.get('lang') || '').toLowerCase();
@@ -582,6 +582,7 @@
           <a id="nav-spin" href="/nl/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Namenrad</a>
           <a id="nav-lotto" href="/nl/luckydraw/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Loting</a>
           <a id="nav-history" href="/nl/ladder/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Ladder</a>
+          <a id="nav-team" href="/nl/team-generator/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Teams Delen</a>
           <a id="nav-coin" href="/nl/coinflip/" class="text-sm font-medium text-slate-900">Munt</a>
           <a id="nav-dice" href="/nl/dice/" class="text-sm text-slate-500 hover:text-slate-900 transition-colors">Dobbelsteen</a>
         </nav>
@@ -617,6 +618,7 @@
         <a id="mnav-spin" href="/nl/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Rad</a>
         <a id="mnav-lotto" href="/nl/luckydraw/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Loting</a>
         <a id="mnav-history" href="/nl/ladder/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Ladder</a>
+        <a id="mnav-team" href="/nl/team-generator/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Teams</a>
         <a id="mnav-coin" href="/nl/coinflip/" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-900 text-white">Munt</a>
         <a id="mnav-dice" href="/nl/dice/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Dobbel</a>
       </nav>
@@ -2229,7 +2231,7 @@
         try { window.localStorage.setItem('rlt-lang', next); } catch (e) {}
         try {
           const url = new URL(window.location.href);
-          const currentToolMatch = url.pathname.match(/^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i);
+          const currentToolMatch = url.pathname.match(/^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?(roulette|luckydraw|ladder|team-generator|coinflip|dice)\/?$/i);
           if (currentToolMatch) {
             const tool = currentToolMatch[2].toLowerCase();
             const nextPath = next === 'ko' ? `/${tool}/` : `/${next}/${tool}/`;
@@ -2294,7 +2296,7 @@
       }
 
             function syncLangLinks() {
-        const toolPathRegex = /^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?$/i;
+        const toolPathRegex = /^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?(roulette|luckydraw|ladder|team-generator|coinflip|dice)\/?$/i;
         document.querySelectorAll("a[href]").forEach((a) => {
           const href = a.getAttribute("href");
           if (!href || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:") || href.startsWith("javascript:")) return;

@@ -92,6 +92,12 @@ How to use it:
 - Added a deployment validator guard in [scripts/validate-seo.js](/home/user/roulette/scripts/validate-seo.js) so deploys now fail if any dice/coin page drops the pinned `model-viewer` URL or its required GLB asset reference.
 - Detailed notes: [DICE_COIN_MOTION_ROOT_CAUSE_2026-03-15.md](/home/user/roulette/DICE_COIN_MOTION_ROOT_CAUSE_2026-03-15.md)
 
+### Dice and coin headers restored to full tab parity
+
+- Restored the missing `팀 나누기` / `Team Split` tab to every localized `dice` and `coinflip` page in both desktop and mobile headers.
+- Re-aligned the dice/coin header routing regex so those pages once again treat `team-generator` as a first-class tool path during locale switching and local link normalization.
+- Re-validated all 108 localized tool pages so every main game header now exposes exactly one desktop `nav-team` tab and one mobile `mnav-team` tab.
+
 ### Team split top controls compressed further
 
 - Further compressed the top control cluster by reducing card padding, label sizes, quick team-count buttons, and summary stat box height so the mode/team-count/participant block takes less vertical space before the roster input.
