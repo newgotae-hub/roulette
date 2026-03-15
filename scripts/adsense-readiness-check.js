@@ -18,6 +18,13 @@ const REQUIRED_GUIDE_FILES = [
 ];
 const REQUIRED_LOCALIZED_LEGAL_FILES = LOCALES.flatMap((locale) => ['about', 'contact', 'privacy', 'terms'].map((slug) => `${locale}/${slug}/index.html`));
 const MIN_CONTENT_UNITS = 400;
+const COIN_DICE_PAGES = ['coinflip/index.html', 'dice/index.html']
+  .concat(LOCALES.flatMap((locale) => ['coinflip/index.html', 'dice/index.html'].map((rel) => `${locale}/${rel}`)));
+const BAD_TOOL_COPY_PATTERNS = [
+  /Prepare the input list or values you want to use in/i,
+  /Adjust draw options and run settings/i,
+  /Are common input separators supported\?/i
+];
 
 function normalizeText(value) {
   return String(value || '').replace(/\s+/g, ' ').trim();
@@ -111,6 +118,22 @@ for (const rel of REQUIRED_GUIDE_FILES) {
 for (const rel of REQUIRED_LOCALIZED_LEGAL_FILES) {
   if (!fs.existsSync(path.join(ROOT, rel))) {
     findings.push(`${rel}: localized trust page is missing.`);
+  }
+}
+
+for (const rel of COIN_DICE_PAGES.filter((file) => fs.existsSync(path.join(ROOT, file)))) {
+  const html = readFile(rel);
+  for (const pattern of BAD_TOOL_COPY_PATTERNS) {
+    if (pattern.test(html)) {
+      findings.push(`${rel}: still contains generic draw copy that does not match coinflip/dice usage.`);
+      break;
+    }
+  }
+
+  if (!rel.startsWith('en/')) {
+    if (/>Related tools</i.test(html)) {
+      findings.push(`${rel}: non-English coinflip/dice page still shows English related-tools fallback.`);
+    }
   }
 }
 

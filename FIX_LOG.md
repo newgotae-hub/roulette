@@ -239,3 +239,11 @@ How to use it:
 - Corrected the most visible awkward locale labels and wording, including Spanish `Términos del servicio`, Turkish `Hakkımızda` / `Kullanım Koşulları` / `Gizlilik Politikası`, Dutch `Over ons`, and Dutch navigation `Teams verdelen`, while also reducing forced English phrasing in localized `about` copy for multiple non-English locales.
 - Broadened the SEO validator so localized consent-region wording such as `EEE`, `EWR`, `ЕЭЗ`, `المنطقة الاقتصادية الأوروبية`, `VK`, `スイス`, and `İsviçre` are accepted, and restored the shared `const DICE_GLB_URL = '/dice.glb';` constant to every dice locale page so the full validation pass can complete.
 - Detailed notes: [MULTILINGUAL_LEGAL_LOCALE_AUDIT_2026-03-15.md](/home/user/roulette/MULTILINGUAL_LEGAL_LOCALE_AUDIT_2026-03-15.md)
+
+### 2026-03-15 - Coinflip / dice copy localized and made tool-specific for AdSense review
+
+- Added `scripts/coin-dice-copy-data.js` and `scripts/sync-coin-dice-copy.js` so coinflip / dice hero subtitles, guide cards, lower explainer blocks, and bottom related-tools nav can be synced safely across all 36 locale pages from one source.
+- Replaced the old generic raffle-style `How to Use` / FAQ copy on coinflip and dice pages with tool-specific guidance covering multi-coin / multi-dice usage, local browser processing, history export, and practical use cases such as classroom activities, games, tie-breaks, and quick random decisions.
+- Localized the bottom post-script related-tools block in every coinflip / dice page, including the visible heading and `aria-label`, so non-English pages no longer show an English `Related tools` fallback.
+- Extended `scripts/adsense-readiness-check.js` to fail if coinflip / dice pages regress back to generic draw-copy or if non-English pages reintroduce the English related-tools footer.
+- Detailed notes: [COIN_DICE_ADSENSE_CONTENT_PASS_2026-03-15.md](/home/user/roulette/COIN_DICE_ADSENSE_CONTENT_PASS_2026-03-15.md)
