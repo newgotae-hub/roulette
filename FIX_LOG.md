@@ -201,3 +201,8 @@ How to use it:
 - Reworked the English homepage hero and metadata to emphasize `Wheel of Names`, `Lucky Draw`, and `Random Name Picker` together for stronger English acquisition coverage.
 - Renamed the English lucky-draw hero toward `Lucky Draw`, strengthened its metadata and explainer copy for random number, name-picking, raffle, and custom-list intent, and aligned the shared English boot title.
 - Added a visible two-line English ladder description plus stronger ladder metadata for giveaway, classroom, random-team, and matchup intent, and extended the validator to guard the new English ladder and dice copy.
+
+### 2026-03-15 - Added full repository handoff TXT for future Codex sessions
+
+- Added `CODEX_HANDOFF_2026-03-15.txt` at the repository root with a detailed handoff covering the product structure, page inventory, code organization, recent major fixes, deployment rules, SEO/i18n architecture, and subsystem-specific cautions.
+- Recorded the current deployed commit, validation/deploy workflow, key documentation files, and the main recovery rules for team-generator and dice/coin 3D motion so future agents can continue work without re-discovering recent root causes.

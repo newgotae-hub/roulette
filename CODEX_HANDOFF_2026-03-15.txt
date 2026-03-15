@@ -1,0 +1,768 @@
+Randomly Pick Repository Handoff
+Date: 2026-03-15
+Prepared for: future Codex / repository continuation
+Repository root: /home/user/roulette
+Live domain: https://randomly-pick.com
+Application baseline immediately before this handoff document commit: 095340a8de7dad655f7c77cc0cdaa6db876a36e3
+
+==================================================
+1. PROJECT SUMMARY
+==================================================
+
+This repository is a static multi-language random-pick web product.
+The product is built as mostly self-contained HTML pages with large inline
+CSS/JS blocks plus a small shared asset layer in assets/js and a script layer
+in scripts/.
+
+Primary product families:
+
+1. Wheel / roulette spinner
+2. Lucky Draw / random number generator
+3. Ladder Draw
+4. Team Generator / Team Split
+5. Coin Flip
+6. Dice Roll
+
+The Korean root path is the default root publishing structure. English and
+other languages are published as path-based localized versions.
+
+Current major goals reflected in the codebase:
+
+- Strong English SEO acquisition
+- Full localized tool coverage across major languages
+- Static deploy safety through predeploy validation
+- Consistent shared header/navigation across all game/tool pages
+- Stable 3D dice/coin rendering using pinned model-viewer
+
+
+==================================================
+2. CURRENT WEB FOOTPRINT
+==================================================
+
+Current validated HTML footprint:
+
+- 129 HTML files pass scripts/validate-seo.js
+- 90 main tool pages
+- 18 team-generator pages
+- 15 localized legal/contact pages
+- 4 guide pages
+
+Main live paths:
+
+- /                     -> Korean homepage / wheel
+- /luckydraw/          -> Korean lucky draw
+- /ladder/             -> Korean ladder draw
+- /team-generator/     -> Korean team split
+- /coinflip/           -> Korean coin flip
+- /dice/               -> Korean dice roll
+
+Main non-Korean locales currently shipped as first-class tool pages:
+
+- en
+- ja
+- zh-cn
+- zh-tw
+- es
+- fr
+- de
+- pt-br
+- hi
+- ar
+- ru
+- id
+- tr
+- it
+- vi
+- th
+- nl
+
+That means the main tool matrix is:
+
+- Korean root paths for 6 tools
+- 17 localized path prefixes for the same 6 tools
+
+Representative page inventory:
+
+- Homepages:
+  - index.html
+  - en/index.html
+  - ja/index.html
+  - zh-cn/index.html
+  - ... same pattern for all supported non-Korean locales
+
+- Tool pages:
+  - luckydraw/index.html and locale equivalents
+  - ladder/index.html and locale equivalents
+  - team-generator/index.html and locale equivalents
+  - coinflip/index.html and locale equivalents
+  - dice/index.html and locale equivalents
+
+- Legal / brand / guides:
+  - about/index.html
+  - contact/index.html plus localized versions for en/ja/zh-cn/zh-tw
+  - privacy/index.html plus localized versions for en/ja/zh-cn/zh-tw
+  - terms/index.html plus localized versions for en/ja/zh-cn/zh-tw
+  - guides/index.html
+  - guides/fair-random-draw/index.html
+  - guides/event-draw-checklist/index.html
+  - guides/winner-records/index.html
+
+
+==================================================
+3. HIGH-LEVEL DIRECTORY MAP
+==================================================
+
+Top-level content directories:
+
+- /assets
+  - /assets/js
+  - /assets/css
+
+- /scripts
+  Build-time and validation utilities
+
+- /about
+- /contact
+- /privacy
+- /terms
+- /guides
+
+- /coinflip
+- /dice
+- /ladder
+- /luckydraw
+- /team-generator
+
+- /en, /ja, /zh-cn, /zh-tw, /es, /fr, /de, /pt-br, /hi, /ar, /ru, /id, /tr,
+  /it, /vi, /th, /nl
+  Each contains localized tool pages, and some contain localized legal pages.
+
+Other important static files:
+
+- robots.txt
+- ads.txt
+- sitemap.xml
+- sitemap-index.xml
+- sitemap-main.xml
+- sitemap-locales.xml
+- dice.glb
+- stylized_pirate_coin.glb
+
+
+==================================================
+4. ARCHITECTURE STYLE
+==================================================
+
+The product is not a React/Vue/Next application.
+It is a static HTML site with:
+
+- large single-file tool pages
+- inline localized copy blocks
+- inline tool runtime logic
+- shared helper scripts for repeated utilities
+
+Representative file sizes (line count):
+
+- index.html: 2882
+- en/index.html: 2819
+- coinflip/index.html: 3002
+- en/coinflip/index.html: 3063
+- dice/index.html: 2851
+- en/dice/index.html: 2912
+- luckydraw/index.html: 769
+- en/luckydraw/index.html: 747
+- ladder/index.html: 683
+- en/ladder/index.html: 634
+- team-generator/index.html: 215
+- en/team-generator/index.html: 292
+
+Interpretation:
+
+- Homepage, coinflip, and dice are heavy single-file pages with significant
+  inline runtime and/or localization state.
+- Team generator is lighter in HTML and pushes more logic into shared assets.
+- Lucky Draw and Ladder are mid-sized but still mostly static-html-driven.
+
+
+==================================================
+5. SHARED JAVASCRIPT ASSETS
+==================================================
+
+Current files in assets/js:
+
+- assets/js/dice-orientation.js
+- assets/js/i18n.js
+- assets/js/ladder.js
+- assets/js/lotto.js
+- assets/js/random.js
+- assets/js/randomness-note.js
+- assets/js/shortcut.js
+- assets/js/team-generator-i18n.js
+- assets/js/team-generator.js
+- assets/js/third-party-loader.js
+- assets/js/utils.js
+
+What each does at a high level:
+
+assets/js/utils.js
+- Shared utility layer used by multiple tools.
+- Includes download helpers and common formatting helpers used by team
+  generator and other pages.
+
+assets/js/random.js
+- Shared randomness helper layer exposed as window.RLTRandom.
+- Used by team-generator and potentially other pages for shuffling.
+
+assets/js/i18n.js
+- Shared locale helpers for parts of the product.
+- Not all pages rely on it equally; many core pages still embed their own
+  locale maps inline.
+
+assets/js/lotto.js
+- Runtime for lucky draw / number draw behavior.
+
+assets/js/ladder.js
+- Runtime for ladder draw behavior.
+
+assets/js/team-generator-i18n.js
+- Centralized team-generator locale data map.
+- Holds SEO strings, nav strings, hero text, labels, FAQ, examples,
+  messages, and language metadata for all 18 team-generator locales.
+- The team-generator locale rollout now depends on this file as the single
+  source of truth.
+
+assets/js/team-generator.js
+- Team-generator runtime.
+- Parses pasted roster data.
+- Detects header rows automatically.
+- Supports name-only mode and name+score mode.
+- Supports tab-separated Excel paste, slash, comma, pipe, and whitespace forms.
+- Uses balanced mode heuristics that try multiple random candidates and keep
+  a more stable assignment while respecting team-size limits.
+- Supports copy/export/fullscreen/state persistence.
+
+assets/js/third-party-loader.js
+- Shared loader for third-party integrations such as Userback.
+- Footer contact links were updated so they open Userback first on plain click.
+
+
+==================================================
+6. AUTOMATION AND SCRIPT LAYER
+==================================================
+
+Current files in scripts:
+
+- scripts/adsense-readiness-check.js
+- scripts/deploy-main.sh
+- scripts/generate-legal-pages.js
+- scripts/generate-sitemaps.js
+- scripts/git-with-live-vscode-auth.sh
+- scripts/seo-hosting-patch.js
+- scripts/seo-report.sh
+- scripts/static-localize-html.js
+- scripts/sync-legal-links.js
+- scripts/sync-roulette-entrypoints.js
+- scripts/sync-team-generator-locales.js
+- scripts/update-game-randomness.js
+- scripts/update-sitemaps.sh
+- scripts/validate-seo.js
+
+Most important operational scripts:
+
+scripts/deploy-main.sh
+- Required deployment entrypoint.
+- Runs node scripts/validate-seo.js first.
+- Then pushes through scripts/git-with-live-vscode-auth.sh.
+- Do not replace with raw git push origin main.
+
+scripts/git-with-live-vscode-auth.sh
+- Required authenticated git wrapper in this repo because direct HTTPS pushes
+  from Firebase Studio / VS Code terminals can fail due to stale
+  VSCODE_GIT_IPC_HANDLE state.
+
+scripts/validate-seo.js
+- Main deployment guard.
+- Current length: 443 lines.
+- Validates canonical behavior, hreflang, sitemap inclusion, legal/about
+  cleanup patches, dice/coin runtime pinning, English SEO signals, and
+  team-generator locale drift.
+
+scripts/generate-sitemaps.js
+- Generates:
+  - sitemap-main.xml
+  - sitemap-locales.xml
+  - sitemap-index.xml
+  - sitemap.xml
+- Current public crawler endpoint should be considered sitemap.xml.
+
+scripts/sync-team-generator-locales.js
+- Rewrites all 18 team-generator locale pages from the shared i18n bundle.
+- Required whenever team-generator localized static HTML drifts from
+  assets/js/team-generator-i18n.js.
+
+scripts/seo-hosting-patch.js
+- Injects / normalizes SEO-related runtime patches into HTML output.
+
+scripts/sync-roulette-entrypoints.js
+- Keeps roulette/home entrypoints structurally aligned.
+
+
+==================================================
+7. DEPLOYMENT AND CI
+==================================================
+
+Repository rule:
+
+- Use scripts/deploy-main.sh for deployment pushes.
+- Do not use raw git push origin main for release pushes.
+
+Current GitHub workflows:
+
+1. .github/workflows/deploy-pages.yml
+   - Deploys to GitHub Pages on push to main
+   - Includes a predeploy smoke check for /coinflip/ and /dice/
+
+2. .github/workflows/seo-audit.yml
+   - Runs on push to main
+   - Generates sitemaps
+   - Runs AdSense readiness check
+   - Runs strict SEO report
+
+Current local deploy flow expected by repo policy:
+
+1. Edit files
+2. Update documentation in FIX_LOG.md
+3. Run validation
+4. Commit
+5. Run scripts/deploy-main.sh
+
+Common commands:
+
+- node scripts/validate-seo.js
+- node scripts/generate-sitemaps.js
+- node scripts/sync-team-generator-locales.js
+- bash scripts/update-sitemaps.sh
+- scripts/deploy-main.sh
+
+
+==================================================
+8. CURRENT SEO / INDEXING STATE
+==================================================
+
+Important current facts:
+
+- robots.txt currently points to:
+  Sitemap: https://randomly-pick.com/sitemap.xml
+
+- Search Console usage should prefer sitemap.xml, not sitemap-index.xml.
+
+- scripts/generate-sitemaps.js writes both sitemap-index.xml and sitemap.xml,
+  but the public/crawler-facing stable endpoint is now intentionally sitemap.xml.
+
+- English is the x-default fallback for the homepage and tool pages.
+  Example expectation in validator:
+  hreflang="x-default" href="https://randomly-pick.com/en/"
+
+Current validator also guards:
+
+- English homepage targeting "Wheel of Names"
+- English homepage mentioning "Lucky Draw" and "Random Name Picker"
+- English lucky-draw page targeting "Random Number Generator"
+- English ladder title targeting "Online Ladder Draw"
+- English dice copy containing expanded SEO terms
+- English coinflip title phrasing "Flip a Coin!"
+- English team-generator structured data
+
+Relevant docs:
+
+- ENGLISH_SEO_GROWTH_2026-03-15.md
+- SEO_INDEXING_FOLLOWUP.md
+
+
+==================================================
+9. CURRENT I18N MODEL
+==================================================
+
+The localization model is mixed:
+
+1. Main tool pages (home, dice, coinflip, etc.)
+   - Large HTML files contain inline locale maps and inline runtime.
+   - The English page is not the only source of truth; many locale pages embed
+     English locale blocks inside their own HTML.
+   - This is why some English copy changes had to be propagated across many
+     localized pages, not just /en/ pages.
+
+2. Team generator
+   - More centralized than the rest.
+   - assets/js/team-generator-i18n.js is the main locale data source.
+   - scripts/sync-team-generator-locales.js can regenerate/sync static locale
+     HTML from that data.
+
+3. Legal pages
+   - Localized only for a limited language subset:
+     en, ja, zh-cn, zh-tw
+
+Current supported first-class team-generator locales:
+
+- ko root
+- en
+- ja
+- zh-cn
+- zh-tw
+- es
+- fr
+- de
+- pt-br
+- hi
+- ar
+- ru
+- id
+- tr
+- it
+- vi
+- th
+- nl
+
+Important i18n caution:
+
+- If team-generator localized strings are edited directly in HTML without
+  updating assets/js/team-generator-i18n.js, locale drift will happen again.
+
+
+==================================================
+10. TEAM GENERATOR SUBSYSTEM
+==================================================
+
+This is a major recent addition and a major area of change.
+
+Files:
+
+- team-generator/index.html
+- en/team-generator/index.html
+- ... same for all 18 locales
+- assets/js/team-generator.js
+- assets/js/team-generator-i18n.js
+- scripts/sync-team-generator-locales.js
+
+Current user-facing behavior:
+
+- Supports 2 to 12 teams
+- Paste names only -> pure random team assignment
+- Paste names and scores -> balanced team assignment
+- Accepts direct Excel paste using tab-separated columns
+- Also accepts slash/comma/pipe style line formats
+- Auto-detects and skips header rows
+- If some scores are missing:
+  - uses the average of entered scores for balancing
+  - warns the user
+- If requested team count exceeds participant count:
+  - automatically lowers the team count
+- Shows both average score and total score in results
+- Supports copy and CSV export
+- Supports fullscreen mode
+- Full header parity with other tools, including fullscreen and language toggle
+
+Current implementation notes:
+
+- Team-generator state key:
+  rlt-team-generator-state-v1
+
+- Current max team count in runtime:
+  MAX_TEAM_COUNT = 12
+
+- Default Korean and English samples are embedded in runtime / i18n data.
+
+- Team-generator localized pages currently load:
+  /assets/js/team-generator-i18n.js?v=20260315-team-i18n3
+  /assets/js/team-generator.js?v=20260315-team-i18n3
+
+Important docs:
+
+- TEAM_GENERATOR_TRANSLATION_AUDIT_2026-03-15.md
+- TEAM_SPLIT_HEADER_PARITY_FOLLOWUP.md
+
+Current known team-generator operational rule:
+
+If you change locale copy in assets/js/team-generator-i18n.js:
+
+1. run node scripts/sync-team-generator-locales.js
+2. run node scripts/validate-seo.js
+3. only then deploy
+
+
+==================================================
+11. DICE / COIN 3D RUNTIME
+==================================================
+
+This area had a major regression and root-cause investigation.
+
+Important files:
+
+- dice/index.html
+- en/dice/index.html
+- ... all localized dice pages
+- coinflip/index.html
+- en/coinflip/index.html
+- ... all localized coinflip pages
+
+Critical static assets:
+
+- /dice.glb
+- /stylized_pirate_coin.glb
+
+Current correct runtime rule:
+
+- All dice and coin pages must load:
+  https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js
+
+They must not load:
+
+- https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js
+
+Why:
+
+- The older unversioned model-viewer URL caused runtime behavior drift with no
+  repo diff.
+- The product relied on model-viewer orientation updates for visible 3D motion.
+- When the floating runtime changed, sound/results still worked but visible 3D
+  motion stopped rendering reliably.
+
+Important rule:
+
+- Do not reintroduce wrapper transform fake rotation.
+- That workaround made the uploaded 3D assets look flat / 2D.
+
+Current validator guards:
+
+- pinned model-viewer URL must exist
+- floating model-viewer URL must not exist
+- /dice.glb reference must exist on dice pages
+- /stylized_pirate_coin.glb reference must exist on coin pages
+
+Important doc:
+
+- DICE_COIN_MOTION_ROOT_CAUSE_2026-03-15.md
+
+
+==================================================
+12. HEADER / NAVIGATION PARITY
+==================================================
+
+A repeated requirement in recent work has been:
+
+- every main game page must expose the same header tabs
+- language toggles must behave consistently
+- team-generator must appear as a first-class tool in the shared nav
+
+Current shared header target includes:
+
+- Wheel of Names / roulette
+- Lucky Draw
+- Ladder Draw
+- Team Split
+- Coin Flip
+- Dice Roll
+- language switcher
+- fullscreen control where applicable
+
+The team-generator rollout originally lagged behind the older pages.
+That has now been patched and documented.
+
+Important doc:
+
+- TEAM_SPLIT_HEADER_PARITY_FOLLOWUP.md
+
+
+==================================================
+13. MAJOR RECENT CHANGES (COMMIT CHAIN)
+==================================================
+
+Recent high-signal commit history:
+
+- 095340a Refresh English SEO copy across core tools
+- 44cb969 Fix team-generator locale sync drift
+- a060cd6 Standardize public sitemap URL
+- 56b1ae3 Improve English SEO signals
+- 58a8e09 Restore team tabs in dice and coin headers
+- 7deedf0 Document and guard dice coin 3D runtime
+- 06caa05 Pin model-viewer for dice and coin motion
+- c853369 Keep dice and coin 3D motion in reduced mode
+- 60cf551 Restore dice and coin pages to Mar 12 build
+- 6a38e37 Restore visible dice and coin spin motion
+- 2d37606 Restore team split fullscreen cache bust
+- 4e9c74b Simplify team split result header
+- 51dd4c6 Reduce normal team split roster height
+- 1cad584 Enlarge team split roster textarea
+- fcfc276 Restore dice and coin motion in reduced mode
+- f21deb9 Fix team split missing-score messaging
+- 88cf319 Update team split Korean hero copy
+- a1b2f89 Polish team split stat copy
+- 10cc11a Compress team split top controls
+- 1084afc Enlarge team split input area
+- eb5b337 Tighten team split workspace UI
+- bc34562 Bust team split script cache
+- f95ddb3 Update Korean team split copy
+- 3a3fcc9 Add team split header parity notes
+- 8df24f1 Add balanced team shuffle action
+- 560c79b Match team split header controls
+- ef213be Add localized team split pages
+- 95b8411 Document fix logging workflow
+- eca7bfe Fix SEO query canonicalization regressions
+
+Interpretation:
+
+- Team-generator rollout and hardening consumed a large part of recent work.
+- Dice/coin 3D runtime stabilization was a major incident.
+- SEO acquisition and canonicalization are another major theme.
+
+
+==================================================
+14. DOCUMENTATION FILES WORTH READING FIRST
+==================================================
+
+If a future agent needs context quickly, read these in this order:
+
+1. AGENTS.md
+2. FIX_LOG.md
+3. DICE_COIN_MOTION_ROOT_CAUSE_2026-03-15.md
+4. TEAM_GENERATOR_TRANSLATION_AUDIT_2026-03-15.md
+5. TEAM_SPLIT_HEADER_PARITY_FOLLOWUP.md
+6. ENGLISH_SEO_GROWTH_2026-03-15.md
+7. SEO_INDEXING_FOLLOWUP.md
+
+Why:
+
+- AGENTS.md defines deployment and documentation rules.
+- FIX_LOG.md provides a quick chronological summary of completed fixes.
+- The other docs capture non-obvious root causes and recovery runbooks.
+
+
+==================================================
+15. FIX_LOG RULE
+==================================================
+
+Repository rule from AGENTS.md:
+
+- Every completed fix must be documented in FIX_LOG.md before finishing.
+- If a fix has meaningful investigation/root-cause/validation notes,
+  add a dedicated follow-up document and link it from FIX_LOG.md.
+
+This rule has been actively followed in recent work.
+
+
+==================================================
+16. CURRENT SEARCH CONSOLE / SITEMAP GUIDANCE
+==================================================
+
+What the current repo state expects:
+
+- Search Console should use Domain property for randomly-pick.com
+- Submit:
+  https://randomly-pick.com/sitemap.xml
+
+Do not prefer sitemap-index.xml in Search Console guidance.
+The repo now standardizes public-facing crawler guidance to sitemap.xml.
+
+
+==================================================
+17. IMPORTANT PITFALLS / DO-NOT-BREAK LIST
+==================================================
+
+1. Do not deploy with raw git push origin main.
+   Use scripts/deploy-main.sh.
+
+2. Do not remove FIX_LOG updates from the workflow.
+
+3. Do not change dice/coin pages back to floating model-viewer latest.
+
+4. Do not fake dice/coin 3D motion with wrapper transforms.
+
+5. Do not edit team-generator locale HTML alone if the change belongs in
+   assets/js/team-generator-i18n.js.
+
+6. Do not forget to run scripts/sync-team-generator-locales.js after i18n
+   edits for team-generator.
+
+7. Do not reintroduce ?lang duplication on legal/about pages or non-tool links.
+
+8. Do not forget that English SEO guardrails now exist in scripts/validate-seo.js.
+
+9. Do not forget that headers are expected to stay uniform across all tool pages.
+
+
+==================================================
+18. CURRENT REPO STATE AT HANDOFF TIME
+==================================================
+
+Current branch:
+- main
+
+Application baseline immediately before this handoff document commit:
+- 095340a8de7dad655f7c77cc0cdaa6db876a36e3
+
+Current local worktree note:
+- untracked directory exists: test-results/
+- This was not part of the deployed change set and should be treated carefully.
+
+
+==================================================
+19. QUICK OPERATIONS CHECKLIST FOR FUTURE CODEX
+==================================================
+
+Before changing anything:
+
+1. Read AGENTS.md
+2. Read FIX_LOG.md
+3. Read the relevant subsystem note if touching:
+   - team-generator
+   - dice/coin
+   - SEO/indexing
+
+If changing team-generator:
+
+1. edit assets/js/team-generator-i18n.js and/or assets/js/team-generator.js
+2. run node scripts/sync-team-generator-locales.js
+3. run node scripts/validate-seo.js
+4. document in FIX_LOG.md
+5. deploy with scripts/deploy-main.sh
+
+If changing dice/coin:
+
+1. preserve pinned model-viewer@3.5.0
+2. preserve GLB asset references
+3. run node scripts/validate-seo.js
+4. visually verify if the change affects motion
+5. document in FIX_LOG.md
+6. deploy with scripts/deploy-main.sh
+
+If changing SEO or routing:
+
+1. inspect scripts/validate-seo.js first
+2. inspect scripts/generate-sitemaps.js if sitemap or hreflang changes are involved
+3. regenerate sitemaps if needed
+4. run node scripts/validate-seo.js
+5. document in FIX_LOG.md
+6. deploy with scripts/deploy-main.sh
+
+
+==================================================
+20. FINAL SUMMARY
+==================================================
+
+This repository is a static multi-locale random-draw product that has recently
+gone through three major waves of work:
+
+1. team-generator creation, localization, and header parity
+2. dice/coin 3D runtime stabilization
+3. English SEO strengthening and canonical/indexing hardening
+
+The most important operational realities are:
+
+- deployment is guarded and must go through scripts/deploy-main.sh
+- team-generator localization is centralized and must be resynced
+- dice/coin 3D motion depends on a pinned model-viewer runtime
+- Search Console / robots now standardize on sitemap.xml
+- English acquisition is now intentionally treated as the default fallback SEO
+  path while Korean root pages remain first-class published pages
+
+If future work respects those rules, the repo is in a manageable state.
