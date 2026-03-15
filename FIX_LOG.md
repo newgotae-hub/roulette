@@ -86,6 +86,12 @@ How to use it:
 - Changed the Korean mode summary from `랜덤 / 밸런스` to `랜덤 / 균형`.
 - Reworked the team-count quick buttons into a fixed five-column row beside the numeric input so the `2` through `6` buttons fill the remaining width more evenly instead of ending awkwardly after `6`.
 
+### Korean team split hero copy line break and cache refresh
+
+- Changed the Korean hero description to add `엑셀파일에서 그대로 복사붙여넣으세요!` on the next line under the main random/balanced explanation.
+- Added `whitespace-pre-line` to the hero description so the newline renders visibly instead of collapsing into one paragraph.
+- Refreshed the shared `team-generator` script version across every localized page so browsers fetch the updated Korean i18n copy immediately.
+
 ### Footer contact links now open Userback first
 
 - Updated the shared third-party loader so footer `문의하기` / `Contact` links open the Userback widget on plain left-click before falling back to the existing contact page.
