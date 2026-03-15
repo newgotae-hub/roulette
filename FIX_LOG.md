@@ -138,6 +138,13 @@ How to use it:
 - This rollback removed the later reduced-motion and shell-transform motion experiments from all localized dice and coin pages.
 - Updated the investigation note to mark the shell-transform workaround as superseded and record that the final production resolution was a rollback.
 
+### 2026-03-15 - Dice and coin Korean root pages keep 3D model rotation in reduced-motion environments
+
+- Confirmed the rejected shell-transform workaround is no longer present in the Korean root dice and coin pages, so the live roll/flip path stays on the uploaded 3D `model-viewer` assets instead of rotating a flat wrapper.
+- Removed the Korean root pages' instant-result `prefers-reduced-motion` shortcut so `/dice/` and `/coinflip/` still run the existing 3D orientation animation path, using shorter timing instead of skipping the roll/flip entirely.
+- Hid the outdated reduced-motion note on those root pages because it no longer matches the live behavior.
+- Root-cause notes: [DICE_COIN_MOTION_ROOT_CAUSE_2026-03-15.md](/home/user/roulette/DICE_COIN_MOTION_ROOT_CAUSE_2026-03-15.md)
+
 ### Footer contact links now open Userback first
 
 - Updated the shared third-party loader so footer `문의하기` / `Contact` links open the Userback widget on plain left-click before falling back to the existing contact page.

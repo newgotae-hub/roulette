@@ -2,7 +2,7 @@
 
 Date: 2026-03-15
 
-Status: Superseded by rollback to the last known-good 2026-03-12 dice and coin implementation.
+Status: Updated after confirming the shell-transform workaround stayed removed and the Korean root pages now keep the original 3D `model-viewer` rotation path even when motion reduction is enabled.
 
 ## Summary
 
@@ -28,10 +28,13 @@ Status: Superseded by rollback to the last known-good 2026-03-12 dice and coin i
 ## Final Resolution
 
 - The shell-transform workaround was rejected because it made the dice and coin look like flat 2D planes instead of rotating 3D models.
-- The production fix was to restore the dice and coin pages to the last known-good implementation from `2026-03-12` (`eca7bfe`) exactly as requested.
+- The production baseline was restored to the last known-good `2026-03-12` implementation from `eca7bfe`.
+- On top of that restored baseline, the Korean root pages removed the reduced-motion early-return branch so the existing `model-viewer` orientation animation still runs on the uploaded 3D assets instead of snapping straight to the result.
+- No wrapper `rotateX/rotateY/rotateZ` helper is used for the live dice/coin motion path in those root pages.
 
 ## Attempt Validation
 
-- Verified all localized dice and coin pages now use reduced-motion timing variables instead of the old early-return shortcut.
-- Verified the visible animation path now updates the outer shell transform for both tools across locales.
+- Verified the Korean root `dice/index.html` and `coinflip/index.html` do not contain the earlier shell-transform helper functions.
+- Verified both Korean root pages use reduced-motion timing variables instead of the old early-return shortcut.
+- Verified the motion-note banner is no longer shown on the Korean root pages, avoiding stale messaging.
 - Ran `git diff --check`.
