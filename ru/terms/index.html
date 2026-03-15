@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Условия использования | Randomly Pick</title>
+  <meta name="description" content="Условия использования Randomly Pick и его браузерных случайных инструментов." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://randomly-pick.com/ru/terms/" />
+  <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/terms/" />
+  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/terms/" />
+  <link rel="alternate" hreflang="ja" href="https://randomly-pick.com/ja/terms/" />
+  <link rel="alternate" hreflang="zh-cn" href="https://randomly-pick.com/zh-cn/terms/" />
+  <link rel="alternate" hreflang="zh-tw" href="https://randomly-pick.com/zh-tw/terms/" />
+  <link rel="alternate" hreflang="es" href="https://randomly-pick.com/es/terms/" />
+  <link rel="alternate" hreflang="fr" href="https://randomly-pick.com/fr/terms/" />
+  <link rel="alternate" hreflang="de" href="https://randomly-pick.com/de/terms/" />
+  <link rel="alternate" hreflang="pt-br" href="https://randomly-pick.com/pt-br/terms/" />
+  <link rel="alternate" hreflang="hi" href="https://randomly-pick.com/hi/terms/" />
+  <link rel="alternate" hreflang="ar" href="https://randomly-pick.com/ar/terms/" />
+  <link rel="alternate" hreflang="ru" href="https://randomly-pick.com/ru/terms/" />
+  <link rel="alternate" hreflang="id" href="https://randomly-pick.com/id/terms/" />
+  <link rel="alternate" hreflang="tr" href="https://randomly-pick.com/tr/terms/" />
+  <link rel="alternate" hreflang="it" href="https://randomly-pick.com/it/terms/" />
+  <link rel="alternate" hreflang="vi" href="https://randomly-pick.com/vi/terms/" />
+  <link rel="alternate" hreflang="th" href="https://randomly-pick.com/th/terms/" />
+  <link rel="alternate" hreflang="nl" href="https://randomly-pick.com/nl/terms/" />
+  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/terms/" />
+  <script data-rlt-legal-canonical-patch>
+    (function(){
+      try {
+        var url = new URL(window.location.href);
+        var host = url.hostname.toLowerCase();
+        var supportedLangs = /^(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)$/i;
+        var localizedLegalLangs = /^(?:en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)$/i;
+        var legalPathRegex = /^\/(?:(?:(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl))\/)?terms\/?$/i;
+        var changed = false;
+        if (legalPathRegex.test(url.pathname) && url.searchParams.has('lang')) {
+          var qLang = String(url.searchParams.get('lang') || '').toLowerCase();
+          if (supportedLangs.test(qLang)) {
+            var nextPath = '/' + 'terms' + '/';
+            if (localizedLegalLangs.test(qLang)) nextPath = '/' + qLang + '/' + 'terms' + '/';
+            else if (qLang !== 'ko') nextPath = '/en/' + 'terms' + '/';
+            if (nextPath !== url.pathname) {
+              url.pathname = nextPath;
+              changed = true;
+            }
+          }
+          url.searchParams.delete('lang');
+          changed = true;
+        }
+        if (host === 'www.randomly-pick.com') {
+          url.hostname = 'randomly-pick.com';
+          changed = true;
+        }
+        if (changed) window.location.replace(url.toString());
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --panel: #ffffff;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --muted: #475569;
+      --subtle: #64748b;
+      --accent: #111827;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Noto Sans", "Noto Sans KR", "Noto Sans JP", "Noto Sans SC", "Noto Sans TC", "Noto Sans Arabic", "Noto Sans Devanagari", "Noto Sans Thai", Arial, sans-serif; background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%); color: var(--text); }
+    main { max-width: 920px; margin: 0 auto; padding: 32px 18px 64px; line-height: 1.75; }
+    .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 24px; padding: 28px 24px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.06); }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: #eef2ff; color: #3730a3; font-size: 12px; font-weight: 700; letter-spacing: 0.02em; }
+    h1 { margin: 16px 0 10px; font-size: clamp(30px, 4vw, 40px); line-height: 1.15; }
+    h2 { margin-top: 28px; margin-bottom: 8px; font-size: 20px; }
+    p, li { color: var(--muted); }
+    ul { padding-left: 20px; }
+    .meta { color: var(--subtle); font-size: 14px; margin-bottom: 18px; }
+    .links { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 12px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; padding: 10px 14px; border-radius: 999px; border: 1px solid var(--border); background: #fff; color: var(--text); text-decoration: none; font-weight: 600; }
+    .btn:hover { border-color: #94a3b8; }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="panel">
+      <span class="eyebrow">Randomly Pick</span>
+      <h1>Условия использования</h1>
+      <p class="meta">Дата вступления в силу: 6 марта 2026 г.</p>
+      <p>Эти условия объясняют основные правила использования Randomly Pick и его браузерных случайных инструментов.</p>
+
+      <h2>1. Объём сервиса</h2>
+      <p>Сайт предоставляет бесплатные онлайн-инструменты для случайного выбора и розыгрыша. Функции, экраны и доступность могут добавляться, изменяться или прекращаться при необходимости.</p>
+
+      <h2>2. Запрещённое использование</h2>
+      <ul>
+        <li>Нельзя использовать сайт для незаконной или вредоносной деятельности.</li>
+        <li>Нельзя пытаться нарушить стабильность, безопасность или доступность сервиса.</li>
+        <li>Нельзя копировать, собирать или распространять сайт способом, нарушающим закон или права.</li>
+      </ul>
+
+      <h2>3. Интеллектуальная собственность</h2>
+      <p>Дизайн, бренд, код, документация и визуальные материалы сайта принадлежат Randomly Pick или соответствующим правообладателям. Коммерческое повторное использование без разрешения запрещено.</p>
+
+      <h2>4. Отказ от гарантий</h2>
+      <p>Сайт предоставляется как есть. Мы не гарантируем бесперебойную работу, полное отсутствие ошибок или пригодность для конкретной цели.</p>
+
+      <h2>5. Сторонние сервисы и реклама</h2>
+      <p>Сайт может использовать внешние аналитические, сервисные и рекламные решения. Дополнительные условия и политики этих поставщиков также могут применяться.</p>
+
+      <h2>6. Изменения и контакты</h2>
+      <p>Эти условия могут обновляться при необходимости. Продолжение использования после обновления означает согласие с новой редакцией. По вопросам сервиса пишите на newgotae@gmail.com.</p>
+      <div class="links">
+        <a class="btn" href="/ru/">Вернуться на главную</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

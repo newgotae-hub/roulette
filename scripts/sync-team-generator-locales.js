@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 const fs = require('fs');
 const path = require('path');
+const { ALL_LOCALES, NON_KO_LOCALES } = require('./legal-shared');
 
 const ROOT = path.resolve(__dirname, '..');
 const I18N_PATH = path.join(ROOT, 'assets/js/team-generator-i18n.js');
-const ASSET_VERSION = '20260315-team-i18n3';
-const LOCALES = ['ko', 'en', 'ja', 'zh-cn', 'zh-tw', 'es', 'fr', 'de', 'pt-br', 'hi', 'ar', 'ru', 'id', 'tr', 'it', 'vi', 'th', 'nl'];
-const LOCALIZED_LEGAL = new Set(['en', 'ja', 'zh-cn', 'zh-tw']);
+const ASSET_VERSION = '20260315-team-i18n4';
+const LOCALES = ALL_LOCALES;
 const TEXT_IDS = [
   ['nav-spin', 'navSpin'],
   ['nav-lotto', 'navLotto'],
@@ -124,8 +124,7 @@ function localeFile(locale) {
 
 function legalBase(locale) {
   if (!locale || locale === 'ko') return '';
-  if (LOCALIZED_LEGAL.has(locale)) return `/${locale}`;
-  return '/en';
+  return `/${locale}`;
 }
 
 function targetHref(locale, slug) {
@@ -224,6 +223,8 @@ function syncPage(locale, data) {
 
   html = replaceAttributeById(html, 'footer-terms', 'href', targetHref(locale, 'terms'));
   html = replaceAttributeById(html, 'footer-privacy', 'href', targetHref(locale, 'privacy'));
+  html = replaceAttributeById(html, 'footer-copy', 'href', targetHref(locale, 'about'));
+  html = replaceAttributeById(html, 'footer-about', 'href', targetHref(locale, 'about'));
   html = replaceAttributeById(html, 'footer-contact', 'href', targetHref(locale, 'contact'));
 
   html = syncExampleBlocks(html, data);

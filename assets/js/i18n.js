@@ -162,7 +162,7 @@
       generated: "Ladder generated. Click a top participant to run.",
       fillLabel: "(Blank)",
       footerTerms: "Terms",
-      footerPrivacy: "Privacy"
+      footerPrivacy: "Privacy Policy"
     }
   };
   i18n.ja = {
@@ -245,7 +245,7 @@
     generated: "あみだを作成しました。上部の参加者をクリックして開始してください。",
     fillLabel: "(空欄)",
     footerTerms: "利用規約",
-    footerPrivacy: "プライバシー"
+    footerPrivacy: "プライバシーポリシー"
   };
   i18n["zh-cn"] = {
     ...i18n.en,
@@ -409,7 +409,7 @@
     generated: "梯子已建立。請點擊上方參與者開始。",
     fillLabel: "(空白)",
     footerTerms: "使用條款",
-    footerPrivacy: "隱私政策"
+    footerPrivacy: "隱私權政策"
   };
   i18n.es = {
     ...i18n.en,
@@ -490,8 +490,8 @@
     maxEntries: "Puedes ingresar hasta {n} participantes.",
     generated: "Escalera generada. Haz clic en un participante superior para iniciar.",
     fillLabel: "(Vacío)",
-    footerTerms: "Términos",
-    footerPrivacy: "Privacidad"
+    footerTerms: "Términos del servicio",
+    footerPrivacy: "Política de privacidad"
   };
   i18n.fr = {
     ...i18n.en,
@@ -572,8 +572,8 @@
     maxEntries: "Vous pouvez entrer jusqu'à {n} participants.",
     generated: "Échelle générée. Cliquez un participant en haut pour démarrer.",
     fillLabel: "(Vide)",
-    footerTerms: "Conditions",
-    footerPrivacy: "Confidentialité"
+    footerTerms: "Conditions d'utilisation",
+    footerPrivacy: "Politique de confidentialité"
   };
   i18n.de = {
     ...i18n.en,
@@ -655,7 +655,7 @@
     generated: "Leiter erstellt. Oben einen Teilnehmer anklicken, um zu starten.",
     fillLabel: "(Leer)",
     footerTerms: "Nutzungsbedingungen",
-    footerPrivacy: "Datenschutz"
+    footerPrivacy: "Datenschutzerklärung"
   };
   i18n["pt-br"] = {
     ...i18n.en,
@@ -736,8 +736,8 @@
     maxEntries: "Você pode inserir até {n} participantes.",
     generated: "Escada gerada. Clique em um participante no topo para iniciar.",
     fillLabel: "(Vazio)",
-    footerTerms: "Termos",
-    footerPrivacy: "Privacidade"
+    footerTerms: "Termos de uso",
+    footerPrivacy: "Política de privacidade"
   };
   i18n.hi = {
     ...i18n.en,
@@ -818,8 +818,8 @@
     maxEntries: "अधिकतम {n} प्रतिभागी दर्ज कर सकते हैं।",
     generated: "लैडर तैयार है। शुरू करने के लिए ऊपर से प्रतिभागी चुनें।",
     fillLabel: "(खाली)",
-    footerTerms: "नियम",
-    footerPrivacy: "गोपनीयता"
+    footerTerms: "उपयोग की शर्तें",
+    footerPrivacy: "गोपनीयता नीति"
   };
   i18n.ar = {
     ...i18n.en,
@@ -900,8 +900,8 @@
     maxEntries: "يمكن إدخال حتى {n} مشاركًا.",
     generated: "تم إنشاء السلم. انقر مشاركًا من الأعلى للبدء.",
     fillLabel: "(فارغ)",
-    footerTerms: "الشروط",
-    footerPrivacy: "الخصوصية"
+    footerTerms: "شروط الاستخدام",
+    footerPrivacy: "سياسة الخصوصية"
   };
   i18n.ru = {
     ...i18n.en,
@@ -982,8 +982,8 @@
     maxEntries: "Можно ввести до {n} участников.",
     generated: "Лестница создана. Нажмите участника сверху для старта.",
     fillLabel: "(Пусто)",
-    footerTerms: "Условия",
-    footerPrivacy: "Конфиденциальность"
+    footerTerms: "Условия использования",
+    footerPrivacy: "Политика конфиденциальности"
   };
   i18n.id = {
     ...i18n.en,
@@ -1064,8 +1064,8 @@
     maxEntries: "Anda dapat memasukkan hingga {n} peserta.",
     generated: "Ladder dibuat. Klik peserta di atas untuk mulai.",
     fillLabel: "(Kosong)",
-    footerTerms: "Ketentuan",
-    footerPrivacy: "Privasi"
+    footerTerms: "Ketentuan penggunaan",
+    footerPrivacy: "Kebijakan privasi"
   };
   i18n.tr = {
     ...i18n.en,
@@ -1146,8 +1146,8 @@
     maxEntries: "En fazla {n} katılımcı girebilirsiniz.",
     generated: "Merdiven oluşturuldu. Başlamak için üstte bir katılımcıya tıklayın.",
     fillLabel: "(Boş)",
-    footerTerms: "Koşullar",
-    footerPrivacy: "Gizlilik"
+    footerTerms: "Kullanım Koşulları",
+    footerPrivacy: "Gizlilik Politikası"
   };
   i18n.it = {
     ...i18n.en,
@@ -1228,8 +1228,8 @@
     maxEntries: "Puoi inserire fino a {n} partecipanti.",
     generated: "Scala generata. Clicca un partecipante in alto per iniziare.",
     fillLabel: "(Vuoto)",
-    footerTerms: "Termini",
-    footerPrivacy: "Privacy"
+    footerTerms: "Termini di servizio",
+    footerPrivacy: "Informativa sulla privacy"
   };
   i18n.vi = {
     ...i18n.en,
@@ -1310,8 +1310,8 @@
     maxEntries: "Bạn có thể nhập tối đa {n} người tham gia.",
     generated: "Đã tạo cầu thang. Hãy bấm người ở trên để bắt đầu.",
     fillLabel: "(Trống)",
-    footerTerms: "Điều khoản",
-    footerPrivacy: "Quyền riêng tư"
+    footerTerms: "Điều khoản sử dụng",
+    footerPrivacy: "Chính sách quyền riêng tư"
   };
   i18n.th = {
     ...i18n.en,
@@ -1392,8 +1392,8 @@
     maxEntries: "ใส่ผู้เข้าร่วมได้สูงสุด {n} คน",
     generated: "สร้างบันไดแล้ว คลิกผู้เข้าร่วมด้านบนเพื่อเริ่ม",
     fillLabel: "(ว่าง)",
-    footerTerms: "ข้อกำหนด",
-    footerPrivacy: "ความเป็นส่วนตัว"
+    footerTerms: "ข้อกำหนดการใช้งาน",
+    footerPrivacy: "นโยบายความเป็นส่วนตัว"
   };
   i18n.nl = {
     ...i18n.en,
@@ -1474,8 +1474,8 @@
     maxEntries: "Je kunt maximaal {n} deelnemers invoeren.",
     generated: "Ladder gemaakt. Klik bovenaan op een deelnemer om te starten.",
     fillLabel: "(Leeg)",
-    footerTerms: "Voorwaarden",
-    footerPrivacy: "Privacy"
+    footerTerms: "Gebruiksvoorwaarden",
+    footerPrivacy: "Privacybeleid"
   };
 
   window.RLTI18N = i18n;

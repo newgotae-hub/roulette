@@ -231,3 +231,11 @@ How to use it:
 
 - Added `CODEX_HANDOFF_2026-03-15.txt` at the repository root with a detailed handoff covering the product structure, page inventory, code organization, recent major fixes, deployment rules, SEO/i18n architecture, and subsystem-specific cautions.
 - Recorded the current deployed commit, validation/deploy workflow, key documentation files, and the main recovery rules for team-generator and dice/coin 3D motion so future agents can continue work without re-discovering recent root causes.
+
+### 2026-03-15 - Expanded multilingual legal coverage and normalized locale wording
+
+- Expanded localized `about`, `contact`, `privacy`, and `terms` generation to all supported locales and updated sitemap generation so the full multilingual legal set is published consistently.
+- Added shared multilingual legal/footer constants and translation data, then resynced static footer links, inline tool locale bundles, team-generator locale data, and generated legal pages so non-Korean locales no longer drift between HTML and JS.
+- Corrected the most visible awkward locale labels and wording, including Spanish `Términos del servicio`, Turkish `Hakkımızda` / `Kullanım Koşulları` / `Gizlilik Politikası`, Dutch `Over ons`, and Dutch navigation `Teams verdelen`, while also reducing forced English phrasing in localized `about` copy for multiple non-English locales.
+- Broadened the SEO validator so localized consent-region wording such as `EEE`, `EWR`, `ЕЭЗ`, `المنطقة الاقتصادية الأوروبية`, `VK`, `スイス`, and `İsviçre` are accepted, and restored the shared `const DICE_GLB_URL = '/dice.glb';` constant to every dice locale page so the full validation pass can complete.
+- Detailed notes: [MULTILINGUAL_LEGAL_LOCALE_AUDIT_2026-03-15.md](/home/user/roulette/MULTILINGUAL_LEGAL_LOCALE_AUDIT_2026-03-15.md)

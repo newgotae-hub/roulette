@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Privacybeleid | Randomly Pick</title>
+  <meta name="description" content="Privacybeleid van Randomly Pick en zijn browsergebaseerde random tools." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://randomly-pick.com/nl/privacy/" />
+  <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/privacy/" />
+  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/privacy/" />
+  <link rel="alternate" hreflang="ja" href="https://randomly-pick.com/ja/privacy/" />
+  <link rel="alternate" hreflang="zh-cn" href="https://randomly-pick.com/zh-cn/privacy/" />
+  <link rel="alternate" hreflang="zh-tw" href="https://randomly-pick.com/zh-tw/privacy/" />
+  <link rel="alternate" hreflang="es" href="https://randomly-pick.com/es/privacy/" />
+  <link rel="alternate" hreflang="fr" href="https://randomly-pick.com/fr/privacy/" />
+  <link rel="alternate" hreflang="de" href="https://randomly-pick.com/de/privacy/" />
+  <link rel="alternate" hreflang="pt-br" href="https://randomly-pick.com/pt-br/privacy/" />
+  <link rel="alternate" hreflang="hi" href="https://randomly-pick.com/hi/privacy/" />
+  <link rel="alternate" hreflang="ar" href="https://randomly-pick.com/ar/privacy/" />
+  <link rel="alternate" hreflang="ru" href="https://randomly-pick.com/ru/privacy/" />
+  <link rel="alternate" hreflang="id" href="https://randomly-pick.com/id/privacy/" />
+  <link rel="alternate" hreflang="tr" href="https://randomly-pick.com/tr/privacy/" />
+  <link rel="alternate" hreflang="it" href="https://randomly-pick.com/it/privacy/" />
+  <link rel="alternate" hreflang="vi" href="https://randomly-pick.com/vi/privacy/" />
+  <link rel="alternate" hreflang="th" href="https://randomly-pick.com/th/privacy/" />
+  <link rel="alternate" hreflang="nl" href="https://randomly-pick.com/nl/privacy/" />
+  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/privacy/" />
+  <script data-rlt-legal-canonical-patch>
+    (function(){
+      try {
+        var url = new URL(window.location.href);
+        var host = url.hostname.toLowerCase();
+        var supportedLangs = /^(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)$/i;
+        var localizedLegalLangs = /^(?:en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)$/i;
+        var legalPathRegex = /^\/(?:(?:(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl))\/)?privacy\/?$/i;
+        var changed = false;
+        if (legalPathRegex.test(url.pathname) && url.searchParams.has('lang')) {
+          var qLang = String(url.searchParams.get('lang') || '').toLowerCase();
+          if (supportedLangs.test(qLang)) {
+            var nextPath = '/' + 'privacy' + '/';
+            if (localizedLegalLangs.test(qLang)) nextPath = '/' + qLang + '/' + 'privacy' + '/';
+            else if (qLang !== 'ko') nextPath = '/en/' + 'privacy' + '/';
+            if (nextPath !== url.pathname) {
+              url.pathname = nextPath;
+              changed = true;
+            }
+          }
+          url.searchParams.delete('lang');
+          changed = true;
+        }
+        if (host === 'www.randomly-pick.com') {
+          url.hostname = 'randomly-pick.com';
+          changed = true;
+        }
+        if (changed) window.location.replace(url.toString());
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --panel: #ffffff;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --muted: #475569;
+      --subtle: #64748b;
+      --accent: #111827;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Noto Sans", "Noto Sans KR", "Noto Sans JP", "Noto Sans SC", "Noto Sans TC", "Noto Sans Arabic", "Noto Sans Devanagari", "Noto Sans Thai", Arial, sans-serif; background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%); color: var(--text); }
+    main { max-width: 920px; margin: 0 auto; padding: 32px 18px 64px; line-height: 1.75; }
+    .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 24px; padding: 28px 24px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.06); }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: #eef2ff; color: #3730a3; font-size: 12px; font-weight: 700; letter-spacing: 0.02em; }
+    h1 { margin: 16px 0 10px; font-size: clamp(30px, 4vw, 40px); line-height: 1.15; }
+    h2 { margin-top: 28px; margin-bottom: 8px; font-size: 20px; }
+    p, li { color: var(--muted); }
+    ul { padding-left: 20px; }
+    .meta { color: var(--subtle); font-size: 14px; margin-bottom: 18px; }
+    .links { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 12px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; padding: 10px 14px; border-radius: 999px; border: 1px solid var(--border); background: #fff; color: var(--text); text-decoration: none; font-weight: 600; }
+    .btn:hover { border-color: #94a3b8; }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="panel">
+      <span class="eyebrow">Randomly Pick</span>
+      <h1>Privacybeleid</h1>
+      <p class="meta">Ingangsdatum: 6 maart 2026</p>
+      <p>Randomly Pick biedt browsergebaseerde random tools zoals een wheel, lucky draw, ladder draw, coin flip en dice roll. Deze pagina legt uit welke informatie kan worden verwerkt wanneer je de site gebruikt.</p>
+
+      <h2>1. Welke informatie kan worden verwerkt?</h2>
+      <ul>
+        <li>Basistoegangsgegevens zoals bezoektijd, browsertype, apparaatinformatie en IP-adres kunnen worden verzameld.</li>
+        <li>Als je contact met ons opneemt, kunnen je naam, e-mailadres en berichtinhoud worden verwerkt.</li>
+        <li>Toolinvoer zoals deelnemerslijsten en resultaten wordt normaal gesproken in je browser verwerkt.</li>
+      </ul>
+
+      <h2>2. Waarom gebruiken we deze informatie?</h2>
+      <ul>
+        <li>Om de site betrouwbaar te laten werken en fouten op te lossen.</li>
+        <li>Om misbruik te detecteren, de beveiliging te beschermen en beschikbaarheid te behouden.</li>
+        <li>Om te reageren op vragen over support, advertenties en partnerschappen.</li>
+        <li>Om verkeer en advertentieprestaties te begrijpen en de dienst te verbeteren.</li>
+      </ul>
+
+      <h2>3. Lokale verwerking in de browser</h2>
+      <p>De kernfuncties voor random draws zijn ontworpen om in je browser te draaien. Sommige functies kunnen browseropslag zoals localStorage gebruiken, maar deelnemerslijsten en de drawstatus worden niet op onze servers opgeslagen tenzij een integratie van derden dat expliciet vereist.</p>
+
+      <h2>4. Cookies en externe diensten</h2>
+      <p>De site kan cookies, localStorage of vergelijkbare technologieën gebruiken voor kernfunctionaliteit, analyses en advertenties. We kunnen ook externe diensten gebruiken zoals Google AdSense, Google Analytics, Google Tag Manager, Microsoft Clarity en Userback. Die diensten kunnen gegevens verwerken volgens hun eigen beleid. Voor bezoekers in de EER, het VK en Zwitserland kan via een banner of CMP toestemming worden gevraagd voordat gepersonaliseerde advertenties worden getoond. Zonder toestemming kunnen advertenties beperkt of niet-gepersonaliseerd zijn.</p>
+
+      <h2>5. Bewaartermijn en rechten van gebruikers</h2>
+      <p>We bewaren informatie alleen zolang dat nodig is voor operationele of wettelijke redenen. Waar van toepassing kun je toegang, correctie of verwijdering van je persoonsgegevens aanvragen.</p>
+
+      <h2>6. Contact</h2>
+      <p>Voor privacygerelateerde vragen kun je mailen naar newgotae@gmail.com.</p>
+      <div class="links">
+        <a class="btn" href="/nl/">Terug naar home</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

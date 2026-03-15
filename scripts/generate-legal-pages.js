@@ -1,19 +1,22 @@
 #!/usr/bin/env node
 const fs = require('fs');
 const path = require('path');
+const {
+  ALL_LOCALES,
+  NON_KO_LOCALES,
+  QUERY_LANG_PATTERN,
+  LOCALIZED_LEGAL_PATTERN,
+  FOOTER_LABELS,
+  RTL_LOCALES
+} = require('./legal-shared');
+const {
+  EXTRA_LEGAL_I18N,
+  ABOUT_I18N
+} = require('./legal-translations');
 
 const ROOT = path.resolve(__dirname, '..');
-const LOCALES = ['ko', 'en', 'ja', 'zh-cn', 'zh-tw'];
-const LEGAL_PAGES = ['contact', 'privacy', 'terms'];
-const QUERY_LANG_PATTERN = '(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)';
-const LOCALIZED_LEGAL_PATTERN = '(?:en|ja|zh-cn|zh-tw)';
-const DATE_TEXT = {
-  ko: '2026년 3월 6일',
-  en: 'March 6, 2026',
-  ja: '2026年3月6日',
-  'zh-cn': '2026年3月6日',
-  'zh-tw': '2026年3月6日'
-};
+const LOCALES = ALL_LOCALES;
+const LEGAL_PAGES = ['contact', 'privacy', 'terms', 'about'];
 
 const I18N = {
   ko: {
@@ -518,6 +521,8 @@ const I18N = {
   }
 };
 
+Object.assign(I18N, EXTRA_LEGAL_I18N);
+
 function esc(value) {
   return String(value)
     .replace(/&/g, '&amp;')
@@ -535,12 +540,12 @@ function filesystemPath(locale, slug) {
     : path.join(ROOT, locale, slug, 'index.html');
 }
 
-function hreflangs(slug, currentLocale) {
+function hreflangs(slug) {
   const lines = [];
   for (const locale of LOCALES) {
     lines.push(`  <link rel="alternate" hreflang="${locale}" href="https://randomly-pick.com${localePath(locale, slug)}" />`);
   }
-  lines.push(`  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com${localePath('ko', slug)}" />`);
+  lines.push(`  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com${localePath('en', slug)}" />`);
   return lines.join('\n');
 }
 
@@ -580,8 +585,9 @@ function legalCanonicalPatch(slug) {
 
 function layout(locale, slug, pageTitle, description, bodyContent) {
   const homePath = I18N[locale].homePath;
+  const dirAttr = RTL_LOCALES.has(locale) ? ' dir="rtl"' : '';
   return `<!doctype html>
-<html lang="${locale}">
+<html lang="${locale}"${dirAttr}>
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -589,7 +595,7 @@ function layout(locale, slug, pageTitle, description, bodyContent) {
   <meta name="description" content="${esc(description)}" />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://randomly-pick.com${localePath(locale, slug)}" />
-${hreflangs(slug, locale)}
+${hreflangs(slug)}
 ${legalCanonicalPatch(slug)}
   <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
   <style>
@@ -603,7 +609,7 @@ ${legalCanonicalPatch(slug)}
       --accent: #111827;
     }
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: "Noto Sans KR", "Noto Sans JP", "Noto Sans SC", "Noto Sans TC", Arial, sans-serif; background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%); color: var(--text); }
+    body { margin: 0; font-family: "Noto Sans", "Noto Sans KR", "Noto Sans JP", "Noto Sans SC", "Noto Sans TC", "Noto Sans Arabic", "Noto Sans Devanagari", "Noto Sans Thai", Arial, sans-serif; background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%); color: var(--text); }
     main { max-width: 920px; margin: 0 auto; padding: 32px 18px 64px; line-height: 1.75; }
     .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 24px; padding: 28px 24px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.06); }
     .eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: #eef2ff; color: #3730a3; font-size: 12px; font-weight: 700; letter-spacing: 0.02em; }
@@ -635,6 +641,7 @@ ${bodyContent}
 
 function renderContact(locale) {
   const t = I18N[locale].contact;
+  const labels = FOOTER_LABELS[locale];
   const body = `      <h1>${esc(t.heading)}</h1>
       <p>${esc(t.intro)}</p>
       <p><strong>${esc(t.emailLabel)}:</strong> <a href="mailto:newgotae@gmail.com">newgotae@gmail.com</a></p>
@@ -642,7 +649,7 @@ function renderContact(locale) {
       <p>${esc(t.operatorDetail)}</p>
       <p>${esc(t.detail1)}</p>
       <p>${esc(t.detail2)}</p>
-      <p><strong>${esc(t.policyLabel)}:</strong> <a href="/about/">${esc(t.aboutLabel)}</a> · <a href="${localePath(locale, 'privacy')}">${esc(t.privacyLabel)}</a> · <a href="${localePath(locale, 'terms')}">${esc(t.termsLabel)}</a></p>`;
+      <p><strong>${esc(t.policyLabel)}:</strong> <a href="${localePath(locale, 'about')}">${esc(t.aboutLabel || labels.about)}</a> · <a href="${localePath(locale, 'privacy')}">${esc(t.privacyLabel || labels.privacy)}</a> · <a href="${localePath(locale, 'terms')}">${esc(t.termsLabel || labels.terms)}</a></p>`;
   return layout(locale, 'contact', t.title, t.description, body);
 }
 
@@ -678,6 +685,37 @@ ${sections}`;
   return layout(locale, 'terms', t.title, t.description, body);
 }
 
+function renderAbout(locale) {
+  const t = ABOUT_I18N[locale];
+  const labels = FOOTER_LABELS[locale];
+  if (!t) throw new Error(`Missing about locale data for ${locale}`);
+  const body = `      <h1>${esc(t.heading)}</h1>
+      <p>${esc(t.intro)}</p>
+
+      <h2>${esc(t.operatorTitle)}</h2>
+      <p>${esc(t.operatorBody)}</p>
+
+      <h2>${esc(t.focusTitle)}</h2>
+      <ul>
+${t.focusItems.map((item) => `        <li>${esc(item)}</li>`).join('\n')}
+      </ul>
+
+      <h2>${esc(t.worksTitle)}</h2>
+      <p>${esc(t.worksBody1)}</p>
+      <p>${esc(t.worksBody2)}</p>
+
+      <h2>${esc(t.adsTitle)}</h2>
+      <p>${esc(t.adsBody1)}</p>
+      <p>${esc(t.adsBody2)}</p>
+
+      <h2>${esc(t.policiesTitle)}</h2>
+      <p><a href="${localePath(locale, 'contact')}">${esc(labels.contact)}</a> · <a href="${localePath(locale, 'privacy')}">${esc(labels.privacy)}</a> · <a href="${localePath(locale, 'terms')}">${esc(labels.terms)}</a></p>
+
+      <h2>${esc(t.contactTitle)}</h2>
+      <p>${esc(t.contactBody)}</p>`;
+  return layout(locale, 'about', t.title, t.description, body);
+}
+
 function ensureDir(file) {
   fs.mkdirSync(path.dirname(file), { recursive: true });
 }
@@ -686,7 +724,8 @@ for (const locale of LOCALES) {
   const renderers = {
     contact: renderContact,
     privacy: renderPrivacy,
-    terms: renderTerms
+    terms: renderTerms,
+    about: renderAbout
   };
   for (const slug of LEGAL_PAGES) {
     const file = filesystemPath(locale, slug);

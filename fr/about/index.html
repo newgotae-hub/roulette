@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>À propos | Randomly Pick</title>
+  <meta name="description" content="À propos de Randomly Pick, de son exploitant, de ses outils aléatoires dans le navigateur et de ses politiques." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://randomly-pick.com/fr/about/" />
+  <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/about/" />
+  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/about/" />
+  <link rel="alternate" hreflang="ja" href="https://randomly-pick.com/ja/about/" />
+  <link rel="alternate" hreflang="zh-cn" href="https://randomly-pick.com/zh-cn/about/" />
+  <link rel="alternate" hreflang="zh-tw" href="https://randomly-pick.com/zh-tw/about/" />
+  <link rel="alternate" hreflang="es" href="https://randomly-pick.com/es/about/" />
+  <link rel="alternate" hreflang="fr" href="https://randomly-pick.com/fr/about/" />
+  <link rel="alternate" hreflang="de" href="https://randomly-pick.com/de/about/" />
+  <link rel="alternate" hreflang="pt-br" href="https://randomly-pick.com/pt-br/about/" />
+  <link rel="alternate" hreflang="hi" href="https://randomly-pick.com/hi/about/" />
+  <link rel="alternate" hreflang="ar" href="https://randomly-pick.com/ar/about/" />
+  <link rel="alternate" hreflang="ru" href="https://randomly-pick.com/ru/about/" />
+  <link rel="alternate" hreflang="id" href="https://randomly-pick.com/id/about/" />
+  <link rel="alternate" hreflang="tr" href="https://randomly-pick.com/tr/about/" />
+  <link rel="alternate" hreflang="it" href="https://randomly-pick.com/it/about/" />
+  <link rel="alternate" hreflang="vi" href="https://randomly-pick.com/vi/about/" />
+  <link rel="alternate" hreflang="th" href="https://randomly-pick.com/th/about/" />
+  <link rel="alternate" hreflang="nl" href="https://randomly-pick.com/nl/about/" />
+  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/about/" />
+  <script data-rlt-legal-canonical-patch>
+    (function(){
+      try {
+        var url = new URL(window.location.href);
+        var host = url.hostname.toLowerCase();
+        var supportedLangs = /^(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)$/i;
+        var localizedLegalLangs = /^(?:en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)$/i;
+        var legalPathRegex = /^\/(?:(?:(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl))\/)?about\/?$/i;
+        var changed = false;
+        if (legalPathRegex.test(url.pathname) && url.searchParams.has('lang')) {
+          var qLang = String(url.searchParams.get('lang') || '').toLowerCase();
+          if (supportedLangs.test(qLang)) {
+            var nextPath = '/' + 'about' + '/';
+            if (localizedLegalLangs.test(qLang)) nextPath = '/' + qLang + '/' + 'about' + '/';
+            else if (qLang !== 'ko') nextPath = '/en/' + 'about' + '/';
+            if (nextPath !== url.pathname) {
+              url.pathname = nextPath;
+              changed = true;
+            }
+          }
+          url.searchParams.delete('lang');
+          changed = true;
+        }
+        if (host === 'www.randomly-pick.com') {
+          url.hostname = 'randomly-pick.com';
+          changed = true;
+        }
+        if (changed) window.location.replace(url.toString());
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --panel: #ffffff;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --muted: #475569;
+      --subtle: #64748b;
+      --accent: #111827;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Noto Sans", "Noto Sans KR", "Noto Sans JP", "Noto Sans SC", "Noto Sans TC", "Noto Sans Arabic", "Noto Sans Devanagari", "Noto Sans Thai", Arial, sans-serif; background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%); color: var(--text); }
+    main { max-width: 920px; margin: 0 auto; padding: 32px 18px 64px; line-height: 1.75; }
+    .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 24px; padding: 28px 24px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.06); }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: #eef2ff; color: #3730a3; font-size: 12px; font-weight: 700; letter-spacing: 0.02em; }
+    h1 { margin: 16px 0 10px; font-size: clamp(30px, 4vw, 40px); line-height: 1.15; }
+    h2 { margin-top: 28px; margin-bottom: 8px; font-size: 20px; }
+    p, li { color: var(--muted); }
+    ul { padding-left: 20px; }
+    .meta { color: var(--subtle); font-size: 14px; margin-bottom: 18px; }
+    .links { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 12px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; padding: 10px 14px; border-radius: 999px; border: 1px solid var(--border); background: #fff; color: var(--text); text-decoration: none; font-weight: 600; }
+    .btn:hover { border-color: #94a3b8; }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="panel">
+      <span class="eyebrow">Randomly Pick</span>
+      <h1>À propos de Randomly Pick</h1>
+      <p>Randomly Pick est une boîte à outils dans le navigateur pour prendre rapidement des décisions aléatoires. Elle comprend une roue, Lucky Draw, Ladder Draw, générateur d'équipes, pile ou face et lancer de dés.</p>
+
+      <h2>Exploitant et éditeur</h2>
+      <p>Randomly Pick est exploité par Juntae Ko. Les questions sur le service, les demandes commerciales et les rapports de bugs sont traités via newgotae@gmail.com.</p>
+
+      <h2>Nos priorités</h2>
+      <ul>
+        <li>Des flux rapides pour saisir des noms et des options</li>
+        <li>Des résultats et historiques faciles à relire</li>
+        <li>Des outils pratiques pour les événements, les classes et la répartition équilibrée des équipes</li>
+        <li>Une exportation simple et une gestion claire de l’historique</li>
+      </ul>
+
+      <h2>Fonctionnement</h2>
+      <p>La plupart des interactions sont traitées directement dans le navigateur pour privilégier la rapidité et la simplicité. Le site vise une web app légère sans création de compte.</p>
+      <p>Les entrées principales et l’état des tirages sont gérés localement dans le navigateur. Certaines fonctions peuvent utiliser localStorage, mais les listes et l’état du tirage ne sont pas stockés sur nos serveurs sauf si une intégration externe l’exige.</p>
+
+      <h2>Publicité, cookies et consentement</h2>
+      <p>Le site peut utiliser Google AdSense, Google Analytics, Google Tag Manager, Microsoft Clarity, Userback et des outils similaires. Ces fournisseurs peuvent traiter des données selon leurs propres politiques.</p>
+      <p>Pour les visiteurs de l’EEE, du Royaume-Uni et de la Suisse, un consentement peut être demandé avant l’affichage de publicités personnalisées. Sans consentement, la publicité peut être limitée ou non personnalisée.</p>
+
+      <h2>Politiques</h2>
+      <p><a href="/fr/contact/">Contact</a> · <a href="/fr/privacy/">Politique de confidentialité</a> · <a href="/fr/terms/">Conditions d'utilisation</a></p>
+
+      <h2>Contact</h2>
+      <p>Les questions sur le service ou les partenariats peuvent être envoyées à newgotae@gmail.com.</p>
+      <div class="links">
+        <a class="btn" href="/fr/">Retour à l'accueil</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

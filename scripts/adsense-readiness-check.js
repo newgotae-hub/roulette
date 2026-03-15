@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 const fs = require('fs');
 const path = require('path');
+const { NON_KO_LOCALES } = require('./legal-shared');
 
 const ROOT = path.resolve(__dirname, '..');
-const LOCALES = ['en','ja','zh-cn','zh-tw','es','fr','de','pt-br','hi','ar','ru','id','tr','it','vi','th','nl'];
+const LOCALES = NON_KO_LOCALES;
 const PAGES = ['index.html', 'roulette/index.html', 'ladder/index.html', 'luckydraw/index.html', 'coinflip/index.html', 'dice/index.html'];
 const REQUIRED_GUIDE_FILES = [
   'guides/index.html',
@@ -15,6 +16,7 @@ const REQUIRED_GUIDE_FILES = [
   'en/guides/event-draw-checklist/index.html',
   'en/guides/winner-records/index.html'
 ];
+const REQUIRED_LOCALIZED_LEGAL_FILES = LOCALES.flatMap((locale) => ['about', 'contact', 'privacy', 'terms'].map((slug) => `${locale}/${slug}/index.html`));
 const MIN_CONTENT_UNITS = 400;
 
 function normalizeText(value) {
@@ -106,6 +108,12 @@ for (const rel of REQUIRED_GUIDE_FILES) {
   }
 }
 
+for (const rel of REQUIRED_LOCALIZED_LEGAL_FILES) {
+  if (!fs.existsSync(path.join(ROOT, rel))) {
+    findings.push(`${rel}: localized trust page is missing.`);
+  }
+}
+
 const homepageGuideChecks = [
   ['index.html', '/guides/'],
   ['en/index.html', '/en/guides/']
@@ -121,7 +129,7 @@ for (const [rel, href] of homepageGuideChecks) {
 for (const rel of REQUIRED_GUIDE_FILES.filter((file) => fs.existsSync(path.join(ROOT, file)))) {
   const html = readFile(rel);
   const expectedLinks = rel.startsWith('en/')
-    ? ['/about/', '/en/privacy/', '/en/contact/']
+    ? ['/en/about/', '/en/privacy/', '/en/contact/']
     : ['/about/', '/privacy/', '/contact/'];
   for (const href of expectedLinks) {
     if (!html.includes(`href="${href}"`)) {

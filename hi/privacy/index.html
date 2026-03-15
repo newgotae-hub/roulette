@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>गोपनीयता नीति | Randomly Pick</title>
+  <meta name="description" content="Randomly Pick और उसके ब्राउज़र-आधारित रैंडम टूल्स की गोपनीयता नीति।" />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://randomly-pick.com/hi/privacy/" />
+  <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/privacy/" />
+  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/privacy/" />
+  <link rel="alternate" hreflang="ja" href="https://randomly-pick.com/ja/privacy/" />
+  <link rel="alternate" hreflang="zh-cn" href="https://randomly-pick.com/zh-cn/privacy/" />
+  <link rel="alternate" hreflang="zh-tw" href="https://randomly-pick.com/zh-tw/privacy/" />
+  <link rel="alternate" hreflang="es" href="https://randomly-pick.com/es/privacy/" />
+  <link rel="alternate" hreflang="fr" href="https://randomly-pick.com/fr/privacy/" />
+  <link rel="alternate" hreflang="de" href="https://randomly-pick.com/de/privacy/" />
+  <link rel="alternate" hreflang="pt-br" href="https://randomly-pick.com/pt-br/privacy/" />
+  <link rel="alternate" hreflang="hi" href="https://randomly-pick.com/hi/privacy/" />
+  <link rel="alternate" hreflang="ar" href="https://randomly-pick.com/ar/privacy/" />
+  <link rel="alternate" hreflang="ru" href="https://randomly-pick.com/ru/privacy/" />
+  <link rel="alternate" hreflang="id" href="https://randomly-pick.com/id/privacy/" />
+  <link rel="alternate" hreflang="tr" href="https://randomly-pick.com/tr/privacy/" />
+  <link rel="alternate" hreflang="it" href="https://randomly-pick.com/it/privacy/" />
+  <link rel="alternate" hreflang="vi" href="https://randomly-pick.com/vi/privacy/" />
+  <link rel="alternate" hreflang="th" href="https://randomly-pick.com/th/privacy/" />
+  <link rel="alternate" hreflang="nl" href="https://randomly-pick.com/nl/privacy/" />
+  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/privacy/" />
+  <script data-rlt-legal-canonical-patch>
+    (function(){
+      try {
+        var url = new URL(window.location.href);
+        var host = url.hostname.toLowerCase();
+        var supportedLangs = /^(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)$/i;
+        var localizedLegalLangs = /^(?:en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)$/i;
+        var legalPathRegex = /^\/(?:(?:(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl))\/)?privacy\/?$/i;
+        var changed = false;
+        if (legalPathRegex.test(url.pathname) && url.searchParams.has('lang')) {
+          var qLang = String(url.searchParams.get('lang') || '').toLowerCase();
+          if (supportedLangs.test(qLang)) {
+            var nextPath = '/' + 'privacy' + '/';
+            if (localizedLegalLangs.test(qLang)) nextPath = '/' + qLang + '/' + 'privacy' + '/';
+            else if (qLang !== 'ko') nextPath = '/en/' + 'privacy' + '/';
+            if (nextPath !== url.pathname) {
+              url.pathname = nextPath;
+              changed = true;
+            }
+          }
+          url.searchParams.delete('lang');
+          changed = true;
+        }
+        if (host === 'www.randomly-pick.com') {
+          url.hostname = 'randomly-pick.com';
+          changed = true;
+        }
+        if (changed) window.location.replace(url.toString());
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --panel: #ffffff;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --muted: #475569;
+      --subtle: #64748b;
+      --accent: #111827;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Noto Sans", "Noto Sans KR", "Noto Sans JP", "Noto Sans SC", "Noto Sans TC", "Noto Sans Arabic", "Noto Sans Devanagari", "Noto Sans Thai", Arial, sans-serif; background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%); color: var(--text); }
+    main { max-width: 920px; margin: 0 auto; padding: 32px 18px 64px; line-height: 1.75; }
+    .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 24px; padding: 28px 24px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.06); }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: #eef2ff; color: #3730a3; font-size: 12px; font-weight: 700; letter-spacing: 0.02em; }
+    h1 { margin: 16px 0 10px; font-size: clamp(30px, 4vw, 40px); line-height: 1.15; }
+    h2 { margin-top: 28px; margin-bottom: 8px; font-size: 20px; }
+    p, li { color: var(--muted); }
+    ul { padding-left: 20px; }
+    .meta { color: var(--subtle); font-size: 14px; margin-bottom: 18px; }
+    .links { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 12px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; padding: 10px 14px; border-radius: 999px; border: 1px solid var(--border); background: #fff; color: var(--text); text-decoration: none; font-weight: 600; }
+    .btn:hover { border-color: #94a3b8; }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="panel">
+      <span class="eyebrow">Randomly Pick</span>
+      <h1>गोपनीयता नीति</h1>
+      <p class="meta">प्रभावी तिथि: 6 मार्च 2026</p>
+      <p>Randomly Pick ब्राउज़र में चलने वाले रैंडम टूल देता है, जैसे व्हील, लकी ड्रॉ, लैडर ड्रॉ, कॉइन फ्लिप और डाइस रोल। यह पेज बताता है कि साइट उपयोग के दौरान कौन-सी जानकारी प्रोसेस की जा सकती है।</p>
+
+      <h2>1. कौन-सी जानकारी प्रोसेस हो सकती है?</h2>
+      <ul>
+        <li>विज़िट समय, ब्राउज़र प्रकार, डिवाइस जानकारी और IP पते जैसी बुनियादी एक्सेस जानकारी एकत्र की जा सकती है।</li>
+        <li>यदि आप हमसे संपर्क करते हैं, तो आपका नाम, ईमेल पता और संदेश की सामग्री प्रोसेस की जा सकती है।</li>
+        <li>प्रतिभागी सूची और ड्रॉ परिणाम जैसे टूल इनपुट सामान्यतः आपके ब्राउज़र के भीतर ही संभाले जाते हैं।</li>
+      </ul>
+
+      <h2>2. हम इस जानकारी का उपयोग क्यों करते हैं?</h2>
+      <ul>
+        <li>साइट को विश्वसनीय रूप से चलाने और त्रुटियाँ ठीक करने के लिए।</li>
+        <li>दुरुपयोग का पता लगाने, सुरक्षा बनाए रखने और उपलब्धता सुनिश्चित करने के लिए।</li>
+        <li>सहायता, विज्ञापन और साझेदारी से जुड़ी पूछताछ का जवाब देने के लिए।</li>
+        <li>ट्रैफ़िक और विज्ञापन प्रदर्शन को समझकर सेवा बेहतर करने के लिए।</li>
+      </ul>
+
+      <h2>3. ब्राउज़र में स्थानीय प्रोसेसिंग</h2>
+      <p>मुख्य रैंडम-ड्रॉ सुविधाएँ आपके ब्राउज़र में चलने के लिए बनाई गई हैं। कुछ सुविधाएँ localStorage जैसे ब्राउज़र स्टोरेज का उपयोग कर सकती हैं, लेकिन प्रतिभागी सूची और ड्रॉ स्थिति हमारे सर्वर पर तब तक संग्रहीत नहीं होती जब तक किसी बाहरी इंटीग्रेशन को इसकी आवश्यकता न हो।</p>
+
+      <h2>4. कुकीज़ और तृतीय-पक्ष सेवाएँ</h2>
+      <p>साइट मुख्य कार्य, एनालिटिक्स और विज्ञापन के लिए कुकीज़, localStorage या समान तकनीकों का उपयोग कर सकती है। हम Google AdSense, Google Analytics, Google Tag Manager, Microsoft Clarity और Userback जैसी तृतीय-पक्ष सेवाएँ भी उपयोग कर सकते हैं, जो अपनी नीतियों के अनुसार डेटा प्रोसेस कर सकती हैं। EEA, UK और Switzerland के आगंतुकों के लिए व्यक्तिगत विज्ञापन दिखाने से पहले बैनर या CMP के माध्यम से सहमति माँगी जा सकती है। सहमति न मिलने पर विज्ञापन सीमित या गैर-व्यक्तिगत हो सकते हैं।</p>
+
+      <h2>5. संग्रह अवधि और उपयोगकर्ता अधिकार</h2>
+      <p>हम जानकारी को केवल उतने समय तक रखते हैं जितना परिचालन या कानूनी कारणों से आवश्यक हो। जहाँ लागू हो, आप अपने व्यक्तिगत डेटा की पहुँच, सुधार या हटाने का अनुरोध कर सकते हैं।</p>
+
+      <h2>6. संपर्क</h2>
+      <p>गोपनीयता से जुड़े प्रश्नों के लिए newgotae@gmail.com पर संपर्क करें।</p>
+      <div class="links">
+        <a class="btn" href="/hi/">होम पर वापस जाएँ</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

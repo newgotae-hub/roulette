@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>サイト紹介 | Randomly Pick</title>
+  <meta name="description" content="Randomly Pick の運営者情報、ブラウザ抽選ツール、広告、Cookie、各種ポリシーの案内ページです。" />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://randomly-pick.com/ja/about/" />
+  <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/about/" />
+  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/about/" />
+  <link rel="alternate" hreflang="ja" href="https://randomly-pick.com/ja/about/" />
+  <link rel="alternate" hreflang="zh-cn" href="https://randomly-pick.com/zh-cn/about/" />
+  <link rel="alternate" hreflang="zh-tw" href="https://randomly-pick.com/zh-tw/about/" />
+  <link rel="alternate" hreflang="es" href="https://randomly-pick.com/es/about/" />
+  <link rel="alternate" hreflang="fr" href="https://randomly-pick.com/fr/about/" />
+  <link rel="alternate" hreflang="de" href="https://randomly-pick.com/de/about/" />
+  <link rel="alternate" hreflang="pt-br" href="https://randomly-pick.com/pt-br/about/" />
+  <link rel="alternate" hreflang="hi" href="https://randomly-pick.com/hi/about/" />
+  <link rel="alternate" hreflang="ar" href="https://randomly-pick.com/ar/about/" />
+  <link rel="alternate" hreflang="ru" href="https://randomly-pick.com/ru/about/" />
+  <link rel="alternate" hreflang="id" href="https://randomly-pick.com/id/about/" />
+  <link rel="alternate" hreflang="tr" href="https://randomly-pick.com/tr/about/" />
+  <link rel="alternate" hreflang="it" href="https://randomly-pick.com/it/about/" />
+  <link rel="alternate" hreflang="vi" href="https://randomly-pick.com/vi/about/" />
+  <link rel="alternate" hreflang="th" href="https://randomly-pick.com/th/about/" />
+  <link rel="alternate" hreflang="nl" href="https://randomly-pick.com/nl/about/" />
+  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/about/" />
+  <script data-rlt-legal-canonical-patch>
+    (function(){
+      try {
+        var url = new URL(window.location.href);
+        var host = url.hostname.toLowerCase();
+        var supportedLangs = /^(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)$/i;
+        var localizedLegalLangs = /^(?:en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)$/i;
+        var legalPathRegex = /^\/(?:(?:(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl))\/)?about\/?$/i;
+        var changed = false;
+        if (legalPathRegex.test(url.pathname) && url.searchParams.has('lang')) {
+          var qLang = String(url.searchParams.get('lang') || '').toLowerCase();
+          if (supportedLangs.test(qLang)) {
+            var nextPath = '/' + 'about' + '/';
+            if (localizedLegalLangs.test(qLang)) nextPath = '/' + qLang + '/' + 'about' + '/';
+            else if (qLang !== 'ko') nextPath = '/en/' + 'about' + '/';
+            if (nextPath !== url.pathname) {
+              url.pathname = nextPath;
+              changed = true;
+            }
+          }
+          url.searchParams.delete('lang');
+          changed = true;
+        }
+        if (host === 'www.randomly-pick.com') {
+          url.hostname = 'randomly-pick.com';
+          changed = true;
+        }
+        if (changed) window.location.replace(url.toString());
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --panel: #ffffff;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --muted: #475569;
+      --subtle: #64748b;
+      --accent: #111827;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Noto Sans", "Noto Sans KR", "Noto Sans JP", "Noto Sans SC", "Noto Sans TC", "Noto Sans Arabic", "Noto Sans Devanagari", "Noto Sans Thai", Arial, sans-serif; background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%); color: var(--text); }
+    main { max-width: 920px; margin: 0 auto; padding: 32px 18px 64px; line-height: 1.75; }
+    .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 24px; padding: 28px 24px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.06); }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: #eef2ff; color: #3730a3; font-size: 12px; font-weight: 700; letter-spacing: 0.02em; }
+    h1 { margin: 16px 0 10px; font-size: clamp(30px, 4vw, 40px); line-height: 1.15; }
+    h2 { margin-top: 28px; margin-bottom: 8px; font-size: 20px; }
+    p, li { color: var(--muted); }
+    ul { padding-left: 20px; }
+    .meta { color: var(--subtle); font-size: 14px; margin-bottom: 18px; }
+    .links { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 12px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; padding: 10px 14px; border-radius: 999px; border: 1px solid var(--border); background: #fff; color: var(--text); text-decoration: none; font-weight: 600; }
+    .btn:hover { border-color: #94a3b8; }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="panel">
+      <span class="eyebrow">Randomly Pick</span>
+      <h1>Randomly Pick について</h1>
+      <p>Randomly Pick は、素早くシンプルにランダムな決定を行うためのブラウザベースのツール集です。ルーレット、Lucky Draw、あみだくじ、チーム分け、コイントス、サイコロを提供しています。</p>
+
+      <h2>運営者・発行者</h2>
+      <p>Randomly Pick は Juntae Ko が運営しています。サービスに関する質問、ビジネスの相談、不具合報告は newgotae@gmail.com で受け付けています。</p>
+
+      <h2>重視していること</h2>
+      <ul>
+        <li>名前や候補をすばやく入力できること</li>
+        <li>確認しやすい抽選結果と履歴</li>
+        <li>イベント、教室、チーム分け、バランス分けですぐ使える実用性</li>
+        <li>必要に応じた CSV 保存と履歴確認</li>
+      </ul>
+
+      <h2>仕組み</h2>
+      <p>多くのツール操作は速度と使いやすさを優先してブラウザ内で直接処理されます。アカウント登録なしで使える軽量な Web アプリを目指しています。</p>
+      <p>主要な入力値と抽選状態はブラウザ内で処理されます。localStorage などを使う場合はありますが、特定の外部連携が必要な場合を除き、参加者リストや抽選状態をサーバーに保存しません。</p>
+
+      <h2>広告、Cookie、同意</h2>
+      <p>サイトでは Google AdSense、Google Analytics、Google Tag Manager、Microsoft Clarity、Userback などのツールを利用する場合があり、各サービスは独自のポリシーに従ってデータを処理することがあります。</p>
+      <p>EEA、英国、スイスの訪問者には、パーソナライズ広告の前に同意バナーや CMP を通じて選択をお願いする場合があります。同意がない場合、広告は制限付きまたは非パーソナライズとなることがあります。</p>
+
+      <h2>ポリシー</h2>
+      <p><a href="/ja/contact/">お問い合わせ</a> · <a href="/ja/privacy/">プライバシーポリシー</a> · <a href="/ja/terms/">利用規約</a></p>
+
+      <h2>お問い合わせ</h2>
+      <p>サービスに関するご質問やご提案は newgotae@gmail.com までご連絡ください。</p>
+      <div class="links">
+        <a class="btn" href="/ja/">ホームへ戻る</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

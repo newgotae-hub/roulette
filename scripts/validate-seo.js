@@ -1,36 +1,22 @@
 #!/usr/bin/env node
 const fs = require('fs');
 const path = require('path');
+const {
+  ALL_LOCALES,
+  NON_KO_LOCALES,
+  FOOTER_LABELS
+} = require('./legal-shared');
 
 const ROOT = path.resolve(__dirname, '..');
-const LOCALES = ['en', 'ja', 'zh-cn', 'zh-tw', 'es', 'fr', 'de', 'pt-br', 'hi', 'ar', 'ru', 'id', 'tr', 'it', 'vi', 'th', 'nl'];
-const TEAM_GENERATOR_LOCALES = ['ko', ...LOCALES];
+const LOCALES = NON_KO_LOCALES;
+const TEAM_GENERATOR_LOCALES = ALL_LOCALES;
 const PINNED_MODEL_VIEWER_URL = 'https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js';
 const FLOATING_MODEL_VIEWER_URL = 'https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js';
 const OPERATOR_INSTAGRAM_URL = 'https://www.instagram.com/juntaeko_tr';
 const ROBOTS_TXT = fs.readFileSync(path.join(ROOT, 'robots.txt'), 'utf8');
 const THIRD_PARTY_LOADER = fs.readFileSync(path.join(ROOT, 'assets/js/third-party-loader.js'), 'utf8');
-const LOCALIZED_LEGAL = new Set(['en', 'ja', 'zh-cn', 'zh-tw']);
-const FOOTER_LABELS = {
-  ko: { terms: '이용약관', privacy: '개인정보처리방침', about: '소개', contact: '문의' },
-  en: { terms: 'Terms', privacy: 'Privacy', about: 'About', contact: 'Contact' },
-  ja: { terms: '利用規約', privacy: 'プライバシー', about: '紹介', contact: 'お問い合わせ' },
-  'zh-cn': { terms: '条款', privacy: '隐私', about: '关于', contact: '联系' },
-  'zh-tw': { terms: '條款', privacy: '隱私', about: '關於', contact: '聯絡' },
-  es: { terms: 'Términos', privacy: 'Privacidad', about: 'Acerca de', contact: 'Contacto' },
-  fr: { terms: 'Conditions', privacy: 'Confidentialité', about: 'À propos', contact: 'Contact' },
-  de: { terms: 'AGB', privacy: 'Datenschutz', about: 'Über uns', contact: 'Kontakt' },
-  'pt-br': { terms: 'Termos', privacy: 'Privacidade', about: 'Sobre', contact: 'Contato' },
-  hi: { terms: 'नियम', privacy: 'प्राइवेसी', about: 'परिचय', contact: 'संपर्क' },
-  ar: { terms: 'الشروط', privacy: 'الخصوصية', about: 'حول', contact: 'اتصال' },
-  ru: { terms: 'Условия', privacy: 'Конфиденциальность', about: 'О сервисе', contact: 'Контакты' },
-  id: { terms: 'Ketentuan', privacy: 'Privasi', about: 'Tentang', contact: 'Kontak' },
-  tr: { terms: 'Koşullar', privacy: 'Gizlilik', about: 'Hakkında', contact: 'İletişim' },
-  it: { terms: 'Termini', privacy: 'Informativa privacy', about: 'Info', contact: 'Contatto' },
-  vi: { terms: 'Điều khoản', privacy: 'Riêng tư', about: 'Giới thiệu', contact: 'Liên hệ' },
-  th: { terms: 'เงื่อนไข', privacy: 'ความเป็นส่วนตัว', about: 'เกี่ยวกับ', contact: 'ติดต่อ' },
-  nl: { terms: 'Voorwaarden', privacy: 'Privacybeleid', about: 'Over', contact: 'Contact' }
-};
+const LOCALIZED_LEGAL = new Set(NON_KO_LOCALES);
+const LOCALE_PATTERN = NON_KO_LOCALES.map((locale) => locale.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
 const ALIAS_REDIRECTS = {
   'ko-kr': 'ko',
   'ja-jp': 'ja',
@@ -110,8 +96,7 @@ function extractCodeById(html, id) {
 
 function footerHrefFor(locale, slug) {
   if (!locale || locale === 'ko') return `/${slug}/`;
-  if (LOCALIZED_LEGAL.has(locale)) return `/${locale}/${slug}/`;
-  return `/en/${slug}/`;
+  return `/${locale}/${slug}/`;
 }
 
 function buildTeamGeneratorExampleTable(data) {
@@ -156,9 +141,16 @@ function hasEmptySoftwareApplicationDescription(html) {
   return /"@type":\s*"SoftwareApplication"[\s\S]*?"description":\s*""/.test(html);
 }
 
+function hasConsentRegionDisclosure(html) {
+  const eea = /EEA|EWR|EEE|EER|SEE|ЕЭЗ|المنطقة الاقتصادية الأوروبية/i.test(html);
+  const uk = /UK|영국|英国|英國|Reino Unido|Royaume-Uni|Vereinigten Königreich|यूनाइटेड किंगडम|المملكة المتحدة|Великобритани|Inggris|Birleşik Krallık|Regno Unito|Vương quốc Anh|สหราชอาณาจักร|Verenigd Koninkrijk|VK/i.test(html);
+  const switzerland = /Switzerland|스위스|スイス|瑞士|Suiza|Suisse|Schweiz|Suíça|İsviçre|स्विट्ज़रलैंड|سويسرا|Швейцари|Swiss|Thụy Sĩ|สวิตเซอร์แลนด์|Zwitserland|Svizzera/i.test(html);
+  return eea && uk && switzerland;
+}
+
 function validateDiceCoin3DRuntime(page, findings) {
-  const isDicePage = /^\/(?:(?:en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?dice\/$/.test(page.pagePath);
-  const isCoinPage = /^\/(?:(?:en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?coinflip\/$/.test(page.pagePath);
+  const isDicePage = new RegExp(`^\\/(?:(?:${LOCALE_PATTERN})\\/)?dice\\/$`).test(page.pagePath);
+  const isCoinPage = new RegExp(`^\\/(?:(?:${LOCALE_PATTERN})\\/)?coinflip\\/$`).test(page.pagePath);
   if (!isDicePage && !isCoinPage) return;
 
   if (!page.html.includes(PINNED_MODEL_VIEWER_URL)) {
@@ -251,30 +243,37 @@ function validateEnglishAcquisitionSignals(page, findings) {
 }
 
 function validateTrustComplianceSignals(page, findings) {
+  const anyLocalizedPath = `(?:${LOCALE_PATTERN})\\/`;
   if (page.html.includes(OPERATOR_INSTAGRAM_URL)) {
     findings.push(`${page.pagePath}: operator footer link should stay on-site, not Instagram.`);
   }
 
-  if (page.pagePath === '/about/') {
-    if (!page.html.includes('Operator and Publisher')) {
-      findings.push(`${page.pagePath}: about page should identify the operator/publisher.`);
+  if (new RegExp(`^\\/(?:(?:${anyLocalizedPath})|)?about\\/$`).test(page.pagePath)) {
+    if (!page.html.includes('newgotae@gmail.com')) {
+      findings.push(`${page.pagePath}: about page should include direct operator contact.`);
     }
-    if (!page.html.includes('EEA, UK, and Switzerland')) {
+    if (!page.html.includes('localStorage')) {
+      findings.push(`${page.pagePath}: about page should mention browser-local processing.`);
+    }
+    if (!hasConsentRegionDisclosure(page.html)) {
       findings.push(`${page.pagePath}: about page should include consent-region disclosure.`);
+    }
+    if (!/\/contact\/|\/privacy\/|\/terms\//.test(page.html)) {
+      findings.push(`${page.pagePath}: about page should link to the main policy pages.`);
     }
   }
 
-  if (page.pagePath === '/privacy/' || page.pagePath === '/en/privacy/') {
+  if (new RegExp(`^\\/(?:(?:${LOCALE_PATTERN})\\/)?privacy\\/$`).test(page.pagePath)) {
     if (!page.html.includes('localStorage')) {
       findings.push(`${page.pagePath}: privacy page should mention browser storage usage.`);
     }
-    if (!/EEA|UK|Switzerland/.test(page.html)) {
+    if (!hasConsentRegionDisclosure(page.html)) {
       findings.push(`${page.pagePath}: privacy page should mention consent-region disclosure.`);
     }
   }
 
-  if (page.pagePath === '/contact/' || page.pagePath === '/en/contact/') {
-    if (!/Operator|운영자/.test(page.html)) {
+  if (new RegExp(`^\\/(?:(?:${LOCALE_PATTERN})\\/)?contact\\/$`).test(page.pagePath)) {
+    if (!page.html.includes('Juntae Ko')) {
       findings.push(`${page.pagePath}: contact page should identify the operator.`);
     }
     if (!/\/about\/|\/privacy\/|\/terms\//.test(page.html)) {
@@ -290,7 +289,7 @@ function localeFromFooterPage(pagePath) {
   ) {
     return 'ko';
   }
-  const match = pagePath.match(/^\/(en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)(?:\/(?:luckydraw|ladder|coinflip|dice|team-generator))?\/$/);
+  const match = pagePath.match(new RegExp(`^\\/(${LOCALE_PATTERN})(?:\\/(?:luckydraw|ladder|coinflip|dice|team-generator))?\\/$`));
   return match ? match[1] : null;
 }
 
@@ -304,7 +303,7 @@ function validateLocalizedFooterFallback(page, findings) {
   const checks = [
     ['footer-terms', labels.terms, footerHrefFor(locale, 'terms')],
     ['footer-privacy', labels.privacy, footerHrefFor(locale, 'privacy')],
-    ['footer-about', labels.about, '/about/'],
+    ['footer-about', labels.about, footerHrefFor(locale, 'about')],
     ['footer-contact', labels.contact, footerHrefFor(locale, 'contact')]
   ];
 
@@ -346,7 +345,7 @@ const TEAM_GENERATOR_ATTR_CHECKS = [
 
 function localeFromTeamGeneratorPath(pagePath) {
   if (pagePath === '/team-generator/') return 'ko';
-  const match = pagePath.match(/^\/(en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/team-generator\/$/);
+  const match = pagePath.match(new RegExp(`^\\/(${LOCALE_PATTERN})\\/team-generator\\/$`));
   return match ? match[1] : null;
 }
 
@@ -483,12 +482,11 @@ for (const page of pages.values()) {
   if (page.canonical !== page.pagePath) findings.push(`${page.pagePath}: canonical mismatch (${page.canonical || 'missing'}).`);
   if (hasUnsafeSyncLangLinks(page.html)) findings.push(`${page.pagePath}: syncLangLinks adds ?lang= to non-tool links.`);
 
-  const isToolIndex = page.pagePath === '/' || /^\/(?:en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/$/.test(page.pagePath);
-  const isToolPage = /^\/(?:(?:en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?(?:luckydraw|ladder|coinflip|dice)\/$/.test(page.pagePath);
-  const isLegalPage = /^\/(?:(?:en|ja|zh-cn|zh-tw)\/)?(?:contact|privacy|terms)\/$/.test(page.pagePath);
+  const isToolIndex = page.pagePath === '/' || new RegExp(`^\\/(?:${LOCALE_PATTERN})\\/$`).test(page.pagePath);
+  const isToolPage = new RegExp(`^\\/(?:(?:${LOCALE_PATTERN})\\/)?(?:luckydraw|ladder|coinflip|dice)\\/$`).test(page.pagePath);
+  const isLegalPage = new RegExp(`^\\/(?:(?:${LOCALE_PATTERN})\\/)?(?:about|contact|privacy|terms)\\/$`).test(page.pagePath);
   if ((isToolIndex || isToolPage) && !hasSafeCanonicalPatch(page.html)) findings.push(`${page.pagePath}: missing safe query normalization patch.`);
   if (isLegalPage && !hasSafeLegalPatch(page.html)) findings.push(`${page.pagePath}: missing legal page query normalization patch.`);
-  if (page.pagePath === '/about/' && !hasSafeAboutPatch(page.html)) findings.push(`${page.pagePath}: missing about page query normalization patch.`);
   validateDiceCoin3DRuntime(page, findings);
   validateEnglishAcquisitionSignals(page, findings);
   validateTrustComplianceSignals(page, findings);

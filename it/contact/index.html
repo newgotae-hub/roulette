@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contatti | Randomly Pick</title>
+  <meta name="description" content="Pagina contatti di Randomly Pick per supporto, bug, pubblicità e partnership." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://randomly-pick.com/it/contact/" />
+  <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/contact/" />
+  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/contact/" />
+  <link rel="alternate" hreflang="ja" href="https://randomly-pick.com/ja/contact/" />
+  <link rel="alternate" hreflang="zh-cn" href="https://randomly-pick.com/zh-cn/contact/" />
+  <link rel="alternate" hreflang="zh-tw" href="https://randomly-pick.com/zh-tw/contact/" />
+  <link rel="alternate" hreflang="es" href="https://randomly-pick.com/es/contact/" />
+  <link rel="alternate" hreflang="fr" href="https://randomly-pick.com/fr/contact/" />
+  <link rel="alternate" hreflang="de" href="https://randomly-pick.com/de/contact/" />
+  <link rel="alternate" hreflang="pt-br" href="https://randomly-pick.com/pt-br/contact/" />
+  <link rel="alternate" hreflang="hi" href="https://randomly-pick.com/hi/contact/" />
+  <link rel="alternate" hreflang="ar" href="https://randomly-pick.com/ar/contact/" />
+  <link rel="alternate" hreflang="ru" href="https://randomly-pick.com/ru/contact/" />
+  <link rel="alternate" hreflang="id" href="https://randomly-pick.com/id/contact/" />
+  <link rel="alternate" hreflang="tr" href="https://randomly-pick.com/tr/contact/" />
+  <link rel="alternate" hreflang="it" href="https://randomly-pick.com/it/contact/" />
+  <link rel="alternate" hreflang="vi" href="https://randomly-pick.com/vi/contact/" />
+  <link rel="alternate" hreflang="th" href="https://randomly-pick.com/th/contact/" />
+  <link rel="alternate" hreflang="nl" href="https://randomly-pick.com/nl/contact/" />
+  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/contact/" />
+  <script data-rlt-legal-canonical-patch>
+    (function(){
+      try {
+        var url = new URL(window.location.href);
+        var host = url.hostname.toLowerCase();
+        var supportedLangs = /^(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)$/i;
+        var localizedLegalLangs = /^(?:en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)$/i;
+        var legalPathRegex = /^\/(?:(?:(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl))\/)?contact\/?$/i;
+        var changed = false;
+        if (legalPathRegex.test(url.pathname) && url.searchParams.has('lang')) {
+          var qLang = String(url.searchParams.get('lang') || '').toLowerCase();
+          if (supportedLangs.test(qLang)) {
+            var nextPath = '/' + 'contact' + '/';
+            if (localizedLegalLangs.test(qLang)) nextPath = '/' + qLang + '/' + 'contact' + '/';
+            else if (qLang !== 'ko') nextPath = '/en/' + 'contact' + '/';
+            if (nextPath !== url.pathname) {
+              url.pathname = nextPath;
+              changed = true;
+            }
+          }
+          url.searchParams.delete('lang');
+          changed = true;
+        }
+        if (host === 'www.randomly-pick.com') {
+          url.hostname = 'randomly-pick.com';
+          changed = true;
+        }
+        if (changed) window.location.replace(url.toString());
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --panel: #ffffff;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --muted: #475569;
+      --subtle: #64748b;
+      --accent: #111827;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Noto Sans", "Noto Sans KR", "Noto Sans JP", "Noto Sans SC", "Noto Sans TC", "Noto Sans Arabic", "Noto Sans Devanagari", "Noto Sans Thai", Arial, sans-serif; background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%); color: var(--text); }
+    main { max-width: 920px; margin: 0 auto; padding: 32px 18px 64px; line-height: 1.75; }
+    .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 24px; padding: 28px 24px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.06); }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: #eef2ff; color: #3730a3; font-size: 12px; font-weight: 700; letter-spacing: 0.02em; }
+    h1 { margin: 16px 0 10px; font-size: clamp(30px, 4vw, 40px); line-height: 1.15; }
+    h2 { margin-top: 28px; margin-bottom: 8px; font-size: 20px; }
+    p, li { color: var(--muted); }
+    ul { padding-left: 20px; }
+    .meta { color: var(--subtle); font-size: 14px; margin-bottom: 18px; }
+    .links { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 12px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; padding: 10px 14px; border-radius: 999px; border: 1px solid var(--border); background: #fff; color: var(--text); text-decoration: none; font-weight: 600; }
+    .btn:hover { border-color: #94a3b8; }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="panel">
+      <span class="eyebrow">Randomly Pick</span>
+      <h1>Contatti</h1>
+      <p>Per supporto, segnalazioni di bug, pubblicità o partnership, contattaci via email.</p>
+      <p><strong>Email:</strong> <a href="mailto:newgotae@gmail.com">newgotae@gmail.com</a></p>
+      <p><strong>Gestore:</strong> Juntae Ko</p>
+      <p>Randomly Pick viene gestito e supportato principalmente tramite il seguente canale di contatto.</p>
+      <p>Quando segnali un problema, includi URL della pagina, lingua, dispositivo e browser per aiutarci a riprodurlo più velocemente.</p>
+      <p>Per richieste pubblicitarie o partnership, indica obiettivo, posizione desiderata e periodo.</p>
+      <p><strong>Link utili:</strong> <a href="/it/about/">Chi siamo</a> · <a href="/it/privacy/">Informativa sulla privacy</a> · <a href="/it/terms/">Termini di servizio</a></p>
+      <div class="links">
+        <a class="btn" href="/it/">Torna alla home</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

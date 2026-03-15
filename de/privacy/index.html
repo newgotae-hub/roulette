@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Datenschutzerklärung | Randomly Pick</title>
+  <meta name="description" content="Datenschutzerklärung für Randomly Pick und seine browserbasierten Zufallstools." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://randomly-pick.com/de/privacy/" />
+  <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/privacy/" />
+  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/privacy/" />
+  <link rel="alternate" hreflang="ja" href="https://randomly-pick.com/ja/privacy/" />
+  <link rel="alternate" hreflang="zh-cn" href="https://randomly-pick.com/zh-cn/privacy/" />
+  <link rel="alternate" hreflang="zh-tw" href="https://randomly-pick.com/zh-tw/privacy/" />
+  <link rel="alternate" hreflang="es" href="https://randomly-pick.com/es/privacy/" />
+  <link rel="alternate" hreflang="fr" href="https://randomly-pick.com/fr/privacy/" />
+  <link rel="alternate" hreflang="de" href="https://randomly-pick.com/de/privacy/" />
+  <link rel="alternate" hreflang="pt-br" href="https://randomly-pick.com/pt-br/privacy/" />
+  <link rel="alternate" hreflang="hi" href="https://randomly-pick.com/hi/privacy/" />
+  <link rel="alternate" hreflang="ar" href="https://randomly-pick.com/ar/privacy/" />
+  <link rel="alternate" hreflang="ru" href="https://randomly-pick.com/ru/privacy/" />
+  <link rel="alternate" hreflang="id" href="https://randomly-pick.com/id/privacy/" />
+  <link rel="alternate" hreflang="tr" href="https://randomly-pick.com/tr/privacy/" />
+  <link rel="alternate" hreflang="it" href="https://randomly-pick.com/it/privacy/" />
+  <link rel="alternate" hreflang="vi" href="https://randomly-pick.com/vi/privacy/" />
+  <link rel="alternate" hreflang="th" href="https://randomly-pick.com/th/privacy/" />
+  <link rel="alternate" hreflang="nl" href="https://randomly-pick.com/nl/privacy/" />
+  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/privacy/" />
+  <script data-rlt-legal-canonical-patch>
+    (function(){
+      try {
+        var url = new URL(window.location.href);
+        var host = url.hostname.toLowerCase();
+        var supportedLangs = /^(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)$/i;
+        var localizedLegalLangs = /^(?:en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)$/i;
+        var legalPathRegex = /^\/(?:(?:(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl))\/)?privacy\/?$/i;
+        var changed = false;
+        if (legalPathRegex.test(url.pathname) && url.searchParams.has('lang')) {
+          var qLang = String(url.searchParams.get('lang') || '').toLowerCase();
+          if (supportedLangs.test(qLang)) {
+            var nextPath = '/' + 'privacy' + '/';
+            if (localizedLegalLangs.test(qLang)) nextPath = '/' + qLang + '/' + 'privacy' + '/';
+            else if (qLang !== 'ko') nextPath = '/en/' + 'privacy' + '/';
+            if (nextPath !== url.pathname) {
+              url.pathname = nextPath;
+              changed = true;
+            }
+          }
+          url.searchParams.delete('lang');
+          changed = true;
+        }
+        if (host === 'www.randomly-pick.com') {
+          url.hostname = 'randomly-pick.com';
+          changed = true;
+        }
+        if (changed) window.location.replace(url.toString());
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --panel: #ffffff;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --muted: #475569;
+      --subtle: #64748b;
+      --accent: #111827;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Noto Sans", "Noto Sans KR", "Noto Sans JP", "Noto Sans SC", "Noto Sans TC", "Noto Sans Arabic", "Noto Sans Devanagari", "Noto Sans Thai", Arial, sans-serif; background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%); color: var(--text); }
+    main { max-width: 920px; margin: 0 auto; padding: 32px 18px 64px; line-height: 1.75; }
+    .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 24px; padding: 28px 24px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.06); }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: #eef2ff; color: #3730a3; font-size: 12px; font-weight: 700; letter-spacing: 0.02em; }
+    h1 { margin: 16px 0 10px; font-size: clamp(30px, 4vw, 40px); line-height: 1.15; }
+    h2 { margin-top: 28px; margin-bottom: 8px; font-size: 20px; }
+    p, li { color: var(--muted); }
+    ul { padding-left: 20px; }
+    .meta { color: var(--subtle); font-size: 14px; margin-bottom: 18px; }
+    .links { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 12px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; padding: 10px 14px; border-radius: 999px; border: 1px solid var(--border); background: #fff; color: var(--text); text-decoration: none; font-weight: 600; }
+    .btn:hover { border-color: #94a3b8; }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="panel">
+      <span class="eyebrow">Randomly Pick</span>
+      <h1>Datenschutzerklärung</h1>
+      <p class="meta">Gültig ab: 6. März 2026</p>
+      <p>Randomly Pick bietet browserbasierte Zufallstools wie Drehrad, Lucky Draw, Leiterziehung, Münzwurf und Würfelwurf. Diese Seite erklärt, welche Informationen bei der Nutzung der Website verarbeitet werden können.</p>
+
+      <h2>1. Welche Informationen können verarbeitet werden?</h2>
+      <ul>
+        <li>Grundlegende Zugriffsdaten wie Besuchszeit, Browsertyp, Geräteinformationen und IP-Adresse können erfasst werden.</li>
+        <li>Wenn Sie uns kontaktieren, können Ihr Name, Ihre E-Mail-Adresse und der Inhalt Ihrer Nachricht verarbeitet werden.</li>
+        <li>Eingaben wie Teilnehmerlisten und Ziehungsergebnisse werden in der Regel direkt im Browser verarbeitet.</li>
+      </ul>
+
+      <h2>2. Warum verwenden wir diese Informationen?</h2>
+      <ul>
+        <li>Um die Website zuverlässig zu betreiben und Fehler zu beheben.</li>
+        <li>Um Missbrauch zu erkennen, die Sicherheit zu schützen und die Verfügbarkeit zu erhalten.</li>
+        <li>Um auf Support-, Werbe- und Partnerschaftsanfragen zu reagieren.</li>
+        <li>Um Verkehrsdaten und Werbeleistung zu verstehen und den Dienst zu verbessern.</li>
+      </ul>
+
+      <h2>3. Lokale Verarbeitung im Browser</h2>
+      <p>Die zentralen Ziehungsfunktionen sind so ausgelegt, dass sie in Ihrem Browser laufen. Einige Komfortfunktionen können Browserspeicher wie localStorage verwenden, aber Teilnehmerlisten und Ziehungsstatus werden nicht auf unseren Servern gespeichert, sofern dies nicht ausdrücklich durch eine Drittintegration erforderlich ist.</p>
+
+      <h2>4. Cookies und Drittanbieter</h2>
+      <p>Die Website kann Cookies, localStorage oder ähnliche Technologien für Kernfunktionen, Analysen und Werbung verwenden. Außerdem können Drittanbieter wie Google AdSense, Google Analytics, Google Tag Manager, Microsoft Clarity und Userback eingebunden werden, die Daten nach ihren eigenen Richtlinien verarbeiten können. Für Besucher aus dem EWR, dem Vereinigten Königreich und der Schweiz kann vor personalisierter Werbung eine Einwilligung über ein Banner oder eine CMP abgefragt werden. Ohne Einwilligung kann Werbung eingeschränkt oder nicht personalisiert sein.</p>
+
+      <h2>5. Speicherdauer und Rechte</h2>
+      <p>Wir speichern Informationen nur so lange, wie es aus betrieblichen oder rechtlichen Gründen erforderlich ist. Soweit anwendbar, können Sie Zugang, Berichtigung oder Löschung Ihrer personenbezogenen Daten verlangen.</p>
+
+      <h2>6. Kontakt</h2>
+      <p>Bei Fragen zum Datenschutz kontaktieren Sie uns unter newgotae@gmail.com.</p>
+      <div class="links">
+        <a class="btn" href="/de/">Zur Startseite</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

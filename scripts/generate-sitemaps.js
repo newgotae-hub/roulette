@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 const fs = require('fs');
 const path = require('path');
+const { NON_KO_LOCALES } = require('./legal-shared');
 
 const root = path.resolve(__dirname, '..');
-const langs = ['en','ja','zh-cn','zh-tw','es','fr','de','pt-br','hi','ar','ru','id','tr','it','vi','th','nl'];
+const langs = NON_KO_LOCALES;
 const tools = ['roulette','luckydraw','ladder','team-generator','coinflip','dice'];
 const legalPages = ['privacy','terms','contact','about'];
-const localizedLegalLangs = ['en', 'ja', 'zh-cn', 'zh-tw'];
-const localizedLegalPages = ['privacy', 'terms', 'contact'];
+const localizedLegalLangs = NON_KO_LOCALES;
+const localizedLegalPages = ['privacy', 'terms', 'contact', 'about'];
 const guidePages = ['guides', 'guides/fair-random-draw', 'guides/event-draw-checklist', 'guides/winner-records'];
 const localizedGuideLangs = ['en'];
 const today = new Date().toISOString().slice(0, 10);
