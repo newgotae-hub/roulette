@@ -179,3 +179,9 @@ How to use it:
 - Added structured data to the English team-generator page and filled missing `SoftwareApplication` descriptions on the English homepage and lucky-draw page.
 - Extended the SEO validator to fail if the new English-first `x-default`, core English title targets, or English team-generator structured data regress.
 - Detailed notes: [ENGLISH_SEO_GROWTH_2026-03-15.md](/home/user/roulette/ENGLISH_SEO_GROWTH_2026-03-15.md)
+
+### Public sitemap endpoint standardized to `sitemap.xml`
+
+- Confirmed live `https://randomly-pick.com/sitemap.xml` and `https://randomly-pick.com/sitemap-index.xml` currently return byte-identical XML, so the issue was not malformed sitemap content.
+- Standardized the public crawler-facing sitemap directive in `robots.txt` to `https://randomly-pick.com/sitemap.xml`, since that is the URL Search Console is accepting reliably.
+- Extended the SEO validator so future deploys fail if `robots.txt` stops advertising `https://randomly-pick.com/sitemap.xml`.

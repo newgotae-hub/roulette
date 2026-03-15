@@ -6,6 +6,7 @@ const ROOT = path.resolve(__dirname, '..');
 const LOCALES = ['en', 'ja', 'zh-cn', 'zh-tw', 'es', 'fr', 'de', 'pt-br', 'hi', 'ar', 'ru', 'id', 'tr', 'it', 'vi', 'th', 'nl'];
 const PINNED_MODEL_VIEWER_URL = 'https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js';
 const FLOATING_MODEL_VIEWER_URL = 'https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js';
+const ROBOTS_TXT = fs.readFileSync(path.join(ROOT, 'robots.txt'), 'utf8');
 const ALIAS_REDIRECTS = {
   'ko-kr': 'ko',
   'ja-jp': 'ja',
@@ -256,6 +257,10 @@ for (const page of pages.values()) {
 
 if (!/<loc>https:\/\/randomly-pick\.com\/<\/loc>[\s\S]*?<xhtml:link rel="alternate" hreflang="x-default" href="https:\/\/randomly-pick\.com\/en\/"\/>/.test(MAIN_SITEMAP_XML)) {
   findings.push('sitemap-main.xml: root x-default should point to https://randomly-pick.com/en/.');
+}
+
+if (!/Sitemap:\s*https:\/\/randomly-pick\.com\/sitemap\.xml/.test(ROBOTS_TXT)) {
+  findings.push('robots.txt: Sitemap directive should point to https://randomly-pick.com/sitemap.xml.');
 }
 
 if (!TEAM_GENERATOR_I18N_SOURCE.includes('"seoTitle":"Random Team Generator | Balanced Team Splitter"')) {
