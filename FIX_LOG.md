@@ -103,6 +103,11 @@ How to use it:
 - Increased the team-generator roster textarea height across all localized pages so the left input panel uses more of the available vertical space in normal view.
 - Raised the fullscreen roster textarea clamp as well so the expanded layout keeps the larger input area instead of shrinking back too aggressively.
 
+### 2026-03-15 - Team split normal-mode roster textarea reduced
+
+- Reduced the normal team-generator roster textarea height across all localized pages so the default layout no longer pushes the input panel too far below the fold.
+- Kept the larger fullscreen roster clamp unchanged, since that expanded layout was already using the extra vertical space correctly.
+
 ### Dice and coin reduced-motion animation fallback now keeps visible motion
 
 - Identified that both dice and coin pages were skipping their animation loops entirely when `prefers-reduced-motion` was active, which made the motion appear missing.
