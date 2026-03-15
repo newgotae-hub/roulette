@@ -298,6 +298,7 @@
       justify-content: center;
       min-height: 0;
       overflow: visible;
+      perspective: 1100px;
     }
 
     .dice-slot.is-rollable {
@@ -342,6 +343,10 @@
       border: 0;
       box-shadow: none;
       transform: translate3d(0, 0, 0);
+      transform-style: preserve-3d;
+      will-change: transform;
+      backface-visibility: hidden;
+      contain: layout paint style;
       pointer-events: none;
     }
 
@@ -2502,6 +2507,16 @@
         die.model.setAttribute('orientation', `${x.toFixed(1)}deg ${y.toFixed(1)}deg ${z.toFixed(1)}deg`);
       }
 
+      function setDieShellTransform(die, x, y, z) {
+        if (!die || !die.shell) return;
+        die.shell.style.transform = `translate3d(0, 0, 0) rotateX(${x.toFixed(1)}deg) rotateY(${y.toFixed(1)}deg) rotateZ(${z.toFixed(1)}deg)`;
+      }
+
+      function resetDieShellTransform(die) {
+        if (!die || !die.shell) return;
+        die.shell.style.transform = 'translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg)';
+      }
+
       function setDieValue(die, value) {
         const safe = Math.max(1, Math.min(6, Number(value) || 1));
         die.value = safe;
@@ -2672,6 +2687,7 @@
       function settleDieToFace(die, value) {
         const target = faceTarget(value);
         // Force final pose to the canonical face orientation so visual face and score never diverge.
+        resetDieShellTransform(die);
         setModelOrientation(die, target[0], target[1], target[2]);
         setDieValue(die, value);
       }
@@ -2727,6 +2743,7 @@
           const settle = () => {
             if (settled) return;
             settled = true;
+            resetDieShellTransform(die);
             setModelOrientation(die, xTotal, yTotal, zTotal);
             setDieValue(die, value);
             resolve();
@@ -2752,7 +2769,7 @@
             const x = xSpin + (xTotal - xSpin) * alignEase;
             const y = ySpin + (yTotal - ySpin) * alignEase;
             const z = zSpin + (zTotal - zSpin) * alignEase;
-            setModelOrientation(die, x, y, z);
+            setDieShellTransform(die, x, y, z);
             if (p < 1) {
               requestAnimationFrame(tick);
             } else {

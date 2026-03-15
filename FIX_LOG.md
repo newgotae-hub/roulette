@@ -126,6 +126,12 @@ How to use it:
 - Updated the Korean reduced-motion note so it now explains that motion becomes shorter and simpler instead of disappearing.
 - Root-cause notes: [DICE_COIN_MOTION_ROOT_CAUSE_2026-03-15.md](/home/user/roulette/DICE_COIN_MOTION_ROOT_CAUSE_2026-03-15.md)
 
+### Dice and coin visible rotation moved to shell transforms
+
+- Reworked the dice and coin roll animation so the visible motion is driven by the outer shell transform instead of relying on repeated inner `model-viewer` orientation updates.
+- Added wrapper transform helpers and 3D shell styling across all localized dice and coin pages so users can see the roll/flip motion again while keeping the final recorded face consistent.
+- Updated the root-cause note to capture the deeper rendering issue in addition to the reduced-motion shortcut.
+
 ### Footer contact links now open Userback first
 
 - Updated the shared third-party loader so footer `문의하기` / `Contact` links open the Userback widget on plain left-click before falling back to the existing contact page.

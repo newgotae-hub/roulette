@@ -412,6 +412,10 @@
       border: 0;
       box-shadow: none;
       transform: translate3d(0, 0, 0);
+      transform-style: preserve-3d;
+      will-change: transform;
+      backface-visibility: hidden;
+      contain: layout paint style;
     }
 
     .spline-coin-shell iframe {
@@ -2622,9 +2626,20 @@
         return 96;
       }
 
+      function setCoinShellTransform(coin, x, y) {
+        if (!coin || !coin.el) return;
+        coin.el.style.transform = `translate3d(0, 0, 0) rotateX(${x.toFixed(1)}deg) rotateY(${y.toFixed(1)}deg)`;
+      }
+
+      function resetCoinShellTransform(coin) {
+        if (!coin || !coin.el) return;
+        coin.el.style.transform = 'translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg)';
+      }
+
       function setCoinFace(coin, side) {
         coin.result = side === 'tails' ? 'tails' : 'heads';
         coin.el.setAttribute('data-side', coin.result);
+        resetCoinShellTransform(coin);
         if (coin.model) {
           const y = coin.result === 'tails' ? 180 : 0;
           coin.model.setAttribute('orientation', `0deg ${y}deg 0deg`);
@@ -2901,7 +2916,7 @@
               const eased = 1 - Math.pow(1 - p, 3);
               const x = xTotal * eased;
               const y = yTotal * eased;
-              coin.model.setAttribute('orientation', `${x.toFixed(1)}deg ${y.toFixed(1)}deg 0deg`);
+              setCoinShellTransform(coin, x, y);
               if (p < 1) requestAnimationFrame(tick);
             };
             requestAnimationFrame(tick);
