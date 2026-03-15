@@ -23,7 +23,7 @@ for (const tool of tools) {
     ? 'https://randomly-pick.com/'
     : `https://randomly-pick.com/${tool}/`;
   const xDefault = tool === 'roulette'
-    ? 'https://randomly-pick.com/'
+    ? 'https://randomly-pick.com/en/'
     : `https://randomly-pick.com/en/${tool}/`;
   const koHref = tool === 'roulette'
     ? 'https://randomly-pick.com/'

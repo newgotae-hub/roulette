@@ -55,6 +55,11 @@ function extractCanonical(html) {
   return match ? match[1] : null;
 }
 
+function extractTitle(html) {
+  const match = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
+  return match ? match[1].replace(/\s+/g, ' ').trim() : '';
+}
+
 function isNoindex(html) {
   return /<meta[^>]+name="robots"[^>]+content="[^"]*noindex/i.test(html);
 }
@@ -80,6 +85,10 @@ function hasSafeAboutPatch(html) {
   return html.includes('data-rlt-about-canonical-patch');
 }
 
+function hasEmptySoftwareApplicationDescription(html) {
+  return /"@type":\s*"SoftwareApplication"[\s\S]*?"description":\s*""/.test(html);
+}
+
 function validateDiceCoin3DRuntime(page, findings) {
   const isDicePage = /^\/(?:(?:en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?dice\/$/.test(page.pagePath);
   const isCoinPage = /^\/(?:(?:en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?coinflip\/$/.test(page.pagePath);
@@ -95,6 +104,53 @@ function validateDiceCoin3DRuntime(page, findings) {
   const requiredAsset = isDicePage ? '/dice.glb' : '/stylized_pirate_coin.glb';
   if (!page.html.includes(requiredAsset)) {
     findings.push(`${page.pagePath}: missing required 3D asset reference ${requiredAsset}.`);
+  }
+}
+
+function validateEnglishAcquisitionSignals(page, findings) {
+  if (page.pagePath === '/' || page.pagePath === '/en/') {
+    if (!page.html.includes('hreflang="x-default" href="https://randomly-pick.com/en/"')) {
+      findings.push(`${page.pagePath}: x-default should point to /en/ for English-first fallback.`);
+    }
+  }
+
+  if (page.pagePath === '/en/') {
+    const title = extractTitle(page.html);
+    if (!/Wheel of Names/i.test(title)) {
+      findings.push(`${page.pagePath}: title should target "Wheel of Names".`);
+    }
+    if (!page.html.includes('Random Name Picker')) {
+      findings.push(`${page.pagePath}: page should mention "Random Name Picker".`);
+    }
+    if (hasEmptySoftwareApplicationDescription(page.html)) {
+      findings.push(`${page.pagePath}: SoftwareApplication description must not be empty.`);
+    }
+  }
+
+  if (page.pagePath === '/en/luckydraw/') {
+    const title = extractTitle(page.html);
+    if (!/Random Number Generator/i.test(title)) {
+      findings.push(`${page.pagePath}: title should target "Random Number Generator".`);
+    }
+    if (!page.html.includes('Name Picker')) {
+      findings.push(`${page.pagePath}: page should mention "Name Picker".`);
+    }
+    if (hasEmptySoftwareApplicationDescription(page.html)) {
+      findings.push(`${page.pagePath}: SoftwareApplication description must not be empty.`);
+    }
+  }
+
+  if (page.pagePath === '/en/team-generator/') {
+    const title = extractTitle(page.html);
+    if (!/Random Team Generator/i.test(title)) {
+      findings.push(`${page.pagePath}: title should target "Random Team Generator".`);
+    }
+    if (!page.html.includes('"@type": "SoftwareApplication"')) {
+      findings.push(`${page.pagePath}: missing SoftwareApplication structured data.`);
+    }
+    if (!page.html.includes('"@type": "FAQPage"')) {
+      findings.push(`${page.pagePath}: missing FAQPage structured data.`);
+    }
   }
 }
 
@@ -137,6 +193,9 @@ function sitemapUrls() {
   return out;
 }
 
+const MAIN_SITEMAP_XML = fs.readFileSync(path.join(ROOT, 'sitemap-main.xml'), 'utf8');
+const TEAM_GENERATOR_I18N_SOURCE = fs.readFileSync(path.join(ROOT, 'assets/js/team-generator-i18n.js'), 'utf8');
+
 const files = walk(ROOT);
 const redirectTargets = buildRedirectTargets();
 const sitemaps = sitemapUrls();
@@ -176,6 +235,7 @@ for (const page of pages.values()) {
   if (isLegalPage && !hasSafeLegalPatch(page.html)) findings.push(`${page.pagePath}: missing legal page query normalization patch.`);
   if (page.pagePath === '/about/' && !hasSafeAboutPatch(page.html)) findings.push(`${page.pagePath}: missing about page query normalization patch.`);
   validateDiceCoin3DRuntime(page, findings);
+  validateEnglishAcquisitionSignals(page, findings);
 
   const indexable = !page.refresh && !page.noindex && page.canonical === page.pagePath;
   if (indexable && !sitemaps.has(page.pagePath)) findings.push(`${page.pagePath}: indexable page missing from sitemap.`);
@@ -192,6 +252,18 @@ for (const page of pages.values()) {
     if (pages.has(href)) continue;
     findings.push(`${page.pagePath}: internal link target missing ${href}.`);
   }
+}
+
+if (!/<loc>https:\/\/randomly-pick\.com\/<\/loc>[\s\S]*?<xhtml:link rel="alternate" hreflang="x-default" href="https:\/\/randomly-pick\.com\/en\/"\/>/.test(MAIN_SITEMAP_XML)) {
+  findings.push('sitemap-main.xml: root x-default should point to https://randomly-pick.com/en/.');
+}
+
+if (!TEAM_GENERATOR_I18N_SOURCE.includes('"seoTitle":"Random Team Generator | Balanced Team Splitter"')) {
+  findings.push('assets/js/team-generator-i18n.js: missing English random team generator SEO title.');
+}
+
+if (!TEAM_GENERATOR_I18N_SOURCE.includes('"heroTitle":"Random Team Generator and Balanced Team Splitter"')) {
+  findings.push('assets/js/team-generator-i18n.js: missing English team-generator hero title update.');
 }
 
 for (const rel of ['assets/js/lotto.js', 'assets/js/ladder.js', 'scripts/sync-roulette-entrypoints.js', 'scripts/seo-hosting-patch.js']) {

@@ -171,3 +171,11 @@ How to use it:
 
 - Updated the shared third-party loader so footer `문의하기` / `Contact` links open the Userback widget on plain left-click before falling back to the existing contact page.
 - Added lazy Userback loading for pages that did not previously boot the widget, while keeping modifier-click and other default link behaviors intact.
+
+### English SEO growth pass for homepage, lucky draw, and team generator
+
+- Switched the homepage `x-default` signal to the English homepage in the HTML and generated sitemap so the English locale is the default fallback for acquisition.
+- Rewrote the English homepage, lucky-draw page, and team-generator page around stronger English search terms such as `Wheel of Names`, `Random Number Generator`, and `Random Team Generator`.
+- Added structured data to the English team-generator page and filled missing `SoftwareApplication` descriptions on the English homepage and lucky-draw page.
+- Extended the SEO validator to fail if the new English-first `x-default`, core English title targets, or English team-generator structured data regress.
+- Detailed notes: [ENGLISH_SEO_GROWTH_2026-03-15.md](/home/user/roulette/ENGLISH_SEO_GROWTH_2026-03-15.md)
