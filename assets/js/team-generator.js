@@ -99,6 +99,11 @@
   }
 
   const ui = {
+    fullscreenToggle: document.getElementById("fullscreen-toggle"),
+    fullscreenIcon: document.getElementById("fullscreen-icon"),
+    fullscreenLabel: document.getElementById("fullscreen-label"),
+    fullscreenHint: document.getElementById("fullscreen-hint"),
+    fullscreenHintText: document.getElementById("fullscreen-hint-text"),
     rosterInput: document.getElementById("roster-input"),
     teamCount: document.getElementById("team-count"),
     teamCountHint: document.getElementById("team-count-hint"),
@@ -128,7 +133,8 @@
   const state = {
     parsed: parseRoster(""),
     result: null,
-    toastTimer: null
+    toastTimer: null,
+    fullscreenHintTimer: null
   };
 
   function fallbackDownload(filename, content) {
@@ -768,7 +774,49 @@
     }, 1800);
   }
 
+  function getFullscreenEnterLabel() {
+    if (!ui.fullscreenLabel) return "";
+    return ui.fullscreenLabel.dataset.enter || ui.fullscreenLabel.textContent || "";
+  }
+
+  function getFullscreenExitLabel() {
+    if (!ui.fullscreenLabel) return "";
+    return ui.fullscreenLabel.dataset.exit || getFullscreenEnterLabel();
+  }
+
+  function updateFullscreenButton() {
+    if (!ui.fullscreenLabel || !ui.fullscreenIcon) return;
+    const active = !!document.fullscreenElement;
+    ui.fullscreenIcon.setAttribute("icon", active ? "solar:minimize-linear" : "solar:maximize-linear");
+    ui.fullscreenLabel.textContent = active ? getFullscreenExitLabel() : getFullscreenEnterLabel();
+  }
+
+  function showFullscreenHint() {
+    if (!ui.fullscreenHint || window.innerWidth < 768) return;
+    ui.fullscreenHint.classList.remove("hidden");
+    window.clearTimeout(state.fullscreenHintTimer);
+    state.fullscreenHintTimer = window.setTimeout(() => {
+      ui.fullscreenHint.classList.add("hidden");
+    }, 2400);
+  }
+
+  async function toggleFullscreen() {
+    if (!document.fullscreenEnabled) return;
+    if (ui.fullscreenHint) ui.fullscreenHint.classList.add("hidden");
+    try {
+      if (document.fullscreenElement) {
+        await document.exitFullscreen();
+      } else {
+        await document.documentElement.requestFullscreen();
+      }
+    } catch (error) {}
+    updateFullscreenButton();
+  }
+
   function bindEvents() {
+    if (ui.fullscreenToggle) ui.fullscreenToggle.addEventListener("click", toggleFullscreen);
+    document.addEventListener("fullscreenchange", updateFullscreenButton);
+
     ui.rosterInput.addEventListener("input", () => {
       invalidateResult();
       refreshPreview();
@@ -830,6 +878,8 @@
     renderTeams(null);
     bindEvents();
     refreshPreview();
+    updateFullscreenButton();
+    showFullscreenHint();
   }
 
   init();

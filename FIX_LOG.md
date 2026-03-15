@@ -49,3 +49,9 @@ How to use it:
 - Changed balanced team scoring so participants without an entered score are assigned the average of the provided scores instead of `0`.
 - Updated the team generator UI, warnings, and copied text to explain average-score substitution for missing entries.
 - Removed explicit "team size differs by at most 1" copy from the Korean team generator page.
+
+### Team split header parity with other game pages
+
+- Added the desktop fullscreen button and focus hint to every localized `/team-generator/` page so its top header matches the other game pages.
+- Reused the same locale-specific fullscreen labels already used on the existing tools, including fullscreen exit text wiring in `assets/js/team-generator.js`.
+- Added the missing mobile language-toggle `aria-label` values on the localized team split pages so the header controls now line up with the other tool pages.
