@@ -98,6 +98,13 @@ How to use it:
 - Fixed the broken Korean newline inside `assets/js/team-generator-i18n.js` so the localized team-generator bundle parses correctly again.
 - Refreshed the shared `team-generator` script version across every localized page so stale cached `0`-score copy is invalidated after deployment.
 
+### Dice and coin reduced-motion animation fallback now keeps visible motion
+
+- Identified that both dice and coin pages were skipping their animation loops entirely when `prefers-reduced-motion` was active, which made the motion appear missing.
+- Replaced that instant-result fallback with a shorter and lower-intensity animation path across all localized dice and coin pages.
+- Updated the Korean reduced-motion note so it now explains that motion becomes shorter and simpler instead of disappearing.
+- Root-cause notes: [DICE_COIN_MOTION_ROOT_CAUSE_2026-03-15.md](/home/user/roulette/DICE_COIN_MOTION_ROOT_CAUSE_2026-03-15.md)
+
 ### Footer contact links now open Userback first
 
 - Updated the shared third-party loader so footer `문의하기` / `Contact` links open the Userback widget on plain left-click before falling back to the existing contact page.

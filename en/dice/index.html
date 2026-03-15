@@ -959,7 +959,7 @@
           bannerMissing: 'dice.glb 경로를 확인해 주세요.',
           bannerDone: '완료: 합계 {sum} · 결과 [{rolls}]',
           cumulativeTitle: '면별 누적 횟수',
-          motionNote: '설정된 모션 감소 환경에서는 애니메이션이 단순 표시로 대체됩니다.',
+          motionNote: '설정된 모션 감소 환경에서는 애니메이션이 더 짧고 단순하게 재생됩니다.',
           guideTitle: '주사위 굴리기 가이드',
           guideSubtitle: 'Randomly Pick 주사위는 브라우저에서만 동작하며 입력/결과가 외부 서버로 전송되지 않습니다.',
           guideStep1Title: '1. 개수 선택',
@@ -2734,32 +2734,13 @@
         const targetValues = new Array(state.diceCount).fill(0).map(() => secureRandomInt6());
         rollSoundStart();
 
-        if (state.reducedMotion) {
-          state.dice.forEach((die, idx) => {
-            const value = targetValues[idx];
-            const target = faceTarget(value);
-            setModelOrientation(die, target[0], target[1], target[2]);
-            setDieValue(die, value);
-          });
-          const finalValues = state.dice.map((die, idx) => {
-            const fallback = targetValues[idx] || 1;
-            return Math.max(1, Math.min(6, Number(die.value) || Number(die.badge.textContent) || fallback));
-          });
-          const sum = finalValues.reduce((a, b) => a + b, 0);
-          rollSoundEnd();
-          triggerParityFirework(sum);
-          setBanner(t('bannerDone', { sum, rolls: finalValues.join(', ') }), 'text-green-600');
-          updateCumulativeStats(finalValues);
-          updateParityReport(sum);
-          state.rolling = false;
-          ui.rollButton.disabled = false;
-          syncDiceInteractivity();
-          ui.rollLabel.textContent = t('roll');
-          return;
-        }
-
-        const durationMs = Math.floor(state.durationSec * 1000);
-        const maxStagger = Math.min(140, Math.max(0, 10 * state.diceCount));
+        const reducedMotion = state.reducedMotion;
+        const durationMs = reducedMotion
+          ? Math.min(900, Math.max(420, Math.floor(state.durationSec * 380)))
+          : Math.floor(state.durationSec * 1000);
+        const maxStagger = reducedMotion
+          ? Math.min(40, Math.max(0, 4 * state.diceCount))
+          : Math.min(140, Math.max(0, 10 * state.diceCount));
         const staggers = state.dice.map(() => Math.floor(Math.random() * maxStagger));
 
         const animationPromises = state.dice.map((die, idx) => new Promise((resolve) => {
@@ -2768,9 +2749,11 @@
           const current = die.angles || { x: 0, y: 0, z: 0 };
           const normalizeDeg = (deg) => ((deg % 360) + 360) % 360;
           const shortestAlign = (fromDeg, toDeg) => (((toDeg - fromDeg + 540) % 360) - 180);
-          const spinTurns = 6 + Math.floor(Math.random() * 3);
-          const displayTiltX = current.x + (Math.random() < 0.5 ? -18 : 18);
-          const displayTiltZ = current.z + (Math.random() < 0.5 ? -10 : 10);
+          const spinTurns = reducedMotion ? 1 + Math.floor(Math.random() * 2) : 6 + Math.floor(Math.random() * 3);
+          const tiltXRange = reducedMotion ? 8 : 18;
+          const tiltZRange = reducedMotion ? 5 : 10;
+          const displayTiltX = current.x + (Math.random() < 0.5 ? -tiltXRange : tiltXRange);
+          const displayTiltZ = current.z + (Math.random() < 0.5 ? -tiltZRange : tiltZRange);
           const spinY = current.y + spinTurns * 360;
           const xTotal = displayTiltX + shortestAlign(normalizeDeg(displayTiltX), target[0]);
           const yTotal = spinY + shortestAlign(normalizeDeg(spinY), target[1]);
@@ -2813,7 +2796,7 @@
             }
           };
           requestAnimationFrame(tick);
-          window.setTimeout(settle, durationMs + maxStagger + 220);
+          window.setTimeout(settle, durationMs + maxStagger + (reducedMotion ? 120 : 220));
         }));
         await Promise.all(animationPromises);
         const finalValues = state.dice.map((die, idx) => {

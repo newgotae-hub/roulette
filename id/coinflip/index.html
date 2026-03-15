@@ -983,7 +983,7 @@
           export: '엑셀 저장',
           noHistory: '아직 기록이 없습니다.',
           exportEmpty: '내보낼 기록이 없습니다.',
-          motionNote: '설정된 모션 감소 환경에서는 애니메이션이 단순 표시로 대체됩니다.',
+          motionNote: '설정된 모션 감소 환경에서는 애니메이션이 더 짧고 단순하게 재생됩니다.',
           guideTitle: '코인 던지기 가이드',
           guideSubtitle: 'RLT 코인 플립은 브라우저에서만 동작하며 입력/결과가 외부 서버로 전송되지 않습니다.',
           guideStep1Title: '1. 코인 개수 선택',
@@ -2921,28 +2921,22 @@
         ui.tailsCount.textContent = String(tails);
         flipSoundStart();
 
-        if (state.reducedMotion) {
-          state.coins.forEach((coin, idx) => setCoinFace(coin, results[idx] ? 'tails' : 'heads'));
-          flipSoundEnd();
-          triggerPowderBurst();
-          setBanner(t('bannerDone', { h: heads, t: tails }), 'text-green-600');
-          pushHistory(heads, tails);
-          state.flipping = false;
-          ui.flipButton.disabled = false;
-          syncCoinInteractivity();
-          ui.flipLabel.textContent = t('flip');
-          return;
-        }
-
-        const durationMs = Math.floor(state.durationSec * 1000);
-        const maxStagger = Math.min(220, Math.max(0, 12 * state.coinCount));
+        const reducedMotion = state.reducedMotion;
+        const durationMs = reducedMotion
+          ? Math.min(820, Math.max(360, Math.floor(state.durationSec * 320)))
+          : Math.floor(state.durationSec * 1000);
+        const maxStagger = reducedMotion
+          ? Math.min(70, Math.max(0, 4 * state.coinCount))
+          : Math.min(220, Math.max(0, 12 * state.coinCount));
         const staggers = state.coins.map(() => Math.floor(Math.random() * maxStagger));
 
         state.coins.forEach((coin, idx) => {
           const resultSide = results[idx] ? 'tails' : 'heads';
-          const spinTurns = 4 + Math.floor(Math.random() * 5);
+          const spinTurns = reducedMotion ? 1 + Math.floor(Math.random() * 2) : 4 + Math.floor(Math.random() * 5);
           const endY = spinTurns * 360 + (resultSide === 'tails' ? 180 : 0);
-          const endX = (2 + Math.floor(Math.random() * 3)) * 360;
+          const endX = reducedMotion
+            ? (1 + Math.floor(Math.random() * 2)) * 180
+            : (2 + Math.floor(Math.random() * 3)) * 360;
           coin.result = resultSide;
 
           if (coin.model) {
@@ -2966,7 +2960,7 @@
         });
 
         await new Promise((resolve) => {
-          window.setTimeout(resolve, durationMs + maxStagger + 80);
+          window.setTimeout(resolve, durationMs + maxStagger + (reducedMotion ? 60 : 80));
         });
 
         state.coins.forEach((coin) => setCoinFace(coin, coin.result));
