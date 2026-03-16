@@ -144,11 +144,7 @@
     emptyState: document.getElementById("empty-state"),
     teamGrid: document.getElementById("team-grid"),
     toast: document.getElementById("toast"),
-    scoreToggleBtn: null,
-    scorePanel: null,
-    scorePanelTitle: null,
-    scorePanelBody: null,
-    scoreStatusBadge: null
+    scoreToggleBtn: null
   };
 
   const state = {
@@ -694,26 +690,6 @@
       ui.rerollBtn.insertAdjacentElement("beforebegin", button);
       ui.scoreToggleBtn = button;
     }
-
-    if (!ui.scorePanel && ui.resultPanel && ui.teamGrid) {
-      const panel = document.createElement("section");
-      panel.id = "score-panel";
-      panel.className = "hidden mt-4 rounded-[1.5rem] border border-slate-200 bg-slate-50/80 p-4";
-      panel.innerHTML = `
-        <div class="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
-          <div>
-            <h3 id="score-panel-title" class="text-sm font-semibold text-slate-900"></h3>
-            <p id="score-panel-body" class="mt-1 max-w-2xl text-sm leading-6 text-slate-600"></p>
-          </div>
-          <span id="score-status-badge" class="inline-flex items-center rounded-full bg-slate-200 px-3 py-1 text-xs font-semibold text-slate-600"></span>
-        </div>
-      `;
-      ui.resultPanel.insertBefore(panel, ui.teamGrid);
-      ui.scorePanel = panel;
-      ui.scorePanelTitle = document.getElementById("score-panel-title");
-      ui.scorePanelBody = document.getElementById("score-panel-body");
-      ui.scoreStatusBadge = document.getElementById("score-status-badge");
-    }
   }
 
   function updateScoreToggleButton() {
@@ -819,29 +795,6 @@
   function renderSummary(result) {
     ensureScoreUi();
     updateScoreToggleButton();
-
-    if (!ui.scorePanel) return;
-
-    if (!result) {
-      ui.scorePanel.classList.add("hidden");
-      return;
-    }
-
-    const scoreboard = computeScoreboard(result);
-    const shouldShowPanel = state.scoreEditorOpen || scoreboard.hasAny;
-
-    if (!shouldShowPanel) {
-      ui.scorePanel.classList.add("hidden");
-      return;
-    }
-
-    const tone = getScoreboardTone(scoreboard.mode);
-    ui.scorePanel.className = `mt-6 rounded-[1.5rem] border p-4 ${tone.panel}`;
-    ui.scorePanelTitle.textContent = t("scorePanelTitle");
-    ui.scorePanelBody.textContent = scoreboard.summaryBody;
-    ui.scoreStatusBadge.className = `inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${tone.badge}`;
-    ui.scoreStatusBadge.textContent = scoreboard.statusLabel;
-    ui.scorePanel.classList.remove("hidden");
   }
 
   function renderTeams(result) {

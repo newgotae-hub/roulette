@@ -292,3 +292,9 @@ How to use it:
 - Changed the team-result member layout so each team card now starts in the same two-column member grid used by score-entry mode, instead of switching from one column to two columns after `점수입력`.
 - Locked the member-row spacing and text sizing to the same compact layout in both normal and score-entry states so pressing `점수입력` no longer causes the team card layout to jump.
 - Refreshed the shared team-generator script version again so browsers fetch the always-two-column member layout immediately.
+
+### 2026-03-16 - Team split score entry now opens with no extra header panel
+
+- Removed the extra `팀원 점수 입력` guidance/status box that had been inserted above the result cards when score-entry mode opened.
+- Kept score-entry mode fully inline so pressing `점수입력` now only swaps the member-row right side into number inputs without moving the surrounding result layout.
+- Refreshed the shared team-generator script version again so browsers fetch the no-header inline score-entry behavior immediately.
