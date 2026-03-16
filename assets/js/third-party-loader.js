@@ -4,6 +4,11 @@
   var USERBACK_OPEN_TIMEOUT_MS = 8000;
   var userbackLoadStarted = false;
 
+  function isLocalQaMode() {
+    return window.__TEAM_GENERATOR_LOCAL_QA__ === true ||
+      document.documentElement.getAttribute('data-team-generator-qa') === 'true';
+  }
+
   function injectScript(src, attrs, onload, onerror) {
     var s = document.createElement('script');
     s.src = src;
@@ -186,6 +191,12 @@
   }
 
   function run() {
+    if (isLocalQaMode()) {
+      document.documentElement.setAttribute('data-adsense-state', 'qa-local');
+      document.documentElement.setAttribute('data-adsense-units', '0');
+      return;
+    }
+
     var cfg = (document.documentElement.getAttribute('data-third-party') || '').split(',').map(function (v) { return v.trim(); });
     var contentUnitCount = getPublisherContentUnits();
     var hasContent = contentUnitCount >= MIN_ADSENSE_CONTENT_UNITS;

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Team Generator Local QA Harness</title>
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var locale = String(params.get('locale') || 'en').toLowerCase();
+      var headless = params.get('qa_headless') === '1';
+      var rtlLocales = ['ar'];
+      window.__rltBootLang = locale;
+      window.__TEAM_GENERATOR_LOCAL_QA__ = true;
+      document.documentElement.lang = locale;
+      document.documentElement.dir = rtlLocales.indexOf(locale) !== -1 ? 'rtl' : 'ltr';
+      document.documentElement.setAttribute('data-team-generator-qa', 'true');
+      if (headless) {
+        document.documentElement.setAttribute('data-team-generator-qa-headless', 'true');
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="../css/team-generator-qa.css" />
+  <style>
+    body {
+      margin: 0;
+    }
+
+    main {
+      padding: 24px 0 40px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section id="workspace-shell">
+      <div id="workspace-grid">
+        <aside id="team-controls-panel">
+          <div>
+            <div class="flex items-center justify-between gap-2">
+              <h2 id="input-settings-title">Input settings</h2>
+              <span id="input-support-hint">Excel / tab / slash friendly</span>
+            </div>
+            <div class="mt-3">
+              <p id="mode-label">Assignment mode</p>
+              <div class="mt-2 grid gap-2 sm:grid-cols-2">
+                <label class="cursor-pointer">
+                  <input type="radio" name="team-mode" value="random" checked />
+                  <div>
+                    <p id="mode-random-title">Pure random</p>
+                    <p id="mode-random-body">Shuffle every slot without looking at score.</p>
+                  </div>
+                </label>
+                <label class="cursor-pointer">
+                  <input type="radio" name="team-mode" value="balanced" />
+                  <div>
+                    <p id="mode-balanced-title">Score balance</p>
+                    <p id="mode-balanced-body">Respect team sizes and reduce score gaps together.</p>
+                  </div>
+                </label>
+              </div>
+            </div>
+            <div class="mt-4">
+              <div class="flex items-center justify-between gap-2">
+                <label id="team-count-label" for="team-count">Number of teams</label>
+                <p id="team-count-hint">Paste a roster to preview expected team sizes.</p>
+              </div>
+              <div class="mt-2 grid grid-cols-[5rem_minmax(0,1fr)] items-center gap-2">
+                <input id="team-count" type="number" min="2" max="12" value="2" />
+                <div class="grid grid-cols-5 gap-1.5">
+                  <button type="button" data-team-count="2">2</button>
+                  <button type="button" data-team-count="3">3</button>
+                  <button type="button" data-team-count="4">4</button>
+                  <button type="button" data-team-count="5">5</button>
+                  <button type="button" data-team-count="6">6</button>
+                </div>
+              </div>
+            </div>
+            <div class="mt-4 grid gap-2 sm:grid-cols-3">
+              <div>
+                <p id="participants-label">Participants</p>
+                <p id="participant-count">0</p>
+              </div>
+              <div>
+                <p id="scored-label">Scored</p>
+                <p id="scored-count">0</p>
+              </div>
+              <div>
+                <p id="missing-label">No score</p>
+                <p id="missing-count">0</p>
+              </div>
+            </div>
+            <div class="mt-4">
+              <div class="flex items-center justify-between gap-2">
+                <label id="roster-label" for="roster-input">Roster input</label>
+                <span id="roster-hint">One person per line or two Excel columns</span>
+              </div>
+              <textarea id="roster-input" placeholder="Example"></textarea>
+            </div>
+            <div class="mt-4 grid gap-2">
+              <button id="generate-btn" type="button"><span id="generate-btn-label">Generate teams</span></button>
+              <div class="flex flex-wrap gap-2">
+                <button id="sample-random-btn" type="button">Load random sample</button>
+                <button id="sample-balanced-btn" type="button">Load balanced sample</button>
+                <button id="clear-btn" type="button">Clear input</button>
+              </div>
+            </div>
+          </div>
+        </aside>
+        <section id="team-results-panel">
+          <div>
+            <h2 id="results-title">Team results</h2>
+            <div>
+              <button id="reroll-btn" type="button">Reassign</button>
+              <button id="copy-btn" type="button">Copy result</button>
+              <button id="export-btn" type="button">Save CSV</button>
+            </div>
+          </div>
+          <div id="empty-state">
+            <h3 id="empty-title">No teams generated yet</h3>
+            <p id="empty-body">Paste a roster, choose a team count, and press generate.</p>
+          </div>
+          <div id="team-grid"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+  <div id="toast"></div>
+  <script src="../js/utils.js"></script>
+  <script src="../js/random.js"></script>
+  <script src="../js/team-generator-i18n.js"></script>
+  <script src="../js/team-generator.js"></script>
+</body>
+</html>

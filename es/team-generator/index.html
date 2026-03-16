@@ -63,16 +63,56 @@
       } catch (e) {}
     })();
   </script>
+  <script>
+    (function () {
+      try {
+        var params = new URLSearchParams(window.location.search);
+        var localQa = params.get('qa') === '1';
+        var headlessQa = params.get('qa_headless') === '1';
+        window.__TEAM_GENERATOR_LOCAL_QA__ = localQa;
+        if (!localQa) return;
+        document.documentElement.classList.remove('i18n-pending');
+        document.documentElement.setAttribute('data-team-generator-qa', 'true');
+        if (headlessQa) {
+          document.documentElement.setAttribute('data-team-generator-qa-headless', 'true');
+        }
+        var qaStyles = document.createElement('link');
+        qaStyles.rel = 'stylesheet';
+        qaStyles.href = '/assets/css/team-generator-qa.css?v=20260316-team-score11';
+        document.head.appendChild(qaStyles);
+        document.addEventListener('DOMContentLoaded', function () {
+          document.documentElement.classList.remove('i18n-pending');
+        }, { once: true });
+        window.dataLayer = window.dataLayer || [];
+        window.tailwind = window.tailwind || {};
+      } catch (error) {
+        window.__TEAM_GENERATOR_LOCAL_QA__ = false;
+      }
+    })();
+  </script>
   <script defer src="/assets/js/third-party-loader.js"></script>
-  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-P4JDC9CR');</script>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
-  <link rel="preconnect" href="https://flagcdn.com" crossorigin>
-  <link rel="dns-prefetch" href="https://flagcdn.com">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <script>tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','-apple-system','BlinkMacSystemFont','Segoe UI','Roboto','Helvetica Neue','Arial','sans-serif']}}}};</script>
+  <script>
+    if (!window.__TEAM_GENERATOR_LOCAL_QA__) {
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-P4JDC9CR');
+    }
+  </script>
+  <script>
+    (function () {
+      if (window.__TEAM_GENERATOR_LOCAL_QA__) return;
+      document.write('<script src="https://cdn.tailwindcss.com"><\\/script>');
+      document.write('<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"><\\/script>');
+      document.write('<link rel="preconnect" href="https://flagcdn.com" crossorigin>');
+      document.write('<link rel="dns-prefetch" href="https://flagcdn.com">');
+      document.write('<link rel="preconnect" href="https://fonts.googleapis.com">');
+      document.write('<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>');
+      document.write('<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />');
+    })();
+  </script>
+  <script>
+    if (!window.__TEAM_GENERATOR_LOCAL_QA__) {
+      tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','-apple-system','BlinkMacSystemFont','Segoe UI','Roboto','Helvetica Neue','Arial','sans-serif']}}}};
+    }
+  </script>
   <style>
     :root { --bg-soft:#f8fafc; --bg-line:rgba(148,163,184,.18); }
     body { background: radial-gradient(circle at top left, rgba(255,255,255,.95), rgba(248,250,252,.7) 32%, transparent 54%), linear-gradient(135deg, #f8fafc 0%, #eef2ff 38%, #f7fee7 100%); background-attachment: fixed; }
@@ -154,7 +194,7 @@
           <div class="relative">
           <button id="lang-trigger" class="bg-white border border-slate-200 shadow-sm rounded-full px-3 py-1 text-[11px] font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors inline-flex items-center gap-1.5" aria-label="Cambiar idioma">
             <span id="lang-button-label">IDIOMA</span>
-            <img id="lang-current-flag" src="https://flagcdn.com/w20/es.png" alt="Español" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
+            <img id="lang-current-flag" src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="Español" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
           </button>
           <div id="lang-menu" class="hidden absolute right-0 top-full mt-2 z-50 w-56 rounded-xl border border-slate-200 bg-white shadow-xl p-2">
             <input id="lang-search" type="text" class="w-full mb-2 px-2.5 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/20" placeholder="Buscar idioma">
@@ -178,7 +218,7 @@
         </nav>
       </div>
       <button id="lang-trigger-mobile" type="button" aria-label="Cambiar idioma" class="px-2.5 py-1.5 rounded-full border border-slate-200 bg-white text-slate-600">
-        <img id="lang-current-flag-mobile" src="https://flagcdn.com/w20/es.png" alt="Español" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
+        <img id="lang-current-flag-mobile" src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" alt="Español" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
       </button>
     </div>
     <div id="lang-menu-mobile" class="hidden fixed right-4 top-14 w-56 rounded-xl border border-slate-200 bg-white shadow-xl p-2" style="z-index:2147483647">
@@ -209,7 +249,7 @@ Harper / 89</code></pre></div></div></div><div class="mt-10 grid gap-8 lg:grid-c
   <div id="toast" class="pointer-events-none fixed bottom-4 right-4 z-50 translate-y-3 rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white opacity-0 shadow-xl transition-all duration-200"></div>
   <script src="/assets/js/utils.js"></script>
   <script src="/assets/js/random.js"></script>
-  <script src="/assets/js/team-generator-i18n.js?v=20260316-team-score9"></script>
-  <script src="/assets/js/team-generator.js?v=20260316-team-score9"></script>
+  <script src="/assets/js/team-generator-i18n.js?v=20260316-team-score11"></script>
+  <script src="/assets/js/team-generator.js?v=20260316-team-score11"></script>
 </body>
 </html>

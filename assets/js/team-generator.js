@@ -110,6 +110,12 @@
   const SAMPLE_BALANCED = Array.isArray(config.sampleBalanced) && config.sampleBalanced.length
     ? config.sampleBalanced
     : DEFAULT_SAMPLE_BALANCED;
+  const runtimeParams = new URLSearchParams(window.location.search);
+  const isLocalQaMode = window.__TEAM_GENERATOR_LOCAL_QA__ === true
+    || runtimeParams.get("qa") === "1"
+    || document.documentElement.getAttribute("data-team-generator-qa") === "true";
+  const qaCase = runtimeParams.get("qa_case") || "score-entry";
+  const shouldQaAutofill = isLocalQaMode && runtimeParams.get("qa_autofill") === "1";
 
   function t(key, vars) {
     const template = Object.prototype.hasOwnProperty.call(messages, key) ? messages[key] : key;
@@ -934,6 +940,7 @@
   }
 
   function saveState() {
+    if (isLocalQaMode) return;
     try {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify({
         roster: ui.rosterInput.value,
@@ -944,6 +951,7 @@
   }
 
   function loadState() {
+    if (isLocalQaMode) return;
     try {
       const raw = window.localStorage.getItem(STORAGE_KEY);
       if (!raw) return;
@@ -1130,6 +1138,7 @@
   }
 
   function showFullscreenHint() {
+    if (isLocalQaMode) return;
     if (!ui.fullscreenHint || window.innerWidth < 768) return;
     ui.fullscreenHint.classList.remove("hidden");
     window.clearTimeout(state.fullscreenHintTimer);
@@ -1155,6 +1164,7 @@
   }
 
   async function toggleFullscreen() {
+    if (isLocalQaMode) return;
     if (!document.fullscreenEnabled) return;
     if (ui.fullscreenHint) ui.fullscreenHint.classList.add("hidden");
     try {
@@ -1167,8 +1177,8 @@
   }
 
   function bindEvents() {
-    if (ui.fullscreenToggle) ui.fullscreenToggle.addEventListener("click", toggleFullscreen);
-    document.addEventListener("fullscreenchange", syncFullscreenLayout);
+    if (!isLocalQaMode && ui.fullscreenToggle) ui.fullscreenToggle.addEventListener("click", toggleFullscreen);
+    if (!isLocalQaMode) document.addEventListener("fullscreenchange", syncFullscreenLayout);
 
     ui.rosterInput.addEventListener("input", () => {
       invalidateResult();
@@ -1252,6 +1262,74 @@
     }
   }
 
+  function buildQaDeterministicTeams(players, capacities) {
+    const fixedLayout = capacities.length === 3 && players.length >= 6 && capacities.every((capacity) => capacity === 2)
+      ? [[0, 5], [1, 4], [2, 3]]
+      : null;
+
+    if (fixedLayout) {
+      return fixedLayout.map((indexes, teamIndex) => {
+        const members = indexes.map((index) => players[index]).filter(Boolean);
+        return {
+          id: teamIndex,
+          capacity: capacities[teamIndex],
+          members,
+          total: members.reduce((sum, member) => sum + member.score, 0)
+        };
+      });
+    }
+
+    let cursor = 0;
+    return capacities.map((capacity, teamIndex) => {
+      const members = players.slice(cursor, cursor + capacity);
+      cursor += capacity;
+      return {
+        id: teamIndex,
+        capacity,
+        members,
+        total: members.reduce((sum, member) => sum + member.score, 0)
+      };
+    });
+  }
+
+  function applyLocalQaCase() {
+    document.documentElement.setAttribute("data-team-generator-qa-case", qaCase);
+
+    if (!isLocalQaMode) return;
+    if (!shouldQaAutofill || qaCase === "empty") {
+      document.documentElement.setAttribute("data-team-generator-qa-ready", "true");
+      return;
+    }
+
+    const qaLines = SAMPLE_BALANCED.slice(0, 6);
+    ui.rosterInput.value = qaLines.join("\n");
+    ui.teamCount.value = "3";
+    setSelectedMode("balanced");
+    refreshPreview();
+
+    state.parsed = parseRoster(ui.rosterInput.value);
+    const capacities = computeCapacities(state.parsed.players.length, 3);
+    const teams = buildQaDeterministicTeams(state.parsed.players, capacities);
+
+    state.result = buildResult(state.parsed, teams, "balanced", "balanced", capacities);
+    state.scoreEditorOpen = qaCase === "score-entry";
+    resetMemberScoreInputs(state.result);
+
+    if (qaCase === "score-entry") {
+      const qaScoreInputs = [["21", "18"], ["17", "16"], ["14", "12"]];
+      state.memberScoreInputs = state.result.teams.map((team, teamIndex) => team.members.map((_, memberIndex) => (
+        qaScoreInputs[teamIndex] && qaScoreInputs[teamIndex][memberIndex]
+          ? qaScoreInputs[teamIndex][memberIndex]
+          : ""
+      )));
+    }
+
+    renderSummary(state.result);
+    renderTeams(state.result);
+    updateActionState();
+    document.documentElement.setAttribute("data-team-generator-qa-ready", "true");
+  }
+
   function init() {
     ensureScoreUi();
     loadState();
@@ -1261,6 +1339,7 @@
     refreshPreview();
     syncFullscreenLayout();
     showFullscreenHint();
+    applyLocalQaCase();
   }
 
   init();

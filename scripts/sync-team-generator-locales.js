@@ -5,7 +5,8 @@ const { ALL_LOCALES, NON_KO_LOCALES } = require('./legal-shared');
 
 const ROOT = path.resolve(__dirname, '..');
 const I18N_PATH = path.join(ROOT, 'assets/js/team-generator-i18n.js');
-const ASSET_VERSION = '20260316-team-score9';
+const ASSET_VERSION = '20260316-team-score11';
+const FLAG_PLACEHOLDER_SRC = 'data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=';
 const LOCALES = ALL_LOCALES;
 const TEXT_IDS = [
   ['nav-spin', 'navSpin'],
@@ -92,6 +93,56 @@ const ATTRIBUTE_IDS = [
   ['lang-trigger', 'aria-label', 'langButtonAria'],
   ['lang-trigger-mobile', 'aria-label', 'langButtonAria']
 ];
+const SHARED_ASSET_BLOCK = `  <script>
+    (function () {
+      try {
+        var params = new URLSearchParams(window.location.search);
+        var localQa = params.get('qa') === '1';
+        var headlessQa = params.get('qa_headless') === '1';
+        window.__TEAM_GENERATOR_LOCAL_QA__ = localQa;
+        if (!localQa) return;
+        document.documentElement.classList.remove('i18n-pending');
+        document.documentElement.setAttribute('data-team-generator-qa', 'true');
+        if (headlessQa) {
+          document.documentElement.setAttribute('data-team-generator-qa-headless', 'true');
+        }
+        var qaStyles = document.createElement('link');
+        qaStyles.rel = 'stylesheet';
+        qaStyles.href = '/assets/css/team-generator-qa.css?v=${ASSET_VERSION}';
+        document.head.appendChild(qaStyles);
+        document.addEventListener('DOMContentLoaded', function () {
+          document.documentElement.classList.remove('i18n-pending');
+        }, { once: true });
+        window.dataLayer = window.dataLayer || [];
+        window.tailwind = window.tailwind || {};
+      } catch (error) {
+        window.__TEAM_GENERATOR_LOCAL_QA__ = false;
+      }
+    })();
+  </script>
+  <script defer src="/assets/js/third-party-loader.js"></script>
+  <script>
+    if (!window.__TEAM_GENERATOR_LOCAL_QA__) {
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-P4JDC9CR');
+    }
+  </script>
+  <script>
+    (function () {
+      if (window.__TEAM_GENERATOR_LOCAL_QA__) return;
+      document.write('<script src="https://cdn.tailwindcss.com"><\\\\/script>');
+      document.write('<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"><\\\\/script>');
+      document.write('<link rel="preconnect" href="https://flagcdn.com" crossorigin>');
+      document.write('<link rel="dns-prefetch" href="https://flagcdn.com">');
+      document.write('<link rel="preconnect" href="https://fonts.googleapis.com">');
+      document.write('<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>');
+      document.write('<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />');
+    })();
+  </script>
+  <script>
+    if (!window.__TEAM_GENERATOR_LOCAL_QA__) {
+      tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','-apple-system','BlinkMacSystemFont','Segoe UI','Roboto','Helvetica Neue','Arial','sans-serif']}}}};
+    }
+  </script>`;
 
 function escapeRegExp(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -199,6 +250,24 @@ function syncExampleBlocks(html, data) {
   return html;
 }
 
+function syncSharedAssetBlock(html) {
+  const startMarker = `  <script>
+    (function () {
+      try {
+        var params = new URLSearchParams(window.location.search);
+        var localQa = params.get('qa') === '1';
+        window.__TEAM_GENERATOR_LOCAL_QA__ = localQa;`;
+  const endMarker = `  <script>
+    if (!window.__TEAM_GENERATOR_LOCAL_QA__) {
+      tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','-apple-system','BlinkMacSystemFont','Segoe UI','Roboto','Helvetica Neue','Arial','sans-serif']}}}};
+    }
+  </script>`;
+  const start = html.indexOf(startMarker);
+  const end = html.indexOf(endMarker, start);
+  if (start === -1 || end === -1) throw new Error('Missing shared asset block.');
+  return `${html.slice(0, start)}${SHARED_ASSET_BLOCK}${html.slice(end + endMarker.length)}`;
+}
+
 function syncPage(locale, data) {
   const file = localeFile(locale);
   let html = fs.readFileSync(file, 'utf8');
@@ -220,6 +289,8 @@ function syncPage(locale, data) {
   for (const [id, attr, key] of ATTRIBUTE_IDS) {
     html = replaceAttributeById(html, id, attr, data[key]);
   }
+  html = replaceAttributeById(html, 'lang-current-flag', 'src', FLAG_PLACEHOLDER_SRC);
+  html = replaceAttributeById(html, 'lang-current-flag-mobile', 'src', FLAG_PLACEHOLDER_SRC);
 
   html = replaceAttributeById(html, 'footer-terms', 'href', targetHref(locale, 'terms'));
   html = replaceAttributeById(html, 'footer-privacy', 'href', targetHref(locale, 'privacy'));
@@ -228,6 +299,7 @@ function syncPage(locale, data) {
   html = replaceAttributeById(html, 'footer-contact', 'href', targetHref(locale, 'contact'));
 
   html = syncExampleBlocks(html, data);
+  html = syncSharedAssetBlock(html);
   html = html.replace(/\/assets\/js\/team-generator-i18n\.js\?v=[^"]+/g, `/assets/js/team-generator-i18n.js?v=${ASSET_VERSION}`);
   html = html.replace(/\/assets\/js\/team-generator\.js\?v=[^"]+/g, `/assets/js/team-generator.js?v=${ASSET_VERSION}`);
 

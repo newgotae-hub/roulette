@@ -430,6 +430,9 @@
     };
     return runtimeMessages[locale] || runtimeMessages.en;
   }
+  const isLocalQaMode = window.__TEAM_GENERATOR_LOCAL_QA__ === true || document.documentElement.getAttribute('data-team-generator-qa') === 'true';
+  const blankFlagDataUri = 'data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=';
+  if (isLocalQaMode) document.documentElement.classList.remove('i18n-pending');
   const state = { locale: normalizeLang(window.__rltBootLang || document.documentElement.lang || 'en') };
   const data = dataMap[state.locale] || dataMap.en;
   const resolvedMessages = { ...dataMap.en.messages, ...buildRuntimeMessages(state.locale), ...(data.messages || {}) };
@@ -462,7 +465,10 @@
     const rows = (data.sampleBalanced || dataMap.en.sampleBalanced || []).slice(0, 4);
     return rows.map((row) => row.replace(/\t+/, ' / ')).join('\n');
   }
-  function getFlag(locale) { return 'https://flagcdn.com/w20/' + ((localeNames[locale] && localeNames[locale].flag) || 'us') + '.png'; }
+  function getFlag(locale) {
+    if (isLocalQaMode) return blankFlagDataUri;
+    return 'https://flagcdn.com/w20/' + ((localeNames[locale] && localeNames[locale].flag) || 'us') + '.png';
+  }
   function updateLinks() {
     const regex = /^\/(?:(ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl)\/)?(roulette|luckydraw|ladder|team-generator|coinflip|dice)\/?$/i;
     document.querySelectorAll('a[href]').forEach((a) => {

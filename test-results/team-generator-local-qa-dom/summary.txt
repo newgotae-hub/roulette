@@ -1,0 +1,18 @@
+PASS ko :: 점수입력
+PASS en :: Enter scores
+PASS ja :: 点数入力
+PASS zh-cn :: 输入分数
+PASS zh-tw :: 輸入分數
+PASS es :: Ingresar puntos
+PASS fr :: Saisir scores
+PASS de :: Punkte eingeben
+PASS pt-br :: Inserir pontos
+PASS hi :: स्कोर दर्ज करें
+PASS ar :: إدخال النقاط
+PASS ru :: Ввести очки
+PASS id :: Input skor
+PASS tr :: Puan gir
+PASS it :: Inserisci punteggi
+PASS vi :: Nhập điểm
+PASS th :: กรอกคะแนน
+PASS nl :: Score invoeren

@@ -1,0 +1,926 @@
+{
+  "generatedAt": "2026-03-16T20:44:09.215Z",
+  "chromiumBinary": "/nix/store/lpdrfl6n16q5zdf8acp4bni7yczzcx3h-idx-builtins/bin/chromium",
+  "chromePort": 9223,
+  "mode": "dom-audit",
+  "entries": [
+    {
+      "locale": "ko",
+      "pass": true,
+      "issues": [],
+      "payload": {
+        "lang": "ko",
+        "dir": "ltr",
+        "qaReady": "true",
+        "bodyVisible": "visible",
+        "readyState": "complete",
+        "toggleLabel": "점수입력",
+        "cardCount": 3,
+        "resultsTitle": "팀 결과",
+        "rerollLabel": "다시 배정",
+        "copyLabel": "결과 복사",
+        "exportLabel": "CSV 저장",
+        "teamTitles": [
+          "1팀",
+          "2팀",
+          "3팀"
+        ],
+        "winnerPills": [
+          "승리"
+        ],
+        "averageLabels": [
+          "팀 평균",
+          "팀 평균",
+          "팀 평균"
+        ],
+        "averageValues": [
+          "19.5점",
+          "16.5점",
+          "13점"
+        ],
+        "memberInputCount": 6,
+        "memberInputValues": [
+          "21",
+          "18",
+          "17",
+          "16",
+          "14",
+          "12"
+        ]
+      },
+      "staticSnapshot": {
+        "resultsTitle": "팀 결과",
+        "rerollLabel": "다시 배정",
+        "copyLabel": "결과 복사",
+        "exportLabel": "CSV 저장"
+      }
+    },
+    {
+      "locale": "en",
+      "pass": true,
+      "issues": [],
+      "payload": {
+        "lang": "en",
+        "dir": "ltr",
+        "qaReady": "true",
+        "bodyVisible": "visible",
+        "readyState": "loading",
+        "toggleLabel": "Enter scores",
+        "cardCount": 3,
+        "resultsTitle": "Team results",
+        "rerollLabel": "Reassign",
+        "copyLabel": "Copy result",
+        "exportLabel": "Save CSV",
+        "teamTitles": [
+          "Team 1",
+          "Team 2",
+          "Team 3"
+        ],
+        "winnerPills": [
+          "Winner"
+        ],
+        "averageLabels": [
+          "Team avg",
+          "Team avg",
+          "Team avg"
+        ],
+        "averageValues": [
+          "19.5 pts",
+          "16.5 pts",
+          "13 pts"
+        ],
+        "memberInputCount": 6,
+        "memberInputValues": [
+          "21",
+          "18",
+          "17",
+          "16",
+          "14",
+          "12"
+        ]
+      },
+      "staticSnapshot": {
+        "resultsTitle": "Team results",
+        "rerollLabel": "Reassign",
+        "copyLabel": "Copy result",
+        "exportLabel": "Save CSV"
+      }
+    },
+    {
+      "locale": "ja",
+      "pass": true,
+      "issues": [],
+      "payload": {
+        "lang": "ja",
+        "dir": "ltr",
+        "qaReady": "true",
+        "bodyVisible": "visible",
+        "readyState": "complete",
+        "toggleLabel": "点数入力",
+        "cardCount": 3,
+        "resultsTitle": "チーム結果",
+        "rerollLabel": "再分け",
+        "copyLabel": "結果をコピー",
+        "exportLabel": "CSV保存",
+        "teamTitles": [
+          "チーム 1",
+          "チーム 2",
+          "チーム 3"
+        ],
+        "winnerPills": [
+          "勝利"
+        ],
+        "averageLabels": [
+          "チーム平均",
+          "チーム平均",
+          "チーム平均"
+        ],
+        "averageValues": [
+          "19.5点",
+          "16.5点",
+          "13点"
+        ],
+        "memberInputCount": 6,
+        "memberInputValues": [
+          "21",
+          "18",
+          "17",
+          "16",
+          "14",
+          "12"
+        ]
+      },
+      "staticSnapshot": {
+        "resultsTitle": "チーム結果",
+        "rerollLabel": "再分け",
+        "copyLabel": "結果をコピー",
+        "exportLabel": "CSV保存"
+      }
+    },
+    {
+      "locale": "zh-cn",
+      "pass": true,
+      "issues": [],
+      "payload": {
+        "lang": "zh-cn",
+        "dir": "ltr",
+        "qaReady": "true",
+        "bodyVisible": "visible",
+        "readyState": "complete",
+        "toggleLabel": "输入分数",
+        "cardCount": 3,
+        "resultsTitle": "队伍结果",
+        "rerollLabel": "重新分组",
+        "copyLabel": "复制结果",
+        "exportLabel": "保存 CSV",
+        "teamTitles": [
+          "第 1 队",
+          "第 2 队",
+          "第 3 队"
+        ],
+        "winnerPills": [
+          "获胜"
+        ],
+        "averageLabels": [
+          "队伍平均",
+          "队伍平均",
+          "队伍平均"
+        ],
+        "averageValues": [
+          "19.5分",
+          "16.5分",
+          "13分"
+        ],
+        "memberInputCount": 6,
+        "memberInputValues": [
+          "21",
+          "18",
+          "17",
+          "16",
+          "14",
+          "12"
+        ]
+      },
+      "staticSnapshot": {
+        "resultsTitle": "队伍结果",
+        "rerollLabel": "重新分组",
+        "copyLabel": "复制结果",
+        "exportLabel": "保存 CSV"
+      }
+    },
+    {
+      "locale": "zh-tw",
+      "pass": true,
+      "issues": [],
+      "payload": {
+        "lang": "zh-tw",
+        "dir": "ltr",
+        "qaReady": "true",
+        "bodyVisible": "visible",
+        "readyState": "complete",
+        "toggleLabel": "輸入分數",
+        "cardCount": 3,
+        "resultsTitle": "隊伍結果",
+        "rerollLabel": "重新分組",
+        "copyLabel": "複製結果",
+        "exportLabel": "儲存 CSV",
+        "teamTitles": [
+          "第 1 隊",
+          "第 2 隊",
+          "第 3 隊"
+        ],
+        "winnerPills": [
+          "獲勝"
+        ],
+        "averageLabels": [
+          "隊伍平均",
+          "隊伍平均",
+          "隊伍平均"
+        ],
+        "averageValues": [
+          "19.5分",
+          "16.5分",
+          "13分"
+        ],
+        "memberInputCount": 6,
+        "memberInputValues": [
+          "21",
+          "18",
+          "17",
+          "16",
+          "14",
+          "12"
+        ]
+      },
+      "staticSnapshot": {
+        "resultsTitle": "隊伍結果",
+        "rerollLabel": "重新分組",
+        "copyLabel": "複製結果",
+        "exportLabel": "儲存 CSV"
+      }
+    },
+    {
+      "locale": "es",
+      "pass": true,
+      "issues": [],
+      "payload": {
+        "lang": "es",
+        "dir": "ltr",
+        "qaReady": "true",
+        "bodyVisible": "visible",
+        "readyState": "complete",
+        "toggleLabel": "Ingresar puntos",
+        "cardCount": 3,
+        "resultsTitle": "Resultado",
+        "rerollLabel": "Reasignar",
+        "copyLabel": "Copiar resultado",
+        "exportLabel": "Guardar CSV",
+        "teamTitles": [
+          "Equipo 1",
+          "Equipo 2",
+          "Equipo 3"
+        ],
+        "winnerPills": [
+          "Ganador"
+        ],
+        "averageLabels": [
+          "Promedio",
+          "Promedio",
+          "Promedio"
+        ],
+        "averageValues": [
+          "19.5 puntos",
+          "16.5 puntos",
+          "13 puntos"
+        ],
+        "memberInputCount": 6,
+        "memberInputValues": [
+          "21",
+          "18",
+          "17",
+          "16",
+          "14",
+          "12"
+        ]
+      },
+      "staticSnapshot": {
+        "resultsTitle": "Resultado",
+        "rerollLabel": "Reasignar",
+        "copyLabel": "Copiar resultado",
+        "exportLabel": "Guardar CSV"
+      }
+    },
+    {
+      "locale": "fr",
+      "pass": true,
+      "issues": [],
+      "payload": {
+        "lang": "fr",
+        "dir": "ltr",
+        "qaReady": "true",
+        "bodyVisible": "visible",
+        "readyState": "complete",
+        "toggleLabel": "Saisir scores",
+        "cardCount": 3,
+        "resultsTitle": "Résultat",
+        "rerollLabel": "Recomposer",
+        "copyLabel": "Copier",
+        "exportLabel": "Enregistrer CSV",
+        "teamTitles": [
+          "Équipe 1",
+          "Équipe 2",
+          "Équipe 3"
+        ],
+        "winnerPills": [
+          "Gagnant"
+        ],
+        "averageLabels": [
+          "Moyenne",
+          "Moyenne",
+          "Moyenne"
+        ],
+        "averageValues": [
+          "19.5 points",
+          "16.5 points",
+          "13 points"
+        ],
+        "memberInputCount": 6,
+        "memberInputValues": [
+          "21",
+          "18",
+          "17",
+          "16",
+          "14",
+          "12"
+        ]
+      },
+      "staticSnapshot": {
+        "resultsTitle": "Résultat",
+        "rerollLabel": "Recomposer",
+        "copyLabel": "Copier",
+        "exportLabel": "Enregistrer CSV"
+      }
+    },
+    {
+      "locale": "de",
+      "pass": true,
+      "issues": [],
+      "payload": {
+        "lang": "de",
+        "dir": "ltr",
+        "qaReady": "true",
+        "bodyVisible": "visible",
+        "readyState": "complete",
+        "toggleLabel": "Punkte eingeben",
+        "cardCount": 3,
+        "resultsTitle": "Ergebnis",
+        "rerollLabel": "Neu verteilen",
+        "copyLabel": "Ergebnis kopieren",
+        "exportLabel": "CSV speichern",
+        "teamTitles": [
+          "Gruppe 1",
+          "Gruppe 2",
+          "Gruppe 3"
+        ],
+        "winnerPills": [
+          "Sieger"
+        ],
+        "averageLabels": [
+          "Teamdurchschnitt",
+          "Teamdurchschnitt",
+          "Teamdurchschnitt"
+        ],
+        "averageValues": [
+          "19.5 Pkt",
+          "16.5 Pkt",
+          "13 Pkt"
+        ],
+        "memberInputCount": 6,
+        "memberInputValues": [
+          "21",
+          "18",
+          "17",
+          "16",
+          "14",
+          "12"
+        ]
+      },
+      "staticSnapshot": {
+        "resultsTitle": "Ergebnis",
+        "rerollLabel": "Neu verteilen",
+        "copyLabel": "Ergebnis kopieren",
+        "exportLabel": "CSV speichern"
+      }
+    },
+    {
+      "locale": "pt-br",
+      "pass": true,
+      "issues": [],
+      "payload": {
+        "lang": "pt-br",
+        "dir": "ltr",
+        "qaReady": "true",
+        "bodyVisible": "visible",
+        "readyState": "complete",
+        "toggleLabel": "Inserir pontos",
+        "cardCount": 3,
+        "resultsTitle": "Resultado",
+        "rerollLabel": "Redistribuir",
+        "copyLabel": "Copiar resultado",
+        "exportLabel": "Salvar CSV",
+        "teamTitles": [
+          "Time 1",
+          "Time 2",
+          "Time 3"
+        ],
+        "winnerPills": [
+          "Vencedor"
+        ],
+        "averageLabels": [
+          "Média do time",
+          "Média do time",
+          "Média do time"
+        ],
+        "averageValues": [
+          "19.5 pontos",
+          "16.5 pontos",
+          "13 pontos"
+        ],
+        "memberInputCount": 6,
+        "memberInputValues": [
+          "21",
+          "18",
+          "17",
+          "16",
+          "14",
+          "12"
+        ]
+      },
+      "staticSnapshot": {
+        "resultsTitle": "Resultado",
+        "rerollLabel": "Redistribuir",
+        "copyLabel": "Copiar resultado",
+        "exportLabel": "Salvar CSV"
+      }
+    },
+    {
+      "locale": "hi",
+      "pass": true,
+      "issues": [],
+      "payload": {
+        "lang": "hi",
+        "dir": "ltr",
+        "qaReady": "true",
+        "bodyVisible": "visible",
+        "readyState": "complete",
+        "toggleLabel": "स्कोर दर्ज करें",
+        "cardCount": 3,
+        "resultsTitle": "टीम परिणाम",
+        "rerollLabel": "फिर से बाँटें",
+        "copyLabel": "परिणाम कॉपी करें",
+        "exportLabel": "CSV सेव करें",
+        "teamTitles": [
+          "टीम 1",
+          "टीम 2",
+          "टीम 3"
+        ],
+        "winnerPills": [
+          "विजेता"
+        ],
+        "averageLabels": [
+          "टीम औसत",
+          "टीम औसत",
+          "टीम औसत"
+        ],
+        "averageValues": [
+          "19.5 अंक",
+          "16.5 अंक",
+          "13 अंक"
+        ],
+        "memberInputCount": 6,
+        "memberInputValues": [
+          "21",
+          "18",
+          "17",
+          "16",
+          "14",
+          "12"
+        ]
+      },
+      "staticSnapshot": {
+        "resultsTitle": "टीम परिणाम",
+        "rerollLabel": "फिर से बाँटें",
+        "copyLabel": "परिणाम कॉपी करें",
+        "exportLabel": "CSV सेव करें"
+      }
+    },
+    {
+      "locale": "ar",
+      "pass": true,
+      "issues": [],
+      "payload": {
+        "lang": "ar",
+        "dir": "rtl",
+        "qaReady": "true",
+        "bodyVisible": "visible",
+        "readyState": "complete",
+        "toggleLabel": "إدخال النقاط",
+        "cardCount": 3,
+        "resultsTitle": "نتيجة الفرق",
+        "rerollLabel": "إعادة التوزيع",
+        "copyLabel": "نسخ النتيجة",
+        "exportLabel": "حفظ CSV",
+        "teamTitles": [
+          "الفريق 1",
+          "الفريق 2",
+          "الفريق 3"
+        ],
+        "winnerPills": [
+          "فائز"
+        ],
+        "averageLabels": [
+          "متوسط الفريق",
+          "متوسط الفريق",
+          "متوسط الفريق"
+        ],
+        "averageValues": [
+          "19.5 نقطة",
+          "16.5 نقطة",
+          "13 نقطة"
+        ],
+        "memberInputCount": 6,
+        "memberInputValues": [
+          "21",
+          "18",
+          "17",
+          "16",
+          "14",
+          "12"
+        ]
+      },
+      "staticSnapshot": {
+        "resultsTitle": "نتيجة الفرق",
+        "rerollLabel": "إعادة التوزيع",
+        "copyLabel": "نسخ النتيجة",
+        "exportLabel": "حفظ CSV"
+      }
+    },
+    {
+      "locale": "ru",
+      "pass": true,
+      "issues": [],
+      "payload": {
+        "lang": "ru",
+        "dir": "ltr",
+        "qaReady": "true",
+        "bodyVisible": "visible",
+        "readyState": "loading",
+        "toggleLabel": "Ввести очки",
+        "cardCount": 3,
+        "resultsTitle": "Team results",
+        "rerollLabel": "Reassign",
+        "copyLabel": "Copy result",
+        "exportLabel": "Save CSV",
+        "teamTitles": [
+          "Команда 1",
+          "Команда 2",
+          "Команда 3"
+        ],
+        "winnerPills": [
+          "Победа"
+        ],
+        "averageLabels": [
+          "Среднее команды",
+          "Среднее команды",
+          "Среднее команды"
+        ],
+        "averageValues": [
+          "19.5 очк.",
+          "16.5 очк.",
+          "13 очк."
+        ],
+        "memberInputCount": 6,
+        "memberInputValues": [
+          "21",
+          "18",
+          "17",
+          "16",
+          "14",
+          "12"
+        ]
+      },
+      "staticSnapshot": {
+        "resultsTitle": "Результат",
+        "rerollLabel": "Перераспределить",
+        "copyLabel": "Копировать",
+        "exportLabel": "Сохранить CSV"
+      }
+    },
+    {
+      "locale": "id",
+      "pass": true,
+      "issues": [],
+      "payload": {
+        "lang": "id",
+        "dir": "ltr",
+        "qaReady": "true",
+        "bodyVisible": "visible",
+        "readyState": "loading",
+        "toggleLabel": "Input skor",
+        "cardCount": 3,
+        "resultsTitle": "Team results",
+        "rerollLabel": "Reassign",
+        "copyLabel": "Copy result",
+        "exportLabel": "Save CSV",
+        "teamTitles": [
+          "Tim 1",
+          "Tim 2",
+          "Tim 3"
+        ],
+        "winnerPills": [
+          "Pemenang"
+        ],
+        "averageLabels": [
+          "Rata-rata tim",
+          "Rata-rata tim",
+          "Rata-rata tim"
+        ],
+        "averageValues": [
+          "19.5 poin",
+          "16.5 poin",
+          "13 poin"
+        ],
+        "memberInputCount": 6,
+        "memberInputValues": [
+          "21",
+          "18",
+          "17",
+          "16",
+          "14",
+          "12"
+        ]
+      },
+      "staticSnapshot": {
+        "resultsTitle": "Hasil tim",
+        "rerollLabel": "Bagi ulang",
+        "copyLabel": "Salin hasil",
+        "exportLabel": "Simpan CSV"
+      }
+    },
+    {
+      "locale": "tr",
+      "pass": true,
+      "issues": [],
+      "payload": {
+        "lang": "tr",
+        "dir": "ltr",
+        "qaReady": "true",
+        "bodyVisible": "visible",
+        "readyState": "complete",
+        "toggleLabel": "Puan gir",
+        "cardCount": 3,
+        "resultsTitle": "Sonuç",
+        "rerollLabel": "Yeniden dağıt",
+        "copyLabel": "Sonucu kopyala",
+        "exportLabel": "CSV kaydet",
+        "teamTitles": [
+          "Takım 1",
+          "Takım 2",
+          "Takım 3"
+        ],
+        "winnerPills": [
+          "Kazanan"
+        ],
+        "averageLabels": [
+          "Takım ortalaması",
+          "Takım ortalaması",
+          "Takım ortalaması"
+        ],
+        "averageValues": [
+          "19.5 puan",
+          "16.5 puan",
+          "13 puan"
+        ],
+        "memberInputCount": 6,
+        "memberInputValues": [
+          "21",
+          "18",
+          "17",
+          "16",
+          "14",
+          "12"
+        ]
+      },
+      "staticSnapshot": {
+        "resultsTitle": "Sonuç",
+        "rerollLabel": "Yeniden dağıt",
+        "copyLabel": "Sonucu kopyala",
+        "exportLabel": "CSV kaydet"
+      }
+    },
+    {
+      "locale": "it",
+      "pass": true,
+      "issues": [],
+      "payload": {
+        "lang": "it",
+        "dir": "ltr",
+        "qaReady": "true",
+        "bodyVisible": "visible",
+        "readyState": "loading",
+        "toggleLabel": "Inserisci punteggi",
+        "cardCount": 3,
+        "resultsTitle": "Team results",
+        "rerollLabel": "Reassign",
+        "copyLabel": "Copy result",
+        "exportLabel": "Save CSV",
+        "teamTitles": [
+          "Squadra 1",
+          "Squadra 2",
+          "Squadra 3"
+        ],
+        "winnerPills": [
+          "Vincitore"
+        ],
+        "averageLabels": [
+          "Media squadra",
+          "Media squadra",
+          "Media squadra"
+        ],
+        "averageValues": [
+          "19.5 pt",
+          "16.5 pt",
+          "13 pt"
+        ],
+        "memberInputCount": 6,
+        "memberInputValues": [
+          "21",
+          "18",
+          "17",
+          "16",
+          "14",
+          "12"
+        ]
+      },
+      "staticSnapshot": {
+        "resultsTitle": "Risultato",
+        "rerollLabel": "Riassegna",
+        "copyLabel": "Copia risultato",
+        "exportLabel": "Salva CSV"
+      }
+    },
+    {
+      "locale": "vi",
+      "pass": true,
+      "issues": [],
+      "payload": {
+        "lang": "vi",
+        "dir": "ltr",
+        "qaReady": "true",
+        "bodyVisible": "visible",
+        "readyState": "complete",
+        "toggleLabel": "Nhập điểm",
+        "cardCount": 3,
+        "resultsTitle": "Kết quả",
+        "rerollLabel": "Chia lại",
+        "copyLabel": "Sao chép kết quả",
+        "exportLabel": "Lưu CSV",
+        "teamTitles": [
+          "Đội 1",
+          "Đội 2",
+          "Đội 3"
+        ],
+        "winnerPills": [
+          "Thắng"
+        ],
+        "averageLabels": [
+          "Trung bình đội",
+          "Trung bình đội",
+          "Trung bình đội"
+        ],
+        "averageValues": [
+          "19.5 điểm",
+          "16.5 điểm",
+          "13 điểm"
+        ],
+        "memberInputCount": 6,
+        "memberInputValues": [
+          "21",
+          "18",
+          "17",
+          "16",
+          "14",
+          "12"
+        ]
+      },
+      "staticSnapshot": {
+        "resultsTitle": "Kết quả",
+        "rerollLabel": "Chia lại",
+        "copyLabel": "Sao chép kết quả",
+        "exportLabel": "Lưu CSV"
+      }
+    },
+    {
+      "locale": "th",
+      "pass": true,
+      "issues": [],
+      "payload": {
+        "lang": "th",
+        "dir": "ltr",
+        "qaReady": "true",
+        "bodyVisible": "visible",
+        "readyState": "complete",
+        "toggleLabel": "กรอกคะแนน",
+        "cardCount": 3,
+        "resultsTitle": "ผลลัพธ์",
+        "rerollLabel": "จัดใหม่",
+        "copyLabel": "คัดลอกผล",
+        "exportLabel": "บันทึก CSV",
+        "teamTitles": [
+          "ทีม 1",
+          "ทีม 2",
+          "ทีม 3"
+        ],
+        "winnerPills": [
+          "ชนะ"
+        ],
+        "averageLabels": [
+          "ค่าเฉลี่ยทีม",
+          "ค่าเฉลี่ยทีม",
+          "ค่าเฉลี่ยทีม"
+        ],
+        "averageValues": [
+          "19.5 แต้ม",
+          "16.5 แต้ม",
+          "13 แต้ม"
+        ],
+        "memberInputCount": 6,
+        "memberInputValues": [
+          "21",
+          "18",
+          "17",
+          "16",
+          "14",
+          "12"
+        ]
+      },
+      "staticSnapshot": {
+        "resultsTitle": "ผลลัพธ์",
+        "rerollLabel": "จัดใหม่",
+        "copyLabel": "คัดลอกผล",
+        "exportLabel": "บันทึก CSV"
+      }
+    },
+    {
+      "locale": "nl",
+      "pass": true,
+      "issues": [],
+      "payload": {
+        "lang": "nl",
+        "dir": "ltr",
+        "qaReady": "true",
+        "bodyVisible": "visible",
+        "readyState": "complete",
+        "toggleLabel": "Score invoeren",
+        "cardCount": 3,
+        "resultsTitle": "Resultaat",
+        "rerollLabel": "Opnieuw verdelen",
+        "copyLabel": "Kopieer resultaat",
+        "exportLabel": "CSV opslaan",
+        "teamTitles": [
+          "Ploeg 1",
+          "Ploeg 2",
+          "Ploeg 3"
+        ],
+        "winnerPills": [
+          "Winnaar"
+        ],
+        "averageLabels": [
+          "Teamgemiddelde",
+          "Teamgemiddelde",
+          "Teamgemiddelde"
+        ],
+        "averageValues": [
+          "19.5 pt",
+          "16.5 pt",
+          "13 pt"
+        ],
+        "memberInputCount": 6,
+        "memberInputValues": [
+          "21",
+          "18",
+          "17",
+          "16",
+          "14",
+          "12"
+        ]
+      },
+      "staticSnapshot": {
+        "resultsTitle": "Resultaat",
+        "rerollLabel": "Opnieuw verdelen",
+        "copyLabel": "Kopieer resultaat",
+        "exportLabel": "CSV opslaan"
+      }
+    }
+  ]
+}

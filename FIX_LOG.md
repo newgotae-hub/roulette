@@ -310,3 +310,15 @@ How to use it:
 - Replaced the non-Korean score-entry runtime fallback so each supported locale now shows localized score-entry labels, placeholders, winner states, and export text.
 - Kept the score-entry UI behavior unchanged while removing the remaining English-only strings from non-English team-generator pages.
 - Refreshed the shared team-generator script version again so browsers fetch the updated locale strings immediately.
+
+### 2026-03-16 - Team generator local QA mode for score-entry screenshots
+
+- Added a `?qa=1` local QA mode for `team-generator` pages that skips remote GTM, Tailwind CDN, Iconify, and Google Fonts in favor of a dedicated local QA stylesheet.
+- Added a deterministic `?qa_autofill=1&qa_case=score-entry` flow so local screenshots can render the same generated teams and member score-entry state across all locales.
+- Added a locale screenshot script to capture all team-generator QA pages from a local static server and refreshed the shared asset version again.
+
+### 2026-03-16 - Team generator locale QA switched to deterministic DOM audit
+
+- Replaced the unstable screenshot-only locale verification path with a Chromium DevTools WebSocket DOM audit in `scripts/qa-team-generator-locales.js`.
+- Added a local QA harness plus `qa_headless=1` handling so score-entry UI state can be checked without remote assets or render-dependent layout churn, while localized static labels are verified from each locale HTML source.
+- Wrote the latest 18-locale audit results to `test-results/team-generator-local-qa-dom/manifest.json` and `test-results/team-generator-local-qa-dom/summary.txt`, and refreshed the shared team-generator locale asset block so local QA pages honor the headless flag.
