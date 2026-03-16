@@ -298,3 +298,9 @@ How to use it:
 - Removed the extra `팀원 점수 입력` guidance/status box that had been inserted above the result cards when score-entry mode opened.
 - Kept score-entry mode fully inline so pressing `점수입력` now only swaps the member-row right side into number inputs without moving the surrounding result layout.
 - Refreshed the shared team-generator script version again so browsers fetch the no-header inline score-entry behavior immediately.
+
+### 2026-03-16 - Team split score entry no longer changes card height
+
+- Fixed each member row to the same height in normal mode and score-entry mode by reserving a constant right-side score slot.
+- Reserved the team-card summary and winner-pill space so pressing `점수입력` no longer makes the card grow slightly before scores are entered.
+- Simplified the match-score summary line to average plus total only, avoiding progress text wrapping that could stretch the card.

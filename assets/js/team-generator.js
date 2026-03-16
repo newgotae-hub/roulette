@@ -711,14 +711,14 @@
         return {
           label: t("cardMatchAverageLabel"),
           value: formatScoreText(teamStat.average),
-          meta: `${t("cardMatchTotalLabel", { value: formatScore(teamStat.total) })} · ${t("scoreEntryProgress", { entered: teamStat.enteredCount, count: team.members.length })}`
+          meta: t("cardMatchTotalLabel", { value: formatScore(teamStat.total) })
         };
       }
 
       return {
         label: t("cardMatchAverageLabel"),
         value: "-",
-        meta: t("scoreEntryProgress", { entered: 0, count: team.members.length })
+        meta: t("cardMatchTotalLabel", { value: formatScore(0) })
       };
     }
 
@@ -726,7 +726,7 @@
       return {
         label: t("cardMatchAverageLabel"),
         value: formatScoreText(teamStat.average),
-        meta: `${t("cardMatchTotalLabel", { value: formatScore(teamStat.total) })} · ${t("scoreEntryProgress", { entered: teamStat.enteredCount, count: team.members.length })}`
+        meta: t("cardMatchTotalLabel", { value: formatScore(teamStat.total) })
       };
     }
 
@@ -767,18 +767,20 @@
       }
       if (pill) {
         if (winningMode === "none") {
-          pill.className = "hidden";
-          pill.textContent = "";
+          pill.className = "mt-2 inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold invisible";
+          pill.textContent = t("scoreStatusTie");
+          pill.setAttribute("aria-hidden", "true");
         } else {
           pill.className = `mt-2 inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold ${tone.pill}`;
           pill.textContent = winningMode === "winner" ? t("scoreStatusWinner") : t("scoreStatusTie");
+          pill.setAttribute("aria-hidden", "false");
         }
       }
       if (statLabel) statLabel.textContent = view.label;
       if (statValue) statValue.textContent = view.value;
       if (statMeta) {
-        statMeta.textContent = view.meta;
-        statMeta.classList.toggle("hidden", !view.meta);
+        statMeta.textContent = view.meta || "\u00A0";
+        statMeta.className = `mt-1 min-h-[1rem] whitespace-nowrap text-[11px] leading-4 text-slate-300${view.meta ? "" : " opacity-0"}`;
       }
 
       team.members.forEach((_, memberIndex) => {
@@ -818,10 +820,10 @@
       const metricView = getTeamMetricView(team, teamStat, showRosterScores, preferMatchScores);
       const memberHtml = team.members.map((member, memberIndex) => {
         const rosterScoreBadge = showRosterScores && !preferMatchScores
-          ? `<span class="inline-flex items-center rounded-full bg-slate-900/5 px-2 py-1 text-[11px] font-semibold text-slate-600">${member.hasScore ? formatScoreText(member.score) : t("scoreMissing", { score: formatScoreText(member.score) })}</span>`
+          ? `<span class="inline-flex h-8 w-full items-center justify-center rounded-lg bg-slate-900/5 px-2 text-[11px] font-semibold text-slate-600">${member.hasScore ? formatScoreText(member.score) : t("scoreMissing", { score: formatScoreText(member.score) })}</span>`
           : "";
         const matchScoreBadge = !showMemberScoreInputs && preferMatchScores && teamStat.memberValues[memberIndex] !== null
-          ? `<span class="inline-flex items-center rounded-full bg-slate-900/5 px-2 py-1 text-[11px] font-semibold text-slate-600">${formatScoreText(teamStat.memberValues[memberIndex])}</span>`
+          ? `<span class="inline-flex h-8 w-full items-center justify-center rounded-lg bg-slate-900/5 px-2 text-[11px] font-semibold text-slate-600">${formatScoreText(teamStat.memberValues[memberIndex])}</span>`
           : "";
         const scoreInput = showMemberScoreInputs
           ? `
@@ -832,27 +834,24 @@
               type="text"
               inputmode="decimal"
               autocomplete="off"
-              class="w-14 rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-right text-xs font-semibold text-slate-900 outline-none transition focus:border-slate-900 sm:w-16"
+              class="h-8 w-full rounded-lg border border-slate-200 bg-white px-2 text-right text-xs font-semibold text-slate-900 outline-none transition focus:border-slate-900"
               placeholder="${escapeHtml(t("scoreInputPlaceholder"))}"
               value="${escapeHtml(state.memberScoreInputs[index][memberIndex])}"
               aria-label="${escapeHtml(t("scoreInputLabel", { member: member.name }))}"
             />
           `
           : "";
-        const trailingUi = scoreInput || matchScoreBadge || rosterScoreBadge;
+        const trailingUi = scoreInput || matchScoreBadge || rosterScoreBadge || `<span aria-hidden="true" class="block h-8 w-full"></span>`;
         return `
-          <li class="min-w-0 flex items-center justify-between gap-2 rounded-xl border border-slate-200 bg-slate-50/70 px-2.5 py-2">
+          <li class="min-w-0 flex h-10 items-center justify-between gap-2 rounded-xl border border-slate-200 bg-slate-50/70 px-2.5 py-1">
             <span class="min-w-0 truncate text-xs font-semibold text-slate-800">${escapeHtml(member.name)}</span>
-            ${trailingUi}
+            <span class="flex h-8 w-14 shrink-0 items-center sm:w-16">${trailingUi}</span>
           </li>
         `;
       }).join("");
-      const winnerPillHtml = winningMode === "none"
-        ? `<p data-team-winner-pill="${index}" class="hidden"></p>`
-        : `<p data-team-winner-pill="${index}" class="mt-2 inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold ${highlightTone.pill}">${winningMode === "winner" ? t("scoreStatusWinner") : t("scoreStatusTie")}</p>`;
-      const statMetaHtml = metricView.meta
-        ? `<p data-team-stat-meta="${index}" class="mt-1 text-[11px] text-slate-300">${metricView.meta}</p>`
-        : `<p data-team-stat-meta="${index}" class="hidden"></p>`;
+      const winnerPillText = winningMode === "winner" ? t("scoreStatusWinner") : t("scoreStatusTie");
+      const winnerPillHtml = `<p data-team-winner-pill="${index}" class="mt-2 inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold ${winningMode === "none" ? "invisible" : highlightTone.pill}" aria-hidden="${winningMode === "none" ? "true" : "false"}">${winnerPillText}</p>`;
+      const statMetaHtml = `<p data-team-stat-meta="${index}" class="mt-1 min-h-[1rem] whitespace-nowrap text-[11px] leading-4 text-slate-300${metricView.meta ? "" : " opacity-0"}">${metricView.meta ? escapeHtml(metricView.meta) : "&nbsp;"}</p>`;
 
       return `
         <article data-team-card="${index}" class="rounded-2xl border p-4 shadow-sm ${articleTone}">
@@ -863,7 +862,7 @@
               <p class="mt-1 text-sm text-slate-500">${t("cardAssigned", { count: team.members.length })}</p>
               ${winnerPillHtml}
             </div>
-            <div class="rounded-2xl bg-slate-900 px-3 py-2 text-right text-white shadow-sm">
+            <div class="min-h-[4.75rem] min-w-[7.5rem] rounded-2xl bg-slate-900 px-3 py-2 text-right text-white shadow-sm">
               <p data-team-stat-label="${index}" class="text-[11px] uppercase tracking-[0.18em] text-slate-300">${metricView.label}</p>
               <p data-team-stat-value="${index}" class="mt-1 text-lg font-semibold">${metricView.value}</p>
               ${statMetaHtml}
