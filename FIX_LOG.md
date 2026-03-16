@@ -280,3 +280,9 @@ How to use it:
 - Removed the separate lower score-entry card grid and moved score entry back into the existing team result cards so each member row can be edited directly on the right side.
 - Reused the member-row right slot for the live per-player score input while score-entry mode is open, then keeps the team average and total summary updating in place as values change.
 - Refreshed the shared team-generator script version again so browsers fetch the restored inline score-entry behavior immediately.
+
+### 2026-03-16 - Team split inline score inputs compacted to two columns
+
+- Changed the inline per-player score-entry layout so score-input mode now places two member cards per row inside each team result card instead of stacking one person per line.
+- Tightened the inline member-row spacing and score-input width so the two-column layout uses less vertical space while still keeping live team average and total updates visible.
+- Refreshed the shared team-generator script version again so browsers fetch the compact two-column inline score-entry layout immediately.
