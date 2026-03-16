@@ -286,3 +286,9 @@ How to use it:
 - Changed the inline per-player score-entry layout so score-input mode now places two member cards per row inside each team result card instead of stacking one person per line.
 - Tightened the inline member-row spacing and score-input width so the two-column layout uses less vertical space while still keeping live team average and total updates visible.
 - Refreshed the shared team-generator script version again so browsers fetch the compact two-column inline score-entry layout immediately.
+
+### 2026-03-16 - Team split member cards keep two-column layout before score entry
+
+- Changed the team-result member layout so each team card now starts in the same two-column member grid used by score-entry mode, instead of switching from one column to two columns after `점수입력`.
+- Locked the member-row spacing and text sizing to the same compact layout in both normal and score-entry states so pressing `점수입력` no longer causes the team card layout to jump.
+- Refreshed the shared team-generator script version again so browsers fetch the always-two-column member layout immediately.

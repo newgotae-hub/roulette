@@ -888,8 +888,8 @@
           : "";
         const trailingUi = scoreInput || matchScoreBadge || rosterScoreBadge;
         return `
-          <li class="${showMemberScoreInputs ? "min-w-0 flex items-center justify-between gap-2 rounded-xl border border-slate-200 bg-slate-50/70 px-2.5 py-2" : "flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50/70 px-3 py-2.5"}">
-            <span class="min-w-0 truncate ${showMemberScoreInputs ? "text-xs font-semibold text-slate-800" : "text-sm font-medium text-slate-800"}">${escapeHtml(member.name)}</span>
+          <li class="min-w-0 flex items-center justify-between gap-2 rounded-xl border border-slate-200 bg-slate-50/70 px-2.5 py-2">
+            <span class="min-w-0 truncate text-xs font-semibold text-slate-800">${escapeHtml(member.name)}</span>
             ${trailingUi}
           </li>
         `;
@@ -916,7 +916,7 @@
               ${statMetaHtml}
             </div>
           </div>
-          <ul class="${showMemberScoreInputs ? "mt-4 grid grid-cols-2 gap-2" : "mt-4 space-y-2"}">${memberHtml}</ul>
+          <ul class="mt-4 grid grid-cols-2 gap-2">${memberHtml}</ul>
         </article>
       `;
     }).join("");
