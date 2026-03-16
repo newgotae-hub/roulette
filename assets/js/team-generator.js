@@ -51,7 +51,7 @@
     modeBalanced: "점수 밸런스",
     summaryNoScore: "점수 미사용",
     summaryParticipants: "참가자 {count}명",
-    resultMetaDefault: "이름만 붙여넣어도 완전 랜덤으로 팀이 생성되고, 점수를 함께 넣으면 밸런스 모드로 총점 차이를 줄일 수 있습니다.",
+    resultMetaDefault: "이름만 붙여넣으면 랜덤 팀이 생성되고, 점수를 함께 넣으면 더 균형 있게 나뉩니다. 대결 후 각자 점수를 입력하면 승리 팀도 바로 확인할 수 있습니다.",
     resultMetaBalanced: "입력된 점수 분포를 기준으로 여러 번 시뮬레이션 후 가장 안정적인 배치를 선택했습니다. 완벽한 동일 점수는 보장하지 않지만, 실제 점수 편차를 줄이도록 조정합니다.",
     resultMetaRandom: "참가자 명단을 무작위로 섞어 순수 랜덤 팀을 생성했습니다.",
     warningHeaderSkipped: "첫 줄 헤더는 자동으로 제외했습니다.",

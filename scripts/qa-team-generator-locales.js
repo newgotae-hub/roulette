@@ -185,6 +185,7 @@ function buildRuntimeExpectations() {
     expectations[locale] = {
       scoreToggleBtn: messages.scoreToggleBtn,
       cardMatchAverageLabel: messages.cardMatchAverageLabel,
+      resultMetaDefault: messages.resultMetaDefault,
       scoreStatusWinner: messages.scoreStatusWinner,
       scoreStatusTie: messages.scoreStatusTie
     };
@@ -474,6 +475,8 @@ function buildSnapshotScript() {
       .map((node) => node.textContent.trim())
       .filter(Boolean);
     const toggle = document.getElementById('score-toggle-btn');
+    const config = window.__TEAM_GENERATOR_CONFIG__ || {};
+    const runtimeMessages = config.messages || {};
 
     return JSON.stringify({
       lang: document.documentElement.lang,
@@ -482,6 +485,7 @@ function buildSnapshotScript() {
       bodyVisible: document.body ? getComputedStyle(document.body).visibility : null,
       readyState: document.readyState,
       toggleLabel: toggle ? toggle.textContent.trim() : null,
+      runtimeMetaDefault: runtimeMessages.resultMetaDefault || null,
       cardCount: cards.length,
       resultsTitle: (document.getElementById('results-title') || {}).textContent || null,
       rerollLabel: (document.getElementById('reroll-btn') || {}).textContent || null,
@@ -571,6 +575,10 @@ function stripTags(value) {
     .trim();
 }
 
+function normalizeText(value) {
+  return String(value || '').replace(/\s+/g, ' ').trim();
+}
+
 function extractTextById(html, id) {
   const pattern = new RegExp(`<([a-z0-9:-]+)[^>]*\\bid="${id}"[^>]*>([\\s\\S]*?)<\\/\\1>`, 'i');
   const match = html.match(pattern);
@@ -588,6 +596,9 @@ function validateLocale(locale, payload, staticText, dynamicText) {
   if (payload.qaReady !== 'true') issues.push(`qaReady mismatch: expected true, got ${payload.qaReady}`);
   if (payload.bodyVisible !== 'visible') issues.push(`body visibility mismatch: expected visible, got ${payload.bodyVisible}`);
   if (payload.toggleLabel !== dynamicText.scoreToggleBtn) issues.push(`toggle label mismatch: expected "${dynamicText.scoreToggleBtn}", got "${payload.toggleLabel}"`);
+  if (normalizeText(payload.runtimeMetaDefault) !== normalizeText(dynamicText.resultMetaDefault)) {
+    issues.push(`result meta mismatch: expected "${dynamicText.resultMetaDefault}", got "${payload.runtimeMetaDefault}"`);
+  }
   if (payload.cardCount !== 3) issues.push(`card count mismatch: expected 3, got ${payload.cardCount}`);
   if (payload.memberInputCount !== 6) issues.push(`member input count mismatch: expected 6, got ${payload.memberInputCount}`);
 
@@ -633,6 +644,9 @@ function validateLocaleSource(staticSnapshot, staticText) {
   if (staticSnapshot.rerollLabel !== staticText.rerollBtn) issues.push(`reroll label mismatch: expected "${staticText.rerollBtn}", got "${staticSnapshot.rerollLabel}"`);
   if (staticSnapshot.copyLabel !== staticText.copyBtn) issues.push(`copy label mismatch: expected "${staticText.copyBtn}", got "${staticSnapshot.copyLabel}"`);
   if (staticSnapshot.exportLabel !== staticText.exportBtn) issues.push(`export label mismatch: expected "${staticText.exportBtn}", got "${staticSnapshot.exportLabel}"`);
+  if (normalizeText(staticSnapshot.heroBody) !== normalizeText(staticText.heroBody)) {
+    issues.push(`hero body mismatch: expected "${staticText.heroBody}", got "${staticSnapshot.heroBody}"`);
+  }
 
   return issues;
 }
@@ -665,6 +679,7 @@ async function auditLocale(locale, staticMap, dynamicMap) {
   try {
     const sourceHtml = fs.readFileSync(localeFile(locale), 'utf8');
     const staticSnapshot = {
+      heroBody: extractTextById(sourceHtml, 'hero-body'),
       resultsTitle: extractTextById(sourceHtml, 'results-title'),
       rerollLabel: extractTextById(sourceHtml, 'reroll-btn'),
       copyLabel: extractTextById(sourceHtml, 'copy-btn'),

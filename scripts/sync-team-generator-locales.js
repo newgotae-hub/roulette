@@ -5,7 +5,7 @@ const { ALL_LOCALES, NON_KO_LOCALES } = require('./legal-shared');
 
 const ROOT = path.resolve(__dirname, '..');
 const I18N_PATH = path.join(ROOT, 'assets/js/team-generator-i18n.js');
-const ASSET_VERSION = '20260316-team-score11';
+const ASSET_VERSION = '20260316-team-score12';
 const FLAG_PLACEHOLDER_SRC = 'data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=';
 const LOCALES = ALL_LOCALES;
 const TEXT_IDS = [
@@ -251,21 +251,9 @@ function syncExampleBlocks(html, data) {
 }
 
 function syncSharedAssetBlock(html) {
-  const startMarker = `  <script>
-    (function () {
-      try {
-        var params = new URLSearchParams(window.location.search);
-        var localQa = params.get('qa') === '1';
-        window.__TEAM_GENERATOR_LOCAL_QA__ = localQa;`;
-  const endMarker = `  <script>
-    if (!window.__TEAM_GENERATOR_LOCAL_QA__) {
-      tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','-apple-system','BlinkMacSystemFont','Segoe UI','Roboto','Helvetica Neue','Arial','sans-serif']}}}};
-    }
-  </script>`;
-  const start = html.indexOf(startMarker);
-  const end = html.indexOf(endMarker, start);
-  if (start === -1 || end === -1) throw new Error('Missing shared asset block.');
-  return `${html.slice(0, start)}${SHARED_ASSET_BLOCK}${html.slice(end + endMarker.length)}`;
+  const sharedBlockPattern = /  <script>\s+    \(function \(\) \{\s+      try \{\s+        var params = new URLSearchParams\(window\.location\.search\);[\s\S]*?  <script>\s+    if \(!window\.__TEAM_GENERATOR_LOCAL_QA__\) \{\s+      tailwind\.config=\{theme:\{extend:\{fontFamily:\{sans:\['Inter','-apple-system','BlinkMacSystemFont','Segoe UI','Roboto','Helvetica Neue','Arial','sans-serif'\]\}\}\}\};\s+    \}\s+  <\/script>/;
+  if (!sharedBlockPattern.test(html)) throw new Error('Missing shared asset block.');
+  return html.replace(sharedBlockPattern, SHARED_ASSET_BLOCK);
 }
 
 function syncPage(locale, data) {

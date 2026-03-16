@@ -322,3 +322,9 @@ How to use it:
 - Replaced the unstable screenshot-only locale verification path with a Chromium DevTools WebSocket DOM audit in `scripts/qa-team-generator-locales.js`.
 - Added a local QA harness plus `qa_headless=1` handling so score-entry UI state can be checked without remote assets or render-dependent layout churn, while localized static labels are verified from each locale HTML source.
 - Wrote the latest 18-locale audit results to `test-results/team-generator-local-qa-dom/manifest.json` and `test-results/team-generator-local-qa-dom/summary.txt`, and refreshed the shared team-generator locale asset block so local QA pages honor the headless flag.
+
+### 2026-03-16 - Team generator hero copy updated for all locales
+
+- Updated the main `heroBody` copy in all 18 team-generator locales so the description now explains random-only input, score-balanced input, Excel paste support, and post-match winner detection from individual score entry.
+- Matched the runtime `resultMetaDefault` message to the same feature explanation across all locales, and refreshed the Korean fallback in `assets/js/team-generator.js` to stay consistent if localized config is unavailable.
+- Extended `scripts/qa-team-generator-locales.js` to verify the localized `hero-body` source text and the runtime `resultMetaDefault` message in addition to the existing score-entry audit.
