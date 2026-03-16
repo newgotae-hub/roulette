@@ -82,22 +82,26 @@
     toastCsvSaved: "CSV 파일을 저장했습니다.",
     toastCopied: "팀 결과를 복사했습니다.",
     scoreToggleBtn: "점수입력",
-    scorePanelTitle: "팀 점수 입력",
-    scoreSummaryPending: "각 팀 점수를 입력하면 승팀을 계산합니다.",
-    scoreSummaryPartial: "현재 선두: {teams} ({score}). 남은 {count}팀 점수를 입력하면 승팀을 계산합니다.",
-    scoreSummaryWinner: "승리 팀: {team} ({score})",
-    scoreSummaryTie: "공동 1위: {teams} ({score})",
+    scorePanelTitle: "팀원 점수 입력",
+    scoreSummaryPending: "팀을 나눈 뒤 팀원 점수를 개별 입력하면 팀 평균과 총점을 계산합니다.",
+    scoreSummaryPartial: "{entered}/{count}명 입력됨. 모든 팀원 점수를 입력하면 승리 팀을 계산합니다.",
+    scoreSummaryWinner: "승리 팀: {team} (평균 {average} / 총점 {total})",
+    scoreSummaryTie: "공동 1위: {teams} (평균 {average})",
     scoreStatusPending: "대기",
     scoreStatusPartial: "입력중",
     scoreStatusWinner: "승리",
     scoreStatusTie: "동점",
-    scoreInputLabel: "{team} 점수",
-    scoreInputPlaceholder: "예: 21",
-    cardGameScoreLabel: "경기 점수 {value}",
+    scoreInputLabel: "{member} 점수",
+    scoreInputPlaceholder: "점수",
+    scoreEntryProgress: "{entered}/{count}명 입력",
+    cardMatchAverageLabel: "팀 평균",
+    cardMatchTotalLabel: "총점 {value}",
     plainWinnerLabel: "승팀",
-    plainLeaderLabel: "현재 선두",
     plainTieLabel: "공동 1위",
-    plainMatchScoreLabel: "경기 점수"
+    plainScoreProgressLabel: "점수 입력",
+    plainTeamAverageLabel: "팀 평균",
+    plainTeamTotalLabel: "팀 총점",
+    plainMemberMatchScore: " / 개인 점수 {score}"
   }, config.messages || {});
   const localeTag = config.localeTag || document.documentElement.lang || "ko-KR";
   const SAMPLE_RANDOM = Array.isArray(config.sampleRandom) && config.sampleRandom.length
@@ -144,8 +148,7 @@
     scorePanel: null,
     scorePanelTitle: null,
     scorePanelBody: null,
-    scoreStatusBadge: null,
-    scoreInputGrid: null
+    scoreStatusBadge: null
   };
 
   const state = {
@@ -154,8 +157,7 @@
     toastTimer: null,
     fullscreenHintTimer: null,
     scoreEditorOpen: false,
-    teamScoreInputs: [],
-    scoreInputResultRef: null
+    memberScoreInputs: []
   };
 
   function fallbackDownload(filename, content) {
@@ -214,15 +216,23 @@
     return t("cardTitle", { index: index + 1 });
   }
 
-  function normalizeTeamScoreInputs(teamCount) {
-    state.teamScoreInputs = Array.from({ length: teamCount }, (_, index) => {
-      const value = state.teamScoreInputs[index];
-      return typeof value === "string" ? value : "";
+  function normalizeMemberScoreInputs(result) {
+    if (!result) {
+      state.memberScoreInputs = [];
+      return;
+    }
+
+    state.memberScoreInputs = result.teams.map((team, teamIndex) => {
+      const currentTeam = Array.isArray(state.memberScoreInputs[teamIndex]) ? state.memberScoreInputs[teamIndex] : [];
+      return team.members.map((_, memberIndex) => {
+        const value = currentTeam[memberIndex];
+        return typeof value === "string" ? value : "";
+      });
     });
   }
 
-  function resetTeamScoreInputs(teamCount) {
-    state.teamScoreInputs = Array.from({ length: teamCount }, () => "");
+  function resetMemberScoreInputs(result) {
+    state.memberScoreInputs = result ? result.teams.map((team) => team.members.map(() => "")) : [];
   }
 
   function parseScoreToken(raw) {
@@ -555,27 +565,19 @@
 
   function getWinningTeamMode(scoreboard, teamIndex) {
     if (!scoreboard || !Array.isArray(scoreboard.winnerIndices)) return "none";
+    if (scoreboard.mode !== "winner" && scoreboard.mode !== "tie") return "none";
     return scoreboard.winnerIndices.includes(teamIndex) ? scoreboard.mode : "none";
   }
 
   function computeScoreboard(result) {
-    const teamCount = result ? result.teams.length : 0;
-    normalizeTeamScoreInputs(teamCount);
-
-    const values = Array.from({ length: teamCount }, (_, index) => parseScoreToken(state.teamScoreInputs[index]));
-    const enteredIndices = values.reduce((list, value, index) => {
-      if (value !== null) list.push(index);
-      return list;
-    }, []);
-
-    if (!result || teamCount === 0 || enteredIndices.length === 0) {
+    if (!result || !Array.isArray(result.teams) || !result.teams.length) {
       return {
         mode: "empty",
-        values,
-        enteredCount: enteredIndices.length,
-        pendingCount: teamCount,
+        teamStats: [],
+        enteredMemberCount: 0,
+        totalMembers: 0,
         winnerIndices: [],
-        topScore: null,
+        topAverage: null,
         hasAny: false,
         isComplete: false,
         summaryBody: t("scoreSummaryPending"),
@@ -583,43 +585,82 @@
       };
     }
 
-    const topScore = Math.max(...enteredIndices.map((index) => values[index]));
-    const winnerIndices = enteredIndices.filter((index) => values[index] === topScore);
-    const teamLabels = winnerIndices.map((index) => formatTeamLabel(index)).join(", ");
-    const pendingCount = teamCount - enteredIndices.length;
+    normalizeMemberScoreInputs(result);
 
-    if (pendingCount > 0) {
+    const teamStats = result.teams.map((team, teamIndex) => {
+      const memberValues = team.members.map((_, memberIndex) => parseScoreToken(state.memberScoreInputs[teamIndex][memberIndex]));
+      const enteredCount = memberValues.filter((value) => value !== null).length;
+      const total = memberValues.reduce((sum, value) => sum + (value === null ? 0 : value), 0);
+      const average = enteredCount ? total / enteredCount : null;
+      return {
+        memberValues,
+        enteredCount,
+        pendingCount: Math.max(0, team.members.length - enteredCount),
+        total,
+        average,
+        complete: enteredCount === team.members.length && team.members.length > 0
+      };
+    });
+
+    const enteredMemberCount = teamStats.reduce((sum, teamStat) => sum + teamStat.enteredCount, 0);
+    const totalMembers = result.teams.reduce((sum, team) => sum + team.members.length, 0);
+    const allComplete = teamStats.length > 0 && teamStats.every((teamStat) => teamStat.complete);
+
+    if (enteredMemberCount === 0) {
+      return {
+        mode: "empty",
+        teamStats,
+        enteredMemberCount,
+        totalMembers,
+        winnerIndices: [],
+        topAverage: null,
+        hasAny: false,
+        isComplete: false,
+        summaryBody: t("scoreSummaryPending"),
+        statusLabel: t("scoreStatusPending")
+      };
+    }
+
+    if (!allComplete) {
       return {
         mode: "partial",
-        values,
-        enteredCount: enteredIndices.length,
-        pendingCount,
-        winnerIndices,
-        topScore,
+        teamStats,
+        enteredMemberCount,
+        totalMembers,
+        winnerIndices: [],
+        topAverage: null,
         hasAny: true,
         isComplete: false,
         summaryBody: t("scoreSummaryPartial", {
-          teams: teamLabels,
-          score: formatScoreText(topScore),
-          count: pendingCount
+          entered: enteredMemberCount,
+          count: totalMembers
         }),
         statusLabel: t("scoreStatusPartial")
       };
     }
 
+    const topAverage = Math.max(...teamStats.map((teamStat) => teamStat.average));
+    const winnerIndices = teamStats.reduce((list, teamStat, index) => {
+      if (Math.abs(teamStat.average - topAverage) < 1e-9) list.push(index);
+      return list;
+    }, []);
+    const teamLabels = winnerIndices.map((index) => formatTeamLabel(index)).join(", ");
+
     if (winnerIndices.length === 1) {
+      const winnerTeamStat = teamStats[winnerIndices[0]];
       return {
         mode: "winner",
-        values,
-        enteredCount: enteredIndices.length,
-        pendingCount: 0,
+        teamStats,
+        enteredMemberCount,
+        totalMembers,
         winnerIndices,
-        topScore,
+        topAverage,
         hasAny: true,
         isComplete: true,
         summaryBody: t("scoreSummaryWinner", {
           team: teamLabels,
-          score: formatScoreText(topScore)
+          average: formatScoreText(topAverage),
+          total: formatScoreText(winnerTeamStat.total)
         }),
         statusLabel: t("scoreStatusWinner")
       };
@@ -627,16 +668,16 @@
 
     return {
       mode: "tie",
-      values,
-      enteredCount: enteredIndices.length,
-      pendingCount: 0,
+      teamStats,
+      enteredMemberCount,
+      totalMembers,
       winnerIndices,
-      topScore,
+      topAverage,
       hasAny: true,
       isComplete: true,
       summaryBody: t("scoreSummaryTie", {
         teams: teamLabels,
-        score: formatScoreText(topScore)
+        average: formatScoreText(topAverage)
       }),
       statusLabel: t("scoreStatusTie")
     };
@@ -650,7 +691,7 @@
       button.className = "rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-600 transition-colors hover:border-slate-300 hover:text-slate-900 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400";
       button.textContent = t("scoreToggleBtn");
       button.setAttribute("aria-expanded", "false");
-      ui.rerollBtn.insertAdjacentElement("afterend", button);
+      ui.rerollBtn.insertAdjacentElement("beforebegin", button);
       ui.scoreToggleBtn = button;
     }
 
@@ -666,14 +707,12 @@
           </div>
           <span id="score-status-badge" class="inline-flex items-center rounded-full bg-slate-200 px-3 py-1 text-xs font-semibold text-slate-600"></span>
         </div>
-        <div id="score-input-grid" class="mt-4 hidden grid gap-3 sm:grid-cols-2 xl:grid-cols-3"></div>
       `;
       ui.resultPanel.insertBefore(panel, ui.emptyState);
       ui.scorePanel = panel;
       ui.scorePanelTitle = document.getElementById("score-panel-title");
       ui.scorePanelBody = document.getElementById("score-panel-body");
       ui.scoreStatusBadge = document.getElementById("score-status-badge");
-      ui.scoreInputGrid = document.getElementById("score-input-grid");
     }
   }
 
@@ -690,42 +729,73 @@
     ui.scoreToggleBtn.classList.toggle("text-slate-600", !active);
   }
 
-  function renderScoreInputs(result, scoreboard) {
-    if (!ui.scoreInputGrid) return;
-    normalizeTeamScoreInputs(result.teams.length);
-
-    if (state.scoreInputResultRef !== result || ui.scoreInputGrid.children.length !== result.teams.length) {
-      ui.scoreInputGrid.innerHTML = result.teams.map((team, index) => `
-        <label data-team-score-card="${index}" class="block rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
-          <span class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">${escapeHtml(formatTeamLabel(index))}</span>
-          <span class="mt-1 block text-sm font-medium text-slate-900">${formatMemberCount(team.members.length)}</span>
-          <input
-            data-team-score-input="${index}"
-            type="text"
-            inputmode="decimal"
-            autocomplete="off"
-            class="mt-3 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-semibold text-slate-900 outline-none transition focus:border-slate-900"
-            placeholder="${escapeHtml(t("scoreInputPlaceholder"))}"
-            value="${escapeHtml(state.teamScoreInputs[index])}"
-            aria-label="${escapeHtml(t("scoreInputLabel", { team: formatTeamLabel(index) }))}"
-          />
-        </label>
-      `).join("");
-      state.scoreInputResultRef = result;
+  function getTeamMetricView(team, teamStat, showRosterScores) {
+    if (teamStat && teamStat.enteredCount > 0) {
+      return {
+        label: t("cardMatchAverageLabel"),
+        value: formatScoreText(teamStat.average),
+        meta: `${t("cardMatchTotalLabel", { value: formatScore(teamStat.total) })} · ${t("scoreEntryProgress", { entered: teamStat.enteredCount, count: team.members.length })}`
+      };
     }
 
+    if (showRosterScores) {
+      return {
+        label: t("cardBadgeAverage"),
+        value: formatScoreText(team.members.length ? team.total / team.members.length : 0),
+        meta: t("cardTotalLabel", { value: formatScore(team.total) })
+      };
+    }
+
+    return {
+      label: t("cardBadgeMembers"),
+      value: formatMemberCount(team.members.length),
+      meta: ""
+    };
+  }
+
+  function syncRenderedScoreState(result) {
+    if (!result || !ui.teamGrid) return;
+    const showRosterScores = result.parsed.scoredCount > 0 || result.effectiveMode === "balanced";
+    const scoreboard = computeScoreboard(result);
+
     result.teams.forEach((team, index) => {
-      const card = ui.scoreInputGrid.querySelector(`[data-team-score-card="${index}"]`);
-      const input = ui.scoreInputGrid.querySelector(`[data-team-score-input="${index}"]`);
-      const mode = getWinningTeamMode(scoreboard, index);
-      const tone = getScoreboardTone(mode);
+      const teamStat = scoreboard.teamStats[index];
+      const winningMode = getWinningTeamMode(scoreboard, index);
+      const tone = getScoreboardTone(winningMode);
+      const view = getTeamMetricView(team, teamStat, showRosterScores);
+      const card = ui.teamGrid.querySelector(`[data-team-card="${index}"]`);
+      const pill = ui.teamGrid.querySelector(`[data-team-winner-pill="${index}"]`);
+      const statLabel = ui.teamGrid.querySelector(`[data-team-stat-label="${index}"]`);
+      const statValue = ui.teamGrid.querySelector(`[data-team-stat-value="${index}"]`);
+      const statMeta = ui.teamGrid.querySelector(`[data-team-stat-meta="${index}"]`);
 
       if (card) {
-        card.className = `block rounded-2xl border p-3 shadow-sm ${mode === "none" ? "border-slate-200 bg-white" : tone.card}`;
+        card.className = `rounded-2xl border p-4 shadow-sm ${winningMode === "none" ? "border-slate-200 bg-white/95" : tone.card}`;
       }
-      if (input && input.value !== state.teamScoreInputs[index]) {
-        input.value = state.teamScoreInputs[index];
+      if (pill) {
+        if (winningMode === "none") {
+          pill.className = "hidden";
+          pill.textContent = "";
+        } else {
+          pill.className = `mt-2 inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold ${tone.pill}`;
+          pill.textContent = winningMode === "winner" ? t("scoreStatusWinner") : t("scoreStatusTie");
+        }
       }
+      if (statLabel) statLabel.textContent = view.label;
+      if (statValue) statValue.textContent = view.value;
+      if (statMeta) {
+        statMeta.textContent = view.meta;
+        statMeta.classList.toggle("hidden", !view.meta);
+      }
+
+      team.members.forEach((_, memberIndex) => {
+        const input = ui.teamGrid.querySelector(`[data-member-score-input="${index}-${memberIndex}"]`);
+        if (!input) return;
+        const nextValue = state.memberScoreInputs[index][memberIndex];
+        if (document.activeElement !== input && input.value !== nextValue) {
+          input.value = nextValue;
+        }
+      });
     });
   }
 
@@ -733,13 +803,10 @@
     ensureScoreUi();
     updateScoreToggleButton();
 
-    if (!ui.scorePanel || !ui.scoreInputGrid) return;
+    if (!ui.scorePanel) return;
 
     if (!result) {
-      state.scoreInputResultRef = null;
       ui.scorePanel.classList.add("hidden");
-      ui.scoreInputGrid.classList.add("hidden");
-      ui.scoreInputGrid.innerHTML = "";
       return;
     }
 
@@ -748,7 +815,6 @@
 
     if (!shouldShowPanel) {
       ui.scorePanel.classList.add("hidden");
-      ui.scoreInputGrid.classList.add("hidden");
       return;
     }
 
@@ -759,14 +825,6 @@
     ui.scoreStatusBadge.className = `inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${tone.badge}`;
     ui.scoreStatusBadge.textContent = scoreboard.statusLabel;
     ui.scorePanel.classList.remove("hidden");
-
-    if (state.scoreEditorOpen) {
-      ui.scoreInputGrid.classList.remove("hidden");
-      renderScoreInputs(result, scoreboard);
-      return;
-    }
-
-    ui.scoreInputGrid.classList.add("hidden");
   }
 
   function renderTeams(result) {
@@ -776,48 +834,79 @@
       return;
     }
 
-    const showScores = result.parsed.scoredCount > 0 || result.effectiveMode === "balanced";
+    normalizeMemberScoreInputs(result);
+    const showRosterScores = result.parsed.scoredCount > 0 || result.effectiveMode === "balanced";
     const scoreboard = computeScoreboard(result);
+    const showMemberScoreInputs = state.scoreEditorOpen;
     ui.emptyState.classList.add("hidden");
     ui.teamGrid.innerHTML = result.teams.map((team, index) => {
+      const teamStat = scoreboard.teamStats[index];
       const winningMode = getWinningTeamMode(scoreboard, index);
       const highlightTone = getScoreboardTone(winningMode);
       const articleTone = winningMode === "none" ? "border-slate-200 bg-white/95" : highlightTone.card;
-      const matchScore = scoreboard.values[index];
-      const memberHtml = team.members.map((member) => {
-        const scoreBadge = showScores
+      const metricView = getTeamMetricView(team, teamStat, showRosterScores);
+      const memberHtml = team.members.map((member, memberIndex) => {
+        const rosterScoreBadge = showRosterScores
           ? `<span class="inline-flex items-center rounded-full bg-slate-900/5 px-2 py-1 text-[11px] font-semibold text-slate-600">${member.hasScore ? formatScoreText(member.score) : t("scoreMissing", { score: formatScoreText(member.score) })}</span>`
+          : "";
+        const scoreInputHtml = showMemberScoreInputs
+          ? `
+            <input
+              data-member-score-input="${index}-${memberIndex}"
+              data-team-index="${index}"
+              data-member-index="${memberIndex}"
+              type="text"
+              inputmode="decimal"
+              autocomplete="off"
+              class="w-20 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-right text-xs font-semibold text-slate-900 outline-none transition focus:border-slate-900"
+              placeholder="${escapeHtml(t("scoreInputPlaceholder"))}"
+              value="${escapeHtml(state.memberScoreInputs[index][memberIndex])}"
+              aria-label="${escapeHtml(t("scoreInputLabel", { member: member.name }))}"
+            />
+          `
+          : "";
+        const rightColumnHtml = rosterScoreBadge || scoreInputHtml
+          ? `
+            <div class="flex shrink-0 flex-col items-end gap-2">
+              ${rosterScoreBadge}
+              ${scoreInputHtml}
+            </div>
+          `
           : "";
         return `
           <li class="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50/70 px-3 py-2.5">
             <span class="min-w-0 truncate text-sm font-medium text-slate-800">${escapeHtml(member.name)}</span>
-            ${scoreBadge}
+            ${rightColumnHtml}
           </li>
         `;
       }).join("");
-      const matchScoreHtml = matchScore !== null
-        ? `<p class="mt-2 inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold ${winningMode === "none" ? "bg-slate-100 text-slate-600" : highlightTone.pill}">${t("cardGameScoreLabel", { value: formatScoreText(matchScore) })}</p>`
-        : "";
+      const winnerPillHtml = winningMode === "none"
+        ? `<p data-team-winner-pill="${index}" class="hidden"></p>`
+        : `<p data-team-winner-pill="${index}" class="mt-2 inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold ${highlightTone.pill}">${winningMode === "winner" ? t("scoreStatusWinner") : t("scoreStatusTie")}</p>`;
+      const statMetaHtml = metricView.meta
+        ? `<p data-team-stat-meta="${index}" class="mt-1 text-[11px] text-slate-300">${metricView.meta}</p>`
+        : `<p data-team-stat-meta="${index}" class="hidden"></p>`;
 
       return `
-        <article class="rounded-2xl border p-4 shadow-sm ${articleTone}">
+        <article data-team-card="${index}" class="rounded-2xl border p-4 shadow-sm ${articleTone}">
           <div class="flex items-start justify-between gap-4">
             <div>
               <p class="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">${t("cardEyebrow", { index: index + 1 })}</p>
               <h3 class="mt-1 text-xl font-semibold tracking-tight text-slate-900">${t("cardTitle", { index: index + 1 })}</h3>
               <p class="mt-1 text-sm text-slate-500">${t("cardAssigned", { count: team.members.length })}</p>
-              ${matchScoreHtml}
+              ${winnerPillHtml}
             </div>
             <div class="rounded-2xl bg-slate-900 px-3 py-2 text-right text-white shadow-sm">
-              <p class="text-[11px] uppercase tracking-[0.18em] text-slate-300">${showScores ? t("cardBadgeAverage") : t("cardBadgeMembers")}</p>
-              <p class="mt-1 text-lg font-semibold">${showScores ? formatScoreText(team.members.length ? team.total / team.members.length : 0) : formatMemberCount(team.members.length)}</p>
-              ${showScores ? `<p class="mt-1 text-[11px] text-slate-300">${t("cardTotalLabel", { value: formatScore(team.total) })}</p>` : ""}
+              <p data-team-stat-label="${index}" class="text-[11px] uppercase tracking-[0.18em] text-slate-300">${metricView.label}</p>
+              <p data-team-stat-value="${index}" class="mt-1 text-lg font-semibold">${metricView.value}</p>
+              ${statMetaHtml}
             </div>
           </div>
           <ul class="mt-4 space-y-2">${memberHtml}</ul>
         </article>
       `;
     }).join("");
+    syncRenderedScoreState(result);
   }
 
   function updateActionState() {
@@ -844,8 +933,7 @@
   function invalidateResult() {
     state.result = null;
     state.scoreEditorOpen = false;
-    state.teamScoreInputs = [];
-    state.scoreInputResultRef = null;
+    state.memberScoreInputs = [];
     renderSummary(null);
     renderTeams(null);
     updateActionState();
@@ -923,8 +1011,7 @@
 
     state.result = buildResult(state.parsed, teams, requestedMode, effectiveMode, capacities);
     state.scoreEditorOpen = keepScoreEditorOpen;
-    resetTeamScoreInputs(state.result.teams.length);
-    state.scoreInputResultRef = null;
+    resetMemberScoreInputs(state.result);
     renderSummary(state.result);
     renderTeams(state.result);
     updateActionState();
@@ -932,7 +1019,6 @@
   }
 
   function buildPlainText(result) {
-    const showScores = result.parsed.scoredCount > 0 || result.effectiveMode === "balanced";
     const scoreboard = computeScoreboard(result);
     const lines = [
       `${t("plainMode")}: ${result.effectiveMode === "balanced" ? t("modeBalanced") : t("modeRandom")}`,
@@ -943,31 +1029,39 @@
     ];
 
     if (scoreboard.mode === "winner") {
-      lines.push(`${t("plainWinnerLabel")}: ${formatTeamLabel(scoreboard.winnerIndices[0])} (${formatScoreText(scoreboard.topScore)})`);
+      const winnerTeamStat = scoreboard.teamStats[scoreboard.winnerIndices[0]];
+      lines.push(`${t("plainWinnerLabel")}: ${formatTeamLabel(scoreboard.winnerIndices[0])} (${t("plainTeamAverageLabel")}: ${formatScoreText(scoreboard.topAverage)}, ${t("plainTeamTotalLabel")}: ${formatScoreText(winnerTeamStat.total)})`);
     } else if (scoreboard.mode === "tie") {
-      lines.push(`${t("plainTieLabel")}: ${scoreboard.winnerIndices.map((index) => formatTeamLabel(index)).join(", ")} (${formatScoreText(scoreboard.topScore)})`);
+      lines.push(`${t("plainTieLabel")}: ${scoreboard.winnerIndices.map((index) => formatTeamLabel(index)).join(", ")} (${t("plainTeamAverageLabel")}: ${formatScoreText(scoreboard.topAverage)})`);
     } else if (scoreboard.mode === "partial") {
-      lines.push(`${t("plainLeaderLabel")}: ${scoreboard.winnerIndices.map((index) => formatTeamLabel(index)).join(", ")} (${formatScoreText(scoreboard.topScore)})`);
+      lines.push(`${t("plainScoreProgressLabel")}: ${scoreboard.enteredMemberCount}/${scoreboard.totalMembers}`);
     }
 
     result.teams.forEach((team, index) => {
-      const scorePart = showScores ? t("plainScorePart", { total: formatScoreText(team.total) }) : "";
+      const scorePart = (result.parsed.scoredCount > 0 || result.effectiveMode === "balanced")
+        ? t("plainScorePart", { total: formatScoreText(team.total) })
+        : "";
+      const teamStat = scoreboard.teamStats[index];
       lines.push("");
       lines.push(t("plainTeamHeader", {
         index: index + 1,
         members: formatMemberCount(team.members.length),
         scorePart
       }));
-      if (scoreboard.values[index] !== null) {
-        lines.push(`${t("plainMatchScoreLabel")}: ${formatScoreText(scoreboard.values[index])}`);
+      if (teamStat && teamStat.enteredCount > 0) {
+        lines.push(`${t("plainScoreProgressLabel")}: ${teamStat.enteredCount}/${team.members.length}`);
+        lines.push(`${t("plainTeamAverageLabel")}: ${formatScoreText(teamStat.average)}`);
+        lines.push(`${t("plainTeamTotalLabel")}: ${formatScoreText(teamStat.total)}`);
       }
-      team.members.forEach((member) => {
-        const suffix = showScores
+      team.members.forEach((member, memberIndex) => {
+        const rosterSuffix = (result.parsed.scoredCount > 0 || result.effectiveMode === "balanced")
           ? (member.hasScore
             ? t("plainMemberScore", { score: formatScoreText(member.score) })
             : t("plainMemberMissing", { score: formatScoreText(member.score) }))
           : "";
-        lines.push(`${member.name}${suffix}`);
+        const matchValue = teamStat ? teamStat.memberValues[memberIndex] : null;
+        const matchSuffix = matchValue === null ? "" : t("plainMemberMatchScore", { score: formatScoreText(matchValue) });
+        lines.push(`${member.name}${rosterSuffix}${matchSuffix}`);
       });
     });
 
@@ -983,12 +1077,13 @@
   function exportCsv() {
     if (!state.result) return;
     const scoreboard = computeScoreboard(state.result);
-    const rows = [["team_no", "team_label", "member_name", "score", "score_input", "team_size", "team_total", "mode", "generated_at", "match_score", "winner_status"]];
+    const rows = [["team_no", "team_label", "member_name", "score", "score_input", "team_size", "team_total", "mode", "generated_at", "member_match_score", "team_match_average", "team_match_total", "winner_status"]];
     state.result.teams.forEach((team, index) => {
+      const teamStat = scoreboard.teamStats[index];
       const winnerStatus = scoreboard.winnerIndices.includes(index)
-        ? (scoreboard.mode === "winner" ? "winner" : scoreboard.mode === "tie" ? "tie" : scoreboard.mode === "partial" ? "leader" : "")
+        ? (scoreboard.mode === "winner" ? "winner" : scoreboard.mode === "tie" ? "tie" : "")
         : "";
-      team.members.forEach((member) => {
+      team.members.forEach((member, memberIndex) => {
         rows.push([
           index + 1,
           `${index + 1}팀`,
@@ -999,7 +1094,9 @@
           team.total,
           state.result.effectiveMode,
           state.result.generatedAt,
-          scoreboard.values[index] === null ? "" : scoreboard.values[index],
+          teamStat.memberValues[memberIndex] === null ? "" : teamStat.memberValues[memberIndex],
+          teamStat.average === null ? "" : teamStat.average,
+          teamStat.enteredCount > 0 ? teamStat.total : "",
           winnerStatus
         ]);
       });
@@ -1141,18 +1238,20 @@
         if (!state.result) return;
         state.scoreEditorOpen = !state.scoreEditorOpen;
         renderSummary(state.result);
+        renderTeams(state.result);
         updateActionState();
       });
     }
-    if (ui.scorePanel) {
-      ui.scorePanel.addEventListener("input", (event) => {
+    if (ui.teamGrid) {
+      ui.teamGrid.addEventListener("input", (event) => {
         const target = event.target;
-        if (!(target instanceof HTMLInputElement) || !target.hasAttribute("data-team-score-input") || !state.result) return;
-        const index = Number(target.getAttribute("data-team-score-input"));
-        if (!Number.isInteger(index) || index < 0) return;
-        state.teamScoreInputs[index] = target.value;
+        if (!(target instanceof HTMLInputElement) || !target.hasAttribute("data-member-score-input") || !state.result) return;
+        const teamIndex = Number(target.getAttribute("data-team-index"));
+        const memberIndex = Number(target.getAttribute("data-member-index"));
+        if (!Number.isInteger(teamIndex) || !Number.isInteger(memberIndex) || !state.memberScoreInputs[teamIndex]) return;
+        state.memberScoreInputs[teamIndex][memberIndex] = target.value;
         renderSummary(state.result);
-        renderTeams(state.result);
+        syncRenderedScoreState(state.result);
       });
     }
 

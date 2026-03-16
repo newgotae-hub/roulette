@@ -5,7 +5,7 @@ const { ALL_LOCALES, NON_KO_LOCALES } = require('./legal-shared');
 
 const ROOT = path.resolve(__dirname, '..');
 const I18N_PATH = path.join(ROOT, 'assets/js/team-generator-i18n.js');
-const ASSET_VERSION = '20260316-team-score1';
+const ASSET_VERSION = '20260316-team-score2';
 const LOCALES = ALL_LOCALES;
 const TEXT_IDS = [
   ['nav-spin', 'navSpin'],

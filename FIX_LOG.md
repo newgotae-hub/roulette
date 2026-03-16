@@ -261,3 +261,9 @@ How to use it:
 - Added a `점수입력` action next to `다시 배정` in the team-generator result toolbar and wired it to a per-team score entry panel.
 - Added live winner calculation so partial entry shows the current leader, complete entry shows the winner or a first-place tie, and leading teams are highlighted in the result cards.
 - Included entered team scores and winner status in copied text / CSV exports, and refreshed the shared team-generator script version across all localized pages so browsers fetch the new scoreboard logic.
+
+### 2026-03-16 - Team split score entry switched to per-player averages
+
+- Reworked `점수입력` so it now sits to the left of `다시 배정` and opens per-player score inputs directly inside each team card instead of taking one score per team.
+- Changed team result scoring to use the average of the individually entered player scores as the deciding team score, while also showing each team's entered-score total and input progress.
+- Changed winner calculation so the summary and card highlight activate only after all player scores are entered, and refreshed the shared team-generator script version again to invalidate the earlier per-team-score bundle.
