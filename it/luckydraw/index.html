@@ -485,12 +485,12 @@
             </div>
           </div>
           <div class="relative">
-            <button id="lang-trigger" class="bg-white border border-slate-200 shadow-sm rounded-full px-3 py-1 text-[11px] font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors inline-flex items-center gap-1.5">
-              <span id="lang-button-label">LANGUAGE</span>
-              <img id="lang-current-flag" src="https://flagcdn.com/w20/us.png" alt="English" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
+            <button id="lang-trigger" class="bg-white border border-slate-200 shadow-sm rounded-full px-3 py-1 text-[11px] font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors inline-flex items-center gap-1.5" aria-label="Cambia lingua">
+              <span id="lang-button-label">Lingua</span>
+              <img id="lang-current-flag" src="https://flagcdn.com/w20/it.png" alt="Italiano" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
             </button>
             <div id="lang-menu" class="hidden absolute right-0 top-full mt-2 z-50 w-56 rounded-xl border border-slate-200 bg-white shadow-xl p-2">
-              <input id="lang-search" type="text" class="w-full mb-2 px-2.5 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/20" placeholder="Search language">
+              <input id="lang-search" type="text" class="w-full mb-2 px-2.5 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/20" placeholder="Cerca lingua">
               <div id="lang-list" class="max-h-56 overflow-y-auto hide-scrollbar space-y-1"></div>
             </div>
           </div>
@@ -508,14 +508,14 @@
         <a id="mnav-team" href="/it/team-generator/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Squadre</a>
         <a href="/it/coinflip/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Moneta</a>
         <a href="/it/dice/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">Dadi</a>
-        <button id="lang-trigger-mobile" type="button" aria-label="Change language" class="px-2.5 py-1.5 rounded-full border border-slate-200 bg-white text-slate-600">
-          <img id="lang-current-flag-mobile" src="https://flagcdn.com/w20/us.png" alt="English" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
+        <button id="lang-trigger-mobile" type="button" aria-label="Cambia lingua" class="px-2.5 py-1.5 rounded-full border border-slate-200 bg-white text-slate-600">
+          <img id="lang-current-flag-mobile" src="https://flagcdn.com/w20/it.png" alt="Italiano" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
         </button>
       </nav>
     </div>
 
     <div id="lang-menu-mobile" class="hidden fixed right-4 top-14 w-56 rounded-xl border border-slate-200 bg-white shadow-xl p-2" style="z-index:2147483647">
-      <input id="lang-search-mobile" type="text" class="w-full mb-2 px-2.5 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/20" placeholder="Search language">
+      <input id="lang-search-mobile" type="text" class="w-full mb-2 px-2.5 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/20" placeholder="Cerca lingua">
       <div id="lang-list-mobile" class="max-h-56 overflow-y-auto hide-scrollbar space-y-1"></div>
     </div>
   </section>
@@ -735,13 +735,13 @@
   <script src="/assets/js/random.js"></script>
   <script src="/assets/js/randomness-note.js"></script>
   <script src="/assets/js/lotto.js"></script>
-  <nav aria-label="Related tools" style="padding:16px 20px;border-top:1px solid rgba(15,23,42,.08);background:#fff">
-    <strong style="display:block;margin-bottom:8px;font-size:12px;color:#334155">Related tools</strong>
-    <a href="/it/" style="margin-right:12px">Roulette</a>
-    <a href="/it/luckydraw/" style="margin-right:12px">Lucky Draw</a>
-    <a href="/it/ladder/" style="margin-right:12px">Ladder</a>
-    <a href="/it/coinflip/" style="margin-right:12px">Coin Flip</a>
-    <a href="/it/dice/">Dice</a>
+  <nav aria-label="Strumenti correlati" style="padding:16px 20px;border-top:1px solid rgba(15,23,42,.08);background:#fff">
+    <strong style="display:block;margin-bottom:8px;font-size:12px;color:#334155">Strumenti correlati</strong>
+    <a href="/it/" style="margin-right:12px">Ruota</a>
+    <a href="/it/luckydraw/" style="margin-right:12px">Sorteggio</a>
+    <a href="/it/ladder/" style="margin-right:12px">Scala</a>
+    <a href="/it/coinflip/" style="margin-right:12px">Moneta</a>
+    <a href="/it/dice/">Dadi</a>
   </nav>
 </body>
 </html>

@@ -18,6 +18,8 @@ const REQUIRED_GUIDE_FILES = [
 ];
 const REQUIRED_LOCALIZED_LEGAL_FILES = LOCALES.flatMap((locale) => ['about', 'contact', 'privacy', 'terms'].map((slug) => `${locale}/${slug}/index.html`));
 const MIN_CONTENT_UNITS = 400;
+const MAIN_TOOL_FALLBACK_PAGES = ['index.html', 'luckydraw/index.html', 'ladder/index.html', 'coinflip/index.html', 'dice/index.html']
+  .concat(LOCALES.flatMap((locale) => ['index.html', 'luckydraw/index.html', 'ladder/index.html', 'coinflip/index.html', 'dice/index.html'].map((rel) => `${locale}/${rel}`)));
 const COIN_DICE_PAGES = ['coinflip/index.html', 'dice/index.html']
   .concat(LOCALES.flatMap((locale) => ['coinflip/index.html', 'dice/index.html'].map((rel) => `${locale}/${rel}`)));
 const BAD_TOOL_COPY_PATTERNS = [
@@ -121,6 +123,43 @@ for (const rel of REQUIRED_LOCALIZED_LEGAL_FILES) {
   }
 }
 
+for (const rel of MAIN_TOOL_FALLBACK_PAGES.filter((file) => fs.existsSync(path.join(ROOT, file)))) {
+  const html = readFile(rel);
+  if (rel.startsWith('en/')) continue;
+
+  if (/<span[^>]*id="lang-button-label"[^>]*>\s*LANGUAGE\s*<\/span>/i.test(html)) {
+    findings.push(`${rel}: non-English main tool page still ships English language-button fallback.`);
+  }
+
+  if (/id="lang-current-flag"[^>]*src="https:\/\/flagcdn\.com\/w20\/us\.png"[^>]*alt="English"/i.test(html)) {
+    findings.push(`${rel}: non-English main tool page still ships English desktop language-flag fallback.`);
+  }
+
+  if (/id="lang-current-flag-mobile"[^>]*src="https:\/\/flagcdn\.com\/w20\/us\.png"[^>]*alt="English"/i.test(html)) {
+    findings.push(`${rel}: non-English main tool page still ships English mobile language-flag fallback.`);
+  }
+
+  if (/id="lang-search"[^>]*placeholder="Search language"/i.test(html)) {
+    findings.push(`${rel}: non-English main tool page still ships English desktop language-search placeholder.`);
+  }
+
+  if (/id="lang-search-mobile"[^>]*placeholder="Search language"/i.test(html)) {
+    findings.push(`${rel}: non-English main tool page still ships English mobile language-search placeholder.`);
+  }
+
+  if (/id="lang-trigger"[^>]*aria-label="Change language"/i.test(html)) {
+    findings.push(`${rel}: non-English main tool page still ships English desktop language-trigger aria-label.`);
+  }
+
+  if (/id="lang-trigger-mobile"[^>]*aria-label="Change language"/i.test(html)) {
+    findings.push(`${rel}: non-English main tool page still ships English mobile language-trigger aria-label.`);
+  }
+
+  if (/>Related tools</i.test(html)) {
+    findings.push(`${rel}: non-English main tool page still shows English related-tools fallback.`);
+  }
+}
+
 for (const rel of COIN_DICE_PAGES.filter((file) => fs.existsSync(path.join(ROOT, file)))) {
   const html = readFile(rel);
   for (const pattern of BAD_TOOL_COPY_PATTERNS) {
@@ -130,11 +169,6 @@ for (const rel of COIN_DICE_PAGES.filter((file) => fs.existsSync(path.join(ROOT,
     }
   }
 
-  if (!rel.startsWith('en/')) {
-    if (/>Related tools</i.test(html)) {
-      findings.push(`${rel}: non-English coinflip/dice page still shows English related-tools fallback.`);
-    }
-  }
 }
 
 const homepageGuideChecks = [

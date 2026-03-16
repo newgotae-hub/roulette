@@ -247,3 +247,11 @@ How to use it:
 - Localized the bottom post-script related-tools block in every coinflip / dice page, including the visible heading and `aria-label`, so non-English pages no longer show an English `Related tools` fallback.
 - Extended `scripts/adsense-readiness-check.js` to fail if coinflip / dice pages regress back to generic draw-copy or if non-English pages reintroduce the English related-tools footer.
 - Detailed notes: [COIN_DICE_ADSENSE_CONTENT_PASS_2026-03-15.md](/home/user/roulette/COIN_DICE_ADSENSE_CONTENT_PASS_2026-03-15.md)
+
+### 2026-03-16 - Safe AdSense QA pass for localized language fallback and review response prep
+
+- Added `scripts/sync-main-tool-locale-fallbacks.js` and used it to resync all 90 main tool pages (`/`, `luckydraw`, `ladder`, `coinflip`, `dice` across locales) so non-English static HTML no longer falls back to English-only language-menu labels, search placeholders, trigger `aria-label`s, flag metadata, or bottom related-tools headings.
+- Updated `assets/js/lotto.js` and `assets/js/ladder.js` so the runtime language menu also localizes the trigger `aria-label`, keeping hydrated UI aligned with the static fallback.
+- Extended `scripts/adsense-readiness-check.js` so deploys now fail if non-English main tool pages reintroduce `LANGUAGE`, `Search language`, `Change language`, or English `Related tools`.
+- Added a short approval/rejection response playbook and documented the intentionally untouched areas to keep review-period changes low risk.
+- Detailed notes: [ADSENSE_SAFE_QA_AND_REVIEW_PLAYBOOK_2026-03-16.md](/home/user/roulette/ADSENSE_SAFE_QA_AND_REVIEW_PLAYBOOK_2026-03-16.md)

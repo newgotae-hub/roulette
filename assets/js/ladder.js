@@ -163,6 +163,26 @@
     th: { native: "ไทย", en: "Thai", flag: "th" },
     nl: { native: "Nederlands", en: "Dutch", flag: "nl" }
   };
+  const localeUiLabels = {
+    ko: { button: "언어", search: "언어 검색", aria: "언어 변경" },
+    en: { button: "LANGUAGE", search: "Search language", aria: "Change language" },
+    ja: { button: "言語", search: "言語を検索", aria: "言語を変更" },
+    "zh-cn": { button: "语言", search: "搜索语言", aria: "切换语言" },
+    "zh-tw": { button: "語言", search: "搜尋語言", aria: "切換語言" },
+    es: { button: "Idioma", search: "Buscar idioma", aria: "Cambiar idioma" },
+    fr: { button: "Langue", search: "Rechercher une langue", aria: "Changer de langue" },
+    de: { button: "Sprache", search: "Sprache suchen", aria: "Sprache ändern" },
+    "pt-br": { button: "Idioma", search: "Buscar idioma", aria: "Alterar idioma" },
+    hi: { button: "भाषा", search: "भाषा खोजें", aria: "भाषा बदलें" },
+    ar: { button: "اللغة", search: "ابحث عن اللغة", aria: "تغيير اللغة" },
+    ru: { button: "Язык", search: "Поиск языка", aria: "Сменить язык" },
+    id: { button: "Bahasa", search: "Cari bahasa", aria: "Ganti bahasa" },
+    tr: { button: "Dil", search: "Dil ara", aria: "Dili değiştir" },
+    it: { button: "Lingua", search: "Cerca lingua", aria: "Cambia lingua" },
+    vi: { button: "Ngôn ngữ", search: "Tìm ngôn ngữ", aria: "Đổi ngôn ngữ" },
+    th: { button: "ภาษา", search: "ค้นหาภาษา", aria: "เปลี่ยนภาษา" },
+    nl: { button: "Taal", search: "Zoek taal", aria: "Taal wijzigen" }
+  };
   if (!LANG_SET.has(state.locale)) state.locale = "en";
 
   function t(key, vars) {
@@ -361,19 +381,22 @@
     ui.emptySub.textContent = t("emptySub");
     ui.resultTitle.textContent = t("resultTitle");
     ui.noResults.textContent = t("noResults");
-    var langButtonText = state.locale === "ko" ? "언어" : "LANGUAGE";
-    var langSearchPlaceholder = state.locale === "ko" ? "언어 검색" : "Search language";
+    var localeUi = localeUiLabels[state.locale] || localeUiLabels.en;
+    var langButtonText = localeUi.button;
+    var langSearchPlaceholder = localeUi.search;
     ui.footerTerms.textContent = t("footerTerms");
     ui.footerPrivacy.textContent = t("footerPrivacy");
     if (ui.footerContact) ui.footerContact.textContent = getFooterContactLabel(state.locale);
     ui.langButtonLabel.textContent = langButtonText;
     ui.langSearch.placeholder = langSearchPlaceholder;
     if (ui.langSearchMobile) ui.langSearchMobile.placeholder = langSearchPlaceholder;
+    if (ui.langTrigger) ui.langTrigger.setAttribute("aria-label", localeUi.aria);
+    if (ui.langTriggerMobile) ui.langTriggerMobile.setAttribute("aria-label", localeUi.aria);
     ui.langCurrentFlag.src = getLocaleFlagUrl(state.locale);
-    ui.langCurrentFlag.alt = (localeNames[state.locale] && localeNames[state.locale].en) || state.locale;
+    ui.langCurrentFlag.alt = (localeNames[state.locale] && localeNames[state.locale].native) || state.locale;
     if (ui.langCurrentFlagMobile) {
       ui.langCurrentFlagMobile.src = getLocaleFlagUrl(state.locale);
-      ui.langCurrentFlagMobile.alt = (localeNames[state.locale] && localeNames[state.locale].en) || state.locale;
+      ui.langCurrentFlagMobile.alt = (localeNames[state.locale] && localeNames[state.locale].native) || state.locale;
     }
 
     updateCounts();

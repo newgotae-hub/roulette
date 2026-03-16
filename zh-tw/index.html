@@ -368,9 +368,9 @@
                         </div>
                     </div>
                     <div class="relative">
-                        <button id="lang-trigger" class="bg-white border border-slate-200 shadow-sm rounded-full px-3 py-1 text-[11px] font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors inline-flex items-center gap-1.5">
-                            <span id="lang-button-label">LANGUAGE</span>
-                            <img id="lang-current-flag" src="https://flagcdn.com/w20/us.png" alt="English" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
+                        <button id="lang-trigger" class="bg-white border border-slate-200 shadow-sm rounded-full px-3 py-1 text-[11px] font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors inline-flex items-center gap-1.5" aria-label="切換語言">
+                            <span id="lang-button-label">語言</span>
+                            <img id="lang-current-flag" src="https://flagcdn.com/w20/tw.png" alt="繁體中文" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
                         </button>
                         <div id="lang-menu" class="hidden absolute right-0 top-full mt-2 z-50 w-56 rounded-xl border border-slate-200 bg-white shadow-xl p-2">
                             <input id="lang-search" type="text" class="w-full mb-2 px-2.5 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/20" placeholder="搜尋語言">
@@ -391,15 +391,15 @@
                 <a id="mnav-team" href="/zh-tw/team-generator/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">分組</a>
                 <a href="/zh-tw/coinflip/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">硬幣</a>
                 <a href="/zh-tw/dice/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">骰子</a>
-                <button id="lang-trigger-mobile" type="button" aria-label="Change language" class="px-2.5 py-1.5 rounded-full border border-slate-200 bg-white text-slate-600">
-                    <img id="lang-current-flag-mobile" src="https://flagcdn.com/w20/us.png" alt="English" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
+                <button id="lang-trigger-mobile" type="button" aria-label="切換語言" class="px-2.5 py-1.5 rounded-full border border-slate-200 bg-white text-slate-600">
+                    <img id="lang-current-flag-mobile" src="https://flagcdn.com/w20/tw.png" alt="繁體中文" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
                 </button>
 
             </nav>
         </div>
 
         <div id="lang-menu-mobile" class="hidden fixed right-4 top-14 w-56 rounded-xl border border-slate-200 bg-white shadow-xl p-2" style="z-index:2147483647">
-                <input id="lang-search-mobile" type="text" class="w-full mb-2 px-2.5 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/20" placeholder="Search language">
+                <input id="lang-search-mobile" type="text" class="w-full mb-2 px-2.5 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/20" placeholder="搜尋語言">
                 <div id="lang-list-mobile" class="max-h-56 overflow-y-auto hide-scrollbar space-y-1"></div>
             </div>
     </section>
@@ -728,7 +728,7 @@
                 "navCoin": "코인던지기",
                 "navDice": "주사위굴리기",
                 "navGuide": "제비뽑기",
-                "languageButton": "LANGUAGE",
+                "languageButton": "언어",
                 "languageSearchPh": "언어 검색",
                 "spinButtonLabel": "시작",
                 "heroTitle": "랜덤추첨 룰렛 뽑기게임",
@@ -880,7 +880,7 @@
                 "navCoin": "コイントス",
                 "navDice": "サイコロ",
                 "navGuide": "ガイド",
-                "languageButton": "LANGUAGE",
+                "languageButton": "言語",
                 "languageSearchPh": "言語を検索",
                 "spinButtonLabel": "SPIN",
                 "heroTitle": "ランダム抽選ルーレット",
@@ -956,7 +956,7 @@
                 "navCoin": "抛硬币",
                 "navDice": "掷骰子",
                 "navGuide": "指南",
-                "languageButton": "LANGUAGE",
+                "languageButton": "语言",
                 "languageSearchPh": "搜索语言",
                 "spinButtonLabel": "开始",
                 "heroTitle": "随机抽奖转盘",
@@ -1032,7 +1032,7 @@
                 "navCoin": "擲硬幣",
                 "navDice": "擲骰子",
                 "navGuide": "指南",
-                "languageButton": "LANGUAGE",
+                "languageButton": "語言",
                 "languageSearchPh": "搜尋語言",
                 "spinButtonLabel": "開始",
                 "heroTitle": "隨機抽籤轉盤",
@@ -1108,7 +1108,7 @@
                 "navCoin": "Moneda",
                 "navDice": "Dados",
                 "navGuide": "Guia",
-                "languageButton": "LANGUAGE",
+                "languageButton": "Idioma",
                 "languageSearchPh": "Buscar idioma",
                 "spinButtonLabel": "Iniciar",
                 "heroTitle": "Ruleta de Sorteo Aleatorio",
@@ -1184,7 +1184,7 @@
                 "navCoin": "Pile ou Face",
                 "navDice": "Dés",
                 "navGuide": "Guide",
-                "languageButton": "LANGUAGE",
+                "languageButton": "Langue",
                 "languageSearchPh": "Rechercher une langue",
                 "spinButtonLabel": "Lancer",
                 "heroTitle": "Roue de Tirage Aleatoire",
@@ -1260,7 +1260,7 @@
                 "navCoin": "Münzwurf",
                 "navDice": "Würfel",
                 "navGuide": "Anleitung",
-                "languageButton": "LANGUAGE",
+                "languageButton": "Sprache",
                 "languageSearchPh": "Sprache suchen",
                 "spinButtonLabel": "Starten",
                 "heroTitle": "Zufallsrad fuer Gewinner",
@@ -1336,7 +1336,7 @@
                 "navCoin": "Moeda",
                 "navDice": "Dados",
                 "navGuide": "Guia",
-                "languageButton": "LANGUAGE",
+                "languageButton": "Idioma",
                 "languageSearchPh": "Buscar idioma",
                 "spinButtonLabel": "Iniciar",
                 "heroTitle": "Roleta de Sorteio Aleatorio",
@@ -1412,7 +1412,7 @@
                 "navCoin": "कॉइन",
                 "navDice": "डाइस",
                 "navGuide": "गाइड",
-                "languageButton": "LANGUAGE",
+                "languageButton": "भाषा",
                 "languageSearchPh": "भाषा खोजें",
                 "spinButtonLabel": "शुरू",
                 "heroTitle": "रैंडम ड्रॉ रूलेट",
@@ -1488,7 +1488,7 @@
                 "navCoin": "العملة",
                 "navDice": "النرد",
                 "navGuide": "الدليل",
-                "languageButton": "LANGUAGE",
+                "languageButton": "اللغة",
                 "languageSearchPh": "ابحث عن اللغة",
                 "spinButtonLabel": "ابدأ",
                 "heroTitle": "عجلة السحب العشوائي",
@@ -1564,7 +1564,7 @@
                 "navCoin": "Монета",
                 "navDice": "Кости",
                 "navGuide": "Гид",
-                "languageButton": "LANGUAGE",
+                "languageButton": "Язык",
                 "languageSearchPh": "Поиск языка",
                 "spinButtonLabel": "Старт",
                 "heroTitle": "Колесо Случайного Выбора",
@@ -1640,7 +1640,7 @@
                 "navCoin": "Koin",
                 "navDice": "Dadu",
                 "navGuide": "Panduan",
-                "languageButton": "LANGUAGE",
+                "languageButton": "Bahasa",
                 "languageSearchPh": "Cari bahasa",
                 "spinButtonLabel": "Mulai",
                 "heroTitle": "Roda Undian Acak",
@@ -1716,7 +1716,7 @@
                 "navCoin": "Yazı Tura",
                 "navDice": "Zar",
                 "navGuide": "Rehber",
-                "languageButton": "LANGUAGE",
+                "languageButton": "Dil",
                 "languageSearchPh": "Dil ara",
                 "spinButtonLabel": "Başlat",
                 "heroTitle": "Rastgele Çekiliş Çarkı",
@@ -1792,7 +1792,7 @@
                 "navCoin": "Moneta",
                 "navDice": "Dadi",
                 "navGuide": "Guida",
-                "languageButton": "LANGUAGE",
+                "languageButton": "Lingua",
                 "languageSearchPh": "Cerca lingua",
                 "spinButtonLabel": "Avvia",
                 "heroTitle": "Ruota Estrazione Casuale",
@@ -1868,7 +1868,7 @@
                 "navCoin": "Tung xu",
                 "navDice": "Xúc xắc",
                 "navGuide": "Hướng dẫn",
-                "languageButton": "LANGUAGE",
+                "languageButton": "Ngôn ngữ",
                 "languageSearchPh": "Tìm ngôn ngữ",
                 "spinButtonLabel": "Bắt đầu",
                 "heroTitle": "Vòng Quay Bốc Thăm",
@@ -1944,7 +1944,7 @@
                 "navCoin": "โยนเหรียญ",
                 "navDice": "ทอยเต๋า",
                 "navGuide": "คู่มือ",
-                "languageButton": "LANGUAGE",
+                "languageButton": "ภาษา",
                 "languageSearchPh": "ค้นหาภาษา",
                 "spinButtonLabel": "เริ่ม",
                 "heroTitle": "วงล้อสุ่มจับผู้ชนะ",
@@ -2020,7 +2020,7 @@
                 "navCoin": "Munt",
                 "navDice": "Dobbelsteen",
                 "navGuide": "Gids",
-                "languageButton": "LANGUAGE",
+                "languageButton": "Taal",
                 "languageSearchPh": "Taal zoeken",
                 "spinButtonLabel": "Start",
                 "heroTitle": "Willekeurig Namenrad",
@@ -2795,13 +2795,13 @@
             showFullscreenHint();
         })();
     </script>
-  <nav aria-label="Related tools" style="padding:16px 20px;border-top:1px solid rgba(15,23,42,.08);background:#fff">
-    <strong style="display:block;margin-bottom:8px;font-size:12px;color:#334155">Related tools</strong>
-    <a href="/zh-tw/" style="margin-right:12px">Roulette</a>
-    <a href="/zh-tw/luckydraw/" style="margin-right:12px">Lucky Draw</a>
-    <a href="/zh-tw/ladder/" style="margin-right:12px">Ladder</a>
-    <a href="/zh-tw/coinflip/" style="margin-right:12px">Coin Flip</a>
-    <a href="/zh-tw/dice/">Dice</a>
+  <nav aria-label="相關工具" style="padding:16px 20px;border-top:1px solid rgba(15,23,42,.08);background:#fff">
+    <strong style="display:block;margin-bottom:8px;font-size:12px;color:#334155">相關工具</strong>
+    <a href="/zh-tw/" style="margin-right:12px">轉盤</a>
+    <a href="/zh-tw/luckydraw/" style="margin-right:12px">幸運抽籤</a>
+    <a href="/zh-tw/ladder/" style="margin-right:12px">爬梯抽籤</a>
+    <a href="/zh-tw/coinflip/" style="margin-right:12px">擲硬幣</a>
+    <a href="/zh-tw/dice/">擲骰子</a>
   </nav>
 </body>
 </html>

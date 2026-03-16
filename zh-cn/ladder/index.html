@@ -344,12 +344,12 @@
             </div>
           </div>
           <div class="relative">
-            <button id="lang-trigger" class="bg-white border border-slate-200 shadow-sm rounded-full px-3 py-1 text-[11px] font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors inline-flex items-center gap-1.5">
-              <span id="lang-button-label">LANGUAGE</span>
-              <img id="lang-current-flag" src="https://flagcdn.com/w20/us.png" alt="English" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
+            <button id="lang-trigger" class="bg-white border border-slate-200 shadow-sm rounded-full px-3 py-1 text-[11px] font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors inline-flex items-center gap-1.5" aria-label="切换语言">
+              <span id="lang-button-label">语言</span>
+              <img id="lang-current-flag" src="https://flagcdn.com/w20/cn.png" alt="简体中文" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
             </button>
             <div id="lang-menu" class="hidden absolute right-0 top-full mt-2 z-50 w-56 rounded-xl border border-slate-200 bg-white shadow-xl p-2">
-              <input id="lang-search" type="text" class="w-full mb-2 px-2.5 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/20" placeholder="Search language">
+              <input id="lang-search" type="text" class="w-full mb-2 px-2.5 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/20" placeholder="搜索语言">
               <div id="lang-list" class="max-h-56 overflow-y-auto hide-scrollbar space-y-1"></div>
             </div>
           </div>
@@ -370,12 +370,12 @@
         <a id="mnav-dice" href="/zh-cn/dice/" class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 bg-slate-50 text-slate-600">骰子</a>
       </nav>
       </div>
-      <button id="lang-trigger-mobile" type="button" aria-label="Change language" class="px-2.5 py-1.5 rounded-full border border-slate-200 bg-white text-slate-600">
-        <img id="lang-current-flag-mobile" src="https://flagcdn.com/w20/us.png" alt="English" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
+      <button id="lang-trigger-mobile" type="button" aria-label="切换语言" class="px-2.5 py-1.5 rounded-full border border-slate-200 bg-white text-slate-600">
+        <img id="lang-current-flag-mobile" src="https://flagcdn.com/w20/cn.png" alt="简体中文" class="w-4 h-3 rounded-[2px] object-cover border border-slate-200">
       </button>
     </div>
     <div id="lang-menu-mobile" class="hidden fixed right-4 top-14 w-56 rounded-xl border border-slate-200 bg-white shadow-xl p-2" style="z-index:2147483647">
-      <input id="lang-search-mobile" type="text" class="w-full mb-2 px-2.5 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/20" placeholder="Search language">
+      <input id="lang-search-mobile" type="text" class="w-full mb-2 px-2.5 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/20" placeholder="搜索语言">
       <div id="lang-list-mobile" class="max-h-56 overflow-y-auto hide-scrollbar space-y-1"></div>
     </div>
   </section>
@@ -622,13 +622,13 @@
   <script src="/assets/js/random.js"></script>
   <script src="/assets/js/randomness-note.js"></script>
   <script src="/assets/js/ladder.js"></script>
-  <nav aria-label="Related tools" style="padding:16px 20px;border-top:1px solid rgba(15,23,42,.08);background:#fff">
-    <strong style="display:block;margin-bottom:8px;font-size:12px;color:#334155">Related tools</strong>
-    <a href="/zh-cn/" style="margin-right:12px">Roulette</a>
-    <a href="/zh-cn/luckydraw/" style="margin-right:12px">Lucky Draw</a>
-    <a href="/zh-cn/ladder/" style="margin-right:12px">Ladder</a>
-    <a href="/zh-cn/coinflip/" style="margin-right:12px">Coin Flip</a>
-    <a href="/zh-cn/dice/">Dice</a>
+  <nav aria-label="相关工具" style="padding:16px 20px;border-top:1px solid rgba(15,23,42,.08);background:#fff">
+    <strong style="display:block;margin-bottom:8px;font-size:12px;color:#334155">相关工具</strong>
+    <a href="/zh-cn/" style="margin-right:12px">转盘</a>
+    <a href="/zh-cn/luckydraw/" style="margin-right:12px">幸运抽签</a>
+    <a href="/zh-cn/ladder/" style="margin-right:12px">爬梯抽签</a>
+    <a href="/zh-cn/coinflip/" style="margin-right:12px">抛硬币</a>
+    <a href="/zh-cn/dice/">掷骰子</a>
   </nav>
 </body>
 </html>
