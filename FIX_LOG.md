@@ -255,3 +255,9 @@ How to use it:
 - Extended `scripts/adsense-readiness-check.js` so deploys now fail if non-English main tool pages reintroduce `LANGUAGE`, `Search language`, `Change language`, or English `Related tools`.
 - Added a short approval/rejection response playbook and documented the intentionally untouched areas to keep review-period changes low risk.
 - Detailed notes: [ADSENSE_SAFE_QA_AND_REVIEW_PLAYBOOK_2026-03-16.md](/home/user/roulette/ADSENSE_SAFE_QA_AND_REVIEW_PLAYBOOK_2026-03-16.md)
+
+### 2026-03-16 - Team split result scoreboard and winner calculation
+
+- Added a `점수입력` action next to `다시 배정` in the team-generator result toolbar and wired it to a per-team score entry panel.
+- Added live winner calculation so partial entry shows the current leader, complete entry shows the winner or a first-place tie, and leading teams are highlighted in the result cards.
+- Included entered team scores and winner status in copied text / CSV exports, and refreshed the shared team-generator script version across all localized pages so browsers fetch the new scoreboard logic.

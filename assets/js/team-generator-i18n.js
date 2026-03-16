@@ -11,9 +11,51 @@
     if (v.startsWith('pt-br')) return 'pt-br';
     return supported.includes(v) ? v : 'en';
   }
+  function buildRuntimeMessages(locale) {
+    if (locale === 'ko') {
+      return {
+        scoreToggleBtn: '점수입력',
+        scorePanelTitle: '팀 점수 입력',
+        scoreSummaryPending: '각 팀 점수를 입력하면 승팀을 계산합니다.',
+        scoreSummaryPartial: '현재 선두: {teams} ({score}). 남은 {count}팀 점수를 입력하면 승팀을 계산합니다.',
+        scoreSummaryWinner: '승리 팀: {team} ({score})',
+        scoreSummaryTie: '공동 1위: {teams} ({score})',
+        scoreStatusPending: '대기',
+        scoreStatusPartial: '입력중',
+        scoreStatusWinner: '승리',
+        scoreStatusTie: '동점',
+        scoreInputLabel: '{team} 점수',
+        scoreInputPlaceholder: '예: 21',
+        cardGameScoreLabel: '경기 점수 {value}',
+        plainWinnerLabel: '승팀',
+        plainLeaderLabel: '현재 선두',
+        plainTieLabel: '공동 1위',
+        plainMatchScoreLabel: '경기 점수'
+      };
+    }
+    return {
+      scoreToggleBtn: 'Enter scores',
+      scorePanelTitle: 'Team score entry',
+      scoreSummaryPending: 'Enter each team score to calculate the winner.',
+      scoreSummaryPartial: 'Current leader: {teams} ({score}). Enter the remaining {count} team scores to confirm the winner.',
+      scoreSummaryWinner: 'Winner: {team} ({score})',
+      scoreSummaryTie: 'Tie for first: {teams} ({score})',
+      scoreStatusPending: 'Waiting',
+      scoreStatusPartial: 'Live',
+      scoreStatusWinner: 'Winner',
+      scoreStatusTie: 'Tie',
+      scoreInputLabel: '{team} score',
+      scoreInputPlaceholder: 'e.g. 21',
+      cardGameScoreLabel: 'Game score {value}',
+      plainWinnerLabel: 'Winner',
+      plainLeaderLabel: 'Current leader',
+      plainTieLabel: 'Tie for first',
+      plainMatchScoreLabel: 'Game score'
+    };
+  }
   const state = { locale: normalizeLang(window.__rltBootLang || document.documentElement.lang || 'en') };
   const data = dataMap[state.locale] || dataMap.en;
-  const resolvedMessages = { ...dataMap.en.messages, ...(data.messages || {}) };
+  const resolvedMessages = { ...dataMap.en.messages, ...buildRuntimeMessages(state.locale), ...(data.messages || {}) };
   if (!Object.prototype.hasOwnProperty.call(data.messages || {}, 'resultMetaDefault')) {
     resolvedMessages.resultMetaDefault = data.resultsIntro || dataMap.en.messages.resultMetaDefault;
   }

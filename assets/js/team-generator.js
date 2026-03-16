@@ -80,7 +80,24 @@
     plainMemberScore: " - {score}",
     plainMemberMissing: " - 평균 반영 {score}",
     toastCsvSaved: "CSV 파일을 저장했습니다.",
-    toastCopied: "팀 결과를 복사했습니다."
+    toastCopied: "팀 결과를 복사했습니다.",
+    scoreToggleBtn: "점수입력",
+    scorePanelTitle: "팀 점수 입력",
+    scoreSummaryPending: "각 팀 점수를 입력하면 승팀을 계산합니다.",
+    scoreSummaryPartial: "현재 선두: {teams} ({score}). 남은 {count}팀 점수를 입력하면 승팀을 계산합니다.",
+    scoreSummaryWinner: "승리 팀: {team} ({score})",
+    scoreSummaryTie: "공동 1위: {teams} ({score})",
+    scoreStatusPending: "대기",
+    scoreStatusPartial: "입력중",
+    scoreStatusWinner: "승리",
+    scoreStatusTie: "동점",
+    scoreInputLabel: "{team} 점수",
+    scoreInputPlaceholder: "예: 21",
+    cardGameScoreLabel: "경기 점수 {value}",
+    plainWinnerLabel: "승팀",
+    plainLeaderLabel: "현재 선두",
+    plainTieLabel: "공동 1위",
+    plainMatchScoreLabel: "경기 점수"
   }, config.messages || {});
   const localeTag = config.localeTag || document.documentElement.lang || "ko-KR";
   const SAMPLE_RANDOM = Array.isArray(config.sampleRandom) && config.sampleRandom.length
@@ -113,6 +130,7 @@
     rerollBtn: document.getElementById("reroll-btn"),
     copyBtn: document.getElementById("copy-btn"),
     exportBtn: document.getElementById("export-btn"),
+    resultPanel: document.getElementById("team-results-panel"),
     clearBtn: document.getElementById("clear-btn"),
     sampleRandomBtn: document.getElementById("sample-random-btn"),
     sampleBalancedBtn: document.getElementById("sample-balanced-btn"),
@@ -121,14 +139,23 @@
     missingCount: document.getElementById("missing-count"),
     emptyState: document.getElementById("empty-state"),
     teamGrid: document.getElementById("team-grid"),
-    toast: document.getElementById("toast")
+    toast: document.getElementById("toast"),
+    scoreToggleBtn: null,
+    scorePanel: null,
+    scorePanelTitle: null,
+    scorePanelBody: null,
+    scoreStatusBadge: null,
+    scoreInputGrid: null
   };
 
   const state = {
     parsed: parseRoster(""),
     result: null,
     toastTimer: null,
-    fullscreenHintTimer: null
+    fullscreenHintTimer: null,
+    scoreEditorOpen: false,
+    teamScoreInputs: [],
+    scoreInputResultRef: null
   };
 
   function fallbackDownload(filename, content) {
@@ -156,6 +183,15 @@
     return new Date().toLocaleString(localeTag);
   }
 
+  function escapeHtml(value) {
+    return String(value == null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
   function formatScore(value) {
     if (!Number.isFinite(value)) return "-";
     if (Math.abs(value - Math.round(value)) < 1e-9) return String(Math.round(value));
@@ -172,6 +208,21 @@
 
   function formatScoreText(value) {
     return t("scoreText", { value: formatScore(value) });
+  }
+
+  function formatTeamLabel(index) {
+    return t("cardTitle", { index: index + 1 });
+  }
+
+  function normalizeTeamScoreInputs(teamCount) {
+    state.teamScoreInputs = Array.from({ length: teamCount }, (_, index) => {
+      const value = state.teamScoreInputs[index];
+      return typeof value === "string" ? value : "";
+    });
+  }
+
+  function resetTeamScoreInputs(teamCount) {
+    state.teamScoreInputs = Array.from({ length: teamCount }, () => "");
   }
 
   function parseScoreToken(raw) {
@@ -469,7 +520,254 @@
     };
   }
 
-  function renderSummary() {}
+  function getScoreboardTone(mode) {
+    switch (mode) {
+      case "winner":
+        return {
+          panel: "border-emerald-200 bg-emerald-50/70",
+          badge: "bg-emerald-100 text-emerald-700",
+          card: "border-emerald-300 bg-emerald-50/40",
+          pill: "bg-emerald-100 text-emerald-700"
+        };
+      case "tie":
+        return {
+          panel: "border-sky-200 bg-sky-50/70",
+          badge: "bg-sky-100 text-sky-700",
+          card: "border-sky-300 bg-sky-50/40",
+          pill: "bg-sky-100 text-sky-700"
+        };
+      case "partial":
+        return {
+          panel: "border-amber-200 bg-amber-50/70",
+          badge: "bg-amber-100 text-amber-700",
+          card: "border-amber-300 bg-amber-50/40",
+          pill: "bg-amber-100 text-amber-700"
+        };
+      default:
+        return {
+          panel: "border-slate-200 bg-slate-50/80",
+          badge: "bg-slate-200 text-slate-600",
+          card: "border-slate-200 bg-white/95",
+          pill: "bg-slate-100 text-slate-600"
+        };
+    }
+  }
+
+  function getWinningTeamMode(scoreboard, teamIndex) {
+    if (!scoreboard || !Array.isArray(scoreboard.winnerIndices)) return "none";
+    return scoreboard.winnerIndices.includes(teamIndex) ? scoreboard.mode : "none";
+  }
+
+  function computeScoreboard(result) {
+    const teamCount = result ? result.teams.length : 0;
+    normalizeTeamScoreInputs(teamCount);
+
+    const values = Array.from({ length: teamCount }, (_, index) => parseScoreToken(state.teamScoreInputs[index]));
+    const enteredIndices = values.reduce((list, value, index) => {
+      if (value !== null) list.push(index);
+      return list;
+    }, []);
+
+    if (!result || teamCount === 0 || enteredIndices.length === 0) {
+      return {
+        mode: "empty",
+        values,
+        enteredCount: enteredIndices.length,
+        pendingCount: teamCount,
+        winnerIndices: [],
+        topScore: null,
+        hasAny: false,
+        isComplete: false,
+        summaryBody: t("scoreSummaryPending"),
+        statusLabel: t("scoreStatusPending")
+      };
+    }
+
+    const topScore = Math.max(...enteredIndices.map((index) => values[index]));
+    const winnerIndices = enteredIndices.filter((index) => values[index] === topScore);
+    const teamLabels = winnerIndices.map((index) => formatTeamLabel(index)).join(", ");
+    const pendingCount = teamCount - enteredIndices.length;
+
+    if (pendingCount > 0) {
+      return {
+        mode: "partial",
+        values,
+        enteredCount: enteredIndices.length,
+        pendingCount,
+        winnerIndices,
+        topScore,
+        hasAny: true,
+        isComplete: false,
+        summaryBody: t("scoreSummaryPartial", {
+          teams: teamLabels,
+          score: formatScoreText(topScore),
+          count: pendingCount
+        }),
+        statusLabel: t("scoreStatusPartial")
+      };
+    }
+
+    if (winnerIndices.length === 1) {
+      return {
+        mode: "winner",
+        values,
+        enteredCount: enteredIndices.length,
+        pendingCount: 0,
+        winnerIndices,
+        topScore,
+        hasAny: true,
+        isComplete: true,
+        summaryBody: t("scoreSummaryWinner", {
+          team: teamLabels,
+          score: formatScoreText(topScore)
+        }),
+        statusLabel: t("scoreStatusWinner")
+      };
+    }
+
+    return {
+      mode: "tie",
+      values,
+      enteredCount: enteredIndices.length,
+      pendingCount: 0,
+      winnerIndices,
+      topScore,
+      hasAny: true,
+      isComplete: true,
+      summaryBody: t("scoreSummaryTie", {
+        teams: teamLabels,
+        score: formatScoreText(topScore)
+      }),
+      statusLabel: t("scoreStatusTie")
+    };
+  }
+
+  function ensureScoreUi() {
+    if (!ui.scoreToggleBtn && ui.rerollBtn && ui.rerollBtn.parentElement) {
+      const button = document.createElement("button");
+      button.id = "score-toggle-btn";
+      button.type = "button";
+      button.className = "rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-600 transition-colors hover:border-slate-300 hover:text-slate-900 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400";
+      button.textContent = t("scoreToggleBtn");
+      button.setAttribute("aria-expanded", "false");
+      ui.rerollBtn.insertAdjacentElement("afterend", button);
+      ui.scoreToggleBtn = button;
+    }
+
+    if (!ui.scorePanel && ui.resultPanel && ui.emptyState) {
+      const panel = document.createElement("section");
+      panel.id = "score-panel";
+      panel.className = "hidden mt-4 rounded-[1.5rem] border border-slate-200 bg-slate-50/80 p-4";
+      panel.innerHTML = `
+        <div class="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+          <div>
+            <h3 id="score-panel-title" class="text-sm font-semibold text-slate-900"></h3>
+            <p id="score-panel-body" class="mt-1 max-w-2xl text-sm leading-6 text-slate-600"></p>
+          </div>
+          <span id="score-status-badge" class="inline-flex items-center rounded-full bg-slate-200 px-3 py-1 text-xs font-semibold text-slate-600"></span>
+        </div>
+        <div id="score-input-grid" class="mt-4 hidden grid gap-3 sm:grid-cols-2 xl:grid-cols-3"></div>
+      `;
+      ui.resultPanel.insertBefore(panel, ui.emptyState);
+      ui.scorePanel = panel;
+      ui.scorePanelTitle = document.getElementById("score-panel-title");
+      ui.scorePanelBody = document.getElementById("score-panel-body");
+      ui.scoreStatusBadge = document.getElementById("score-status-badge");
+      ui.scoreInputGrid = document.getElementById("score-input-grid");
+    }
+  }
+
+  function updateScoreToggleButton() {
+    if (!ui.scoreToggleBtn) return;
+    const active = !!state.scoreEditorOpen;
+    ui.scoreToggleBtn.textContent = t("scoreToggleBtn");
+    ui.scoreToggleBtn.setAttribute("aria-expanded", active ? "true" : "false");
+    ui.scoreToggleBtn.classList.toggle("bg-slate-900", active);
+    ui.scoreToggleBtn.classList.toggle("border-slate-900", active);
+    ui.scoreToggleBtn.classList.toggle("text-white", active);
+    ui.scoreToggleBtn.classList.toggle("bg-white", !active);
+    ui.scoreToggleBtn.classList.toggle("border-slate-200", !active);
+    ui.scoreToggleBtn.classList.toggle("text-slate-600", !active);
+  }
+
+  function renderScoreInputs(result, scoreboard) {
+    if (!ui.scoreInputGrid) return;
+    normalizeTeamScoreInputs(result.teams.length);
+
+    if (state.scoreInputResultRef !== result || ui.scoreInputGrid.children.length !== result.teams.length) {
+      ui.scoreInputGrid.innerHTML = result.teams.map((team, index) => `
+        <label data-team-score-card="${index}" class="block rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
+          <span class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">${escapeHtml(formatTeamLabel(index))}</span>
+          <span class="mt-1 block text-sm font-medium text-slate-900">${formatMemberCount(team.members.length)}</span>
+          <input
+            data-team-score-input="${index}"
+            type="text"
+            inputmode="decimal"
+            autocomplete="off"
+            class="mt-3 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-semibold text-slate-900 outline-none transition focus:border-slate-900"
+            placeholder="${escapeHtml(t("scoreInputPlaceholder"))}"
+            value="${escapeHtml(state.teamScoreInputs[index])}"
+            aria-label="${escapeHtml(t("scoreInputLabel", { team: formatTeamLabel(index) }))}"
+          />
+        </label>
+      `).join("");
+      state.scoreInputResultRef = result;
+    }
+
+    result.teams.forEach((team, index) => {
+      const card = ui.scoreInputGrid.querySelector(`[data-team-score-card="${index}"]`);
+      const input = ui.scoreInputGrid.querySelector(`[data-team-score-input="${index}"]`);
+      const mode = getWinningTeamMode(scoreboard, index);
+      const tone = getScoreboardTone(mode);
+
+      if (card) {
+        card.className = `block rounded-2xl border p-3 shadow-sm ${mode === "none" ? "border-slate-200 bg-white" : tone.card}`;
+      }
+      if (input && input.value !== state.teamScoreInputs[index]) {
+        input.value = state.teamScoreInputs[index];
+      }
+    });
+  }
+
+  function renderSummary(result) {
+    ensureScoreUi();
+    updateScoreToggleButton();
+
+    if (!ui.scorePanel || !ui.scoreInputGrid) return;
+
+    if (!result) {
+      state.scoreInputResultRef = null;
+      ui.scorePanel.classList.add("hidden");
+      ui.scoreInputGrid.classList.add("hidden");
+      ui.scoreInputGrid.innerHTML = "";
+      return;
+    }
+
+    const scoreboard = computeScoreboard(result);
+    const shouldShowPanel = state.scoreEditorOpen || scoreboard.hasAny;
+
+    if (!shouldShowPanel) {
+      ui.scorePanel.classList.add("hidden");
+      ui.scoreInputGrid.classList.add("hidden");
+      return;
+    }
+
+    const tone = getScoreboardTone(scoreboard.mode);
+    ui.scorePanel.className = `mt-4 rounded-[1.5rem] border p-4 ${tone.panel}`;
+    ui.scorePanelTitle.textContent = t("scorePanelTitle");
+    ui.scorePanelBody.textContent = scoreboard.summaryBody;
+    ui.scoreStatusBadge.className = `inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${tone.badge}`;
+    ui.scoreStatusBadge.textContent = scoreboard.statusLabel;
+    ui.scorePanel.classList.remove("hidden");
+
+    if (state.scoreEditorOpen) {
+      ui.scoreInputGrid.classList.remove("hidden");
+      renderScoreInputs(result, scoreboard);
+      return;
+    }
+
+    ui.scoreInputGrid.classList.add("hidden");
+  }
 
   function renderTeams(result) {
     if (!result) {
@@ -479,27 +777,36 @@
     }
 
     const showScores = result.parsed.scoredCount > 0 || result.effectiveMode === "balanced";
+    const scoreboard = computeScoreboard(result);
     ui.emptyState.classList.add("hidden");
     ui.teamGrid.innerHTML = result.teams.map((team, index) => {
+      const winningMode = getWinningTeamMode(scoreboard, index);
+      const highlightTone = getScoreboardTone(winningMode);
+      const articleTone = winningMode === "none" ? "border-slate-200 bg-white/95" : highlightTone.card;
+      const matchScore = scoreboard.values[index];
       const memberHtml = team.members.map((member) => {
         const scoreBadge = showScores
           ? `<span class="inline-flex items-center rounded-full bg-slate-900/5 px-2 py-1 text-[11px] font-semibold text-slate-600">${member.hasScore ? formatScoreText(member.score) : t("scoreMissing", { score: formatScoreText(member.score) })}</span>`
           : "";
         return `
           <li class="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50/70 px-3 py-2.5">
-            <span class="min-w-0 truncate text-sm font-medium text-slate-800">${member.name}</span>
+            <span class="min-w-0 truncate text-sm font-medium text-slate-800">${escapeHtml(member.name)}</span>
             ${scoreBadge}
           </li>
         `;
       }).join("");
+      const matchScoreHtml = matchScore !== null
+        ? `<p class="mt-2 inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold ${winningMode === "none" ? "bg-slate-100 text-slate-600" : highlightTone.pill}">${t("cardGameScoreLabel", { value: formatScoreText(matchScore) })}</p>`
+        : "";
 
       return `
-        <article class="rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-sm">
+        <article class="rounded-2xl border p-4 shadow-sm ${articleTone}">
           <div class="flex items-start justify-between gap-4">
             <div>
               <p class="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">${t("cardEyebrow", { index: index + 1 })}</p>
               <h3 class="mt-1 text-xl font-semibold tracking-tight text-slate-900">${t("cardTitle", { index: index + 1 })}</h3>
               <p class="mt-1 text-sm text-slate-500">${t("cardAssigned", { count: team.members.length })}</p>
+              ${matchScoreHtml}
             </div>
             <div class="rounded-2xl bg-slate-900 px-3 py-2 text-right text-white shadow-sm">
               <p class="text-[11px] uppercase tracking-[0.18em] text-slate-300">${showScores ? t("cardBadgeAverage") : t("cardBadgeMembers")}</p>
@@ -519,6 +826,7 @@
     ui.rerollBtn.disabled = !canGenerate;
     ui.copyBtn.disabled = !state.result;
     ui.exportBtn.disabled = !state.result;
+    if (ui.scoreToggleBtn) ui.scoreToggleBtn.disabled = !state.result;
   }
 
   function setQuickTeamButtonsActive(teamCount) {
@@ -535,6 +843,9 @@
 
   function invalidateResult() {
     state.result = null;
+    state.scoreEditorOpen = false;
+    state.teamScoreInputs = [];
+    state.scoreInputResultRef = null;
     renderSummary(null);
     renderTeams(null);
     updateActionState();
@@ -605,11 +916,15 @@
     const requestedMode = getSelectedMode();
     const effectiveMode = requestedMode === "balanced" && state.parsed.scoredCount === 0 ? "random" : requestedMode;
     const capacities = computeCapacities(state.parsed.players.length, effectiveTeamCount);
+    const keepScoreEditorOpen = state.scoreEditorOpen;
     const teams = effectiveMode === "balanced"
       ? assignBalancedTeams(state.parsed.players, capacities)
       : assignRandomTeams(state.parsed.players, capacities);
 
     state.result = buildResult(state.parsed, teams, requestedMode, effectiveMode, capacities);
+    state.scoreEditorOpen = keepScoreEditorOpen;
+    resetTeamScoreInputs(state.result.teams.length);
+    state.scoreInputResultRef = null;
     renderSummary(state.result);
     renderTeams(state.result);
     updateActionState();
@@ -618,6 +933,7 @@
 
   function buildPlainText(result) {
     const showScores = result.parsed.scoredCount > 0 || result.effectiveMode === "balanced";
+    const scoreboard = computeScoreboard(result);
     const lines = [
       `${t("plainMode")}: ${result.effectiveMode === "balanced" ? t("modeBalanced") : t("modeRandom")}`,
       `${t("plainTeamCount")}: ${result.teams.length}`,
@@ -625,6 +941,14 @@
       `${t("plainTeamLayout")}: ${result.teams.map((team) => formatMemberCount(team.members.length)).join(" / ")}`,
       `${t("plainGeneratedAt")}: ${result.generatedAt}`
     ];
+
+    if (scoreboard.mode === "winner") {
+      lines.push(`${t("plainWinnerLabel")}: ${formatTeamLabel(scoreboard.winnerIndices[0])} (${formatScoreText(scoreboard.topScore)})`);
+    } else if (scoreboard.mode === "tie") {
+      lines.push(`${t("plainTieLabel")}: ${scoreboard.winnerIndices.map((index) => formatTeamLabel(index)).join(", ")} (${formatScoreText(scoreboard.topScore)})`);
+    } else if (scoreboard.mode === "partial") {
+      lines.push(`${t("plainLeaderLabel")}: ${scoreboard.winnerIndices.map((index) => formatTeamLabel(index)).join(", ")} (${formatScoreText(scoreboard.topScore)})`);
+    }
 
     result.teams.forEach((team, index) => {
       const scorePart = showScores ? t("plainScorePart", { total: formatScoreText(team.total) }) : "";
@@ -634,6 +958,9 @@
         members: formatMemberCount(team.members.length),
         scorePart
       }));
+      if (scoreboard.values[index] !== null) {
+        lines.push(`${t("plainMatchScoreLabel")}: ${formatScoreText(scoreboard.values[index])}`);
+      }
       team.members.forEach((member) => {
         const suffix = showScores
           ? (member.hasScore
@@ -655,8 +982,12 @@
 
   function exportCsv() {
     if (!state.result) return;
-    const rows = [["team_no", "team_label", "member_name", "score", "score_input", "team_size", "team_total", "mode", "generated_at"]];
+    const scoreboard = computeScoreboard(state.result);
+    const rows = [["team_no", "team_label", "member_name", "score", "score_input", "team_size", "team_total", "mode", "generated_at", "match_score", "winner_status"]];
     state.result.teams.forEach((team, index) => {
+      const winnerStatus = scoreboard.winnerIndices.includes(index)
+        ? (scoreboard.mode === "winner" ? "winner" : scoreboard.mode === "tie" ? "tie" : scoreboard.mode === "partial" ? "leader" : "")
+        : "";
       team.members.forEach((member) => {
         rows.push([
           index + 1,
@@ -667,7 +998,9 @@
           team.members.length,
           team.total,
           state.result.effectiveMode,
-          state.result.generatedAt
+          state.result.generatedAt,
+          scoreboard.values[index] === null ? "" : scoreboard.values[index],
+          winnerStatus
         ]);
       });
     });
@@ -803,6 +1136,25 @@
     ui.rerollBtn.addEventListener("click", generateTeams);
     ui.copyBtn.addEventListener("click", copyResults);
     ui.exportBtn.addEventListener("click", exportCsv);
+    if (ui.scoreToggleBtn) {
+      ui.scoreToggleBtn.addEventListener("click", () => {
+        if (!state.result) return;
+        state.scoreEditorOpen = !state.scoreEditorOpen;
+        renderSummary(state.result);
+        updateActionState();
+      });
+    }
+    if (ui.scorePanel) {
+      ui.scorePanel.addEventListener("input", (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLInputElement) || !target.hasAttribute("data-team-score-input") || !state.result) return;
+        const index = Number(target.getAttribute("data-team-score-input"));
+        if (!Number.isInteger(index) || index < 0) return;
+        state.teamScoreInputs[index] = target.value;
+        renderSummary(state.result);
+        renderTeams(state.result);
+      });
+    }
 
     if (ui.clearBtn) {
       ui.clearBtn.addEventListener("click", () => {
@@ -836,6 +1188,7 @@
   }
 
   function init() {
+    ensureScoreUi();
     loadState();
     renderSummary(null);
     renderTeams(null);
