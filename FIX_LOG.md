@@ -267,3 +267,9 @@ How to use it:
 - Reworked `점수입력` so it now sits to the left of `다시 배정` and opens per-player score inputs directly inside each team card instead of taking one score per team.
 - Changed team result scoring to use the average of the individually entered player scores as the deciding team score, while also showing each team's entered-score total and input progress.
 - Changed winner calculation so the summary and card highlight activate only after all player scores are entered, and refreshed the shared team-generator script version again to invalidate the earlier per-team-score bundle.
+
+### 2026-03-16 - Team split score editor moved below cards
+
+- Moved the per-player score inputs out of the main result cards into a separate score-entry panel rendered below the team cards so the original result card height stays stable.
+- Hid the old roster-score badges from the main cards while score-entry mode is active, and reused the right-side score slot inside the lower score-entry cards for the new per-player score inputs.
+- Kept team average and total updates live in the main result cards while typing in the lower score-entry panel.
