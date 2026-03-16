@@ -273,3 +273,4 @@ How to use it:
 - Moved the per-player score inputs out of the main result cards into a separate score-entry panel rendered below the team cards so the original result card height stays stable.
 - Hid the old roster-score badges from the main cards while score-entry mode is active, and reused the right-side score slot inside the lower score-entry cards for the new per-player score inputs.
 - Kept team average and total updates live in the main result cards while typing in the lower score-entry panel.
+- Refreshed the shared team-generator script version again so browsers do not reuse the earlier in-card score-editor bundle.
