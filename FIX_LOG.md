@@ -304,3 +304,9 @@ How to use it:
 - Fixed each member row to the same height in normal mode and score-entry mode by reserving a constant right-side score slot.
 - Reserved the team-card summary and winner-pill space so pressing `점수입력` no longer makes the card grow slightly before scores are entered.
 - Simplified the match-score summary line to average plus total only, avoiding progress text wrapping that could stretch the card.
+
+### 2026-03-16 - Team split score entry translations filled for all locales
+
+- Replaced the non-Korean score-entry runtime fallback so each supported locale now shows localized score-entry labels, placeholders, winner states, and export text.
+- Kept the score-entry UI behavior unchanged while removing the remaining English-only strings from non-English team-generator pages.
+- Refreshed the shared team-generator script version again so browsers fetch the updated locale strings immediately.
