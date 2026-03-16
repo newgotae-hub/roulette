@@ -274,3 +274,9 @@ How to use it:
 - Hid the old roster-score badges from the main cards while score-entry mode is active, and reused the right-side score slot inside the lower score-entry cards for the new per-player score inputs.
 - Kept team average and total updates live in the main result cards while typing in the lower score-entry panel.
 - Refreshed the shared team-generator script version again so browsers do not reuse the earlier in-card score-editor bundle.
+
+### 2026-03-16 - Team split score inputs returned to the member rows
+
+- Removed the separate lower score-entry card grid and moved score entry back into the existing team result cards so each member row can be edited directly on the right side.
+- Reused the member-row right slot for the live per-player score input while score-entry mode is open, then keeps the team average and total summary updating in place as values change.
+- Refreshed the shared team-generator script version again so browsers fetch the restored inline score-entry behavior immediately.
