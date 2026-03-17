@@ -350,6 +350,13 @@ How to use it:
 - Localized the expanded guide copy for all 18 team-generator locales, updated locale sync and QA so the new guide IDs are validated from each locale HTML source, and refreshed the shared asset version to `20260317-team-results-guide1`.
 - Detailed notes: [TEAM_GENERATOR_SCORE_ENTRY_TRACKING_2026-03.md](/home/user/roulette/TEAM_GENERATOR_SCORE_ENTRY_TRACKING_2026-03.md)
 
+### 2026-03-17 - Team generator guide section layout refined for cleaner spacing
+
+- Rebuilt the upper guide area into a tighter two-column editorial layout: the how-to flow now sits in six compact step cards, while the battle guide and input examples stack in a separate right column.
+- Removed the awkward extra whitespace caused by the older plain list plus loose card stack, tightened the example-card spacing, and added subtle separators/background treatment so the section feels more deliberate without leaving the existing site design language.
+- Resynced all 18 locale pages with the new guide layout, refreshed the shared asset version to `20260317-team-results-guide2`, and reran the locale DOM audit plus AdSense/SEO validation.
+- Detailed notes: [TEAM_GENERATOR_SCORE_ENTRY_TRACKING_2026-03.md](/home/user/roulette/TEAM_GENERATOR_SCORE_ENTRY_TRACKING_2026-03.md)
+
 ### 2026-03-17 - Team generator score-entry history consolidated for traceability
 
 - Added [TEAM_GENERATOR_SCORE_ENTRY_TRACKING_2026-03.md](/home/user/roulette/TEAM_GENERATOR_SCORE_ENTRY_TRACKING_2026-03.md) as the single history index for score-entry, winner calculation, locale rollout, QA, and results-panel guidance work.
