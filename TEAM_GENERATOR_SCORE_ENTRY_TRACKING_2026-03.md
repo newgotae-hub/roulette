@@ -24,6 +24,7 @@ As of the latest 2026-03-17 cleanup patch in this document:
 - The empty state now explains the flow in two steps: generate teams first, then enter post-match scores.
 - The results header no longer shows a separate `resultsIntro` guidance line; the score-entry explanation lives only in the empty state and runtime result meta copy.
 - The inline member-row score slot uses a fixed-width, centered pill for both read-only score badges and editable score inputs so the right edge stays visually aligned.
+- The guide section now includes a fuller post-match flow plus a dedicated team-battle guide card, so users can discover that the same page can be used to record individual scores and identify the winner after the match.
 
 ## Related Commits
 
@@ -43,6 +44,7 @@ As of the latest 2026-03-17 cleanup patch in this document:
 | 2026-03-16 | `8b0d399` | `Update team generator copy across locales` | Updated hero/runtime copy across locales to explain score-entry and winner flow. |
 | 2026-03-17 | `99bd65c` | `Improve team generator results panel guidance` | Added always-visible results guidance and two-step empty-state flow in all locales. |
 | 2026-03-17 | `(latest cleanup patch)` | Remove repeated results guidance and refine score slot alignment | Deleted `resultsIntro` markup across locales, kept only the empty-state flow, and tightened the inline score-slot sizing/alignment plus QA coverage. |
+| 2026-03-17 | `(current guide patch)` | Expand guide section for team battle flow | Added a dedicated guide card and fuller how-to copy so score entry, team totals, and winner detection are more discoverable in all locales. |
 
 ## Files To Track Together
 
@@ -86,6 +88,7 @@ The latest known pass state for this work:
 
 - 18 locale DOM audit: PASS
 - `results-intro` nodes across localized HTML + QA harness: PASS (removed)
+- guide-section team-battle copy across localized HTML: PASS
 - `node --check assets/js/team-generator.js`: PASS
 - `node --check assets/js/team-generator-i18n.js`: PASS
 - `node --check assets/css/team-generator-qa.css`: not applicable
@@ -116,4 +119,5 @@ When modifying this feature later:
 
 - The repository can contain unrelated untracked QA scratch paths such as `test-results/.last-run.json` and `test-results/team-generator-local-qa/`. They were not required for the shipped score-entry behavior.
 - The always-visible `resultsIntro` guidance that briefly shipped in `99bd65c` was intentionally removed in the latest cleanup patch because it duplicated the empty-state flow and could appear multiple times if locale sync drifted.
+- The guide-section explanation is now the main static discovery surface for the post-match score-entry flow. If future copy gets shortened again, re-check that users can still discover `점수입력` without having to generate teams first.
 - This document is intended as the history index for the score-entry feature line. New follow-up fixes should add both a fresh `FIX_LOG.md` entry and, if the change is substantial, a short append/update here.

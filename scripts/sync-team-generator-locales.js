@@ -5,7 +5,7 @@ const { ALL_LOCALES, NON_KO_LOCALES } = require('./legal-shared');
 
 const ROOT = path.resolve(__dirname, '..');
 const I18N_PATH = path.join(ROOT, 'assets/js/team-generator-i18n.js');
-const ASSET_VERSION = '20260317-team-results-clean2';
+const ASSET_VERSION = '20260317-team-results-guide1';
 const FLAG_PLACEHOLDER_SRC = 'data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=';
 const LOCALES = ALL_LOCALES;
 const TEXT_IDS = [
@@ -64,6 +64,15 @@ const TEXT_IDS = [
   ['howto-3', 'howTo3'],
   ['howto-4', 'howTo4'],
   ['howto-5', 'howTo5'],
+  ['howto-6', 'howTo6'],
+  ['battle-guide-title', 'battleGuideTitle'],
+  ['battle-guide-body', 'battleGuideBody'],
+  ['battle-guide-step1-title', 'battleGuideStep1Title'],
+  ['battle-guide-step1-body', 'battleGuideStep1Body'],
+  ['battle-guide-step2-title', 'battleGuideStep2Title'],
+  ['battle-guide-step2-body', 'battleGuideStep2Body'],
+  ['battle-guide-step3-title', 'battleGuideStep3Title'],
+  ['battle-guide-step3-body', 'battleGuideStep3Body'],
   ['example-title', 'exampleTitle'],
   ['faq-title', 'faqTitle'],
   ['faq1-q', 'faq1Q'],
@@ -280,6 +289,13 @@ function syncResultsPanelStructure(html) {
   return ensureClassById(html, 'empty-body', 'whitespace-pre-line');
 }
 
+function syncGuideSectionStructure(html) {
+  const guideLeftBlock = `<div><h2 id="howto-title" class="text-xl font-semibold tracking-tight text-slate-900">사용 방법</h2><ul class="mt-4 space-y-3 text-sm leading-6 text-slate-600"><li id="howto-1">Excel에서 이름/점수 두 열을 그대로 복사해 입력창에 붙여넣습니다.</li><li id="howto-2">이름만 있는 목록이면 완전 랜덤, 점수까지 있으면 점수 밸런스를 선택합니다.</li><li id="howto-3">원하는 팀 수를 정하면 예상 팀 크기를 바로 보여줍니다.</li><li id="howto-4">팀이 정해지면 결과 영역의 점수입력 버튼을 눌러 팀원별 점수 입력 상태로 전환합니다.</li><li id="howto-5">경기가 끝난 뒤 각 팀원의 점수를 입력하면 팀 평균과 총점이 실시간으로 갱신됩니다.</li><li id="howto-6">가장 높은 평균을 기록한 팀이 승리 팀으로 표시되며, 결과는 복사나 CSV로 그대로 공유할 수 있습니다.</li></ul><div class="mt-5 rounded-[1.5rem] border border-slate-200 bg-slate-50/90 p-4 shadow-sm md:p-5"><div class="flex items-start gap-3"><div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-slate-900 text-white shadow-sm"><iconify-icon icon="solar:medal-ribbons-star-linear" class="text-xl"></iconify-icon></div><div class="min-w-0"><h3 id="battle-guide-title" class="text-base font-semibold tracking-tight text-slate-900">팀 대결 점수판처럼 활용하기</h3><p id="battle-guide-body" class="mt-1 text-sm leading-6 text-slate-600">이 페이지는 팀을 나누는 용도에서 끝나지 않습니다. 팀이 만들어진 뒤 같은 결과 카드에서 각자 점수를 입력하면, 어느 팀이 이겼는지까지 바로 정리할 수 있습니다.</p></div></div><div class="mt-4 grid gap-3 sm:grid-cols-3"><div class="rounded-xl border border-slate-200 bg-white/90 p-3"><p id="battle-guide-step1-title" class="text-xs font-semibold text-slate-900">1. 팀 생성</p><p id="battle-guide-step1-body" class="mt-1 text-[12px] leading-5 text-slate-600">명단을 붙여넣고 팀 수를 정한 뒤 팀 결과를 먼저 만듭니다.</p></div><div class="rounded-xl border border-slate-200 bg-white/90 p-3"><p id="battle-guide-step2-title" class="text-xs font-semibold text-slate-900">2. 개인 점수 입력</p><p id="battle-guide-step2-body" class="mt-1 text-[12px] leading-5 text-slate-600">경기 후 점수입력 버튼을 눌러 이름 오른쪽 칸에 각자의 점수를 입력합니다.</p></div><div class="rounded-xl border border-slate-200 bg-white/90 p-3"><p id="battle-guide-step3-title" class="text-xs font-semibold text-slate-900">3. 승리 팀 확인</p><p id="battle-guide-step3-body" class="mt-1 text-[12px] leading-5 text-slate-600">팀 평균과 총점이 실시간으로 계산되고, 평균이 가장 높은 팀이 승리 팀으로 강조됩니다.</p></div></div></div></div>`;
+  const guidePattern = /<div><h2 id="howto-title"[^>]*>[\s\S]*?(?=\s*<div><h2 id="example-title")/i;
+  if (!guidePattern.test(html)) throw new Error('Missing guide how-to block.');
+  return html.replace(guidePattern, guideLeftBlock);
+}
+
 function syncSharedAssetBlock(html) {
   const sharedBlockPattern = /  <script>\s+    \(function \(\) \{\s+      try \{\s+        var params = new URLSearchParams\(window\.location\.search\);[\s\S]*?  <script>\s+    if \(!window\.__TEAM_GENERATOR_LOCAL_QA__\) \{\s+      tailwind\.config=\{theme:\{extend:\{fontFamily:\{sans:\['Inter','-apple-system','BlinkMacSystemFont','Segoe UI','Roboto','Helvetica Neue','Arial','sans-serif'\]\}\}\}\};\s+    \}\s+  <\/script>/;
   if (!sharedBlockPattern.test(html)) throw new Error('Missing shared asset block.');
@@ -301,6 +317,7 @@ function syncPage(locale, data) {
   html = replaceMetaById(html, 'meta-twitter-title', data.seoTwitterTitle);
   html = replaceMetaById(html, 'meta-twitter-description', data.seoTwitterDesc);
   html = syncResultsPanelStructure(html);
+  html = syncGuideSectionStructure(html);
 
   for (const [id, key] of TEXT_IDS) {
     html = replaceTextById(html, id, data[key]);

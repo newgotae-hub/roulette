@@ -658,6 +658,33 @@ function validateLocaleSource(staticSnapshot, staticText) {
   if (normalizeText(staticSnapshot.emptyBody) !== normalizeText(staticText.emptyBody)) {
     issues.push(`empty body mismatch: expected "${staticText.emptyBody}", got "${staticSnapshot.emptyBody}"`);
   }
+  if (normalizeText(staticSnapshot.howTo6) !== normalizeText(staticText.howTo6)) {
+    issues.push(`howTo6 mismatch: expected "${staticText.howTo6}", got "${staticSnapshot.howTo6}"`);
+  }
+  if (normalizeText(staticSnapshot.battleGuideTitle) !== normalizeText(staticText.battleGuideTitle)) {
+    issues.push(`battleGuideTitle mismatch: expected "${staticText.battleGuideTitle}", got "${staticSnapshot.battleGuideTitle}"`);
+  }
+  if (normalizeText(staticSnapshot.battleGuideBody) !== normalizeText(staticText.battleGuideBody)) {
+    issues.push(`battleGuideBody mismatch: expected "${staticText.battleGuideBody}", got "${staticSnapshot.battleGuideBody}"`);
+  }
+  if (normalizeText(staticSnapshot.battleGuideStep1Title) !== normalizeText(staticText.battleGuideStep1Title)) {
+    issues.push(`battleGuideStep1Title mismatch: expected "${staticText.battleGuideStep1Title}", got "${staticSnapshot.battleGuideStep1Title}"`);
+  }
+  if (normalizeText(staticSnapshot.battleGuideStep1Body) !== normalizeText(staticText.battleGuideStep1Body)) {
+    issues.push(`battleGuideStep1Body mismatch: expected "${staticText.battleGuideStep1Body}", got "${staticSnapshot.battleGuideStep1Body}"`);
+  }
+  if (normalizeText(staticSnapshot.battleGuideStep2Title) !== normalizeText(staticText.battleGuideStep2Title)) {
+    issues.push(`battleGuideStep2Title mismatch: expected "${staticText.battleGuideStep2Title}", got "${staticSnapshot.battleGuideStep2Title}"`);
+  }
+  if (normalizeText(staticSnapshot.battleGuideStep2Body) !== normalizeText(staticText.battleGuideStep2Body)) {
+    issues.push(`battleGuideStep2Body mismatch: expected "${staticText.battleGuideStep2Body}", got "${staticSnapshot.battleGuideStep2Body}"`);
+  }
+  if (normalizeText(staticSnapshot.battleGuideStep3Title) !== normalizeText(staticText.battleGuideStep3Title)) {
+    issues.push(`battleGuideStep3Title mismatch: expected "${staticText.battleGuideStep3Title}", got "${staticSnapshot.battleGuideStep3Title}"`);
+  }
+  if (normalizeText(staticSnapshot.battleGuideStep3Body) !== normalizeText(staticText.battleGuideStep3Body)) {
+    issues.push(`battleGuideStep3Body mismatch: expected "${staticText.battleGuideStep3Body}", got "${staticSnapshot.battleGuideStep3Body}"`);
+  }
   if (staticSnapshot.resultsIntroCount !== 0) issues.push(`results intro markup should be removed, got ${staticSnapshot.resultsIntroCount}`);
 
   return issues;
@@ -697,6 +724,15 @@ async function auditLocale(locale, staticMap, dynamicMap) {
       copyLabel: extractTextById(sourceHtml, 'copy-btn'),
       exportLabel: extractTextById(sourceHtml, 'export-btn'),
       emptyBody: extractTextById(sourceHtml, 'empty-body'),
+      howTo6: extractTextById(sourceHtml, 'howto-6'),
+      battleGuideTitle: extractTextById(sourceHtml, 'battle-guide-title'),
+      battleGuideBody: extractTextById(sourceHtml, 'battle-guide-body'),
+      battleGuideStep1Title: extractTextById(sourceHtml, 'battle-guide-step1-title'),
+      battleGuideStep1Body: extractTextById(sourceHtml, 'battle-guide-step1-body'),
+      battleGuideStep2Title: extractTextById(sourceHtml, 'battle-guide-step2-title'),
+      battleGuideStep2Body: extractTextById(sourceHtml, 'battle-guide-step2-body'),
+      battleGuideStep3Title: extractTextById(sourceHtml, 'battle-guide-step3-title'),
+      battleGuideStep3Body: extractTextById(sourceHtml, 'battle-guide-step3-body'),
       resultsIntroCount: countMatches(sourceHtml, /\bid="results-intro"\b/g)
     };
     const payload = await waitForReadySnapshot(socket);

@@ -343,6 +343,13 @@ How to use it:
 - Updated `scripts/qa-team-generator-locales.js` so locale QA now fails if any `results-intro` markup comes back, refreshed the team-generator asset version to `20260317-team-results-clean2`, and re-ran the 18-locale DOM audit plus AdSense/SEO validation.
 - Detailed notes: [TEAM_GENERATOR_SCORE_ENTRY_TRACKING_2026-03.md](/home/user/roulette/TEAM_GENERATOR_SCORE_ENTRY_TRACKING_2026-03.md)
 
+### 2026-03-17 - Team generator guide section expanded for team battle flow
+
+- Reworked the `사용 방법` list so it now explains the full flow after team generation: open `점수입력`, enter each member's post-match score, and use the live average/total update to identify the winning team.
+- Added a new guide card under the how-to list that frames the page as a lightweight team battle scoreboard, with a three-step explanation for creating teams, entering personal scores, and checking the winner.
+- Localized the expanded guide copy for all 18 team-generator locales, updated locale sync and QA so the new guide IDs are validated from each locale HTML source, and refreshed the shared asset version to `20260317-team-results-guide1`.
+- Detailed notes: [TEAM_GENERATOR_SCORE_ENTRY_TRACKING_2026-03.md](/home/user/roulette/TEAM_GENERATOR_SCORE_ENTRY_TRACKING_2026-03.md)
+
 ### 2026-03-17 - Team generator score-entry history consolidated for traceability
 
 - Added [TEAM_GENERATOR_SCORE_ENTRY_TRACKING_2026-03.md](/home/user/roulette/TEAM_GENERATOR_SCORE_ENTRY_TRACKING_2026-03.md) as the single history index for score-entry, winner calculation, locale rollout, QA, and results-panel guidance work.
