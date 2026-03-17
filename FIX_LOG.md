@@ -334,3 +334,9 @@ How to use it:
 - Added an always-visible `resultsIntro` line beside the team-results heading so every locale now explains that score entry reveals team average, total, and the winner before any teams are generated.
 - Reworked the empty-state copy into a two-step flow with preserved line breaks, making the core path explicit: generate teams first, then enter post-match player scores to decide the winner.
 - Extended `scripts/sync-team-generator-locales.js` and `scripts/qa-team-generator-locales.js` so the new results-panel structure is synced across all 18 locale pages, while QA now validates the static localized copy from each HTML source and the dynamic score-entry UI from the local harness.
+- Detailed notes: [TEAM_GENERATOR_SCORE_ENTRY_TRACKING_2026-03.md](/home/user/roulette/TEAM_GENERATOR_SCORE_ENTRY_TRACKING_2026-03.md)
+
+### 2026-03-17 - Team generator score-entry history consolidated for traceability
+
+- Added [TEAM_GENERATOR_SCORE_ENTRY_TRACKING_2026-03.md](/home/user/roulette/TEAM_GENERATOR_SCORE_ENTRY_TRACKING_2026-03.md) as the single history index for score-entry, winner calculation, locale rollout, QA, and results-panel guidance work.
+- Recorded the related commit chain from `7087d1e` through `99bd65c`, the files that must be updated together, the latest QA artifact paths, and the repeatable validation/deploy workflow for future follow-up changes.
