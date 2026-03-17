@@ -5,7 +5,7 @@ const { ALL_LOCALES, NON_KO_LOCALES } = require('./legal-shared');
 
 const ROOT = path.resolve(__dirname, '..');
 const I18N_PATH = path.join(ROOT, 'assets/js/team-generator-i18n.js');
-const ASSET_VERSION = '20260316-team-score12';
+const ASSET_VERSION = '20260317-team-results-ux1';
 const FLAG_PLACEHOLDER_SRC = 'data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=';
 const LOCALES = ALL_LOCALES;
 const TEXT_IDS = [
@@ -53,6 +53,7 @@ const TEXT_IDS = [
   ['roster-hint', 'rosterHint'],
   ['generate-btn-label', 'generateBtn'],
   ['results-title', 'resultsTitle'],
+  ['results-intro', 'resultsIntro'],
   ['reroll-btn', 'rerollBtn'],
   ['copy-btn', 'copyBtn'],
   ['export-btn', 'exportBtn'],
@@ -201,6 +202,23 @@ function replaceAttributeById(html, id, attr, value) {
   return html.replace(tag[0], nextTag);
 }
 
+function ensureClassById(html, id, className) {
+  const tagPattern = new RegExp(`<[^>]*\\bid="${escapeRegExp(id)}"[^>]*>`, 'i');
+  const tag = html.match(tagPattern);
+  if (!tag) throw new Error(`Missing element id="${id}"`);
+  let nextTag = tag[0];
+  if (/\bclass="[^"]*"/i.test(nextTag)) {
+    nextTag = nextTag.replace(/\bclass="([^"]*)"/i, (_, classes) => {
+      const tokens = classes.split(/\s+/).filter(Boolean);
+      if (!tokens.includes(className)) tokens.push(className);
+      return `class="${tokens.join(' ')}"`;
+    });
+  } else {
+    nextTag = nextTag.replace(/>$/, ` class="${className}">`);
+  }
+  return html.replace(tag[0], nextTag);
+}
+
 function replaceMetaById(html, id, value) {
   const tagPattern = new RegExp(`<meta[^>]*\\bid="${escapeRegExp(id)}"[^>]*>`, 'i');
   const tag = html.match(tagPattern);
@@ -250,6 +268,21 @@ function syncExampleBlocks(html, data) {
   return html;
 }
 
+function syncResultsPanelStructure(html, data) {
+  html = html.replace(/sm:items-center sm:justify-between/, 'sm:items-start sm:justify-between');
+
+  if (!/\bid="results-intro"\b/.test(html)) {
+    const resultsTitlePattern = /<h2 id="results-title"([^>]*)>([\s\S]*?)<\/h2>/i;
+    if (!resultsTitlePattern.test(html)) throw new Error('Missing results title structure.');
+    html = html.replace(
+      resultsTitlePattern,
+      `<div><h2 id="results-title"$1>$2</h2><p id="results-intro" class="mt-1 max-w-xl text-sm leading-5 text-slate-500">${escapeHtml(data.resultsIntro)}</p></div>`
+    );
+  }
+
+  return ensureClassById(html, 'empty-body', 'whitespace-pre-line');
+}
+
 function syncSharedAssetBlock(html) {
   const sharedBlockPattern = /  <script>\s+    \(function \(\) \{\s+      try \{\s+        var params = new URLSearchParams\(window\.location\.search\);[\s\S]*?  <script>\s+    if \(!window\.__TEAM_GENERATOR_LOCAL_QA__\) \{\s+      tailwind\.config=\{theme:\{extend:\{fontFamily:\{sans:\['Inter','-apple-system','BlinkMacSystemFont','Segoe UI','Roboto','Helvetica Neue','Arial','sans-serif'\]\}\}\}\};\s+    \}\s+  <\/script>/;
   if (!sharedBlockPattern.test(html)) throw new Error('Missing shared asset block.');
@@ -270,6 +303,7 @@ function syncPage(locale, data) {
   html = replaceMetaByProperty(html, 'og:locale', data.ogLocale);
   html = replaceMetaById(html, 'meta-twitter-title', data.seoTwitterTitle);
   html = replaceMetaById(html, 'meta-twitter-description', data.seoTwitterDesc);
+  html = syncResultsPanelStructure(html, data);
 
   for (const [id, key] of TEXT_IDS) {
     html = replaceTextById(html, id, data[key]);
@@ -285,7 +319,6 @@ function syncPage(locale, data) {
   html = replaceAttributeById(html, 'footer-copy', 'href', targetHref(locale, 'about'));
   html = replaceAttributeById(html, 'footer-about', 'href', targetHref(locale, 'about'));
   html = replaceAttributeById(html, 'footer-contact', 'href', targetHref(locale, 'contact'));
-
   html = syncExampleBlocks(html, data);
   html = syncSharedAssetBlock(html);
   html = html.replace(/\/assets\/js\/team-generator-i18n\.js\?v=[^"]+/g, `/assets/js/team-generator-i18n.js?v=${ASSET_VERSION}`);

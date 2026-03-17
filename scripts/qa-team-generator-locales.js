@@ -488,9 +488,11 @@ function buildSnapshotScript() {
       runtimeMetaDefault: runtimeMessages.resultMetaDefault || null,
       cardCount: cards.length,
       resultsTitle: (document.getElementById('results-title') || {}).textContent || null,
+      resultsIntro: (document.getElementById('results-intro') || {}).textContent || null,
       rerollLabel: (document.getElementById('reroll-btn') || {}).textContent || null,
       copyLabel: (document.getElementById('copy-btn') || {}).textContent || null,
       exportLabel: (document.getElementById('export-btn') || {}).textContent || null,
+      emptyBody: (document.getElementById('empty-body') || {}).textContent || null,
       teamTitles: cards.map((card) => {
         const title = card.querySelector('h3');
         return title ? title.textContent.trim() : '';
@@ -641,11 +643,17 @@ function validateLocaleSource(staticSnapshot, staticText) {
   const issues = [];
 
   if (staticSnapshot.resultsTitle !== staticText.resultsTitle) issues.push(`results title mismatch: expected "${staticText.resultsTitle}", got "${staticSnapshot.resultsTitle}"`);
+  if (normalizeText(staticSnapshot.resultsIntro) !== normalizeText(staticText.resultsIntro)) {
+    issues.push(`results intro mismatch: expected "${staticText.resultsIntro}", got "${staticSnapshot.resultsIntro}"`);
+  }
   if (staticSnapshot.rerollLabel !== staticText.rerollBtn) issues.push(`reroll label mismatch: expected "${staticText.rerollBtn}", got "${staticSnapshot.rerollLabel}"`);
   if (staticSnapshot.copyLabel !== staticText.copyBtn) issues.push(`copy label mismatch: expected "${staticText.copyBtn}", got "${staticSnapshot.copyLabel}"`);
   if (staticSnapshot.exportLabel !== staticText.exportBtn) issues.push(`export label mismatch: expected "${staticText.exportBtn}", got "${staticSnapshot.exportLabel}"`);
   if (normalizeText(staticSnapshot.heroBody) !== normalizeText(staticText.heroBody)) {
     issues.push(`hero body mismatch: expected "${staticText.heroBody}", got "${staticSnapshot.heroBody}"`);
+  }
+  if (normalizeText(staticSnapshot.emptyBody) !== normalizeText(staticText.emptyBody)) {
+    issues.push(`empty body mismatch: expected "${staticText.emptyBody}", got "${staticSnapshot.emptyBody}"`);
   }
 
   return issues;
@@ -681,9 +689,11 @@ async function auditLocale(locale, staticMap, dynamicMap) {
     const staticSnapshot = {
       heroBody: extractTextById(sourceHtml, 'hero-body'),
       resultsTitle: extractTextById(sourceHtml, 'results-title'),
+      resultsIntro: extractTextById(sourceHtml, 'results-intro'),
       rerollLabel: extractTextById(sourceHtml, 'reroll-btn'),
       copyLabel: extractTextById(sourceHtml, 'copy-btn'),
-      exportLabel: extractTextById(sourceHtml, 'export-btn')
+      exportLabel: extractTextById(sourceHtml, 'export-btn'),
+      emptyBody: extractTextById(sourceHtml, 'empty-body')
     };
     const payload = await waitForReadySnapshot(socket);
     const staticText = staticMap[locale] || staticMap.en;

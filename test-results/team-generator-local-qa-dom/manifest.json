@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-16T20:55:27.153Z",
+  "generatedAt": "2026-03-17T01:36:39.401Z",
   "chromiumBinary": "/nix/store/lpdrfl6n16q5zdf8acp4bni7yczzcx3h-idx-builtins/bin/chromium",
   "chromePort": 9223,
   "mode": "dom-audit",
@@ -13,14 +13,16 @@
         "dir": "ltr",
         "qaReady": "true",
         "bodyVisible": "visible",
-        "readyState": "loading",
+        "readyState": "complete",
         "toggleLabel": "점수입력",
         "runtimeMetaDefault": "이름만 붙여넣으면 랜덤 팀이 생성되고, 점수를 함께 넣으면 더 균형 있게 나뉩니다. 대결 후 각자 점수를 입력하면 승리 팀도 바로 확인할 수 있습니다.",
         "cardCount": 3,
-        "resultsTitle": "Team results",
-        "rerollLabel": "Reassign",
-        "copyLabel": "Copy result",
-        "exportLabel": "Save CSV",
+        "resultsTitle": "팀 결과",
+        "resultsIntro": "팀 생성 후 점수입력으로 팀 평균, 총점, 승리 팀을 바로 확인하세요.",
+        "rerollLabel": "다시 배정",
+        "copyLabel": "결과 복사",
+        "exportLabel": "CSV 저장",
+        "emptyBody": "1. 왼쪽에 명단을 붙여넣고 팀 수를 정한 뒤 팀을 생성하세요.\n2. 경기 후 점수입력으로 팀 평균, 총점, 승리 팀을 바로 확인하세요.",
         "teamTitles": [
           "1팀",
           "2팀",
@@ -52,9 +54,11 @@
       "staticSnapshot": {
         "heroBody": "이름만 입력하면 랜덤으로 팀을 생성하고, 점수를 함께 입력하면 더 균형 있는 팀을 생성합니다. 엑셀에서 그대로 복사해 붙여넣을 수 있고, 팀 대결 후 각자 점수를 입력하면 어떤 팀이 승리했는지도 바로 확인할 수 있습니다.",
         "resultsTitle": "팀 결과",
+        "resultsIntro": "팀 생성 후 점수입력으로 팀 평균, 총점, 승리 팀을 바로 확인하세요.",
         "rerollLabel": "다시 배정",
         "copyLabel": "결과 복사",
-        "exportLabel": "CSV 저장"
+        "exportLabel": "CSV 저장",
+        "emptyBody": "1. 왼쪽에 명단을 붙여넣고 팀 수를 정한 뒤 팀을 생성하세요. 2. 경기 후 점수입력으로 팀 평균, 총점, 승리 팀을 바로 확인하세요."
       }
     },
     {
@@ -66,14 +70,16 @@
         "dir": "ltr",
         "qaReady": "true",
         "bodyVisible": "visible",
-        "readyState": "complete",
+        "readyState": "loading",
         "toggleLabel": "Enter scores",
         "runtimeMetaDefault": "Paste names only for random teams, or include scores for a more balanced split. After the match, enter each player's score to see which team won.",
         "cardCount": 3,
         "resultsTitle": "Team results",
+        "resultsIntro": "After generating teams, use score entry to check each team's average, total, and winner.",
         "rerollLabel": "Reassign",
         "copyLabel": "Copy result",
         "exportLabel": "Save CSV",
+        "emptyBody": "1. Paste your roster, choose a team count, and generate teams.\n2. After the match, enter player scores to see each team's average, total, and winner.",
         "teamTitles": [
           "Team 1",
           "Team 2",
@@ -105,9 +111,11 @@
       "staticSnapshot": {
         "heroBody": "Paste names only to create random teams, or paste names and scores to create more balanced teams. You can paste directly from Excel, and after the match you can enter each player's score to see which team won.",
         "resultsTitle": "Team results",
+        "resultsIntro": "After generating teams, use score entry to check each team's average, total, and winner.",
         "rerollLabel": "Reassign",
         "copyLabel": "Copy result",
-        "exportLabel": "Save CSV"
+        "exportLabel": "Save CSV",
+        "emptyBody": "1. Paste your roster, choose a team count, and generate teams. 2. After the match, enter player scores to see each team's average, total, and winner."
       }
     },
     {
@@ -124,9 +132,11 @@
         "runtimeMetaDefault": "名前だけならランダムに分け、点数も入れればよりバランスよく分けられます。対戦後に各メンバーの点数を入力すると、勝ったチームもすぐ確認できます。",
         "cardCount": 3,
         "resultsTitle": "Team results",
+        "resultsIntro": "After generating teams, use score entry to check each team's average, total, and winner.",
         "rerollLabel": "Reassign",
         "copyLabel": "Copy result",
         "exportLabel": "Save CSV",
+        "emptyBody": "1. Paste your roster, choose a team count, and generate teams.\n2. After the match, enter player scores to see each team's average, total, and winner.",
         "teamTitles": [
           "チーム 1",
           "チーム 2",
@@ -158,9 +168,11 @@
       "staticSnapshot": {
         "heroBody": "名前だけを入力するとランダムにチームを作成し、名前と点数を一緒に入力すると、よりバランスのよいチームを作成できます。Excelからそのままコピーして貼り付けられ、対戦後に各メンバーの点数を入力すると、どのチームが勝ったかもすぐ確認できます。",
         "resultsTitle": "チーム結果",
+        "resultsIntro": "チーム作成後に点数入力を使うと、チーム平均・合計点・勝利チームをすぐ確認できます。",
         "rerollLabel": "再分け",
         "copyLabel": "結果をコピー",
-        "exportLabel": "CSV保存"
+        "exportLabel": "CSV保存",
+        "emptyBody": "1. 左に名簿を貼り付け、チーム数を決めてチームを作成します。 2. 対戦後に点数入力で、チーム平均・合計点・勝利チームを確認します。"
       }
     },
     {
@@ -172,14 +184,16 @@
         "dir": "ltr",
         "qaReady": "true",
         "bodyVisible": "visible",
-        "readyState": "loading",
+        "readyState": "complete",
         "toggleLabel": "输入分数",
         "runtimeMetaDefault": "只输入姓名可随机分组，加入分数可生成更均衡的队伍。比赛结束后输入每个人的分数，就能立即知道获胜队伍。",
         "cardCount": 3,
-        "resultsTitle": "Team results",
-        "rerollLabel": "Reassign",
-        "copyLabel": "Copy result",
-        "exportLabel": "Save CSV",
+        "resultsTitle": "队伍结果",
+        "resultsIntro": "分组完成后，可通过输入分数立即查看各队平均分、总分和获胜队伍。",
+        "rerollLabel": "重新分组",
+        "copyLabel": "复制结果",
+        "exportLabel": "保存 CSV",
+        "emptyBody": "1. 先粘贴名单、选择队伍数量并生成队伍。\n2. 比赛结束后输入成员分数，即可查看各队平均分、总分和获胜队伍。",
         "teamTitles": [
           "第 1 队",
           "第 2 队",
@@ -211,9 +225,11 @@
       "staticSnapshot": {
         "heroBody": "只输入姓名即可随机分组，输入姓名和分数则可生成更均衡的队伍。你可以直接从 Excel 复制粘贴，比赛结束后再输入每个人的分数，就能立即知道哪支队伍获胜。",
         "resultsTitle": "队伍结果",
+        "resultsIntro": "分组完成后，可通过输入分数立即查看各队平均分、总分和获胜队伍。",
         "rerollLabel": "重新分组",
         "copyLabel": "复制结果",
-        "exportLabel": "保存 CSV"
+        "exportLabel": "保存 CSV",
+        "emptyBody": "1. 先粘贴名单、选择队伍数量并生成队伍。 2. 比赛结束后输入成员分数，即可查看各队平均分、总分和获胜队伍。"
       }
     },
     {
@@ -225,14 +241,16 @@
         "dir": "ltr",
         "qaReady": "true",
         "bodyVisible": "visible",
-        "readyState": "complete",
+        "readyState": "loading",
         "toggleLabel": "輸入分數",
         "runtimeMetaDefault": "只輸入姓名可隨機分組，加入分數可建立更平均的隊伍。對戰結束後輸入每個人的分數，就能立即知道獲勝隊伍。",
         "cardCount": 3,
-        "resultsTitle": "隊伍結果",
-        "rerollLabel": "重新分組",
-        "copyLabel": "複製結果",
-        "exportLabel": "儲存 CSV",
+        "resultsTitle": "Team results",
+        "resultsIntro": "After generating teams, use score entry to check each team's average, total, and winner.",
+        "rerollLabel": "Reassign",
+        "copyLabel": "Copy result",
+        "exportLabel": "Save CSV",
+        "emptyBody": "1. Paste your roster, choose a team count, and generate teams.\n2. After the match, enter player scores to see each team's average, total, and winner.",
         "teamTitles": [
           "第 1 隊",
           "第 2 隊",
@@ -264,9 +282,11 @@
       "staticSnapshot": {
         "heroBody": "只輸入姓名即可隨機分組，輸入姓名和分數則可建立更平均的隊伍。你可以直接從 Excel 複製貼上，對戰結束後再輸入每個人的分數，就能立即知道哪一隊獲勝。",
         "resultsTitle": "隊伍結果",
+        "resultsIntro": "分組完成後，可透過輸入分數立即查看各隊平均分、總分與獲勝隊伍。",
         "rerollLabel": "重新分組",
         "copyLabel": "複製結果",
-        "exportLabel": "儲存 CSV"
+        "exportLabel": "儲存 CSV",
+        "emptyBody": "1. 先貼上名單、選擇隊伍數量並建立隊伍。 2. 比賽結束後輸入成員分數，即可查看各隊平均分、總分與獲勝隊伍。"
       }
     },
     {
@@ -278,14 +298,16 @@
         "dir": "ltr",
         "qaReady": "true",
         "bodyVisible": "visible",
-        "readyState": "loading",
+        "readyState": "complete",
         "toggleLabel": "Ingresar puntos",
         "runtimeMetaDefault": "Introduce solo nombres para equipos aleatorios, o añade puntajes para un reparto más equilibrado. Después del partido, introduce el puntaje de cada persona para ver qué equipo ganó.",
         "cardCount": 3,
-        "resultsTitle": "Team results",
-        "rerollLabel": "Reassign",
-        "copyLabel": "Copy result",
-        "exportLabel": "Save CSV",
+        "resultsTitle": "Resultado",
+        "resultsIntro": "Después de crear los equipos, ingresa los puntos para ver al instante el promedio, el total y el equipo ganador.",
+        "rerollLabel": "Reasignar",
+        "copyLabel": "Copiar resultado",
+        "exportLabel": "Guardar CSV",
+        "emptyBody": "1. Pega la lista, elige cuántos equipos quieres y genera los equipos.\n2. Después del partido, ingresa los puntos de cada jugador para ver el promedio, el total y el equipo ganador.",
         "teamTitles": [
           "Equipo 1",
           "Equipo 2",
@@ -317,9 +339,11 @@
       "staticSnapshot": {
         "heroBody": "Si ingresas solo nombres, se crean equipos aleatorios; si ingresas nombres y puntajes, se crean equipos más equilibrados. Puedes copiar y pegar directamente desde Excel y, después del partido, introducir el puntaje de cada persona para ver de inmediato qué equipo ganó.",
         "resultsTitle": "Resultado",
+        "resultsIntro": "Después de crear los equipos, ingresa los puntos para ver al instante el promedio, el total y el equipo ganador.",
         "rerollLabel": "Reasignar",
         "copyLabel": "Copiar resultado",
-        "exportLabel": "Guardar CSV"
+        "exportLabel": "Guardar CSV",
+        "emptyBody": "1. Pega la lista, elige cuántos equipos quieres y genera los equipos. 2. Después del partido, ingresa los puntos de cada jugador para ver el promedio, el total y el equipo ganador."
       }
     },
     {
@@ -336,9 +360,11 @@
         "runtimeMetaDefault": "Saisissez seulement les noms pour des équipes aléatoires, ou ajoutez les scores pour une répartition plus équilibrée. Après le match, saisissez le score de chaque personne pour voir quelle équipe a gagné.",
         "cardCount": 3,
         "resultsTitle": "Résultat",
+        "resultsIntro": "Après la création des équipes, saisissez les scores pour voir aussitôt la moyenne, le total et l’équipe gagnante.",
         "rerollLabel": "Recomposer",
         "copyLabel": "Copier",
         "exportLabel": "Enregistrer CSV",
+        "emptyBody": "1. Collez la liste, choisissez le nombre d’équipes, puis générez les équipes.\n2. Après le match, saisissez les scores de chaque joueur pour voir la moyenne, le total et l’équipe gagnante.",
         "teamTitles": [
           "Équipe 1",
           "Équipe 2",
@@ -370,9 +396,11 @@
       "staticSnapshot": {
         "heroBody": "Saisissez seulement les noms pour créer des équipes aléatoires, ou ajoutez aussi les scores pour former des équipes plus équilibrées. Vous pouvez copier-coller directement depuis Excel et, après le match, saisir le score de chaque personne pour voir immédiatement quelle équipe a gagné.",
         "resultsTitle": "Résultat",
+        "resultsIntro": "Après la création des équipes, saisissez les scores pour voir aussitôt la moyenne, le total et l’équipe gagnante.",
         "rerollLabel": "Recomposer",
         "copyLabel": "Copier",
-        "exportLabel": "Enregistrer CSV"
+        "exportLabel": "Enregistrer CSV",
+        "emptyBody": "1. Collez la liste, choisissez le nombre d’équipes, puis générez les équipes. 2. Après le match, saisissez les scores de chaque joueur pour voir la moyenne, le total et l’équipe gagnante."
       }
     },
     {
@@ -389,9 +417,11 @@
         "runtimeMetaDefault": "Gib nur Namen für Zufallsteams ein oder füge Punkte für eine ausgeglichenere Aufteilung hinzu. Nach dem Spiel kannst du die Punkte jeder Person eingeben und sofort sehen, welches Team gewonnen hat.",
         "cardCount": 3,
         "resultsTitle": "Team results",
+        "resultsIntro": "After generating teams, use score entry to check each team's average, total, and winner.",
         "rerollLabel": "Reassign",
         "copyLabel": "Copy result",
         "exportLabel": "Save CSV",
+        "emptyBody": "1. Paste your roster, choose a team count, and generate teams.\n2. After the match, enter player scores to see each team's average, total, and winner.",
         "teamTitles": [
           "Gruppe 1",
           "Gruppe 2",
@@ -423,9 +453,11 @@
       "staticSnapshot": {
         "heroBody": "Gib nur Namen ein, um zufällige Teams zu erstellen, oder füge zusätzlich Punkte ein, um ausgeglichenere Teams zu bilden. Du kannst direkt aus Excel kopieren und einfügen. Nach dem Spiel kannst du die Punkte jeder Person eingeben und sofort sehen, welches Team gewonnen hat.",
         "resultsTitle": "Ergebnis",
+        "resultsIntro": "Nach der Teamerstellung kannst du per Punkteeingabe sofort Durchschnitt, Gesamtpunkte und Siegerteam sehen.",
         "rerollLabel": "Neu verteilen",
         "copyLabel": "Ergebnis kopieren",
-        "exportLabel": "CSV speichern"
+        "exportLabel": "CSV speichern",
+        "emptyBody": "1. Füge die Liste ein, wähle die Teamanzahl und erstelle die Teams. 2. Nach dem Spiel gibst du die Spielerpunkte ein und siehst sofort Durchschnitt, Gesamtpunkte und Siegerteam."
       }
     },
     {
@@ -437,14 +469,16 @@
         "dir": "ltr",
         "qaReady": "true",
         "bodyVisible": "visible",
-        "readyState": "complete",
+        "readyState": "loading",
         "toggleLabel": "Inserir pontos",
         "runtimeMetaDefault": "Digite só os nomes para times aleatórios, ou adicione pontuações para uma divisão mais equilibrada. Depois da partida, insira a pontuação de cada pessoa para ver qual time venceu.",
         "cardCount": 3,
-        "resultsTitle": "Resultado",
-        "rerollLabel": "Redistribuir",
-        "copyLabel": "Copiar resultado",
-        "exportLabel": "Salvar CSV",
+        "resultsTitle": "Team results",
+        "resultsIntro": "After generating teams, use score entry to check each team's average, total, and winner.",
+        "rerollLabel": "Reassign",
+        "copyLabel": "Copy result",
+        "exportLabel": "Save CSV",
+        "emptyBody": "1. Paste your roster, choose a team count, and generate teams.\n2. After the match, enter player scores to see each team's average, total, and winner.",
         "teamTitles": [
           "Time 1",
           "Time 2",
@@ -476,9 +510,11 @@
       "staticSnapshot": {
         "heroBody": "Digite apenas os nomes para criar times aleatórios, ou adicione também as pontuações para montar times mais equilibrados. Você pode copiar e colar direto do Excel e, depois da partida, inserir a pontuação de cada pessoa para ver imediatamente qual time venceu.",
         "resultsTitle": "Resultado",
+        "resultsIntro": "Depois de criar os times, use a entrada de pontos para ver na hora média, total e time vencedor.",
         "rerollLabel": "Redistribuir",
         "copyLabel": "Copiar resultado",
-        "exportLabel": "Salvar CSV"
+        "exportLabel": "Salvar CSV",
+        "emptyBody": "1. Cole a lista, escolha a quantidade de times e gere os times. 2. Depois da partida, insira os pontos de cada jogador para ver média, total e time vencedor."
       }
     },
     {
@@ -495,9 +531,11 @@
         "runtimeMetaDefault": "सिर्फ नाम डालें तो रैंडम टीमें बनेंगी, और स्कोर जोड़ें तो अधिक संतुलित टीम बनेगी। मैच के बाद हर खिलाड़ी का स्कोर दर्ज करके तुरंत देख सकते हैं कि कौन सी टीम जीती।",
         "cardCount": 3,
         "resultsTitle": "टीम परिणाम",
+        "resultsIntro": "टीम बनने के बाद स्कोर दर्ज करके टीम औसत, कुल स्कोर और विजेता टीम तुरंत देख सकते हैं।",
         "rerollLabel": "फिर से बाँटें",
         "copyLabel": "परिणाम कॉपी करें",
         "exportLabel": "CSV सेव करें",
+        "emptyBody": "1. सूची पेस्ट करें, टीमों की संख्या चुनें और टीम बनाएं।\n2. मैच के बाद हर खिलाड़ी का स्कोर दर्ज करें और टीम औसत, कुल स्कोर व विजेता टीम देखें।",
         "teamTitles": [
           "टीम 1",
           "टीम 2",
@@ -529,9 +567,11 @@
       "staticSnapshot": {
         "heroBody": "सिर्फ नाम दर्ज करने पर रैंडम टीम बनती है, और नाम के साथ स्कोर दर्ज करने पर अधिक संतुलित टीम बनती है। आप सीधे Excel से कॉपी-पेस्ट कर सकते हैं, और मैच के बाद हर खिलाड़ी का स्कोर दर्ज करके तुरंत देख सकते हैं कि कौन सी टीम जीती।",
         "resultsTitle": "टीम परिणाम",
+        "resultsIntro": "टीम बनने के बाद स्कोर दर्ज करके टीम औसत, कुल स्कोर और विजेता टीम तुरंत देख सकते हैं।",
         "rerollLabel": "फिर से बाँटें",
         "copyLabel": "परिणाम कॉपी करें",
-        "exportLabel": "CSV सेव करें"
+        "exportLabel": "CSV सेव करें",
+        "emptyBody": "1. सूची पेस्ट करें, टीमों की संख्या चुनें और टीम बनाएं। 2. मैच के बाद हर खिलाड़ी का स्कोर दर्ज करें और टीम औसत, कुल स्कोर व विजेता टीम देखें।"
       }
     },
     {
@@ -548,9 +588,11 @@
         "runtimeMetaDefault": "أدخل الأسماء فقط لإنشاء فرق عشوائية، أو أضف النقاط لتقسيم أكثر توازناً. بعد المباراة يمكنك إدخال نقاط كل لاعب لمعرفة الفريق الفائز فوراً.",
         "cardCount": 3,
         "resultsTitle": "Team results",
+        "resultsIntro": "After generating teams, use score entry to check each team's average, total, and winner.",
         "rerollLabel": "Reassign",
         "copyLabel": "Copy result",
         "exportLabel": "Save CSV",
+        "emptyBody": "1. Paste your roster, choose a team count, and generate teams.\n2. After the match, enter player scores to see each team's average, total, and winner.",
         "teamTitles": [
           "الفريق 1",
           "الفريق 2",
@@ -582,9 +624,11 @@
       "staticSnapshot": {
         "heroBody": "إذا أدخلت الأسماء فقط فسيتم إنشاء فرق عشوائية، وإذا أدخلت الأسماء مع النقاط فسيتم إنشاء فرق أكثر توازناً. يمكنك النسخ واللصق مباشرةً من Excel، وبعد انتهاء المباراة يمكنك إدخال نقاط كل لاعب لمعرفة الفريق الفائز فوراً.",
         "resultsTitle": "نتيجة الفرق",
+        "resultsIntro": "بعد إنشاء الفرق، أدخل النقاط لترى فورًا متوسط كل فريق ومجموعه والفريق الفائز.",
         "rerollLabel": "إعادة التوزيع",
         "copyLabel": "نسخ النتيجة",
-        "exportLabel": "حفظ CSV"
+        "exportLabel": "حفظ CSV",
+        "emptyBody": "1. الصق القائمة، اختر عدد الفرق، ثم أنشئ الفرق. 2. بعد المباراة أدخل نقاط كل لاعب لترى متوسط كل فريق ومجموعه والفريق الفائز."
       }
     },
     {
@@ -596,14 +640,16 @@
         "dir": "ltr",
         "qaReady": "true",
         "bodyVisible": "visible",
-        "readyState": "loading",
+        "readyState": "complete",
         "toggleLabel": "Ввести очки",
         "runtimeMetaDefault": "Введите только имена для случайных команд или добавьте очки для более сбалансированного распределения. После матча введите очки каждого участника и сразу увидите команду-победителя.",
         "cardCount": 3,
-        "resultsTitle": "Team results",
-        "rerollLabel": "Reassign",
-        "copyLabel": "Copy result",
-        "exportLabel": "Save CSV",
+        "resultsTitle": "Результат",
+        "resultsIntro": "После создания команд введите очки и сразу увидите среднее, сумму и победившую команду.",
+        "rerollLabel": "Перераспределить",
+        "copyLabel": "Копировать",
+        "exportLabel": "Сохранить CSV",
+        "emptyBody": "1. Вставьте список, выберите число команд и создайте команды.\n2. После матча введите очки каждого игрока и посмотрите среднее, сумму и победившую команду.",
         "teamTitles": [
           "Команда 1",
           "Команда 2",
@@ -635,9 +681,11 @@
       "staticSnapshot": {
         "heroBody": "Если ввести только имена, инструмент создаст случайные команды, а если добавить имена и очки, он соберёт более сбалансированные команды. Можно вставлять данные прямо из Excel, а после матча ввести очки каждого участника и сразу увидеть, какая команда победила.",
         "resultsTitle": "Результат",
+        "resultsIntro": "После создания команд введите очки и сразу увидите среднее, сумму и победившую команду.",
         "rerollLabel": "Перераспределить",
         "copyLabel": "Копировать",
-        "exportLabel": "Сохранить CSV"
+        "exportLabel": "Сохранить CSV",
+        "emptyBody": "1. Вставьте список, выберите число команд и создайте команды. 2. После матча введите очки каждого игрока и посмотрите среднее, сумму и победившую команду."
       }
     },
     {
@@ -654,9 +702,11 @@
         "runtimeMetaDefault": "Masukkan nama saja untuk tim acak, atau tambahkan skor untuk pembagian yang lebih seimbang. Setelah pertandingan, masukkan skor tiap orang untuk melihat tim yang menang.",
         "cardCount": 3,
         "resultsTitle": "Hasil tim",
+        "resultsIntro": "Setelah tim dibuat, masukkan skor untuk langsung melihat rata-rata, total, dan tim pemenang.",
         "rerollLabel": "Bagi ulang",
         "copyLabel": "Salin hasil",
         "exportLabel": "Simpan CSV",
+        "emptyBody": "1. Tempel daftar peserta, pilih jumlah tim, lalu buat tim.\n2. Setelah pertandingan, masukkan skor tiap pemain untuk melihat rata-rata, total, dan tim pemenang.",
         "teamTitles": [
           "Tim 1",
           "Tim 2",
@@ -688,9 +738,11 @@
       "staticSnapshot": {
         "heroBody": "Masukkan nama saja untuk membuat tim acak, atau masukkan nama dan skor untuk membuat tim yang lebih seimbang. Anda bisa langsung menyalin-tempel dari Excel, dan setelah pertandingan selesai Anda dapat memasukkan skor tiap orang untuk langsung melihat tim mana yang menang.",
         "resultsTitle": "Hasil tim",
+        "resultsIntro": "Setelah tim dibuat, masukkan skor untuk langsung melihat rata-rata, total, dan tim pemenang.",
         "rerollLabel": "Bagi ulang",
         "copyLabel": "Salin hasil",
-        "exportLabel": "Simpan CSV"
+        "exportLabel": "Simpan CSV",
+        "emptyBody": "1. Tempel daftar peserta, pilih jumlah tim, lalu buat tim. 2. Setelah pertandingan, masukkan skor tiap pemain untuk melihat rata-rata, total, dan tim pemenang."
       }
     },
     {
@@ -707,9 +759,11 @@
         "runtimeMetaDefault": "Rastgele takımlar için yalnızca isim girin, daha dengeli bir dağılım için puan da ekleyin. Maçtan sonra herkesin puanını girerek hangi takımın kazandığını hemen görebilirsiniz.",
         "cardCount": 3,
         "resultsTitle": "Sonuç",
+        "resultsIntro": "Takımlar oluşturulduktan sonra puan girerek takım ortalamasını, toplamı ve kazanan takımı hemen görebilirsiniz.",
         "rerollLabel": "Yeniden dağıt",
         "copyLabel": "Sonucu kopyala",
         "exportLabel": "CSV kaydet",
+        "emptyBody": "1. Listeyi yapıştırın, takım sayısını seçin ve takımları oluşturun.\n2. Maçtan sonra her oyuncunun puanını girerek takım ortalamasını, toplamı ve kazanan takımı görün.",
         "teamTitles": [
           "Takım 1",
           "Takım 2",
@@ -741,9 +795,11 @@
       "staticSnapshot": {
         "heroBody": "Yalnızca isim girerseniz rastgele takımlar oluşturulur; isimlerle birlikte puanları da girerseniz daha dengeli takımlar oluşturulur. Verileri Excel'den doğrudan kopyalayıp yapıştırabilirsiniz. Maçtan sonra herkesin puanını girerek hangi takımın kazandığını hemen görebilirsiniz.",
         "resultsTitle": "Sonuç",
+        "resultsIntro": "Takımlar oluşturulduktan sonra puan girerek takım ortalamasını, toplamı ve kazanan takımı hemen görebilirsiniz.",
         "rerollLabel": "Yeniden dağıt",
         "copyLabel": "Sonucu kopyala",
-        "exportLabel": "CSV kaydet"
+        "exportLabel": "CSV kaydet",
+        "emptyBody": "1. Listeyi yapıştırın, takım sayısını seçin ve takımları oluşturun. 2. Maçtan sonra her oyuncunun puanını girerek takım ortalamasını, toplamı ve kazanan takımı görün."
       }
     },
     {
@@ -755,14 +811,16 @@
         "dir": "ltr",
         "qaReady": "true",
         "bodyVisible": "visible",
-        "readyState": "complete",
+        "readyState": "loading",
         "toggleLabel": "Inserisci punteggi",
         "runtimeMetaDefault": "Inserisci solo i nomi per squadre casuali, oppure aggiungi i punteggi per una divisione più equilibrata. Dopo la partita, inserisci il punteggio di ogni persona per vedere quale squadra ha vinto.",
         "cardCount": 3,
-        "resultsTitle": "Risultato",
-        "rerollLabel": "Riassegna",
-        "copyLabel": "Copia risultato",
-        "exportLabel": "Salva CSV",
+        "resultsTitle": "Team results",
+        "resultsIntro": "After generating teams, use score entry to check each team's average, total, and winner.",
+        "rerollLabel": "Reassign",
+        "copyLabel": "Copy result",
+        "exportLabel": "Save CSV",
+        "emptyBody": "1. Paste your roster, choose a team count, and generate teams.\n2. After the match, enter player scores to see each team's average, total, and winner.",
         "teamTitles": [
           "Squadra 1",
           "Squadra 2",
@@ -794,9 +852,11 @@
       "staticSnapshot": {
         "heroBody": "Inserisci solo i nomi per creare squadre casuali, oppure aggiungi anche i punteggi per creare squadre più equilibrate. Puoi copiare e incollare direttamente da Excel e, dopo la partita, inserire il punteggio di ogni persona per vedere subito quale squadra ha vinto.",
         "resultsTitle": "Risultato",
+        "resultsIntro": "Dopo aver creato le squadre, inserisci i punteggi per vedere subito media, totale e squadra vincente.",
         "rerollLabel": "Riassegna",
         "copyLabel": "Copia risultato",
-        "exportLabel": "Salva CSV"
+        "exportLabel": "Salva CSV",
+        "emptyBody": "1. Incolla l'elenco, scegli il numero di squadre e crea le squadre. 2. Dopo la partita, inserisci i punteggi dei giocatori per vedere media, totale e squadra vincente."
       }
     },
     {
@@ -813,9 +873,11 @@
         "runtimeMetaDefault": "Dán tên thôi để tạo đội ngẫu nhiên, hoặc thêm điểm để chia đội cân bằng hơn. Sau trận đấu, nhập điểm của từng người để biết ngay đội nào thắng.",
         "cardCount": 3,
         "resultsTitle": "Kết quả",
+        "resultsIntro": "Sau khi chia đội, hãy nhập điểm để xem ngay điểm trung bình, tổng điểm và đội chiến thắng.",
         "rerollLabel": "Chia lại",
         "copyLabel": "Sao chép kết quả",
         "exportLabel": "Lưu CSV",
+        "emptyBody": "1. Dán danh sách, chọn số đội và tạo đội.\n2. Sau trận đấu, nhập điểm từng người để xem điểm trung bình, tổng điểm và đội chiến thắng.",
         "teamTitles": [
           "Đội 1",
           "Đội 2",
@@ -847,9 +909,11 @@
       "staticSnapshot": {
         "heroBody": "Chỉ cần nhập tên để tạo đội ngẫu nhiên, hoặc nhập cả tên và điểm để tạo đội cân bằng hơn. Bạn có thể sao chép và dán trực tiếp từ Excel, và sau trận đấu chỉ cần nhập điểm của từng người để biết ngay đội nào chiến thắng.",
         "resultsTitle": "Kết quả",
+        "resultsIntro": "Sau khi chia đội, hãy nhập điểm để xem ngay điểm trung bình, tổng điểm và đội chiến thắng.",
         "rerollLabel": "Chia lại",
         "copyLabel": "Sao chép kết quả",
-        "exportLabel": "Lưu CSV"
+        "exportLabel": "Lưu CSV",
+        "emptyBody": "1. Dán danh sách, chọn số đội và tạo đội. 2. Sau trận đấu, nhập điểm từng người để xem điểm trung bình, tổng điểm và đội chiến thắng."
       }
     },
     {
@@ -866,9 +930,11 @@
         "runtimeMetaDefault": "กรอกเฉพาะชื่อเพื่อสร้างทีมแบบสุ่ม หรือเพิ่มคะแนนเพื่อแบ่งทีมให้สมดุลมากขึ้น หลังจบการแข่งขันกรอกคะแนนของแต่ละคนเพื่อดูได้ทันทีว่าทีมไหนชนะ",
         "cardCount": 3,
         "resultsTitle": "Team results",
+        "resultsIntro": "After generating teams, use score entry to check each team's average, total, and winner.",
         "rerollLabel": "Reassign",
         "copyLabel": "Copy result",
         "exportLabel": "Save CSV",
+        "emptyBody": "1. Paste your roster, choose a team count, and generate teams.\n2. After the match, enter player scores to see each team's average, total, and winner.",
         "teamTitles": [
           "ทีม 1",
           "ทีม 2",
@@ -900,9 +966,11 @@
       "staticSnapshot": {
         "heroBody": "กรอกเฉพาะชื่อเพื่อสร้างทีมแบบสุ่ม หรือกรอกชื่อพร้อมคะแนนเพื่อสร้างทีมที่สมดุลมากขึ้น คุณสามารถคัดลอกและวางจาก Excel ได้โดยตรง และหลังจบการแข่งขันก็กรอกคะแนนของแต่ละคนเพื่อดูได้ทันทีว่าทีมไหนชนะ",
         "resultsTitle": "ผลลัพธ์",
+        "resultsIntro": "หลังสร้างทีมแล้ว กรอกคะแนนเพื่อดูค่าเฉลี่ย คะแนนรวม และทีมที่ชนะได้ทันที",
         "rerollLabel": "จัดใหม่",
         "copyLabel": "คัดลอกผล",
-        "exportLabel": "บันทึก CSV"
+        "exportLabel": "บันทึก CSV",
+        "emptyBody": "1. วางรายชื่อ เลือกจำนวนทีม แล้วสร้างทีม 2. หลังจบการแข่งขัน กรอกคะแนนของแต่ละคนเพื่อดูค่าเฉลี่ย คะแนนรวม และทีมที่ชนะ"
       }
     },
     {
@@ -919,9 +987,11 @@
         "runtimeMetaDefault": "Voer alleen namen in voor willekeurige teams, of voeg scores toe voor een evenwichtigere verdeling. Na de wedstrijd kun je de score van iedere persoon invullen en direct zien welk team heeft gewonnen.",
         "cardCount": 3,
         "resultsTitle": "Resultaat",
+        "resultsIntro": "Na het maken van de teams kun je via score-invoer direct het gemiddelde, totaal en winnende team zien.",
         "rerollLabel": "Opnieuw verdelen",
         "copyLabel": "Kopieer resultaat",
         "exportLabel": "CSV opslaan",
+        "emptyBody": "1. Plak de lijst, kies het aantal teams en maak de teams.\n2. Voer na de wedstrijd de scores van alle spelers in om gemiddelde, totaal en het winnende team te zien.",
         "teamTitles": [
           "Ploeg 1",
           "Ploeg 2",
@@ -953,9 +1023,11 @@
       "staticSnapshot": {
         "heroBody": "Voer alleen namen in om willekeurige teams te maken, of voeg ook scores toe om evenwichtigere teams samen te stellen. Je kunt rechtstreeks uit Excel kopiëren en plakken. Na de wedstrijd kun je de score van iedere persoon invullen en direct zien welk team heeft gewonnen.",
         "resultsTitle": "Resultaat",
+        "resultsIntro": "Na het maken van de teams kun je via score-invoer direct het gemiddelde, totaal en winnende team zien.",
         "rerollLabel": "Opnieuw verdelen",
         "copyLabel": "Kopieer resultaat",
-        "exportLabel": "CSV opslaan"
+        "exportLabel": "CSV opslaan",
+        "emptyBody": "1. Plak de lijst, kies het aantal teams en maak de teams. 2. Voer na de wedstrijd de scores van alle spelers in om gemiddelde, totaal en het winnende team te zien."
       }
     }
   ]

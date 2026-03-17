@@ -328,3 +328,9 @@ How to use it:
 - Updated the main `heroBody` copy in all 18 team-generator locales so the description now explains random-only input, score-balanced input, Excel paste support, and post-match winner detection from individual score entry.
 - Matched the runtime `resultMetaDefault` message to the same feature explanation across all locales, and refreshed the Korean fallback in `assets/js/team-generator.js` to stay consistent if localized config is unavailable.
 - Extended `scripts/qa-team-generator-locales.js` to verify the localized `hero-body` source text and the runtime `resultMetaDefault` message in addition to the existing score-entry audit.
+
+### 2026-03-17 - Team generator results panel now surfaces score-entry flow in all locales
+
+- Added an always-visible `resultsIntro` line beside the team-results heading so every locale now explains that score entry reveals team average, total, and the winner before any teams are generated.
+- Reworked the empty-state copy into a two-step flow with preserved line breaks, making the core path explicit: generate teams first, then enter post-match player scores to decide the winner.
+- Extended `scripts/sync-team-generator-locales.js` and `scripts/qa-team-generator-locales.js` so the new results-panel structure is synced across all 18 locale pages, while QA now validates the static localized copy from each HTML source and the dynamic score-entry UI from the local harness.
