@@ -5,7 +5,7 @@ const { ALL_LOCALES, NON_KO_LOCALES } = require('./legal-shared');
 
 const ROOT = path.resolve(__dirname, '..');
 const I18N_PATH = path.join(ROOT, 'assets/js/team-generator-i18n.js');
-const ASSET_VERSION = '20260317-team-results-ux1';
+const ASSET_VERSION = '20260317-team-results-clean2';
 const FLAG_PLACEHOLDER_SRC = 'data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=';
 const LOCALES = ALL_LOCALES;
 const TEXT_IDS = [
@@ -53,7 +53,6 @@ const TEXT_IDS = [
   ['roster-hint', 'rosterHint'],
   ['generate-btn-label', 'generateBtn'],
   ['results-title', 'resultsTitle'],
-  ['results-intro', 'resultsIntro'],
   ['reroll-btn', 'rerollBtn'],
   ['copy-btn', 'copyBtn'],
   ['export-btn', 'exportBtn'],
@@ -268,17 +267,15 @@ function syncExampleBlocks(html, data) {
   return html;
 }
 
-function syncResultsPanelStructure(html, data) {
-  html = html.replace(/sm:items-center sm:justify-between/, 'sm:items-start sm:justify-between');
+function syncResultsPanelStructure(html) {
+  html = html.replace(/<p id="results-intro"[^>]*>[\s\S]*?<\/p>/g, '');
 
-  if (!/\bid="results-intro"\b/.test(html)) {
-    const resultsTitlePattern = /<h2 id="results-title"([^>]*)>([\s\S]*?)<\/h2>/i;
-    if (!resultsTitlePattern.test(html)) throw new Error('Missing results title structure.');
-    html = html.replace(
-      resultsTitlePattern,
-      `<div><h2 id="results-title"$1>$2</h2><p id="results-intro" class="mt-1 max-w-xl text-sm leading-5 text-slate-500">${escapeHtml(data.resultsIntro)}</p></div>`
-    );
-  }
+  const resultsHeaderPattern = /<div class="flex flex-col gap-3 sm:flex-row sm:items-(?:start|center) sm:justify-between">[\s\S]*?<h2 id="results-title"([^>]*)>([\s\S]*?)<\/h2>[\s\S]*?<div class="flex flex-wrap gap-2">/i;
+  if (!resultsHeaderPattern.test(html)) throw new Error('Missing results header structure.');
+  html = html.replace(
+    resultsHeaderPattern,
+    `<div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"><h2 id="results-title"$1>$2</h2><div class="flex flex-wrap gap-2">`
+  );
 
   return ensureClassById(html, 'empty-body', 'whitespace-pre-line');
 }
@@ -303,7 +300,7 @@ function syncPage(locale, data) {
   html = replaceMetaByProperty(html, 'og:locale', data.ogLocale);
   html = replaceMetaById(html, 'meta-twitter-title', data.seoTwitterTitle);
   html = replaceMetaById(html, 'meta-twitter-description', data.seoTwitterDesc);
-  html = syncResultsPanelStructure(html, data);
+  html = syncResultsPanelStructure(html);
 
   for (const [id, key] of TEXT_IDS) {
     html = replaceTextById(html, id, data[key]);

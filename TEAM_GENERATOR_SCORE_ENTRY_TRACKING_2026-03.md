@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document consolidates the `team-generator` score-entry, winner-calculation, locale, QA, and results-panel guidance work shipped on `main` during 2026-03-16 to 2026-03-17.
+This document consolidates the `team-generator` score-entry, winner-calculation, locale, QA, and results-panel cleanup work shipped on `main` during 2026-03-16 to 2026-03-17.
 
 Use this file as the single traceability reference when you need to answer any of the following:
 
@@ -13,7 +13,7 @@ Use this file as the single traceability reference when you need to answer any o
 
 ## Current Production Behavior
 
-As of commit `99bd65c` on `main`:
+As of the latest 2026-03-17 cleanup patch in this document:
 
 - `team-generator` creates random teams from names only, or more balanced teams when names and roster scores are provided.
 - The result toolbar exposes `점수입력` / localized score-entry actions next to reroll actions.
@@ -21,8 +21,9 @@ As of commit `99bd65c` on `main`:
 - Match winner logic uses the average of individually entered player scores per team.
 - Team total is shown as a supporting metric.
 - Team cards stay in a stable two-column member layout before and after score-entry mode.
-- The results panel now includes always-visible guidance explaining that score entry reveals team average, total, and the winner.
 - The empty state now explains the flow in two steps: generate teams first, then enter post-match scores.
+- The results header no longer shows a separate `resultsIntro` guidance line; the score-entry explanation lives only in the empty state and runtime result meta copy.
+- The inline member-row score slot uses a fixed-width, centered pill for both read-only score badges and editable score inputs so the right edge stays visually aligned.
 
 ## Related Commits
 
@@ -41,6 +42,7 @@ As of commit `99bd65c` on `main`:
 | 2026-03-16 | `ce38c36` | `Polish team generator score entry and locale QA` | Stabilized the implementation and added deterministic local QA. |
 | 2026-03-16 | `8b0d399` | `Update team generator copy across locales` | Updated hero/runtime copy across locales to explain score-entry and winner flow. |
 | 2026-03-17 | `99bd65c` | `Improve team generator results panel guidance` | Added always-visible results guidance and two-step empty-state flow in all locales. |
+| 2026-03-17 | `(latest cleanup patch)` | Remove repeated results guidance and refine score slot alignment | Deleted `resultsIntro` markup across locales, kept only the empty-state flow, and tightened the inline score-slot sizing/alignment plus QA coverage. |
 
 ## Files To Track Together
 
@@ -69,6 +71,7 @@ If this feature changes again, these files should be treated as a single unit:
   - `nl/team-generator/index.html`
 - Locale sync utility: `scripts/sync-team-generator-locales.js`
 - Local QA harness: `assets/qa/team-generator-local-harness.html`
+- Local QA stylesheet: `assets/css/team-generator-qa.css`
 - Locale QA runner: `scripts/qa-team-generator-locales.js`
 - Log index: `FIX_LOG.md`
 
@@ -82,8 +85,10 @@ The latest deterministic locale QA artifacts are here:
 The latest known pass state for this work:
 
 - 18 locale DOM audit: PASS
+- `results-intro` nodes across localized HTML + QA harness: PASS (removed)
 - `node --check assets/js/team-generator.js`: PASS
 - `node --check assets/js/team-generator-i18n.js`: PASS
+- `node --check assets/css/team-generator-qa.css`: not applicable
 - `node --check scripts/sync-team-generator-locales.js`: PASS
 - `node --check scripts/qa-team-generator-locales.js`: PASS
 - `node scripts/adsense-readiness-check.js`: PASS
@@ -99,14 +104,16 @@ When modifying this feature later:
    - `assets/qa/team-generator-local-harness.html`
 3. If localized HTML structure must change, run `node scripts/sync-team-generator-locales.js`.
 4. If dynamic score-entry behavior changes, review `scripts/qa-team-generator-locales.js` so the QA runner still verifies the intended state.
-5. Re-run:
+5. If the score slot spacing or alignment changes, review both `assets/js/team-generator.js` and `assets/css/team-generator-qa.css` together so local QA still reflects the shipped layout.
+6. Re-run:
    - `node scripts/qa-team-generator-locales.js`
    - `node scripts/adsense-readiness-check.js`
    - `node scripts/validate-seo.js`
-6. Add a new dated entry to `FIX_LOG.md`.
-7. Deploy with `scripts/deploy-main.sh`.
+7. Add a new dated entry to `FIX_LOG.md`.
+8. Deploy with `scripts/deploy-main.sh`.
 
 ## Notes
 
 - The repository can contain unrelated untracked QA scratch paths such as `test-results/.last-run.json` and `test-results/team-generator-local-qa/`. They were not required for the shipped score-entry behavior.
+- The always-visible `resultsIntro` guidance that briefly shipped in `99bd65c` was intentionally removed in the latest cleanup patch because it duplicated the empty-state flow and could appear multiple times if locale sync drifted.
 - This document is intended as the history index for the score-entry feature line. New follow-up fixes should add both a fresh `FIX_LOG.md` entry and, if the change is substantial, a short append/update here.

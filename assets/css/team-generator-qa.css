@@ -33,6 +33,27 @@ html[data-team-generator-qa="true"][data-team-generator-qa-headless="true"] #toa
   display: none !important;
 }
 
+html[data-team-generator-qa="true"][data-team-generator-qa-headless="true"] body {
+  background: #fff;
+}
+
+html[data-team-generator-qa="true"][data-team-generator-qa-headless="true"] main {
+  padding: 0 !important;
+}
+
+html[data-team-generator-qa="true"][data-team-generator-qa-headless="true"] #workspace-shell {
+  padding: 0 !important;
+}
+
+html[data-team-generator-qa="true"][data-team-generator-qa-headless="true"] #workspace-grid {
+  display: block;
+  max-width: 960px;
+}
+
+html[data-team-generator-qa="true"][data-team-generator-qa-headless="true"] #team-controls-panel {
+  display: none !important;
+}
+
 html[data-team-generator-qa="true"] #workspace-shell {
   padding: 0 24px;
 }
@@ -182,12 +203,13 @@ html[data-team-generator-qa="true"] #roster-input {
 }
 
 html[data-team-generator-qa="true"] #team-grid input[data-member-score-input] {
-  height: 32px;
-  border-radius: 10px;
+  height: 36px;
+  border-radius: 12px;
   padding: 0 8px;
-  text-align: right;
-  font-size: 12px;
+  text-align: center;
+  font-size: 13px;
   font-weight: 600;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
 html[data-team-generator-qa="true"] #team-results-panel > div:first-child {
@@ -269,16 +291,15 @@ html[data-team-generator-qa="true"] [data-team-card] ul {
 
 html[data-team-generator-qa="true"] [data-team-card] li {
   box-sizing: border-box;
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 72px;
   align-items: center;
-  justify-content: space-between;
   gap: 8px;
   min-width: 0;
-  height: 40px;
   border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  background: #f8fafc;
-  padding: 4px 10px;
+  border-radius: 14px;
+  background: rgba(248, 250, 252, 0.8);
+  padding: 6px 12px;
 }
 
 html[data-team-generator-qa="true"] [data-team-card] li > span:first-child {
@@ -287,32 +308,36 @@ html[data-team-generator-qa="true"] [data-team-card] li > span:first-child {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 12px;
+  padding-right: 4px;
+  font-size: 13px;
   font-weight: 600;
   color: #1e293b;
 }
 
 html[data-team-generator-qa="true"] [data-team-card] li > span:last-child {
   display: flex;
-  flex: 0 0 64px;
-  width: 64px;
-  height: 32px;
+  width: 72px;
+  height: 36px;
   align-items: center;
+  justify-self: end;
 }
 
 html[data-team-generator-qa="true"] [data-team-card] li > span:last-child > span {
   box-sizing: border-box;
   display: inline-flex;
   width: 100%;
-  height: 32px;
+  height: 36px;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
-  background: rgba(15, 23, 42, 0.06);
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #fff;
   color: #475569;
   padding: 0 8px;
   font-size: 11px;
   font-weight: 600;
+  text-align: center;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
 html[data-team-generator-qa="true"] [data-team-winner-pill] {

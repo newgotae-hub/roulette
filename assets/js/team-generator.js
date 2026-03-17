@@ -826,10 +826,10 @@
       const metricView = getTeamMetricView(team, teamStat, showRosterScores, preferMatchScores);
       const memberHtml = team.members.map((member, memberIndex) => {
         const rosterScoreBadge = showRosterScores && !preferMatchScores
-          ? `<span class="inline-flex h-8 w-full items-center justify-center rounded-lg bg-slate-900/5 px-2 text-[11px] font-semibold text-slate-600">${member.hasScore ? formatScoreText(member.score) : t("scoreMissing", { score: formatScoreText(member.score) })}</span>`
+          ? `<span class="inline-flex h-9 w-full items-center justify-center rounded-xl border border-slate-200 bg-white px-2 text-center text-[11px] font-semibold tabular-nums text-slate-600 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]">${member.hasScore ? formatScoreText(member.score) : t("scoreMissing", { score: formatScoreText(member.score) })}</span>`
           : "";
         const matchScoreBadge = !showMemberScoreInputs && preferMatchScores && teamStat.memberValues[memberIndex] !== null
-          ? `<span class="inline-flex h-8 w-full items-center justify-center rounded-lg bg-slate-900/5 px-2 text-[11px] font-semibold text-slate-600">${formatScoreText(teamStat.memberValues[memberIndex])}</span>`
+          ? `<span class="inline-flex h-9 w-full items-center justify-center rounded-xl border border-slate-200 bg-white px-2 text-center text-[11px] font-semibold tabular-nums text-slate-600 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]">${formatScoreText(teamStat.memberValues[memberIndex])}</span>`
           : "";
         const scoreInput = showMemberScoreInputs
           ? `
@@ -840,18 +840,18 @@
               type="text"
               inputmode="decimal"
               autocomplete="off"
-              class="h-8 w-full rounded-lg border border-slate-200 bg-white px-2 text-right text-xs font-semibold text-slate-900 outline-none transition focus:border-slate-900"
+              class="h-9 w-full rounded-xl border border-slate-300 bg-white px-2 text-center text-[13px] font-semibold tabular-nums text-slate-900 shadow-[0_1px_2px_rgba(15,23,42,0.05),inset_0_1px_0_rgba(255,255,255,0.7)] outline-none transition focus:border-slate-900"
               placeholder="${escapeHtml(t("scoreInputPlaceholder"))}"
               value="${escapeHtml(state.memberScoreInputs[index][memberIndex])}"
               aria-label="${escapeHtml(t("scoreInputLabel", { member: member.name }))}"
             />
           `
           : "";
-        const trailingUi = scoreInput || matchScoreBadge || rosterScoreBadge || `<span aria-hidden="true" class="block h-8 w-full"></span>`;
+        const trailingUi = scoreInput || matchScoreBadge || rosterScoreBadge || `<span aria-hidden="true" class="block h-9 w-full rounded-xl border border-transparent"></span>`;
         return `
-          <li class="min-w-0 flex h-10 items-center justify-between gap-2 rounded-xl border border-slate-200 bg-slate-50/70 px-2.5 py-1">
-            <span class="min-w-0 truncate text-xs font-semibold text-slate-800">${escapeHtml(member.name)}</span>
-            <span class="flex h-8 w-14 shrink-0 items-center sm:w-16">${trailingUi}</span>
+          <li class="grid min-w-0 grid-cols-[minmax(0,1fr)_4.5rem] items-center gap-2 rounded-xl border border-slate-200 bg-slate-50/80 px-3 py-1.5">
+            <span class="min-w-0 truncate pr-1 text-[13px] font-semibold text-slate-800">${escapeHtml(member.name)}</span>
+            <span class="flex h-9 w-[4.5rem] items-center justify-self-end">${trailingUi}</span>
           </li>
         `;
       }).join("");

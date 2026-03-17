@@ -336,6 +336,13 @@ How to use it:
 - Extended `scripts/sync-team-generator-locales.js` and `scripts/qa-team-generator-locales.js` so the new results-panel structure is synced across all 18 locale pages, while QA now validates the static localized copy from each HTML source and the dynamic score-entry UI from the local harness.
 - Detailed notes: [TEAM_GENERATOR_SCORE_ENTRY_TRACKING_2026-03.md](/home/user/roulette/TEAM_GENERATOR_SCORE_ENTRY_TRACKING_2026-03.md)
 
+### 2026-03-17 - Team generator results intro removed and inline score slot aligned
+
+- Removed the duplicated `resultsIntro` guidance line from the team-results header, cleared the synced `resultsIntro` markup from all locale pages and the QA harness, and kept the score-entry explanation only in the two-step empty state.
+- Refined the inline member-row score slot so score badges and score inputs share the same clearer fixed-width pill, centered numerals, and steadier padding instead of the smaller awkward right-side box.
+- Updated `scripts/qa-team-generator-locales.js` so locale QA now fails if any `results-intro` markup comes back, refreshed the team-generator asset version to `20260317-team-results-clean2`, and re-ran the 18-locale DOM audit plus AdSense/SEO validation.
+- Detailed notes: [TEAM_GENERATOR_SCORE_ENTRY_TRACKING_2026-03.md](/home/user/roulette/TEAM_GENERATOR_SCORE_ENTRY_TRACKING_2026-03.md)
+
 ### 2026-03-17 - Team generator score-entry history consolidated for traceability
 
 - Added [TEAM_GENERATOR_SCORE_ENTRY_TRACKING_2026-03.md](/home/user/roulette/TEAM_GENERATOR_SCORE_ENTRY_TRACKING_2026-03.md) as the single history index for score-entry, winner calculation, locale rollout, QA, and results-panel guidance work.
