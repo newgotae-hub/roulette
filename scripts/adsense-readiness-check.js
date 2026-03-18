@@ -8,13 +8,19 @@ const LOCALES = NON_KO_LOCALES;
 const PAGES = ['index.html', 'roulette/index.html', 'ladder/index.html', 'luckydraw/index.html', 'coinflip/index.html', 'dice/index.html'];
 const REQUIRED_GUIDE_FILES = [
   'guides/index.html',
+  'guides/which-random-tool-to-use/index.html',
   'guides/fair-random-draw/index.html',
   'guides/event-draw-checklist/index.html',
   'guides/winner-records/index.html',
+  'guides/classroom-random-picker/index.html',
+  'guides/balanced-team-generator/index.html',
   'en/guides/index.html',
+  'en/guides/which-random-tool-to-use/index.html',
   'en/guides/fair-random-draw/index.html',
   'en/guides/event-draw-checklist/index.html',
-  'en/guides/winner-records/index.html'
+  'en/guides/winner-records/index.html',
+  'en/guides/classroom-random-picker/index.html',
+  'en/guides/balanced-team-generator/index.html'
 ];
 const REQUIRED_LOCALIZED_LEGAL_FILES = LOCALES.flatMap((locale) => ['about', 'contact', 'privacy', 'terms'].map((slug) => `${locale}/${slug}/index.html`));
 const MIN_CONTENT_UNITS = 400;
@@ -180,6 +186,16 @@ for (const [rel, href] of homepageGuideChecks) {
   const html = readFile(rel);
   if (!html.includes(`href="${href}"`)) {
     findings.push(`${rel}: missing visible guide-hub link (${href}).`);
+  }
+}
+
+for (const rel of files) {
+  const html = readFile(rel);
+  const expectedHref = rel.startsWith('en/') || LOCALES.some((locale) => rel.startsWith(`${locale}/`))
+    ? '/en/guides/'
+    : '/guides/';
+  if (!html.includes(`href="${expectedHref}"`)) {
+    findings.push(`${rel}: missing visible guide-hub link (${expectedHref}).`);
   }
 }
 

@@ -8,6 +8,17 @@ How to use it:
 - Keep each entry short.
 - If deeper notes exist, link the detailed document.
 
+## 2026-03-18
+
+### AdSense low-value-content response across guides, tool pages, and localized discovery
+
+- Added three new original Korean/English guide pairs covering tool selection, classroom usage, and balanced team generation.
+- Expanded the Korean and English home/about/guide-hub pages with stronger editorial, trust, and tool-selection content.
+- Rewrote the Korean `luckydraw`, `ladder`, `coinflip`, and `dice` lower-page sections around tool-specific use cases instead of generic repeated copy.
+- Extended localized tool pages to expose an English guide hub and localized About/Privacy/Contact links so non-Korean surfaces also point to substantive content.
+- Updated the sitemap generator and AdSense readiness checks to require the expanded guide set and visible guide-hub links before deployment.
+- Detailed notes: [ADSENSE_LOW_VALUE_CONTENT_RESPONSE_2026-03-18.md](/home/user/roulette/ADSENSE_LOW_VALUE_CONTENT_RESPONSE_2026-03-18.md)
+
 ## 2026-03-12
 
 ### SEO query canonicalization and indexing cleanup

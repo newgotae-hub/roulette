@@ -9,7 +9,15 @@ const tools = ['roulette','luckydraw','ladder','team-generator','coinflip','dice
 const legalPages = ['privacy','terms','contact','about'];
 const localizedLegalLangs = NON_KO_LOCALES;
 const localizedLegalPages = ['privacy', 'terms', 'contact', 'about'];
-const guidePages = ['guides', 'guides/fair-random-draw', 'guides/event-draw-checklist', 'guides/winner-records'];
+const guidePages = [
+  'guides',
+  'guides/which-random-tool-to-use',
+  'guides/fair-random-draw',
+  'guides/event-draw-checklist',
+  'guides/winner-records',
+  'guides/classroom-random-picker',
+  'guides/balanced-team-generator'
+];
 const localizedGuideLangs = ['en'];
 const today = new Date().toISOString().slice(0, 10);
 

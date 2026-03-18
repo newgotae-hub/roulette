@@ -419,7 +419,7 @@
                                 <iconify-icon icon="solar:users-group-rounded-linear" stroke-width="1.5" class="text-slate-400"></iconify-icon>
                                 <span id="roster-title">Partecipanti</span>
                             </h2>
-                            <div class="flex items-center gap-2"><button id="reset-list" class="bg-white border border-slate-200 rounded-lg px-2.5 py-1 text-xs font-medium text-slate-600 hover:bg-slate-50 transition-colors flex items-center justify-center gap-1"><iconify-icon icon="solar:trash-bin-trash-linear" stroke-width="1.5"></iconify-icon><span id="reset-label">초기화</span></button><span id="participant-count" class="hidden" aria-hidden="true"></span></div>
+                            <div class="flex items-center gap-2"><button id="reset-list" class="bg-white border border-slate-200 rounded-lg px-2.5 py-1 text-xs font-medium text-slate-600 hover:bg-slate-50 transition-colors flex items-center justify-center gap-1"><iconify-icon icon="solar:trash-bin-trash-linear" stroke-width="1.5"></iconify-icon><span id="reset-label">Reimposta</span></button><span id="participant-count" class="hidden" aria-hidden="true"></span></div>
                         </div>
 
                         <div class="p-4 flex-grow flex flex-col">
@@ -432,7 +432,7 @@
 
                         <div class="hidden md:block p-4 border-t border-slate-100 bg-slate-50/60 space-y-3">
                                                         <label class="flex items-center justify-between cursor-pointer group">
-                                <span id="allow-duplicates-label" class="text-sm font-medium text-slate-700">Consenti duplicati</span>
+                                <span id="allow-duplicates-label" class="text-sm font-medium text-slate-700">Allow duplicates</span>
                                 <div class="relative">
                                     <input id="allow-duplicates" type="checkbox" class="sr-only peer" checked>
                                     <div class="w-9 h-5 bg-slate-200 rounded-full peer peer-checked:bg-slate-900 transition-colors"></div>
@@ -607,6 +607,16 @@
             <a href="/it/ladder/" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">Estrazione a scala</a>
             <a href="/it/coinflip/" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">Lancio moneta</a>
             <a href="/it/dice/" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">Lancio dadi</a>
+          </div>
+        </div>
+        <div data-guide-panel="1">
+          <h2 class="text-xl md:text-2xl font-semibold tracking-tight text-slate-900">Guide e politiche</h2>
+          <p class="mt-3 text-sm md:text-base text-slate-600">Se userai questo strumento per estrazioni pubbliche, lezioni o eventi, consulta prima il centro guide in inglese e le pagine di policy del sito.</p>
+          <div class="mt-3 flex flex-wrap gap-2 text-sm">
+            <a href="/en/guides/" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">Guide in inglese</a>
+            <a href="/it/about/" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">Chi siamo</a>
+            <a href="/it/privacy/" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">Informativa sulla privacy</a>
+            <a href="/it/contact/" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">Contatti</a>
           </div>
         </div>
       </div>

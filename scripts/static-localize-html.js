@@ -2,10 +2,98 @@
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
+const { FOOTER_LABELS } = require('./legal-shared');
 
 const ROOT = process.cwd();
 const LOCALES = ['en','ja','zh-cn','zh-tw','es','fr','de','pt-br','hi','ar','ru','id','tr','it','vi','th','nl'];
 const TOOLS = ['roulette','luckydraw','ladder','coinflip','dice'];
+const GUIDE_PANEL_COPY = {
+  en: {
+    title: 'Guides and policy links',
+    body: 'More operating guides are available in English. Review the guide hub and site policies before using this tool for public draws, classrooms, or events.',
+    guides: 'English Guide Hub'
+  },
+  ja: {
+    title: 'ガイドとポリシー',
+    body: '公開抽選や授業、イベントで使う前に、英語ガイド集とサイトのポリシーページを確認してください。',
+    guides: '英語ガイド集'
+  },
+  'zh-cn': {
+    title: '指南与政策链接',
+    body: '如果你要把这个工具用于公开抽签、课堂或活动，请先查看英文指南中心和站点政策页面。',
+    guides: '英文指南中心'
+  },
+  'zh-tw': {
+    title: '指南與政策連結',
+    body: '如果你要把這個工具用於公開抽籤、課堂或活動，請先查看英文指南中心與網站政策頁面。',
+    guides: '英文指南中心'
+  },
+  es: {
+    title: 'Guías y políticas',
+    body: 'Si vas a usar esta herramienta en sorteos públicos, clases o eventos, revisa primero la guía en inglés y las páginas de políticas del sitio.',
+    guides: 'Guías en inglés'
+  },
+  fr: {
+    title: 'Guides et politiques',
+    body: 'Si vous utilisez cet outil pour un tirage public, un cours ou un événement, consultez d’abord le hub de guides en anglais et les pages de politique du site.',
+    guides: 'Guides en anglais'
+  },
+  de: {
+    title: 'Leitfäden und Richtlinien',
+    body: 'Wenn du dieses Tool für öffentliche Auslosungen, Unterricht oder Events nutzt, prüfe zuerst den englischen Guide-Hub und die Richtlinienseiten der Website.',
+    guides: 'Englischer Guide-Hub'
+  },
+  'pt-br': {
+    title: 'Guias e políticas',
+    body: 'Se você vai usar esta ferramenta em sorteios públicos, aulas ou eventos, veja primeiro o hub de guias em inglês e as páginas de políticas do site.',
+    guides: 'Guias em inglês'
+  },
+  hi: {
+    title: 'गाइड और नीतियाँ',
+    body: 'अगर आप इस टूल का उपयोग सार्वजनिक ड्रॉ, कक्षा या इवेंट में करने वाले हैं, तो पहले अंग्रेज़ी गाइड हब और साइट की नीतियाँ देखें।',
+    guides: 'अंग्रेज़ी गाइड हब'
+  },
+  ar: {
+    title: 'الأدلة والسياسات',
+    body: 'إذا كنت ستستخدم هذه الأداة في سحب عام أو فصل دراسي أو فعالية، فراجع أولاً مركز الأدلة الإنجليزية وصفحات سياسات الموقع.',
+    guides: 'مركز الأدلة الإنجليزية'
+  },
+  ru: {
+    title: 'Руководства и политики',
+    body: 'Если вы используете этот инструмент для публичных розыгрышей, занятий или мероприятий, сначала откройте английский центр руководств и страницы политик сайта.',
+    guides: 'Английский центр руководств'
+  },
+  id: {
+    title: 'Panduan dan kebijakan',
+    body: 'Jika alat ini akan dipakai untuk undian publik, kelas, atau acara, lihat dulu pusat panduan berbahasa Inggris dan halaman kebijakan situs.',
+    guides: 'Pusat panduan Inggris'
+  },
+  tr: {
+    title: 'Rehberler ve politikalar',
+    body: 'Bu aracı herkese açık çekilişler, sınıflar veya etkinlikler için kullanacaksanız önce İngilizce rehber merkezini ve sitenin politika sayfalarını inceleyin.',
+    guides: 'İngilizce rehber merkezi'
+  },
+  it: {
+    title: 'Guide e politiche',
+    body: 'Se userai questo strumento per estrazioni pubbliche, lezioni o eventi, consulta prima il centro guide in inglese e le pagine di policy del sito.',
+    guides: 'Guide in inglese'
+  },
+  vi: {
+    title: 'Hướng dẫn và chính sách',
+    body: 'Nếu bạn dùng công cụ này cho quay số công khai, lớp học hoặc sự kiện, hãy xem trước trung tâm hướng dẫn tiếng Anh và các trang chính sách của trang web.',
+    guides: 'Trung tâm hướng dẫn tiếng Anh'
+  },
+  th: {
+    title: 'คู่มือและนโยบาย',
+    body: 'หากคุณจะใช้เครื่องมือนี้กับการจับรางวัลสาธารณะ ห้องเรียน หรืออีเวนต์ ควรดูศูนย์คู่มือภาษาอังกฤษและหน้านโยบายของเว็บไซต์ก่อน',
+    guides: 'ศูนย์คู่มือภาษาอังกฤษ'
+  },
+  nl: {
+    title: 'Gidsen en beleid',
+    body: 'Als je deze tool gebruikt voor openbare lotingen, lessen of evenementen, bekijk dan eerst de Engelstalige gidsenhub en de beleidspagina’s van de site.',
+    guides: 'Engelse gidsenhub'
+  }
+};
 
 function escRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
 function escHtml(s) {
@@ -147,6 +235,10 @@ function replaceHtmlLang(html, locale) {
   return html.replace(/<html\s+lang=["'][^"']*["']/i, `<html lang="${locale}"`);
 }
 
+function localePrefix(locale) {
+  return locale === 'ko' ? '' : `/${locale}`;
+}
+
 function localizeToolLinks(html, locale) {
   return html.replace(/(href=["'])\/(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?(["'])/gi, (_m, p1, tool, p3) => {
     return `${p1}/${locale}/${tool}/${p3}`;
@@ -197,6 +289,33 @@ function applyStaticLocalization(html, dict, mapping, tool) {
   return out;
 }
 
+function injectGuidePanel(html, locale) {
+  if (html.includes('data-guide-panel="1"')) return html;
+  if (html.includes('href="/en/guides/"') || html.includes('href="/guides/"')) return html;
+
+  const copy = GUIDE_PANEL_COPY[locale];
+  const labels = FOOTER_LABELS[locale];
+  if (!copy || !labels) return html;
+
+  const prefix = localePrefix(locale);
+  const panel = `
+        <div data-guide-panel="1">
+          <h2 class="text-xl md:text-2xl font-semibold tracking-tight text-slate-900">${escHtml(copy.title)}</h2>
+          <p class="mt-3 text-sm md:text-base text-slate-600">${escHtml(copy.body)}</p>
+          <div class="mt-3 flex flex-wrap gap-2 text-sm">
+            <a href="/en/guides/" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">${escHtml(copy.guides)}</a>
+            <a href="${prefix}/about/" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">${escHtml(labels.about)}</a>
+            <a href="${prefix}/privacy/" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">${escHtml(labels.privacy)}</a>
+            <a href="${prefix}/contact/" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">${escHtml(labels.contact)}</a>
+          </div>
+        </div>`;
+
+  return html.replace(/\n      <\/div>\n    <\/section>\n    <!-- adsense-content-end -->/, `${panel}
+      </div>
+    </section>
+    <!-- adsense-content-end -->`);
+}
+
 const ladderI18nSrc = fs.readFileSync(path.join(ROOT, 'assets/js/i18n.js'), 'utf8');
 const ladderI18n = evalI18nFromSnippet(extractBetween(ladderI18nSrc, 'const i18n =', 'window.RLTI18N = i18n;'));
 const ladderJs = fs.readFileSync(path.join(ROOT, 'assets/js/ladder.js'), 'utf8');
@@ -211,7 +330,9 @@ const lottoApply = parseApplyMappings(extractFunctionBody(lottoJs, 'applyI18n'),
 let changed = 0;
 for (const locale of LOCALES) {
   for (const tool of TOOLS) {
-    const file = path.join(ROOT, locale, tool, 'index.html');
+    const file = tool === 'roulette'
+      ? path.join(ROOT, locale, 'index.html')
+      : path.join(ROOT, locale, tool, 'index.html');
     if (!fs.existsSync(file)) continue;
     let html = fs.readFileSync(file, 'utf8');
     const orig = html;
@@ -238,6 +359,7 @@ for (const locale of LOCALES) {
     html = replaceHtmlLang(html, locale);
     html = localizeToolLinks(html, locale);
     html = applyStaticLocalization(html, dict, mapping, tool);
+    html = injectGuidePanel(html, locale);
 
     if (html !== orig) {
       fs.writeFileSync(file, html);

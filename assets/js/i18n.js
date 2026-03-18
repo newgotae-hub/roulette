@@ -83,11 +83,11 @@
       footerPrivacy: "개인정보처리방침"
     },
     en: {
-      seoTitle: "Ladder Draw | Random Match Generator Randomly Pick",
+      seoTitle: "Online Ladder Draw | Random Match Generator Randomly Pick",
       seoDesc: "Online ladder draw and random match generator. Paste participants and results, run animated routes, and track outcomes instantly.",
-      seoOgTitle: "Ladder Draw | Random Match Generator Randomly Pick",
+      seoOgTitle: "Online Ladder Draw | Random Match Generator Randomly Pick",
       seoOgDesc: "Random ladder game with fast input, balanced routes, and instant result tracking.",
-      seoTwitterTitle: "Ladder Draw | Random Match Generator Randomly Pick",
+      seoTwitterTitle: "Online Ladder Draw | Random Match Generator Randomly Pick",
       seoTwitterDesc: "Run random ladder matches with smooth animation and instant outcome mapping.",
       navSpin: "Wheel of Names",
       navLotto: "Lucky Draw",
@@ -99,7 +99,7 @@
       fullscreen: "Fullscreen",
       fullscreenExit: "Exit Fullscreen",
       heroTitle: "Online Ladder Draw",
-      heroSub: "Online Ladder Draw for random team assignment, giveaway winner picking, and classroom name selection with fast input and smooth animation.",
+      heroSub: "Online Ladder Draw for event matchups, giveaway winner picking, classroom name selection, and quick team assignments with fast input and smooth animation.",
       presetClass: "Number Match",
       presetTeam: "Team Split",
       presetSeat: "Survive/Eliminate",

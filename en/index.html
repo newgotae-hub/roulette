@@ -18,7 +18,7 @@
     <link rel="dns-prefetch" href="https://flagcdn.com">
     <title>Wheel of Names | Lucky Draw &amp; Random Name Picker</title>
     <meta id="meta-description" name="description" content="Free wheel of names, lucky draw wheel, and random name picker. Spin for giveaways, classrooms, raffles, presenters, and team picks, then save winner history instantly.">
-    <meta name="keywords" content="wheel of names, random name picker, random wheel, spin the wheel, raffle wheel, name spinner">
+    <meta name="keywords" content="Wheel of Names, random picker, randomly pick">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <link rel="canonical" href="https://randomly-pick.com/en/">
     <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/">
@@ -419,7 +419,7 @@
                                 <iconify-icon icon="solar:users-group-rounded-linear" stroke-width="1.5" class="text-slate-400"></iconify-icon>
                                 <span id="roster-title">Participants</span>
                             </h2>
-                            <div class="flex items-center gap-2"><button id="reset-list" class="bg-white border border-slate-200 rounded-lg px-2.5 py-1 text-xs font-medium text-slate-600 hover:bg-slate-50 transition-colors flex items-center justify-center gap-1"><iconify-icon icon="solar:trash-bin-trash-linear" stroke-width="1.5"></iconify-icon><span id="reset-label">초기화</span></button><span id="participant-count" class="hidden" aria-hidden="true"></span></div>
+                            <div class="flex items-center gap-2"><button id="reset-list" class="bg-white border border-slate-200 rounded-lg px-2.5 py-1 text-xs font-medium text-slate-600 hover:bg-slate-50 transition-colors flex items-center justify-center gap-1"><iconify-icon icon="solar:trash-bin-trash-linear" stroke-width="1.5"></iconify-icon><span id="reset-label">Reset</span></button><span id="participant-count" class="hidden" aria-hidden="true"></span></div>
                         </div>
 
                         <div class="p-4 flex-grow flex flex-col">
@@ -602,8 +602,12 @@
         </div>
         <div>
           <h2 class="text-xl md:text-2xl font-semibold tracking-tight text-slate-900">Draw Operation Guides</h2>
-          <p class="mt-3 text-sm md:text-base text-slate-600">Tool features alone do not explain how to run a trustworthy draw. These English guides cover participant-list checks, exclusion rules, public process, and winner records for real events.</p>
+          <p class="mt-3 text-sm md:text-base text-slate-600">Tool features alone do not explain how to run a trustworthy draw. These English guides now cover tool selection, participant-list checks, exclusion rules, public process, classroom usage, balanced team splits, and winner records.</p>
           <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
+            <a href="/en/guides/which-random-tool-to-use/" class="rounded-xl border border-slate-200 bg-slate-50/70 p-4 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">
+              <strong class="block text-slate-900">Which Random Tool Should You Use?</strong>
+              <span class="mt-2 block">Choose between wheel, number draw, ladder, team split, coin flip, and dice by use case.</span>
+            </a>
             <a href="/en/guides/fair-random-draw/" class="rounded-xl border border-slate-200 bg-slate-50/70 p-4 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">
               <strong class="block text-slate-900">How to Run a Fair Random Draw</strong>
               <span class="mt-2 block">Confirm the list, explain exclusion rules, and keep the process visible.</span>
@@ -616,8 +620,39 @@
               <strong class="block text-slate-900">Why Winner Records Matter</strong>
               <span class="mt-2 block">See why CSV logs and result history reduce disputes after a draw.</span>
             </a>
+            <a href="/en/guides/classroom-random-picker/" class="rounded-xl border border-slate-200 bg-slate-50/70 p-4 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">
+              <strong class="block text-slate-900">How to Use Random Pickers in Classrooms</strong>
+              <span class="mt-2 block">Use random tools in lessons without slowing the class or hurting trust.</span>
+            </a>
+            <a href="/en/guides/balanced-team-generator/" class="rounded-xl border border-slate-200 bg-slate-50/70 p-4 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">
+              <strong class="block text-slate-900">What to Check Before Using a Balanced Team Generator</strong>
+              <span class="mt-2 block">Know when balance helps, when random is enough, and how to explain the method.</span>
+            </a>
           </div>
           <a href="/en/guides/" class="inline-flex mt-4 text-sm font-semibold text-slate-900 hover:text-slate-700 transition-colors">View all English guides</a>
+        </div>
+        <div>
+          <h2 class="text-xl md:text-2xl font-semibold tracking-tight text-slate-900">Which Tool Fits the Job?</h2>
+          <p class="mt-3 text-sm md:text-base text-slate-600">The right random tool depends on what users need to see. A visible roster, a number range, a matching path, a balanced team split, a binary choice, and a game result are different jobs, so they should not all share the same explanation.</p>
+          <div class="mt-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 text-sm">
+            <div class="rounded-xl border border-slate-200 bg-slate-50/70 p-4 text-slate-700"><strong class="block text-slate-900">Pick one name from a list</strong><span class="mt-2 block"><a href="/en/" class="font-semibold text-slate-900">Wheel of Names</a> works best when the roster should stay visible.</span></div>
+            <div class="rounded-xl border border-slate-200 bg-slate-50/70 p-4 text-slate-700"><strong class="block text-slate-900">Draw numbers or tickets</strong><span class="mt-2 block"><a href="/en/luckydraw/" class="font-semibold text-slate-900">Number Picker</a> is better when sorting and reviewing numbers matters.</span></div>
+            <div class="rounded-xl border border-slate-200 bg-slate-50/70 p-4 text-slate-700"><strong class="block text-slate-900">Match people to outcomes</strong><span class="mt-2 block"><a href="/en/ladder/" class="font-semibold text-slate-900">Ladder Draw</a> makes the path and pairing easy to follow.</span></div>
+            <div class="rounded-xl border border-slate-200 bg-slate-50/70 p-4 text-slate-700"><strong class="block text-slate-900">Build balanced or random teams</strong><span class="mt-2 block"><a href="/en/team-generator/" class="font-semibold text-slate-900">Team Split</a> fits both casual and score-aware group splits.</span></div>
+            <div class="rounded-xl border border-slate-200 bg-slate-50/70 p-4 text-slate-700"><strong class="block text-slate-900">Make a 50:50 decision</strong><span class="mt-2 block"><a href="/en/coinflip/" class="font-semibold text-slate-900">Coin Flip</a> is the clearest option for two outcomes.</span></div>
+            <div class="rounded-xl border border-slate-200 bg-slate-50/70 p-4 text-slate-700"><strong class="block text-slate-900">Produce a game result</strong><span class="mt-2 block"><a href="/en/dice/" class="font-semibold text-slate-900">Dice Roller</a> makes sense when totals and repeated rounds matter.</span></div>
+          </div>
+        </div>
+        <div>
+          <h2 class="text-xl md:text-2xl font-semibold tracking-tight text-slate-900">Why the Site Includes Guides and Policy Pages</h2>
+          <p class="mt-3 text-sm md:text-base text-slate-600">Randomly Pick is not meant to be only a collection of buttons. The site also exposes operator information, original operation guides, privacy disclosures, terms, and a direct contact path so users can understand how the tools are meant to be used.</p>
+          <div class="mt-3 flex flex-wrap gap-2 text-sm">
+            <a href="/en/about/" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">About</a>
+            <a href="/en/guides/" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">Guide Hub</a>
+            <a href="/en/privacy/" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">Privacy Policy</a>
+            <a href="/en/terms/" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">Terms</a>
+            <a href="/en/contact/" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">Contact</a>
+          </div>
         </div>
         <div>
           <h2 class="text-xl md:text-2xl font-semibold tracking-tight text-slate-900">Try Other Tools</h2>

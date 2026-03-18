@@ -651,8 +651,12 @@
         </div>
         <div>
           <h2 class="text-xl md:text-2xl font-semibold tracking-tight text-slate-900">추첨 운영 가이드</h2>
-          <p class="mt-3 text-sm md:text-base text-slate-600">버튼만 누르는 추첨보다 중요한 것은 운영 방식입니다. 아래 가이드는 명단 확정, 규칙 공개, 결과 기록 같은 실전 운영 기준을 정리한 문서입니다.</p>
+          <p class="mt-3 text-sm md:text-base text-slate-600">버튼만 누르는 추첨보다 중요한 것은 운영 방식입니다. 아래 가이드는 도구 선택, 명단 확정, 규칙 공개, 결과 기록, 수업 활용, 팀 밸런스 같은 실전 기준을 정리한 문서입니다.</p>
           <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
+            <a href="/guides/which-random-tool-to-use/" class="rounded-xl border border-slate-200 bg-slate-50/70 p-4 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">
+              <strong class="block text-slate-900">어떤 랜덤 추첨 도구를 써야 할까?</strong>
+              <span class="mt-2 block">룰렛, 번호 추첨기, 사다리, 팀 나누기 중 어떤 도구가 맞는지 비교합니다.</span>
+            </a>
             <a href="/guides/fair-random-draw/" class="rounded-xl border border-slate-200 bg-slate-50/70 p-4 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">
               <strong class="block text-slate-900">공정한 랜덤 추첨을 운영하는 방법</strong>
               <span class="mt-2 block">명단 확정, 제외 규칙, 화면 공개 원칙을 정리했습니다.</span>
@@ -665,8 +669,39 @@
               <strong class="block text-slate-900">당첨 기록을 남겨야 하는 이유</strong>
               <span class="mt-2 block">CSV 기록이 분쟁 대응과 재검토 요청에 왜 중요한지 설명합니다.</span>
             </a>
+            <a href="/guides/classroom-random-picker/" class="rounded-xl border border-slate-200 bg-slate-50/70 p-4 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">
+              <strong class="block text-slate-900">수업에서 랜덤 추첨 도구를 쓸 때 운영 팁</strong>
+              <span class="mt-2 block">교실에서 학생 신뢰를 지키며 랜덤 도구를 쓰는 흐름을 정리했습니다.</span>
+            </a>
+            <a href="/guides/balanced-team-generator/" class="rounded-xl border border-slate-200 bg-slate-50/70 p-4 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">
+              <strong class="block text-slate-900">균형 팀 나누기를 쓸 때 확인할 점</strong>
+              <span class="mt-2 block">완전 랜덤 팀과 점수 기반 균형 팀 중 언제 무엇이 맞는지 설명합니다.</span>
+            </a>
           </div>
           <a href="/guides/" class="inline-flex mt-4 text-sm font-semibold text-slate-900 hover:text-slate-700 transition-colors">가이드 모음 보기</a>
+        </div>
+        <div>
+          <h2 class="text-xl md:text-2xl font-semibold tracking-tight text-slate-900">어떤 도구를 쓰면 좋은가요?</h2>
+          <p class="mt-3 text-sm md:text-base text-slate-600">같은 랜덤이라도 공개 추첨인지, 숫자 관리인지, 결과 매칭인지에 따라 적합한 도구가 다릅니다. 목적에 맞는 도구를 고르면 설명도 짧아지고, 심사나 사용자 입장에서 봐도 페이지 가치가 더 분명해집니다.</p>
+          <div class="mt-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 text-sm">
+            <div class="rounded-xl border border-slate-200 bg-slate-50/70 p-4 text-slate-700"><strong class="block text-slate-900">목록에서 한 명 뽑기</strong><span class="mt-2 block">명단이 보여야 하면 <a href="/" class="font-semibold text-slate-900">룰렛</a>이 가장 직관적입니다.</span></div>
+            <div class="rounded-xl border border-slate-200 bg-slate-50/70 p-4 text-slate-700"><strong class="block text-slate-900">번호·응모권 추첨</strong><span class="mt-2 block">숫자를 정렬하고 확인하려면 <a href="/luckydraw/" class="font-semibold text-slate-900">번호 추첨기</a>가 맞습니다.</span></div>
+            <div class="rounded-xl border border-slate-200 bg-slate-50/70 p-4 text-slate-700"><strong class="block text-slate-900">참가자와 결과 매칭</strong><span class="mt-2 block">여러 결과를 한 번에 배정하려면 <a href="/ladder/" class="font-semibold text-slate-900">사다리타기</a>가 좋습니다.</span></div>
+            <div class="rounded-xl border border-slate-200 bg-slate-50/70 p-4 text-slate-700"><strong class="block text-slate-900">팀 편성</strong><span class="mt-2 block">친목용 랜덤 또는 점수 기반 균형 배정은 <a href="/team-generator/" class="font-semibold text-slate-900">팀 나누기</a>가 적합합니다.</span></div>
+            <div class="rounded-xl border border-slate-200 bg-slate-50/70 p-4 text-slate-700"><strong class="block text-slate-900">두 선택지 중 하나</strong><span class="mt-2 block">50:50 결정을 빠르게 끝내려면 <a href="/coinflip/" class="font-semibold text-slate-900">코인 던지기</a>를 쓰는 편이 낫습니다.</span></div>
+            <div class="rounded-xl border border-slate-200 bg-slate-50/70 p-4 text-slate-700"><strong class="block text-slate-900">게임용 숫자 결과</strong><span class="mt-2 block">합계, 평균, 홀짝이 중요하면 <a href="/dice/" class="font-semibold text-slate-900">주사위 굴리기</a>가 자연스럽습니다.</span></div>
+          </div>
+        </div>
+        <div>
+          <h2 class="text-xl md:text-2xl font-semibold tracking-tight text-slate-900">운영 정보와 콘텐츠 기준</h2>
+          <p class="mt-3 text-sm md:text-base text-slate-600">Randomly Pick은 단순 도구 모음으로 끝나지 않도록 직접 작성한 운영 가이드, 공개된 운영자 정보, 개인정보처리방침, 이용약관, 문의 경로를 함께 제공합니다. 심층 설명은 아래 페이지에서 확인할 수 있습니다.</p>
+          <div class="mt-3 flex flex-wrap gap-2 text-sm">
+            <a href="/about/" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">소개</a>
+            <a href="/guides/" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">가이드 허브</a>
+            <a href="/privacy/" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">개인정보처리방침</a>
+            <a href="/terms/" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">이용약관</a>
+            <a href="/contact/" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">문의</a>
+          </div>
         </div>
         <div>
           <h2 class="text-xl md:text-2xl font-semibold tracking-tight text-slate-900">다른 도구도 함께 사용해 보세요</h2>
