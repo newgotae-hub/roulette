@@ -10,88 +10,88 @@ const TOOLS = ['roulette','luckydraw','ladder','coinflip','dice'];
 const GUIDE_PANEL_COPY = {
   en: {
     title: 'Guides and policy links',
-    body: 'More operating guides are available in English. Review the guide hub and site policies before using this tool for public draws, classrooms, or events.',
-    guides: 'English Guide Hub'
+    body: 'Review the guide hub and site policies before using this tool for public draws, classrooms, or events.',
+    guides: 'Guide Hub'
   },
   ja: {
     title: 'ガイドとポリシー',
-    body: '公開抽選や授業、イベントで使う前に、英語ガイド集とサイトのポリシーページを確認してください。',
-    guides: '英語ガイド集'
+    body: '公開抽選や授業、イベントで使う前に、この言語のガイド集とサイトのポリシーページを確認してください。',
+    guides: 'ガイド集'
   },
   'zh-cn': {
     title: '指南与政策链接',
-    body: '如果你要把这个工具用于公开抽签、课堂或活动，请先查看英文指南中心和站点政策页面。',
-    guides: '英文指南中心'
+    body: '如果你要把这个工具用于公开抽签、课堂或活动，请先查看本语言的指南中心和站点政策页面。',
+    guides: '指南中心'
   },
   'zh-tw': {
     title: '指南與政策連結',
-    body: '如果你要把這個工具用於公開抽籤、課堂或活動，請先查看英文指南中心與網站政策頁面。',
-    guides: '英文指南中心'
+    body: '如果你要把這個工具用於公開抽籤、課堂或活動，請先查看本語言的指南中心與網站政策頁面。',
+    guides: '指南中心'
   },
   es: {
     title: 'Guías y políticas',
-    body: 'Si vas a usar esta herramienta en sorteos públicos, clases o eventos, revisa primero la guía en inglés y las páginas de políticas del sitio.',
-    guides: 'Guías en inglés'
+    body: 'Si vas a usar esta herramienta en sorteos públicos, clases o eventos, revisa primero la guía local y las páginas de políticas del sitio.',
+    guides: 'Centro de guías'
   },
   fr: {
     title: 'Guides et politiques',
-    body: 'Si vous utilisez cet outil pour un tirage public, un cours ou un événement, consultez d’abord le hub de guides en anglais et les pages de politique du site.',
-    guides: 'Guides en anglais'
+    body: 'Si vous utilisez cet outil pour un tirage public, un cours ou un événement, consultez d’abord le hub de guides local et les pages de politique du site.',
+    guides: 'Hub des guides'
   },
   de: {
     title: 'Leitfäden und Richtlinien',
-    body: 'Wenn du dieses Tool für öffentliche Auslosungen, Unterricht oder Events nutzt, prüfe zuerst den englischen Guide-Hub und die Richtlinienseiten der Website.',
-    guides: 'Englischer Guide-Hub'
+    body: 'Wenn du dieses Tool für öffentliche Auslosungen, Unterricht oder Events nutzt, prüfe zuerst den lokalen Guide-Hub und die Richtlinienseiten der Website.',
+    guides: 'Guide-Hub'
   },
   'pt-br': {
     title: 'Guias e políticas',
-    body: 'Se você vai usar esta ferramenta em sorteios públicos, aulas ou eventos, veja primeiro o hub de guias em inglês e as páginas de políticas do site.',
-    guides: 'Guias em inglês'
+    body: 'Se você vai usar esta ferramenta em sorteios públicos, aulas ou eventos, veja primeiro o hub de guias local e as páginas de políticas do site.',
+    guides: 'Hub de guias'
   },
   hi: {
     title: 'गाइड और नीतियाँ',
-    body: 'अगर आप इस टूल का उपयोग सार्वजनिक ड्रॉ, कक्षा या इवेंट में करने वाले हैं, तो पहले अंग्रेज़ी गाइड हब और साइट की नीतियाँ देखें।',
-    guides: 'अंग्रेज़ी गाइड हब'
+    body: 'अगर आप इस टूल का उपयोग सार्वजनिक ड्रॉ, कक्षा या इवेंट में करने वाले हैं, तो पहले स्थानीय गाइड हब और साइट की नीतियाँ देखें।',
+    guides: 'गाइड हब'
   },
   ar: {
     title: 'الأدلة والسياسات',
-    body: 'إذا كنت ستستخدم هذه الأداة في سحب عام أو فصل دراسي أو فعالية، فراجع أولاً مركز الأدلة الإنجليزية وصفحات سياسات الموقع.',
-    guides: 'مركز الأدلة الإنجليزية'
+    body: 'إذا كنت ستستخدم هذه الأداة في سحب عام أو فصل دراسي أو فعالية، فراجع أولاً مركز الأدلة المحلي وصفحات سياسات الموقع.',
+    guides: 'مركز الأدلة'
   },
   ru: {
     title: 'Руководства и политики',
-    body: 'Если вы используете этот инструмент для публичных розыгрышей, занятий или мероприятий, сначала откройте английский центр руководств и страницы политик сайта.',
-    guides: 'Английский центр руководств'
+    body: 'Если вы используете этот инструмент для публичных розыгрышей, занятий или мероприятий, сначала откройте локальный центр руководств и страницы политик сайта.',
+    guides: 'Центр руководств'
   },
   id: {
     title: 'Panduan dan kebijakan',
-    body: 'Jika alat ini akan dipakai untuk undian publik, kelas, atau acara, lihat dulu pusat panduan berbahasa Inggris dan halaman kebijakan situs.',
-    guides: 'Pusat panduan Inggris'
+    body: 'Jika alat ini akan dipakai untuk undian publik, kelas, atau acara, lihat dulu pusat panduan lokal dan halaman kebijakan situs.',
+    guides: 'Pusat panduan'
   },
   tr: {
     title: 'Rehberler ve politikalar',
-    body: 'Bu aracı herkese açık çekilişler, sınıflar veya etkinlikler için kullanacaksanız önce İngilizce rehber merkezini ve sitenin politika sayfalarını inceleyin.',
-    guides: 'İngilizce rehber merkezi'
+    body: 'Bu aracı herkese açık çekilişler, sınıflar veya etkinlikler için kullanacaksanız önce yerel rehber merkezini ve sitenin politika sayfalarını inceleyin.',
+    guides: 'Rehber merkezi'
   },
   it: {
     title: 'Guide e politiche',
-    body: 'Se userai questo strumento per estrazioni pubbliche, lezioni o eventi, consulta prima il centro guide in inglese e le pagine di policy del sito.',
-    guides: 'Guide in inglese'
+    body: 'Se userai questo strumento per estrazioni pubbliche, lezioni o eventi, consulta prima il centro guide locale e le pagine di policy del sito.',
+    guides: 'Centro guide'
   },
   vi: {
     title: 'Hướng dẫn và chính sách',
-    body: 'Nếu bạn dùng công cụ này cho quay số công khai, lớp học hoặc sự kiện, hãy xem trước trung tâm hướng dẫn tiếng Anh và các trang chính sách của trang web.',
-    guides: 'Trung tâm hướng dẫn tiếng Anh'
+    body: 'Nếu bạn dùng công cụ này cho quay số công khai, lớp học hoặc sự kiện, hãy xem trước trung tâm hướng dẫn bản địa và các trang chính sách của trang web.',
+    guides: 'Trung tâm hướng dẫn'
   },
   th: {
     title: 'คู่มือและนโยบาย',
-    body: 'หากคุณจะใช้เครื่องมือนี้กับการจับรางวัลสาธารณะ ห้องเรียน หรืออีเวนต์ ควรดูศูนย์คู่มือภาษาอังกฤษและหน้านโยบายของเว็บไซต์ก่อน',
-    guides: 'ศูนย์คู่มือภาษาอังกฤษ'
+    body: 'หากคุณจะใช้เครื่องมือนี้กับการจับรางวัลสาธารณะ ห้องเรียน หรืออีเวนต์ ควรดูศูนย์คู่มือภาษาท้องถิ่นและหน้านโยบายของเว็บไซต์ก่อน',
+    guides: 'ศูนย์คู่มือ'
   },
   nl: {
     title: 'Gidsen en beleid',
-    body: 'Als je deze tool gebruikt voor openbare lotingen, lessen of evenementen, bekijk dan eerst de Engelstalige gidsenhub en de beleidspagina’s van de site.',
-    guides: 'Engelse gidsenhub'
+    body: 'Als je deze tool gebruikt voor openbare lotingen, lessen of evenementen, bekijk dan eerst de lokale gidsenhub en de beleidspagina’s van de site.',
+    guides: 'Gidsenhub'
   }
 };
 
@@ -290,20 +290,21 @@ function applyStaticLocalization(html, dict, mapping, tool) {
 }
 
 function injectGuidePanel(html, locale) {
-  if (html.includes('data-guide-panel="1"')) return html;
-  if (html.includes('href="/en/guides/"') || html.includes('href="/guides/"')) return html;
+  const prefix = localePrefix(locale);
+  const guidesHref = `${prefix}/guides/`;
+  html = html.replace(/\n\s*<div data-guide-panel="1">[\s\S]*?<\/div>\n(?=\s*<\/div>\n\s*<\/section>\n\s*<!-- adsense-content-end -->)/, '\n');
+  if (html.includes(`href="${guidesHref}"`)) return html;
 
   const copy = GUIDE_PANEL_COPY[locale];
   const labels = FOOTER_LABELS[locale];
   if (!copy || !labels) return html;
 
-  const prefix = localePrefix(locale);
   const panel = `
         <div data-guide-panel="1">
           <h2 class="text-xl md:text-2xl font-semibold tracking-tight text-slate-900">${escHtml(copy.title)}</h2>
           <p class="mt-3 text-sm md:text-base text-slate-600">${escHtml(copy.body)}</p>
           <div class="mt-3 flex flex-wrap gap-2 text-sm">
-            <a href="/en/guides/" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">${escHtml(copy.guides)}</a>
+            <a href="${guidesHref}" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">${escHtml(copy.guides)}</a>
             <a href="${prefix}/about/" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">${escHtml(labels.about)}</a>
             <a href="${prefix}/privacy/" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">${escHtml(labels.privacy)}</a>
             <a href="${prefix}/contact/" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 transition-colors">${escHtml(labels.contact)}</a>

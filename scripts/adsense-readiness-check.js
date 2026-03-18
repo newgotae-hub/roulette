@@ -6,21 +6,11 @@ const { NON_KO_LOCALES } = require('./legal-shared');
 const ROOT = path.resolve(__dirname, '..');
 const LOCALES = NON_KO_LOCALES;
 const PAGES = ['index.html', 'roulette/index.html', 'ladder/index.html', 'luckydraw/index.html', 'coinflip/index.html', 'dice/index.html'];
+const GUIDE_SLUGS = ['which-random-tool-to-use', 'fair-random-draw', 'event-draw-checklist', 'winner-records', 'classroom-random-picker', 'balanced-team-generator'];
 const REQUIRED_GUIDE_FILES = [
   'guides/index.html',
-  'guides/which-random-tool-to-use/index.html',
-  'guides/fair-random-draw/index.html',
-  'guides/event-draw-checklist/index.html',
-  'guides/winner-records/index.html',
-  'guides/classroom-random-picker/index.html',
-  'guides/balanced-team-generator/index.html',
-  'en/guides/index.html',
-  'en/guides/which-random-tool-to-use/index.html',
-  'en/guides/fair-random-draw/index.html',
-  'en/guides/event-draw-checklist/index.html',
-  'en/guides/winner-records/index.html',
-  'en/guides/classroom-random-picker/index.html',
-  'en/guides/balanced-team-generator/index.html'
+  ...GUIDE_SLUGS.map((slug) => `guides/${slug}/index.html`),
+  ...LOCALES.flatMap((locale) => [`${locale}/guides/index.html`, ...GUIDE_SLUGS.map((slug) => `${locale}/guides/${slug}/index.html`)])
 ];
 const REQUIRED_LOCALIZED_LEGAL_FILES = LOCALES.flatMap((locale) => ['about', 'contact', 'privacy', 'terms'].map((slug) => `${locale}/${slug}/index.html`));
 const MIN_CONTENT_UNITS = 400;
@@ -191,9 +181,8 @@ for (const [rel, href] of homepageGuideChecks) {
 
 for (const rel of files) {
   const html = readFile(rel);
-  const expectedHref = rel.startsWith('en/') || LOCALES.some((locale) => rel.startsWith(`${locale}/`))
-    ? '/en/guides/'
-    : '/guides/';
+  const locale = LOCALES.find((name) => rel.startsWith(`${name}/`));
+  const expectedHref = locale ? `/${locale}/guides/` : '/guides/';
   if (!html.includes(`href="${expectedHref}"`)) {
     findings.push(`${rel}: missing visible guide-hub link (${expectedHref}).`);
   }
@@ -201,9 +190,9 @@ for (const rel of files) {
 
 for (const rel of REQUIRED_GUIDE_FILES.filter((file) => fs.existsSync(path.join(ROOT, file)))) {
   const html = readFile(rel);
-  const expectedLinks = rel.startsWith('en/')
-    ? ['/en/about/', '/en/privacy/', '/en/contact/']
-    : ['/about/', '/privacy/', '/contact/'];
+  const locale = LOCALES.find((name) => rel.startsWith(`${name}/`));
+  const prefix = locale ? `/${locale}` : '';
+  const expectedLinks = [`${prefix}/about/`, `${prefix}/privacy/`, `${prefix}/contact/`];
   for (const href of expectedLinks) {
     if (!html.includes(`href="${href}"`)) {
       findings.push(`${rel}: missing trust link ${href}.`);

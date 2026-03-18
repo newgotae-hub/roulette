@@ -10,6 +10,15 @@ How to use it:
 
 ## 2026-03-18
 
+### AdSense multilingual guide rollout and locale guide-hub promotion
+
+- Added localized guide hubs and six localized guide pages for every supported non-Korean locale so guide discovery no longer depends on English-only routing outside Korean.
+- Generated locale guide articles with localized summaries plus embedded English reference sections, and linked each locale hub/article back to the matching localized policy pages.
+- Switched localized homepage/tool guide panels from `/en/guides/` to each locale's own `/[locale]/guides/` hub.
+- Extended sitemap generation and AdSense readiness checks so the full multilingual guide set is required before deployment.
+- Re-synced localized legal footer labels after regeneration and revalidated the expanded site.
+- Detailed notes: [ADSENSE_MULTILINGUAL_GUIDE_ROLLOUT_2026-03-18.md](/home/user/roulette/ADSENSE_MULTILINGUAL_GUIDE_ROLLOUT_2026-03-18.md)
+
 ### AdSense low-value-content response across guides, tool pages, and localized discovery
 
 - Added three new original Korean/English guide pairs covering tool selection, classroom usage, and balanced team generation.

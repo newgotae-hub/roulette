@@ -18,7 +18,7 @@ const guidePages = [
   'guides/classroom-random-picker',
   'guides/balanced-team-generator'
 ];
-const localizedGuideLangs = ['en'];
+const localizedGuideLangs = NON_KO_LOCALES;
 const today = new Date().toISOString().slice(0, 10);
 
 function write(file, content) {
