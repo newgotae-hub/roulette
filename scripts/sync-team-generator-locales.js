@@ -2,6 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const { ALL_LOCALES, NON_KO_LOCALES } = require('./legal-shared');
+const { EDITORIAL_LABELS, TOOL_EDITORIAL_COPY } = require('./tool-editorial-copy');
 
 const ROOT = path.resolve(__dirname, '..');
 const I18N_PATH = path.join(ROOT, 'assets/js/team-generator-i18n.js');
@@ -296,6 +297,25 @@ function syncGuideSectionStructure(html) {
   return html.replace(guidePattern, guideTopBlock);
 }
 
+function buildEditorialPanel(locale) {
+  const labels = EDITORIAL_LABELS[locale];
+  const copy = TOOL_EDITORIAL_COPY[locale] && TOOL_EDITORIAL_COPY[locale]['team-generator'];
+  if (!labels || !copy) return '';
+
+  return `<div data-team-editorial="1" class="mt-8 rounded-[1.6rem] border border-slate-200 bg-slate-50/80 p-5 shadow-sm md:p-6"><div class="max-w-3xl"><h2 class="text-xl font-semibold tracking-tight text-slate-900">${escapeHtml(labels.title)}</h2><p class="mt-3 text-sm leading-6 text-slate-600">${escapeHtml(copy.intro)}</p></div><div class="mt-5 grid gap-3 md:grid-cols-2 text-sm"><article class="rounded-2xl border border-slate-200 bg-white p-4 text-slate-700 shadow-sm shadow-slate-200/30"><h3 class="font-semibold text-slate-900">${escapeHtml(labels.fit)}</h3><p class="mt-2 leading-6">${escapeHtml(copy.fit)}</p></article><article class="rounded-2xl border border-slate-200 bg-white p-4 text-slate-700 shadow-sm shadow-slate-200/30"><h3 class="font-semibold text-slate-900">${escapeHtml(labels.avoid)}</h3><p class="mt-2 leading-6">${escapeHtml(copy.avoid)}</p></article><article class="rounded-2xl border border-slate-200 bg-white p-4 text-slate-700 shadow-sm shadow-slate-200/30"><h3 class="font-semibold text-slate-900">${escapeHtml(labels.checklist)}</h3><p class="mt-2 leading-6">${escapeHtml(copy.checklist)}</p></article><article class="rounded-2xl border border-slate-200 bg-white p-4 text-slate-700 shadow-sm shadow-slate-200/30"><h3 class="font-semibold text-slate-900">${escapeHtml(labels.mistakes)}</h3><p class="mt-2 leading-6">${escapeHtml(copy.mistakes)}</p></article></div></div>`;
+}
+
+function injectEditorialPanel(html, locale) {
+  html = html.replace(/<div data-team-editorial="1"[\s\S]*?<\/div>(?=<div class="mt-10 grid gap-8)/, '');
+
+  const panel = buildEditorialPanel(locale);
+  if (!panel) return html;
+
+  const anchor = /<div class="mt-10 grid gap-8 lg:grid-cols-\[minmax\(0,1\.3fr\)_minmax\(280px,0\.7fr\)\]">/;
+  if (!anchor.test(html)) throw new Error('Missing team editorial anchor.');
+  return html.replace(anchor, `${panel}$&`);
+}
+
 function syncSharedAssetBlock(html) {
   const sharedBlockPattern = /  <script>\s+    \(function \(\) \{\s+      try \{\s+        var params = new URLSearchParams\(window\.location\.search\);[\s\S]*?  <script>\s+    if \(!window\.__TEAM_GENERATOR_LOCAL_QA__\) \{\s+      tailwind\.config=\{theme:\{extend:\{fontFamily:\{sans:\['Inter','-apple-system','BlinkMacSystemFont','Segoe UI','Roboto','Helvetica Neue','Arial','sans-serif'\]\}\}\}\};\s+    \}\s+  <\/script>/;
   if (!sharedBlockPattern.test(html)) throw new Error('Missing shared asset block.');
@@ -318,6 +338,7 @@ function syncPage(locale, data) {
   html = replaceMetaById(html, 'meta-twitter-description', data.seoTwitterDesc);
   html = syncResultsPanelStructure(html);
   html = syncGuideSectionStructure(html);
+  html = injectEditorialPanel(html, locale);
 
   for (const [id, key] of TEXT_IDS) {
     html = replaceTextById(html, id, data[key]);

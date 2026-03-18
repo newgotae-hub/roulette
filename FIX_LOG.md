@@ -10,6 +10,14 @@ How to use it:
 
 ## 2026-03-18
 
+### Game-page editorial expansion below the interactive tools
+
+- Added lower-page editorial sections to the Korean and English wheel, number-picker, ladder, coin-flip, dice, and team-generator pages so each page now explains fit, misuse cases, pre-run checks, and common trust-breaking mistakes.
+- Centralized the new Korean/English copy in `scripts/tool-editorial-copy.js` and extended the HTML sync scripts so the sections are regenerated instead of hand-edited page by page.
+- Hardened `scripts/static-localize-html.js` meta replacement so malformed localized meta tags are normalized during regeneration instead of accumulating duplicated fragments.
+- Re-synced legal footer labels and revalidated the rollout after regeneration.
+- Detailed notes: [ADSENSE_GAME_PAGE_EDITORIAL_EXPANSION_2026-03-18.md](/home/user/roulette/ADSENSE_GAME_PAGE_EDITORIAL_EXPANSION_2026-03-18.md)
+
 ### AdSense multilingual guide rollout and locale guide-hub promotion
 
 - Added localized guide hubs and six localized guide pages for every supported non-Korean locale so guide discovery no longer depends on English-only routing outside Korean.

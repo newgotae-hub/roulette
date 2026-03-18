@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
 const { FOOTER_LABELS } = require('./legal-shared');
+const { EDITORIAL_LABELS, TOOL_EDITORIAL_COPY } = require('./tool-editorial-copy');
 
 const ROOT = process.cwd();
 const LOCALES = ['en','ja','zh-cn','zh-tw','es','fr','de','pt-br','hi','ar','ru','id','tr','it','vi','th','nl'];
@@ -215,14 +216,14 @@ function replaceElementText(html, id, text) {
 }
 
 function replaceMetaById(html, id, content) {
-  const re = new RegExp(`(<meta[^>]*\\bid=["']${escRe(id)}["'][^>]*\\bcontent=)(["'][^"']*["'])([^>]*>)`, 'i');
+  const re = new RegExp(`(<meta[^>]*\\bid=["']${escRe(id)}["'][^>]*\\bcontent=)(["']).*?\\2(?=\\s*\\/?>(?:\\s|$))([^>]*>)`, 'i');
   if (re.test(html)) return html.replace(re, `$1"${escAttr(content)}"$3`);
   const re2 = new RegExp(`(<meta[^>]*\\bid=["']${escRe(id)}["'][^>]*)(>)`, 'i');
   return html.replace(re2, `$1 content="${escAttr(content)}"$2`);
 }
 
 function replaceMetaByName(html, name, content) {
-  const re = new RegExp(`(<meta[^>]*\\bname=[\"']${escRe(name)}[\"'][^>]*\\bcontent=)([\"'][^\"']*[\"'])([^>]*>)`, 'i');
+  const re = new RegExp(`(<meta[^>]*\\bname=[\"']${escRe(name)}[\"'][^>]*\\bcontent=)([\"']).*?\\2(?=\\s*\\/?>(?:\\s|$))([^>]*>)`, 'i');
   if (re.test(html)) return html.replace(re, `$1\"${escAttr(content)}\"$3`);
   return html;
 }
@@ -317,6 +318,59 @@ function injectGuidePanel(html, locale) {
     <!-- adsense-content-end -->`);
 }
 
+function buildEditorialPanel(locale, tool) {
+  const labels = EDITORIAL_LABELS[locale];
+  const copy = TOOL_EDITORIAL_COPY[locale] && TOOL_EDITORIAL_COPY[locale][tool];
+  if (!labels || !copy) return null;
+
+  return `
+        <div data-tool-editorial="1" data-editorial-tool="${escAttr(tool)}" class="rounded-2xl border border-slate-200 bg-slate-50/60 p-6 md:p-8">
+          <h2 class="text-xl md:text-2xl font-semibold tracking-tight text-slate-900">${escHtml(labels.title)}</h2>
+          <p class="mt-3 text-sm md:text-base text-slate-600">${escHtml(copy.intro)}</p>
+          <div class="mt-5 grid gap-3 md:grid-cols-2 text-sm">
+            <article class="rounded-xl border border-slate-200 bg-white p-4 text-slate-700">
+              <h3 class="font-semibold text-slate-900">${escHtml(labels.fit)}</h3>
+              <p class="mt-2 leading-6">${escHtml(copy.fit)}</p>
+            </article>
+            <article class="rounded-xl border border-slate-200 bg-white p-4 text-slate-700">
+              <h3 class="font-semibold text-slate-900">${escHtml(labels.avoid)}</h3>
+              <p class="mt-2 leading-6">${escHtml(copy.avoid)}</p>
+            </article>
+            <article class="rounded-xl border border-slate-200 bg-white p-4 text-slate-700">
+              <h3 class="font-semibold text-slate-900">${escHtml(labels.checklist)}</h3>
+              <p class="mt-2 leading-6">${escHtml(copy.checklist)}</p>
+            </article>
+            <article class="rounded-xl border border-slate-200 bg-white p-4 text-slate-700">
+              <h3 class="font-semibold text-slate-900">${escHtml(labels.mistakes)}</h3>
+              <p class="mt-2 leading-6">${escHtml(copy.mistakes)}</p>
+            </article>
+          </div>
+        </div>`;
+}
+
+function injectEditorialPanel(html, locale, tool) {
+  const panel = buildEditorialPanel(locale, tool);
+  if (!panel) return html;
+
+  html = html.replace(/\n\s*<div data-tool-editorial="1"[\s\S]*?<\/div>\n(?=\s*<div(?: data-guide-panel="1")?|\s*<\/div>\n\s*<\/section>\n\s*<!-- adsense-content-end -->)/, '\n');
+
+  if (/\n\s*<div data-guide-panel="1">/.test(html)) {
+    return html.replace(/\n\s*<div data-guide-panel="1">/, `${panel}\n        <div data-guide-panel="1">`);
+  }
+
+  if (locale === 'ko') {
+    const otherToolsPattern = /\n\s*<div>\n\s*<h2 class="text-xl md:text-2xl font-semibold tracking-tight text-slate-900">다른 도구도 [^<]*<\/h2>/;
+    if (otherToolsPattern.test(html)) {
+      return html.replace(otherToolsPattern, `${panel}$&`);
+    }
+  }
+
+  return html.replace(/\n      <\/div>\n    <\/section>\n    <!-- adsense-content-end -->/, `${panel}
+      </div>
+    </section>
+    <!-- adsense-content-end -->`);
+}
+
 const ladderI18nSrc = fs.readFileSync(path.join(ROOT, 'assets/js/i18n.js'), 'utf8');
 const ladderI18n = evalI18nFromSnippet(extractBetween(ladderI18nSrc, 'const i18n =', 'window.RLTI18N = i18n;'));
 const ladderJs = fs.readFileSync(path.join(ROOT, 'assets/js/ladder.js'), 'utf8');
@@ -361,11 +415,29 @@ for (const locale of LOCALES) {
     html = localizeToolLinks(html, locale);
     html = applyStaticLocalization(html, dict, mapping, tool);
     html = injectGuidePanel(html, locale);
+    html = injectEditorialPanel(html, locale, tool);
 
     if (html !== orig) {
       fs.writeFileSync(file, html);
       changed += 1;
     }
+  }
+}
+
+for (const tool of TOOLS) {
+  const file = tool === 'roulette'
+    ? path.join(ROOT, 'index.html')
+    : path.join(ROOT, tool, 'index.html');
+  if (!fs.existsSync(file)) continue;
+  let html = fs.readFileSync(file, 'utf8');
+  const orig = html;
+
+  html = replaceHtmlLang(html, 'ko');
+  html = injectEditorialPanel(html, 'ko', tool);
+
+  if (html !== orig) {
+    fs.writeFileSync(file, html);
+    changed += 1;
   }
 }
 
