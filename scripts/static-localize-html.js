@@ -4,6 +4,7 @@ const path = require('path');
 const vm = require('vm');
 const { FOOTER_LABELS } = require('./legal-shared');
 const { EDITORIAL_LABELS, TOOL_EDITORIAL_COPY } = require('./tool-editorial-copy');
+const { EDITORIAL_AUX_COPY, TOOL_GUIDE_SLUGS } = require('./tool-editorial-meta');
 
 const ROOT = process.cwd();
 const LOCALES = ['en','ja','zh-cn','zh-tw','es','fr','de','pt-br','hi','ar','ru','id','tr','it','vi','th','nl'];
@@ -109,6 +110,16 @@ function escAttr(s) {
     .replace(/"/g, '&quot;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
+}
+
+function decodeEntities(s) {
+  return String(s)
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&#x27;/gi, "'");
 }
 
 function extractBetween(source, startToken, endToken, from = 0) {
@@ -240,6 +251,40 @@ function localePrefix(locale) {
   return locale === 'ko' ? '' : `/${locale}`;
 }
 
+const guideTitleCache = new Map();
+
+function guideFile(locale, slug) {
+  return locale === 'ko'
+    ? path.join(ROOT, 'guides', slug, 'index.html')
+    : path.join(ROOT, locale, 'guides', slug, 'index.html');
+}
+
+function readGuideTitle(locale, slug) {
+  const key = `${locale}:${slug}`;
+  if (guideTitleCache.has(key)) return guideTitleCache.get(key);
+
+  const file = guideFile(locale, slug);
+  let title = slug;
+  if (fs.existsSync(file)) {
+    const html = fs.readFileSync(file, 'utf8');
+    const h1 = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
+    const raw = h1 ? h1[1] : ((html.match(/<title>([\s\S]*?)<\/title>/i) || [])[1] || slug);
+    title = decodeEntities(raw.replace(/<[^>]+>/g, ' ').replace(/\s+\|\s+.*$/, '').replace(/\s+/g, ' ').trim());
+  }
+
+  guideTitleCache.set(key, title);
+  return title;
+}
+
+function buildGuideLinks(locale, tool) {
+  const slugs = TOOL_GUIDE_SLUGS[tool] || [];
+  const prefix = localePrefix(locale);
+  return slugs.map((slug) => ({
+    href: `${prefix}/guides/${slug}/`,
+    title: readGuideTitle(locale, slug)
+  }));
+}
+
 function localizeToolLinks(html, locale) {
   return html.replace(/(href=["'])\/(?:ko|en|ja|zh-cn|zh-tw|es|fr|de|pt-br|hi|ar|ru|id|tr|it|vi|th|nl\/)?(roulette|luckydraw|ladder|coinflip|dice)\/?(["'])/gi, (_m, p1, tool, p3) => {
     return `${p1}/${locale}/${tool}/${p3}`;
@@ -321,7 +366,21 @@ function injectGuidePanel(html, locale) {
 function buildEditorialPanel(locale, tool) {
   const labels = EDITORIAL_LABELS[locale];
   const copy = TOOL_EDITORIAL_COPY[locale] && TOOL_EDITORIAL_COPY[locale][tool];
-  if (!labels || !copy) return null;
+  const aux = EDITORIAL_AUX_COPY[locale];
+  if (!labels || !copy || !aux) return null;
+
+  const guideLinks = buildGuideLinks(locale, tool);
+  const guideMarkup = guideLinks.length
+    ? `
+          <div class="mt-6 border-t border-slate-200 pt-5">
+            <h3 class="text-sm font-semibold text-slate-900">${escHtml(aux.guides)}</h3>
+            <div class="mt-3 flex flex-wrap gap-2 text-sm">
+              ${guideLinks.map((guide) => `<a href="${escAttr(guide.href)}" class="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-slate-700 transition-colors hover:border-slate-300 hover:text-slate-900">${escHtml(guide.title)}</a>`).join('')}
+            </div>
+            <p class="mt-4 text-xs text-slate-500">${escHtml(aux.updated)}</p>
+          </div>`
+    : `
+          <p class="mt-6 border-t border-slate-200 pt-5 text-xs text-slate-500">${escHtml(aux.updated)}</p>`;
 
   return `
         <div data-tool-editorial="1" data-editorial-tool="${escAttr(tool)}" class="rounded-2xl border border-slate-200 bg-slate-50/60 p-6 md:p-8">
@@ -345,6 +404,7 @@ function buildEditorialPanel(locale, tool) {
               <p class="mt-2 leading-6">${escHtml(copy.mistakes)}</p>
             </article>
           </div>
+${guideMarkup}
         </div>`;
 }
 

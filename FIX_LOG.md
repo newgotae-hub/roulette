@@ -396,3 +396,10 @@ How to use it:
 
 - Added [TEAM_GENERATOR_SCORE_ENTRY_TRACKING_2026-03.md](/home/user/roulette/TEAM_GENERATOR_SCORE_ENTRY_TRACKING_2026-03.md) as the single history index for score-entry, winner calculation, locale rollout, QA, and results-panel guidance work.
 - Recorded the related commit chain from `7087d1e` through `99bd65c`, the files that must be updated together, the latest QA artifact paths, and the repeatable validation/deploy workflow for future follow-up changes.
+
+### 2026-03-18 - Game pages hardened with direct guide links and visible review signals
+
+- Added `scripts/tool-editorial-meta.js` and extended the lower-page editorial blocks so every major game page now surfaces direct localized guide links plus a visible `Reviewed and updated: 2026-03-18` style trust signal.
+- Extended both `scripts/static-localize-html.js` and `scripts/sync-team-generator-locales.js` so the same editorial treatment now covers Korean root pages and all localized `team-generator` pages alongside the other game tools.
+- Re-ran static page generation, legal-link sync, sitemap generation, and AdSense/SEO verification; the post-change readiness audit now reports `minimum content units: 1151` on the thinnest ad-enabled page.
+- Detailed notes: [ADSENSE_REVIEW_SIGNAL_HARDENING_2026-03-18.md](/home/user/roulette/ADSENSE_REVIEW_SIGNAL_HARDENING_2026-03-18.md)

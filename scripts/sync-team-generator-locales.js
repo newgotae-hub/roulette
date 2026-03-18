@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { ALL_LOCALES, NON_KO_LOCALES } = require('./legal-shared');
 const { EDITORIAL_LABELS, TOOL_EDITORIAL_COPY } = require('./tool-editorial-copy');
+const { EDITORIAL_AUX_COPY, TOOL_GUIDE_SLUGS } = require('./tool-editorial-meta');
 
 const ROOT = path.resolve(__dirname, '..');
 const I18N_PATH = path.join(ROOT, 'assets/js/team-generator-i18n.js');
@@ -169,6 +170,16 @@ function escapeAttr(value) {
   return escapeHtml(value).replace(/"/g, '&quot;');
 }
 
+function decodeEntities(value) {
+  return String(value)
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&#x27;/gi, "'");
+}
+
 function parseDataMap() {
   const source = fs.readFileSync(I18N_PATH, 'utf8');
   const start = source.indexOf('const dataMap = ');
@@ -190,6 +201,39 @@ function legalBase(locale) {
 
 function targetHref(locale, slug) {
   return `${legalBase(locale)}/${slug}/`.replace('//', '/');
+}
+
+function guideFile(locale, slug) {
+  return locale === 'ko'
+    ? path.join(ROOT, 'guides', slug, 'index.html')
+    : path.join(ROOT, locale, 'guides', slug, 'index.html');
+}
+
+const guideTitleCache = new Map();
+
+function readGuideTitle(locale, slug) {
+  const key = `${locale}:${slug}`;
+  if (guideTitleCache.has(key)) return guideTitleCache.get(key);
+
+  const file = guideFile(locale, slug);
+  let title = slug;
+  if (fs.existsSync(file)) {
+    const html = fs.readFileSync(file, 'utf8');
+    const h1 = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
+    const raw = h1 ? h1[1] : ((html.match(/<title>([\s\S]*?)<\/title>/i) || [])[1] || slug);
+    title = decodeEntities(raw.replace(/<[^>]+>/g, ' ').replace(/\s+\|\s+.*$/, '').replace(/\s+/g, ' ').trim());
+  }
+
+  guideTitleCache.set(key, title);
+  return title;
+}
+
+function buildGuideLinks(locale) {
+  const slugs = TOOL_GUIDE_SLUGS['team-generator'] || [];
+  return slugs.map((slug) => ({
+    href: `${legalBase(locale)}/guides/${slug}/`.replace('//', '/'),
+    title: readGuideTitle(locale, slug)
+  }));
 }
 
 function replaceTextById(html, id, value) {
@@ -300,9 +344,15 @@ function syncGuideSectionStructure(html) {
 function buildEditorialPanel(locale) {
   const labels = EDITORIAL_LABELS[locale];
   const copy = TOOL_EDITORIAL_COPY[locale] && TOOL_EDITORIAL_COPY[locale]['team-generator'];
-  if (!labels || !copy) return '';
+  const aux = EDITORIAL_AUX_COPY[locale];
+  if (!labels || !copy || !aux) return '';
 
-  return `<div data-team-editorial="1" class="mt-8 rounded-[1.6rem] border border-slate-200 bg-slate-50/80 p-5 shadow-sm md:p-6"><div class="max-w-3xl"><h2 class="text-xl font-semibold tracking-tight text-slate-900">${escapeHtml(labels.title)}</h2><p class="mt-3 text-sm leading-6 text-slate-600">${escapeHtml(copy.intro)}</p></div><div class="mt-5 grid gap-3 md:grid-cols-2 text-sm"><article class="rounded-2xl border border-slate-200 bg-white p-4 text-slate-700 shadow-sm shadow-slate-200/30"><h3 class="font-semibold text-slate-900">${escapeHtml(labels.fit)}</h3><p class="mt-2 leading-6">${escapeHtml(copy.fit)}</p></article><article class="rounded-2xl border border-slate-200 bg-white p-4 text-slate-700 shadow-sm shadow-slate-200/30"><h3 class="font-semibold text-slate-900">${escapeHtml(labels.avoid)}</h3><p class="mt-2 leading-6">${escapeHtml(copy.avoid)}</p></article><article class="rounded-2xl border border-slate-200 bg-white p-4 text-slate-700 shadow-sm shadow-slate-200/30"><h3 class="font-semibold text-slate-900">${escapeHtml(labels.checklist)}</h3><p class="mt-2 leading-6">${escapeHtml(copy.checklist)}</p></article><article class="rounded-2xl border border-slate-200 bg-white p-4 text-slate-700 shadow-sm shadow-slate-200/30"><h3 class="font-semibold text-slate-900">${escapeHtml(labels.mistakes)}</h3><p class="mt-2 leading-6">${escapeHtml(copy.mistakes)}</p></article></div></div>`;
+  const guideLinks = buildGuideLinks(locale);
+  const guideMarkup = guideLinks.length
+    ? `<div class="mt-6 border-t border-slate-200 pt-5"><h3 class="text-sm font-semibold text-slate-900">${escapeHtml(aux.guides)}</h3><div class="mt-3 flex flex-wrap gap-2 text-sm">${guideLinks.map((guide) => `<a href="${escapeAttr(guide.href)}" class="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-slate-700 transition-colors hover:border-slate-300 hover:text-slate-900">${escapeHtml(guide.title)}</a>`).join('')}</div><p class="mt-4 text-xs text-slate-500">${escapeHtml(aux.updated)}</p></div>`
+    : `<p class="mt-6 border-t border-slate-200 pt-5 text-xs text-slate-500">${escapeHtml(aux.updated)}</p>`;
+
+  return `<div data-team-editorial="1" class="mt-8 rounded-[1.6rem] border border-slate-200 bg-slate-50/80 p-5 shadow-sm md:p-6"><div class="max-w-3xl"><h2 class="text-xl font-semibold tracking-tight text-slate-900">${escapeHtml(labels.title)}</h2><p class="mt-3 text-sm leading-6 text-slate-600">${escapeHtml(copy.intro)}</p></div><div class="mt-5 grid gap-3 md:grid-cols-2 text-sm"><article class="rounded-2xl border border-slate-200 bg-white p-4 text-slate-700 shadow-sm shadow-slate-200/30"><h3 class="font-semibold text-slate-900">${escapeHtml(labels.fit)}</h3><p class="mt-2 leading-6">${escapeHtml(copy.fit)}</p></article><article class="rounded-2xl border border-slate-200 bg-white p-4 text-slate-700 shadow-sm shadow-slate-200/30"><h3 class="font-semibold text-slate-900">${escapeHtml(labels.avoid)}</h3><p class="mt-2 leading-6">${escapeHtml(copy.avoid)}</p></article><article class="rounded-2xl border border-slate-200 bg-white p-4 text-slate-700 shadow-sm shadow-slate-200/30"><h3 class="font-semibold text-slate-900">${escapeHtml(labels.checklist)}</h3><p class="mt-2 leading-6">${escapeHtml(copy.checklist)}</p></article><article class="rounded-2xl border border-slate-200 bg-white p-4 text-slate-700 shadow-sm shadow-slate-200/30"><h3 class="font-semibold text-slate-900">${escapeHtml(labels.mistakes)}</h3><p class="mt-2 leading-6">${escapeHtml(copy.mistakes)}</p></article></div>${guideMarkup}</div>`;
 }
 
 function injectEditorialPanel(html, locale) {
