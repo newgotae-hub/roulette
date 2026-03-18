@@ -10,6 +10,13 @@ How to use it:
 
 ## 2026-03-18
 
+### All-language rollout of lower-page game editorials
+
+- Extended the lower-page editorial blocks for wheel, number-picker, ladder, coin-flip, dice, and team-generator pages to every supported locale instead of keeping the richer treatment only on Korean and English surfaces.
+- Regenerated 108 localized tool surfaces from the shared editorial source so each language now exposes tool-fit guidance, misuse cases, operator checks, and common trust-breaking mistakes below the interactive UI.
+- Re-ran localized legal-link normalization, sitemap generation, AdSense readiness checks, and SEO validation after the full locale rollout.
+- Detailed notes: [ADSENSE_ALL_LANGUAGE_GAME_PAGE_EDITORIAL_ROLLOUT_2026-03-18.md](/home/user/roulette/ADSENSE_ALL_LANGUAGE_GAME_PAGE_EDITORIAL_ROLLOUT_2026-03-18.md)
+
 ### Game-page editorial expansion below the interactive tools
 
 - Added lower-page editorial sections to the Korean and English wheel, number-picker, ladder, coin-flip, dice, and team-generator pages so each page now explains fit, misuse cases, pre-run checks, and common trust-breaking mistakes.
