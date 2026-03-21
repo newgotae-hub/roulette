@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Snake | Randomly Pick</title>
+  <meta name="description" content="브라우저에서 바로 하는 Snake. 키보드, WASD, 스와이프를 지원하고 점수, 길이, 속도를 한 화면에 보여줍니다." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://randomly-pick.com/games/snake/" />
+  <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/snake/" />
+  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/games/snake/" />
+  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/games/snake/" />
+  <link rel="stylesheet" href="/assets/css/games-snake.css?v=20260322-snake1" />
+  <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
+  <style>
+    :root {
+      color-scheme: dark;
+      --panel: rgba(15,23,42,.86);
+      --panel-strong: rgba(15,23,42,.96);
+      --line: rgba(148,163,184,.18);
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #22c55e;
+      --accent-2: #86efac;
+      --warm: #f59e0b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: "Noto Sans KR", "Malgun Gothic", sans-serif;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(34,197,94,.18), transparent 20%),
+        radial-gradient(circle at 90% 0%, rgba(14,165,233,.16), transparent 26%),
+        linear-gradient(180deg, #050b16 0%, #0b1629 100%);
+    }
+    a { color: inherit; }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 22px 18px 76px; }
+    .topbar, .nav, .actions, .chips, .links { display: flex; flex-wrap: wrap; }
+    .topbar { align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 22px; }
+    .brand { display: inline-flex; align-items: center; gap: 12px; font-weight: 700; letter-spacing: -.04em; }
+    .brand-mark {
+      width: 42px; height: 42px; border-radius: 14px; display: grid; place-items: center;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: #04110b;
+      box-shadow: 0 16px 32px rgba(34,197,94,.20);
+      font-size: 1.1rem;
+    }
+    .brand-name { font-size: 1.02rem; }
+    .nav { gap: 8px; }
+    .nav a {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 36px; padding: 0 14px;
+      border-radius: 999px; border: 1px solid rgba(148,163,184,.18);
+      background: rgba(15,23,42,.62);
+      text-decoration: none; font-size: .92rem; color: #cbd5e1;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease, color .18s ease;
+    }
+    .nav a:hover { transform: translateY(-1px); border-color: rgba(134,239,172,.35); color: white; background: rgba(15,23,42,.82); }
+    .nav a.active { background: linear-gradient(135deg, #22c55e, #16a34a); color: #04110b; border-color: transparent; box-shadow: 0 14px 28px rgba(34,197,94,.22); }
+    .hero, .panel, .section, .trust {
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: var(--panel);
+      box-shadow: 0 26px 60px rgba(0,0,0,.24);
+      backdrop-filter: blur(12px);
+      animation: rise .5s ease both;
+    }
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 30px 28px 26px;
+      margin-bottom: 22px;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: auto -10% -34% auto;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(34,197,94,.18), rgba(34,197,94,0));
+      pointer-events: none;
+    }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px; border-radius: 999px;
+      background: rgba(34,197,94,.14); color: var(--accent-2); font-size: .78rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+    }
+    h1 {
+      margin: 14px 0 10px;
+      font-size: clamp(3rem, 7vw, 5.2rem);
+      line-height: .92;
+      letter-spacing: -.07em;
+      text-wrap: balance;
+    }
+    .lede {
+      max-width: 62ch;
+      margin: 0;
+      color: #cbd5e1;
+      font-size: clamp(1rem, 2vw, 1.1rem);
+      line-height: 1.85;
+    }
+    .actions { gap: 10px; margin-top: 22px; }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,.22);
+      background: rgba(15,23,42,.86);
+      color: white;
+      text-decoration: none;
+      font-weight: 700;
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+    .button:hover { transform: translateY(-1px); border-color: rgba(134,239,172,.38); box-shadow: 0 12px 24px rgba(0,0,0,.18); }
+    .button.primary { background: linear-gradient(135deg, #22c55e, #16a34a); color: #04110b; border-color: transparent; box-shadow: 0 16px 30px rgba(34,197,94,.20); }
+    .chips { gap: 10px; margin-top: 16px; }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: rgba(15,23,42,.6);
+      border: 1px solid rgba(148,163,184,.18);
+      color: #dbeafe;
+      font-size: .88rem;
+      font-weight: 600;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(280px, .8fr);
+      gap: 16px;
+      align-items: start;
+    }
+    .panel, .section, .trust {
+      background: var(--panel-strong);
+      box-shadow: 0 18px 40px rgba(0,0,0,.16);
+    }
+    .panel { padding: 20px; }
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .panel-head h2, .section-head h2 { margin: 0; font-size: 1.3rem; letter-spacing: -.04em; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 10px; }
+    .toolbar button {
+      border: 1px solid rgba(148,163,184,.2);
+      background: rgba(15,23,42,.84);
+      color: white;
+      font: inherit;
+      border-radius: 16px;
+      min-height: 42px;
+      padding: 0 14px;
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .toolbar button:hover { transform: translateY(-1px); border-color: rgba(134,239,172,.4); }
+    .toolbar button:focus-visible, .button:focus-visible, .nav a:focus-visible, .links a:focus-visible, .pad button:focus-visible {
+      outline: 2px solid #86efac;
+      outline-offset: 2px;
+    }
+    .board-shell {
+      display: grid;
+      place-items: center;
+      gap: 14px;
+      padding: 16px;
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at top, rgba(34,197,94,.12), transparent 30%),
+        linear-gradient(180deg, rgba(2,6,23,.88), rgba(15,23,42,.96));
+      border: 1px solid rgba(148,163,184,.16);
+    }
+    canvas {
+      display: block;
+      width: min(100%, 680px);
+      aspect-ratio: 1;
+      border-radius: 22px;
+      background: #050f1c;
+      box-shadow: inset 0 0 0 1px rgba(134,239,172,.12), 0 22px 48px rgba(0,0,0,.24);
+      touch-action: none;
+    }
+    .controls {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      margin-top: 16px;
+      align-items: center;
+    }
+    .pad {
+      display: grid;
+      grid-template-columns: repeat(3, 52px);
+      gap: 8px;
+      justify-content: center;
+      align-items: center;
+    }
+    .pad button {
+      border: 1px solid rgba(148,163,184,.2);
+      background: rgba(15,23,42,.84);
+      color: white;
+      font: inherit;
+      border-radius: 16px;
+      min-height: 48px;
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .pad button:hover { transform: translateY(-1px); border-color: rgba(134,239,172,.4); }
+    .pad .blank { visibility: hidden; }
+    .pad .up { grid-column: 2; }
+    .pad .left { grid-column: 1; grid-row: 2; }
+    .pad .down { grid-column: 2; grid-row: 2; }
+    .pad .right { grid-column: 3; grid-row: 2; }
+    .stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .stat {
+      padding: 14px;
+      border-radius: 20px;
+      background: rgba(15,23,42,.72);
+      border: 1px solid rgba(148,163,184,.16);
+    }
+    .stat span { display: block; color: var(--muted); font-size: .84rem; margin-bottom: 6px; }
+    .stat strong { font-size: 1.18rem; letter-spacing: -.04em; }
+    .status {
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(15,23,42,.72);
+      border: 1px solid rgba(148,163,184,.16);
+      color: #dbeafe;
+      line-height: 1.7;
+    }
+    .section {
+      margin-top: 18px;
+      padding: 22px;
+    }
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .section p { margin: 0; color: #cbd5e1; line-height: 1.75; }
+    .steps, .uses, .related, .copy-grid {
+      display: grid;
+      gap: 12px;
+    }
+    .steps, .uses { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .copy-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .step, .use, .copy-card, .related a {
+      padding: 16px;
+      border-radius: 20px;
+      background: rgba(15,23,42,.74);
+      border: 1px solid rgba(148,163,184,.16);
+      color: #dbeafe;
+    }
+    .step strong, .use strong, .copy-card strong { display: block; margin-bottom: 8px; color: white; }
+    .related { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+    .related a { text-decoration: none; transition: transform .18s ease, border-color .18s ease; }
+    .related a:hover { transform: translateY(-2px); border-color: rgba(134,239,172,.4); }
+    .trust { margin-top: 18px; padding: 20px 22px; }
+    .links { gap: 10px; margin-top: 12px; }
+    .links a {
+      text-decoration: none;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,.2);
+      background: rgba(15,23,42,.74);
+      font-weight: 700;
+      color: #e2e8f0;
+    }
+    .footer {
+      margin-top: 28px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(148,163,184,.18);
+      color: #94a3b8;
+      font-size: .92rem;
+      line-height: 1.7;
+    }
+    .footer a { color: #e2e8f0; text-decoration: none; font-weight: 700; }
+    @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .hero, .panel, .section, .trust { animation: rise .5s ease both; }
+    .panel { animation-delay: .05s; }
+    .section:nth-of-type(1) { animation-delay: .08s; }
+    .section:nth-of-type(2) { animation-delay: .12s; }
+    .section:nth-of-type(3) { animation-delay: .16s; }
+    .section:nth-of-type(4) { animation-delay: .20s; }
+    .trust { animation-delay: .24s; }
+    @media (max-width: 920px) {
+      .layout, .steps, .uses, .copy-grid { grid-template-columns: 1fr; }
+      .controls { grid-template-columns: 1fr; }
+      .pad { justify-content: start; }
+    }
+    @media (max-width: 640px) {
+      .wrap { padding: 18px 14px 56px; }
+      .hero { padding: 24px 18px 20px; border-radius: 26px; }
+      .section, .panel, .trust { border-radius: 24px; }
+      .stats { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-mark">R.</div>
+        <div>
+          <div class="brand-name">Randomly Pick</div>
+          <div style="font-size:.86rem;color:#94a3b8;font-weight:600;margin-top:2px;">Snake</div>
+        </div>
+      </div>
+      <nav class="nav" aria-label="Primary">
+        <a href="/">Home</a><a href="/games/" class="active" aria-current="page">Games</a><a href="/luckydraw/">Lucky Draw</a><a href="/ladder/">Ladder Draw</a><a href="/team-generator/">Team Split</a><a href="/coinflip/">Coin Flip</a><a href="/dice/">Dice Roll</a>
+      </nav>
+    </div>
+
+    <section class="hero" data-snake-section="purpose">
+      <span class="eyebrow">Playable now</span>
+      <h1>Snake</h1>
+      <p class="lede">A classic arcade loop that works with keyboard, WASD, or swipe controls. Use it for a quick break, a classroom demo, or a familiar game that still feels good in the browser.</p>
+      <div class="actions">
+        <a class="button primary" href="#play-area">Start game</a>
+        <a class="button" href="/games/">Back to Games</a>
+      </div>
+      <div class="chips" aria-label="Game highlights">
+        <span class="chip">Target score 10</span><span class="chip">Best score saved locally</span><span class="chip">Arrow keys and WASD</span><span class="chip">Swipe on mobile</span>
+      </div>
+    </section>
+
+    <div class="layout" id="play-area">
+      <section class="panel" aria-labelledby="board-title">
+        <div class="panel-head">
+          <h2 id="board-title">Play area</h2>
+          <div class="toolbar">
+            <button id="snake-start" type="button">Start</button>
+            <button id="snake-pause" type="button">Pause</button>
+            <button id="snake-restart" type="button">Restart</button>
+          </div>
+        </div>
+        <div class="board-shell">
+          <canvas id="snake-board" width="640" height="640" aria-label="Snake game board"></canvas>
+        </div>
+        <div class="controls snake-controls">
+          <div class="pad" aria-label="Directional controls">
+            <span class="blank"></span>
+            <button id="snake-up" class="up" type="button" aria-label="Move up">▲</button>
+            <button id="snake-left" class="left" type="button" aria-label="Move left">◀</button>
+            <button id="snake-down" class="down" type="button" aria-label="Move down">▼</button>
+            <button id="snake-right" class="right" type="button" aria-label="Move right">▶</button>
+          </div>
+          <div>
+            <div class="stats" aria-label="Current game stats">
+              <div class="stat"><span>Status</span><strong id="snake-mode">ready</strong></div>
+              <div class="stat"><span>Score</span><strong id="snake-score">0</strong></div>
+              <div class="stat"><span>Best</span><strong id="snake-best">0</strong></div>
+              <div class="stat"><span>Target</span><strong id="snake-target">10</strong></div>
+              <div class="stat"><span>Length</span><strong id="snake-length">3</strong></div>
+              <div class="stat"><span>Speed</span><strong id="snake-speed">120 ms</strong></div>
+            </div>
+            <div class="status" id="snake-status">Press Start or any direction to begin.</div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="panel" aria-labelledby="guide-title" data-snake-section="why">
+        <div class="panel-head"><h2 id="guide-title">How to read the game</h2></div>
+        <p>Snake stays intentionally simple: one board, one score, one target. That keeps the game easy to test and easy to understand on both mobile and desktop.</p>
+        <div class="section snake-copy-grid" style="margin-top:16px;">
+          <div class="copy-card" data-snake-section="tip"><strong>Quick controls</strong><p>Use the keyboard, tap the arrows, or swipe on the board. Press Space to pause, Enter to start, and R to reset.</p></div>
+          <div class="copy-card" data-snake-section="faq"><strong>FAQ</strong><p>Yes, the board saves a best score locally, and the round can be restarted at any time without leaving the page.</p></div>
+        </div>
+        <div class="section" data-snake-section="why" style="margin-top:16px;">
+          <div class="section-head"><h2>Why this page works</h2></div>
+          <p>This is a complete game page instead of a thin widget: the board is playable, the controls are obvious, and the supporting copy explains when Snake is the right choice.</p>
+        </div>
+      </aside>
+    </div>
+
+    <section class="section" data-snake-section="how" aria-labelledby="howto-title">
+      <div class="section-head"><h2 id="howto-title">How to play</h2><p>Three short steps are enough to keep the game readable and the score loop obvious.</p></div>
+      <div class="steps">
+        <div class="step"><strong>1. Start the round.</strong> Press Start or use any direction key to move off the ready state.</div>
+        <div class="step"><strong>2. Eat the food.</strong> Each piece grows the snake and raises your score, so the board gets tighter over time.</div>
+        <div class="step"><strong>3. Avoid walls and your body.</strong> Reach the target score for a clean win, or reset and try a better route.</div>
+      </div>
+    </section>
+
+    <section class="section" data-snake-section="when" aria-labelledby="uses-title">
+      <div class="section-head"><h2 id="uses-title">When this game fits</h2><p>Snake is useful when the best answer is a short, familiar game rather than a decision tool.</p></div>
+      <div class="uses">
+        <div class="use"><strong>Quick breaks</strong> A tiny arcade loop gives people something to play for a minute or two without context switching.</div>
+        <div class="use"><strong>Classroom demos</strong> The movement, collision, and score loop are easy to explain while the board is visible.</div>
+        <div class="use"><strong>Testing a game shell</strong> It is a reliable first game because the rules are simple and the QA hooks are easy to verify.</div>
+      </div>
+    </section>
+
+    <section class="section" data-snake-section="related" aria-labelledby="related-title">
+      <div class="section-head"><h2 id="related-title">Related links</h2><p>Use the same site when you want a decision tool instead of an action game.</p></div>
+      <div class="related">
+        <a href="/games/"><strong>Games hub</strong><br />Go back to the dashboard and pick another title.</a>
+        <a href="/luckydraw/"><strong>Lucky Draw</strong><br />Use it when you need a quick random pick instead of play.</a>
+        <a href="/dice/"><strong>Dice Roll</strong><br />Use it for tabletop-style rolls or repeated turns.</a>
+        <a href="/about/"><strong>About</strong><br />Read the site story and operator info.</a>
+        <a href="/privacy/"><strong>Privacy Policy</strong><br />See how local browser state is handled.</a>
+        <a href="/contact/"><strong>Contact</strong><br />Reach the operator with site questions.</a>
+      </div>
+    </section>
+
+    <section class="trust">
+      <strong>Trust and support</strong>
+      <div class="links">
+        <a id="footer-about" href="/about/">소개</a>
+        <a id="footer-terms" href="/terms/">이용약관</a>
+        <a id="footer-privacy" href="/privacy/">개인정보처리방침</a>
+        <a id="footer-contact" href="/contact/">문의</a>
+      </div>
+    </section>
+
+    <div class="footer">Designed and developed by Juntae Ko · <a href="/games/">Randomly Pick Games</a></div>
+  </main>
+
+  <script>
+    window.__SNAKE_COPY__ = {
+      targetScore: 10,
+      statusReady: 'Press Start or any direction to begin.',
+      statusPlaying: 'Snake is moving. Keep eating and avoid the walls.',
+      statusPaused: 'Paused. Resume when you are ready.',
+      statusGameOver: 'Game over. Restart to try again.',
+      statusWin: 'You won. Clear run complete.',
+      pauseLabel: 'Pause',
+      resumeLabel: 'Resume',
+      startLabel: 'Start',
+      startingLabel: 'Playing'
+    };
+  </script>
+  <script src="/assets/js/games-snake.js?v=20260322-snake1"></script>
+</body>
+</html>

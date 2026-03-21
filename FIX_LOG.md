@@ -10,6 +10,14 @@ How to use it:
 
 ## 2026-03-22
 
+### Snake launched as the first real Games hub title
+
+- Replaced the Games hub starter placeholder with a real first playable title: Snake.
+- Added localized `/games/snake/` and `/en/games/snake/` pages that host the existing Snake runtime, plus updated the hub cards and CTAs so Snake is the first primary action.
+- Updated sitemap generation so the new hub and game routes are published and indexable.
+- Verified the runtime with a browser QA loop, including movement, pause/resume, wall-collision game over, and restart behavior.
+- Detailed notes: [GAMES_SNAKE_ROLLOUT_2026-03-22.md](/home/user/roulette/GAMES_SNAKE_ROLLOUT_2026-03-22.md)
+
 ### Games hub entrypoint added
 
 - Added a new top-level `Games` tab to the main home navigation and created `/games/` plus `/en/games/` as a starter dashboard for selecting quick games later.
