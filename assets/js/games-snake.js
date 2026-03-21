@@ -11,8 +11,10 @@
   const statusEl = document.getElementById('snake-status');
   const scoreEl = document.getElementById('snake-score');
   const bestEl = document.getElementById('snake-best');
+  const targetEl = document.getElementById('snake-target');
   const lengthEl = document.getElementById('snake-length');
   const speedEl = document.getElementById('snake-speed');
+  const startBtn = document.getElementById('snake-start');
   const pauseBtn = document.getElementById('snake-pause');
   const restartBtn = document.getElementById('snake-restart');
   const gameTag = document.getElementById('snake-game-tag');
@@ -20,14 +22,14 @@
   const ctx = canvas.getContext('2d');
 
   const controls = {
-    up: document.querySelector('[data-snake-dir="up"]'),
-    down: document.querySelector('[data-snake-dir="down"]'),
-    left: document.querySelector('[data-snake-dir="left"]'),
-    right: document.querySelector('[data-snake-dir="right"]')
+    up: document.getElementById('snake-up') || document.querySelector('[data-snake-dir="up"]'),
+    down: document.getElementById('snake-down') || document.querySelector('[data-snake-dir="down"]'),
+    left: document.getElementById('snake-left') || document.querySelector('[data-snake-dir="left"]'),
+    right: document.getElementById('snake-right') || document.querySelector('[data-snake-dir="right"]')
   };
 
   const state = {
-    phase: 'running',
+    phase: 'ready',
     score: 0,
     best: Number(window.localStorage?.getItem('rlt-snake-best-v1') || '0') || 0,
     seed: DEFAULT_SEED,
@@ -76,29 +78,76 @@
     gameTag.textContent = text;
   }
 
-  function updateHud() {
-    if (scoreEl) scoreEl.textContent = String(state.score);
-    if (bestEl) bestEl.textContent = String(state.best);
-    if (lengthEl) lengthEl.textContent = String(state.snake.length);
-    if (speedEl) speedEl.textContent = `${Math.round(1000 / state.tickMs)} /s`;
+  function isComplete() {
+    return state.score >= (Number(copy.targetScore) || 10);
+  }
 
-    if (state.phase === 'running') {
-      setTag('running', copy.runningTag || 'Running');
-      setStatus(copy.playingStatus || 'Guide the snake with arrow keys, WASD, or the on-screen buttons.');
-      if (pauseBtn) pauseBtn.textContent = copy.pauseButton || 'Pause';
-    } else if (state.phase === 'paused') {
-      setTag('paused', copy.pausedTag || 'Paused');
-      setStatus(copy.pausedStatus || 'The game is paused. Press resume or restart to continue.');
-      if (pauseBtn) pauseBtn.textContent = copy.resumeButton || 'Resume';
-    } else {
-      setTag('gameover', copy.gameOverTag || 'Game Over');
-      setStatus(copy.gameOverStatus || 'Game over. Restart to try the same challenge again.');
-      if (pauseBtn) pauseBtn.textContent = copy.resumeButton || 'Resume';
+  function phaseLabel() {
+    if (state.phase === 'running') return copy.startingLabel || 'Playing';
+    if (state.phase === 'paused') return copy.resumeLabel || 'Resume';
+    if (state.phase === 'won') return copy.statusWin || 'Complete';
+    if (state.phase === 'gameover') return copy.statusGameOver || 'Game over';
+    return copy.readyLabel || copy.startLabel || 'Ready';
+  }
+
+  function phaseStatus() {
+    if (state.phase === 'running') return copy.statusPlaying || 'Snake is moving. Keep eating and avoid the walls.';
+    if (state.phase === 'paused') return copy.statusPaused || 'Paused. Resume when you are ready.';
+    if (state.phase === 'won') return copy.statusWin || 'You won. Clear run complete.';
+    if (state.phase === 'gameover') return copy.statusGameOver || 'Game over. Restart to try again.';
+    return copy.statusReady || 'Press Start or any direction to begin.';
+  }
+
+  function syncActionButtons() {
+    if (startBtn) {
+      if (state.phase === 'running') {
+        startBtn.textContent = copy.startingLabel || 'Playing';
+        startBtn.disabled = true;
+      } else if (state.phase === 'paused') {
+        startBtn.textContent = copy.resumeLabel || 'Resume';
+        startBtn.disabled = false;
+      } else if (state.phase === 'won' || state.phase === 'gameover') {
+        startBtn.textContent = copy.restartLabel || 'Restart';
+        startBtn.disabled = false;
+      } else {
+        startBtn.textContent = copy.startLabel || 'Start';
+        startBtn.disabled = false;
+      }
+    }
+
+    if (pauseBtn) {
+      if (state.phase === 'ready') {
+        pauseBtn.textContent = copy.pauseLabel || 'Pause';
+        pauseBtn.disabled = true;
+      } else if (state.phase === 'paused') {
+        pauseBtn.textContent = copy.resumeLabel || 'Resume';
+        pauseBtn.disabled = false;
+      } else if (state.phase === 'won' || state.phase === 'gameover') {
+        pauseBtn.textContent = copy.restartLabel || 'Restart';
+        pauseBtn.disabled = false;
+      } else {
+        pauseBtn.textContent = copy.pauseLabel || 'Pause';
+        pauseBtn.disabled = false;
+      }
+    }
+
+    if (restartBtn) {
+      restartBtn.textContent = copy.restartLabel || 'Restart';
     }
   }
 
+  function updateHud() {
+    if (scoreEl) scoreEl.textContent = String(state.score);
+    if (bestEl) bestEl.textContent = String(state.best);
+    if (targetEl) targetEl.textContent = String(Number(copy.targetScore) || 10);
+    if (lengthEl) lengthEl.textContent = String(state.snake.length);
+    if (speedEl) speedEl.textContent = `${Math.round(1000 / state.tickMs)} /s`;
+    setTag(state.phase, phaseLabel());
+    setStatus(phaseStatus());
+    syncActionButtons();
+  }
+
   function setControlsDisabled(disabled) {
-    if (pauseBtn) pauseBtn.disabled = disabled;
     for (const btn of Object.values(controls)) {
       if (btn) btn.disabled = disabled;
     }
@@ -136,7 +185,7 @@
   }
 
   function syncButtons() {
-    if (restartBtn) restartBtn.textContent = copy.restartButton || 'Restart';
+    syncActionButtons();
   }
 
   function resetGame(seed = DEFAULT_SEED) {
@@ -152,7 +201,7 @@
     state.queuedDirection = null;
     state.apple = nextRandomCell();
     state.accumulator = 0;
-    state.phase = 'running';
+    state.phase = 'ready';
     state.lastFrameTime = 0;
     updateSpeed();
     updateHud();
@@ -162,8 +211,16 @@
     return render_game_to_text();
   }
 
+  function startGame() {
+    if (state.phase === 'running') return;
+    state.phase = 'running';
+    state.lastFrameTime = performance.now();
+    updateHud();
+    draw();
+  }
+
   function pauseGame() {
-    if (state.phase === 'gameover') return;
+    if (state.phase !== 'running') return;
     state.phase = 'paused';
     updateHud();
     draw();
@@ -178,26 +235,32 @@
   }
 
   function togglePause() {
-    if (state.phase === 'gameover') {
-      resetGame(state.seed);
+    if (state.phase === 'ready') {
+      startGame();
       return;
     }
     if (state.phase === 'paused') {
       resumeGame();
-    } else {
+    } else if (state.phase === 'running') {
       pauseGame();
+    } else {
+      resetGame(state.seed);
     }
   }
 
   function setDirection(next) {
     if (!next) return;
+    if (state.phase === 'ready') {
+      startGame();
+    }
+    if (state.phase !== 'running') return;
     const current = state.queuedDirection || state.direction;
     if (opposite(next, current)) return;
     state.queuedDirection = next;
   }
 
   function endGame(reason) {
-    state.phase = 'gameover';
+    state.phase = reason === 'win' ? 'won' : 'gameover';
     state.accumulator = 0;
     if (state.score > state.best) {
       state.best = state.score;
@@ -245,6 +308,10 @@
       if (state.score > state.best) {
         state.best = state.score;
         saveBest();
+      }
+      if (isComplete()) {
+        endGame('win');
+        return;
       }
       state.apple = nextRandomCell();
       maybeIncreaseDifficulty();
@@ -308,8 +375,8 @@
     ctx.clearRect(0, 0, width, height);
 
     const bg = ctx.createLinearGradient(0, 0, width, height);
-    bg.addColorStop(0, '#07111f');
-    bg.addColorStop(1, '#0a1628');
+    bg.addColorStop(0, '#f8fafc');
+    bg.addColorStop(1, '#e2e8f0');
     ctx.fillStyle = bg;
     ctx.fillRect(0, 0, width, height);
 
@@ -318,14 +385,14 @@
 
     for (let row = 0; row < GRID_SIZE; row += 1) {
       for (let col = 0; col < GRID_SIZE; col += 1) {
-        ctx.fillStyle = (row + col) % 2 === 0 ? 'rgba(15, 23, 42, 0.14)' : 'rgba(255, 255, 255, 0.02)';
+        ctx.fillStyle = (row + col) % 2 === 0 ? 'rgba(148, 163, 184, 0.08)' : 'rgba(255, 255, 255, 0.55)';
         ctx.fillRect(col * cell, row * cell, cell - 1, cell - 1);
       }
     }
 
     ctx.save();
-    ctx.shadowColor = 'rgba(34, 197, 94, 0.55)';
-    ctx.shadowBlur = 18;
+    ctx.shadowColor = 'rgba(245, 158, 11, 0.30)';
+    ctx.shadowBlur = 12;
     ctx.fillStyle = '#f59e0b';
     drawRoundedRect(ctx, state.apple.x * cell + cell * 0.18, state.apple.y * cell + cell * 0.18, cell * 0.64, cell * 0.64, cell * 0.2);
     ctx.fill();
@@ -333,9 +400,9 @@
 
     state.snake.forEach((segment, index) => {
       const padding = index === 0 ? 0.12 : 0.16;
-      ctx.fillStyle = index === 0 ? '#86efac' : '#22c55e';
-      ctx.shadowColor = index === 0 ? 'rgba(134, 239, 172, 0.45)' : 'rgba(34, 197, 94, 0.28)';
-      ctx.shadowBlur = index === 0 ? 14 : 8;
+      ctx.fillStyle = index === 0 ? '#14532d' : '#16a34a';
+      ctx.shadowColor = index === 0 ? 'rgba(20, 83, 45, 0.20)' : 'rgba(22, 163, 74, 0.18)';
+      ctx.shadowBlur = index === 0 ? 12 : 6;
       drawRoundedRect(
         ctx,
         segment.x * cell + cell * padding,
@@ -348,19 +415,24 @@
       ctx.shadowBlur = 0;
     });
 
-    if (state.phase === 'paused' || state.phase === 'gameover') {
+    if (state.phase !== 'running') {
       ctx.save();
-      ctx.fillStyle = state.phase === 'paused' ? 'rgba(6, 10, 22, 0.66)' : 'rgba(126, 29, 29, 0.66)';
+      const overlayStyles = {
+        ready: ['rgba(255, 255, 255, 0.82)', '#0f172a', '#475569'],
+        paused: ['rgba(15, 23, 42, 0.10)', '#0f172a', '#475569'],
+        won: ['rgba(22, 163, 74, 0.10)', '#14532d', '#166534'],
+        gameover: ['rgba(239, 68, 68, 0.10)', '#7f1d1d', '#991b1b']
+      };
+      const [fillStyle, titleColor, bodyColor] = overlayStyles[state.phase] || overlayStyles.ready;
+      ctx.fillStyle = fillStyle;
       ctx.fillRect(0, 0, boardWidth, boardHeight);
       ctx.textAlign = 'center';
-      ctx.fillStyle = '#ffffff';
+      ctx.fillStyle = titleColor;
       ctx.font = '700 24px Arial, sans-serif';
-      ctx.fillText(state.phase === 'paused' ? (copy.pausedTag || 'Paused') : (copy.gameOverTag || 'Game Over'), boardWidth / 2, boardHeight / 2 - 4);
+      ctx.fillText(phaseLabel(), boardWidth / 2, boardHeight / 2 - 4);
       ctx.font = '500 14px Arial, sans-serif';
-      const message = state.phase === 'paused'
-        ? (copy.pausedOverlay || 'Press resume to continue.')
-        : (copy.gameOverOverlay || 'Press restart to play again.');
-      ctx.fillText(message, boardWidth / 2, boardHeight / 2 + 20);
+      ctx.fillStyle = bodyColor;
+      ctx.fillText(phaseStatus(), boardWidth / 2, boardHeight / 2 + 20);
       ctx.restore();
     }
 
@@ -394,6 +466,7 @@
       `state: ${status}`,
       `score: ${state.score}`,
       `best: ${state.best}`,
+      `target: ${Number(copy.targetScore) || 10}`,
       `length: ${state.snake.length}`,
       `speed: ${Math.round(1000 / state.tickMs)} steps/s`,
       `seed: ${state.seed}`,
@@ -427,6 +500,7 @@
   }
 
   function bindControlButtons() {
+    if (startBtn) startBtn.addEventListener('click', startGame);
     if (pauseBtn) pauseBtn.addEventListener('click', togglePause);
     if (restartBtn) restartBtn.addEventListener('click', () => resetGame(state.seed));
 

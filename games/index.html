@@ -3,125 +3,261 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Games | Randomly Pick</title>
-  <meta name="description" content="랜덤리픽 Games 허브. Snake를 먼저 플레이하고, 아래의 빠른 선택 게임과 도구로 이어갈 수 있습니다." />
+  <title>게임 | Randomly Pick</title>
+  <meta name="description" content="랜덤리픽의 게임 허브입니다. 먼저 Snake를 플레이하고, 필요한 순간에는 홈의 랜덤 도구와 의사결정 도구를 바로 이어서 열 수 있습니다." />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://randomly-pick.com/games/" />
   <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/" />
   <link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/games/" />
-  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/games/" />
+  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/games/" />
   <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
   <style>
-    :root { color-scheme: light; --panel: rgba(255,255,255,.88); --line: rgba(148,163,184,.22); --text:#0f172a; --muted:#475569; --accent:#0f172a; }
+    :root {
+      color-scheme: light;
+      --bg: #f7fafc;
+      --panel: rgba(255,255,255,.86);
+      --panel-strong: rgba(255,255,255,.96);
+      --line: rgba(148,163,184,.22);
+      --text: #0f172a;
+      --muted: #475569;
+      --accent: #0f172a;
+      --soft: #e2e8f0;
+    }
     * { box-sizing: border-box; }
     body {
-      margin: 0; min-height: 100vh; color: var(--text);
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
       font-family: "Noto Sans KR", "Malgun Gothic", sans-serif;
       background:
-        radial-gradient(circle at 12% 12%, rgba(34,197,94,.11), transparent 22%),
-        radial-gradient(circle at 85% 0%, rgba(59,130,246,.10), transparent 26%),
+        radial-gradient(circle at 15% 10%, rgba(59,130,246,.08), transparent 24%),
+        radial-gradient(circle at 82% 0%, rgba(34,197,94,.10), transparent 22%),
         linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
     }
     a { color: inherit; }
     .wrap { max-width: 1160px; margin: 0 auto; padding: 24px 18px 72px; }
-    .topbar, .nav, .actions, .chips, .links { display: flex; flex-wrap: wrap; }
-    .topbar { align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 26px; }
-    .brand { display: inline-flex; align-items: center; gap: 12px; font-weight: 700; letter-spacing: -.04em; }
+    .topbar, .nav, .actions, .chips, .links, .grid { display: flex; flex-wrap: wrap; }
+    .topbar { align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 22px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -.03em; }
     .brand-mark {
-      width: 42px; height: 42px; border-radius: 14px; display: grid; place-items: center;
-      background: linear-gradient(135deg, #0f172a, #334155); color: white; box-shadow: 0 16px 32px rgba(15,23,42,.18); font-size: 1.1rem;
+      width: 34px; height: 34px; border-radius: 11px;
+      display: grid; place-items: center;
+      background: linear-gradient(135deg, #0f172a, #334155);
+      color: white;
+      font-size: .95rem;
+      box-shadow: 0 10px 22px rgba(15,23,42,.14);
     }
-    .brand-name { font-size: 1.02rem; }
+    .brand-name { font-size: 1rem; }
+    .brand-sub { font-size: .86rem; color: #64748b; font-weight: 600; margin-top: 2px; }
     .nav { gap: 8px; }
     .nav a {
-      display: inline-flex; align-items: center; justify-content: center; min-height: 36px; padding: 0 14px;
-      border-radius: 999px; border: 1px solid var(--line); background: rgba(255,255,255,.76);
-      text-decoration: none; font-size: .92rem; color: #334155; transition: transform .18s ease, border-color .18s ease, background .18s ease, color .18s ease;
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 36px; padding: 0 14px;
+      border-radius: 999px; border: 1px solid var(--line);
+      background: rgba(255,255,255,.74);
+      text-decoration: none; font-size: .92rem; color: #334155;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease, color .18s ease;
     }
     .nav a:hover { transform: translateY(-1px); border-color: rgba(15,23,42,.16); color: var(--text); background: white; }
-    .nav a.active { background: var(--accent); color: white; border-color: var(--accent); box-shadow: 0 14px 28px rgba(15,23,42,.16); }
+    .nav a.active { background: var(--accent); color: white; border-color: var(--accent); box-shadow: 0 12px 24px rgba(15,23,42,.14); }
     .hero {
-      position: relative; overflow: hidden; padding: 34px 30px 30px; border-radius: 32px; border: 1px solid var(--line);
-      background: var(--panel); box-shadow: 0 26px 60px rgba(15,23,42,.08); backdrop-filter: blur(12px);
+      padding: 28px 24px;
+      border-radius: 28px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      box-shadow: 0 24px 56px rgba(15,23,42,.06);
+      backdrop-filter: blur(10px);
     }
-    .hero::before {
-      content: ""; position: absolute; right: -6%; top: -20%; width: 320px; height: 320px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(22,163,74,.20), rgba(22,163,74,0)); pointer-events: none;
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 11px; border-radius: 999px;
+      background: #eef2ff; color: #3730a3;
+      font-size: .78rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
     }
-    .eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px; border-radius: 999px; background: #ecfdf5; color: #15803d; font-size: .78rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
-    h1 { margin: 14px 0 12px; font-size: clamp(3rem, 7vw, 5.4rem); line-height: .92; letter-spacing: -.07em; text-wrap: balance; }
-    .lede { max-width: 62ch; margin: 0; color: var(--muted); font-size: clamp(1rem, 2vw, 1.12rem); line-height: 1.85; }
-    .actions { gap: 10px; margin-top: 22px; }
+    h1 {
+      margin: 14px 0 10px;
+      font-size: clamp(2.5rem, 6vw, 4.6rem);
+      line-height: .96;
+      letter-spacing: -.06em;
+      text-wrap: balance;
+    }
+    .lede {
+      max-width: 66ch;
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 2vw, 1.08rem);
+      line-height: 1.8;
+    }
+    .actions { gap: 10px; margin-top: 20px; }
     .button {
-      display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 16px; border-radius: 999px;
-      border: 1px solid var(--line); background: white; text-decoration: none; font-weight: 700;
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 42px; padding: 0 15px;
+      border-radius: 999px; border: 1px solid var(--line);
+      background: white; text-decoration: none; font-weight: 700;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+    .button:hover { transform: translateY(-1px); border-color: rgba(15,23,42,.16); box-shadow: 0 10px 22px rgba(15,23,42,.08); }
+    .button.primary { background: var(--accent); color: white; border-color: var(--accent); }
+    .chips { gap: 10px; margin-top: 14px; }
+    .chip {
+      display: inline-flex; align-items: center; min-height: 30px; padding: 0 11px;
+      border-radius: 999px; background: rgba(255,255,255,.76);
+      border: 1px solid var(--line); color: #334155; font-size: .86rem; font-weight: 600;
+    }
+    .feature {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(240px, .8fr);
+      gap: 14px;
+      margin-top: 20px;
+    }
+    .feature-copy, .feature-card, .card, .note, .trust {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: var(--panel-strong);
+      box-shadow: 0 16px 36px rgba(15,23,42,.05);
+    }
+    .feature-copy { padding: 20px; }
+    .feature-copy h2 { margin: 0 0 10px; font-size: clamp(1.2rem, 2.4vw, 1.65rem); letter-spacing: -.04em; }
+    .feature-copy p { margin: 0; color: var(--muted); line-height: 1.75; }
+    .feature-copy ul { margin: 14px 0 0; padding-left: 18px; color: #334155; line-height: 1.7; }
+    .feature-copy li + li { margin-top: 6px; }
+    .feature-card {
+      padding: 18px;
+      display: grid;
+      gap: 12px;
+      align-content: center;
+      background:
+        linear-gradient(180deg, rgba(15,23,42,.94), rgba(30,41,59,.98)),
+        radial-gradient(circle at 50% 20%, rgba(34,197,94,.22), transparent 34%);
+      color: #e2e8f0;
+    }
+    .snake-strip {
+      position: relative;
+      height: 150px;
+      border-radius: 18px;
+      border: 1px solid rgba(148,163,184,.16);
+      background:
+        linear-gradient(rgba(148,163,184,.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148,163,184,.08) 1px, transparent 1px);
+      background-size: 26px 26px;
+      overflow: hidden;
+    }
+    .snake-strip::before {
+      content: "";
+      position: absolute;
+      left: 12%;
+      top: 46%;
+      width: 58%;
+      height: 14px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #22c55e, #86efac);
+      transform: rotate(8deg);
+      box-shadow: 0 10px 20px rgba(0,0,0,.18);
+    }
+    .snake-strip::after {
+      content: "";
+      position: absolute;
+      right: 18%;
+      bottom: 22%;
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: #f59e0b;
+      box-shadow: 0 10px 20px rgba(0,0,0,.18);
+    }
+    .feature-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: .88rem;
+      color: rgba(226,232,240,.9);
+    }
+    .feature-meta span {
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(15,23,42,.44);
+    }
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 30px 0 14px;
+    }
+    .section-head h2 { margin: 0; font-size: clamp(1.2rem, 2.5vw, 1.8rem); letter-spacing: -.04em; }
+    .section-head p { margin: 0; color: var(--muted); line-height: 1.6; max-width: 56ch; }
+    .grid { gap: 12px; }
+    .card {
+      flex: 1 1 220px;
+      min-width: 220px;
+      padding: 18px;
+      text-decoration: none;
       transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
     }
-    .button:hover { transform: translateY(-1px); border-color: rgba(15,23,42,.16); box-shadow: 0 12px 24px rgba(15,23,42,.08); }
-    .button.primary { background: var(--accent); color: white; border-color: var(--accent); box-shadow: 0 16px 30px rgba(15,23,42,.16); }
-    .chips { gap: 10px; margin-top: 16px; }
-    .chip {
-      display: inline-flex; align-items: center; min-height: 32px; padding: 0 12px; border-radius: 999px;
-      background: rgba(255,255,255,.82); border: 1px solid var(--line); color: #334155; font-size: .88rem; font-weight: 600;
+    .card:hover { transform: translateY(-3px); border-color: rgba(15,23,42,.16); box-shadow: 0 20px 36px rgba(15,23,42,.08); }
+    .card-tag {
+      display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px;
+      border-radius: 999px; background: #eef2ff; color: #4338ca;
+      font-size: .72rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase;
     }
-    .feature { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(260px, .85fr); gap: 16px; margin-top: 22px; align-items: stretch; }
-    .feature-copy, .feature-art, .card, .note, .trust {
-      border: 1px solid var(--line); border-radius: 28px; background: rgba(255,255,255,.76); box-shadow: 0 18px 40px rgba(15,23,42,.05);
+    .card h3 { margin: 12px 0 6px; font-size: 1.18rem; letter-spacing: -.04em; }
+    .card p { margin: 0; color: var(--muted); line-height: 1.65; }
+    .card .go {
+      margin-top: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: white;
+      font-weight: 700;
     }
-    .feature-copy { padding: 24px; }
-    .feature-copy h2 { margin: 0 0 10px; font-size: clamp(1.3rem, 2.8vw, 1.95rem); letter-spacing: -.04em; }
-    .feature-copy p { margin: 0; color: var(--muted); line-height: 1.8; }
-    .feature-copy ul { margin: 18px 0 0; padding-left: 18px; color: #334155; line-height: 1.75; }
-    .feature-copy li + li { margin-top: 8px; }
-    .feature-art {
-      position: relative; overflow: hidden; min-height: 280px;
-      background: linear-gradient(180deg, rgba(15,23,42,.95), rgba(30,41,59,.98)), radial-gradient(circle at 50% 20%, rgba(34,197,94,.26), transparent 36%);
+    .note, .trust {
+      margin-top: 16px;
+      padding: 18px 20px;
+      color: var(--muted);
+      line-height: 1.7;
     }
-    .feature-art::before {
-      content: ""; position: absolute; inset: 18px; border-radius: 22px;
-      background: linear-gradient(rgba(148,163,184,.12) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,.12) 1px, transparent 1px);
-      background-size: 28px 28px; opacity: .9;
-    }
-    .snake-path, .snake-food { position: absolute; border-radius: 16px; box-shadow: 0 10px 20px rgba(0,0,0,.22); }
-    .snake-path {
-      left: 11%; top: 25%; width: 58%; height: 14px; background: linear-gradient(90deg, #22c55e, #86efac); transform: rotate(8deg);
-    }
-    .snake-path::before, .snake-path::after {
-      content: ""; position: absolute; top: -6px; width: 14px; height: 26px; border-radius: 14px; background: inherit;
-    }
-    .snake-path::before { left: 12%; }
-    .snake-path::after { left: 58%; height: 18px; top: -2px; }
-    .snake-food { right: 18%; bottom: 26%; width: 18px; height: 18px; background: #f59e0b; border-radius: 999px; }
-    .feature-label {
-      position: absolute; left: 22px; bottom: 22px; right: 22px; display: flex; justify-content: space-between; gap: 12px;
-      color: rgba(255,255,255,.88); font-size: .88rem;
-    }
-    .feature-label span { padding: 8px 12px; border-radius: 999px; background: rgba(15,23,42,.48); backdrop-filter: blur(8px); }
-    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin: 34px 0 16px; }
-    .section-head h2 { margin: 0; font-size: clamp(1.35rem, 3vw, 2rem); letter-spacing: -.04em; }
-    .section-head p { margin: 0; color: var(--muted); line-height: 1.65; max-width: 54ch; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
-    .card { padding: 20px; text-decoration: none; transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
-    .card:hover { transform: translateY(-3px); border-color: rgba(15,23,42,.16); box-shadow: 0 22px 44px rgba(15,23,42,.08); }
-    .card-tag { display: inline-flex; align-items: center; min-height: 28px; padding: 0 10px; border-radius: 999px; background: #ecfeff; color: #0e7490; font-size: .74rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
-    .card h3 { margin: 14px 0 8px; font-size: 1.28rem; letter-spacing: -.04em; }
-    .card p { margin: 0; color: var(--muted); line-height: 1.7; }
-    .card .go { margin-top: 18px; display: inline-flex; align-items: center; gap: 8px; width: fit-content; padding: 10px 14px; border-radius: 999px; background: var(--accent); color: white; font-weight: 700; }
-    .note, .trust { margin-top: 18px; padding: 20px 22px; color: var(--muted); line-height: 1.75; }
     .note strong, .trust strong { color: var(--text); }
-    .links { gap: 10px; margin-top: 12px; }
-    .links a { text-decoration: none; padding: 10px 14px; border-radius: 999px; border: 1px solid var(--line); background: rgba(255,255,255,.82); font-weight: 700; color: #334155; }
-    .footer { margin-top: 28px; padding-top: 18px; border-top: 1px solid rgba(148,163,184,.28); color: #64748b; font-size: .92rem; line-height: 1.7; }
+    .links { gap: 10px; margin-top: 10px; }
+    .links a {
+      text-decoration: none;
+      padding: 9px 13px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.82);
+      font-weight: 700;
+      color: #334155;
+    }
+    .footer {
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(148,163,184,.28);
+      color: #64748b;
+      font-size: .92rem;
+      line-height: 1.7;
+    }
     .footer a { color: #0f172a; text-decoration: none; font-weight: 700; }
     @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    .card, .feature-copy, .feature-art { animation: rise .55s ease both; }
-    .feature-copy { animation-delay: .03s; } .feature-art { animation-delay: .08s; }
-    .card:nth-child(1) { animation-delay: .05s; } .card:nth-child(2) { animation-delay: .09s; } .card:nth-child(3) { animation-delay: .13s; }
-    .card:nth-child(4) { animation-delay: .17s; } .card:nth-child(5) { animation-delay: .21s; } .card:nth-child(6) { animation-delay: .25s; }
-    @media (max-width: 860px) { .feature { grid-template-columns: 1fr; } }
+    .hero, .feature-copy, .feature-card, .card { animation: rise .5s ease both; }
+    .feature-card { animation-delay: .04s; }
+    .card:nth-child(1) { animation-delay: .05s; }
+    .card:nth-child(2) { animation-delay: .09s; }
+    .card:nth-child(3) { animation-delay: .13s; }
+    .card:nth-child(4) { animation-delay: .17s; }
+    .card:nth-child(5) { animation-delay: .21s; }
+    .card:nth-child(6) { animation-delay: .25s; }
+    @media (max-width: 860px) {
+      .feature { grid-template-columns: 1fr; }
+    }
     @media (max-width: 640px) {
-      .wrap { padding: 18px 14px 56px; } .hero { padding: 26px 18px 20px; border-radius: 26px; }
-      .section-head { flex-direction: column; align-items: start; } .feature-copy, .feature-art, .card, .note, .trust { border-radius: 24px; } .feature-art { min-height: 230px; }
+      .wrap { padding: 18px 14px 56px; }
+      .hero { padding: 22px 18px 18px; border-radius: 24px; }
+      .feature-copy, .feature-card, .card, .note, .trust { border-radius: 20px; }
+      .section-head { flex-direction: column; align-items: start; }
+      .card { min-width: 0; flex-basis: 100%; }
     }
   </style>
 </head>
@@ -130,82 +266,143 @@
     <div class="topbar">
       <div class="brand">
         <div class="brand-mark">R.</div>
-        <div><div class="brand-name">Randomly Pick</div><div style="font-size:.86rem;color:#64748b;font-weight:600;margin-top:2px;">Games dashboard</div></div>
+        <div>
+          <div class="brand-name">Randomly Pick</div>
+          <div class="brand-sub">게임 허브</div>
+        </div>
       </div>
-      <nav class="nav" aria-label="Primary">
-        <a href="/">Home</a>
-        <a href="/games/" class="active" aria-current="page">Games</a>
-        <a href="/luckydraw/">Lucky Draw</a>
-        <a href="/ladder/">Ladder Draw</a>
-        <a href="/team-generator/">Team Split</a>
-        <a href="/coinflip/">Coin Flip</a>
-        <a href="/dice/">Dice Roll</a>
+      <nav class="nav" aria-label="주요 메뉴">
+        <a href="/">홈</a>
+        <a href="/games/" class="active" aria-current="page">게임</a>
+        <a href="/luckydraw/">럭키 드로우</a>
+        <a href="/ladder/">사다리</a>
+        <a href="/team-generator/">팀 나누기</a>
+        <a href="/coinflip/">동전 던지기</a>
+        <a href="/dice/">주사위</a>
       </nav>
     </div>
 
     <section class="hero">
-      <span class="eyebrow">Playable now</span>
-      <h1>Games, starting with Snake</h1>
-      <p class="lede">The Games tab now opens a real browser game first. Start with Snake, then use the familiar decision tools below whenever you need a fast, low-friction pick.</p>
+      <span class="eyebrow">지금 바로 플레이</span>
+      <h1>게임 허브, 첫 타이틀은 Snake입니다</h1>
+      <p class="lede">게임 탭은 이제 실제로 플레이할 수 있는 게임으로 시작합니다. 먼저 Snake를 즐기고, 같은 허브에서 랜덤 도구와 빠른 선택 도구로 자연스럽게 이동하세요.</p>
       <div class="actions">
-        <a class="button primary" href="/games/snake/">Play Snake</a>
-        <a class="button" href="#quick-plays">View the list</a>
+        <a class="button primary" href="/games/snake/">Snake 플레이</a>
+        <a class="button" href="#quick-plays">목록 보기</a>
       </div>
-      <div class="chips" aria-label="Hub highlights">
-        <span class="chip">Keyboard + swipe</span>
-        <span class="chip">Mobile friendly</span>
-        <span class="chip">Seedable rounds</span>
-        <span class="chip">More games later</span>
+      <div class="chips" aria-label="허브 주요 특징">
+        <span class="chip">키보드 + 스와이프</span>
+        <span class="chip">모바일 최적화</span>
+        <span class="chip">짧은 재도전 흐름</span>
+        <span class="chip">추가 게임 확장 가능</span>
       </div>
-      <div class="feature" aria-label="Featured game">
+      <div class="feature">
         <div class="feature-copy">
-          <h2>Snake is the first real playable game on the hub.</h2>
-          <p>It is a familiar arcade loop with clear controls, a visible score target, and a short restart path, so it works well for quick breaks and for showing that the Games tab now leads to something concrete instead of a placeholder.</p>
+          <h2>Snake는 허브의 첫 번째 실플레이 게임입니다.</h2>
+          <p>누구나 아는 아케이드 루프에 명확한 조작, 보이는 점수, 짧은 재시작 흐름을 더해 두었습니다. 짧은 휴식용으로도 좋고, 게임 탭이 이제는 실제 페이지로 이어진다는 점을 보여 주기에도 적합합니다.</p>
           <ul>
-            <li>Use arrow keys, WASD, or a swipe gesture on mobile.</li>
-            <li>See score, best score, and target score in one place.</li>
-            <li>Stay on the same hub as more games are added later.</li>
+            <li>방향키, WASD, 모바일 스와이프를 모두 지원합니다.</li>
+            <li>현재 점수와 최고 점수를 한눈에 볼 수 있습니다.</li>
+            <li>앞으로 게임이 더 늘어나도 같은 허브에서 이어집니다.</li>
           </ul>
-          <div class="actions" style="margin-top:18px;">
-            <a class="button primary" href="/games/snake/">Open Snake</a>
-            <a class="button" href="/about/">About the site</a>
+          <div class="actions" style="margin-top:16px;">
+            <a class="button primary" href="/games/snake/">Snake 열기</a>
+            <a class="button" href="/about/">사이트 소개</a>
           </div>
         </div>
-        <div class="feature-art" aria-hidden="true">
-          <div class="snake-path"></div>
-          <div class="snake-food"></div>
-          <div class="feature-label"><span>Target score 10</span><span>Restart in one tap</span></div>
+        <div class="feature-card" aria-hidden="true">
+          <div class="snake-strip"></div>
+          <div class="feature-meta">
+            <span>목표 점수 10</span>
+            <span>한 번의 탭으로 재시작</span>
+          </div>
         </div>
       </div>
     </section>
 
     <div class="section-head" id="quick-plays">
       <div>
-        <h2>More quick ways to play</h2>
-        <p>These are the site’s existing fast decision tools. They stay in the same hub so users can move between a real game and lightweight picks without hunting for links.</p>
+        <h2>함께 쓸 수 있는 빠른 도구</h2>
+        <p>이 허브에는 게임뿐 아니라 기존의 빠른 선택 도구도 함께 둡니다. 한 페이지에서 게임과 랜덤 도구를 오가며 바로 사용할 수 있게 하는 것이 목적입니다.</p>
       </div>
     </div>
 
-    <section class="grid" aria-label="Games list">
-      <a class="card" href="/games/snake/"><span class="card-tag">Featured</span><div><h3>Snake</h3><p>The first full playable game in the hub. A classic arcade loop with a clean restart path.</p></div><span class="go">Play now</span></a>
-      <a class="card" href="/"><span class="card-tag">Quick pick</span><div><h3>Wheel of Names</h3><p>Best when you want to pick a person, topic, or round winner in one fast spin.</p></div><span class="go">Open</span></a>
-      <a class="card" href="/luckydraw/"><span class="card-tag">Quick draw</span><div><h3>Lucky Draw</h3><p>Use it when the result should be simple, visible, and easy to share.</p></div><span class="go">Open</span></a>
-      <a class="card" href="/ladder/"><span class="card-tag">Pairing</span><div><h3>Ladder Draw</h3><p>Good for sequence assignments, matchups, and event pairings where the path matters.</p></div><span class="go">Open</span></a>
-      <a class="card" href="/team-generator/"><span class="card-tag">Team play</span><div><h3>Team Split</h3><p>Build balanced teams for class, work, or group play without leaving the site.</p></div><span class="go">Open</span></a>
-      <a class="card" href="/coinflip/"><span class="card-tag">Decision</span><div><h3>Coin Flip</h3><p>Use it for the fastest possible yes-or-no call when you just need a decision.</p></div><span class="go">Open</span></a>
-      <a class="card" href="/dice/"><span class="card-tag">Roll</span><div><h3>Dice Roll</h3><p>Works for rounds, averages, and tabletop-style play when the next move needs a roll.</p></div><span class="go">Open</span></a>
+    <section class="grid" aria-label="게임 목록">
+      <a class="card" href="/games/snake/">
+        <span class="card-tag">추천</span>
+        <div>
+          <h3>Snake</h3>
+          <p>허브의 첫 번째 실플레이 게임입니다. 클래식 아케이드 감각과 깔끔한 재시작 흐름을 갖췄습니다.</p>
+        </div>
+        <span class="go">플레이하기</span>
+      </a>
+      <a class="card" href="/">
+        <span class="card-tag">빠른 선택</span>
+        <div>
+          <h3>룰렛</h3>
+          <p>사람, 주제, 순서처럼 바로 하나를 골라야 할 때 가장 빠르게 쓸 수 있습니다.</p>
+        </div>
+        <span class="go">열기</span>
+      </a>
+      <a class="card" href="/luckydraw/">
+        <span class="card-tag">추첨</span>
+        <div>
+          <h3>럭키 드로우</h3>
+          <p>결과를 간단하고, 눈에 잘 보이고, 공유하기 쉽게 만들고 싶을 때 좋습니다.</p>
+        </div>
+        <span class="go">열기</span>
+      </a>
+      <a class="card" href="/ladder/">
+        <span class="card-tag">배정</span>
+        <div>
+          <h3>사다리</h3>
+          <p>순서 배정, 대진, 행사 배정을 할 때 흐름 자체를 보여 주기에 좋습니다.</p>
+        </div>
+        <span class="go">열기</span>
+      </a>
+      <a class="card" href="/team-generator/">
+        <span class="card-tag">팀 나누기</span>
+        <div>
+          <h3>팀 나누기</h3>
+          <p>수업, 업무, 모임에서 균형 잡힌 팀을 만들고 싶을 때 바로 이어서 쓸 수 있습니다.</p>
+        </div>
+        <span class="go">열기</span>
+      </a>
+      <a class="card" href="/coinflip/">
+        <span class="card-tag">결정</span>
+        <div>
+          <h3>동전 던지기</h3>
+          <p>예/아니오처럼 아주 빠른 결정을 내려야 할 때 가장 간단하게 쓸 수 있습니다.</p>
+        </div>
+        <span class="go">열기</span>
+      </a>
+      <a class="card" href="/dice/">
+        <span class="card-tag">주사위</span>
+        <div>
+          <h3>주사위</h3>
+          <p>라운드 진행, 테이블 게임, 간단한 확률 확인처럼 굴림이 필요한 순간에 잘 맞습니다.</p>
+        </div>
+        <span class="go">열기</span>
+      </a>
     </section>
 
-    <section class="note"><strong>Why this hub matters.</strong><br />The tab now points to a real playable game first, then keeps the site’s quick decision tools nearby. That makes the page useful on its own and keeps the Games entry point stable as new titles are added.</section>
+    <section class="note">
+      <strong>이 허브가 중요한 이유</strong><br />
+      게임 탭은 이제 실제 플레이가 가능한 게임으로 먼저 연결되고, 그 옆에 랜덤 도구와 빠른 선택 도구를 함께 둡니다. 페이지 자체의 쓰임새를 살리면서도 앞으로 새 타이틀을 추가하기 쉬운 구조입니다.
+    </section>
 
     <section class="trust">
-      <strong>Trust and support</strong>
+      <strong>신뢰 및 지원</strong>
       <div class="links">
-        <a href="/about/">About</a><a href="/guides/">Guides</a><a href="/privacy/">Privacy Policy</a><a href="/terms/">Terms</a><a href="/contact/">Contact</a>
+        <a href="/about/">소개</a>
+        <a href="/guides/">가이드</a>
+        <a href="/privacy/">개인정보처리방침</a>
+        <a href="/terms/">이용약관</a>
+        <a href="/contact/">문의</a>
       </div>
     </section>
 
-    <div class="footer">Designed and developed by Juntae Ko · <a href="/">Randomly Pick</a></div>
+    <div class="footer">Juntae Ko가 제작한 <a href="/">Randomly Pick</a>의 게임 허브입니다.</div>
   </main>
 </body>
 </html>

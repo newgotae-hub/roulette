@@ -10,6 +10,25 @@ How to use it:
 
 ## 2026-03-22
 
+### Snake refit for lighter Randomly Pick tone
+
+- Softened the Snake shell so it reads like a tab inside Randomly Pick instead of a separate neon microsite, with lighter backgrounds, calmer typography, and less standalone branding.
+- Refined the page copy in both Korean and English to be more practical and editorial, while keeping the gameplay loop, target score, and site navigation intact.
+- Preserved the Snake QA contract hooks and updated the HUD/status flow so the game still exposes the same review-friendly runtime signals.
+- Validated the JavaScript syntax, Snake QA scenarios, SEO, AdSense readiness, and diff cleanliness after the tone pass.
+
+### Korean Snake HUD and utility copy localized
+
+- Removed the remaining English HUD labels and helper copy from the Korean Snake page so the stat row, board label, directional aria labels, and usage copy now read naturally in Korean.
+- Left the English Snake page untouched so the locale split stays clean and predictable.
+- Re-ran the Snake QA flow plus SEO and AdSense checks after the copy cleanup to confirm the page still passes review gates.
+
+### Korean Snake shell labels localized
+
+- Localized the visible Korean-page shell labels that were still in English, including the top nav, eyebrow, and mobile hint/section framing so the page now reads consistently as a Korean route.
+- Preserved the English Snake page as-is and kept the same QA/runtime hooks and gameplay behavior.
+- Re-ran the focused Snake QA, SEO, AdSense, and diff checks after the shell copy update.
+
 ### Webgames QA flow added for Snake
 
 - Added a lightweight browser QA runner for the Games hub that validates Snake on both the Korean and English routes without a manual full-playthrough.

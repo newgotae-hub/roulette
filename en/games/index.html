@@ -12,116 +12,252 @@
   <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/games/" />
   <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
   <style>
-    :root { color-scheme: light; --panel: rgba(255,255,255,.88); --line: rgba(148,163,184,.22); --text:#0f172a; --muted:#475569; --accent:#0f172a; }
+    :root {
+      color-scheme: light;
+      --bg: #f7fafc;
+      --panel: rgba(255,255,255,.86);
+      --panel-strong: rgba(255,255,255,.96);
+      --line: rgba(148,163,184,.22);
+      --text: #0f172a;
+      --muted: #475569;
+      --accent: #0f172a;
+      --soft: #e2e8f0;
+    }
     * { box-sizing: border-box; }
     body {
-      margin: 0; min-height: 100vh; color: var(--text);
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
       font-family: "Noto Sans", "Segoe UI", sans-serif;
       background:
-        radial-gradient(circle at 12% 12%, rgba(34,197,94,.11), transparent 22%),
-        radial-gradient(circle at 85% 0%, rgba(59,130,246,.10), transparent 26%),
+        radial-gradient(circle at 15% 10%, rgba(59,130,246,.08), transparent 24%),
+        radial-gradient(circle at 82% 0%, rgba(34,197,94,.10), transparent 22%),
         linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
     }
     a { color: inherit; }
     .wrap { max-width: 1160px; margin: 0 auto; padding: 24px 18px 72px; }
-    .topbar, .nav, .actions, .chips, .links { display: flex; flex-wrap: wrap; }
-    .topbar { align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 26px; }
-    .brand { display: inline-flex; align-items: center; gap: 12px; font-weight: 700; letter-spacing: -.04em; }
+    .topbar, .nav, .actions, .chips, .links, .grid { display: flex; flex-wrap: wrap; }
+    .topbar { align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 22px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -.03em; }
     .brand-mark {
-      width: 42px; height: 42px; border-radius: 14px; display: grid; place-items: center;
-      background: linear-gradient(135deg, #0f172a, #334155); color: white; box-shadow: 0 16px 32px rgba(15,23,42,.18); font-size: 1.1rem;
+      width: 34px; height: 34px; border-radius: 11px;
+      display: grid; place-items: center;
+      background: linear-gradient(135deg, #0f172a, #334155);
+      color: white;
+      font-size: .95rem;
+      box-shadow: 0 10px 22px rgba(15,23,42,.14);
     }
-    .brand-name { font-size: 1.02rem; }
+    .brand-name { font-size: 1rem; }
+    .brand-sub { font-size: .86rem; color: #64748b; font-weight: 600; margin-top: 2px; }
     .nav { gap: 8px; }
     .nav a {
-      display: inline-flex; align-items: center; justify-content: center; min-height: 36px; padding: 0 14px;
-      border-radius: 999px; border: 1px solid var(--line); background: rgba(255,255,255,.76);
-      text-decoration: none; font-size: .92rem; color: #334155; transition: transform .18s ease, border-color .18s ease, background .18s ease, color .18s ease;
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 36px; padding: 0 14px;
+      border-radius: 999px; border: 1px solid var(--line);
+      background: rgba(255,255,255,.74);
+      text-decoration: none; font-size: .92rem; color: #334155;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease, color .18s ease;
     }
     .nav a:hover { transform: translateY(-1px); border-color: rgba(15,23,42,.16); color: var(--text); background: white; }
-    .nav a.active { background: var(--accent); color: white; border-color: var(--accent); box-shadow: 0 14px 28px rgba(15,23,42,.16); }
+    .nav a.active { background: var(--accent); color: white; border-color: var(--accent); box-shadow: 0 12px 24px rgba(15,23,42,.14); }
     .hero {
-      position: relative; overflow: hidden; padding: 34px 30px 30px; border-radius: 32px; border: 1px solid var(--line);
-      background: var(--panel); box-shadow: 0 26px 60px rgba(15,23,42,.08); backdrop-filter: blur(12px);
+      padding: 28px 24px;
+      border-radius: 28px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      box-shadow: 0 24px 56px rgba(15,23,42,.06);
+      backdrop-filter: blur(10px);
     }
-    .hero::before {
-      content: ""; position: absolute; right: -6%; top: -20%; width: 320px; height: 320px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(22,163,74,.20), rgba(22,163,74,0)); pointer-events: none;
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 11px; border-radius: 999px;
+      background: #eef2ff; color: #3730a3;
+      font-size: .78rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
     }
-    .eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px; border-radius: 999px; background: #ecfdf5; color: #15803d; font-size: .78rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
-    h1 { margin: 14px 0 12px; font-size: clamp(3rem, 7vw, 5.4rem); line-height: .92; letter-spacing: -.07em; text-wrap: balance; }
-    .lede { max-width: 62ch; margin: 0; color: var(--muted); font-size: clamp(1rem, 2vw, 1.12rem); line-height: 1.85; }
-    .actions { gap: 10px; margin-top: 22px; }
+    h1 {
+      margin: 14px 0 10px;
+      font-size: clamp(2.5rem, 6vw, 4.6rem);
+      line-height: .96;
+      letter-spacing: -.06em;
+      text-wrap: balance;
+    }
+    .lede {
+      max-width: 66ch;
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 2vw, 1.08rem);
+      line-height: 1.8;
+    }
+    .actions { gap: 10px; margin-top: 20px; }
     .button {
-      display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 16px; border-radius: 999px;
-      border: 1px solid var(--line); background: white; text-decoration: none; font-weight: 700;
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 42px; padding: 0 15px;
+      border-radius: 999px; border: 1px solid var(--line);
+      background: white; text-decoration: none; font-weight: 700;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+    .button:hover { transform: translateY(-1px); border-color: rgba(15,23,42,.16); box-shadow: 0 10px 22px rgba(15,23,42,.08); }
+    .button.primary { background: var(--accent); color: white; border-color: var(--accent); }
+    .chips { gap: 10px; margin-top: 14px; }
+    .chip {
+      display: inline-flex; align-items: center; min-height: 30px; padding: 0 11px;
+      border-radius: 999px; background: rgba(255,255,255,.76);
+      border: 1px solid var(--line); color: #334155; font-size: .86rem; font-weight: 600;
+    }
+    .feature {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(240px, .8fr);
+      gap: 14px;
+      margin-top: 20px;
+    }
+    .feature-copy, .feature-card, .card, .note, .trust {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: var(--panel-strong);
+      box-shadow: 0 16px 36px rgba(15,23,42,.05);
+    }
+    .feature-copy { padding: 20px; }
+    .feature-copy h2 { margin: 0 0 10px; font-size: clamp(1.2rem, 2.4vw, 1.65rem); letter-spacing: -.04em; }
+    .feature-copy p { margin: 0; color: var(--muted); line-height: 1.75; }
+    .feature-copy ul { margin: 14px 0 0; padding-left: 18px; color: #334155; line-height: 1.7; }
+    .feature-copy li + li { margin-top: 6px; }
+    .feature-card {
+      padding: 18px;
+      display: grid;
+      gap: 12px;
+      align-content: center;
+      background:
+        linear-gradient(180deg, rgba(15,23,42,.94), rgba(30,41,59,.98)),
+        radial-gradient(circle at 50% 20%, rgba(34,197,94,.22), transparent 34%);
+      color: #e2e8f0;
+    }
+    .snake-strip {
+      position: relative;
+      height: 150px;
+      border-radius: 18px;
+      border: 1px solid rgba(148,163,184,.16);
+      background:
+        linear-gradient(rgba(148,163,184,.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148,163,184,.08) 1px, transparent 1px);
+      background-size: 26px 26px;
+      overflow: hidden;
+    }
+    .snake-strip::before {
+      content: "";
+      position: absolute;
+      left: 12%;
+      top: 46%;
+      width: 58%;
+      height: 14px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #22c55e, #86efac);
+      transform: rotate(8deg);
+      box-shadow: 0 10px 20px rgba(0,0,0,.18);
+    }
+    .snake-strip::after {
+      content: "";
+      position: absolute;
+      right: 18%;
+      bottom: 22%;
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: #f59e0b;
+      box-shadow: 0 10px 20px rgba(0,0,0,.18);
+    }
+    .feature-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: .88rem;
+      color: rgba(226,232,240,.9);
+    }
+    .feature-meta span {
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(15,23,42,.44);
+    }
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 30px 0 14px;
+    }
+    .section-head h2 { margin: 0; font-size: clamp(1.2rem, 2.5vw, 1.8rem); letter-spacing: -.04em; }
+    .section-head p { margin: 0; color: var(--muted); line-height: 1.6; max-width: 56ch; }
+    .grid { gap: 12px; }
+    .card {
+      flex: 1 1 220px;
+      min-width: 220px;
+      padding: 18px;
+      text-decoration: none;
       transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
     }
-    .button:hover { transform: translateY(-1px); border-color: rgba(15,23,42,.16); box-shadow: 0 12px 24px rgba(15,23,42,.08); }
-    .button.primary { background: var(--accent); color: white; border-color: var(--accent); box-shadow: 0 16px 30px rgba(15,23,42,.16); }
-    .chips { gap: 10px; margin-top: 16px; }
-    .chip {
-      display: inline-flex; align-items: center; min-height: 32px; padding: 0 12px; border-radius: 999px;
-      background: rgba(255,255,255,.82); border: 1px solid var(--line); color: #334155; font-size: .88rem; font-weight: 600;
+    .card:hover { transform: translateY(-3px); border-color: rgba(15,23,42,.16); box-shadow: 0 20px 36px rgba(15,23,42,.08); }
+    .card-tag {
+      display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px;
+      border-radius: 999px; background: #eef2ff; color: #4338ca;
+      font-size: .72rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase;
     }
-    .feature { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(260px, .85fr); gap: 16px; margin-top: 22px; align-items: stretch; }
-    .feature-copy, .feature-art, .card, .note, .trust {
-      border: 1px solid var(--line); border-radius: 28px; background: rgba(255,255,255,.76); box-shadow: 0 18px 40px rgba(15,23,42,.05);
+    .card h3 { margin: 12px 0 6px; font-size: 1.18rem; letter-spacing: -.04em; }
+    .card p { margin: 0; color: var(--muted); line-height: 1.65; }
+    .card .go {
+      margin-top: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: white;
+      font-weight: 700;
     }
-    .feature-copy { padding: 24px; }
-    .feature-copy h2 { margin: 0 0 10px; font-size: clamp(1.3rem, 2.8vw, 1.95rem); letter-spacing: -.04em; }
-    .feature-copy p { margin: 0; color: var(--muted); line-height: 1.8; }
-    .feature-copy ul { margin: 18px 0 0; padding-left: 18px; color: #334155; line-height: 1.75; }
-    .feature-copy li + li { margin-top: 8px; }
-    .feature-art {
-      position: relative; overflow: hidden; min-height: 280px;
-      background: linear-gradient(180deg, rgba(15,23,42,.95), rgba(30,41,59,.98)), radial-gradient(circle at 50% 20%, rgba(34,197,94,.26), transparent 36%);
+    .note, .trust {
+      margin-top: 16px;
+      padding: 18px 20px;
+      color: var(--muted);
+      line-height: 1.7;
     }
-    .feature-art::before {
-      content: ""; position: absolute; inset: 18px; border-radius: 22px;
-      background: linear-gradient(rgba(148,163,184,.12) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,.12) 1px, transparent 1px);
-      background-size: 28px 28px; opacity: .9;
-    }
-    .snake-path, .snake-food { position: absolute; border-radius: 16px; box-shadow: 0 10px 20px rgba(0,0,0,.22); }
-    .snake-path {
-      left: 11%; top: 25%; width: 58%; height: 14px; background: linear-gradient(90deg, #22c55e, #86efac); transform: rotate(8deg);
-    }
-    .snake-path::before, .snake-path::after {
-      content: ""; position: absolute; top: -6px; width: 14px; height: 26px; border-radius: 14px; background: inherit;
-    }
-    .snake-path::before { left: 12%; }
-    .snake-path::after { left: 58%; height: 18px; top: -2px; }
-    .snake-food { right: 18%; bottom: 26%; width: 18px; height: 18px; background: #f59e0b; border-radius: 999px; }
-    .feature-label {
-      position: absolute; left: 22px; bottom: 22px; right: 22px; display: flex; justify-content: space-between; gap: 12px;
-      color: rgba(255,255,255,.88); font-size: .88rem;
-    }
-    .feature-label span { padding: 8px 12px; border-radius: 999px; background: rgba(15,23,42,.48); backdrop-filter: blur(8px); }
-    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin: 34px 0 16px; }
-    .section-head h2 { margin: 0; font-size: clamp(1.35rem, 3vw, 2rem); letter-spacing: -.04em; }
-    .section-head p { margin: 0; color: var(--muted); line-height: 1.65; max-width: 54ch; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
-    .card { padding: 20px; text-decoration: none; transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
-    .card:hover { transform: translateY(-3px); border-color: rgba(15,23,42,.16); box-shadow: 0 22px 44px rgba(15,23,42,.08); }
-    .card-tag { display: inline-flex; align-items: center; min-height: 28px; padding: 0 10px; border-radius: 999px; background: #ecfeff; color: #0e7490; font-size: .74rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
-    .card h3 { margin: 14px 0 8px; font-size: 1.28rem; letter-spacing: -.04em; }
-    .card p { margin: 0; color: var(--muted); line-height: 1.7; }
-    .card .go { margin-top: 18px; display: inline-flex; align-items: center; gap: 8px; width: fit-content; padding: 10px 14px; border-radius: 999px; background: var(--accent); color: white; font-weight: 700; }
-    .note, .trust { margin-top: 18px; padding: 20px 22px; color: var(--muted); line-height: 1.75; }
     .note strong, .trust strong { color: var(--text); }
-    .links { gap: 10px; margin-top: 12px; }
-    .links a { text-decoration: none; padding: 10px 14px; border-radius: 999px; border: 1px solid var(--line); background: rgba(255,255,255,.82); font-weight: 700; color: #334155; }
-    .footer { margin-top: 28px; padding-top: 18px; border-top: 1px solid rgba(148,163,184,.28); color: #64748b; font-size: .92rem; line-height: 1.7; }
+    .links { gap: 10px; margin-top: 10px; }
+    .links a {
+      text-decoration: none;
+      padding: 9px 13px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.82);
+      font-weight: 700;
+      color: #334155;
+    }
+    .footer {
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(148,163,184,.28);
+      color: #64748b;
+      font-size: .92rem;
+      line-height: 1.7;
+    }
     .footer a { color: #0f172a; text-decoration: none; font-weight: 700; }
     @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    .card, .feature-copy, .feature-art { animation: rise .55s ease both; }
-    .feature-copy { animation-delay: .03s; } .feature-art { animation-delay: .08s; }
-    .card:nth-child(1) { animation-delay: .05s; } .card:nth-child(2) { animation-delay: .09s; } .card:nth-child(3) { animation-delay: .13s; }
-    .card:nth-child(4) { animation-delay: .17s; } .card:nth-child(5) { animation-delay: .21s; } .card:nth-child(6) { animation-delay: .25s; }
-    @media (max-width: 860px) { .feature { grid-template-columns: 1fr; } }
+    .hero, .feature-copy, .feature-card, .card { animation: rise .5s ease both; }
+    .feature-card { animation-delay: .04s; }
+    .card:nth-child(1) { animation-delay: .05s; }
+    .card:nth-child(2) { animation-delay: .09s; }
+    .card:nth-child(3) { animation-delay: .13s; }
+    .card:nth-child(4) { animation-delay: .17s; }
+    .card:nth-child(5) { animation-delay: .21s; }
+    .card:nth-child(6) { animation-delay: .25s; }
+    @media (max-width: 860px) {
+      .feature { grid-template-columns: 1fr; }
+    }
     @media (max-width: 640px) {
-      .wrap { padding: 18px 14px 56px; } .hero { padding: 26px 18px 20px; border-radius: 26px; }
-      .section-head { flex-direction: column; align-items: start; } .feature-copy, .feature-art, .card, .note, .trust { border-radius: 24px; } .feature-art { min-height: 230px; }
+      .wrap { padding: 18px 14px 56px; }
+      .hero { padding: 22px 18px 18px; border-radius: 24px; }
+      .feature-copy, .feature-card, .card, .note, .trust { border-radius: 20px; }
+      .section-head { flex-direction: column; align-items: start; }
+      .card { min-width: 0; flex-basis: 100%; }
     }
   </style>
 </head>
@@ -130,7 +266,10 @@
     <div class="topbar">
       <div class="brand">
         <div class="brand-mark">R.</div>
-        <div><div class="brand-name">Randomly Pick</div><div style="font-size:.86rem;color:#64748b;font-weight:600;margin-top:2px;">Games dashboard</div></div>
+        <div>
+          <div class="brand-name">Randomly Pick</div>
+          <div class="brand-sub">Games dashboard</div>
+        </div>
       </div>
       <nav class="nav" aria-label="Primary">
         <a href="/en/">Home</a>
@@ -157,7 +296,7 @@
         <span class="chip">Seedable rounds</span>
         <span class="chip">More games later</span>
       </div>
-      <div class="feature" aria-label="Featured game">
+      <div class="feature">
         <div class="feature-copy">
           <h2>Snake is the first real playable game on the hub.</h2>
           <p>It is a familiar arcade loop with clear controls, a visible score target, and a short restart path, so it works well for quick breaks and for showing that the Games tab now leads to something concrete instead of a placeholder.</p>
@@ -166,15 +305,17 @@
             <li>See score, best score, and target score in one place.</li>
             <li>Stay on the same hub as more games are added later.</li>
           </ul>
-          <div class="actions" style="margin-top:18px;">
+          <div class="actions" style="margin-top:16px;">
             <a class="button primary" href="/en/games/snake/">Open Snake</a>
             <a class="button" href="/en/about/">About the site</a>
           </div>
         </div>
-        <div class="feature-art" aria-hidden="true">
-          <div class="snake-path"></div>
-          <div class="snake-food"></div>
-          <div class="feature-label"><span>Target score 10</span><span>Restart in one tap</span></div>
+        <div class="feature-card" aria-hidden="true">
+          <div class="snake-strip"></div>
+          <div class="feature-meta">
+            <span>Target score 10</span>
+            <span>Restart in one tap</span>
+          </div>
         </div>
       </div>
     </section>
@@ -187,21 +328,77 @@
     </div>
 
     <section class="grid" aria-label="Games list">
-      <a class="card" href="/en/games/snake/"><span class="card-tag">Featured</span><div><h3>Snake</h3><p>The first full playable game in the hub. A classic arcade loop with a clean restart path.</p></div><span class="go">Play now</span></a>
-      <a class="card" href="/en/"><span class="card-tag">Quick pick</span><div><h3>Wheel of Names</h3><p>Best when you want to pick a person, topic, or round winner in one fast spin.</p></div><span class="go">Open</span></a>
-      <a class="card" href="/en/luckydraw/"><span class="card-tag">Quick draw</span><div><h3>Lucky Draw</h3><p>Use it when the result should be simple, visible, and easy to share.</p></div><span class="go">Open</span></a>
-      <a class="card" href="/en/ladder/"><span class="card-tag">Pairing</span><div><h3>Ladder Draw</h3><p>Good for sequence assignments, matchups, and event pairings where the path matters.</p></div><span class="go">Open</span></a>
-      <a class="card" href="/en/team-generator/"><span class="card-tag">Team play</span><div><h3>Team Split</h3><p>Build balanced teams for class, work, or group play without leaving the site.</p></div><span class="go">Open</span></a>
-      <a class="card" href="/en/coinflip/"><span class="card-tag">Decision</span><div><h3>Coin Flip</h3><p>Use it for the fastest possible yes-or-no call when you just need a decision.</p></div><span class="go">Open</span></a>
-      <a class="card" href="/en/dice/"><span class="card-tag">Roll</span><div><h3>Dice Roll</h3><p>Works for rounds, averages, and tabletop-style play when the next move needs a roll.</p></div><span class="go">Open</span></a>
+      <a class="card" href="/en/games/snake/">
+        <span class="card-tag">Featured</span>
+        <div>
+          <h3>Snake</h3>
+          <p>The first full playable game in the hub. A classic arcade loop with a clean restart path.</p>
+        </div>
+        <span class="go">Play now</span>
+      </a>
+      <a class="card" href="/en/">
+        <span class="card-tag">Quick pick</span>
+        <div>
+          <h3>Wheel of Names</h3>
+          <p>Best when you want to pick a person, topic, or round winner in one fast spin.</p>
+        </div>
+        <span class="go">Open</span>
+      </a>
+      <a class="card" href="/en/luckydraw/">
+        <span class="card-tag">Quick draw</span>
+        <div>
+          <h3>Lucky Draw</h3>
+          <p>Use it when the result should be simple, visible, and easy to share.</p>
+        </div>
+        <span class="go">Open</span>
+      </a>
+      <a class="card" href="/en/ladder/">
+        <span class="card-tag">Pairing</span>
+        <div>
+          <h3>Ladder Draw</h3>
+          <p>Good for sequence assignments, matchups, and event pairings where the path matters.</p>
+        </div>
+        <span class="go">Open</span>
+      </a>
+      <a class="card" href="/en/team-generator/">
+        <span class="card-tag">Team play</span>
+        <div>
+          <h3>Team Split</h3>
+          <p>Build balanced teams for class, work, or group play without leaving the site.</p>
+        </div>
+        <span class="go">Open</span>
+      </a>
+      <a class="card" href="/en/coinflip/">
+        <span class="card-tag">Decision</span>
+        <div>
+          <h3>Coin Flip</h3>
+          <p>Use it for the fastest possible yes-or-no call when you just need a decision.</p>
+        </div>
+        <span class="go">Open</span>
+      </a>
+      <a class="card" href="/en/dice/">
+        <span class="card-tag">Roll</span>
+        <div>
+          <h3>Dice Roll</h3>
+          <p>Works for rounds, averages, and tabletop-style play when the next move needs a roll.</p>
+        </div>
+        <span class="go">Open</span>
+      </a>
     </section>
 
-    <section class="note"><strong>Why this hub matters.</strong><br />The tab now points to a real playable game first, then keeps the site’s quick decision tools nearby. That makes the page useful on its own and keeps the Games entry point stable as new titles are added.</section>
+    <section class="note">
+      <strong>Why this hub matters.</strong><br />
+      The tab now points to a real playable game first, then keeps the site’s quick decision tools nearby. That makes the page useful on its own and keeps the Games entry point stable as new titles are added.
+    </section>
 
     <section class="trust">
       <strong>Trust and support</strong>
       <div class="links">
-        <a href="/en/about/">About</a><a href="/en/guides/">Guides</a><a href="/en/privacy/">Privacy Policy</a><a href="/en/terms/">Terms</a><a href="/en/contact/">Contact</a>
+        <a href="/en/about/">About</a>
+        <a href="/en/guides/">Guides</a>
+        <a href="/en/privacy/">Privacy Policy</a>
+        <a href="/en/terms/">Terms</a>
+        <a href="/en/contact/">Contact</a>
       </div>
     </section>
 

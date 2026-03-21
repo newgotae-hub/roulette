@@ -10,3 +10,30 @@
 .snake-controls {
   min-height: 0;
 }
+
+.snake-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.snake-tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.snake-hint {
+  margin-top: 10px;
+  color: #64748b;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}

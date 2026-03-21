@@ -122,6 +122,47 @@
       .stats { grid-template-columns: 1fr; }
     }
   </style>
+  <style>
+    :root {
+      color-scheme: light;
+      --panel: rgba(255,255,255,.88);
+      --panel-strong: rgba(255,255,255,.94);
+      --line: rgba(148,163,184,.22);
+      --text: #0f172a;
+      --muted: #475569;
+      --accent: #0f172a;
+      --accent-2: #166534;
+      --warm: #f59e0b;
+    }
+    body {
+      font-family: "Inter", "Noto Sans", "Segoe UI", "Malgun Gothic", sans-serif;
+      background:
+        radial-gradient(circle at 12% 12%, rgba(34,197,94,.10), transparent 22%),
+        radial-gradient(circle at 85% 0%, rgba(59,130,246,.09), transparent 26%),
+        linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+    }
+    .brand-mark { background: linear-gradient(135deg, #0f172a, #334155); color: #fff; box-shadow: 0 16px 32px rgba(15,23,42,.18); }
+    .nav a { background: rgba(255,255,255,.78); color: #334155; border-color: var(--line); }
+    .nav a:hover { border-color: rgba(15,23,42,.16); color: #0f172a; background: #fff; }
+    .nav a.active { background: var(--accent); color: #fff; border-color: var(--accent); box-shadow: 0 14px 28px rgba(15,23,42,.12); }
+    .hero, .panel, .section, .trust { background: rgba(255,255,255,.86); box-shadow: 0 18px 40px rgba(15,23,42,.06); border-color: var(--line); }
+    .hero::before { background: radial-gradient(circle, rgba(22,163,74,.18), rgba(22,163,74,0)); }
+    .eyebrow { background: #ecfdf5; color: #166534; }
+    .lede, .section p { color: var(--muted); }
+    .button { background: #fff; color: #0f172a; border-color: var(--line); box-shadow: none; }
+    .button:hover { box-shadow: 0 12px 24px rgba(15,23,42,.08); border-color: rgba(15,23,42,.18); }
+    .button.primary { background: #0f172a; color: #fff; border-color: #0f172a; box-shadow: 0 14px 28px rgba(15,23,42,.12); }
+    .chip, .stat, .step, .use, .copy-card, .related a, .links a, .status { background: rgba(255,255,255,.85); color: #334155; border-color: var(--line); }
+    .step strong, .use strong, .copy-card strong { color: #0f172a; }
+    .toolbar button, .pad button { background: #fff; color: #0f172a; border-color: var(--line); }
+    .toolbar button:hover, .pad button:hover { border-color: rgba(15,23,42,.18); }
+    .board-shell { background: linear-gradient(180deg, rgba(248,250,252,.98), rgba(226,232,240,.92)); border-color: rgba(148,163,184,.18); }
+    canvas { background: #f8fafc; box-shadow: inset 0 0 0 1px rgba(148,163,184,.12), 0 22px 48px rgba(15,23,42,.08); }
+    .footer { color: #64748b; border-color: rgba(148,163,184,.28); }
+    .footer a { color: #0f172a; }
+    .snake-tag { background: #ecfdf5; color: #166534; }
+    .snake-hint { color: #64748b; }
+  </style>
 </head>
 <body>
   <main class="wrap">
@@ -138,20 +179,24 @@
     <section class="hero" data-snake-section="purpose">
       <span class="eyebrow">Playable now</span>
       <h1>Snake</h1>
-      <p class="lede">A classic arcade loop that works with keyboard, WASD, or swipe controls. Use it for a quick break, a classroom demo, or a familiar game that still feels good in the browser.</p>
+      <p class="lede">Play Snake directly in the browser. Use keyboard, WASD, or swipe controls, and keep score, length, and speed visible at a glance.</p>
       <div class="actions">
         <a class="button primary" href="#play-area">Start game</a>
         <a class="button" href="/en/games/">Back to Games</a>
       </div>
       <div class="chips" aria-label="Game highlights">
-        <span class="chip">Target score 10</span><span class="chip">Best score saved locally</span><span class="chip">Arrow keys and WASD</span><span class="chip">Swipe on mobile</span>
+        <span class="chip">Target 10</span><span class="chip">Best saved locally</span><span class="chip">Arrow keys and WASD</span><span class="chip">Swipe on mobile</span>
       </div>
+      <div class="snake-meta-row" aria-label="Current game state">
+        <span id="snake-game-tag" class="snake-tag" data-state="ready">Ready</span>
+      </div>
+      <div class="snake-hint" id="snake-hint">On mobile, swipe the board or use the arrows below.</div>
     </section>
 
     <div class="layout" id="play-area">
       <section class="panel" aria-labelledby="board-title">
         <div class="panel-head">
-          <h2 id="board-title">Play area</h2>
+          <h2 id="board-title">Game board</h2>
           <div class="toolbar">
             <button id="snake-start" type="button">Start</button>
             <button id="snake-pause" type="button">Pause</button>
@@ -164,14 +209,14 @@
         <div class="controls snake-controls">
           <div class="pad" aria-label="Directional controls">
             <span class="blank"></span>
-            <button id="snake-up" class="up" type="button" aria-label="Move up">▲</button>
-            <button id="snake-left" class="left" type="button" aria-label="Move left">◀</button>
-            <button id="snake-down" class="down" type="button" aria-label="Move down">▼</button>
-            <button id="snake-right" class="right" type="button" aria-label="Move right">▶</button>
+            <button id="snake-up" class="up" type="button" data-snake-dir="up" aria-label="Move up">▲</button>
+            <button id="snake-left" class="left" type="button" data-snake-dir="left" aria-label="Move left">◀</button>
+            <button id="snake-down" class="down" type="button" data-snake-dir="down" aria-label="Move down">▼</button>
+            <button id="snake-right" class="right" type="button" data-snake-dir="right" aria-label="Move right">▶</button>
           </div>
           <div>
             <div class="stats" aria-label="Current game stats">
-              <div class="stat"><span>Status</span><strong id="snake-mode">ready</strong></div>
+              <div class="stat"><span>Status</span><strong id="snake-mode">Ready</strong></div>
               <div class="stat"><span>Score</span><strong id="snake-score">0</strong></div>
               <div class="stat"><span>Best</span><strong id="snake-best">0</strong></div>
               <div class="stat"><span>Target</span><strong id="snake-target">10</strong></div>
@@ -184,42 +229,42 @@
       </section>
 
       <aside class="panel" aria-labelledby="guide-title" data-snake-section="why">
-        <div class="panel-head"><h2 id="guide-title">How to read the game</h2></div>
-        <p>Snake stays intentionally simple: one board, one score, one target. That keeps the game easy to test and easy to understand on both mobile and desktop.</p>
+        <div class="panel-head"><h2 id="guide-title">How to play</h2></div>
+        <p>Snake is intentionally simple: one board, one score, one target. That keeps the game easy to understand on both mobile and desktop.</p>
         <div class="section snake-copy-grid" style="margin-top:16px;">
-          <div class="copy-card" data-snake-section="tip"><strong>Quick controls</strong><p>Use the keyboard, tap the arrows, or swipe on the board. Press Space to pause, Enter to start, and R to reset.</p></div>
-          <div class="copy-card" data-snake-section="faq"><strong>FAQ</strong><p>Yes, the board saves a best score locally, and the round can be restarted at any time without leaving the page.</p></div>
+          <div class="copy-card" data-snake-section="tip"><strong>Quick controls</strong><p>Keyboard, arrow buttons, and swipe are all supported. Press Space to pause, Enter to start, and R to reset.</p></div>
+          <div class="copy-card" data-snake-section="faq"><strong>FAQ</strong><p>The best score stays in your browser only, and you can restart a round without leaving the page.</p></div>
         </div>
         <div class="section" data-snake-section="why" style="margin-top:16px;">
-          <div class="section-head"><h2>Why this page works</h2></div>
-          <p>This is a complete game page instead of a thin widget: the board is playable, the controls are obvious, and the supporting copy explains when Snake is the right choice.</p>
+          <div class="section-head"><h2>Why it fits Randomly Pick</h2></div>
+          <p>This is a full game tab, not a thin widget. The board is playable, the controls are obvious, and the copy stays practical.</p>
         </div>
       </aside>
     </div>
 
     <section class="section" data-snake-section="how" aria-labelledby="howto-title">
-      <div class="section-head"><h2 id="howto-title">How to play</h2><p>Three short steps are enough to keep the game readable and the score loop obvious.</p></div>
+      <div class="section-head"><h2 id="howto-title">How to play</h2><p>Keep it short: start, eat, and avoid the walls.</p></div>
       <div class="steps">
-        <div class="step"><strong>1. Start the round.</strong> Press Start or use any direction key to move off the ready state.</div>
-        <div class="step"><strong>2. Eat the food.</strong> Each piece grows the snake and raises your score, so the board gets tighter over time.</div>
-        <div class="step"><strong>3. Avoid walls and your body.</strong> Reach the target score for a clean win, or reset and try a better route.</div>
+        <div class="step"><strong>1. Start the round.</strong> Press Start or tap a direction to begin moving.</div>
+        <div class="step"><strong>2. Eat the food.</strong> Each bite grows the snake and raises your score, so the board gets tighter over time.</div>
+        <div class="step"><strong>3. Avoid walls and your body.</strong> Clear the target score without crashing into the walls or yourself.</div>
       </div>
     </section>
 
     <section class="section" data-snake-section="when" aria-labelledby="uses-title">
-      <div class="section-head"><h2 id="uses-title">When this game fits</h2><p>Snake is useful when the best answer is a short, familiar game rather than a decision tool.</p></div>
+      <div class="section-head"><h2 id="uses-title">When this game fits</h2><p>It works best when you want something familiar, quick, and low-friction.</p></div>
       <div class="uses">
-        <div class="use"><strong>Quick breaks</strong> A tiny arcade loop gives people something to play for a minute or two without context switching.</div>
-        <div class="use"><strong>Classroom demos</strong> The movement, collision, and score loop are easy to explain while the board is visible.</div>
-        <div class="use"><strong>Testing a game shell</strong> It is a reliable first game because the rules are simple and the QA hooks are easy to verify.</div>
+        <div class="use"><strong>Quick breaks</strong> A 1-minute loop is enough when people want to reset their head.</div>
+        <div class="use"><strong>Classroom demos</strong> The movement, collision, and score loop are easy to explain live.</div>
+        <div class="use"><strong>Game shell checks</strong> It is a practical first game because the rules stay simple and the QA hooks are easy to verify.</div>
       </div>
     </section>
 
     <section class="section" data-snake-section="related" aria-labelledby="related-title">
-      <div class="section-head"><h2 id="related-title">Related links</h2><p>Use the same site when you want a decision tool instead of an action game.</p></div>
+      <div class="section-head"><h2 id="related-title">More Randomly Pick tools</h2><p>Move back to the site’s quick tools when you need a decision instead of a game.</p></div>
       <div class="related">
         <a href="/en/games/"><strong>Games hub</strong><br />Go back to the dashboard and pick another title.</a>
-        <a href="/en/luckydraw/"><strong>Lucky Draw</strong><br />Use it when you need a quick random pick instead of play.</a>
+        <a href="/en/luckydraw/"><strong>Lucky Draw</strong><br />Use it when you need a quick pick instead of play.</a>
         <a href="/en/dice/"><strong>Dice Roll</strong><br />Use it for tabletop-style rolls or repeated turns.</a>
         <a href="/en/about/"><strong>About</strong><br />Read the site story and operator info.</a>
         <a href="/en/privacy/"><strong>Privacy Policy</strong><br />See how local browser state is handled.</a>
@@ -228,7 +273,7 @@
     </section>
 
     <section class="trust">
-      <strong>Trust and support</strong>
+      <strong>Site links</strong>
       <div class="links">
         <a id="footer-about" href="/en/about/">About</a>
         <a id="footer-terms" href="/en/terms/">Terms</a>
@@ -237,12 +282,13 @@
       </div>
     </section>
 
-    <div class="footer">Designed and developed by Juntae Ko · <a href="/en/games/">Randomly Pick Games</a></div>
+    <div class="footer">Randomly Pick · <a href="/en/games/">Games</a></div>
   </main>
 
   <script>
     window.__SNAKE_COPY__ = {
       targetScore: 10,
+      readyLabel: 'Ready',
       statusReady: 'Press Start or any direction to begin.',
       statusPlaying: 'Snake is moving. Keep eating and avoid the walls.',
       statusPaused: 'Paused. Resume when you are ready.',
@@ -250,6 +296,7 @@
       statusWin: 'You won. Clear run complete.',
       pauseLabel: 'Pause',
       resumeLabel: 'Resume',
+      restartLabel: 'Restart',
       startLabel: 'Start',
       startingLabel: 'Playing'
     };
