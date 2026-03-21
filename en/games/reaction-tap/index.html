@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Reaction Tap | Randomly Pick</title>
+  <meta name="description" content="Tap the big button the moment it turns green. Play a clean one-round test, a five-round sprint, or today's shared challenge in the browser." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://randomly-pick.com/en/games/reaction-tap/" />
+  <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/reaction-tap/" />
+  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/games/reaction-tap/" />
+  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/games/reaction-tap/" />
+  <link rel="stylesheet" href="/assets/css/games-reaction-tap.css?v=20260322-rt2" />
+  <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
+</head>
+<body>
+  <main class="rt-wrap">
+    <header class="rt-topbar">
+      <div class="rt-brand">
+        <div class="rt-brand-mark">R.</div>
+        <div>
+          <div class="rt-brand-name">Randomly Pick</div>
+          <div class="rt-brand-sub">Reaction Tap</div>
+        </div>
+      </div>
+      <nav class="rt-nav" aria-label="Primary">
+        <a href="/en/">Home</a>
+        <a href="/en/games/" class="is-active" aria-current="page">Games</a>
+        <a href="/en/luckydraw/">Lucky Draw</a>
+        <a href="/en/ladder/">Ladder Draw</a>
+        <a href="/en/team-generator/">Team Split</a>
+        <a href="/en/coinflip/">Coin Flip</a>
+        <a href="/en/dice/">Dice Roll</a>
+      </nav>
+    </header>
+
+    <section class="rt-hero">
+      <span class="rt-eyebrow">Reaction speed game</span>
+      <h1 class="rt-title">Reaction Tap</h1>
+      <p class="rt-lede">Tap the big button as soon as it turns green. Classic gives you one clean reaction, Sprint strings together five quick rounds, and Daily Challenge uses the same seed for everyone today.</p>
+      <div class="rt-actions">
+        <a class="rt-button is-primary" href="#play-area">Tap to start</a>
+        <a class="rt-button" href="/en/games/">Back to Games</a>
+      </div>
+      <div class="rt-chips" aria-label="Game highlights">
+        <span class="rt-chip">One tap</span>
+        <span class="rt-chip">Sprint and daily challenge</span>
+        <span class="rt-chip">Best records stored locally</span>
+        <span class="rt-chip">Mobile and webview friendly</span>
+      </div>
+      <div class="rt-meta-row" aria-label="Current state">
+        <span id="reaction-tap-mode-label" class="rt-tag" data-phase="ready">Ready</span>
+      </div>
+      <div class="rt-hint" id="reaction-tap-hint">Tap the big button to begin. If you tap too early, you stay on the same board and wait for the next signal.</div>
+    </section>
+
+    <div class="rt-layout" id="play-area">
+      <section class="rt-panel main" aria-labelledby="stage-title">
+        <div class="rt-panel-head">
+          <div>
+            <h2 id="stage-title">Tap stage</h2>
+            <p>One signal, one tap, immediate replay.</p>
+          </div>
+          <div class="rt-toolbar">
+            <button id="reaction-tap-start" type="button">Start</button>
+            <button id="reaction-tap-replay" type="button">Replay</button>
+          </div>
+        </div>
+
+        <div class="rt-stage-shell">
+          <button id="reaction-tap-target" class="rt-target" type="button" aria-label="Reaction Tap target button">
+            <span class="rt-kicker" id="reaction-tap-kicker">Tap to start</span>
+            <strong class="rt-target-label" id="reaction-tap-label">Classic</strong>
+            <span class="rt-target-detail" id="reaction-tap-detail">The shortest mode: one reaction, one score, one restart.</span>
+          </button>
+          <div class="rt-progress" id="reaction-tap-progress" style="--progress:0" aria-hidden="true"></div>
+        </div>
+
+        <div class="rt-mode" aria-label="Game mode">
+          <button id="reaction-tap-classic" type="button" data-reaction-mode="classic">Classic</button>
+          <button id="reaction-tap-sprint" type="button" data-reaction-mode="sprint">Sprint</button>
+          <button id="reaction-tap-daily" type="button" data-reaction-mode="daily">Daily Challenge</button>
+        </div>
+
+        <div class="rt-stats" aria-label="Current stats">
+          <div class="rt-stat"><span>Hits</span><strong id="reaction-tap-hits">0</strong></div>
+          <div class="rt-stat"><span>Round</span><strong id="reaction-tap-round">0 / 1</strong></div>
+          <div class="rt-stat"><span>Fastest today</span><strong id="reaction-tap-fastest">—</strong></div>
+          <div class="rt-stat"><span>Best reaction</span><strong id="reaction-tap-best-reaction">—</strong></div>
+          <div class="rt-stat"><span>Average</span><strong id="reaction-tap-average">—</strong></div>
+          <div class="rt-stat"><span>Best average</span><strong id="reaction-tap-best-average">—</strong></div>
+          <div class="rt-stat"><span>Best streak</span><strong id="reaction-tap-streak">0</strong></div>
+          <div class="rt-stat"><span>Misses</span><strong id="reaction-tap-misses">0</strong></div>
+        </div>
+
+        <div class="rt-status" id="reaction-tap-status" role="status" aria-live="polite">Tap the big button to begin.</div>
+      </section>
+
+      <aside class="rt-panel side" aria-labelledby="guide-title">
+        <div class="rt-panel-head">
+          <div>
+            <h2 id="guide-title">How it works</h2>
+            <p>Short rounds, a fast reset loop, and a touch-friendly target make it easy to replay on mobile or in a webview.</p>
+          </div>
+        </div>
+
+        <div class="rt-section" style="margin-top:0;">
+          <div class="rt-section-head">
+            <h2>Modes</h2>
+          </div>
+          <div class="rt-copy-grid">
+            <div class="rt-copy">
+              <strong>Classic</strong>
+              <p>The shortest possible test. Tap once, get one reaction time, and restart in seconds.</p>
+            </div>
+            <div class="rt-copy">
+              <strong>Sprint</strong>
+              <p>Five rounds in a row. It is better when you want a small rhythm and an average to beat.</p>
+            </div>
+          </div>
+          <div class="rt-copy" style="margin-top:12px;">
+            <strong>Daily Challenge</strong>
+            <p>Everyone gets the same seed for the day. It gives you a simple reason to come back and compare again.</p>
+          </div>
+        </div>
+
+        <div class="rt-section">
+          <div class="rt-section-head">
+            <h2>Mode note</h2>
+          </div>
+          <p id="reaction-tap-mode-note">Classic is one clean tap, Sprint strings together five quick rounds, and Daily Challenge uses today’s shared seed.</p>
+        </div>
+      </aside>
+    </div>
+
+    <section class="rt-section" aria-labelledby="howto-title">
+      <div class="rt-section-head">
+        <h2 id="howto-title">How to play</h2>
+        <p>Wait for the signal, tap once, and keep going. The game is built for quick restarts and short sessions.</p>
+      </div>
+      <div class="rt-steps">
+        <div class="rt-step"><strong>1. Tap the big button to start.</strong> The first tap begins the wait for the signal.</div>
+        <div class="rt-step"><strong>2. Tap as soon as it turns green.</strong> Faster taps produce shorter reaction times.</div>
+        <div class="rt-step"><strong>3. Replay immediately.</strong> Sprint and Daily Challenge move to the next round fast so the loop stays snappy.</div>
+      </div>
+    </section>
+
+    <section class="rt-section" aria-labelledby="uses-title">
+      <div class="rt-section-head">
+        <h2 id="uses-title">When it fits</h2>
+        <p>It works well when you want a tiny focus reset, a quick score to beat, or a game that feels good in a mobile webview.</p>
+      </div>
+      <div class="rt-uses">
+        <div class="rt-use"><strong>Short breaks</strong> One round is over almost instantly, so it works during coffee breaks or between tasks.</div>
+        <div class="rt-use"><strong>Score chasing</strong> Fastest reaction and average reaction are visible right away, which makes personal improvement obvious.</div>
+        <div class="rt-use"><strong>Touch-first demos</strong> The whole game is driven by one large tap target, so it feels natural on phones and embedded browsers.</div>
+      </div>
+    </section>
+
+    <section class="rt-section" aria-labelledby="related-title">
+      <div class="rt-section-head">
+        <h2 id="related-title">More Randomly Pick tools</h2>
+        <p>If you want a slower pace or a longer session, the rest of the site has a few good next stops.</p>
+      </div>
+      <div class="rt-related">
+        <a href="/en/games/snake/"><strong>Snake</strong><br />A longer arcade loop if you want to stay focused.</a>
+        <a href="/en/games/number-merge/"><strong>Number Merge</strong><br />A calmer puzzle game when you want to think a little more.</a>
+        <a href="/en/games/brick-breaker/"><strong>Brick Breaker</strong><br />A quick paddle game with a little more movement.</a>
+        <a href="/en/about/"><strong>About</strong><br />See the site background and operating info.</a>
+      </div>
+    </section>
+
+    <section class="rt-trust">
+      <strong>Site links</strong>
+      <div class="rt-links">
+        <a href="/en/about/">About</a>
+        <a href="/en/guides/">Guides</a>
+        <a href="/en/privacy/">Privacy Policy</a>
+        <a href="/en/terms/">Terms</a>
+        <a href="/en/contact/">Contact</a>
+      </div>
+    </section>
+
+    <div class="rt-footer">Randomly Pick · <a href="/en/games/">Games</a></div>
+  </main>
+
+  <script>
+    window.__REACTION_TAP_COPY__ = {
+      modeLabels: {
+        classic: 'Classic',
+        sprint: 'Sprint',
+        daily: 'Daily Challenge'
+      },
+      modeDescriptions: {
+        classic: 'The shortest possible test. Tap once, get one reaction time, and restart in seconds.',
+        sprint: 'Five rounds in a row. It is better when you want a small rhythm and an average to beat.',
+        daily: 'Everyone gets the same seed for the day. It gives you a simple reason to come back and compare again.'
+      },
+      modeNotes: {
+        classic: 'Classic is one clean tap, Sprint strings together five quick rounds, and Daily Challenge uses today’s shared seed.',
+        sprint: 'Sprint is a five-round rhythm mode built around beating your average.',
+        daily: 'Daily Challenge is the shared-seed mode for today’s comparison runs.'
+      },
+      phaseLabels: {
+        ready: 'Ready',
+        waiting: 'Waiting',
+        armed: 'Tap now',
+        feedback: 'Result',
+        complete: 'Complete'
+      },
+      statuses: {
+        ready: 'Tap the big button to begin.',
+        waiting: 'Hold for the signal.',
+        armed: 'Now. Tap as fast as you can.',
+        hit: 'Nice. The next round starts soon.',
+        falseStart: 'Too soon. You will wait on the same board again.',
+        feedback: 'Recording the result.',
+        complete: 'The run is finished. Replay to chase a cleaner score.'
+      },
+      kickers: {
+        ready: 'Tap to start',
+        waiting: 'Waiting for green',
+        armed: 'Tap now',
+        feedback: 'Result',
+        complete: 'Replay'
+      },
+      details: {
+        ready: 'One tap starts the wait, and the green signal tells you when to react.',
+        waiting: 'Signal in {ms} ms.',
+        armed: 'Tap right away.',
+        hit: 'Reaction time: {ms} ms.',
+        falseStart: 'Too soon. Wait for the next signal.',
+        complete: 'Replay the same mode to beat your previous run.',
+        dailyComplete: 'The daily challenge is done. Come back tomorrow to compare the same seed again.'
+      },
+      startButton: 'Start',
+      replayButton: 'Replay',
+      targetAria: 'Reaction Tap target button'
+    };
+    window.__REACTION_TAP_META__ = {
+      lang: 'en'
+    };
+  </script>
+  <script src="/assets/js/games-reaction-tap.js?v=20260322-rt2"></script>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Sequence Flash | Randomly Pick</title>
+  <meta name="description" content="Play Sequence Flash in the browser. Watch the pads light up, repeat the pattern in order, and keep up as each round gets longer and faster." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://randomly-pick.com/en/games/sequence-flash/" />
+  <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/sequence-flash/" />
+  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/games/sequence-flash/" />
+  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/games/sequence-flash/" />
+  <link rel="stylesheet" href="/assets/css/games-sequence-flash.css?v=20260322-sf1" />
+  <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
+</head>
+<body>
+  <main class="sf-wrap">
+    <header class="sf-topbar">
+      <div class="sf-brand">
+        <div class="sf-brand-mark">R.</div>
+        <div>
+          <div class="sf-brand-name">Randomly Pick</div>
+          <div class="sf-brand-sub">Sequence Flash</div>
+        </div>
+      </div>
+      <nav class="sf-nav" aria-label="Primary">
+        <a href="/en/">Home</a>
+        <a href="/en/games/" class="is-active" aria-current="page">Games</a>
+        <a href="/en/luckydraw/">Lucky Draw</a>
+        <a href="/en/ladder/">Ladder Draw</a>
+        <a href="/en/team-generator/">Team Split</a>
+        <a href="/en/coinflip/">Coin Flip</a>
+        <a href="/en/dice/">Dice Roll</a>
+      </nav>
+    </header>
+
+    <section class="sf-hero">
+      <span class="sf-eyebrow">Memory game</span>
+      <h1 class="sf-title">Sequence Flash</h1>
+      <p class="sf-lede">A Simon-style memory game where you watch the pads light up and repeat the pattern in order. Each round adds one more step and shortens the rhythm, so the challenge stays clean but keeps rising.</p>
+      <div class="sf-actions">
+        <a class="sf-button is-primary" href="#play-area">Start game</a>
+        <a class="sf-button" href="/en/games/">Back to Games</a>
+      </div>
+      <div class="sf-chips" aria-label="Game highlights">
+        <span class="sf-chip">4-pad memory loop</span>
+        <span class="sf-chip">Daily challenge</span>
+        <span class="sf-chip">Touch and keyboard support</span>
+        <span class="sf-chip">Deterministic QA hooks</span>
+      </div>
+      <div class="sf-tag-row" aria-label="Current game state">
+        <span id="sequence-flash-tag" class="sf-tag" data-state="ready">Free · Ready</span>
+      </div>
+      <div class="sf-hint" id="sequence-flash-hint">Press Start and watch the pads first. After the playback ends, repeat the same order to move into the next round.</div>
+      <div class="sf-mobile-flow" id="sequence-flash-mobile-flow">On phones, watch first and tap second. The large pads keep the first playthrough readable without a long tutorial.</div>
+    </section>
+
+    <div class="sf-layout" id="play-area">
+      <section class="sf-panel" aria-labelledby="board-title">
+        <div class="sf-panel-head">
+          <h2 id="board-title">Pad board</h2>
+          <div class="sf-toolbar">
+            <button id="sequence-flash-start" type="button">Start</button>
+            <button id="sequence-flash-daily" type="button">Daily challenge</button>
+            <button id="sequence-flash-reset" type="button">Reset</button>
+          </div>
+        </div>
+        <div class="sf-board-shell">
+          <div class="sf-board" aria-label="Sequence Flash board">
+            <button id="sequence-flash-pad-coral" class="sf-pad" type="button" data-color="coral" aria-label="Coral pad"><span>Coral</span></button>
+            <button id="sequence-flash-pad-sky" class="sf-pad" type="button" data-color="sky" aria-label="Blue pad"><span>Blue</span></button>
+            <button id="sequence-flash-pad-mint" class="sf-pad" type="button" data-color="mint" aria-label="Mint pad"><span>Mint</span></button>
+            <button id="sequence-flash-pad-amber" class="sf-pad" type="button" data-color="amber" aria-label="Amber pad"><span>Amber</span></button>
+          </div>
+        </div>
+        <div class="sf-controls">
+          <div>
+            <div class="sf-stat"><span>Next memory</span><strong id="sequence-flash-next" class="sf-preview"></strong></div>
+          </div>
+          <div>
+            <div class="sf-stats" aria-label="Current game stats">
+              <div class="sf-stat"><span>Round</span><strong id="sequence-flash-round">0</strong></div>
+              <div class="sf-stat"><span>Best round</span><strong id="sequence-flash-best">0</strong></div>
+              <div class="sf-stat"><span>Daily best</span><strong id="sequence-flash-daily-best">0</strong></div>
+              <div class="sf-stat"><span>Streak</span><strong id="sequence-flash-streak">0</strong></div>
+              <div class="sf-stat"><span>Flash speed</span><strong id="sequence-flash-speed">130 /min</strong></div>
+            </div>
+            <div class="sf-status" id="sequence-flash-status">Press Start and watch first. Input only begins after the playback finishes.</div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="sf-panel" aria-labelledby="guide-title">
+        <div class="sf-panel-head"><h2 id="guide-title">How it works</h2></div>
+        <p>Sequence Flash is built around a clean two-step rhythm: watch the pads, then repeat the same order. The rules stay simple enough for quick restarts, but the sequence still gets longer and faster round by round.</p>
+        <div class="sf-section sf-copy-grid" style="margin-top:16px;">
+          <div class="sf-copy-card"><strong>First-play flow</strong><p>The game separates watching from input, so the first session teaches itself without extra UI chrome. You always know whether to observe or tap.</p></div>
+          <div class="sf-copy-card"><strong>Daily challenge</strong><p>The daily challenge gives everyone the same sequence seed for the day. That creates replay value without introducing accounts or leaderboards.</p></div>
+        </div>
+        <div class="sf-section" style="margin-top:16px;">
+          <div class="sf-section-head"><h2>Why it fits Randomly Pick</h2></div>
+          <p>This page feels like a practical in-product game tab, not a detached arcade microsite. The rules, status, and next action all sit in one readable layout.</p>
+        </div>
+      </aside>
+    </div>
+
+    <section class="sf-section" aria-labelledby="howto-title">
+      <div class="sf-section-head">
+        <h2 id="howto-title">How to play</h2>
+        <p>Watch first, repeat second, then keep the rhythm going as the sequence grows.</p>
+      </div>
+      <div class="sf-steps">
+        <div class="sf-step"><strong>1. Watch the pattern.</strong> The pads light up in order before you are allowed to tap anything.</div>
+        <div class="sf-step"><strong>2. Repeat it exactly.</strong> Tap the same colors in the same order to clear the round.</div>
+        <div class="sf-step"><strong>3. Keep up with the pace.</strong> Every new round adds one more step and slightly faster playback.</div>
+      </div>
+    </section>
+
+    <section class="sf-section" aria-labelledby="uses-title">
+      <div class="sf-section-head">
+        <h2 id="uses-title">When this game fits</h2>
+        <p>Sequence Flash works best when you want a familiar memory loop that stays short, readable, and easy to restart.</p>
+      </div>
+      <div class="sf-uses">
+        <div class="sf-use"><strong>Short focus breaks</strong> Each run starts in seconds and either ends quickly or turns into a longer streak.</div>
+        <div class="sf-use"><strong>Daily return loop</strong> The shared daily seed gives people a reason to come back without changing the whole system.</div>
+        <div class="sf-use"><strong>Touch-first demos</strong> Four large pads work naturally in mobile browsers and app webviews.</div>
+      </div>
+    </section>
+
+    <section class="sf-section" aria-labelledby="related-title">
+      <div class="sf-section-head">
+        <h2 id="related-title">More Randomly Pick tools</h2>
+        <p>You can still jump to a slower puzzle or a faster arcade game from here.</p>
+      </div>
+      <div class="sf-related">
+        <a href="/en/games/color-lines/"><strong>Color Lines</strong><br />Switch from memory pressure to route planning.</a>
+        <a href="/en/games/snake/"><strong>Snake</strong><br />Move into a faster reaction loop.</a>
+        <a href="/en/games/number-merge/"><strong>Number Merge</strong><br />Stay in the puzzle lane with calmer board play.</a>
+        <a href="/en/about/"><strong>About</strong><br />Read the site background and links.</a>
+      </div>
+    </section>
+
+    <section class="sf-trust">
+      <strong>Site links</strong>
+      <div class="sf-links">
+        <a href="/en/about/">About</a>
+        <a href="/en/guides/">Guides</a>
+        <a href="/en/privacy/">Privacy Policy</a>
+        <a href="/en/terms/">Terms</a>
+        <a href="/en/contact/">Contact</a>
+      </div>
+    </section>
+
+    <div class="sf-footer">Randomly Pick · <a href="/en/games/">Games</a></div>
+  </main>
+
+  <script>
+    window.__SEQUENCE_FLASH_COPY__ = {
+      readyLabel: 'Ready',
+      showingLabel: 'Watching',
+      inputLabel: 'Your turn',
+      successLabel: 'Clear',
+      gameoverLabel: 'Missed',
+      readyStatus: 'Press Start and watch first. Input only begins after the playback finishes.',
+      dailyReadyStatus: 'Daily sequence ready. Everyone gets the same seed today.',
+      showingStatus: 'Watch the pads and hold the order in memory.',
+      inputStatus: 'Now repeat the same order.',
+      successStatus: 'Round clear. The next sequence is getting ready.',
+      gameoverStatus: 'Sequence missed. Reset and try to beat your best round.',
+      hint: 'Press Start and watch the pads first. After the playback ends, repeat the same order to move into the next round.',
+      dailyHint: 'Daily challenge uses the same sequence seed for everyone today.',
+      mobileFlowReady: 'On phones, watch first and tap second. The large pads keep the first run easy to read.',
+      mobileFlowWatch: 'The game is showing the sequence now. Just watch the pad order.',
+      mobileFlowInput: 'Your turn now. Tap the pads in the same order you just saw.',
+      mobileFlowGameover: 'The pattern was missed. Reset or try the daily challenge for a fresh run.',
+      startButton: 'Start',
+      dailyButton: 'Daily challenge',
+      resetButton: 'Reset',
+      freeModeLabel: 'Free',
+      dailyModeLabel: 'Daily',
+      previewIdle: 'Watch first',
+      coralLabel: 'Coral',
+      skyLabel: 'Blue',
+      mintLabel: 'Mint',
+      amberLabel: 'Amber'
+    };
+    window.__SEQUENCE_FLASH_META__ = {
+      slug: 'sequence-flash',
+      lang: 'en',
+      mode: 'free'
+    };
+  </script>
+  <script src="/assets/js/games-sequence-flash.js?v=20260322-sf1"></script>
+</body>
+</html>

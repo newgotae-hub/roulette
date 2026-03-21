@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Color Lines | Randomly Pick</title>
+  <meta name="description" content="Play Color Lines in the browser. Move one ball at a time, connect five in a row, and read the next colors before the board fills up." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://randomly-pick.com/en/games/color-lines/" />
+  <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/color-lines/" />
+  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/games/color-lines/" />
+  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/games/color-lines/" />
+  <link rel="stylesheet" href="/assets/css/games-color-lines.css?v=20260322-cl1" />
+  <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
+</head>
+<body>
+  <main class="cl-wrap">
+    <header class="cl-topbar">
+      <div class="cl-brand">
+        <div class="cl-brand-mark">R.</div>
+        <div>
+          <div class="cl-brand-name">Randomly Pick</div>
+          <div class="cl-brand-sub">Color Lines</div>
+        </div>
+      </div>
+      <nav class="cl-nav" aria-label="Primary">
+        <a href="/en/">Home</a>
+        <a href="/en/games/" class="is-active" aria-current="page">Games</a>
+        <a href="/en/luckydraw/">Lucky Draw</a>
+        <a href="/en/ladder/">Ladder Draw</a>
+        <a href="/en/team-generator/">Team Split</a>
+        <a href="/en/coinflip/">Coin Flip</a>
+        <a href="/en/dice/">Dice Roll</a>
+      </nav>
+    </header>
+
+    <section class="cl-hero">
+      <span class="cl-eyebrow">Board puzzle</span>
+      <h1 class="cl-title">Color Lines</h1>
+      <p class="cl-lede">Move one ball at a time, connect five matching colors in a row, and stay ahead of the next three pieces before the board gets crowded. It is a quieter strategy game than Snake, but still easy to restart in one tap.</p>
+      <div class="cl-actions">
+        <a class="cl-button is-primary" href="#play-area">Start board</a>
+        <a class="cl-button" href="/en/games/">Back to Games</a>
+      </div>
+      <div class="cl-chips" aria-label="Game highlights">
+        <span class="cl-chip">Tap to select and move</span>
+        <span class="cl-chip">Next 3 colors visible</span>
+        <span class="cl-chip">Shared daily board</span>
+        <span class="cl-chip">Deterministic QA hooks</span>
+      </div>
+      <div class="cl-tag-row" aria-label="Current game state">
+        <span id="color-lines-tag" class="cl-tag" data-state="ready">Free · Ready</span>
+      </div>
+      <div class="cl-hint" id="color-lines-hint">Tap a colored ball first, then tap an empty cell with an open path. Daily mode gives everyone the same board seed.</div>
+      <div class="cl-mobile-flow" id="color-lines-mobile-flow">On phones, the first tap selects a ball and the second tap sends it. The preview row tells you which colors arrive next if you do not clear a line.</div>
+    </section>
+
+    <div class="cl-layout" id="play-area">
+      <section class="cl-panel" aria-labelledby="board-title">
+        <div class="cl-panel-head">
+          <h2 id="board-title">Game board</h2>
+          <div class="cl-toolbar">
+            <button id="color-lines-reset" type="button">New board</button>
+            <button id="color-lines-daily" type="button">Daily board</button>
+            <button id="color-lines-clear" type="button">Clear selection</button>
+          </div>
+        </div>
+        <div class="cl-board-shell">
+          <div id="color-lines-grid" class="cl-grid" aria-label="Color Lines board"></div>
+        </div>
+        <div class="cl-controls">
+          <div>
+            <div class="cl-stat"><span>Next colors</span><strong id="color-lines-upcoming" class="cl-upcoming"></strong></div>
+          </div>
+          <div>
+            <div class="cl-stats" aria-label="Current game stats">
+              <div class="cl-stat"><span>Score</span><strong id="color-lines-score">0</strong></div>
+              <div class="cl-stat"><span>Best</span><strong id="color-lines-best">0</strong></div>
+              <div class="cl-stat"><span>Lines cleared</span><strong id="color-lines-lines">0</strong></div>
+              <div class="cl-stat"><span>Moves</span><strong id="color-lines-moves">0</strong></div>
+              <div class="cl-stat"><span>Balls on board</span><strong id="color-lines-balls">0</strong></div>
+              <div class="cl-stat"><span>Selected</span><strong id="color-lines-select">None</strong></div>
+            </div>
+            <div class="cl-status" id="color-lines-status">Pick a ball, then tap an empty cell to move it. If no line is cleared, the next three colors arrive immediately.</div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="cl-panel" aria-labelledby="guide-title">
+        <div class="cl-panel-head"><h2 id="guide-title">How it works</h2></div>
+        <p>Color Lines is about route planning, not speed. Each move is deliberate: open a path, connect five matching colors, and avoid letting the preview pieces trap the center of the board.</p>
+        <div class="cl-section cl-copy-grid" style="margin-top:16px;">
+          <div class="cl-copy-card"><strong>First-play flow</strong><p>The first tap selects a ball. The second tap only works if there is an open route through empty cells, so the board teaches pathfinding without a long tutorial.</p></div>
+          <div class="cl-copy-card"><strong>Daily board</strong><p>Use the daily board when you want the same seed everyone else gets today. That makes this puzzle feel replayable even without a leaderboard.</p></div>
+        </div>
+        <div class="cl-section" style="margin-top:16px;">
+          <div class="cl-section-head"><h2>Why it fits Randomly Pick</h2></div>
+          <p>This page reads like a real product surface, not a thin puzzle embed. It explains the rules, shows upcoming state clearly, and keeps all important information visible in one clean layout.</p>
+        </div>
+      </aside>
+    </div>
+
+    <section class="cl-section" aria-labelledby="howto-title">
+      <div class="cl-section-head">
+        <h2 id="howto-title">How to play</h2>
+        <p>Each turn is about using the current open lanes before the preview row makes the board tighter.</p>
+      </div>
+      <div class="cl-steps">
+        <div class="cl-step"><strong>1. Select a ball.</strong> Tap any filled cell to lock in the color you want to move.</div>
+        <div class="cl-step"><strong>2. Follow an open path.</strong> Only empty-cell routes count, so blocked moves force you to reorganize the board first.</div>
+        <div class="cl-step"><strong>3. Make a line of five.</strong> Horizontal, vertical, and diagonal lines all clear and open space again.</div>
+      </div>
+    </section>
+
+    <section class="cl-section" aria-labelledby="uses-title">
+      <div class="cl-section-head">
+        <h2 id="uses-title">When this game fits</h2>
+        <p>Color Lines works best when you want something thoughtful, tidy, and easy to continue for one more run.</p>
+      </div>
+      <div class="cl-uses">
+        <div class="cl-use"><strong>Calm puzzle breaks</strong> There is no timer, so you can think through a route without rushing.</div>
+        <div class="cl-use"><strong>Daily repeat visits</strong> The shared daily board gives the game a small return loop without adding account systems.</div>
+        <div class="cl-use"><strong>Touch-first strategy</strong> Tap-based movement works naturally on phones and app webviews, while desktop remains clear and precise.</div>
+      </div>
+    </section>
+
+    <section class="cl-section" aria-labelledby="related-title">
+      <div class="cl-section-head">
+        <h2 id="related-title">More Randomly Pick tools</h2>
+        <p>If you want a faster arcade loop or a quick decision tool instead, the rest of the site is still one click away.</p>
+      </div>
+      <div class="cl-related">
+        <a href="/en/games/number-merge/"><strong>Number Merge</strong><br />Stay in the puzzle lane with a merge-focused board.</a>
+        <a href="/en/games/snake/"><strong>Snake</strong><br />Switch to a faster reaction game.</a>
+        <a href="/en/games/brick-breaker/"><strong>Brick Breaker</strong><br />Trade board planning for bounce-angle control.</a>
+        <a href="/en/about/"><strong>About</strong><br />See the product background and site links.</a>
+      </div>
+    </section>
+
+    <section class="cl-trust">
+      <strong>Site links</strong>
+      <div class="cl-links">
+        <a href="/en/about/">About</a>
+        <a href="/en/guides/">Guides</a>
+        <a href="/en/privacy/">Privacy Policy</a>
+        <a href="/en/terms/">Terms</a>
+        <a href="/en/contact/">Contact</a>
+      </div>
+    </section>
+
+    <div class="cl-footer">Randomly Pick · <a href="/en/games/">Games</a></div>
+  </main>
+
+  <script>
+    window.__COLOR_LINES_COPY__ = {
+      readyLabel: 'Ready',
+      selectedLabel: 'Selected',
+      gameoverLabel: 'Board full',
+      readyStatus: 'Pick a ball, then tap an empty cell to move it.',
+      selectedStatus: 'Selection locked. Now choose an empty cell with a clear path.',
+      dailyStatus: 'Daily board ready. Everyone gets the same start today.',
+      dailyHint: 'Daily mode uses the same seed for everyone today. Tap to move and compare runs later.',
+      moveStatus: 'Move complete. Watch the next three colors before you pick again.',
+      blockedStatus: 'That route is blocked. Open a lane first.',
+      clearStatus: 'Line cleared. Use the extra space to set up the next route.',
+      spawnClearStatus: 'The new balls completed a line and cleared space for you.',
+      emptyStatus: 'Pick a colored ball first, then choose an empty cell.',
+      gameoverStatus: 'The board is full. Reset and try a cleaner route.',
+      hint: 'Tap a colored ball first, then tap an empty cell with an open path. Daily mode gives everyone the same board seed.',
+      mobileFlowReady: 'On phones, the first tap selects a ball and the second tap sends it. The preview row tells you which colors arrive next if you do not clear a line.',
+      mobileFlowSelected: 'Selection is active now. The move only works when an empty route is open.',
+      mobileFlowGameover: 'The board is full. Reset or switch to the daily board for a fresh start.',
+      resetButton: 'New board',
+      clearButton: 'Clear selection',
+      freeModeLabel: 'Free',
+      dailyModeLabel: 'Daily',
+      noSelectionLabel: 'None'
+    };
+    window.__COLOR_LINES_META__ = {
+      slug: 'color-lines',
+      lang: 'en',
+      mode: 'free'
+    };
+  </script>
+  <script src="/assets/js/games-color-lines.js?v=20260322-cl1"></script>
+</body>
+</html>

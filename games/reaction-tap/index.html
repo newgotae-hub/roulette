@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Reaction Tap | Randomly Pick</title>
+  <meta name="description" content="초록 불이 켜지는 순간 한 번만 탭하세요. Classic, Sprint, Daily Challenge로 짧고 빠른 반응 속도 게임을 즐길 수 있습니다." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://randomly-pick.com/games/reaction-tap/" />
+  <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/reaction-tap/" />
+  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/games/reaction-tap/" />
+  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/games/reaction-tap/" />
+  <link rel="stylesheet" href="/assets/css/games-reaction-tap.css?v=20260322-rt2" />
+  <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
+</head>
+<body>
+  <main class="rt-wrap">
+    <header class="rt-topbar">
+      <div class="rt-brand">
+        <div class="rt-brand-mark">R.</div>
+        <div>
+          <div class="rt-brand-name">Randomly Pick</div>
+          <div class="rt-brand-sub">Reaction Tap</div>
+        </div>
+      </div>
+      <nav class="rt-nav" aria-label="주요 메뉴">
+        <a href="/">홈</a>
+        <a href="/games/" class="is-active" aria-current="page">Games</a>
+        <a href="/luckydraw/">럭키드로우</a>
+        <a href="/ladder/">사다리</a>
+        <a href="/team-generator/">팀 나누기</a>
+        <a href="/coinflip/">동전 뒤집기</a>
+        <a href="/dice/">주사위</a>
+      </nav>
+    </header>
+
+    <section class="rt-hero">
+      <span class="rt-eyebrow">반응 속도 게임</span>
+      <h1 class="rt-title">Reaction Tap</h1>
+      <p class="rt-lede">초록 신호가 켜지는 순간 한 번만 탭하세요. Classic은 한 번의 기록, Sprint는 다섯 번 연속, Daily Challenge는 오늘 모두가 같은 씨드로 겨루는 방식입니다.</p>
+      <div class="rt-actions">
+        <a class="rt-button is-primary" href="#play-area">시작하기</a>
+        <a class="rt-button" href="/games/">Games 허브로</a>
+      </div>
+      <div class="rt-chips" aria-label="게임 특징">
+        <span class="rt-chip">한 번의 탭</span>
+        <span class="rt-chip">Sprint / Daily Challenge</span>
+        <span class="rt-chip">기록은 로컬 저장</span>
+        <span class="rt-chip">모바일 / 웹뷰 친화적</span>
+      </div>
+      <div class="rt-meta-row" aria-label="현재 상태">
+        <span id="reaction-tap-mode-label" class="rt-tag" data-phase="ready">준비됨</span>
+      </div>
+      <div class="rt-hint" id="reaction-tap-hint">큰 버튼을 한 번 눌러 시작하세요. 너무 일찍 누르면 같은 보드에서 다시 기다리게 됩니다.</div>
+    </section>
+
+    <div class="rt-layout" id="play-area">
+      <section class="rt-panel main" aria-labelledby="stage-title">
+        <div class="rt-panel-head">
+          <div>
+            <h2 id="stage-title">탭 스테이지</h2>
+            <p>한 번의 신호, 한 번의 탭, 바로 다음 시도.</p>
+          </div>
+          <div class="rt-toolbar">
+            <button id="reaction-tap-start" type="button">시작</button>
+            <button id="reaction-tap-replay" type="button">다시 시작</button>
+          </div>
+        </div>
+
+        <div class="rt-stage-shell">
+          <button id="reaction-tap-target" class="rt-target" type="button" aria-label="Reaction Tap 타깃 버튼">
+            <span class="rt-kicker" id="reaction-tap-kicker">탭해서 시작</span>
+            <strong class="rt-target-label" id="reaction-tap-label">Classic</strong>
+            <span class="rt-target-detail" id="reaction-tap-detail">한 번의 반응만 재는 가장 짧은 모드입니다.</span>
+          </button>
+          <div class="rt-progress" id="reaction-tap-progress" style="--progress:0" aria-hidden="true"></div>
+        </div>
+
+        <div class="rt-mode" aria-label="게임 모드">
+          <button id="reaction-tap-classic" type="button" data-reaction-mode="classic">Classic</button>
+          <button id="reaction-tap-sprint" type="button" data-reaction-mode="sprint">Sprint</button>
+          <button id="reaction-tap-daily" type="button" data-reaction-mode="daily">Daily Challenge</button>
+        </div>
+
+        <div class="rt-stats" aria-label="현재 기록">
+          <div class="rt-stat"><span>탭 성공</span><strong id="reaction-tap-hits">0</strong></div>
+          <div class="rt-stat"><span>라운드</span><strong id="reaction-tap-round">0 / 1</strong></div>
+          <div class="rt-stat"><span>이번 최저</span><strong id="reaction-tap-fastest">—</strong></div>
+          <div class="rt-stat"><span>기록 최저</span><strong id="reaction-tap-best-reaction">—</strong></div>
+          <div class="rt-stat"><span>현재 평균</span><strong id="reaction-tap-average">—</strong></div>
+          <div class="rt-stat"><span>기록 평균</span><strong id="reaction-tap-best-average">—</strong></div>
+          <div class="rt-stat"><span>최장 연속</span><strong id="reaction-tap-streak">0</strong></div>
+          <div class="rt-stat"><span>실수</span><strong id="reaction-tap-misses">0</strong></div>
+        </div>
+
+        <div class="rt-status" id="reaction-tap-status" role="status" aria-live="polite">큰 버튼을 한 번 눌러 시작하세요.</div>
+      </section>
+
+      <aside class="rt-panel side" aria-labelledby="guide-title">
+        <div class="rt-panel-head">
+          <div>
+            <h2 id="guide-title">어떻게 쓰나요</h2>
+            <p>짧게 끝나고 바로 다시 시작되는 구조라 모바일에서도 부담이 적습니다.</p>
+          </div>
+        </div>
+
+        <div class="rt-section" style="margin-top:0;">
+          <div class="rt-section-head">
+            <h2>모드 설명</h2>
+          </div>
+          <div class="rt-copy-grid">
+            <div class="rt-copy">
+              <strong>Classic</strong>
+              <p>한 번의 반응만 빠르게 확인하는 가장 짧은 모드입니다. 시작하고 끝내기가 쉽습니다.</p>
+            </div>
+            <div class="rt-copy">
+              <strong>Sprint</strong>
+              <p>다섯 번 연속으로 기록을 남깁니다. 평균을 깎는 재미가 있어 반복 플레이에 잘 맞습니다.</p>
+            </div>
+          </div>
+          <div class="rt-copy" style="margin-top:12px;">
+            <strong>Daily Challenge</strong>
+            <p>하루 동안은 모두가 같은 씨드를 사용합니다. 같은 조건에서 다시 비교하고 싶을 때 좋습니다.</p>
+          </div>
+        </div>
+
+        <div class="rt-section">
+          <div class="rt-section-head">
+            <h2>모드 메모</h2>
+          </div>
+          <p id="reaction-tap-mode-note">Classic은 한 번의 탭만, Sprint는 다섯 번의 짧은 기록, Daily Challenge는 오늘의 같은 씨드로 비교합니다.</p>
+        </div>
+      </aside>
+    </div>
+
+    <section class="rt-section" aria-labelledby="howto-title">
+      <div class="rt-section-head">
+        <h2 id="howto-title">플레이 방법</h2>
+        <p>신호를 기다렸다가 한 번 탭하고, 바로 다시 도전하세요. 규칙은 단순하지만 기록을 줄이는 재미가 있습니다.</p>
+      </div>
+      <div class="rt-steps">
+        <div class="rt-step"><strong>1. 큰 버튼을 눌러 시작합니다.</strong> 처음 탭하면 신호 대기 상태로 들어갑니다.</div>
+        <div class="rt-step"><strong>2. 초록 신호가 켜지면 바로 탭합니다.</strong> 더 빠르게 누를수록 반응 시간이 짧아집니다.</div>
+        <div class="rt-step"><strong>3. 바로 다시 시도합니다.</strong> 모드에 따라 다음 라운드로 빠르게 넘어가므로 짧은 세션에 잘 맞습니다.</div>
+      </div>
+    </section>
+
+    <section class="rt-section" aria-labelledby="uses-title">
+      <div class="rt-section-head">
+        <h2 id="uses-title">이럴 때 좋습니다</h2>
+        <p>잠깐 쉬는 시간, 집중 리셋, 모바일 웹뷰에서의 간단한 기록 경쟁에 잘 맞습니다.</p>
+      </div>
+      <div class="rt-uses">
+        <div class="rt-use"><strong>짧은 휴식</strong> 한 라운드가 매우 짧아서 커피 한 모금 사이에도 한 번씩 돌리기 좋습니다.</div>
+        <div class="rt-use"><strong>기록 경쟁</strong> 최고 반응과 평균 반응이 바로 보여서, 나아지는 느낌을 쉽게 확인할 수 있습니다.</div>
+        <div class="rt-use"><strong>모바일 중심</strong> 큰 한 개의 버튼만 쓰기 때문에 폰과 웹뷰에서 바로 시작하고 바로 멈추기 쉽습니다.</div>
+      </div>
+    </section>
+
+    <section class="rt-section" aria-labelledby="related-title">
+      <div class="rt-section-head">
+        <h2 id="related-title">다음에 할 만한 게임</h2>
+        <p>조금 더 오래 놀고 싶다면, 같은 허브의 다른 게임으로 바로 넘어갈 수 있습니다.</p>
+      </div>
+      <div class="rt-related">
+        <a href="/games/snake/"><strong>Snake</strong><br />더 길게 몰입하고 싶을 때 좋은 아케이드 게임입니다.</a>
+        <a href="/games/number-merge/"><strong>Number Merge</strong><br />조금 더 생각하면서 즐기는 퍼즐 게임입니다.</a>
+        <a href="/games/brick-breaker/"><strong>Brick Breaker</strong><br />조작은 간단하지만 템포는 더 있는 게임입니다.</a>
+        <a href="/about/"><strong>About</strong><br />사이트 정보와 운영 배경을 확인할 수 있습니다.</a>
+      </div>
+    </section>
+
+    <section class="rt-trust">
+      <strong>사이트 링크</strong>
+      <div class="rt-links">
+        <a href="/about/">About</a>
+        <a href="/guides/">Guides</a>
+        <a href="/privacy/">Privacy Policy</a>
+        <a href="/terms/">Terms</a>
+        <a href="/contact/">Contact</a>
+      </div>
+    </section>
+
+    <div class="rt-footer">Randomly Pick · <a href="/games/">Games</a></div>
+  </main>
+
+  <script>
+    window.__REACTION_TAP_COPY__ = {
+      modeLabels: {
+        classic: 'Classic',
+        sprint: 'Sprint',
+        daily: 'Daily Challenge'
+      },
+      modeDescriptions: {
+        classic: '한 번의 반응만 빠르게 확인하는 가장 짧은 모드입니다. 시작하고 끝내기가 쉽습니다.',
+        sprint: '다섯 번 연속으로 기록을 남깁니다. 평균을 깎는 재미가 있어 반복 플레이에 잘 맞습니다.',
+        daily: '하루 동안은 모두가 같은 씨드를 사용합니다. 같은 조건에서 다시 비교하고 싶을 때 좋습니다.'
+      },
+      modeNotes: {
+        classic: 'Classic은 한 번의 탭만, Sprint는 다섯 번의 짧은 기록, Daily Challenge는 오늘의 같은 씨드로 비교합니다.',
+        sprint: 'Sprint는 다섯 번의 기록을 이어 붙여 평균을 낮추는 데 집중하는 모드입니다.',
+        daily: 'Daily Challenge는 오늘만 같은 조건으로 비교할 수 있는 공유형 모드입니다.'
+      },
+      phaseLabels: {
+        ready: '준비됨',
+        waiting: '대기',
+        armed: '탭!',
+        feedback: '결과',
+        complete: '완료'
+      },
+      statuses: {
+        ready: '큰 버튼을 한 번 눌러 시작하세요.',
+        waiting: '초록 신호를 기다리세요.',
+        armed: '지금입니다. 최대한 빨리 탭하세요.',
+        hit: '좋아요. 다음 라운드로 바로 넘어갑니다.',
+        falseStart: '너무 빨랐습니다. 같은 보드에서 다시 기다리세요.',
+        feedback: '기록을 정리하는 중입니다.',
+        complete: '한 판이 끝났습니다. 다시 시작해서 기록을 줄여 보세요.'
+      },
+      kickers: {
+        ready: '탭해서 시작',
+        waiting: '초록 불 대기',
+        armed: '지금 탭',
+        feedback: '결과 확인',
+        complete: '다시 시작'
+      },
+      details: {
+        ready: '한 번의 탭으로 시작하고, 초록 신호가 켜지면 바로 반응하세요.',
+        waiting: '신호까지 {ms} ms 남았습니다.',
+        armed: '지금 바로 탭하세요.',
+        hit: '반응 시간 {ms} ms.',
+        falseStart: '너무 빨랐습니다. 다음 신호를 기다리세요.',
+        complete: '같은 모드로 다시 시작해서 기록을 더 줄여 보세요.',
+        dailyComplete: '오늘의 Daily Challenge가 끝났습니다. 내일 같은 씨드로 다시 비교해 보세요.'
+      },
+      startButton: '시작',
+      replayButton: '다시 시작',
+      targetAria: 'Reaction Tap 타깃 버튼'
+    };
+    window.__REACTION_TAP_META__ = {
+      lang: 'ko'
+    };
+  </script>
+  <script src="/assets/js/games-reaction-tap.js?v=20260322-rt2"></script>
+</body>
+</html>

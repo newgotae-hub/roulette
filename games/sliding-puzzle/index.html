@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Sliding Puzzle | Randomly Pick</title>
+  <meta name="description" content="15퍼즐 스타일의 슬라이딩 퍼즐입니다. Classic, Timed, Daily 모드와 Undo, 새 퍼즐, 모바일 웹뷰 친화 조작을 지원합니다." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://randomly-pick.com/games/sliding-puzzle/" />
+  <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/sliding-puzzle/" />
+  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/games/sliding-puzzle/" />
+  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/games/sliding-puzzle/" />
+  <link rel="stylesheet" href="/assets/css/games-sliding-puzzle.css?v=20260322-sp1" />
+  <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
+</head>
+<body>
+  <main class="sp-wrap">
+    <header class="sp-topbar">
+      <div class="sp-brand">
+        <div class="sp-brand-mark">R.</div>
+        <div>
+          <div class="sp-brand-name">Randomly Pick</div>
+          <div class="sp-brand-sub">Sliding Puzzle</div>
+        </div>
+      </div>
+      <nav class="sp-nav" aria-label="주요 메뉴">
+        <a href="/">홈</a>
+        <a href="/games/" class="is-active" aria-current="page">Games</a>
+        <a href="/luckydraw/">럭키드로우</a>
+        <a href="/ladder/">사다리</a>
+        <a href="/team-generator/">팀 나누기</a>
+        <a href="/coinflip/">동전 뒤집기</a>
+        <a href="/dice/">주사위</a>
+      </nav>
+    </header>
+
+    <section class="sp-hero">
+      <span class="sp-eyebrow">15퍼즐 스타일 게임</span>
+      <h1 class="sp-title">Sliding Puzzle</h1>
+      <p class="sp-lede">숫자 타일을 빈칸 쪽으로 밀어 넣어 1부터 15까지 정렬하세요. Classic은 자유 풀이, Timed는 시간 압박, Daily는 오늘의 같은 씨드로 같은 보드를 다시 풀게 됩니다.</p>
+      <div class="sp-actions">
+        <a class="sp-button is-primary" href="#puzzle-workspace">퍼즐 시작</a>
+        <a class="sp-button" href="/games/">Games 허브로</a>
+      </div>
+      <div class="sp-chips" aria-label="게임 특징">
+        <span class="sp-chip">탭하거나 방향키</span>
+        <span class="sp-chip">4x4 15퍼즐</span>
+        <span class="sp-chip">타이머 / 데일리</span>
+        <span class="sp-chip">Undo와 새 퍼즐</span>
+      </div>
+      <div class="sp-meta-row" aria-label="현재 상태">
+        <span id="sliding-puzzle-mode-label" class="sp-tag" data-phase="ready">준비됨</span>
+      </div>
+      <div class="sp-hint">빈칸 바로 옆의 타일만 움직입니다. 첫 보드는 항상 같은 규칙으로 생성되며, QA 전용 프리셋도 지원합니다.</div>
+    </section>
+
+    <div class="sp-layout" id="puzzle-workspace">
+      <section class="sp-board-panel" aria-labelledby="board-title">
+        <div class="sp-panel-head">
+          <div>
+            <h2 id="board-title">퍼즐 보드</h2>
+            <p id="sliding-puzzle-goal">1부터 15까지 정렬하고, 빈칸을 오른쪽 아래로 맞추세요.</p>
+          </div>
+          <div class="sp-toolbar">
+            <button id="sliding-puzzle-new" type="button">새 퍼즐</button>
+            <button id="sliding-puzzle-undo" type="button">Undo</button>
+            <button id="sliding-puzzle-reset" type="button" data-emphasis="true">초기화</button>
+          </div>
+        </div>
+
+        <div class="sp-mode" aria-label="게임 모드">
+          <button id="sliding-puzzle-classic" type="button" data-puzzle-mode="classic">Classic</button>
+          <button id="sliding-puzzle-timed" type="button" data-puzzle-mode="timed">Timed</button>
+          <button id="sliding-puzzle-daily" type="button" data-puzzle-mode="daily">Daily</button>
+        </div>
+
+        <div class="sp-board-shell">
+          <div class="sp-board-frame" aria-label="Sliding puzzle board">
+            <div id="sliding-puzzle-board" class="sp-board"></div>
+          </div>
+
+          <div class="sp-pad" aria-label="방향 패드">
+            <button type="button" class="sp-pad-spacer" aria-hidden="true" tabindex="-1"></button>
+            <button type="button" data-puzzle-direction="up">↑</button>
+            <button type="button" class="sp-pad-spacer" aria-hidden="true" tabindex="-1"></button>
+            <button type="button" data-puzzle-direction="left">←</button>
+            <button type="button" data-puzzle-direction="down">↓</button>
+            <button type="button" data-puzzle-direction="right">→</button>
+          </div>
+
+          <div class="sp-stats" aria-label="퍼즐 기록">
+            <div class="sp-stat"><span>Moves</span><strong id="sliding-puzzle-moves">0</strong></div>
+            <div class="sp-stat"><span>Time</span><strong id="sliding-puzzle-time">0:00</strong></div>
+            <div class="sp-stat"><span>Best time</span><strong id="sliding-puzzle-best-time">—</strong></div>
+            <div class="sp-stat"><span>Best moves</span><strong id="sliding-puzzle-best-moves">0</strong></div>
+            <div class="sp-stat"><span>Undos</span><strong id="sliding-puzzle-undos">0</strong></div>
+            <div class="sp-stat"><span>Blank</span><strong id="sliding-puzzle-blank">3,3</strong></div>
+            <div class="sp-stat"><span>Preset</span><strong id="sliding-puzzle-preset">Standard</strong></div>
+            <div class="sp-stat"><span>State</span><strong id="sliding-puzzle-state">ready</strong></div>
+          </div>
+
+          <div class="sp-status" id="sliding-puzzle-status" role="status" aria-live="polite">빈칸 바로 옆의 타일을 탭하거나 방향키로 움직여 보세요.</div>
+        </div>
+      </section>
+
+      <aside class="sp-side">
+        <section class="sp-section" aria-labelledby="how-title">
+          <div class="sp-section-head">
+            <h2 id="how-title">How to play</h2>
+            <p>규칙은 단순하고, 복귀 동선은 짧게 잡았습니다.</p>
+          </div>
+          <div class="sp-copy-grid">
+            <div class="sp-copy">
+              <strong>1. 타일을 빈칸 쪽으로 밀기</strong>
+              <p>탭하거나 방향키로 움직이면, 인접한 숫자만 빈칸으로 들어갑니다.</p>
+            </div>
+            <div class="sp-copy">
+              <strong>2. 줄을 맞추기</strong>
+              <p>1부터 15까지 순서대로 정렬하고, 빈칸을 오른쪽 아래에 두면 해결됩니다.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="sp-section" aria-labelledby="mode-note-title">
+          <div class="sp-section-head">
+            <h2 id="mode-note-title">Mode note</h2>
+            <p id="sliding-puzzle-mode-note">Classic은 자유 풀이, Timed는 시간 압박, Daily는 오늘의 같은 보드입니다.</p>
+          </div>
+        </section>
+
+        <section class="sp-section" aria-labelledby="fits-title">
+          <div class="sp-section-head">
+            <h2 id="fits-title">When it fits</h2>
+            <p>짧게 시작해도 되고, 조금 오래 붙잡아도 되는 퍼즐입니다.</p>
+          </div>
+          <div class="sp-why">
+            <strong>짧은 집중 리셋</strong>
+            <p>한두 번만 움직여도 보드가 바로 달라져서, 짧은 휴식 동안 머리를 다시 켜기 좋습니다.</p>
+          </div>
+          <div class="sp-why" style="margin-top:12px;">
+            <strong>반복 플레이</strong>
+            <p>Timed와 Daily 모드는 같은 보드를 더 빠르게 푸는 재미가 있어서, 다시 열 이유가 분명합니다.</p>
+          </div>
+        </section>
+
+        <section class="sp-section" aria-labelledby="better-title">
+          <div class="sp-section-head">
+            <h2 id="better-title">When another game is better</h2>
+            <p>이 퍼즐이 모든 상황의 정답은 아닙니다.</p>
+          </div>
+          <div class="sp-why">
+            <strong>순간 반응이 필요할 때</strong>
+            <p>손이 먼저 움직여야 하는 기분이면 Reaction Tap이 더 잘 맞습니다.</p>
+          </div>
+          <div class="sp-why" style="margin-top:12px;">
+            <strong>한 번에 끝내고 싶을 때</strong>
+            <p>아예 더 짧은 세션을 원한다면 Number Merge나 Snake의 짧은 라운드가 더 편할 수 있습니다.</p>
+          </div>
+        </section>
+
+        <section class="sp-section" aria-labelledby="related-title">
+          <div class="sp-section-head">
+            <h2 id="related-title">Related links</h2>
+            <p>같은 허브 안에서 다른 템포의 게임으로 바로 넘어갈 수 있습니다.</p>
+          </div>
+          <div class="sp-related">
+            <a href="/games/number-merge/"><strong>Number Merge</strong><br />차분하게 수를 맞추는 퍼즐 게임입니다.</a>
+            <a href="/games/snake/"><strong>Snake</strong><br />더 빠른 손맛이 필요한 아케이드 게임입니다.</a>
+            <a href="/games/reaction-tap/"><strong>Reaction Tap</strong><br />짧고 선명한 반응 속도 게임입니다.</a>
+            <a href="/about/"><strong>About</strong><br />사이트 배경과 운영 정보를 확인할 수 있습니다.</a>
+          </div>
+        </section>
+
+        <section class="sp-trust">
+          <strong>Site links</strong>
+          <div class="sp-links">
+            <a href="/about/">About</a>
+            <a href="/guides/">Guides</a>
+            <a href="/privacy/">Privacy Policy</a>
+            <a href="/terms/">Terms</a>
+            <a href="/contact/">Contact</a>
+          </div>
+        </section>
+      </aside>
+    </div>
+
+    <div class="sp-footer">Randomly Pick · <a href="/games/">Games</a></div>
+  </main>
+
+  <script>
+    window.__SLIDING_PUZZLE_COPY__ = {
+      modeLabels: {
+        classic: 'Classic',
+        timed: 'Timed',
+        daily: 'Daily'
+      },
+      modeDescriptions: {
+        classic: 'Free play with no clock. Good when you want to learn the board and unwind.',
+        timed: 'A fixed countdown adds pressure. Good for quick repeat sessions.',
+        daily: 'The shared daily seed gives everyone the same board for the day.'
+      },
+      modeNotes: {
+        classic: 'Classic is the free-play board. Undo is safe, and a fresh puzzle is always one tap away.',
+        timed: 'Timed mode adds a countdown so you can chase faster solves.',
+        daily: 'Daily mode uses today’s shared seed so every visit has the same puzzle.'
+      },
+      phaseLabels: {
+        ready: 'ready',
+        playing: 'playing',
+        solved: 'solved',
+        timeout: 'timeout'
+      },
+      statuses: {
+        ready: 'Tap a tile next to the blank or use the arrow pad to begin.',
+        playing: 'Keep sliding tiles toward the solved grid.',
+        solved: 'Puzzle solved. Try a new puzzle or beat your time.',
+        timeout: 'Time is up. Reset and try again.'
+      },
+      presetLabels: {
+        standard: 'Standard',
+        qa: 'QA preset'
+      },
+      goalText: 'Put 1–15 in order and leave the blank in the bottom-right.',
+      timeLabels: {
+        classic: 'Elapsed',
+        timed: 'Time left',
+        daily: 'Time left'
+      }
+    };
+    window.__SLIDING_PUZZLE_META__ = {
+      lang: 'ko'
+    };
+  </script>
+  <script src="/assets/js/games-sliding-puzzle.js?v=20260322-sp1"></script>
+</body>
+</html>

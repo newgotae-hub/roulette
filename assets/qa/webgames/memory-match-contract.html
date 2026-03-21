@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Memory Match QA Contract Harness</title>
+  <link rel="stylesheet" href="/assets/css/games-memory-match.css?v=20260322-mm1" />
+</head>
+<body>
+  <main class="mm-wrap">
+    <section class="mm-panel" style="margin-bottom:18px;">
+      <div class="mm-panel-head">
+        <div>
+          <h1 style="margin:0;font-size:clamp(1.6rem,4vw,2.5rem);letter-spacing:-.05em;">Memory Match QA Contract Harness</h1>
+          <p style="margin:8px 0 0;color:#64748b;line-height:1.7;">This fallback page exists so QA can verify the hook contract before the live route is available.</p>
+        </div>
+        <div class="mm-tag" data-state="ready">QA harness</div>
+      </div>
+      <div class="mm-toolbar" style="margin-top:16px;">
+        <button id="memory-match-reset" type="button">Reset</button>
+        <button id="memory-match-new" type="button">New board</button>
+      </div>
+      <p class="mm-hint" style="margin-top:16px;">Hooks exposed: <strong>QA_READY</strong>, <strong>render_game_to_text()</strong>, <strong>advanceTime(ms)</strong>, <strong>reset()</strong>.</p>
+    </section>
+
+    <section class="mm-panel">
+      <div class="mm-board-shell">
+        <div id="memory-match-board" class="mm-board" role="grid" aria-label="Memory Match QA board"></div>
+      </div>
+      <div class="mm-controls">
+        <div class="mm-pad" aria-label="Card movement and flip">
+          <span class="blank"></span>
+          <button id="memory-match-up" class="up" type="button" aria-label="Move up">↑</button>
+          <span class="blank"></span>
+          <button id="memory-match-left" class="left" type="button" aria-label="Move left">←</button>
+          <button id="memory-match-flip" class="flip" type="button" aria-label="Flip the selected card">Flip</button>
+          <button id="memory-match-right" class="right" type="button" aria-label="Move right">→</button>
+          <span class="blank"></span>
+          <button id="memory-match-down" class="down" type="button" aria-label="Move down">↓</button>
+          <span class="blank"></span>
+        </div>
+        <div class="mm-stats">
+          <div class="mm-stat"><span>Status</span><strong id="memory-match-status">Press Reset to boot the contract.</strong></div>
+          <div class="mm-stat"><span>Score</span><strong id="memory-match-score">0</strong></div>
+          <div class="mm-stat"><span>Best</span><strong id="memory-match-best">0</strong></div>
+          <div class="mm-stat"><span>Turns</span><strong id="memory-match-turns">0</strong></div>
+          <div class="mm-stat"><span>Matches</span><strong id="memory-match-matches">0</strong></div>
+          <div class="mm-stat"><span>Pairs left</span><strong id="memory-match-remaining">8</strong></div>
+          <div class="mm-stat"><span>Chain</span><strong id="memory-match-streak">0</strong></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    window.__MEMORY_MATCH_COPY__ = {
+      modeLabel: 'QA harness',
+      readyLabel: 'Ready',
+      playingLabel: 'Playing',
+      resolvingLabel: 'Checking',
+      completeLabel: 'Complete',
+      statusReady: 'Press Reset to boot the contract.',
+      statusPlayingStart: 'Open the first card to start the board.',
+      statusPlaying: 'The harness uses the same hooks as the live route.',
+      statusResolving: 'Mismatch detected. Waiting for the cards to close.',
+      statusComplete: 'All pairs are matched. Reset to replay the contract.',
+      hint: 'The harness keeps the same state contract but stays intentionally small.',
+      cardBackLabel: 'Tap to reveal',
+      cardHiddenLabel: 'Hidden card',
+      cardRevealedLabel: 'Revealed card',
+      cardMatchedLabel: 'Matched card',
+      resetButton: 'Reset',
+      newButton: 'New board',
+      flipButton: 'Flip'
+    };
+    window.__MEMORY_MATCH_META__ = {
+      slug: 'memory-match',
+      lang: 'en',
+      deterministic: true,
+      contract: true
+    };
+  </script>
+  <script src="/assets/js/games-memory-match.js?v=20260322-mm1"></script>
+</body>
+</html>

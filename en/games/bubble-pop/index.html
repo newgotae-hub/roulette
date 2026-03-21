@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Bubble Pop | Randomly Pick</title>
+  <meta name="description" content="Bubble Pop is a cluster-pop puzzle game built for quick sessions on phones and app webviews. Tap matching groups, clear space, and climb past the target score." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://randomly-pick.com/en/games/bubble-pop/" />
+  <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/bubble-pop/" />
+  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/games/bubble-pop/" />
+  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/games/bubble-pop/" />
+  <link rel="stylesheet" href="/assets/css/games-bubble-pop.css?v=20260322-bp1" />
+  <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
+</head>
+<body>
+  <main class="bp-wrap">
+    <header class="bp-topbar">
+      <div class="bp-brand">
+        <div class="bp-brand-mark">R.</div>
+        <div>
+          <div class="bp-brand-name">Randomly Pick</div>
+          <div class="bp-brand-sub">Bubble Pop</div>
+        </div>
+      </div>
+      <nav class="bp-nav" aria-label="Primary menu">
+        <a href="/en/">Home</a>
+        <a href="/en/games/" class="is-active" aria-current="page">Games</a>
+        <a href="/en/luckydraw/">Lucky Draw</a>
+        <a href="/en/ladder/">Ladder Draw</a>
+        <a href="/en/team-generator/">Team Split</a>
+        <a href="/en/coinflip/">Coin Flip</a>
+        <a href="/en/dice/">Dice Roll</a>
+      </nav>
+    </header>
+
+    <section class="bp-hero">
+      <span class="bp-eyebrow">Puzzle pop</span>
+      <h1 class="bp-title">Bubble Pop</h1>
+      <p class="bp-lede">Bubble Pop is a short-session puzzle about reading the board, picking the strongest cluster, and clearing space before the move count runs out. It is tuned to feel clean on phones and in narrow app webviews, not just on desktop.</p>
+      <div class="bp-actions">
+        <a class="bp-button is-primary" href="#play-area">Play now</a>
+        <a class="bp-button" href="/en/games/">Games hub</a>
+      </div>
+      <div class="bp-chips" aria-label="Game highlights">
+        <span class="bp-chip">Cluster-pop puzzle</span>
+        <span class="bp-chip">Short sessions</span>
+        <span class="bp-chip">Mobile first</span>
+        <span class="bp-chip">Deterministic QA hooks</span>
+      </div>
+      <div class="bp-tag-row">
+        <span id="bubble-pop-mode" class="bp-tag" data-state="ready">Bubble Pop · Ready</span>
+      </div>
+      <div id="bubble-pop-touch-hint" class="bp-hint">Tap a matching bubble group once to inspect it, then tap again to pop it.</div>
+      <div class="bp-mobile-flow">On phones, start with the biggest visible cluster and keep the one-time shuffle for the moment the board gets stuck.</div>
+    </section>
+
+    <div class="bp-layout" id="play-area">
+      <section class="bp-panel" aria-labelledby="board-title">
+        <div class="bp-panel-head">
+          <h2 id="board-title">Board</h2>
+          <div class="bp-toolbar">
+            <button id="bubble-pop-restart" type="button">Restart</button>
+            <button id="bubble-pop-shuffle" type="button">One shuffle</button>
+            <button id="bubble-pop-clear" type="button">Clear pick</button>
+          </div>
+        </div>
+        <div class="bp-board-shell">
+          <canvas id="bubble-pop-board" width="720" height="860" tabindex="0" aria-label="Bubble Pop game board"></canvas>
+        </div>
+        <div class="bp-stats" aria-label="Current game stats">
+          <div class="bp-stat"><span>Score</span><strong id="bubble-pop-score">0</strong></div>
+          <div class="bp-stat"><span>Best</span><strong id="bubble-pop-best">0</strong></div>
+          <div class="bp-stat"><span>Moves left</span><strong id="bubble-pop-moves">18</strong></div>
+          <div class="bp-stat"><span>Target</span><strong id="bubble-pop-target">720</strong></div>
+          <div class="bp-stat"><span>Combo</span><strong id="bubble-pop-combo">0</strong></div>
+          <div class="bp-stat"><span>Selection</span><strong id="bubble-pop-selection">No group selected</strong></div>
+        </div>
+        <div class="bp-status" id="bubble-pop-status">Pick a matching bubble group to start your first pop.</div>
+      </section>
+
+      <aside class="bp-panel" aria-labelledby="guide-title">
+        <div class="bp-panel-head">
+          <h2 id="guide-title">How it flows</h2>
+        </div>
+        <p>Bubble Pop rewards good order more than quick reactions. When a cluster disappears, the bubbles above it fall down and empty columns shift left, so one clean pop can set up the next two moves.</p>
+        <section class="bp-section">
+          <div class="bp-section-head"><h2>Pop rule</h2></div>
+          <p>Tap a group once to inspect it, then tap the same group again to actually pop it. Only groups of two or more can be removed, and the biggest groups create the strongest score jumps.</p>
+        </section>
+        <section class="bp-section">
+          <div class="bp-section-head"><h2>One shuffle</h2></div>
+          <p>You get one board shuffle per run. Save it for the moment the board dries up, not for the first mediocre opening.</p>
+        </section>
+      </aside>
+    </div>
+
+    <section class="bp-section" aria-labelledby="howto-title">
+      <div class="bp-section-head">
+        <h2 id="howto-title">Quick strategy</h2>
+        <p>The move count is short, so the best path is usually visible within the first few taps.</p>
+      </div>
+      <div class="bp-steps">
+        <div class="bp-step"><strong>1. Look for large groups first.</strong> Groups of four or more open more space and create better follow-up boards.</div>
+        <div class="bp-step"><strong>2. Clear from the lower half.</strong> Popping lower clusters lets more bubbles fall into useful shapes.</div>
+        <div class="bp-step"><strong>3. Keep shuffle for the dead board.</strong> It is strongest when the field stops offering clean pairs.</div>
+      </div>
+    </section>
+
+    <section class="bp-section" aria-labelledby="uses-title">
+      <div class="bp-section-head">
+        <h2 id="uses-title">Where it fits</h2>
+        <p>This game works best when you want a clean puzzle loop that finishes fast but still gives you a reason to replay.</p>
+      </div>
+      <div class="bp-uses">
+        <div class="bp-use"><strong>Quick puzzle break</strong> A run is short enough to fit into a one-minute break.</div>
+        <div class="bp-use"><strong>Touch-first play</strong> No drag aiming or tiny controls, just big tap targets.</div>
+        <div class="bp-use"><strong>Repeat score chase</strong> Best score and combo make replay feel immediate.</div>
+      </div>
+    </section>
+
+    <section class="bp-section" aria-labelledby="related-title">
+      <div class="bp-section-head">
+        <h2 id="related-title">More Randomly Pick games</h2>
+        <p>Switch to a different tempo without leaving the Games tab.</p>
+      </div>
+      <div class="bp-related">
+        <a href="/en/games/snake/"><strong>Snake</strong><br />Move into a faster reaction loop next.</a>
+        <a href="/en/games/brick-breaker/"><strong>Brick Breaker</strong><br />Stay in the same short-session rhythm with a more tactile arcade game.</a>
+        <a href="/en/games/number-merge/"><strong>Number Merge</strong><br />Drop into a quieter number puzzle when you want a slower pace.</a>
+        <a href="/en/games/"><strong>Games hub</strong><br />Return to the full playable lineup.</a>
+      </div>
+    </section>
+
+    <section class="bp-trust">
+      <strong>Trust and support</strong>
+      <div class="bp-links">
+        <a href="/en/about/">About</a>
+        <a href="/en/guides/">Guides</a>
+        <a href="/en/privacy/">Privacy Policy</a>
+        <a href="/en/terms/">Terms</a>
+        <a href="/en/contact/">Contact</a>
+      </div>
+    </section>
+
+    <div class="bp-footer">Bubble Pop lives inside the wider <a href="/en/games/">Games</a> lineup.</div>
+  </main>
+
+  <script>
+    window.__BUBBLE_POP_COPY__ = {
+      readyLabel: 'Ready',
+      playingLabel: 'Playing',
+      wonLabel: 'Cleared',
+      gameoverLabel: 'Out of moves',
+      modeLabel: 'Bubble Pop',
+      readyStatus: 'Pick a matching bubble group to start your first pop.',
+      popStatus: 'Cluster popped.',
+      wonStatus: 'You cleared the board or crossed the target. Restart to chase a bigger score.',
+      gameoverStatus: 'You used every move. Restart and look for larger groups earlier.',
+      needGroupStatus: 'Only groups of two or more can be popped.',
+      singleBubbleStatus: 'This bubble still stands alone.',
+      selectionStatus: 'Group selected.',
+      selectionNone: 'No group selected',
+      selectionSuffix: 'bubbles ready',
+      clearStatus: 'Selection cleared.',
+      shuffleStatus: 'The field was shuffled. Look for the next strong cluster.',
+      hint: 'Tap a matching bubble group once to inspect it, then tap again to pop it.',
+      mobileHint: 'On phones, the safest pattern is large groups first and the one-time shuffle later.',
+      canvasTitle: 'Bubble Pop',
+      canvasSub: 'Tap the same group twice to pop it.'
+    };
+    window.__BUBBLE_POP_META__ = {
+      slug: 'bubble-pop',
+      lang: 'en'
+    };
+  </script>
+  <script src="/assets/js/games-bubble-pop.js?v=20260322-bp1"></script>
+</body>
+</html>

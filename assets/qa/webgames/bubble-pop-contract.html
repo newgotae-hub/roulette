@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Bubble Pop QA Contract Harness</title>
+  <link rel="stylesheet" href="/assets/css/games-bubble-pop.css?v=20260322-bp1" />
+</head>
+<body>
+  <main class="bp-wrap">
+    <section class="bp-hero" style="padding:14px 16px;">
+      <span class="bp-eyebrow">QA harness</span>
+      <h1 class="bp-title" style="font-size:2rem;">Bubble Pop</h1>
+      <p class="bp-lede">Fallback harness for deterministic QA.</p>
+    </section>
+    <div class="bp-layout" style="grid-template-columns:1fr;">
+      <section class="bp-panel">
+        <div class="bp-panel-head">
+          <h2>Board</h2>
+          <div class="bp-toolbar">
+            <button id="bubble-pop-restart" type="button">Restart</button>
+            <button id="bubble-pop-shuffle" type="button">One shuffle</button>
+            <button id="bubble-pop-clear" type="button">Clear pick</button>
+          </div>
+        </div>
+        <div class="bp-board-shell">
+          <canvas id="bubble-pop-board" width="720" height="860" tabindex="0"></canvas>
+        </div>
+        <div class="bp-stats">
+          <div class="bp-stat"><span>Score</span><strong id="bubble-pop-score">0</strong></div>
+          <div class="bp-stat"><span>Best</span><strong id="bubble-pop-best">0</strong></div>
+          <div class="bp-stat"><span>Moves left</span><strong id="bubble-pop-moves">18</strong></div>
+          <div class="bp-stat"><span>Target</span><strong id="bubble-pop-target">720</strong></div>
+          <div class="bp-stat"><span>Combo</span><strong id="bubble-pop-combo">0</strong></div>
+          <div class="bp-stat"><span>Selection</span><strong id="bubble-pop-selection">No group selected</strong></div>
+        </div>
+        <div class="bp-status" id="bubble-pop-status">Fallback ready.</div>
+      </section>
+    </div>
+    <div id="bubble-pop-touch-hint" class="bp-hint">Tap the same group twice to pop it.</div>
+    <span id="bubble-pop-mode" class="bp-tag" data-state="ready">Bubble Pop · Ready</span>
+  </main>
+  <script>
+    window.__BUBBLE_POP_COPY__ = {
+      readyLabel: 'Ready',
+      playingLabel: 'Playing',
+      wonLabel: 'Cleared',
+      gameoverLabel: 'Out of moves',
+      modeLabel: 'Bubble Pop',
+      readyStatus: 'Fallback ready.',
+      popStatus: 'Cluster popped.',
+      wonStatus: 'Cleared.',
+      gameoverStatus: 'Out of moves.',
+      needGroupStatus: 'Need at least two.',
+      singleBubbleStatus: 'Single bubble.',
+      selectionStatus: 'Group selected.',
+      selectionNone: 'No group selected',
+      selectionSuffix: 'bubbles ready',
+      clearStatus: 'Selection cleared.',
+      shuffleStatus: 'Board shuffled.',
+      hint: 'Tap the same group twice to pop it.',
+      mobileHint: 'Tap the same group twice to pop it.',
+      canvasTitle: 'Bubble Pop',
+      canvasSub: 'Fallback contract'
+    };
+    window.__BUBBLE_POP_META__ = {
+      slug: 'bubble-pop',
+      lang: 'en',
+      deterministic: true
+    };
+  </script>
+  <script src="/assets/js/games-bubble-pop.js?v=20260322-bp1"></script>
+</body>
+</html>

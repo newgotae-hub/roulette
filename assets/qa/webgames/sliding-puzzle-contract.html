@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Sliding Puzzle QA Contract Harness</title>
+  <link rel="stylesheet" href="/assets/css/games-sliding-puzzle.css?v=20260322-sp1" />
+</head>
+<body>
+  <main class="sp-wrap">
+    <section class="sp-board-panel" style="margin-top:16px;">
+      <div class="sp-panel-head">
+        <div>
+          <h2>Sliding Puzzle QA Contract Harness</h2>
+          <p>Fallback page for automated QA only.</p>
+        </div>
+        <div class="sp-toolbar">
+          <button id="sliding-puzzle-new" type="button">New puzzle</button>
+          <button id="sliding-puzzle-undo" type="button">Undo</button>
+          <button id="sliding-puzzle-reset" type="button" data-emphasis="true">Reset</button>
+        </div>
+      </div>
+      <div class="sp-mode" aria-label="Game mode">
+        <button id="sliding-puzzle-classic" type="button" data-puzzle-mode="classic">Classic</button>
+        <button id="sliding-puzzle-timed" type="button" data-puzzle-mode="timed">Timed</button>
+        <button id="sliding-puzzle-daily" type="button" data-puzzle-mode="daily">Daily</button>
+      </div>
+      <div class="sp-board-shell">
+        <div class="sp-board-frame">
+          <div id="sliding-puzzle-board" class="sp-board"></div>
+        </div>
+        <div class="sp-pad" aria-label="Direction pad">
+          <button type="button" class="sp-pad-spacer" aria-hidden="true" tabindex="-1"></button>
+          <button type="button" data-puzzle-direction="up">↑</button>
+          <button type="button" class="sp-pad-spacer" aria-hidden="true" tabindex="-1"></button>
+          <button type="button" data-puzzle-direction="left">←</button>
+          <button type="button" data-puzzle-direction="down">↓</button>
+          <button type="button" data-puzzle-direction="right">→</button>
+        </div>
+        <div class="sp-stats">
+          <div class="sp-stat"><span>Moves</span><strong id="sliding-puzzle-moves">0</strong></div>
+          <div class="sp-stat"><span>Time</span><strong id="sliding-puzzle-time">0:00</strong></div>
+          <div class="sp-stat"><span>Best time</span><strong id="sliding-puzzle-best-time">—</strong></div>
+          <div class="sp-stat"><span>Best moves</span><strong id="sliding-puzzle-best-moves">0</strong></div>
+          <div class="sp-stat"><span>Undos</span><strong id="sliding-puzzle-undos">0</strong></div>
+          <div class="sp-stat"><span>Blank</span><strong id="sliding-puzzle-blank">3,3</strong></div>
+          <div class="sp-stat"><span>Preset</span><strong id="sliding-puzzle-preset">Standard</strong></div>
+          <div class="sp-stat"><span>State</span><strong id="sliding-puzzle-state">ready</strong></div>
+        </div>
+        <div class="sp-status" id="sliding-puzzle-status" role="status" aria-live="polite">Tap a tile next to the blank or use the arrow pad to begin.</div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    window.__SLIDING_PUZZLE_COPY__ = {
+      modeLabels: { classic: 'Classic', timed: 'Timed', daily: 'Daily' },
+      modeDescriptions: {
+        classic: 'Free play with no clock. Good when you want to learn the board and unwind.',
+        timed: 'A fixed countdown adds pressure. Good for quick repeat sessions.',
+        daily: 'The shared daily seed gives everyone the same board for the day.'
+      },
+      modeNotes: {
+        classic: 'Classic is the free-play board. Undo is safe, and a fresh puzzle is always one tap away.',
+        timed: 'Timed mode adds a countdown so you can chase faster solves.',
+        daily: 'Daily mode uses today’s shared seed so every visit has the same puzzle.'
+      },
+      phaseLabels: { ready: 'ready', playing: 'playing', solved: 'solved', timeout: 'timeout' },
+      statuses: {
+        ready: 'Tap a tile next to the blank or use the arrow pad to begin.',
+        playing: 'Keep sliding tiles toward the solved grid.',
+        solved: 'Puzzle solved. Try a new puzzle or beat your time.',
+        timeout: 'Time is up. Reset and try again.'
+      },
+      presetLabels: { standard: 'Standard', qa: 'QA preset' },
+      goalText: 'Put 1–15 in order and leave the blank in the bottom-right.',
+      timeLabels: { classic: 'Elapsed', timed: 'Time left', daily: 'Time left' }
+    };
+    window.__SLIDING_PUZZLE_META__ = { lang: 'en' };
+  </script>
+  <script src="/assets/js/games-sliding-puzzle.js?v=20260322-sp1"></script>
+</body>
+</html>

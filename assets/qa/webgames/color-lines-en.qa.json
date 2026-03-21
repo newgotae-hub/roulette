@@ -1,0 +1,89 @@
+{
+  "id": "color-lines-en",
+  "name": "Color Lines (English)",
+  "pageCandidates": [
+    "/en/games/color-lines/",
+    "/en/games/color-lines/index.html"
+  ],
+  "fallbackPath": "/assets/qa/webgames/color-lines-contract.html",
+  "requiredHooks": [
+    "QA_READY",
+    "render_game_to_text",
+    "advanceTime",
+    "reset"
+  ],
+  "parsedAssertions": [
+    {
+      "key": "phase",
+      "type": "string",
+      "anyOfValues": [
+        "ready",
+        "selected",
+        "gameover"
+      ]
+    },
+    {
+      "key": "mode",
+      "type": "string",
+      "anyOfValues": [
+        "free",
+        "daily"
+      ]
+    },
+    {
+      "key": "score",
+      "type": "number"
+    },
+    {
+      "key": "lines",
+      "type": "number"
+    },
+    {
+      "key": "moves",
+      "type": "number"
+    },
+    {
+      "key": "upcoming",
+      "type": "array"
+    },
+    {
+      "key": "board",
+      "type": "array"
+    }
+  ],
+  "bursts": [
+    {
+      "label": "boot",
+      "calls": [
+        "window.reset()"
+      ]
+    },
+    {
+      "label": "select-ball",
+      "calls": [
+        "document.getElementById('color-lines-cell-4-4')?.click()"
+      ]
+    },
+    {
+      "label": "move-ball",
+      "calls": [
+        "document.getElementById('color-lines-cell-4-6')?.click()"
+      ],
+      "advanceMs": 120
+    },
+    {
+      "label": "daily-board",
+      "calls": [
+        "document.getElementById('color-lines-daily')?.click()"
+      ],
+      "advanceMs": 120
+    },
+    {
+      "label": "reset",
+      "calls": [
+        "window.resetGame(0x0c0110a5, { mode: 'free' })"
+      ],
+      "advanceMs": 120
+    }
+  ]
+}

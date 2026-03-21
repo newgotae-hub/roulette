@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Minesweeper Lite QA Contract Harness</title>
+  <link rel="stylesheet" href="/assets/css/games-minesweeper.css?v=20260322-mine1" />
+</head>
+<body>
+  <main class="ms-wrap">
+    <section class="ms-hero" style="padding-block-end:20px;">
+      <span class="ms-eyebrow">QA harness</span>
+      <h1 class="ms-title">Minesweeper Lite QA Contract Harness</h1>
+      <p class="ms-lede">This fallback route keeps the same runtime hooks and control ids as the published game while staying compact enough for deterministic QA.</p>
+      <div class="ms-actions">
+        <button class="ms-button is-primary" id="ms-hero-play" type="button">Play now</button>
+        <button class="ms-button is-soft" id="ms-hero-daily" type="button">Daily challenge</button>
+      </div>
+    </section>
+
+    <section class="ms-panel" id="play-area" aria-labelledby="board-title">
+      <div class="ms-panel-head">
+        <div>
+          <h2 id="board-title">Minefield</h2>
+          <p>Reveal and Flag stay exposed so the QA runner can verify mode switching and reset behavior.</p>
+        </div>
+        <div class="ms-toolbar">
+          <button id="ms-reveal-mode" type="button" data-ms-tool="reveal">Reveal</button>
+          <button id="ms-flag-mode" type="button" data-ms-tool="flag">Flag</button>
+          <button id="ms-new" type="button">New board</button>
+          <button id="ms-daily" type="button">Daily challenge</button>
+          <button id="ms-reset" type="button">Reset</button>
+        </div>
+      </div>
+
+      <div class="ms-board-shell">
+        <div class="ms-callout" aria-live="polite">
+          <div>
+            <strong id="ms-callout-title">Ready</strong>
+            <span id="ms-callout">Pick Reveal or Flag, then tap a square to begin. The first click is always safe.</span>
+          </div>
+          <span class="ms-tag" id="ms-mode-badge">Free play / Reveal</span>
+        </div>
+        <div
+          id="ms-board"
+          class="ms-board"
+          role="grid"
+          aria-label="Minesweeper board"
+          aria-describedby="ms-status"
+        ></div>
+      </div>
+
+      <div class="ms-controls">
+        <div class="ms-stats">
+          <div class="ms-stat"><span>Mines</span><strong id="ms-mines">8</strong></div>
+          <div class="ms-stat"><span>Flags</span><strong id="ms-flags">0</strong></div>
+          <div class="ms-stat"><span>Safe left</span><strong id="ms-safe">41</strong></div>
+          <div class="ms-stat"><span>Elapsed</span><strong id="ms-elapsed">0:00</strong></div>
+          <div class="ms-stat"><span>Best</span><strong id="ms-best">--</strong></div>
+          <div class="ms-stat"><span>Daily best</span><strong id="ms-daily-best">--</strong></div>
+          <div class="ms-stat"><span>Board</span><strong id="ms-board-size">7x7</strong></div>
+        </div>
+        <div>
+          <div class="ms-status" id="ms-status">Pick Reveal or Flag, then tap a square to begin.</div>
+          <div class="ms-hint" id="ms-hint">Arrow keys, 1/2, F, Enter, Space, R/N/D are supported. On mobile, just tap the squares.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    window.__MINESWEEPER_COPY__ = {
+      readyLabel: 'Ready',
+      playingLabel: 'Playing',
+      wonLabel: 'Cleared',
+      lostLabel: 'Exploded',
+      revealToolLabel: 'Reveal',
+      flagToolLabel: 'Flag',
+      freeModeLabel: 'Free play',
+      dailyModeLabel: 'Daily challenge',
+      newBoardLabel: 'New board',
+      dailyBoardLabel: 'Daily challenge',
+      resetLabel: 'Reset',
+      readyStatus: 'Pick Reveal or Flag, then tap a square to begin. The first click is always safe.',
+      playingStatus: 'Read the numbers, keep the board open, and use Flag for guesses.',
+      flaggingStatus: 'Flag a suspect square, then switch back to Reveal when you are ready.',
+      wonStatus: 'Board cleared. Try the Daily challenge or chase a faster time.',
+      lostStatus: 'A mine exploded. Reset and try a cleaner route.',
+      dailyReadyStatus: 'Today is a shared challenge. Everyone gets the same seed.',
+      revealBlockedStatus: 'Unflag the square first if you want to reveal it.',
+      flagOnRevealedStatus: 'That square is already open.',
+      hint: 'Arrow keys, 1/2, F, Enter, Space, R/N/D are supported. On mobile, just tap the squares.',
+      rowLabel: 'Row',
+      columnLabel: 'Column',
+      hiddenCellLabel: 'Hidden cell',
+      flaggedCellLabel: 'Flagged cell',
+      mineCellLabel: 'Mine',
+      explodedCellLabel: 'Exploded mine',
+      numberCellLabel: 'Revealed cell',
+      emptyCellLabel: 'Empty cell',
+      ariaBoard: 'Minesweeper board'
+    };
+  </script>
+  <script src="/assets/js/games-minesweeper.js?v=20260322-mine1"></script>
+</body>
+</html>

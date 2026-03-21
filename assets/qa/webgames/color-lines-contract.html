@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Color Lines QA Contract Harness</title>
+  <link rel="stylesheet" href="/assets/css/games-color-lines.css?v=20260322-cl1" />
+</head>
+<body>
+  <main class="cl-wrap">
+    <section class="cl-panel" style="margin-bottom:18px;">
+      <div class="cl-panel-head">
+        <div>
+          <h1 style="margin:0;font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:-.05em;">Color Lines QA Contract Harness</h1>
+          <p style="margin:8px 0 0;color:#475569;line-height:1.7;">This page keeps the same hooks as the production route while staying small enough for fallback QA.</p>
+        </div>
+        <div class="cl-tag" data-state="ready">QA harness</div>
+      </div>
+      <div class="cl-toolbar" style="margin-top:16px;">
+        <button id="color-lines-reset" type="button">New board</button>
+        <button id="color-lines-daily" type="button">Daily board</button>
+        <button id="color-lines-clear" type="button">Clear selection</button>
+      </div>
+    </section>
+
+    <section class="cl-panel">
+      <div id="color-lines-grid" class="cl-grid" aria-label="Color Lines QA board"></div>
+      <div class="cl-controls">
+        <div>
+          <div class="cl-stat"><span>Next colors</span><strong id="color-lines-upcoming" class="cl-upcoming"></strong></div>
+        </div>
+        <div>
+          <div class="cl-stats">
+            <div class="cl-stat"><span>Score</span><strong id="color-lines-score">0</strong></div>
+            <div class="cl-stat"><span>Best</span><strong id="color-lines-best">0</strong></div>
+            <div class="cl-stat"><span>Lines</span><strong id="color-lines-lines">0</strong></div>
+            <div class="cl-stat"><span>Moves</span><strong id="color-lines-moves">0</strong></div>
+            <div class="cl-stat"><span>Balls</span><strong id="color-lines-balls">0</strong></div>
+            <div class="cl-stat"><span>Selected</span><strong id="color-lines-select">None</strong></div>
+          </div>
+          <div class="cl-status" id="color-lines-status">Pick a ball, then tap an empty cell to move it.</div>
+          <div class="cl-tag-row">
+            <span id="color-lines-tag" class="cl-tag" data-state="ready">Free · Ready</span>
+          </div>
+          <div id="color-lines-hint" class="cl-hint">Tap to select, then tap an empty cell to move.</div>
+          <div id="color-lines-mobile-flow" class="cl-mobile-flow">The first tap selects a ball. The second tap moves it.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    window.__COLOR_LINES_COPY__ = {
+      readyLabel: 'Ready',
+      selectedLabel: 'Selected',
+      gameoverLabel: 'Board full',
+      readyStatus: 'Pick a ball, then tap an empty cell to move it.',
+      selectedStatus: 'Selection locked. Now choose an empty cell with a clear path.',
+      dailyStatus: 'Daily board ready.',
+      dailyHint: 'Daily mode uses the same seed for everyone today.',
+      moveStatus: 'Move complete.',
+      blockedStatus: 'That route is blocked.',
+      clearStatus: 'Line cleared.',
+      spawnClearStatus: 'The new balls completed a line and cleared space.',
+      emptyStatus: 'Pick a colored ball first.',
+      gameoverStatus: 'The board is full.',
+      hint: 'Tap to select, then tap an empty cell to move.',
+      mobileFlowReady: 'The first tap selects a ball. The second tap moves it.',
+      mobileFlowSelected: 'Selection is active now. Choose an empty route.',
+      mobileFlowGameover: 'The board is full. Reset for a fresh run.',
+      resetButton: 'New board',
+      clearButton: 'Clear selection',
+      freeModeLabel: 'Free',
+      dailyModeLabel: 'Daily',
+      noSelectionLabel: 'None'
+    };
+    window.__COLOR_LINES_META__ = {
+      slug: 'color-lines',
+      lang: 'en',
+      mode: 'free',
+      deterministic: true,
+      contract: true
+    };
+  </script>
+  <script src="/assets/js/games-color-lines.js?v=20260322-cl1"></script>
+</body>
+</html>

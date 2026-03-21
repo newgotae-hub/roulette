@@ -1,0 +1,33 @@
+{
+  "id": "bubble-pop-en",
+  "name": "Bubble Pop EN",
+  "pageCandidates": [
+    "/en/games/bubble-pop/",
+    "/en/games/bubble-pop/index.html"
+  ],
+  "fallbackPath": "/assets/qa/webgames/bubble-pop-contract.html",
+  "requiredHooks": [
+    "QA_READY",
+    "render_game_to_text",
+    "advanceTime",
+    "reset"
+  ],
+  "parsedAssertions": [
+    { "key": "phase", "type": "string", "anyOfValues": ["ready", "playing", "won", "gameover"] },
+    { "key": "score", "type": "number" },
+    { "key": "movesLeft", "type": "number" },
+    { "key": "combo", "type": "number" },
+    { "key": "bubblesRemaining", "type": "number" },
+    { "key": "selectionSize", "type": "number" },
+    { "key": "board", "type": "array" },
+    { "key": "qaReady", "type": "boolean", "anyOfValues": ["true"] }
+  ],
+  "bursts": [
+    { "label": "boot", "calls": ["window.reset()"] },
+    { "label": "pick-cluster", "calls": ["window.bubblePopTap(0, 0)"] },
+    { "label": "pop-cluster", "calls": ["window.bubblePopTap(0, 0)"] },
+    { "label": "advance", "calls": ["window.advanceTime(300)"] },
+    { "label": "shuffle", "calls": ["document.getElementById('bubble-pop-shuffle')?.click()"] },
+    { "label": "reset", "calls": ["window.reset()"] }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "id": "sliding-puzzle-en",
+  "name": "Sliding Puzzle EN",
+  "pageCandidates": [
+    "/en/games/sliding-puzzle/",
+    "/en/sliding-puzzle/",
+    "/en/games/sliding-puzzle/index.html",
+    "/en/sliding-puzzle/index.html"
+  ],
+  "fallbackPath": "/assets/qa/webgames/sliding-puzzle-contract.html",
+  "requiredHooks": [
+    "QA_READY",
+    "render_game_to_text",
+    "advanceTime",
+    "reset"
+  ],
+  "parsedAssertions": [
+    { "key": "mode", "type": "string", "anyOfValues": ["classic", "timed", "daily"] },
+    { "key": "phase", "type": "string", "anyOfValues": ["ready", "playing", "solved", "timeout"] },
+    { "key": "preset", "type": "string" },
+    { "key": "variant", "type": "number", "min": 0 },
+    { "key": "moves", "type": "number", "min": 0 },
+    { "key": "undos", "type": "number", "min": 0 },
+    { "key": "bestMoves", "type": "number", "min": 0 },
+    { "key": "bestTimeMs", "type": "number", "min": 0 },
+    { "key": "blankIndex", "type": "number", "min": 0 },
+    { "key": "solved", "type": "boolean", "anyOfValues": ["true", "false"] },
+    { "key": "timeLimitMs", "type": "number", "min": 0 },
+    { "key": "elapsedMs", "type": "number", "min": 0 },
+    { "key": "timeLeftMs", "type": "number", "min": 0 },
+    { "key": "timeLeft", "type": "number", "min": 0 },
+    { "key": "timer", "type": "number", "min": 0 },
+    { "key": "seed", "type": "number", "min": 0 },
+    { "key": "board", "type": "array" },
+    { "key": "qaReady", "type": "boolean", "anyOfValues": ["true"] }
+  ],
+  "bursts": [
+    { "label": "boot", "calls": ["window.reset()"] },
+    { "label": "preset", "calls": ["window.setSlidingPuzzlePreset('qa')"] },
+    { "label": "move-left", "keys": ["ArrowLeft"] },
+    { "label": "undo", "calls": ["window.undoMove()"] },
+    { "label": "timed-mode", "calls": ["document.getElementById('sliding-puzzle-timed')?.click()"] },
+    { "label": "timed-advance", "advanceMs": 60000 },
+    { "label": "daily-mode", "calls": ["document.getElementById('sliding-puzzle-daily')?.click()"] },
+    { "label": "reset", "calls": ["window.reset()"] }
+  ]
+}

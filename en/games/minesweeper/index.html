@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f8fafc" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <title>Minesweeper Lite | Randomly Pick</title>
+  <meta name="description" content="A light Minesweeper game from Randomly Pick. The first click is safe, flag mode is one tap away, and the board stays friendly on mobile and in webviews." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://randomly-pick.com/en/games/minesweeper/" />
+  <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/minesweeper/" />
+  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/games/minesweeper/" />
+  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/games/minesweeper/" />
+  <link rel="stylesheet" href="/assets/css/games-minesweeper.css?v=20260322-mine1" />
+  <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
+</head>
+<body>
+  <main class="ms-wrap">
+    <div class="ms-topbar">
+      <div class="ms-brand">
+        <div class="ms-brand-mark">R.</div>
+        <div>
+          <div class="ms-brand-name">Randomly Pick</div>
+          <div class="ms-brand-sub">Minesweeper Lite</div>
+        </div>
+      </div>
+      <nav class="ms-nav" aria-label="Main navigation">
+        <a href="/en/">Home</a>
+        <a href="/en/games/" class="is-active" aria-current="page">Games</a>
+        <a href="/en/luckydraw/">Lucky Draw</a>
+        <a href="/en/ladder/">Ladder</a>
+        <a href="/en/team-generator/">Team Split</a>
+        <a href="/en/coinflip/">Coin Flip</a>
+        <a href="/en/dice/">Dice</a>
+      </nav>
+    </div>
+
+    <section class="ms-hero">
+      <span class="ms-eyebrow">Classic browser game</span>
+      <h1 class="ms-title">Minesweeper Lite</h1>
+      <p class="ms-lede">A compact Minesweeper board built for quick reads, fast restarts, and short sessions. The first click is always safe, and the layout stays comfortable on phones and inside webviews.</p>
+      <div class="ms-actions">
+        <button class="ms-button is-primary" id="ms-hero-play" type="button">Play now</button>
+        <button class="ms-button is-soft" id="ms-hero-daily" type="button">Daily challenge</button>
+      </div>
+      <div class="ms-chips" aria-label="Game highlights">
+        <span class="ms-chip">7×7 lite board</span>
+        <span class="ms-chip">First-click safe</span>
+        <span class="ms-chip">Flag mode</span>
+        <span class="ms-chip">Daily seed</span>
+      </div>
+    </section>
+
+    <div class="ms-layout" id="play-area">
+      <section class="ms-panel" aria-labelledby="board-title">
+        <div class="ms-panel-head">
+          <div>
+            <h2 id="board-title">Minefield</h2>
+            <p>Use Reveal and Flag to read the board at a glance.</p>
+          </div>
+          <div class="ms-toolbar">
+            <button id="ms-reveal-mode" type="button" data-ms-tool="reveal">Reveal</button>
+            <button id="ms-flag-mode" type="button" data-ms-tool="flag">Flag</button>
+            <button id="ms-new" type="button">New board</button>
+            <button id="ms-daily" type="button">Daily challenge</button>
+            <button id="ms-reset" type="button">Reset</button>
+          </div>
+        </div>
+
+        <div class="ms-board-shell">
+          <div class="ms-callout" aria-live="polite">
+            <div>
+              <strong id="ms-callout-title">Ready</strong>
+              <span id="ms-callout">Pick Reveal or Flag, then tap a square to begin. The first click is always safe.</span>
+            </div>
+            <span class="ms-tag" id="ms-mode-badge">Free play · Reveal</span>
+          </div>
+
+          <div
+            id="ms-board"
+            class="ms-board"
+            role="grid"
+            aria-label="Minesweeper board"
+            aria-describedby="ms-status"
+          ></div>
+        </div>
+
+        <div class="ms-controls">
+          <div class="ms-mini-list" aria-label="Keyboard and touch guide" style="gap: 8px;">
+            <span class="ms-chip">Arrow keys</span>
+            <span class="ms-chip">F / 2</span>
+            <span class="ms-chip">Enter / Space</span>
+            <span class="ms-chip">R / N / D</span>
+          </div>
+          <div>
+            <div class="ms-stats" aria-label="Current game info">
+              <div class="ms-stat"><span>Mines</span><strong id="ms-mines">8</strong></div>
+              <div class="ms-stat"><span>Flags</span><strong id="ms-flags">0</strong></div>
+              <div class="ms-stat"><span>Safe left</span><strong id="ms-safe">41</strong></div>
+              <div class="ms-stat"><span>Elapsed</span><strong id="ms-elapsed">0:00</strong></div>
+              <div class="ms-stat"><span>Best</span><strong id="ms-best">—</strong></div>
+              <div class="ms-stat"><span>Daily best</span><strong id="ms-daily-best">—</strong></div>
+            </div>
+            <div class="ms-status" id="ms-status">Pick Reveal or Flag, then tap a square to begin.</div>
+            <div class="ms-hint" id="ms-hint">Arrow keys, 1/2, F, Enter, Space, R/N/D are supported. On mobile, just tap the squares.</div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="ms-panel" aria-labelledby="guide-title">
+        <div class="ms-panel-head">
+          <h2 id="guide-title">How it works</h2>
+        </div>
+        <p>Minesweeper Lite is a small board game that rewards quick reading instead of long setup. Open the first square, follow the number clues, and expand the safe area one move at a time.</p>
+        <div class="ms-section" style="margin-top:16px;">
+          <div class="ms-section-head"><h2>Core rules</h2></div>
+          <p>Reveal opens a square. Flag marks a square you want to come back to later. The number on each open square tells you how many mines touch it. Zero expands the board fast.</p>
+        </div>
+        <div class="ms-section" style="margin-top:16px;">
+          <div class="ms-section-head"><h2>Why it is lite</h2></div>
+          <p>This version keeps the board small, the restart flow quick, and the touch targets comfortable so it works well in short sessions and embedded browsers.</p>
+        </div>
+      </aside>
+    </div>
+
+    <section class="ms-section" aria-labelledby="howto-title">
+      <div class="ms-section-head">
+        <h2 id="howto-title">How to Play</h2>
+        <p>Read the numbers, keep the board open, and use Flag only where you are not sure yet.</p>
+      </div>
+      <div class="ms-steps">
+        <div class="ms-step"><strong>1. Start with Reveal</strong> The first square is always safe, so you can open the board with confidence.</div>
+        <div class="ms-step"><strong>2. Use Flag for guesses</strong> Mark uncertain squares, then come back after you read the nearby numbers.</div>
+        <div class="ms-step"><strong>3. Look for zeros</strong> Empty squares expand the board quickly and make the next move easier.</div>
+      </div>
+    </section>
+
+    <section class="ms-section" aria-labelledby="use-title">
+      <div class="ms-section-head">
+        <h2 id="use-title">When to Use It</h2>
+        <p>It is a good fit when you want a short break that still keeps your brain active.</p>
+      </div>
+      <div class="ms-uses">
+        <div class="ms-use"><strong>Quick break</strong> A fast one-minute focus game between tasks.</div>
+        <div class="ms-use"><strong>Pattern reading</strong> A simple way to practice number and adjacency reading.</div>
+        <div class="ms-use"><strong>Daily challenge</strong> Same seed, same board, better reason to come back tomorrow.</div>
+      </div>
+    </section>
+
+    <section class="ms-section" aria-labelledby="better-title">
+      <div class="ms-section-head">
+        <h2 id="better-title">When Another Game Is Better</h2>
+        <p>Not every break needs a logic puzzle. Some moments want something even quicker.</p>
+      </div>
+      <div class="ms-copy-grid">
+        <div class="ms-copy-card"><strong>Immediate action</strong><p>If you want to play with almost no reading, Snake or Brick Breaker may feel faster.</p></div>
+        <div class="ms-copy-card"><strong>Ultra-light choice</strong><p>If you want a decision tool instead of a puzzle, a Randomly Pick utility game may fit better.</p></div>
+      </div>
+    </section>
+
+    <section class="ms-section" aria-labelledby="related-title">
+      <div class="ms-section-head">
+        <h2 id="related-title">Related Links</h2>
+        <p>The surrounding pages stay close to the same practical Randomly Pick tone.</p>
+      </div>
+      <div class="ms-related-grid">
+        <a href="/en/games/snake/"><strong>Snake</strong><br />A short focus game with a classic loop.</a>
+        <a href="/en/games/number-merge/"><strong>Number Merge</strong><br />A light 2048-style merge game.</a>
+        <a href="/en/games/brick-breaker/"><strong>Brick Breaker</strong><br />A touch-friendly reflex game.</a>
+        <a href="/en/games/"><strong>Games Hub</strong><br />Return to the Randomly Pick game dashboard.</a>
+      </div>
+    </section>
+
+    <section class="ms-trust" aria-label="Site links">
+      <strong>Site links</strong>
+      <div class="ms-links">
+        <a href="/en/about/">About</a>
+        <a href="/en/guides/">Guides</a>
+        <a href="/en/privacy/">Privacy Policy</a>
+        <a href="/en/terms/">Terms</a>
+        <a href="/en/contact/">Contact</a>
+      </div>
+    </section>
+
+    <div class="ms-footer">Randomly Pick · <a href="/en/games/">Games</a></div>
+  </main>
+
+  <script>
+    window.__MINESWEEPER_COPY__ = {
+      readyLabel: 'Ready',
+      playingLabel: 'Playing',
+      wonLabel: 'Cleared',
+      lostLabel: 'Exploded',
+      revealToolLabel: 'Reveal',
+      flagToolLabel: 'Flag',
+      freeModeLabel: 'Free play',
+      dailyModeLabel: 'Daily challenge',
+      newBoardLabel: 'New board',
+      dailyBoardLabel: 'Daily challenge',
+      resetLabel: 'Reset',
+      readyStatus: 'Pick Reveal or Flag, then tap a square to begin. The first click is always safe.',
+      playingStatus: 'Read the numbers, keep the board open, and use Flag for guesses.',
+      flaggingStatus: 'Flag a suspect square, then switch back to Reveal when you are ready.',
+      wonStatus: 'Board cleared. Try the Daily challenge or chase a faster time.',
+      lostStatus: 'A mine exploded. Reset and try a cleaner route.',
+      dailyReadyStatus: 'Today is a shared challenge. Everyone gets the same seed.',
+      revealBlockedStatus: 'Unflag the square first if you want to reveal it.',
+      flagOnRevealedStatus: 'That square is already open.',
+      hint: 'Arrow keys, 1/2, F, Enter, Space, R/N/D are supported. On mobile, just tap the squares.',
+      rowLabel: 'Row',
+      columnLabel: 'Column',
+      hiddenCellLabel: 'Hidden cell',
+      flaggedCellLabel: 'Flagged cell',
+      mineCellLabel: 'Mine',
+      explodedCellLabel: 'Exploded mine',
+      numberCellLabel: 'Revealed cell',
+      emptyCellLabel: 'Empty cell',
+      ariaBoard: 'Minesweeper board'
+    };
+  </script>
+  <script src="/assets/js/games-minesweeper.js?v=20260322-mine1"></script>
+</body>
+</html>

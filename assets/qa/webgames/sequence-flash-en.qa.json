@@ -1,0 +1,85 @@
+{
+  "id": "sequence-flash-en",
+  "name": "Sequence Flash EN",
+  "pageCandidates": [
+    "/en/games/sequence-flash/",
+    "/en/games/sequence-flash/index.html"
+  ],
+  "fallbackPath": "/assets/qa/webgames/sequence-flash-contract.html",
+  "requiredHooks": [
+    "QA_READY",
+    "render_game_to_text",
+    "advanceTime",
+    "reset"
+  ],
+  "parsedAssertions": [
+    {
+      "key": "mode",
+      "type": "string",
+      "anyOfValues": [
+        "free",
+        "daily"
+      ]
+    },
+    {
+      "key": "phase",
+      "type": "string",
+      "anyOfValues": [
+        "ready",
+        "showing",
+        "input",
+        "success",
+        "gameover"
+      ]
+    },
+    {
+      "key": "round",
+      "type": "number"
+    },
+    {
+      "key": "bestRound",
+      "type": "number"
+    },
+    {
+      "key": "sequenceLength",
+      "type": "number"
+    },
+    {
+      "key": "inputIndex",
+      "type": "number"
+    },
+    {
+      "key": "upcoming",
+      "type": "array"
+    }
+  ],
+  "bursts": [
+    {
+      "label": "boot",
+      "calls": [
+        "window.resetGame(0x051f1a54, { mode: 'free' })"
+      ]
+    },
+    {
+      "label": "start",
+      "calls": [
+        "document.getElementById('sequence-flash-start')?.click()"
+      ],
+      "advanceMs": 900
+    },
+    {
+      "label": "daily",
+      "calls": [
+        "document.getElementById('sequence-flash-daily')?.click()"
+      ],
+      "advanceMs": 900
+    },
+    {
+      "label": "reset",
+      "calls": [
+        "window.resetGame(0x051f1a54, { mode: 'free' })"
+      ],
+      "advanceMs": 120
+    }
+  ]
+}

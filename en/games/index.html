@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Games | Randomly Pick</title>
-  <meta name="description" content="Randomly Pick's Games hub. Play Snake, Number Merge, and Brick Breaker now while keeping the same flow as the site's core tools." />
+  <meta name="description" content="Randomly Pick's Games hub. Play Snake, Number Merge, Brick Breaker, Memory Match, Minesweeper Lite, Reaction Tap, Color Lines, Bubble Pop, Sequence Flash, and Sliding Puzzle from one lightweight dashboard." />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://randomly-pick.com/en/games/" />
   <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/" />
@@ -14,13 +14,11 @@
   <style>
     :root {
       color-scheme: light;
-      --bg: #f8fafc;
-      --panel: rgba(255,255,255,.92);
-      --panel-strong: rgba(255,255,255,.97);
-      --line: rgba(148,163,184,.22);
+      --panel: rgba(255, 255, 255, 0.92);
+      --panel-strong: rgba(255, 255, 255, 0.97);
+      --line: rgba(148, 163, 184, 0.22);
       --text: #0f172a;
       --muted: #475569;
-      --soft: #e2e8f0;
       --accent: #0f172a;
       --accent-soft: #eef2ff;
     }
@@ -29,10 +27,10 @@
       margin: 0;
       min-height: 100vh;
       color: var(--text);
-      font-family: "Noto Sans", "Segoe UI", sans-serif;
+      font-family: "Inter", "Segoe UI", sans-serif;
       background:
-        radial-gradient(circle at 14% 10%, rgba(59,130,246,.07), transparent 24%),
-        radial-gradient(circle at 86% 4%, rgba(16,185,129,.08), transparent 20%),
+        radial-gradient(circle at 14% 10%, rgba(59, 130, 246, 0.07), transparent 24%),
+        radial-gradient(circle at 86% 4%, rgba(16, 185, 129, 0.08), transparent 20%),
         linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
     }
     a { color: inherit; }
@@ -48,311 +46,56 @@
     .topbar, .nav, .hero-actions, .hero-chips, .grid, .links, .mini-list { display: flex; flex-wrap: wrap; }
     .topbar { align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 16px; }
     .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -.03em; }
-    .brand-mark {
-      width: 34px;
-      height: 34px;
-      display: grid;
-      place-items: center;
-      border-radius: 11px;
-      background: linear-gradient(135deg, #0f172a, #334155);
-      color: #fff;
-      box-shadow: 0 12px 24px rgba(15,23,42,.12);
-    }
+    .brand-mark { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 11px; background: linear-gradient(135deg, #0f172a, #334155); color: #fff; box-shadow: 0 12px 24px rgba(15, 23, 42, 0.12); }
     .brand-name { font-size: 1rem; }
     .brand-sub { margin-top: 2px; color: #64748b; font-size: .84rem; font-weight: 600; }
     .nav { gap: 8px; }
-    .nav a {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 36px;
-      padding: 0 14px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.78);
-      color: #334155;
-      text-decoration: none;
-      font-size: .92rem;
-      transition: transform .18s ease, background .18s ease, border-color .18s ease;
-    }
-    .nav a:hover { transform: translateY(-1px); background: #fff; border-color: rgba(15,23,42,.16); }
-    .nav a.active {
-      background: var(--accent);
-      color: #fff;
-      border-color: var(--accent);
-      box-shadow: 0 12px 24px rgba(15,23,42,.14);
-    }
-    .hero {
-      padding: 22px 22px 18px;
-      border: 1px solid var(--line);
-      border-radius: 28px;
-      background: var(--panel);
-      box-shadow: 0 24px 56px rgba(15,23,42,.06);
-      backdrop-filter: blur(10px);
-    }
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      min-height: 30px;
-      padding: 0 12px;
-      border-radius: 999px;
-      background: var(--accent-soft);
-      color: #3730a3;
-      font-size: .78rem;
-      font-weight: 800;
-      letter-spacing: .05em;
-      text-transform: uppercase;
-    }
-    h1 {
-      margin: 14px 0 10px;
-      font-size: clamp(2.2rem, 5vw, 3.9rem);
-      line-height: 1;
-      letter-spacing: -.06em;
-      text-wrap: balance;
-    }
-    .lede {
-      max-width: 62ch;
-      margin: 0;
-      color: var(--muted);
-      font-size: clamp(1rem, 1.8vw, 1.06rem);
-      line-height: 1.78;
-    }
-    .hero-actions { gap: 10px; margin-top: 16px; }
-    .button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 42px;
-      padding: 0 15px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      background: #fff;
-      text-decoration: none;
-      font-weight: 700;
-      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
-    }
-    .button:hover { transform: translateY(-1px); border-color: rgba(15,23,42,.16); box-shadow: 0 10px 22px rgba(15,23,42,.08); }
+    .nav a { display: inline-flex; align-items: center; justify-content: center; min-height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.78); color: #334155; text-decoration: none; font-size: .92rem; }
+    .nav a.active { background: var(--accent); color: #fff; border-color: var(--accent); box-shadow: 0 12px 24px rgba(15, 23, 42, 0.14); }
+    .hero { padding: 22px 22px 18px; border: 1px solid var(--line); border-radius: 28px; background: var(--panel); box-shadow: 0 24px 56px rgba(15, 23, 42, 0.06); backdrop-filter: blur(10px); }
+    .eyebrow, .chip, .card-tag, .state { display: inline-flex; align-items: center; border-radius: 999px; font-weight: 800; letter-spacing: .04em; }
+    .eyebrow { min-height: 30px; padding: 0 12px; background: var(--accent-soft); color: #3730a3; font-size: .78rem; text-transform: uppercase; }
+    h1 { margin: 14px 0 10px; font-size: clamp(2.2rem, 5vw, 3.9rem); line-height: 1; letter-spacing: -.06em; text-wrap: balance; }
+    .lede { max-width: 64ch; margin: 0; color: var(--muted); font-size: clamp(1rem, 1.8vw, 1.06rem); line-height: 1.76; }
+    .hero-actions, .hero-chips, .grid, .links, .mini-list { gap: 10px; }
+    .hero-actions { margin-top: 16px; }
+    .button, .links a, .mobile-jump a { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 0 15px; border-radius: 999px; border: 1px solid var(--line); background: #fff; text-decoration: none; font-weight: 700; }
     .button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
-    .hero-chips { gap: 10px; margin-top: 14px; }
-    .chip {
-      display: inline-flex;
-      align-items: center;
-      min-height: 30px;
-      padding: 0 11px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.84);
-      border: 1px solid var(--line);
-      color: #334155;
-      font-size: .85rem;
-      font-weight: 600;
-    }
-    .hero-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(280px, .8fr);
-      gap: 14px;
-      margin-top: 14px;
-    }
-    .panel, .card, .note, .trust {
-      border: 1px solid var(--line);
-      border-radius: 22px;
-      background: var(--panel-strong);
-      box-shadow: 0 16px 34px rgba(15,23,42,.05);
-    }
-    .panel { padding: 18px 18px 16px; }
+    .hero-chips { margin-top: 14px; }
+    .chip { min-height: 30px; padding: 0 11px; background: rgba(255, 255, 255, 0.84); border: 1px solid var(--line); color: #334155; font-size: .84rem; font-weight: 700; letter-spacing: 0; }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(290px, .8fr); gap: 14px; margin-top: 14px; }
+    .panel, .card, .note, .trust { border: 1px solid var(--line); border-radius: 22px; background: var(--panel-strong); box-shadow: 0 16px 34px rgba(15, 23, 42, 0.05); }
+    .panel, .note, .trust { padding: 18px; }
     .panel h2, .section-head h2 { margin: 0; letter-spacing: -.04em; }
-    .panel h2 { font-size: clamp(1.14rem, 2vw, 1.5rem); }
-    .panel p { margin: 10px 0 0; color: var(--muted); line-height: 1.72; }
-    .mini-list {
-      gap: 10px;
-      margin-top: 14px;
-    }
-    .mini-item {
-      flex: 1 1 150px;
-      min-width: 150px;
-      padding: 12px 13px;
-      border-radius: 18px;
-      border: 1px solid var(--line);
-      background: #fff;
-    }
-    .mini-item strong { display: block; font-size: .95rem; letter-spacing: -.02em; }
-    .mini-item span { display: block; margin-top: 4px; color: var(--muted); font-size: .88rem; line-height: 1.55; }
-    .lineup {
-      padding: 18px;
-      background:
-        linear-gradient(180deg, #ffffff, #f8fafc),
-        radial-gradient(circle at 86% 10%, rgba(59,130,246,.08), transparent 28%);
-    }
-    .lineup h2 { font-size: 1.05rem; }
+    .panel p, .section-head p, .card p, .note, .trust { color: var(--muted); line-height: 1.68; }
+    .mini-item, .lineup-row { border: 1px solid var(--line); background: #fff; border-radius: 18px; }
+    .mini-item { flex: 1 1 150px; min-width: 150px; padding: 12px 13px; }
+    .mini-item strong, .lineup-row strong { display: block; font-size: .95rem; letter-spacing: -.02em; }
+    .mini-item span, .lineup-row span { display: block; margin-top: 4px; color: var(--muted); font-size: .87rem; line-height: 1.55; }
     .lineup-list { display: grid; gap: 10px; margin-top: 12px; }
-    .lineup-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 12px 13px;
-      border-radius: 16px;
-      border: 1px solid var(--line);
-      background: #fff;
-    }
-    .lineup-row strong { display: block; font-size: .94rem; }
-    .lineup-row span { display: block; margin-top: 3px; color: var(--muted); font-size: .85rem; }
-    .state {
-      flex: 0 0 auto;
-      display: inline-flex;
-      align-items: center;
-      min-height: 28px;
-      padding: 0 10px;
-      border-radius: 999px;
-      background: var(--accent-soft);
-      color: #3730a3;
-      font-size: .78rem;
-      font-weight: 800;
-      letter-spacing: .03em;
-      text-transform: uppercase;
-    }
-    .section-head {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 16px;
-      margin: 22px 0 12px;
-    }
-    .section-head p { margin: 0; max-width: 58ch; color: var(--muted); line-height: 1.65; }
-    .grid { gap: 12px; }
-    .card {
-      flex: 1 1 220px;
-      min-width: 220px;
-      padding: 18px;
-      text-decoration: none;
-      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
-    }
-    .card:hover { transform: translateY(-2px); border-color: rgba(15,23,42,.16); box-shadow: 0 18px 30px rgba(15,23,42,.07); }
-    .card-tag {
-      display: inline-flex;
-      align-items: center;
-      min-height: 26px;
-      padding: 0 10px;
-      border-radius: 999px;
-      background: var(--accent-soft);
-      color: #4338ca;
-      font-size: .72rem;
-      font-weight: 800;
-      letter-spacing: .04em;
-      text-transform: uppercase;
-    }
+    .lineup-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 13px; }
+    .state { min-height: 28px; padding: 0 10px; background: var(--accent-soft); color: #3730a3; font-size: .72rem; text-transform: uppercase; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin: 22px 0 12px; }
+    .grid { display: flex; }
+    .card { flex: 1 1 220px; min-width: 220px; padding: 18px; text-decoration: none; }
+    .card-tag { min-height: 26px; padding: 0 10px; background: var(--accent-soft); color: #4338ca; font-size: .72rem; text-transform: uppercase; }
     .card h3 { margin: 12px 0 6px; font-size: 1.12rem; letter-spacing: -.04em; }
-    .card p { margin: 0; color: var(--muted); line-height: 1.62; }
-    .go {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 14px;
-      padding: 9px 12px;
-      border-radius: 999px;
-      background: var(--accent);
-      color: #fff;
-      font-weight: 700;
-    }
-    .note, .trust { margin-top: 16px; padding: 18px 20px; color: var(--muted); line-height: 1.7; }
-    .note strong, .trust strong { color: var(--text); }
-    .links { gap: 10px; margin-top: 10px; }
-    .links a {
-      text-decoration: none;
-      padding: 9px 13px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.86);
-      color: #334155;
-      font-weight: 700;
-    }
-    .footer {
-      margin-top: 24px;
-      padding-top: 16px;
-      border-top: 1px solid rgba(148,163,184,.28);
-      color: #64748b;
-      font-size: .92rem;
-      line-height: 1.7;
-    }
-    .footer a { color: #0f172a; text-decoration: none; font-weight: 700; }
-    .mobile-jump {
-      display: none;
-      gap: 8px;
-      margin-top: 14px;
-      padding: 10px;
-      border-radius: 18px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.86);
-    }
-    .mobile-jump a {
-      flex: 1 1 0;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 38px;
-      padding: 0 12px;
-      border-radius: 999px;
-      background: #fff;
-      border: 1px solid var(--line);
-      text-decoration: none;
-      font-size: .88rem;
-      font-weight: 700;
-      color: #334155;
-      text-align: center;
-    }
-    @media (max-width: 860px) {
-      .hero-grid { grid-template-columns: 1fr; }
-    }
+    .go { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; padding: 9px 12px; border-radius: 999px; background: var(--accent); color: #fff; font-weight: 700; }
+    .links { margin-top: 10px; }
+    .footer { margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(148, 163, 184, 0.28); color: #64748b; font-size: .92rem; line-height: 1.7; }
+    .footer a { text-decoration: none; font-weight: 700; }
+    .mobile-jump { display: none; gap: 8px; margin-top: 14px; padding: 10px; border-radius: 18px; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.86); }
+    .mobile-jump a { flex: 1 1 0; min-height: 38px; font-size: .88rem; text-align: center; }
+    @media (max-width: 860px) { .hero-grid { grid-template-columns: 1fr; } }
     @media (max-width: 640px) {
-      .wrap {
-        padding:
-          calc(12px + env(safe-area-inset-top, 0px))
-          calc(14px + env(safe-area-inset-right, 0px))
-          calc(48px + env(safe-area-inset-bottom, 0px))
-          calc(14px + env(safe-area-inset-left, 0px));
-      }
-      .topbar { margin-bottom: 12px; }
+      .wrap { padding: calc(12px + env(safe-area-inset-top, 0px)) calc(14px + env(safe-area-inset-right, 0px)) calc(48px + env(safe-area-inset-bottom, 0px)) calc(14px + env(safe-area-inset-left, 0px)); }
       .hero { padding: 18px 16px 16px; border-radius: 24px; }
       .panel, .card, .note, .trust { border-radius: 20px; }
       .section-head { flex-direction: column; align-items: start; }
-      .section-head { margin: 18px 0 10px; }
       .card { min-width: 0; flex-basis: 100%; }
-      .lineup-row { align-items: start; flex-direction: column; }
-      .lede {
-        font-size: .97rem;
-        line-height: 1.66;
-      }
-      .hero-actions {
-        display: none;
-      }
-      .hero-chips {
-        gap: 8px;
-        margin-top: 12px;
-      }
-      .chip {
-        min-height: 28px;
-        padding: 0 10px;
-        font-size: .8rem;
-      }
-      .hero-grid {
-        gap: 10px;
-      }
-      .panel {
-        padding: 16px 15px 14px;
-      }
-      .mini-list {
-        margin-top: 12px;
-        gap: 8px;
-      }
-      .mini-item {
-        min-width: 0;
-        padding: 11px 12px;
-      }
-      .mobile-jump {
-        display: flex;
-      }
-      .lineup {
-        display: none;
-      }
+      .lineup { display: none; }
+      .hero-actions { display: none; }
+      .mobile-jump { display: flex; }
     }
   </style>
 </head>
@@ -370,75 +113,55 @@
         <a href="/en/">Home</a>
         <a href="/en/games/" class="active" aria-current="page">Games</a>
         <a href="/en/luckydraw/">Lucky Draw</a>
-        <a href="/en/ladder/">Ladder Draw</a>
+        <a href="/en/ladder/">Ladder</a>
         <a href="/en/team-generator/">Team Split</a>
         <a href="/en/coinflip/">Coin Flip</a>
-        <a href="/en/dice/">Dice Roll</a>
+        <a href="/en/dice/">Dice</a>
       </nav>
     </div>
 
     <section class="hero">
       <span class="eyebrow">Playable lineup</span>
-      <h1>A Games hub that still feels like Randomly Pick</h1>
-      <p class="lede">The Games tab stays close to the rest of the site instead of behaving like a separate microsite. Snake, Number Merge, and Brick Breaker are all playable now inside the same product flow.</p>
+      <h1>Ten lightweight games in one Randomly Pick hub</h1>
+      <p class="lede">The Games tab stays close to the main product instead of behaving like a separate microsite. Each title opens fast, keeps the layout practical, and shares the same calm product tone as the rest of Randomly Pick.</p>
       <div class="hero-actions">
-        <a class="button primary" href="/en/games/snake/">Play Snake</a>
+        <a class="button primary" href="/en/games/snake/">Play now</a>
         <a class="button" href="#lineup">See lineup</a>
       </div>
       <div class="mobile-jump" aria-label="Mobile quick launch">
         <a href="/en/games/snake/">Snake</a>
         <a href="/en/games/number-merge/">Number Merge</a>
-        <a href="/en/games/brick-breaker/">Brick Breaker</a>
+        <a href="/en/games/memory-match/">Memory Match</a>
       </div>
       <div class="hero-chips" aria-label="Hub highlights">
-        <span class="chip">Playable now</span>
+        <span class="chip">10 playable titles</span>
         <span class="chip">Short-session games</span>
-        <span class="chip">Mobile friendly</span>
+        <span class="chip">Mobile / webview friendly</span>
         <span class="chip">Same product tone</span>
       </div>
       <div class="hero-grid">
         <div class="panel">
-          <h2>Two playable games now, one featured next</h2>
-          <p>The hub is framed as a practical extension of Randomly Pick, not as a separate game brand. Playable titles stay first, while the next title is visible early so the lineup feels deliberate instead of empty.</p>
+          <h2>Arcade, puzzle, memory, reflex</h2>
+          <p>The hub keeps the first row focused on easy entry points and leaves room for the rest of the lineup without turning into a separate brand. It is intentionally simple: quick to scan, quick to open, and easy to come back to later.</p>
           <div class="mini-list">
-            <div class="mini-item">
-              <strong>Snake</strong>
-              <span>The first arcade title on the hub</span>
-            </div>
-            <div class="mini-item">
-              <strong>Number Merge</strong>
-              <span>A light puzzle for repeat sessions</span>
-            </div>
-            <div class="mini-item">
-              <strong>Brick Breaker</strong>
-              <span>The third playable arcade title</span>
-            </div>
+            <div class="mini-item"><strong>Arcade</strong><span>Snake, Brick Breaker, Bubble Pop</span></div>
+            <div class="mini-item"><strong>Puzzle</strong><span>Number Merge, Color Lines, Sliding Puzzle</span></div>
+            <div class="mini-item"><strong>Memory / Focus</strong><span>Memory Match, Minesweeper Lite, Reaction Tap, Sequence Flash</span></div>
           </div>
         </div>
         <div class="panel lineup" id="lineup">
           <h2>Current lineup</h2>
           <div class="lineup-list">
-            <div class="lineup-row">
-              <div>
-                <strong>Snake</strong>
-                <span>The first playable title on the tab</span>
-              </div>
-              <span class="state">Play now</span>
-            </div>
-            <div class="lineup-row">
-              <div>
-                <strong>Number Merge</strong>
-                <span>The second playable puzzle</span>
-              </div>
-              <span class="state">Play now</span>
-            </div>
-            <div class="lineup-row">
-              <div>
-                <strong>Brick Breaker</strong>
-                <span>The third playable arcade title</span>
-              </div>
-              <span class="state">Play now</span>
-            </div>
+            <div class="lineup-row"><div><strong>Snake</strong><span>The easiest arcade starting point</span></div><span class="state">Live</span></div>
+            <div class="lineup-row"><div><strong>Number Merge</strong><span>A repeat-friendly merge puzzle</span></div><span class="state">Live</span></div>
+            <div class="lineup-row"><div><strong>Brick Breaker</strong><span>Fast reflex and clean bounce feel</span></div><span class="state">Live</span></div>
+            <div class="lineup-row"><div><strong>Memory Match</strong><span>A calm card-pairing memory game</span></div><span class="state">Live</span></div>
+            <div class="lineup-row"><div><strong>Minesweeper Lite</strong><span>Small-board logic with safe first click</span></div><span class="state">Live</span></div>
+            <div class="lineup-row"><div><strong>Reaction Tap</strong><span>Short reaction-time challenges</span></div><span class="state">Live</span></div>
+            <div class="lineup-row"><div><strong>Color Lines</strong><span>A planning-first board puzzle</span></div><span class="state">Live</span></div>
+            <div class="lineup-row"><div><strong>Bubble Pop</strong><span>Cluster-clearing puzzle loops</span></div><span class="state">Live</span></div>
+            <div class="lineup-row"><div><strong>Sequence Flash</strong><span>Pattern recall challenge</span></div><span class="state">Live</span></div>
+            <div class="lineup-row"><div><strong>Sliding Puzzle</strong><span>The classic 15-puzzle style</span></div><span class="state">Live</span></div>
           </div>
         </div>
       </div>
@@ -446,63 +169,34 @@
 
     <div class="section-head">
       <div>
-        <h2>Games and core tools in one dashboard</h2>
-        <p>Snake, Number Merge, and Brick Breaker all stay in the first row as playable cards, while the rest of the Randomly Pick tools remain nearby so the hub never feels detached from the main product.</p>
+        <h2>All games currently available</h2>
+        <p>Every card below points to a real game route. The hub stays practical on purpose, keeping the same calm pace as the rest of Randomly Pick.</p>
       </div>
     </div>
 
-    <section class="grid" aria-label="Games and tools list">
-      <a class="card" href="/en/games/snake/">
-        <span class="card-tag">Playable</span>
-        <h3>Snake</h3>
-        <p>A fast arcade loop with clean restart flow. It is still the easiest first click inside the Games tab.</p>
-        <span class="go">Play now</span>
-      </a>
-      <a class="card" href="/en/games/number-merge/">
-        <span class="card-tag">Playable</span>
-        <h3>Number Merge</h3>
-        <p>A short-session merge puzzle that gives the hub a second real destination without shifting the product tone.</p>
-        <span class="go">Open</span>
-      </a>
-      <a class="card" href="/en/games/brick-breaker/">
-        <span class="card-tag">Playable</span>
-        <h3>Brick Breaker</h3>
-        <p>The third playable arcade game. It adds familiar hand-feel while staying compatible with the current Randomly Pick layout.</p>
-        <span class="go">Play now</span>
-      </a>
-      <a class="card" href="/en/">
-        <span class="card-tag">Tool</span>
-        <h3>Wheel of Names</h3>
-        <p>Best for picking a person, topic, or turn order in one quick spin.</p>
-        <span class="go">Open</span>
-      </a>
-      <a class="card" href="/en/luckydraw/">
-        <span class="card-tag">Tool</span>
-        <h3>Lucky Draw</h3>
-        <p>Use it when the result should stay simple, visible, and easy to share.</p>
-        <span class="go">Open</span>
-      </a>
-      <a class="card" href="/en/team-generator/">
-        <span class="card-tag">Tool</span>
-        <h3>Team Split</h3>
-        <p>Build balanced teams for class, workshops, and group play without leaving the site.</p>
-        <span class="go">Open</span>
-      </a>
+    <section class="grid" aria-label="Game list">
+      <a class="card" href="/en/games/snake/"><span class="card-tag">Arcade</span><h3>Snake</h3><p>The easiest arcade title to start with. It keeps the classic loop, quick restarts, and a strong repeat-play feel.</p><span class="go">Play</span></a>
+      <a class="card" href="/en/games/number-merge/"><span class="card-tag">Puzzle</span><h3>Number Merge</h3><p>A light merge puzzle that still feels good in short sessions. Build up numbers and keep the flow going.</p><span class="go">Open</span></a>
+      <a class="card" href="/en/games/brick-breaker/"><span class="card-tag">Arcade</span><h3>Brick Breaker</h3><p>A reflex-first brick breaker with a clean bounce feel. It works well on mobile and stays easy to pick up.</p><span class="go">Play</span></a>
+      <a class="card" href="/en/games/memory-match/"><span class="card-tag">Memory</span><h3>Memory Match</h3><p>Flip cards, find the pairs, and clear the board. It is quiet, repeatable, and easy to return to.</p><span class="go">Open</span></a>
+      <a class="card" href="/en/games/minesweeper/"><span class="card-tag">Logic</span><h3>Minesweeper Lite</h3><p>A compact logic game with a safe first click and a lighter board size. Good for short focus breaks.</p><span class="go">Open</span></a>
+      <a class="card" href="/en/games/reaction-tap/"><span class="card-tag">Reflex</span><h3>Reaction Tap</h3><p>Short wait, one tap, and a clear read on reaction speed. Daily challenge and scoring keep it replayable.</p><span class="go">Open</span></a>
+      <a class="card" href="/en/games/color-lines/"><span class="card-tag">Puzzle</span><h3>Color Lines</h3><p>A planning-first board puzzle about moving pieces and clearing lines in a steady rhythm.</p><span class="go">Open</span></a>
+      <a class="card" href="/en/games/bubble-pop/"><span class="card-tag">Puzzle</span><h3>Bubble Pop</h3><p>Choose matching clusters and pop them cleanly. Bigger groups make the score flow feel better.</p><span class="go">Open</span></a>
+      <a class="card" href="/en/games/sequence-flash/"><span class="card-tag">Memory</span><h3>Sequence Flash</h3><p>Watch the order, repeat it back, and keep building the streak. Short rounds make repeated attempts easy.</p><span class="go">Open</span></a>
+      <a class="card" href="/en/games/sliding-puzzle/"><span class="card-tag">Puzzle</span><h3>Sliding Puzzle</h3><p>The classic 15-puzzle style with calm movement and a familiar grid-based finish line.</p><span class="go">Open</span></a>
     </section>
 
-    <section class="note">
-      <strong>Why the hub is tighter now</strong><br />
-      If the Games tab drifts too far from the rest of the site, it reads like a separate product. This version keeps the same navigation, information density, and trust links while still making room for the next featured game.
-    </section>
+    <section class="note"><strong>Why it is arranged this way</strong><br />As the game list grows, the hub needs to stay inside the same Randomly Pick product rhythm. That means practical copy, a familiar nav, and a lineup that feels curated without trying to become a separate game brand.</section>
 
     <section class="trust">
-      <strong>Trust and support</strong>
+      <strong>Site links</strong>
       <div class="links">
-        <a href="/en/about/">About</a>
+        <a id="footer-about" href="/en/about/">About</a>
         <a href="/en/guides/">Guides</a>
-        <a href="/en/privacy/">Privacy Policy</a>
-        <a href="/en/terms/">Terms</a>
-        <a href="/en/contact/">Contact</a>
+        <a id="footer-privacy" href="/en/privacy/">Privacy Policy</a>
+        <a id="footer-terms" href="/en/terms/">Terms</a>
+        <a id="footer-contact" href="/en/contact/">Contact</a>
       </div>
     </section>
 

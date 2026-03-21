@@ -525,3 +525,9 @@ How to use it:
 - Tightened the Games hubs for phones with `viewport-fit=cover`, safe-area-aware shell padding, and quicker mobile access to the live game cards so the tab feels less top-heavy inside an app webview.
 - Carried the same mobile-first baseline into the current game trio (`Snake`, `Number Merge`, `Brick Breaker`) and their QA/docs updates so tap targets, touch behavior, and narrow-shell layout are part of the release bar instead of a later polish pass.
 - Updated the scaffold and webgames workflow docs so new titles inherit the same app-webview-safe defaults from the start; rollout notes live in [GAMES_MOBILE_APP_WEBVIEW_PASS_2026-03-22.md](/home/user/roulette/GAMES_MOBILE_APP_WEBVIEW_PASS_2026-03-22.md).
+
+### 2026-03-22 - Games hub restored for the full 10-title lineup
+
+- Restored the deleted English hub page at `en/games/index.html` and re-synced both Games hubs so they present the full 10-title lineup with the same practical Randomly Pick tone.
+- Updated `scripts/validate-seo.js` so the expanded game routes are recognized in published-page validation and localized footer checks, keeping the new live game set inside the shared release contract.
+- Added [WEBGAMES_10_GAME_HUB_RELEASE_2026-03-22.md](/home/user/roulette/WEBGAMES_10_GAME_HUB_RELEASE_2026-03-22.md) as the short rollout note for this integration pass.

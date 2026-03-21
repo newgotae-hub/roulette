@@ -1,0 +1,49 @@
+{
+  "id": "reaction-tap",
+  "name": "Reaction Tap",
+  "pageCandidates": [
+    "/games/reaction-tap/",
+    "/reaction-tap/",
+    "/games/reaction-tap/index.html",
+    "/reaction-tap/index.html"
+  ],
+  "fallbackPath": "/assets/qa/webgames/reaction-tap-contract.html",
+  "requiredHooks": [
+    "QA_READY",
+    "render_game_to_text",
+    "advanceTime",
+    "reset"
+  ],
+  "parsedAssertions": [
+    { "key": "mode", "type": "string", "anyOfValues": ["classic", "sprint", "daily"] },
+    { "key": "phase", "type": "string", "anyOfValues": ["ready", "waiting", "armed", "feedback", "complete"] },
+    { "key": "round", "type": "number", "min": 0 },
+    { "key": "totalRounds", "type": "number", "min": 1 },
+    { "key": "score", "type": "number" },
+    { "key": "misses", "type": "number" },
+    { "key": "streak", "type": "number" },
+    { "key": "bestStreak", "type": "number" },
+    { "key": "fastestMs", "type": "number" },
+    { "key": "averageMs", "type": "number" },
+    { "key": "bestAverageMs", "type": "number" },
+    { "key": "bestReactionMs", "type": "number" },
+    { "key": "timeLeftMs", "type": "number", "min": 0 },
+    { "key": "timeLeft", "type": "number", "min": 0 },
+    { "key": "timer", "type": "number", "min": 0 },
+    { "key": "qaReady", "type": "boolean", "anyOfValues": ["true"] }
+  ],
+  "bursts": [
+    { "label": "boot", "calls": ["window.reset()"] },
+    { "label": "sprint-mode", "calls": ["document.getElementById('reaction-tap-sprint')?.click()"] },
+    { "label": "sprint-start", "calls": ["document.getElementById('reaction-tap-target')?.click()"] },
+    { "label": "sprint-arm", "advanceMs": 1800 },
+    { "label": "sprint-tap", "calls": ["document.getElementById('reaction-tap-target')?.click()"] },
+    { "label": "sprint-settle", "advanceMs": 720 },
+    { "label": "daily-mode", "calls": ["document.getElementById('reaction-tap-daily')?.click()"] },
+    { "label": "daily-start", "calls": ["document.getElementById('reaction-tap-target')?.click()"] },
+    { "label": "daily-arm", "advanceMs": 1800 },
+    { "label": "daily-tap", "calls": ["document.getElementById('reaction-tap-target')?.click()"] },
+    { "label": "daily-settle", "advanceMs": 720 },
+    { "label": "reset", "calls": ["window.reset()"] }
+  ]
+}

@@ -17,6 +17,18 @@ const ROBOTS_TXT = fs.readFileSync(path.join(ROOT, 'robots.txt'), 'utf8');
 const THIRD_PARTY_LOADER = fs.readFileSync(path.join(ROOT, 'assets/js/third-party-loader.js'), 'utf8');
 const LOCALIZED_LEGAL = new Set(NON_KO_LOCALES);
 const LOCALE_PATTERN = NON_KO_LOCALES.map((locale) => locale.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
+const PUBLISHED_GAMES = [
+  ['snake', 'Snake', '/assets/js/games-snake.js'],
+  ['number-merge', 'Number Merge', '/assets/js/games-number-merge.js'],
+  ['brick-breaker', 'Brick Breaker', '/assets/js/games-brick-breaker.js'],
+  ['memory-match', 'Memory Match', '/assets/js/games-memory-match.js'],
+  ['minesweeper', 'Minesweeper Lite', '/assets/js/games-minesweeper.js'],
+  ['reaction-tap', 'Reaction Tap', '/assets/js/games-reaction-tap.js'],
+  ['color-lines', 'Color Lines', '/assets/js/games-color-lines.js'],
+  ['bubble-pop', 'Bubble Pop', '/assets/js/games-bubble-pop.js'],
+  ['sequence-flash', 'Sequence Flash', '/assets/js/games-sequence-flash.js'],
+  ['sliding-puzzle', 'Sliding Puzzle', '/assets/js/games-sliding-puzzle.js']
+];
 const ALIAS_REDIRECTS = {
   'ko-kr': 'ko',
   'ja-jp': 'ja',
@@ -332,14 +344,10 @@ function validateTrustComplianceSignals(page, findings) {
 }
 
 function validatePublishedGamePages(page, findings) {
-  const publishedGamePages = [
-    ['/games/snake/', 'Snake', '/assets/js/games-snake.js'],
-    ['/en/games/snake/', 'Snake', '/assets/js/games-snake.js'],
-    ['/games/number-merge/', 'Number Merge', '/assets/js/games-number-merge.js'],
-    ['/en/games/number-merge/', 'Number Merge', '/assets/js/games-number-merge.js'],
-    ['/games/brick-breaker/', 'Brick Breaker', '/assets/js/games-brick-breaker.js'],
-    ['/en/games/brick-breaker/', 'Brick Breaker', '/assets/js/games-brick-breaker.js']
-  ];
+  const publishedGamePages = PUBLISHED_GAMES.flatMap(([slug, titleTerm, scriptRef]) => ([
+    [`/games/${slug}/`, titleTerm, scriptRef],
+    [`/en/games/${slug}/`, titleTerm, scriptRef]
+  ]));
   const match = publishedGamePages.find(([pagePath]) => page.pagePath === pagePath);
   if (!match) return;
 
@@ -355,22 +363,16 @@ function validatePublishedGamePages(page, findings) {
 
 function localeFromFooterPage(pagePath) {
   if (
-    pagePath === '/games/snake/' ||
-    pagePath === '/en/games/snake/' ||
-    pagePath === '/games/number-merge/' ||
-    pagePath === '/en/games/number-merge/' ||
-    pagePath === '/games/brick-breaker/' ||
-    pagePath === '/en/games/brick-breaker/'
-  ) {
-    return null;
-  }
-  if (
-    pagePath === '/' ||
-    /^\/(?:luckydraw|ladder|coinflip|dice|team-generator|games\/snake|games\/number-merge|games\/brick-breaker)\/$/.test(pagePath)
+    pagePath === '/'
   ) {
     return 'ko';
   }
-  const match = pagePath.match(new RegExp(`^\\/(${LOCALE_PATTERN})(?:\\/(?:luckydraw|ladder|coinflip|dice|team-generator|games\\/snake|games\\/number-merge|games\\/brick-breaker))?\\/$`));
+  if (
+    pagePath === '/en/games/'
+  ) {
+    return 'en';
+  }
+  const match = pagePath.match(new RegExp(`^\\/(${LOCALE_PATTERN})(?:\\/(?:luckydraw|ladder|coinflip|dice|team-generator))?\\/$`));
   return match ? match[1] : null;
 }
 

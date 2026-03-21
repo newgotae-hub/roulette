@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Sliding Puzzle | Randomly Pick</title>
+  <meta name="description" content="A polished 15-puzzle style sliding game with Classic, Timed, and Daily modes, Undo, New Puzzle, and mobile-friendly controls." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://randomly-pick.com/en/games/sliding-puzzle/" />
+  <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/sliding-puzzle/" />
+  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/games/sliding-puzzle/" />
+  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/games/sliding-puzzle/" />
+  <link rel="stylesheet" href="/assets/css/games-sliding-puzzle.css?v=20260322-sp1" />
+  <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
+</head>
+<body>
+  <main class="sp-wrap">
+    <header class="sp-topbar">
+      <div class="sp-brand">
+        <div class="sp-brand-mark">R.</div>
+        <div>
+          <div class="sp-brand-name">Randomly Pick</div>
+          <div class="sp-brand-sub">Sliding Puzzle</div>
+        </div>
+      </div>
+      <nav class="sp-nav" aria-label="Primary">
+        <a href="/en/">Home</a>
+        <a href="/en/games/" class="is-active" aria-current="page">Games</a>
+        <a href="/en/luckydraw/">Lucky Draw</a>
+        <a href="/en/ladder/">Ladder Draw</a>
+        <a href="/en/team-generator/">Team Split</a>
+        <a href="/en/coinflip/">Coin Flip</a>
+        <a href="/en/dice/">Dice Roll</a>
+      </nav>
+    </header>
+
+    <section class="sp-hero">
+      <span class="sp-eyebrow">15-puzzle style game</span>
+      <h1 class="sp-title">Sliding Puzzle</h1>
+      <p class="sp-lede">Slide number tiles into place until the board reads 1 through 15. Classic is free play, Timed adds pressure, and Daily uses the same shared seed for everyone today.</p>
+      <div class="sp-actions">
+        <a class="sp-button is-primary" href="#puzzle-workspace">Start puzzle</a>
+        <a class="sp-button" href="/en/games/">Back to Games</a>
+      </div>
+      <div class="sp-chips" aria-label="Game highlights">
+        <span class="sp-chip">Tap or use arrows</span>
+        <span class="sp-chip">4x4 15-puzzle board</span>
+        <span class="sp-chip">Timer and daily seed</span>
+        <span class="sp-chip">Undo and new puzzle</span>
+      </div>
+      <div class="sp-meta-row" aria-label="Current state">
+        <span id="sliding-puzzle-mode-label" class="sp-tag" data-phase="ready">Ready</span>
+      </div>
+      <div class="sp-hint">Move only the tiles that touch the blank. The board is deterministic, and a QA-only preset is also available for testing.</div>
+    </section>
+
+    <div class="sp-layout" id="puzzle-workspace">
+      <section class="sp-board-panel" aria-labelledby="board-title">
+        <div class="sp-panel-head">
+          <div>
+            <h2 id="board-title">Puzzle board</h2>
+            <p id="sliding-puzzle-goal">Put 1–15 in order and move the blank to the bottom-right.</p>
+          </div>
+          <div class="sp-toolbar">
+            <button id="sliding-puzzle-new" type="button">New puzzle</button>
+            <button id="sliding-puzzle-undo" type="button">Undo</button>
+            <button id="sliding-puzzle-reset" type="button" data-emphasis="true">Reset</button>
+          </div>
+        </div>
+
+        <div class="sp-mode" aria-label="Game mode">
+          <button id="sliding-puzzle-classic" type="button" data-puzzle-mode="classic">Classic</button>
+          <button id="sliding-puzzle-timed" type="button" data-puzzle-mode="timed">Timed</button>
+          <button id="sliding-puzzle-daily" type="button" data-puzzle-mode="daily">Daily</button>
+        </div>
+
+        <div class="sp-board-shell">
+          <div class="sp-board-frame" aria-label="Sliding puzzle board">
+            <div id="sliding-puzzle-board" class="sp-board"></div>
+          </div>
+
+          <div class="sp-pad" aria-label="Direction pad">
+            <button type="button" class="sp-pad-spacer" aria-hidden="true" tabindex="-1"></button>
+            <button type="button" data-puzzle-direction="up">↑</button>
+            <button type="button" class="sp-pad-spacer" aria-hidden="true" tabindex="-1"></button>
+            <button type="button" data-puzzle-direction="left">←</button>
+            <button type="button" data-puzzle-direction="down">↓</button>
+            <button type="button" data-puzzle-direction="right">→</button>
+          </div>
+
+          <div class="sp-stats" aria-label="Puzzle stats">
+            <div class="sp-stat"><span>Moves</span><strong id="sliding-puzzle-moves">0</strong></div>
+            <div class="sp-stat"><span>Time</span><strong id="sliding-puzzle-time">0:00</strong></div>
+            <div class="sp-stat"><span>Best time</span><strong id="sliding-puzzle-best-time">—</strong></div>
+            <div class="sp-stat"><span>Best moves</span><strong id="sliding-puzzle-best-moves">0</strong></div>
+            <div class="sp-stat"><span>Undos</span><strong id="sliding-puzzle-undos">0</strong></div>
+            <div class="sp-stat"><span>Blank</span><strong id="sliding-puzzle-blank">3,3</strong></div>
+            <div class="sp-stat"><span>Preset</span><strong id="sliding-puzzle-preset">Standard</strong></div>
+            <div class="sp-stat"><span>State</span><strong id="sliding-puzzle-state">ready</strong></div>
+          </div>
+
+          <div class="sp-status" id="sliding-puzzle-status" role="status" aria-live="polite">Tap a tile next to the blank or use the arrow pad to begin.</div>
+        </div>
+      </section>
+
+      <aside class="sp-side">
+        <section class="sp-section" aria-labelledby="how-title">
+          <div class="sp-section-head">
+            <h2 id="how-title">How to play</h2>
+            <p>The rules stay simple, and the return path stays short.</p>
+          </div>
+          <div class="sp-copy-grid">
+            <div class="sp-copy">
+              <strong>1. Slide tiles into the blank</strong>
+              <p>Tap or use the arrows. Only the tiles that touch the blank can move.</p>
+            </div>
+            <div class="sp-copy">
+              <strong>2. Restore the order</strong>
+              <p>Put the numbers back in order and leave the blank in the bottom-right corner.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="sp-section" aria-labelledby="mode-note-title">
+          <div class="sp-section-head">
+            <h2 id="mode-note-title">Mode note</h2>
+            <p id="sliding-puzzle-mode-note">Classic is free play, Timed adds pressure, and Daily uses today’s shared board.</p>
+          </div>
+        </section>
+
+        <section class="sp-section" aria-labelledby="fits-title">
+          <div class="sp-section-head">
+            <h2 id="fits-title">When it fits</h2>
+            <p>It works for a quick reset or a slower puzzle session.</p>
+          </div>
+          <div class="sp-why">
+            <strong>Short focus reset</strong>
+            <p>Even a couple of moves change the board immediately, which makes it good for a quick mental reset.</p>
+          </div>
+          <div class="sp-why" style="margin-top:12px;">
+            <strong>Repeat play</strong>
+            <p>Timed and Daily both give you a reason to replay the same style of board and do better.</p>
+          </div>
+        </section>
+
+        <section class="sp-section" aria-labelledby="better-title">
+          <div class="sp-section-head">
+            <h2 id="better-title">When another game is better</h2>
+            <p>This puzzle is not the answer for every mood.</p>
+          </div>
+          <div class="sp-why">
+            <strong>When you want a reflex hit</strong>
+            <p>If you want instant reaction instead of planning, Reaction Tap is the better fit.</p>
+          </div>
+          <div class="sp-why" style="margin-top:12px;">
+            <strong>When you want a tiny loop</strong>
+            <p>If you want something even shorter, Number Merge and Snake give you faster round pacing.</p>
+          </div>
+        </section>
+
+        <section class="sp-section" aria-labelledby="related-title">
+          <div class="sp-section-head">
+            <h2 id="related-title">Related links</h2>
+            <p>Move to another game with a different pace inside the same hub.</p>
+          </div>
+          <div class="sp-related">
+            <a href="/en/games/number-merge/"><strong>Number Merge</strong><br />A calmer puzzle game with a different rhythm.</a>
+            <a href="/en/games/snake/"><strong>Snake</strong><br />A more kinetic arcade loop when you want speed.</a>
+            <a href="/en/games/reaction-tap/"><strong>Reaction Tap</strong><br />A short reaction-speed game for tiny sessions.</a>
+            <a href="/en/about/"><strong>About</strong><br />See the site background and operating info.</a>
+          </div>
+        </section>
+
+        <section class="sp-trust">
+          <strong>Site links</strong>
+          <div class="sp-links">
+            <a href="/en/about/">About</a>
+            <a href="/en/guides/">Guides</a>
+            <a href="/en/privacy/">Privacy Policy</a>
+            <a href="/en/terms/">Terms</a>
+            <a href="/en/contact/">Contact</a>
+          </div>
+        </section>
+      </aside>
+    </div>
+
+    <div class="sp-footer">Randomly Pick · <a href="/en/games/">Games</a></div>
+  </main>
+
+  <script>
+    window.__SLIDING_PUZZLE_COPY__ = {
+      modeLabels: {
+        classic: 'Classic',
+        timed: 'Timed',
+        daily: 'Daily'
+      },
+      modeDescriptions: {
+        classic: 'Free play with no clock. Good when you want to learn the board and unwind.',
+        timed: 'A fixed countdown adds pressure. Good for quick repeat sessions.',
+        daily: 'The shared daily seed gives everyone the same board for the day.'
+      },
+      modeNotes: {
+        classic: 'Classic is the free-play board. Undo is safe, and a fresh puzzle is always one tap away.',
+        timed: 'Timed mode adds a countdown so you can chase faster solves.',
+        daily: 'Daily mode uses today’s shared seed so every visit has the same puzzle.'
+      },
+      phaseLabels: {
+        ready: 'ready',
+        playing: 'playing',
+        solved: 'solved',
+        timeout: 'timeout'
+      },
+      statuses: {
+        ready: 'Tap a tile next to the blank or use the arrow pad to begin.',
+        playing: 'Keep sliding tiles toward the solved grid.',
+        solved: 'Puzzle solved. Try a new puzzle or beat your time.',
+        timeout: 'Time is up. Reset and try again.'
+      },
+      presetLabels: {
+        standard: 'Standard',
+        qa: 'QA preset'
+      },
+      goalText: 'Put 1–15 in order and leave the blank in the bottom-right.',
+      timeLabels: {
+        classic: 'Elapsed',
+        timed: 'Time left',
+        daily: 'Time left'
+      }
+    };
+    window.__SLIDING_PUZZLE_META__ = {
+      lang: 'en'
+    };
+  </script>
+  <script src="/assets/js/games-sliding-puzzle.js?v=20260322-sp1"></script>
+</body>
+</html>

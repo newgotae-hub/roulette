@@ -6,7 +6,19 @@ const { NON_KO_LOCALES } = require('./legal-shared');
 const root = path.resolve(__dirname, '..');
 const langs = NON_KO_LOCALES;
 const tools = ['roulette','luckydraw','ladder','team-generator','coinflip','dice'];
-const gamePages = ['games', 'games/snake', 'games/number-merge', 'games/brick-breaker'];
+const GAME_SLUGS = [
+  'snake',
+  'number-merge',
+  'brick-breaker',
+  'memory-match',
+  'minesweeper',
+  'reaction-tap',
+  'color-lines',
+  'bubble-pop',
+  'sequence-flash',
+  'sliding-puzzle'
+];
+const gamePages = ['games'].concat(GAME_SLUGS.map((slug) => `games/${slug}`));
 const legalPages = ['privacy','terms','contact','about'];
 const localizedLegalLangs = NON_KO_LOCALES;
 const localizedLegalPages = ['privacy', 'terms', 'contact', 'about'];
@@ -88,30 +100,6 @@ for (const page of gamePages) {
   main.push(`    <xhtml:link rel="alternate" hreflang="x-default" href="${enLoc}"/>`);
   main.push('  </url>');
 }
-main.push('  <url>');
-main.push('    <loc>https://randomly-pick.com/games/</loc>');
-main.push(`    <lastmod>${today}</lastmod>`);
-main.push('    <changefreq>weekly</changefreq>');
-main.push('    <priority>0.7</priority>');
-main.push('  </url>');
-main.push('  <url>');
-main.push('    <loc>https://randomly-pick.com/games/snake/</loc>');
-main.push(`    <lastmod>${today}</lastmod>`);
-main.push('    <changefreq>weekly</changefreq>');
-main.push('    <priority>0.7</priority>');
-main.push('  </url>');
-main.push('  <url>');
-main.push('    <loc>https://randomly-pick.com/games/number-merge/</loc>');
-main.push(`    <lastmod>${today}</lastmod>`);
-main.push('    <changefreq>weekly</changefreq>');
-main.push('    <priority>0.7</priority>');
-main.push('  </url>');
-main.push('  <url>');
-main.push('    <loc>https://randomly-pick.com/games/brick-breaker/</loc>');
-main.push(`    <lastmod>${today}</lastmod>`);
-main.push('    <changefreq>weekly</changefreq>');
-main.push('    <priority>0.7</priority>');
-main.push('  </url>');
 main.push('</urlset>');
 
 const locales = [];
@@ -133,30 +121,17 @@ for (const lang of langs) {
     locales.push('  </url>');
   }
 }
-locales.push('  <url>');
-locales.push('    <loc>https://randomly-pick.com/en/games/</loc>');
-locales.push(`    <lastmod>${today}</lastmod>`);
-locales.push('    <changefreq>weekly</changefreq>');
-locales.push('    <priority>0.7</priority>');
-locales.push('  </url>');
-locales.push('  <url>');
-locales.push('    <loc>https://randomly-pick.com/en/games/snake/</loc>');
-locales.push(`    <lastmod>${today}</lastmod>`);
-locales.push('    <changefreq>weekly</changefreq>');
-locales.push('    <priority>0.7</priority>');
-locales.push('  </url>');
-locales.push('  <url>');
-locales.push('    <loc>https://randomly-pick.com/en/games/number-merge/</loc>');
-locales.push(`    <lastmod>${today}</lastmod>`);
-locales.push('    <changefreq>weekly</changefreq>');
-locales.push('    <priority>0.7</priority>');
-locales.push('  </url>');
-locales.push('  <url>');
-locales.push('    <loc>https://randomly-pick.com/en/games/brick-breaker/</loc>');
-locales.push(`    <lastmod>${today}</lastmod>`);
-locales.push('    <changefreq>weekly</changefreq>');
-locales.push('    <priority>0.7</priority>');
-locales.push('  </url>');
+for (const page of gamePages) {
+  const loc = page === 'games'
+    ? 'https://randomly-pick.com/en/games/'
+    : `https://randomly-pick.com/en/${page}/`;
+  locales.push('  <url>');
+  locales.push(`    <loc>${loc}</loc>`);
+  locales.push(`    <lastmod>${today}</lastmod>`);
+  locales.push('    <changefreq>weekly</changefreq>');
+  locales.push('    <priority>0.7</priority>');
+  locales.push('  </url>');
+}
 for (const lang of localizedLegalLangs) {
   for (const page of localizedLegalPages) {
     locales.push('  <url>');
@@ -177,30 +152,6 @@ for (const lang of localizedGuideLangs) {
     locales.push('  </url>');
   }
 }
-locales.push('  <url>');
-locales.push('    <loc>https://randomly-pick.com/en/games/</loc>');
-locales.push(`    <lastmod>${today}</lastmod>`);
-locales.push('    <changefreq>weekly</changefreq>');
-locales.push('    <priority>0.7</priority>');
-locales.push('  </url>');
-locales.push('  <url>');
-locales.push('    <loc>https://randomly-pick.com/en/games/snake/</loc>');
-locales.push(`    <lastmod>${today}</lastmod>`);
-locales.push('    <changefreq>weekly</changefreq>');
-locales.push('    <priority>0.7</priority>');
-locales.push('  </url>');
-locales.push('  <url>');
-locales.push('    <loc>https://randomly-pick.com/en/games/number-merge/</loc>');
-locales.push(`    <lastmod>${today}</lastmod>`);
-locales.push('    <changefreq>weekly</changefreq>');
-locales.push('    <priority>0.7</priority>');
-locales.push('  </url>');
-locales.push('  <url>');
-locales.push('    <loc>https://randomly-pick.com/en/games/brick-breaker/</loc>');
-locales.push(`    <lastmod>${today}</lastmod>`);
-locales.push('    <changefreq>weekly</changefreq>');
-locales.push('    <priority>0.7</priority>');
-locales.push('  </url>');
 locales.push('</urlset>');
 
 const index = [

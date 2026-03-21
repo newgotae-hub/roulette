@@ -1,0 +1,108 @@
+{
+  "id": "memory-match-en",
+  "name": "Memory Match",
+  "pageCandidates": [
+    "/en/games/memory-match/",
+    "/en/games/memory-match/index.html",
+    "/games/memory-match/",
+    "/games/memory-match/index.html"
+  ],
+  "fallbackPath": "/assets/qa/webgames/memory-match-contract.html",
+  "requiredHooks": [
+    "QA_READY",
+    "render_game_to_text",
+    "advanceTime",
+    "reset"
+  ],
+  "parsedAssertions": [
+    {
+      "key": "mode",
+      "type": "string",
+      "anyOfValues": [
+        "classic"
+      ]
+    },
+    {
+      "key": "phase",
+      "type": "string",
+      "anyOfValues": [
+        "ready",
+        "playing",
+        "resolving",
+        "complete"
+      ]
+    },
+    {
+      "key": "score",
+      "type": "number"
+    },
+    {
+      "key": "best",
+      "type": "number"
+    },
+    {
+      "key": "turns",
+      "type": "number"
+    },
+    {
+      "key": "matches",
+      "type": "number"
+    },
+    {
+      "key": "remaining",
+      "type": "number"
+    },
+    {
+      "key": "streak",
+      "type": "number"
+    },
+    {
+      "key": "focusedIndex",
+      "type": "number"
+    },
+    {
+      "key": "locked",
+      "type": "boolean"
+    },
+    {
+      "key": "pendingResolveMs",
+      "type": "number"
+    },
+    {
+      "key": "boardSize",
+      "type": "number"
+    },
+    {
+      "key": "cards",
+      "type": "array"
+    }
+  ],
+  "bursts": [
+    {
+      "label": "boot",
+      "calls": [
+        "window.reset()"
+      ]
+    },
+    {
+      "label": "match-first-pair",
+      "calls": [
+        "(() => { const cards = Array.from(document.querySelectorAll('[data-pair]')); const first = cards.find((card) => card.dataset.state === 'hidden'); const pair = first?.dataset.pair; const second = cards.find((card) => card !== first && card.dataset.state === 'hidden' && card.dataset.pair === pair); first?.click(); second?.click(); })()"
+      ],
+      "advanceMs": 220
+    },
+    {
+      "label": "mismatch-resolve",
+      "calls": [
+        "(() => { const cards = Array.from(document.querySelectorAll('[data-pair]')).filter((card) => card.dataset.state === 'hidden'); const first = cards[0]; const second = cards.find((card) => card.dataset.pair !== first?.dataset.pair); first?.click(); second?.click(); })()"
+      ],
+      "advanceMs": 700
+    },
+    {
+      "label": "reset",
+      "calls": [
+        "window.reset()"
+      ]
+    }
+  ]
+}

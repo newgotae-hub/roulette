@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Sequence Flash | Randomly Pick</title>
+  <meta name="description" content="브라우저에서 바로 하는 Sequence Flash. 빛나는 패드 순서를 기억해 그대로 누르고, 라운드가 길어질수록 더 빠른 리듬을 따라가는 메모리 게임입니다." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://randomly-pick.com/games/sequence-flash/" />
+  <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/sequence-flash/" />
+  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/games/sequence-flash/" />
+  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/games/sequence-flash/" />
+  <link rel="stylesheet" href="/assets/css/games-sequence-flash.css?v=20260322-sf1" />
+  <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
+</head>
+<body>
+  <main class="sf-wrap">
+    <header class="sf-topbar">
+      <div class="sf-brand">
+        <div class="sf-brand-mark">R.</div>
+        <div>
+          <div class="sf-brand-name">Randomly Pick</div>
+          <div class="sf-brand-sub">Sequence Flash</div>
+        </div>
+      </div>
+      <nav class="sf-nav" aria-label="주요 메뉴">
+        <a href="/">홈</a>
+        <a href="/games/" class="is-active" aria-current="page">게임</a>
+        <a href="/luckydraw/">럭키 드로우</a>
+        <a href="/ladder/">사다리</a>
+        <a href="/team-generator/">팀 나누기</a>
+        <a href="/coinflip/">동전 던지기</a>
+        <a href="/dice/">주사위</a>
+      </nav>
+    </header>
+
+    <section class="sf-hero">
+      <span class="sf-eyebrow">메모리 게임</span>
+      <h1 class="sf-title">Sequence Flash</h1>
+      <p class="sf-lede">빛나는 패드 순서를 보고 그대로 따라 누르는 Simon 스타일 메모리 게임입니다. 라운드가 길어질수록 리듬이 짧아지고, 데일리 챌린지로 오늘의 같은 시퀀스를 다시 도전할 수도 있습니다.</p>
+      <div class="sf-actions">
+        <a class="sf-button is-primary" href="#play-area">게임 시작</a>
+        <a class="sf-button" href="/games/">게임 허브로</a>
+      </div>
+      <div class="sf-chips" aria-label="게임 하이라이트">
+        <span class="sf-chip">4패드 기억 게임</span>
+        <span class="sf-chip">데일리 챌린지</span>
+        <span class="sf-chip">터치와 키보드 지원</span>
+        <span class="sf-chip">디터미니틱 QA 훅</span>
+      </div>
+      <div class="sf-tag-row" aria-label="현재 게임 상태">
+        <span id="sequence-flash-tag" class="sf-tag" data-state="ready">자유 · 준비됨</span>
+      </div>
+      <div class="sf-hint" id="sequence-flash-hint">시작을 누르면 패드가 순서대로 빛납니다. 보여준 순서 그대로 누르면 다음 라운드가 시작됩니다.</div>
+      <div class="sf-mobile-flow" id="sequence-flash-mobile-flow">모바일에서는 먼저 빛나는 순서를 보고, 그다음 같은 패드를 차례대로 탭하세요. 패드가 클수록 첫 플레이가 훨씬 덜 헷갈립니다.</div>
+    </section>
+
+    <div class="sf-layout" id="play-area">
+      <section class="sf-panel" aria-labelledby="board-title">
+        <div class="sf-panel-head">
+          <h2 id="board-title">패드 보드</h2>
+          <div class="sf-toolbar">
+            <button id="sequence-flash-start" type="button">시작</button>
+            <button id="sequence-flash-daily" type="button">데일리 챌린지</button>
+            <button id="sequence-flash-reset" type="button">리셋</button>
+          </div>
+        </div>
+        <div class="sf-board-shell">
+          <div class="sf-board" aria-label="Sequence Flash 패드 보드">
+            <button id="sequence-flash-pad-coral" class="sf-pad" type="button" data-color="coral" aria-label="핑크 패드"><span>핑크</span></button>
+            <button id="sequence-flash-pad-sky" class="sf-pad" type="button" data-color="sky" aria-label="블루 패드"><span>블루</span></button>
+            <button id="sequence-flash-pad-mint" class="sf-pad" type="button" data-color="mint" aria-label="민트 패드"><span>민트</span></button>
+            <button id="sequence-flash-pad-amber" class="sf-pad" type="button" data-color="amber" aria-label="오렌지 패드"><span>오렌지</span></button>
+          </div>
+        </div>
+        <div class="sf-controls">
+          <div>
+            <div class="sf-stat"><span>다음 기억</span><strong id="sequence-flash-next" class="sf-preview"></strong></div>
+          </div>
+          <div>
+            <div class="sf-stats" aria-label="현재 게임 정보">
+              <div class="sf-stat"><span>라운드</span><strong id="sequence-flash-round">0</strong></div>
+              <div class="sf-stat"><span>최고 라운드</span><strong id="sequence-flash-best">0</strong></div>
+              <div class="sf-stat"><span>데일리 최고</span><strong id="sequence-flash-daily-best">0</strong></div>
+              <div class="sf-stat"><span>연속 성공</span><strong id="sequence-flash-streak">0</strong></div>
+              <div class="sf-stat"><span>플래시 속도</span><strong id="sequence-flash-speed">130 /min</strong></div>
+            </div>
+            <div class="sf-status" id="sequence-flash-status">시작을 누르고 패드를 먼저 눈으로 따라가세요. 입력 구간이 오기 전에는 보기만 하는 것이 좋습니다.</div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="sf-panel" aria-labelledby="guide-title">
+        <div class="sf-panel-head"><h2 id="guide-title">어떻게 돌아가나요</h2></div>
+        <p>Sequence Flash는 반응 속도보다 기억 유지가 중요합니다. 라운드가 하나 늘 때마다 시퀀스가 한 칸 더 길어지고, 같은 패턴을 놓치지 않고 이어서 기억하는지가 핵심이 됩니다.</p>
+        <div class="sf-section sf-copy-grid" style="margin-top:16px;">
+          <div class="sf-copy-card"><strong>첫 플레이 흐름</strong><p>시작을 누르면 먼저 보기가 시작되고, 그다음 입력 구간으로 넘어갑니다. 그래서 규칙 설명 없이도 “먼저 보고, 나중에 누른다”는 흐름이 자연스럽게 전달됩니다.</p></div>
+          <div class="sf-copy-card"><strong>데일리 챌린지</strong><p>데일리 챌린지는 오늘 모두가 같은 시드로 시작합니다. 계정 없이도 “오늘은 어디까지 갔는지” 비교하기 좋게 만든 반복 루프입니다.</p></div>
+        </div>
+        <div class="sf-section" style="margin-top:16px;">
+          <div class="sf-section-head"><h2>랜덤리픽에 맞는 이유</h2></div>
+          <p>화려한 네온 사이트처럼 보이기보다, 사이트 안에서 바로 이해되는 게임 탭처럼 보이게 구성했습니다. 규칙, 상태, 다음 행동이 한 화면에 자연스럽게 붙어 있습니다.</p>
+        </div>
+      </aside>
+    </div>
+
+    <section class="sf-section" aria-labelledby="howto-title">
+      <div class="sf-section-head">
+        <h2 id="howto-title">플레이 방법</h2>
+        <p>보는 구간과 누르는 구간이 분리되어 있어서, 기억 유지에만 집중하면 됩니다.</p>
+      </div>
+      <div class="sf-steps">
+        <div class="sf-step"><strong>1. 먼저 봅니다.</strong> 시작하면 패드가 순서대로 빛나고, 그동안은 입력하지 않습니다.</div>
+        <div class="sf-step"><strong>2. 그대로 누릅니다.</strong> 방금 본 순서를 같은 차례로 누르면 다음 라운드가 이어집니다.</div>
+        <div class="sf-step"><strong>3. 점점 빨라집니다.</strong> 라운드가 길어질수록 플래시가 짧아져서 기억과 리듬을 같이 챙겨야 합니다.</div>
+      </div>
+    </section>
+
+    <section class="sf-section" aria-labelledby="uses-title">
+      <div class="sf-section-head">
+        <h2 id="uses-title">이럴 때 잘 맞습니다</h2>
+        <p>짧게 시작하고, 실수하면 바로 다시 할 수 있는 가벼운 메모리 게임이 필요할 때 좋습니다.</p>
+      </div>
+      <div class="sf-uses">
+        <div class="sf-use"><strong>짧은 집중 휴식</strong> 한 판이 짧아서 화면을 오래 붙잡지 않아도 됩니다.</div>
+        <div class="sf-use"><strong>데일리 재도전</strong> 오늘의 같은 시퀀스를 다시 해 보는 루프가 자연스럽습니다.</div>
+        <div class="sf-use"><strong>터치 중심 데모</strong> 큰 패드를 탭하는 구조라 모바일과 앱 웹뷰에서 설명이 쉽습니다.</div>
+      </div>
+    </section>
+
+    <section class="sf-section" aria-labelledby="related-title">
+      <div class="sf-section-head">
+        <h2 id="related-title">더 많은 Randomly Pick 도구</h2>
+        <p>더 차분한 보드 퍼즐이나 더 빠른 반응 게임으로도 바로 이동할 수 있습니다.</p>
+      </div>
+      <div class="sf-related">
+        <a href="/games/color-lines/"><strong>Color Lines</strong><br />기억보다 동선과 보드 정리가 중요한 퍼즐입니다.</a>
+        <a href="/games/snake/"><strong>Snake</strong><br />더 빠른 반응형 게임으로 전환할 수 있습니다.</a>
+        <a href="/games/number-merge/"><strong>Number Merge</strong><br />숫자 합치기 중심의 조용한 퍼즐로 이어집니다.</a>
+        <a href="/about/"><strong>소개</strong><br />사이트와 운영 정보를 확인합니다.</a>
+      </div>
+    </section>
+
+    <section class="sf-trust">
+      <strong>사이트 링크</strong>
+      <div class="sf-links">
+        <a href="/about/">About</a>
+        <a href="/guides/">Guides</a>
+        <a href="/privacy/">Privacy Policy</a>
+        <a href="/terms/">Terms</a>
+        <a href="/contact/">Contact</a>
+      </div>
+    </section>
+
+    <div class="sf-footer">Randomly Pick · <a href="/games/">게임</a></div>
+  </main>
+
+  <script>
+    window.__SEQUENCE_FLASH_COPY__ = {
+      readyLabel: '준비됨',
+      showingLabel: '보는 중',
+      inputLabel: '입력 차례',
+      successLabel: '성공',
+      gameoverLabel: '실수',
+      readyStatus: '시작을 누르고 패드를 먼저 눈으로 따라가세요. 입력 구간이 오기 전에는 보기만 하는 것이 좋습니다.',
+      dailyReadyStatus: '데일리 시퀀스가 준비됐습니다. 오늘 모두가 같은 시작 시드를 씁니다.',
+      showingStatus: '지금은 보는 구간입니다. 순서를 머릿속에 남겨 두세요.',
+      inputStatus: '이제 같은 순서로 패드를 누르세요.',
+      successStatus: '성공했습니다. 다음 라운드가 곧 이어집니다.',
+      gameoverStatus: '순서를 놓쳤습니다. 리셋해서 최고 라운드에 다시 도전해 보세요.',
+      hint: '시작을 누르면 패드가 순서대로 빛납니다. 보여준 순서 그대로 누르면 다음 라운드가 시작됩니다.',
+      dailyHint: '데일리 챌린지는 오늘 모두가 같은 시퀀스를 봅니다. 기억 규칙은 같고, 비교 조건만 같습니다.',
+      mobileFlowReady: '모바일에서는 먼저 빛나는 순서를 보고, 그다음 같은 패드를 차례대로 탭하세요.',
+      mobileFlowWatch: '지금은 보기만 하는 구간입니다. 패드가 빛나는 순서를 그대로 기억해 두세요.',
+      mobileFlowInput: '입력 차례입니다. 방금 본 순서를 그대로 탭하면 됩니다.',
+      mobileFlowGameover: '순서를 놓쳤습니다. 리셋하거나 데일리 챌린지로 새 시퀀스를 시작해 보세요.',
+      startButton: '시작',
+      dailyButton: '데일리 챌린지',
+      resetButton: '리셋',
+      freeModeLabel: '자유',
+      dailyModeLabel: '데일리',
+      previewIdle: '먼저 보기',
+      coralLabel: '핑크',
+      skyLabel: '블루',
+      mintLabel: '민트',
+      amberLabel: '오렌지'
+    };
+    window.__SEQUENCE_FLASH_META__ = {
+      slug: 'sequence-flash',
+      lang: 'ko',
+      mode: 'free'
+    };
+  </script>
+  <script src="/assets/js/games-sequence-flash.js?v=20260322-sf1"></script>
+</body>
+</html>

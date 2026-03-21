@@ -1,0 +1,138 @@
+{
+  "id": "minesweeper-en",
+  "name": "Minesweeper Lite EN",
+  "pageCandidates": [
+    "/en/games/minesweeper/",
+    "/en/games/minesweeper/index.html"
+  ],
+  "fallbackPath": "/assets/qa/webgames/minesweeper-contract.html",
+  "requiredHooks": [
+    "QA_READY",
+    "render_game_to_text",
+    "advanceTime",
+    "reset"
+  ],
+  "parsedAssertions": [
+    {
+      "key": "mode",
+      "type": "string",
+      "anyOfValues": [
+        "free",
+        "daily"
+      ]
+    },
+    {
+      "key": "phase",
+      "type": "string",
+      "anyOfValues": [
+        "ready",
+        "playing",
+        "won",
+        "lost"
+      ]
+    },
+    {
+      "key": "tool",
+      "type": "string",
+      "anyOfValues": [
+        "reveal",
+        "flag"
+      ]
+    },
+    {
+      "key": "seed",
+      "type": "number"
+    },
+    {
+      "key": "flagsPlaced",
+      "type": "number",
+      "min": 0
+    },
+    {
+      "key": "revealedCount",
+      "type": "number",
+      "min": 0
+    },
+    {
+      "key": "safeRemaining",
+      "type": "number",
+      "min": 0
+    },
+    {
+      "key": "elapsedMs",
+      "type": "number",
+      "min": 0
+    },
+    {
+      "key": "bestTimeMs",
+      "type": "number",
+      "min": 0
+    },
+    {
+      "key": "dailyBestTimeMs",
+      "type": "number",
+      "min": 0
+    },
+    {
+      "key": "cursor",
+      "type": "object"
+    },
+    {
+      "key": "board",
+      "type": "array"
+    },
+    {
+      "key": "lastAction",
+      "type": "string"
+    },
+    {
+      "key": "qaReady",
+      "type": "boolean",
+      "anyOfValues": [
+        "true"
+      ]
+    }
+  ],
+  "bursts": [
+    {
+      "label": "boot",
+      "calls": [
+        "window.reset()"
+      ]
+    },
+    {
+      "label": "flag-tool",
+      "calls": [
+        "document.getElementById('ms-flag-mode')?.click()"
+      ]
+    },
+    {
+      "label": "reveal-tool",
+      "calls": [
+        "document.getElementById('ms-reveal-mode')?.click()"
+      ]
+    },
+    {
+      "label": "daily-board",
+      "calls": [
+        "document.getElementById('ms-daily')?.click()"
+      ],
+      "advanceMs": 120
+    },
+    {
+      "label": "time-advance",
+      "calls": [
+        "window.reset()",
+        "document.getElementById('ms-cell-24')?.click()"
+      ],
+      "advanceMs": 700
+    },
+    {
+      "label": "reset",
+      "calls": [
+        "window.reset()"
+      ],
+      "advanceMs": 120
+    }
+  ]
+}

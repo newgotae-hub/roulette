@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Sequence Flash QA Contract Harness</title>
+  <link rel="stylesheet" href="/assets/css/games-sequence-flash.css?v=20260322-sf1" />
+</head>
+<body>
+  <main class="sf-wrap">
+    <section class="sf-panel" style="margin-bottom:18px;">
+      <div class="sf-panel-head">
+        <div>
+          <h1 style="margin:0;font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:-.05em;">Sequence Flash QA Contract Harness</h1>
+          <p style="margin:8px 0 0;color:#475569;line-height:1.7;">This keeps the same runtime hooks as the production route while staying small enough for fallback QA.</p>
+        </div>
+        <div class="sf-tag" data-state="ready">QA harness</div>
+      </div>
+      <div class="sf-toolbar" style="margin-top:16px;">
+        <button id="sequence-flash-start" type="button">Start</button>
+        <button id="sequence-flash-daily" type="button">Daily challenge</button>
+        <button id="sequence-flash-reset" type="button">Reset</button>
+      </div>
+    </section>
+
+    <section class="sf-panel">
+      <div class="sf-board">
+        <button id="sequence-flash-pad-coral" class="sf-pad" type="button" data-color="coral"><span>Coral</span></button>
+        <button id="sequence-flash-pad-sky" class="sf-pad" type="button" data-color="sky"><span>Blue</span></button>
+        <button id="sequence-flash-pad-mint" class="sf-pad" type="button" data-color="mint"><span>Mint</span></button>
+        <button id="sequence-flash-pad-amber" class="sf-pad" type="button" data-color="amber"><span>Amber</span></button>
+      </div>
+      <div class="sf-controls">
+        <div>
+          <div class="sf-stat"><span>Next memory</span><strong id="sequence-flash-next" class="sf-preview"></strong></div>
+        </div>
+        <div>
+          <div class="sf-stats">
+            <div class="sf-stat"><span>Round</span><strong id="sequence-flash-round">0</strong></div>
+            <div class="sf-stat"><span>Best round</span><strong id="sequence-flash-best">0</strong></div>
+            <div class="sf-stat"><span>Daily best</span><strong id="sequence-flash-daily-best">0</strong></div>
+            <div class="sf-stat"><span>Streak</span><strong id="sequence-flash-streak">0</strong></div>
+            <div class="sf-stat"><span>Flash speed</span><strong id="sequence-flash-speed">130 /min</strong></div>
+          </div>
+          <div class="sf-status" id="sequence-flash-status">Press Start and watch first.</div>
+          <div class="sf-tag-row">
+            <span id="sequence-flash-tag" class="sf-tag" data-state="ready">Free · Ready</span>
+          </div>
+          <div id="sequence-flash-hint" class="sf-hint">Watch the pads first, then repeat the pattern.</div>
+          <div id="sequence-flash-mobile-flow" class="sf-mobile-flow">The game shows first and accepts input second.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    window.__SEQUENCE_FLASH_COPY__ = {
+      readyLabel: 'Ready',
+      showingLabel: 'Watching',
+      inputLabel: 'Your turn',
+      successLabel: 'Clear',
+      gameoverLabel: 'Missed',
+      readyStatus: 'Press Start and watch first.',
+      dailyReadyStatus: 'Daily sequence ready.',
+      showingStatus: 'Watch the pads and hold the order in memory.',
+      inputStatus: 'Now repeat the same order.',
+      successStatus: 'Round clear.',
+      gameoverStatus: 'Sequence missed.',
+      hint: 'Watch the pads first, then repeat the pattern.',
+      dailyHint: 'Daily challenge uses the same seed for everyone today.',
+      mobileFlowReady: 'The game shows first and accepts input second.',
+      mobileFlowWatch: 'The game is showing the sequence now.',
+      mobileFlowInput: 'It is your turn now.',
+      mobileFlowGameover: 'The pattern was missed. Reset for a fresh run.',
+      startButton: 'Start',
+      dailyButton: 'Daily challenge',
+      resetButton: 'Reset',
+      freeModeLabel: 'Free',
+      dailyModeLabel: 'Daily',
+      previewIdle: 'Watch first',
+      coralLabel: 'Coral',
+      skyLabel: 'Blue',
+      mintLabel: 'Mint',
+      amberLabel: 'Amber'
+    };
+    window.__SEQUENCE_FLASH_META__ = {
+      slug: 'sequence-flash',
+      lang: 'en',
+      mode: 'free'
+    };
+  </script>
+  <script src="/assets/js/games-sequence-flash.js?v=20260322-sf1"></script>
+</body>
+</html>

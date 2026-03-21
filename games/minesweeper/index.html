@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f8fafc" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <title>Minesweeper Lite | Randomly Pick</title>
+  <meta name="description" content="랜덤리픽의 가벼운 지뢰찾기입니다. 첫 클릭은 안전하고, 깃발과 숫자를 빠르게 읽으며 모바일에서도 편하게 즐길 수 있습니다." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://randomly-pick.com/games/minesweeper/" />
+  <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/minesweeper/" />
+  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/games/minesweeper/" />
+  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/games/minesweeper/" />
+  <link rel="stylesheet" href="/assets/css/games-minesweeper.css?v=20260322-mine1" />
+  <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
+</head>
+<body>
+  <main class="ms-wrap">
+    <div class="ms-topbar">
+      <div class="ms-brand">
+        <div class="ms-brand-mark">R.</div>
+        <div>
+          <div class="ms-brand-name">Randomly Pick</div>
+          <div class="ms-brand-sub">Minesweeper Lite</div>
+        </div>
+      </div>
+      <nav class="ms-nav" aria-label="주요 메뉴">
+        <a href="/">홈</a>
+        <a href="/games/" class="is-active" aria-current="page">Games</a>
+        <a href="/luckydraw/">럭키 드로우</a>
+        <a href="/ladder/">사다리</a>
+        <a href="/team-generator/">팀 나누기</a>
+        <a href="/coinflip/">동전 뒤집기</a>
+        <a href="/dice/">주사위</a>
+      </nav>
+    </div>
+
+    <section class="ms-hero">
+      <span class="ms-eyebrow">클래식 브라우저 게임</span>
+      <h1 class="ms-title">Minesweeper Lite</h1>
+      <p class="ms-lede">지뢰가 어디 있는지 숫자로 읽고, 안전한 칸을 한 칸씩 넓혀가는 가벼운 지뢰찾기입니다. 첫 클릭은 항상 안전하고, 모바일이나 웹뷰에서도 빠르게 다시 시작할 수 있게 만들었습니다.</p>
+      <div class="ms-actions">
+        <button class="ms-button is-primary" id="ms-hero-play" type="button">바로 플레이</button>
+        <button class="ms-button is-soft" id="ms-hero-daily" type="button">데일리 도전</button>
+      </div>
+      <div class="ms-chips" aria-label="게임 특징">
+        <span class="ms-chip">7×7 라이트 보드</span>
+        <span class="ms-chip">첫 클릭 안전</span>
+        <span class="ms-chip">깃발 모드</span>
+        <span class="ms-chip">데일리 시드</span>
+      </div>
+    </section>
+
+    <div class="ms-layout" id="play-area">
+      <section class="ms-panel" aria-labelledby="board-title">
+        <div class="ms-panel-head">
+          <div>
+            <h2 id="board-title">지뢰판</h2>
+            <p>Reveal와 Flag를 바꾸며 빠르게 읽는 방식의 라이트 모드입니다.</p>
+          </div>
+          <div class="ms-toolbar">
+            <button id="ms-reveal-mode" type="button" data-ms-tool="reveal">Reveal</button>
+            <button id="ms-flag-mode" type="button" data-ms-tool="flag">Flag</button>
+            <button id="ms-new" type="button">새 판</button>
+            <button id="ms-daily" type="button">데일리</button>
+            <button id="ms-reset" type="button">리셋</button>
+          </div>
+        </div>
+
+        <div class="ms-board-shell">
+          <div class="ms-callout" aria-live="polite">
+            <div>
+              <strong id="ms-callout-title">Ready</strong>
+              <span id="ms-callout">Reveal 또는 Flag를 고른 뒤 칸을 눌러 시작하세요. 첫 클릭은 안전합니다.</span>
+            </div>
+            <span class="ms-tag" id="ms-mode-badge">Free play · Reveal</span>
+          </div>
+
+          <div
+            id="ms-board"
+            class="ms-board"
+            role="grid"
+            aria-label="Minesweeper board"
+            aria-describedby="ms-status"
+          ></div>
+        </div>
+
+        <div class="ms-controls">
+          <div class="ms-mini-list" aria-label="키보드와 터치 안내" style="gap: 8px;">
+            <span class="ms-chip">Arrow keys</span>
+            <span class="ms-chip">F / 2</span>
+            <span class="ms-chip">Enter / Space</span>
+            <span class="ms-chip">R / N / D</span>
+          </div>
+          <div>
+            <div class="ms-stats" aria-label="현재 게임 정보">
+              <div class="ms-stat"><span>모드</span><strong id="ms-mines">8</strong></div>
+              <div class="ms-stat"><span>깃발</span><strong id="ms-flags">0</strong></div>
+              <div class="ms-stat"><span>남은 안전칸</span><strong id="ms-safe">41</strong></div>
+              <div class="ms-stat"><span>경과 시간</span><strong id="ms-elapsed">0:00</strong></div>
+              <div class="ms-stat"><span>최고 기록</span><strong id="ms-best">—</strong></div>
+              <div class="ms-stat"><span>데일리 최고</span><strong id="ms-daily-best">—</strong></div>
+            </div>
+            <div class="ms-status" id="ms-status">Reveal 또는 Flag를 고른 뒤 칸을 눌러 시작하세요.</div>
+            <div class="ms-hint" id="ms-hint">화살표키, 1/2, F, Enter, Space, R/N/D를 지원합니다. 모바일에서는 칸을 직접 누르면 됩니다.</div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="ms-panel" aria-labelledby="guide-title">
+        <div class="ms-panel-head">
+          <h2 id="guide-title">어떻게 읽나요</h2>
+        </div>
+        <p>Minesweeper Lite는 숫자만 빠르게 읽으면 되는 작은 보드 게임입니다. 첫 클릭으로 판을 열고, 숫자를 따라 안전한 칸을 넓혀가면 됩니다. 무겁지 않게 한 판씩 끝내기 좋도록 만들었습니다.</p>
+        <div class="ms-section" style="margin-top:16px;">
+          <div class="ms-section-head"><h2>핵심 규칙</h2></div>
+          <p>Reveal는 칸을 여는 동작이고, Flag는 지뢰가 의심되는 칸에 표시를 남기는 동작입니다. 숫자는 그 칸 주변의 지뢰 수를 뜻합니다. 0이 나오면 주변이 한 번에 열리기 때문에 판이 빠르게 움직입니다.</p>
+        </div>
+        <div class="ms-section" style="margin-top:16px;">
+          <div class="ms-section-head"><h2>라이트한 이유</h2></div>
+          <p>지뢰찾기는 본래 긴 세션보다 짧은 집중에 잘 맞습니다. 그래서 이 버전은 작은 보드, 빠른 리셋, 데일리 도전, 모바일 친화적 터치 크기만 남겼습니다.</p>
+        </div>
+      </aside>
+    </div>
+
+    <section class="ms-section" aria-labelledby="howto-title">
+      <div class="ms-section-head">
+        <h2 id="howto-title">How to Play</h2>
+        <p>한 번에 모두 외우기보다, 숫자가 말해주는 범위만 빠르게 읽는 편이 좋습니다.</p>
+      </div>
+      <div class="ms-steps">
+        <div class="ms-step"><strong>1. Reveal로 시작</strong> 첫 칸은 항상 안전합니다. 보드를 열면서 숫자 패턴을 읽어보세요.</div>
+        <div class="ms-step"><strong>2. Flag는 추측용</strong> 확신이 없는 칸은 깃발을 붙여두고, 나중에 다시 돌아오면 됩니다.</div>
+        <div class="ms-step"><strong>3. 0칸을 활용</strong> 주변이 비어 있으면 여러 칸이 연쇄적으로 열려서 한 번에 판이 넓어집니다.</div>
+      </div>
+    </section>
+
+    <section class="ms-section" aria-labelledby="use-title">
+      <div class="ms-section-head">
+        <h2 id="use-title">When to Use It</h2>
+        <p>잠깐 쉬면서 두뇌를 깨우고 싶을 때 가장 잘 맞는 타입입니다.</p>
+      </div>
+      <div class="ms-uses">
+        <div class="ms-use"><strong>짧은 휴식</strong> 1분 안팎의 짧은 집중 플레이가 필요할 때 좋습니다.</div>
+        <div class="ms-use"><strong>패턴 읽기</strong> 숫자와 주변 관계를 빨리 읽는 연습용으로도 괜찮습니다.</div>
+        <div class="ms-use"><strong>데일리 도전</strong> 같은 시드로 다시 오는 이유를 만들고 싶을 때 잘 맞습니다.</div>
+      </div>
+    </section>
+
+    <section class="ms-section" aria-labelledby="better-title">
+      <div class="ms-section-head">
+        <h2 id="better-title">When Another Game Is Better</h2>
+        <p>무조건 지뢰찾기만 고를 필요는 없습니다. 상황에 따라 더 빠른 게임이 낫습니다.</p>
+      </div>
+      <div class="ms-copy-grid">
+        <div class="ms-copy-card"><strong>완전 즉시 플레이</strong><p>설명 없이 바로 한 번에 끝내고 싶다면 Snake나 Brick Breaker가 더 빠를 수 있습니다.</p></div>
+        <div class="ms-copy-card"><strong>단순한 선택형</strong><p>생각보다 더 가벼운 룰이 필요하면 Randomly Pick의 다른 툴형 게임이 더 편합니다.</p></div>
+      </div>
+    </section>
+
+    <section class="ms-section" aria-labelledby="related-title">
+      <div class="ms-section-head">
+        <h2 id="related-title">Related Links</h2>
+        <p>같은 사이트 안에서 바로 이동해도 톤이 이어지도록 정리했습니다.</p>
+      </div>
+      <div class="ms-related-grid">
+        <a href="/games/snake/"><strong>Snake</strong><br />짧게 몰입하는 클래식 루프 게임입니다.</a>
+        <a href="/games/number-merge/"><strong>Number Merge</strong><br />2048 스타일의 가벼운 머지 게임입니다.</a>
+        <a href="/games/brick-breaker/"><strong>Brick Breaker</strong><br />터치와 키보드가 모두 쉬운 반사 게임입니다.</a>
+        <a href="/games/"><strong>Games Hub</strong><br />랜덤리픽의 게임 목록 대시보드로 돌아갑니다.</a>
+      </div>
+    </section>
+
+    <section class="ms-trust" aria-label="사이트 링크">
+      <strong>사이트 링크</strong>
+      <div class="ms-links">
+        <a href="/about/">About</a>
+        <a href="/guides/">Guides</a>
+        <a href="/privacy/">Privacy Policy</a>
+        <a href="/terms/">Terms</a>
+        <a href="/contact/">Contact</a>
+      </div>
+    </section>
+
+    <div class="ms-footer">Randomly Pick · <a href="/games/">Games</a></div>
+  </main>
+
+  <script>
+    window.__MINESWEEPER_COPY__ = {
+      readyLabel: 'Ready',
+      playingLabel: 'Playing',
+      wonLabel: 'Cleared',
+      lostLabel: 'Exploded',
+      revealToolLabel: 'Reveal',
+      flagToolLabel: 'Flag',
+      freeModeLabel: 'Free play',
+      dailyModeLabel: 'Daily challenge',
+      newBoardLabel: 'New board',
+      dailyBoardLabel: 'Daily challenge',
+      resetLabel: 'Reset',
+      readyStatus: 'Reveal or Flag, then tap a square to begin. The first click is always safe.',
+      playingStatus: 'Read the numbers, keep the board open, and use Flag for guesses.',
+      flaggingStatus: 'Flag a suspect square, then switch back to Reveal when you are ready.',
+      wonStatus: 'Board cleared. Try the Daily challenge or chase a faster time.',
+      lostStatus: 'A mine exploded. Reset and try a cleaner route.',
+      dailyReadyStatus: 'Today is a shared challenge. Everyone gets the same seed.',
+      revealBlockedStatus: 'Unflag the square first if you want to reveal it.',
+      flagOnRevealedStatus: 'That square is already open.',
+      hint: 'Arrow keys, 1/2, F, Enter, Space, R/N/D are supported. On mobile, just tap the squares.',
+      rowLabel: 'Row',
+      columnLabel: 'Column',
+      hiddenCellLabel: 'Hidden cell',
+      flaggedCellLabel: 'Flagged cell',
+      mineCellLabel: 'Mine',
+      explodedCellLabel: 'Exploded mine',
+      numberCellLabel: 'Revealed cell',
+      emptyCellLabel: 'Empty cell',
+      ariaBoard: 'Minesweeper board'
+    };
+  </script>
+  <script src="/assets/js/games-minesweeper.js?v=20260322-mine1"></script>
+</body>
+</html>
