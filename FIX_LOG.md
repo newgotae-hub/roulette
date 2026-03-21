@@ -8,6 +8,13 @@ How to use it:
 - Keep each entry short.
 - If deeper notes exist, link the detailed document.
 
+## 2026-03-22
+
+### Team-generator placeholder drift resynced
+
+- Regenerated all localized `team-generator` pages from the shared i18n source so the `#roster-input` placeholder once again matches `rosterPlaceholder` across every locale.
+- Re-ran `scripts/validate-seo.js` after the sync and confirmed the deploy blocker is clear again.
+
 ## 2026-03-18
 
 ### All-language rollout of lower-page game editorials
