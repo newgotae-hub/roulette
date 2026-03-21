@@ -10,6 +10,13 @@ How to use it:
 
 ## 2026-03-22
 
+### Webgames QA flow added for Snake
+
+- Added a lightweight browser QA runner for the Games hub that validates Snake on both the Korean and English routes without a manual full-playthrough.
+- Added a local fallback contract harness plus scenario fixtures under `assets/qa/webgames/`, and taught the runner to record deterministic snapshots and screenshots in `test-results/webgames/`.
+- Added the minimal runtime hook aliases needed for the real Snake page to satisfy the QA contract cleanly.
+- Detailed notes: [WEBGAMES_QA_FLOW_2026-03-22.md](/home/user/roulette/WEBGAMES_QA_FLOW_2026-03-22.md)
+
 ### Snake launched as the first real Games hub title
 
 - Replaced the Games hub starter placeholder with a real first playable title: Snake.

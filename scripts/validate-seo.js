@@ -242,6 +242,55 @@ function validateEnglishAcquisitionSignals(page, findings) {
   }
 }
 
+function validateSnakeGamePage(page, findings) {
+  const isSnakePage = page.pagePath === '/games/snake/' || page.pagePath === '/en/games/snake/';
+  if (!isSnakePage) return;
+
+  const title = extractTitle(page.html);
+  if (!/Snake/i.test(title)) {
+    findings.push(`${page.pagePath}: title should target "Snake".`);
+  }
+
+  if (!page.html.includes('/assets/js/games-snake.js')) {
+    findings.push(`${page.pagePath}: missing Snake JavaScript reference.`);
+  }
+
+  for (const token of [
+    'window.__WEBGAME_QA_READY__ = true',
+    'window.QA_READY = true',
+    'window.render_game_to_text',
+    'window.advanceTime',
+    'window.resetGame',
+    'window.reset = resetGame'
+  ]) {
+    if (!SNAKE_GAME_SOURCE.includes(token)) {
+      findings.push(`${page.pagePath}: missing Snake QA hook ${token}.`);
+    }
+  }
+
+  for (const id of ['snake-start', 'snake-pause', 'snake-restart', 'snake-board', 'snake-mode', 'snake-score', 'snake-best', 'snake-target', 'snake-status']) {
+    if (!page.html.includes(`id="${id}"`)) {
+      findings.push(`${page.pagePath}: missing Snake UI node #${id}.`);
+    }
+  }
+
+  for (const id of ['guide-title', 'howto-title', 'uses-title', 'related-title']) {
+    if (!page.html.includes(`id="${id}"`)) {
+      findings.push(`${page.pagePath}: missing editorial heading #${id}.`);
+    }
+  }
+
+  if (!page.html.includes('snake-controls')) {
+    findings.push(`${page.pagePath}: missing on-screen directional controls.`);
+  }
+  if (!page.html.includes('snake-copy-grid')) {
+    findings.push(`${page.pagePath}: missing editorial copy grid.`);
+  }
+  if (!page.html.includes('<canvas id="snake-board"')) {
+    findings.push(`${page.pagePath}: missing canvas game board.`);
+  }
+}
+
 function validateTrustComplianceSignals(page, findings) {
   const anyLocalizedPath = `(?:${LOCALE_PATTERN})\\/`;
   if (page.html.includes(OPERATOR_INSTAGRAM_URL)) {
@@ -283,13 +332,16 @@ function validateTrustComplianceSignals(page, findings) {
 }
 
 function localeFromFooterPage(pagePath) {
+  if (pagePath === '/games/snake/' || pagePath === '/en/games/snake/') {
+    return null;
+  }
   if (
     pagePath === '/' ||
-    /^\/(?:luckydraw|ladder|coinflip|dice|team-generator)\/$/.test(pagePath)
+    /^\/(?:luckydraw|ladder|coinflip|dice|team-generator|games\/snake)\/$/.test(pagePath)
   ) {
     return 'ko';
   }
-  const match = pagePath.match(new RegExp(`^\\/(${LOCALE_PATTERN})(?:\\/(?:luckydraw|ladder|coinflip|dice|team-generator))?\\/$`));
+  const match = pagePath.match(new RegExp(`^\\/(${LOCALE_PATTERN})(?:\\/(?:luckydraw|ladder|coinflip|dice|team-generator|games\\/snake))?\\/$`));
   return match ? match[1] : null;
 }
 
@@ -448,6 +500,7 @@ function sitemapUrls() {
 
 const MAIN_SITEMAP_XML = fs.readFileSync(path.join(ROOT, 'sitemap-main.xml'), 'utf8');
 const TEAM_GENERATOR_I18N_SOURCE = fs.readFileSync(path.join(ROOT, 'assets/js/team-generator-i18n.js'), 'utf8');
+const SNAKE_GAME_SOURCE = fs.readFileSync(path.join(ROOT, 'assets/js/games-snake.js'), 'utf8');
 const TEAM_GENERATOR_DATA_MAP = extractTeamGeneratorDataMap(TEAM_GENERATOR_I18N_SOURCE);
 
 const files = walk(ROOT);
@@ -489,6 +542,7 @@ for (const page of pages.values()) {
   if (isLegalPage && !hasSafeLegalPatch(page.html)) findings.push(`${page.pagePath}: missing legal page query normalization patch.`);
   validateDiceCoin3DRuntime(page, findings);
   validateEnglishAcquisitionSignals(page, findings);
+  validateSnakeGamePage(page, findings);
   validateTrustComplianceSignals(page, findings);
   validateLocalizedFooterFallback(page, findings);
   validateTeamGeneratorLocaleSync(page, findings);
@@ -534,7 +588,7 @@ for (const locale of TEAM_GENERATOR_LOCALES) {
   if (!TEAM_GENERATOR_DATA_MAP[locale]) findings.push(`assets/js/team-generator-i18n.js: missing locale block ${locale}.`);
 }
 
-for (const rel of ['assets/js/lotto.js', 'assets/js/ladder.js', 'scripts/sync-roulette-entrypoints.js', 'scripts/seo-hosting-patch.js']) {
+for (const rel of ['assets/js/lotto.js', 'assets/js/ladder.js', 'assets/js/games-snake.js', 'scripts/sync-roulette-entrypoints.js', 'scripts/seo-hosting-patch.js']) {
   const source = fs.readFileSync(path.join(ROOT, rel), 'utf8');
   if (hasUnsafeSyncLangLinks(source)) findings.push(`${rel}: source still appends ?lang= to non-tool links.`);
 }

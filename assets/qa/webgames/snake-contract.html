@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Snake QA Contract Harness</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --panel: rgba(15, 23, 42, 0.82);
+      --line: rgba(148, 163, 184, 0.22);
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top, rgba(34, 197, 94, 0.14), transparent 30%),
+        linear-gradient(180deg, #020617 0%, #0f172a 100%);
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+    .shell {
+      width: min(920px, 100%);
+      display: grid;
+      gap: 16px;
+      grid-template-columns: 1fr;
+    }
+    .panel {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 24px;
+      padding: 18px 18px 16px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 22px 48px rgba(0, 0, 0, 0.28);
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(1.5rem, 4vw, 2.3rem);
+      letter-spacing: -0.04em;
+    }
+    .status {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      padding: 8px 12px;
+      color: var(--text);
+      background: rgba(15, 23, 42, 0.6);
+      font-size: 0.92rem;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      max-width: 640px;
+      aspect-ratio: 1;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background: #020617;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
+    }
+    .footer {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    code { color: #d1fae5; }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="panel">
+      <div class="header">
+        <div>
+          <h1>Snake QA Contract Harness</h1>
+          <div class="status" id="status">Waiting for QA runner.</div>
+        </div>
+        <div class="chip" id="mode-chip">mode: ready</div>
+      </div>
+      <div class="stats" aria-label="Snake QA state">
+        <div class="chip" id="score-chip">score: 0</div>
+        <div class="chip" id="length-chip">length: 3</div>
+        <div class="chip" id="tick-chip">ticks: 0</div>
+        <div class="chip" id="direction-chip">direction: right</div>
+      </div>
+    </section>
+
+    <canvas id="board" width="640" height="640" aria-label="Snake board"></canvas>
+
+    <section class="panel footer">
+      Hooks exposed: <code>QA_READY</code>, <code>render_game_to_text()</code>,
+      <code>advanceTime(ms)</code>, <code>reset()</code>.
+      Arrow keys change direction. Deterministic time steps move the snake once
+      per 120ms.
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      const SIZE = 16;
+      const CELL = 40;
+      const canvas = document.getElementById('board');
+      const ctx = canvas.getContext('2d');
+      const status = document.getElementById('status');
+      const scoreChip = document.getElementById('score-chip');
+      const lengthChip = document.getElementById('length-chip');
+      const tickChip = document.getElementById('tick-chip');
+      const directionChip = document.getElementById('direction-chip');
+
+      const directions = {
+        ArrowUp: { x: 0, y: -1, label: 'up' },
+        ArrowDown: { x: 0, y: 1, label: 'down' },
+        ArrowLeft: { x: -1, y: 0, label: 'left' },
+        ArrowRight: { x: 1, y: 0, label: 'right' }
+      };
+
+      let state;
+
+      function clonePoint(point) {
+        return { x: point.x, y: point.y };
+      }
+
+      function spawnFood() {
+        const occupied = new Set(state.snake.map((segment) => `${segment.x},${segment.y}`));
+        for (let y = 0; y < SIZE; y += 1) {
+          for (let x = 0; x < SIZE; x += 1) {
+            const key = `${x},${y}`;
+            if (!occupied.has(key)) {
+              return { x, y };
+            }
+          }
+        }
+        return { x: 1, y: 1 };
+      }
+
+      function syncUi() {
+        scoreChip.textContent = `score: ${state.score}`;
+        lengthChip.textContent = `length: ${state.snake.length}`;
+        tickChip.textContent = `ticks: ${state.ticks}`;
+        directionChip.textContent = `direction: ${state.direction.label}`;
+        status.textContent = state.gameOver
+          ? 'Game over. Reset to start over.'
+          : 'QA harness ready. Use deterministic time steps or arrow keys.';
+      }
+
+      function renderGameToText() {
+        return JSON.stringify({
+          mode: state.gameOver ? 'game-over' : 'playing',
+          score: state.score,
+          length: state.snake.length,
+          ticks: state.ticks,
+          gameOver: state.gameOver,
+          direction: state.direction.label,
+          head: clonePoint(state.snake[0]),
+          food: clonePoint(state.food),
+          coordinateSystem: 'grid origin at top-left; x grows right, y grows down',
+          qaReady: true
+        });
+      }
+
+      function drawCell(point, color) {
+        ctx.fillStyle = color;
+        ctx.fillRect(point.x * CELL + 4, point.y * CELL + 4, CELL - 8, CELL - 8);
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let y = 0; y < SIZE; y += 1) {
+          for (let x = 0; x < SIZE; x += 1) {
+            ctx.fillStyle = (x + y) % 2 === 0 ? '#0f172a' : '#111827';
+            ctx.fillRect(x * CELL, y * CELL, CELL, CELL);
+          }
+        }
+        drawCell(state.food, '#f97316');
+        state.snake.forEach((segment, index) => {
+          drawCell(segment, index === 0 ? '#4ade80' : '#16a34a');
+        });
+        if (state.gameOver) {
+          ctx.fillStyle = 'rgba(2, 6, 23, 0.65)';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.fillStyle = '#fca5a5';
+          ctx.font = 'bold 34px Arial';
+          ctx.textAlign = 'center';
+          ctx.fillText('GAME OVER', canvas.width / 2, canvas.height / 2);
+        }
+      }
+
+      function reset() {
+        state = {
+          ticks: 0,
+          score: 0,
+          gameOver: false,
+          direction: directions.ArrowRight,
+          pendingDirection: directions.ArrowRight,
+          snake: [
+            { x: 5, y: 8 },
+            { x: 4, y: 8 },
+            { x: 3, y: 8 }
+          ],
+          food: { x: 10, y: 8 }
+        };
+        draw();
+        syncUi();
+      }
+
+      function stepOnce() {
+        if (state.gameOver) return;
+        state.direction = state.pendingDirection;
+        const head = state.snake[0];
+        const next = {
+          x: head.x + state.direction.x,
+          y: head.y + state.direction.y
+        };
+
+        if (next.x < 0 || next.y < 0 || next.x >= SIZE || next.y >= SIZE) {
+          state.gameOver = true;
+          draw();
+          syncUi();
+          return;
+        }
+
+        const hitsBody = state.snake.some((segment) => segment.x === next.x && segment.y === next.y);
+        if (hitsBody) {
+          state.gameOver = true;
+          draw();
+          syncUi();
+          return;
+        }
+
+        state.snake.unshift(next);
+        if (next.x === state.food.x && next.y === state.food.y) {
+          state.score += 1;
+          state.food = spawnFood();
+        } else {
+          state.snake.pop();
+        }
+
+        state.ticks += 1;
+        draw();
+        syncUi();
+      }
+
+      function advanceTime(ms) {
+        const steps = Math.max(1, Math.round(Number(ms || 0) / 120));
+        for (let index = 0; index < steps; index += 1) {
+          stepOnce();
+        }
+        return renderGameToText();
+      }
+
+      function onKeyDown(event) {
+        const next = directions[event.key];
+        if (!next) return;
+        const current = state.direction;
+        if (current.x + next.x === 0 && current.y + next.y === 0) return;
+        state.pendingDirection = next;
+        syncUi();
+      }
+
+      window.render_game_to_text = renderGameToText;
+      window.advanceTime = advanceTime;
+      window.reset = reset;
+      window.resetGame = reset;
+      window.QA_READY = true;
+
+      window.addEventListener('keydown', onKeyDown);
+      reset();
+    })();
+  </script>
+</body>
+</html>
