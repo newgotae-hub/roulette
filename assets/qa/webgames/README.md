@@ -12,6 +12,10 @@ The review workflow is intentionally hook-driven:
 The QA runner prefers the real game route when it exists and falls back to the
 local contract harness only when the production page is not present yet.
 
+Release checklist:
+
+- [WEBGAMES_RELEASE_CHECKLIST_2026-03-22.md](C:/Users/newgo/OneDrive/%EB%B0%94%ED%83%95%20%ED%99%94%EB%A9%B4/%EC%BD%94%EB%94%A9%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8/%EC%BD%94%EB%8D%B1%EC%8A%A4/%EB%9E%9C%EB%8D%A4%EB%A6%AC%ED%94%BD/WEBGAMES_RELEASE_CHECKLIST_2026-03-22.md)
+
 Current scenario:
 
 - `snake.qa.json`

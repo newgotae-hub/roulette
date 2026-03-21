@@ -10,6 +10,21 @@ How to use it:
 
 ## 2026-03-22
 
+### Reusable webgame scaffold helper added
+
+- Replaced the placeholder scaffold script with a reusable generator for new webgame routes, assets, and QA fixtures.
+- Made the helper safe by default: it skips existing files unless `--force` is passed and supports `--dry-run` preview mode.
+- Added usage/help output and a small QA contract convention so future game subagents can generate consistent starter files quickly.
+
+## 2026-03-22
+
+### Webgames subagent operating model documented
+
+- Added a durable operating model for future webgame work so the Lead can split hub, game, QA, and release responsibilities across subagents without creating file conflicts.
+- Grounded the playbook in the repo?셲 actual webgame paths and release tools: `games/`, `en/games/`, `assets/js`, `assets/css`, `assets/qa/webgames`, `scripts/qa-webgames.js`, and `scripts/deploy-main.sh`.
+- Linked the release playbook to the existing Games hub and Snake/Number Merge rollout pattern so future game work can reuse the same QA and deploy loop.
+- Detailed notes: [WEBGAMES_SUBAGENT_OPERATING_MODEL_2026-03-22.md](C:/Users/newgo/OneDrive/바탕 화면/코딩프로젝트/코덱스/랜덤리픽/WEBGAMES_SUBAGENT_OPERATING_MODEL_2026-03-22.md)
+
 ### Snake refit for lighter Randomly Pick tone
 
 - Softened the Snake shell so it reads like a tab inside Randomly Pick instead of a separate neon microsite, with lighter backgrounds, calmer typography, and less standalone branding.
@@ -124,7 +139,7 @@ How to use it:
 ### Header tabs unified and Korean team label refined
 
 - Added the `/team-generator/` tab to the headers of the main tool pages across locales so the same top-level navigation is exposed everywhere.
-- Updated Korean-facing labels from `팀제너레이터` to `팀 나누기` in the header and team page copy.
+- Updated Korean-facing labels from `??쒕꼫?덉씠?? to `? ?섎늻湲? in the header and team page copy.
 - Adjusted the team page summary to show both team averages and team totals together.
 
 ### Team split localization and header routing rollout
@@ -153,7 +168,7 @@ How to use it:
 
 ### Korean team split hero copy simplified
 
-- Updated the Korean `/team-generator/` hero title to `팀 나누기 (랜덤/균형)` and simplified the supporting description.
+- Updated the Korean `/team-generator/` hero title to `? ?섎늻湲?(?쒕뜡/洹좏삎)` and simplified the supporting description.
 - Removed the duplicate default results-intro sentence on the Korean page and hid the empty result meta block until generated results need to show mode-specific guidance.
 
 ### Team split script cache-busting for stale localized copy
@@ -183,7 +198,7 @@ How to use it:
 
 ### Dice and coin headers restored to full tab parity
 
-- Restored the missing `팀 나누기` / `Team Split` tab to every localized `dice` and `coinflip` page in both desktop and mobile headers.
+- Restored the missing `? ?섎늻湲? / `Team Split` tab to every localized `dice` and `coinflip` page in both desktop and mobile headers.
 - Re-aligned the dice/coin header routing regex so those pages once again treat `team-generator` as a first-class tool path during locale switching and local link normalization.
 - Re-validated all 108 localized tool pages so every main game header now exposes exactly one desktop `nav-team` tab and one mobile `mnav-team` tab.
 
@@ -193,13 +208,13 @@ How to use it:
 
 ### Korean team split stat copy and team-count spacing polish
 
-- Changed the Korean stat note from `Excel 두 열 그대로 복사` to `엑셀파일 그대로 복사`.
-- Changed the Korean mode summary from `랜덤 / 밸런스` to `랜덤 / 균형`.
+- Changed the Korean stat note from `Excel ????洹몃?濡?蹂듭궗` to `?묒??뚯씪 洹몃?濡?蹂듭궗`.
+- Changed the Korean mode summary from `?쒕뜡 / 諛몃윴?? to `?쒕뜡 / 洹좏삎`.
 - Reworked the team-count quick buttons into a fixed five-column row beside the numeric input so the `2` through `6` buttons fill the remaining width more evenly instead of ending awkwardly after `6`.
 
 ### Korean team split hero copy line break and cache refresh
 
-- Changed the Korean hero description to add `엑셀파일에서 그대로 복사붙여넣으세요!` on the next line under the main random/balanced explanation.
+- Changed the Korean hero description to add `?묒??뚯씪?먯꽌 洹몃?濡?蹂듭궗遺숈뿬?ｌ쑝?몄슂!` on the next line under the main random/balanced explanation.
 - Added `whitespace-pre-line` to the hero description so the newline renders visibly instead of collapsing into one paragraph.
 - Refreshed the shared `team-generator` script version across every localized page so browsers fetch the updated Korean i18n copy immediately.
 
@@ -222,7 +237,7 @@ How to use it:
 ### 2026-03-15 - Team split result header simplified and shuffle removed
 
 - Removed the separate shuffle action from the team-generator input panel and widened the main generate button to a single full-width primary action.
-- Collapsed the result header across all localized team-generator pages so only the title plus `다시 배정` / copy / CSV actions remain above the team cards.
+- Collapsed the result header across all localized team-generator pages so only the title plus `?ㅼ떆 諛곗젙` / copy / CSV actions remain above the team cards.
 - Removed the extra result intro, warning block, and MODE / TEAM SIZE / TEAM AVG / TEAM TOTAL summary strip to cut the empty vertical space above the results.
 
 ### 2026-03-15 - Team split fullscreen restored after cache mismatch
@@ -274,7 +289,7 @@ How to use it:
 
 ### 2026-03-15 - Trust surface hardened for AdSense review and operator clarity
 
-- Reversed the shared footer-contact interception so `문의` / `Contact` links now remain direct contact/legal routes instead of opening Userback first on plain left-click.
+- Reversed the shared footer-contact interception so `臾몄쓽` / `Contact` links now remain direct contact/legal routes instead of opening Userback first on plain left-click.
 - Replaced the footer operator Instagram links across the deployed HTML pages with the internal `/about/` page so operator identity and policy links stay on-site.
 - Expanded the generated contact and privacy pages in Korean, English, Japanese, Simplified Chinese, and Traditional Chinese with operator identification, direct policy links, browser-storage disclosure, and consent-region wording for EEA, UK, and Switzerland traffic.
 - Expanded `/about/` with explicit operator/publisher information, browser-local processing notes, advertising/cookie disclosures, and direct links to contact, privacy, and terms.
@@ -283,7 +298,7 @@ How to use it:
 
 ### Footer contact links now open Userback first
 
-- Updated the shared third-party loader so footer `문의하기` / `Contact` links open the Userback widget on plain left-click before falling back to the existing contact page.
+- Updated the shared third-party loader so footer `臾몄쓽?섍린` / `Contact` links open the Userback widget on plain left-click before falling back to the existing contact page.
 - Added lazy Userback loading for pages that did not previously boot the widget, while keeping modifier-click and other default link behaviors intact.
 
 ### English SEO growth pass for homepage, lucky draw, and team generator
@@ -325,8 +340,8 @@ How to use it:
 
 - Expanded localized `about`, `contact`, `privacy`, and `terms` generation to all supported locales and updated sitemap generation so the full multilingual legal set is published consistently.
 - Added shared multilingual legal/footer constants and translation data, then resynced static footer links, inline tool locale bundles, team-generator locale data, and generated legal pages so non-Korean locales no longer drift between HTML and JS.
-- Corrected the most visible awkward locale labels and wording, including Spanish `Términos del servicio`, Turkish `Hakkımızda` / `Kullanım Koşulları` / `Gizlilik Politikası`, Dutch `Over ons`, and Dutch navigation `Teams verdelen`, while also reducing forced English phrasing in localized `about` copy for multiple non-English locales.
-- Broadened the SEO validator so localized consent-region wording such as `EEE`, `EWR`, `ЕЭЗ`, `المنطقة الاقتصادية الأوروبية`, `VK`, `スイス`, and `İsviçre` are accepted, and restored the shared `const DICE_GLB_URL = '/dice.glb';` constant to every dice locale page so the full validation pass can complete.
+- Corrected the most visible awkward locale labels and wording, including Spanish `T챕rminos del servicio`, Turkish `Hakk캇m캇zda` / `Kullan캇m Ko힊ullar캇` / `Gizlilik Politikas캇`, Dutch `Over ons`, and Dutch navigation `Teams verdelen`, while also reducing forced English phrasing in localized `about` copy for multiple non-English locales.
+- Broadened the SEO validator so localized consent-region wording such as `EEE`, `EWR`, `?葵?`, `碼???慢?馬 碼?碼?魔巒碼膜?馬 碼?粒?邈?磨?馬`, `VK`, `?밤궎??, and `캅svi챌re` are accepted, and restored the shared `const DICE_GLB_URL = '/dice.glb';` constant to every dice locale page so the full validation pass can complete.
 - Detailed notes: [MULTILINGUAL_LEGAL_LOCALE_AUDIT_2026-03-15.md](/home/user/roulette/MULTILINGUAL_LEGAL_LOCALE_AUDIT_2026-03-15.md)
 
 ### 2026-03-15 - Coinflip / dice copy localized and made tool-specific for AdSense review
@@ -347,13 +362,13 @@ How to use it:
 
 ### 2026-03-16 - Team split result scoreboard and winner calculation
 
-- Added a `점수입력` action next to `다시 배정` in the team-generator result toolbar and wired it to a per-team score entry panel.
+- Added a `?먯닔?낅젰` action next to `?ㅼ떆 諛곗젙` in the team-generator result toolbar and wired it to a per-team score entry panel.
 - Added live winner calculation so partial entry shows the current leader, complete entry shows the winner or a first-place tie, and leading teams are highlighted in the result cards.
 - Included entered team scores and winner status in copied text / CSV exports, and refreshed the shared team-generator script version across all localized pages so browsers fetch the new scoreboard logic.
 
 ### 2026-03-16 - Team split score entry switched to per-player averages
 
-- Reworked `점수입력` so it now sits to the left of `다시 배정` and opens per-player score inputs directly inside each team card instead of taking one score per team.
+- Reworked `?먯닔?낅젰` so it now sits to the left of `?ㅼ떆 諛곗젙` and opens per-player score inputs directly inside each team card instead of taking one score per team.
 - Changed team result scoring to use the average of the individually entered player scores as the deciding team score, while also showing each team's entered-score total and input progress.
 - Changed winner calculation so the summary and card highlight activate only after all player scores are entered, and refreshed the shared team-generator script version again to invalidate the earlier per-team-score bundle.
 
@@ -378,20 +393,20 @@ How to use it:
 
 ### 2026-03-16 - Team split member cards keep two-column layout before score entry
 
-- Changed the team-result member layout so each team card now starts in the same two-column member grid used by score-entry mode, instead of switching from one column to two columns after `점수입력`.
-- Locked the member-row spacing and text sizing to the same compact layout in both normal and score-entry states so pressing `점수입력` no longer causes the team card layout to jump.
+- Changed the team-result member layout so each team card now starts in the same two-column member grid used by score-entry mode, instead of switching from one column to two columns after `?먯닔?낅젰`.
+- Locked the member-row spacing and text sizing to the same compact layout in both normal and score-entry states so pressing `?먯닔?낅젰` no longer causes the team card layout to jump.
 - Refreshed the shared team-generator script version again so browsers fetch the always-two-column member layout immediately.
 
 ### 2026-03-16 - Team split score entry now opens with no extra header panel
 
-- Removed the extra `팀원 점수 입력` guidance/status box that had been inserted above the result cards when score-entry mode opened.
-- Kept score-entry mode fully inline so pressing `점수입력` now only swaps the member-row right side into number inputs without moving the surrounding result layout.
+- Removed the extra `????먯닔 ?낅젰` guidance/status box that had been inserted above the result cards when score-entry mode opened.
+- Kept score-entry mode fully inline so pressing `?먯닔?낅젰` now only swaps the member-row right side into number inputs without moving the surrounding result layout.
 - Refreshed the shared team-generator script version again so browsers fetch the no-header inline score-entry behavior immediately.
 
 ### 2026-03-16 - Team split score entry no longer changes card height
 
 - Fixed each member row to the same height in normal mode and score-entry mode by reserving a constant right-side score slot.
-- Reserved the team-card summary and winner-pill space so pressing `점수입력` no longer makes the card grow slightly before scores are entered.
+- Reserved the team-card summary and winner-pill space so pressing `?먯닔?낅젰` no longer makes the card grow slightly before scores are entered.
 - Simplified the match-score summary line to average plus total only, avoiding progress text wrapping that could stretch the card.
 
 ### 2026-03-16 - Team split score entry translations filled for all locales
@@ -434,7 +449,7 @@ How to use it:
 
 ### 2026-03-17 - Team generator guide section expanded for team battle flow
 
-- Reworked the `사용 방법` list so it now explains the full flow after team generation: open `점수입력`, enter each member's post-match score, and use the live average/total update to identify the winning team.
+- Reworked the `?ъ슜 諛⑸쾿` list so it now explains the full flow after team generation: open `?먯닔?낅젰`, enter each member's post-match score, and use the live average/total update to identify the winning team.
 - Added a new guide card under the how-to list that frames the page as a lightweight team battle scoreboard, with a three-step explanation for creating teams, entering personal scores, and checking the winner.
 - Localized the expanded guide copy for all 18 team-generator locales, updated locale sync and QA so the new guide IDs are validated from each locale HTML source, and refreshed the shared asset version to `20260317-team-results-guide1`.
 - Detailed notes: [TEAM_GENERATOR_SCORE_ENTRY_TRACKING_2026-03.md](/home/user/roulette/TEAM_GENERATOR_SCORE_ENTRY_TRACKING_2026-03.md)
@@ -470,6 +485,11 @@ How to use it:
 - Added `snake-v11.qa.json` and `snake-v11-en.qa.json` so the next Snake pass can verify `mode`, `timeLeft` or `timer`, and bonus state without touching the product pages.
 - Added `snake-v11-contract.html` as a deterministic QA fallback harness and updated the webgames QA notes so the new contract is documented for the next worker handoff.
 
+### 2026-03-22 - Webgames release checklist documented for repeatable QA and deploy flow
+
+- Added [WEBGAMES_RELEASE_CHECKLIST_2026-03-22.md](/home/user/roulette/WEBGAMES_RELEASE_CHECKLIST_2026-03-22.md) as the lightweight release checklist for future game launches, including worker responsibilities, required screenshots, exclusions, and the release-worker command order.
+- Linked the checklist from `assets/qa/webgames/README.md` so QA and release workers can reach it from the existing webgames fixture area.
+
 ### 2026-03-22 - Snake v1.1 shipped with modes, bonus apple, and mobile polish
 
 - Added a small Snake mode system with `Classic`, `Timed`, and `Wrap` chips so the game feels less one-note while staying easy to validate.
@@ -487,3 +507,9 @@ How to use it:
 - Added `/games/number-merge/` and `/en/games/number-merge/` as a first-party tile-merge puzzle with keyboard, swipe, undo, local best tracking, and editorial help sections that match the existing Randomly Pick tone.
 - Added shared `games-number-merge` JS/CSS assets plus deterministic QA hooks so the release runner can validate both locales without relying on manual play.
 - Updated the Games hubs, QA fixtures, and sitemap generation so the new title ships as part of the current Games expansion instead of as an orphaned page.
+
+### 2026-03-22 - Webgames parallel workflow and scaffold support documented
+
+- Added `.gitignore` exclusions for `.playwright-cli/` and `test-results/` so webgame QA artifacts stay out of release commits by default.
+- Added the subagent operating model, release checklist, and parallel roadmap notes so future workers can split game production, QA, and release tasks without rediscovering the process.
+- Added `scripts/scaffold-webgame.js` as the dry-run-friendly starter for new Games entries, and linked the updated workflow from the existing webgames QA notes.
