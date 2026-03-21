@@ -1,0 +1,97 @@
+{
+  "id": "connect-four",
+  "name": "Connect Four",
+  "pageCandidates": [
+    "/games/connect-four/",
+    "/games/connect-four/index.html",
+    "/connect-four/",
+    "/connect-four/index.html",
+    "/en/games/connect-four/",
+    "/en/games/connect-four/index.html",
+    "/en/connect-four/",
+    "/en/connect-four/index.html"
+  ],
+  "fallbackPath": "/assets/qa/webgames/connect-four-contract.html",
+  "requiredHooks": [
+    "QA_READY",
+    "render_game_to_text",
+    "advanceTime",
+    "reset"
+  ],
+  "parsedAssertions": [
+    {
+      "key": "phase",
+      "type": "string",
+      "anyOfValues": [
+        "ready",
+        "playing",
+        "won",
+        "draw"
+      ]
+    },
+    {
+      "key": "currentPlayer",
+      "type": "number",
+      "min": 1,
+      "max": 2
+    },
+    {
+      "key": "moveCount",
+      "type": "number",
+      "min": 0
+    },
+    {
+      "key": "winner",
+      "type": "number",
+      "min": 0,
+      "max": 2
+    },
+    {
+      "key": "focusColumn",
+      "type": "number",
+      "min": 0,
+      "max": 6
+    },
+    {
+      "key": "board",
+      "type": "array"
+    },
+    {
+      "key": "qaReady",
+      "type": "boolean",
+      "anyOfValues": [
+        "true"
+      ]
+    }
+  ],
+  "bursts": [
+    {
+      "label": "boot",
+      "calls": [
+        "window.reset()"
+      ]
+    },
+    {
+      "label": "drop-center",
+      "calls": [
+        "document.getElementById('connect-four-col-3')?.click()"
+      ]
+    },
+    {
+      "label": "advance",
+      "advanceMs": 300
+    },
+    {
+      "label": "drop-left",
+      "calls": [
+        "document.getElementById('connect-four-col-2')?.click()"
+      ]
+    },
+    {
+      "label": "reset",
+      "calls": [
+        "window.reset()"
+      ]
+    }
+  ]
+}

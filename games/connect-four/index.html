@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f8fafc" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <title>Connect Four | Randomly Pick</title>
+  <meta name="description" content="Randomly Pick에서 즐기는 가벼운 Connect Four. 같은 기기에서 번갈아 두거나, CPU와 빠르게 한 판 할 수 있는 모바일 친화형 보드 게임입니다." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://randomly-pick.com/games/connect-four/" />
+  <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/connect-four/" />
+  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/games/connect-four/" />
+  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/games/connect-four/" />
+  <link rel="stylesheet" href="/assets/css/games-connect-four.css?v=20260322-cf1" />
+  <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
+</head>
+<body>
+  <main class="cf-wrap">
+    <div class="cf-topbar">
+      <div class="cf-brand">
+        <div class="cf-brand-mark">R.</div>
+        <div>
+          <div class="cf-brand-name">Randomly Pick</div>
+          <div class="cf-brand-sub">Connect Four</div>
+        </div>
+      </div>
+      <nav class="cf-nav" aria-label="주요 메뉴">
+        <a href="/">홈</a>
+        <a href="/games/" class="active" aria-current="page">Games</a>
+        <a href="/luckydraw/">랜덤 추첨</a>
+        <a href="/ladder/">사다리</a>
+        <a href="/team-generator/">팀 나누기</a>
+        <a href="/coinflip/">동전</a>
+        <a href="/dice/">주사위</a>
+      </nav>
+    </div>
+
+    <section class="cf-hero" data-cf-section="purpose">
+      <span class="cf-eyebrow">로컬 대전형 보드 게임</span>
+      <h1 class="cf-title">Connect Four</h1>
+      <p class="cf-lede">같은 기기에서 번갈아 두는 Connect Four입니다. 열 버튼을 누르면 디스크가 아래로 떨어지고, 먼저 네 개를 이어 놓는 쪽이 이깁니다. 혼자 빠르게 한 판 하고 싶다면 CPU 모드도 쓸 수 있습니다.</p>
+      <div class="cf-actions">
+        <a class="cf-button is-primary" href="#play-area">지금 시작</a>
+        <a class="cf-button is-soft" href="/games/">Games 허브</a>
+      </div>
+      <div class="cf-chips" aria-label="게임 특징">
+        <span class="cf-chip">로컬 2인</span>
+        <span class="cf-chip">vs CPU</span>
+        <span class="cf-chip">모바일 웹뷰</span>
+        <span class="cf-chip">세로 화면 친화</span>
+      </div>
+      <div class="cf-mode-row" role="group" aria-label="모드 선택">
+        <button id="cf-mode-local" class="cf-mode-pill" type="button" data-cf-mode="local" data-active="true">로컬 2인</button>
+        <button id="cf-mode-cpu" class="cf-mode-pill" type="button" data-cf-mode="cpu" data-active="false">vs CPU</button>
+      </div>
+      <div class="cf-tag-row" aria-label="현재 상태">
+        <span id="cf-mode-badge" class="cf-tag" data-state="ready">로컬 2인 준비</span>
+        <span id="cf-turn-badge" class="cf-tag" data-state="ready">첫 수는 빨강</span>
+        <span id="cf-result-badge" class="cf-tag" data-state="ready">열 버튼으로 시작</span>
+      </div>
+    </section>
+
+    <div class="cf-layout" id="play-area">
+      <section class="cf-panel" aria-labelledby="board-title" data-cf-section="board">
+        <div class="cf-panel-head">
+          <div>
+            <h2 id="board-title">게임 보드</h2>
+            <p>열을 고르면 디스크가 아래로 내려갑니다. 먼저 네 개를 잇는 쪽이 이깁니다.</p>
+          </div>
+          <div class="cf-toolbar">
+            <button id="cf-new" type="button">새 게임</button>
+            <button id="cf-reset" type="button">리셋</button>
+          </div>
+        </div>
+
+        <div class="cf-board-shell">
+          <div class="cf-columns" id="cf-column-buttons" aria-label="열 선택 버튼">
+            <button class="cf-column-btn" id="cf-column-1" type="button" data-column="0" aria-label="1열에 놓기">
+              1<small>왼쪽</small>
+            </button>
+            <button class="cf-column-btn" id="cf-column-2" type="button" data-column="1" aria-label="2열에 놓기">
+              2<small>왼쪽</small>
+            </button>
+            <button class="cf-column-btn" id="cf-column-3" type="button" data-column="2" aria-label="3열에 놓기">
+              3<small>중앙</small>
+            </button>
+            <button class="cf-column-btn" id="cf-column-4" type="button" data-column="3" aria-label="4열에 놓기">
+              4<small>중앙</small>
+            </button>
+            <button class="cf-column-btn" id="cf-column-5" type="button" data-column="4" aria-label="5열에 놓기">
+              5<small>중앙</small>
+            </button>
+            <button class="cf-column-btn" id="cf-column-6" type="button" data-column="5" aria-label="6열에 놓기">
+              6<small>오른쪽</small>
+            </button>
+            <button class="cf-column-btn" id="cf-column-7" type="button" data-column="6" aria-label="7열에 놓기">
+              7<small>오른쪽</small>
+            </button>
+          </div>
+
+          <div
+            id="cf-board"
+            class="cf-board"
+            role="grid"
+            aria-label="Connect Four 보드"
+            aria-describedby="cf-status cf-hint"
+          ></div>
+
+          <div class="cf-controls">
+            <div class="cf-mini-list" aria-label="빠른 안내">
+              <span class="cf-chip">1-7 키</span>
+              <span class="cf-chip">← →</span>
+              <span class="cf-chip">Enter / Space</span>
+              <span class="cf-chip">R로 리셋</span>
+            </div>
+            <div>
+              <div class="cf-stat-grid" aria-label="현재 기록">
+                <div class="cf-stat"><span>모드</span><strong id="cf-mode-text">로컬 2인</strong></div>
+                <div class="cf-stat"><span>현재 차례</span><strong id="cf-turn-text">빨강</strong></div>
+                <div class="cf-stat"><span>빨강 승리</span><strong id="cf-red-score">0</strong></div>
+                <div class="cf-stat"><span>노랑 승리</span><strong id="cf-yellow-score">0</strong></div>
+                <div class="cf-stat"><span>이동 수</span><strong id="cf-move-count">0</strong></div>
+                <div class="cf-stat"><span>목표 연결</span><strong id="cf-target-count">4</strong></div>
+              </div>
+              <div class="cf-status" id="cf-status" aria-live="polite">열 버튼을 누르면 첫 수가 떨어집니다. 같은 기기에서 바로 번갈아 둘 수 있습니다.</div>
+              <div class="cf-hint" id="cf-hint">모바일에서는 열 버튼을 탭하세요. 키보드는 1-7, ← →, Enter, Space, R를 지원합니다.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="cf-panel" aria-labelledby="guide-title" data-cf-section="help">
+        <div class="cf-panel-head">
+          <h2 id="guide-title">짧은 안내</h2>
+        </div>
+        <p>Connect Four는 규칙이 단순해서 빠르게 시작할 수 있지만, 한 번 두기 시작하면 읽어야 할 수가 많아집니다. Randomly Pick 안에서 가볍게 한 판 하고 빠져나가기 좋은 방식으로 정리했습니다.</p>
+
+        <div class="cf-section" style="margin-top:16px;">
+          <div class="cf-section-head"><h2>How to Play</h2></div>
+          <div class="cf-steps">
+            <div class="cf-step"><strong>1. 모드를 고릅니다.</strong> 같은 기기에서 두 명이 번갈아 두거나, 혼자 CPU와 대전할 수 있습니다.</div>
+            <div class="cf-step"><strong>2. 열을 누릅니다.</strong> 디스크는 선택한 열의 가장 아래 빈 칸으로 떨어집니다.</div>
+            <div class="cf-step"><strong>3. 네 개를 잇습니다.</strong> 가로, 세로, 대각선 어느 방향이든 네 개가 이어지면 이깁니다.</div>
+          </div>
+        </div>
+
+        <div class="cf-section" style="margin-top:16px;">
+          <div class="cf-section-head"><h2>When to Use It</h2></div>
+          <div class="cf-uses">
+            <div class="cf-use"><strong>짧은 대결</strong> 커피 한 잔 시간 동안 바로 한 판 끝내기 좋습니다.</div>
+            <div class="cf-use"><strong>가족/친구용</strong> 같은 기기에서 번갈아 두기 쉬워서 설명 없이 바로 즐길 수 있습니다.</div>
+            <div class="cf-use"><strong>모바일 웹뷰</strong> 세로 화면에서도 열 버튼만 누르면 되는 구조라 편합니다.</div>
+          </div>
+        </div>
+
+        <div class="cf-section" style="margin-top:16px;" data-cf-section="compare">
+          <div class="cf-section-head"><h2>When Another Game Is Better</h2></div>
+          <div class="cf-copy-grid">
+            <div class="cf-copy-card"><strong>혼자 느긋한 퍼즐</strong><p>차례를 읽는 대신 혼자 몰입하고 싶다면 Number Merge가 더 잘 맞습니다.</p></div>
+            <div class="cf-copy-card"><strong>더 빠른 리듬</strong><p>손이 먼저 움직이는 느낌을 원하면 Snake나 Brick Breaker가 더 가볍습니다.</p></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <section class="cf-section" aria-labelledby="related-title" data-cf-section="related">
+      <div class="cf-section-head">
+        <h2 id="related-title">Related Links</h2>
+        <p>같은 Randomly Pick 안에서 바로 다른 도구나 게임으로 이동할 수 있습니다.</p>
+      </div>
+      <div class="cf-related-grid">
+        <a href="/games/"><strong>Games Hub</strong><br />모든 게임을 한 번에 고를 수 있는 시작점입니다.</a>
+        <a href="/games/number-merge/"><strong>Number Merge</strong><br />혼자 천천히 즐기기 좋은 2048형 퍼즐입니다.</a>
+        <a href="/games/snake/"><strong>Snake</strong><br />짧은 반응 루프가 필요한 빠른 게임입니다.</a>
+        <a href="/games/minesweeper/"><strong>Minesweeper Lite</strong><br />숫자를 읽고 판단하는 다른 종류의 보드 게임입니다.</a>
+      </div>
+    </section>
+
+    <section class="cf-trust" aria-label="사이트 링크">
+      <strong>사이트 링크</strong>
+      <div class="cf-links">
+        <a href="/about/">About</a>
+        <a href="/guides/">Guides</a>
+        <a href="/privacy/">Privacy Policy</a>
+        <a href="/terms/">Terms</a>
+        <a href="/contact/">Contact</a>
+      </div>
+    </section>
+
+    <div class="cf-footer">Randomly Pick · <a href="/games/">Games</a></div>
+  </main>
+
+  <script>
+    window.__CONNECT_FOUR_COPY__ = {
+      rows: 6,
+      columns: 7,
+      connect: 4,
+      defaultMode: 'local',
+      localLabel: '로컬 2인',
+      cpuLabel: 'vs CPU',
+      readyLabel: '준비됨',
+      playingLabel: '진행 중',
+      winLabel: '승리',
+      drawLabel: '무승부',
+      statusReady: '열 버튼을 누르면 첫 수가 떨어집니다. 같은 기기에서 바로 번갈아 둘 수 있습니다.',
+      statusLocal: '로컬 2인 모드입니다. 빨강과 노랑이 번갈아 둡니다.',
+      statusCpu: 'vs CPU 모드입니다. 한 수 두면 CPU가 바로 응답합니다.',
+      statusWinRed: '빨강이 네 개를 이어서 이겼습니다.',
+      statusWinYellow: '노랑이 네 개를 이어서 이겼습니다.',
+      statusDraw: '보드가 가득 찼습니다. 새 게임으로 다시 시작하세요.',
+      turnRedLabel: '빨강 차례',
+      turnYellowLabel: '노랑 차례',
+      modeLabel: '모드',
+      turnLabel: '현재 차례',
+      redScoreLabel: '빨강 승리',
+      yellowScoreLabel: '노랑 승리',
+      moveCountLabel: '이동 수',
+      targetLabel: '연결',
+      boardLabel: 'Connect Four 보드',
+      columnLabel: '열',
+      newGameLabel: '새 게임',
+      resetLabel: '리셋',
+      localModeNote: '로컬 2인 모드는 한 기기에서 빠르게 번갈아 두기에 가장 잘 맞습니다.',
+      cpuModeNote: 'vs CPU 모드는 혼자 한 판만 가볍게 즐기기에 좋습니다.',
+      keyboardHint: '키보드는 1-7, ← →, Enter, Space, R를 지원합니다.',
+      mobileHint: '모바일에서는 열 버튼만 탭하면 됩니다. 보드 셀을 직접 누를 필요는 없습니다.',
+      firstPlayNote: '첫 플레이는 열 버튼 하나만 누르면 됩니다.'
+    };
+    window.__CONNECT_FOUR_CONFIG__ = {
+      rows: 6,
+      columns: 7,
+      connect: 4,
+      defaultMode: 'local',
+      cpuAvailable: true
+    };
+  </script>
+  <script src="/assets/js/games-connect-four.js?v=20260322-cf1" defer></script>
+</body>
+</html>

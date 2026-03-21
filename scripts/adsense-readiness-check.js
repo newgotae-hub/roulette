@@ -13,6 +13,26 @@ const REQUIRED_GUIDE_FILES = [
   ...LOCALES.flatMap((locale) => [`${locale}/guides/index.html`, ...GUIDE_SLUGS.map((slug) => `${locale}/guides/${slug}/index.html`)])
 ];
 const REQUIRED_LOCALIZED_LEGAL_FILES = LOCALES.flatMap((locale) => ['about', 'contact', 'privacy', 'terms'].map((slug) => `${locale}/${slug}/index.html`));
+const RELEASE_GAME_SLUGS = [
+  'snake',
+  'number-merge',
+  'brick-breaker',
+  'memory-match',
+  'minesweeper',
+  'reaction-tap',
+  'color-lines',
+  'bubble-pop',
+  'sequence-flash',
+  'sliding-puzzle',
+  'connect-four',
+  'solitaire-mini',
+  'word-swipe'
+];
+const REQUIRED_GAME_FILES = RELEASE_GAME_SLUGS.flatMap((slug) => ([
+  `games/${slug}/index.html`,
+  `en/games/${slug}/index.html`,
+  `assets/js/games-${slug}.js`
+]));
 const MIN_CONTENT_UNITS = 400;
 const MAIN_TOOL_FALLBACK_PAGES = ['index.html', 'luckydraw/index.html', 'ladder/index.html', 'coinflip/index.html', 'dice/index.html']
   .concat(LOCALES.flatMap((locale) => ['index.html', 'luckydraw/index.html', 'ladder/index.html', 'coinflip/index.html', 'dice/index.html'].map((rel) => `${locale}/${rel}`)));
@@ -116,6 +136,12 @@ for (const rel of REQUIRED_GUIDE_FILES) {
 for (const rel of REQUIRED_LOCALIZED_LEGAL_FILES) {
   if (!fs.existsSync(path.join(ROOT, rel))) {
     findings.push(`${rel}: localized trust page is missing.`);
+  }
+}
+
+for (const rel of REQUIRED_GAME_FILES) {
+  if (!fs.existsSync(path.join(ROOT, rel))) {
+    findings.push(`${rel}: release game file is missing.`);
   }
 }
 

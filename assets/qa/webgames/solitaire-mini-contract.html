@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Solitaire Mini QA Contract Harness</title>
+  <style>
+    :root{color-scheme:light;--bg:#f8fafc;--panel:rgba(255,255,255,.94);--line:rgba(148,163,184,.22);--text:#0f172a;--muted:#475569;--accent:#0f172a;--soft:#dbeafe}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--text);background:linear-gradient(180deg,#f8fafc 0%,#eef2ff 100%)}
+    .wrap{max-width:1160px;margin:0 auto;padding:20px 16px 44px}
+    .hero,.panel,.trust{border:1px solid var(--line);border-radius:24px;background:var(--panel);box-shadow:0 22px 48px rgba(15,23,42,.08);backdrop-filter:blur(10px)}
+    .hero{padding:24px;margin-bottom:16px}
+    .eyebrow{display:inline-flex;padding:6px 10px;border-radius:999px;background:var(--soft);color:#1d4ed8;font-size:.78rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase}
+    h1{margin:12px 0 8px;font-size:clamp(2rem,6vw,3.4rem);line-height:.95;letter-spacing:-.06em}
+    p{margin:0;color:var(--muted);line-height:1.7}
+    .actions,.meta,.links,.stats{display:flex;flex-wrap:wrap;gap:10px}
+    button,.chip,.slot,.card,.link{border:1px solid var(--line);border-radius:18px;background:#fff}
+    button{font:inherit;min-height:44px;padding:0 14px;cursor:pointer;color:var(--text)}
+    button[data-active="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
+    .layout{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(280px,.92fr);gap:16px;align-items:start}
+    .panel{padding:18px}
+    .head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px}
+    .head h2{margin:0;font-size:1.2rem;letter-spacing:-.04em}
+    .board-shell{padding:14px;border-radius:22px;background:linear-gradient(180deg,#f8fafc,#e2e8f0);border:1px solid rgba(148,163,184,.18)}
+    .foundations,.piles,.tableau{display:grid;gap:10px}
+    .foundations{grid-template-columns:repeat(4,minmax(0,1fr))}
+    .piles{grid-template-columns:repeat(6,minmax(0,1fr));margin-top:10px}
+    .tableau{grid-template-columns:repeat(7,minmax(0,1fr));margin-top:10px}
+    .slot,.pile{min-height:88px;padding:12px;background:rgba(255,255,255,.95)}
+    .slot{display:flex;flex-direction:column;justify-content:space-between;gap:8px}
+    .slot-label,.slot-detail{display:block;color:var(--muted);font-size:.82rem}
+    .column{min-height:168px;padding:4px;border-radius:16px;background:rgba(255,255,255,.35);border:1px solid rgba(148,163,184,.14);position:relative}
+    .card{position:absolute;left:4px;right:4px;min-height:82px;padding:10px;box-shadow:0 10px 18px rgba(15,23,42,.08)}
+    .card.face-down{background:linear-gradient(180deg,#0f172a,#1e293b);color:#fff;border-color:rgba(15,23,42,.28)}
+    .card-rank{display:block;font-size:1rem;font-weight:800}
+    .card-suit{display:block;margin-top:10px;font-size:1.4rem;font-weight:900}
+    .card-suit.red{color:#b91c1c}.card-suit.black{color:#0f172a}
+    .chip{display:inline-flex;align-items:center;min-height:32px;padding:0 11px;border-radius:999px;background:rgba(255,255,255,.9);font-size:.82rem;font-weight:700}
+    .stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+    .stat{padding:12px 14px;border-radius:18px;background:rgba(255,255,255,.94);border:1px solid var(--line)}
+    .stat span{display:block;color:var(--muted);font-size:.82rem;margin-bottom:4px}
+    .status{margin-top:14px;padding:14px 16px;border-radius:18px;background:rgba(255,255,255,.94);border:1px solid var(--line);line-height:1.7}
+    .footer{margin-top:18px;padding-top:18px;border-top:1px solid rgba(148,163,184,.24);color:#64748b;font-size:.92rem;line-height:1.7}
+    .trust{margin-top:18px;padding:18px}
+    .links{margin-top:10px}
+    .link{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 14px;text-decoration:none;font-weight:700;color:#334155;border-radius:999px}
+    @media (max-width:960px){.layout,.stats,.tableau,.piles,.foundations{grid-template-columns:1fr}}
+    @media (max-width:640px){.wrap{padding:12px 12px 32px}.hero,.panel,.trust{border-radius:20px}.hero{padding:18px 16px}.panel{padding:16px}.column{min-height:180px}.card{min-height:80px}.button,.link{min-height:48px}}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <span class="eyebrow">QA contract harness</span>
+      <h1>Solitaire Mini</h1>
+      <p>Fallback QA surface for the upcoming Solitaire Mini route. It exposes the standard hooks and deterministic state so the runner can validate mode, timer, and board serialization before or after the real page lands.</p>
+      <div class="actions">
+        <button id="solitaire-mini-classic" type="button">Classic</button>
+        <button id="solitaire-mini-timed" type="button">Timed</button>
+        <button id="solitaire-mini-daily" type="button">Daily</button>
+        <button id="solitaire-mini-draw" type="button">Draw</button>
+        <button id="solitaire-mini-auto" type="button">Auto move</button>
+        <button id="solitaire-mini-undo" type="button">Undo</button>
+        <button id="solitaire-mini-reset" type="button">Reset</button>
+      </div>
+      <div class="meta" aria-label="Current mode and phase">
+        <span class="chip" id="solitaire-mini-mode">mode: classic</span>
+        <span class="chip" id="solitaire-mini-phase">phase: ready</span>
+        <span class="chip" id="solitaire-mini-daily-key">daily: --</span>
+      </div>
+    </section>
+
+    <div class="layout">
+      <section class="panel">
+        <div class="head">
+          <div>
+            <h2>Board and piles</h2>
+            <p>Stock, waste, foundations, and tableau snapshots stay visible so QA can inspect the current board without guessing.</p>
+          </div>
+          <div class="chip" id="solitaire-mini-seed-chip">seed: --</div>
+        </div>
+        <div class="board-shell">
+          <div id="solitaire-mini-foundations" class="foundations" aria-label="Foundations"></div>
+          <div id="solitaire-mini-piles" class="piles" aria-label="Stock and waste"></div>
+          <div id="solitaire-mini-tableau" class="tableau" aria-label="Tableau"></div>
+        </div>
+        <div class="stats" aria-label="Current stats">
+          <div class="stat"><span>Score</span><strong id="solitaire-mini-score">0</strong></div>
+          <div class="stat"><span>Moves</span><strong id="solitaire-mini-moves">0</strong></div>
+          <div class="stat"><span>Stock</span><strong id="solitaire-mini-stock">0</strong></div>
+          <div class="stat"><span>Waste</span><strong id="solitaire-mini-waste">0</strong></div>
+          <div class="stat"><span>Foundation cards</span><strong id="solitaire-mini-foundation-count">0</strong></div>
+          <div class="stat"><span>Face-up tableau</span><strong id="solitaire-mini-tableau-face-up">0</strong></div>
+          <div class="stat"><span>Timer</span><strong id="solitaire-mini-timer">off</strong></div>
+          <div class="stat"><span>Undo</span><strong id="solitaire-mini-undo-available">false</strong></div>
+        </div>
+        <div class="status" id="solitaire-mini-status" role="status" aria-live="polite">Classic is ready. Draw one card and try to move it to a foundation.</div>
+      </section>
+
+      <aside class="panel">
+        <div class="head">
+          <div>
+            <h2>How it works</h2>
+            <p>Designed for short sessions, clear state, and repeat runs.</p>
+          </div>
+        </div>
+        <div class="slot" style="margin-bottom:12px;"><strong>QA contract fields</strong><div class="slot-detail">mode, phase, score, moves, stockCount, wasteCount, foundationCount, tableauFaceUp, timeLeftMs, timer, seed, dailyKey, wasteTop, foundationTop, tableau, undoAvailable, autoMoveAvailable, qaReady</div></div>
+        <div class="slot" style="margin-bottom:12px;"><strong>Replay loop</strong><div class="slot-detail">Draw, auto move, and undo all produce visible state changes so browser QA can confirm the harness without touching product code.</div></div>
+        <div class="slot"><strong>Mode note</strong><div class="slot-detail">Daily mode uses a deterministic date seed. Timed mode has a short countdown so the runner can verify `advanceTime(ms)` and timeout state.</div></div>
+        <div class="footer">Hooks exposed: <code>QA_READY</code>, <code>render_game_to_text()</code>, <code>advanceTime(ms)</code>, <code>reset()</code>.</div>
+      </aside>
+    </div>
+
+    <section class="trust">
+      <strong>Site links</strong>
+      <div class="links">
+        <a class="link" href="/games/">Games</a>
+        <a class="link" href="/games/snake/">Snake</a>
+        <a class="link" href="/games/number-merge/">Number Merge</a>
+        <a class="link" href="/guides/">Guides</a>
+        <a class="link" href="/about/">About</a>
+      </div>
+    </section>
+  </main>
+  <script>
+    (() => {
+      const suits = ['spades','hearts','clubs','diamonds'];
+      const glyph = {spades:'♠',hearts:'♥',clubs:'♣',diamonds:'♦'};
+      const color = {spades:'black',clubs:'black',hearts:'red',diamonds:'red'};
+      const ranks = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+      const DEFAULT_SEED = 0x5a1f0a11;
+      const TIME_LIMIT_MS = 60000;
+      const copy = {
+        ready: 'Classic is ready. Draw one card and try to move it to a foundation.',
+        dailyReady: 'Daily mode uses today’s shared seed.',
+        timedReady: 'Timed mode gives you one minute to finish the board.',
+        won: 'All foundations are complete.',
+        timeout: 'Time is up. Start a new deal and try again.',
+        stuck: 'No useful move is left.'
+      };
+      const els = {
+        mode: document.getElementById('solitaire-mini-mode'),
+        phase: document.getElementById('solitaire-mini-phase'),
+        dailyKey: document.getElementById('solitaire-mini-daily-key'),
+        seed: document.getElementById('solitaire-mini-seed-chip'),
+        score: document.getElementById('solitaire-mini-score'),
+        moves: document.getElementById('solitaire-mini-moves'),
+        stock: document.getElementById('solitaire-mini-stock'),
+        waste: document.getElementById('solitaire-mini-waste'),
+        foundationCount: document.getElementById('solitaire-mini-foundation-count'),
+        tableauFaceUp: document.getElementById('solitaire-mini-tableau-face-up'),
+        timer: document.getElementById('solitaire-mini-timer'),
+        undoAvailable: document.getElementById('solitaire-mini-undo-available'),
+        status: document.getElementById('solitaire-mini-status'),
+        foundations: document.getElementById('solitaire-mini-foundations'),
+        piles: document.getElementById('solitaire-mini-piles'),
+        tableau: document.getElementById('solitaire-mini-tableau')
+      };
+      const btn = {
+        classic: document.getElementById('solitaire-mini-classic'),
+        timed: document.getElementById('solitaire-mini-timed'),
+        daily: document.getElementById('solitaire-mini-daily'),
+        draw: document.getElementById('solitaire-mini-draw'),
+        auto: document.getElementById('solitaire-mini-auto'),
+        undo: document.getElementById('solitaire-mini-undo'),
+        reset: document.getElementById('solitaire-mini-reset')
+      };
+      const state = {
+        mode: 'classic', phase: 'ready', score: 0, moves: 0, seed: DEFAULT_SEED, dailyKey: '',
+        timeLimitMs: 0, elapsedMs: 0, timeLeftMs: 0, stock: [], waste: [], foundations: [], tableau: [],
+        history: [], undoAvailable: false, autoMoveAvailable: false, selected: null, gameOver: false
+      };
+      function localDateKey(d = new Date()) { return `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`; }
+      function hashString(input) { let hash = 0x811c9dc5; for (let i=0;i<input.length;i++) { hash ^= input.charCodeAt(i); hash = Math.imul(hash, 0x01000193); } return (hash >>> 0) || DEFAULT_SEED; }
+      function dailySeed() { return hashString(`solitaire-mini:${localDateKey()}`); }
+      function normalizeSeed(seed) { if (Number.isFinite(seed)) return (seed >>> 0) || DEFAULT_SEED; const parsed = Number.parseInt(String(seed), 10); return Number.isFinite(parsed) ? ((parsed >>> 0) || DEFAULT_SEED) : DEFAULT_SEED; }
+      function createRng(seed) { let value = normalizeSeed(seed); return () => { value ^= value << 13; value ^= value >>> 17; value ^= value << 5; return (value >>> 0) / 4294967296; }; }
+      function makeCard(suit, rank) { return { suit, rank, label: `${ranks[rank-1]}${glyph[suit]}`, color: color[suit] }; }
+      function clone(c) { return c ? { ...c } : null; }
+      function makeDeck(seed) { const deck=[]; for (const suit of suits) for (let rank=1; rank<=13; rank++) deck.push(makeCard(suit, rank)); const rng=createRng(seed); for (let i=deck.length-1;i>0;i--) { const j=Math.floor(rng()*(i+1)); [deck[i], deck[j]]=[deck[j], deck[i]]; } return deck; }
+      function createFoundations() { return suits.map((suit) => ({ suit, cards: [] })); }
+      function createTableau(deck) { const tableau=[]; for (let p=0;p<7;p++) { const pile=[]; for (let i=0;i<=p;i++) { const card=clone(deck.shift()); card.faceUp = i===p; pile.push(card); } tableau.push(pile); } return tableau; }
+      function createState(mode = 'classic', seed = DEFAULT_SEED) {
+        const actualMode = mode === 'daily' ? 'daily' : mode === 'timed' ? 'timed' : 'classic';
+        const actualSeed = actualMode === 'daily' ? dailySeed() : normalizeSeed(seed);
+        const deck = makeDeck(actualSeed);
+        return { mode: actualMode, phase: 'ready', score: 0, moves: 0, seed: actualSeed, dailyKey: localDateKey(), timeLimitMs: actualMode === 'classic' ? 0 : TIME_LIMIT_MS, elapsedMs: 0, timeLeftMs: actualMode === 'classic' ? 0 : TIME_LIMIT_MS, stock: deck, waste: [], foundations: createFoundations(), tableau: createTableau(deck), history: [], undoAvailable: false, autoMoveAvailable: false, selected: null, gameOver: false };
+      }
+      function foundationCount() { return state.foundations.reduce((n,p) => n + p.cards.length, 0); }
+      function tableauFaceUpCount() { return state.tableau.reduce((n,p) => n + p.filter((c) => c.faceUp).length, 0); }
+      function wasteTop() { return state.waste.length ? state.waste[state.waste.length - 1].label : '—'; }
+      function foundationTop() { return state.foundations.map((p) => (p.cards.length ? p.cards[p.cards.length - 1].label : '—')); }
+      function cardColor(c) { return c.color === 'red' ? 'red' : 'black'; }
+      function cardCanGoToFoundation(card, foundation) { if (!card) return false; if (!foundation.cards.length) return card.rank === 1; const top = foundation.cards[foundation.cards.length - 1]; return top.suit === card.suit && card.rank === top.rank + 1; }
+      function cardCanGoToTableau(card, pile) { if (!card) return false; if (!pile.length) return card.rank === 13; const top = pile[pile.length - 1]; return top.faceUp && cardColor(top) !== cardColor(card) && card.rank === top.rank - 1; }
+      function topFaceUpCard(pile) { for (let i = pile.length - 1; i >= 0; i--) if (pile[i].faceUp) return { card: pile[i], index: i }; return null; }
+      function seq(pile, start) { return pile.slice(start); }
+      function descending(cards) { for (let i = 0; i < cards.length - 1; i++) { const a = cards[i], b = cards[i+1]; if (!a.faceUp || !b.faceUp || a.rank !== b.rank + 1 || cardColor(a) === cardColor(b)) return false; } return !!cards.length; }
+      function snap() { return JSON.parse(JSON.stringify({ mode: state.mode, phase: state.phase, score: state.score, moves: state.moves, seed: state.seed, dailyKey: state.dailyKey, timeLimitMs: state.timeLimitMs, elapsedMs: state.elapsedMs, timeLeftMs: state.timeLeftMs, stock: state.stock, waste: state.waste, foundations: state.foundations, tableau: state.tableau, selected: state.selected, undoAvailable: state.undoAvailable, autoMoveAvailable: state.autoMoveAvailable, gameOver: state.gameOver })); }
+      function restore(snapshot) { Object.assign(state, JSON.parse(JSON.stringify(snapshot))); }
+      function capture() { state.history.push(snap()); state.undoAvailable = state.history.length > 0; }
+      function modeLabel() { return state.mode === 'daily' ? 'Daily challenge' : state.mode === 'timed' ? 'Timed' : 'Classic'; }
+      function phaseLabel() { return state.phase === 'playing' ? 'Playing' : state.phase === 'won' ? 'Won' : state.phase === 'timeout' ? 'Timeout' : state.phase === 'stuck' ? 'Stuck' : 'Ready'; }
+      function statusText() { if (state.phase === 'won') return copy.won; if (state.phase === 'timeout') return copy.timeout; if (state.phase === 'stuck') return copy.stuck; if (state.mode === 'daily') return copy.dailyReady; if (state.mode === 'timed') return copy.timedReady; return copy.ready; }
+      function updateModeButtons() { Object.entries({ classic: btn.classic, timed: btn.timed, daily: btn.daily }).forEach(([mode, button]) => { if (button) button.dataset.active = String(state.mode === mode); }); }
+      function buildFoundations() { els.foundations.innerHTML = ''; suits.forEach((suit, index) => { const f = state.foundations[index]; const b = document.createElement('button'); b.type = 'button'; b.className = 'slot'; b.dataset.source = 'foundation'; b.dataset.index = String(index); b.innerHTML = `<span class="slot-label">${glyph[suit]}</span><strong>${f.cards.length ? f.cards[f.cards.length - 1].label : `A${glyph[suit]}`}</strong>`; els.foundations.appendChild(b); }); }
+      function buildPiles() {
+        els.piles.innerHTML = '';
+        const stock = document.createElement('button'); stock.type = 'button'; stock.className = 'pile'; stock.dataset.source = 'stock'; stock.innerHTML = `<span class="slot-label">Stock</span><strong>${state.stock.length}</strong><span class="slot-detail">${state.stock.length ? 'Draw' : 'Recycle'}</span>`; els.piles.appendChild(stock);
+        const waste = document.createElement('button'); waste.type = 'button'; waste.className = 'pile'; waste.dataset.source = 'waste'; const top = state.waste.length ? state.waste[state.waste.length - 1] : null; waste.innerHTML = `<span class="slot-label">Waste</span><strong>${top ? top.label : '—'}</strong><span class="slot-detail">${top ? 'Top card' : 'Empty'}</span>`; els.piles.appendChild(waste);
+      }
+      function buildTableau() {
+        els.tableau.innerHTML = '';
+        state.tableau.forEach((pile, pileIndex) => {
+          const col = document.createElement('div'); col.className = 'column';
+          pile.forEach((card, cardIndex) => {
+            const b = document.createElement('button'); b.type = 'button'; b.className = `card ${card.faceUp ? 'face-up' : 'face-down'}`; b.dataset.source = 'tableau'; b.dataset.pile = String(pileIndex); b.dataset.index = String(cardIndex); b.disabled = !card.faceUp; b.style.top = `${cardIndex * 20}px`; b.style.zIndex = String(cardIndex + 1);
+            b.innerHTML = card.faceUp ? `<span class="card-rank">${card.label.replace(/[♠♥♣♦]/,'')}</span><span class="card-suit ${cardColor(card)}">${glyph[card.suit]}</span>` : '<span class="card-suit">▣</span>';
+            col.appendChild(b);
+          });
+          els.tableau.appendChild(col);
+        });
+      }
+      function updateHud() {
+        els.mode.textContent = `mode: ${modeLabel().toLowerCase()}`;
+        els.phase.textContent = `phase: ${state.phase}`;
+        els.dailyKey.textContent = `daily: ${state.dailyKey || localDateKey()}`;
+        els.seed.textContent = `seed: ${state.seed}`;
+        els.score.textContent = String(state.score);
+        els.moves.textContent = String(state.moves);
+        els.stock.textContent = String(state.stock.length);
+        els.waste.textContent = String(state.waste.length);
+        els.foundationCount.textContent = String(foundationCount());
+        els.tableauFaceUp.textContent = String(tableauFaceUpCount());
+        els.timer.textContent = state.timeLimitMs ? `${Math.max(0, Math.ceil(state.timeLeftMs / 1000))}s` : 'off';
+        els.undoAvailable.textContent = String(state.undoAvailable);
+        updateModeButtons(); buildFoundations(); buildPiles(); buildTableau(); els.status.textContent = statusText();
+      }
+      function updateAutoMoveAvailable() {
+        let available = false;
+        const wasteCard = state.waste[state.waste.length - 1];
+        if (wasteCard) { const foundation = state.foundations[suits.indexOf(wasteCard.suit)]; if (cardCanGoToFoundation(wasteCard, foundation)) available = true; }
+        if (!available) for (const pile of state.tableau) { const top = topFaceUpCard(pile); if (!top) continue; const foundation = state.foundations[suits.indexOf(top.card.suit)]; if (cardCanGoToFoundation(top.card, foundation)) { available = true; break; } }
+        state.autoMoveAvailable = available;
+      }
+      function evaluatePhase() {
+        if (state.timeLimitMs > 0 && state.timeLeftMs <= 0) { state.phase = 'timeout'; state.gameOver = true; return; }
+        if (foundationCount() === 52) { state.phase = 'won'; state.gameOver = true; return; }
+        updateAutoMoveAvailable();
+        const canDraw = state.stock.length > 0 || state.waste.length > 0;
+        const hasTableauMove = state.tableau.some((pile, index) => {
+          const top = topFaceUpCard(pile);
+          if (!top) return false;
+          return state.tableau.some((other, otherIndex) => otherIndex !== index && cardCanGoToTableau(top.card, other)) || state.foundations.some((f) => cardCanGoToFoundation(top.card, f));
+        });
+        if (!canDraw && !hasTableauMove && !state.autoMoveAvailable && !state.selected) { state.phase = 'stuck'; state.gameOver = true; return; }
+        state.phase = state.moves === 0 && !state.selected ? 'ready' : 'playing';
+      }
+      function drawCard() { if (state.phase === 'won' || state.phase === 'timeout') return render_game_to_text(); capture(); state.selected = null; if (!state.stock.length) { if (!state.waste.length) { state.phase = 'stuck'; state.gameOver = true; updateHud(); return render_game_to_text(); } state.stock = state.waste.slice().reverse().map(clone); state.waste = []; } const card = clone(state.stock.shift()); state.waste.push(card); state.moves += 1; state.phase = 'playing'; evaluatePhase(); updateHud(); return render_game_to_text(); }
+      function moveWasteToFoundation(index) { const card = state.waste[state.waste.length - 1]; if (!card) return false; const foundation = state.foundations[index]; if (!cardCanGoToFoundation(card, foundation)) return false; state.waste.pop(); foundation.cards.push(card); state.moves += 1; state.score += 10; state.selected = null; return true; }
+      function moveWasteToTableau(targetPileIndex) { const card = state.waste[state.waste.length - 1]; if (!card) return false; const pile = state.tableau[targetPileIndex]; if (!cardCanGoToTableau(card, pile)) return false; state.waste.pop(); pile.push({ ...card, faceUp: true }); state.moves += 1; state.score += 5; state.selected = null; return true; }
+      function moveTableauToFoundation(sourcePileIndex, cardIndex, foundationIndex) { const pile = state.tableau[sourcePileIndex]; const foundation = state.foundations[foundationIndex]; const moving = pile.slice(cardIndex); const topCard = moving[moving.length - 1]; if (!topCard || !topCard.faceUp || !cardCanGoToFoundation(topCard, foundation) || moving.length !== 1) return false; pile.splice(cardIndex, 1); if (pile.length && !pile[pile.length - 1].faceUp) pile[pile.length - 1].faceUp = true; foundation.cards.push(topCard); state.moves += 1; state.score += 10; state.selected = null; return true; }
+      function moveTableauToTableau(sourcePileIndex, cardIndex, targetPileIndex) { if (sourcePileIndex === targetPileIndex) return false; const source = state.tableau[sourcePileIndex]; const target = state.tableau[targetPileIndex]; const moving = seq(source, cardIndex); if (!moving.length || !moving[0].faceUp || !descending(moving)) return false; if (!cardCanGoToTableau(moving[0], target)) return false; source.splice(cardIndex, moving.length); if (source.length && !source[source.length - 1].faceUp) source[source.length - 1].faceUp = true; target.push(...moving); state.moves += 1; state.score += moving.length > 1 ? 8 : 5; state.selected = null; return true; }
+      function handleCardClick(target) {
+        if (state.phase === 'won' || state.phase === 'timeout') return;
+        const source = target.dataset.source;
+        if (source === 'waste') { if (!state.selected) { state.selected = { source: 'waste', index: state.waste.length - 1 }; updateHud(); return; } capture(); let moved = moveWasteToFoundation(0); if (!moved) moved = state.tableau.some((_, i) => moveWasteToTableau(i)); if (!moved) state.selected = null; evaluatePhase(); updateHud(); return; }
+        if (source === 'foundation') { const index = Number(target.dataset.index); if (Number.isNaN(index) || !state.selected) return; capture(); let moved = false; if (state.selected.source === 'waste') moved = moveWasteToFoundation(index); else if (state.selected.source === 'tableau') moved = moveTableauToFoundation(state.selected.pile, state.selected.index, index); if (!moved) state.selected = null; evaluatePhase(); updateHud(); return; }
+        if (source === 'tableau') { const pileIndex = Number(target.dataset.pile); const cardIndex = Number(target.dataset.index); if (Number.isNaN(pileIndex) || Number.isNaN(cardIndex)) return; const pile = state.tableau[pileIndex]; const card = pile[cardIndex]; if (!card || !card.faceUp) return; if (!state.selected) { state.selected = { source: 'tableau', pile: pileIndex, index: cardIndex }; updateHud(); return; } capture(); let moved = false; if (state.selected.source === 'waste') { if (cardIndex === pile.length - 1) moved = moveWasteToTableau(pileIndex); } else if (state.selected.source === 'tableau') { if (state.selected.pile === pileIndex && state.selected.index === cardIndex) { state.selected = null; state.history.pop(); state.undoAvailable = state.history.length > 0; updateHud(); return; } moved = moveTableauToTableau(state.selected.pile, state.selected.index, pileIndex); } if (!moved) state.selected = null; evaluatePhase(); updateHud(); }
+      }
+      function autoMove() {
+        if (state.phase === 'won' || state.phase === 'timeout') return render_game_to_text();
+        capture(); let moved = false; let loop = true;
+        while (loop) {
+          loop = false;
+          const wasteCard = state.waste[state.waste.length - 1];
+          if (wasteCard) { const fIndex = suits.indexOf(wasteCard.suit); if (cardCanGoToFoundation(wasteCard, state.foundations[fIndex])) { moved = moveWasteToFoundation(fIndex) || moved; loop = true; continue; } }
+          for (let pileIndex = 0; pileIndex < state.tableau.length; pileIndex++) {
+            const top = topFaceUpCard(state.tableau[pileIndex]); if (!top) continue;
+            const fIndex = suits.indexOf(top.card.suit);
+            if (cardCanGoToFoundation(top.card, state.foundations[fIndex])) { moved = moveTableauToFoundation(pileIndex, top.index, fIndex) || moved; loop = true; break; }
+          }
+        }
+        state.selected = null;
+        if (!moved && state.history.length) { state.history.pop(); state.undoAvailable = state.history.length > 0; }
+        evaluatePhase(); updateHud(); return render_game_to_text();
+      }
+      function undo() { if (!state.history.length) return render_game_to_text(); restore(state.history.pop()); state.undoAvailable = state.history.length > 0; updateAutoMoveAvailable(); updateHud(); return render_game_to_text(); }
+      function setMode(mode) { const next = mode === 'daily' ? 'daily' : mode === 'timed' ? 'timed' : 'classic'; Object.assign(state, createState(next, next === 'daily' ? dailySeed() : state.seed || DEFAULT_SEED)); state.history = []; state.undoAvailable = false; updateAutoMoveAvailable(); updateHud(); return render_game_to_text(); }
+      function resetGame(seed = DEFAULT_SEED, options = {}) { const mode = options.mode || 'classic'; const next = mode === 'daily' ? 'daily' : mode === 'timed' ? 'timed' : 'classic'; Object.assign(state, createState(next, next === 'daily' ? dailySeed() : normalizeSeed(seed))); state.dailyKey = localDateKey(); state.history = []; updateAutoMoveAvailable(); updateHud(); return render_game_to_text(); }
+      function advanceTime(ms) { const delta = Math.max(0, Number(ms || 0)); if (state.timeLimitMs > 0 && state.phase !== 'won' && state.phase !== 'timeout') { state.elapsedMs += delta; state.timeLeftMs = Math.max(0, state.timeLimitMs - state.elapsedMs); if (state.timeLeftMs <= 0) { state.phase = 'timeout'; state.gameOver = true; } } updateAutoMoveAvailable(); updateHud(); return render_game_to_text(); }
+      function render_game_to_text() { return JSON.stringify({ game: 'solitaire-mini', mode: state.mode, phase: state.phase, score: state.score, moves: state.moves, stockCount: state.stock.length, wasteCount: state.waste.length, foundationCount: foundationCount(), tableauFaceUp: tableauFaceUpCount(), timeLimitMs: state.timeLimitMs, elapsedMs: state.elapsedMs, timeLeftMs: state.timeLeftMs, timeLeft: Math.ceil(state.timeLeftMs / 1000), timer: Math.ceil(state.timeLeftMs / 1000), seed: state.seed, dailyKey: state.dailyKey, wasteTop: wasteTop(), foundationTop: foundationTop(), tableau: state.tableau.map((pile, index) => ({ index, cards: pile.map((card) => ({ label: card.label, suit: card.suit, rank: card.rank, faceUp: Boolean(card.faceUp) })), faceUp: pile.filter((card) => card.faceUp).length, top: pile.length ? pile[pile.length - 1].label : '—' })), undoAvailable: state.undoAvailable, autoMoveAvailable: state.autoMoveAvailable, qaReady: true }); }
+      function handleBoardClick(event) { const target = event.target.closest('[data-source]'); if (!target || target.disabled) return; if (target.dataset.source === 'stock') { drawCard(); return; } handleCardClick(target); }
+      function bindControls() {
+        if (els.foundations) els.foundations.addEventListener('click', handleBoardClick);
+        if (els.piles) els.piles.addEventListener('click', handleBoardClick);
+        if (els.tableau) els.tableau.addEventListener('click', handleBoardClick);
+        if (btn.classic) btn.classic.addEventListener('click', () => setMode('classic'));
+        if (btn.timed) btn.timed.addEventListener('click', () => setMode('timed'));
+        if (btn.daily) btn.daily.addEventListener('click', () => setMode('daily'));
+        if (btn.draw) btn.draw.addEventListener('click', drawCard);
+        if (btn.auto) btn.auto.addEventListener('click', autoMove);
+        if (btn.undo) btn.undo.addEventListener('click', undo);
+        if (btn.reset) btn.reset.addEventListener('click', () => resetGame(DEFAULT_SEED, { mode: state.mode }));
+        window.addEventListener('keydown', (event) => {
+          const key = event.key.toLowerCase();
+          if (key === 'escape') { event.preventDefault(); state.selected = null; updateHud(); }
+          else if (key === 'r') { event.preventDefault(); resetGame(DEFAULT_SEED, { mode: state.mode }); }
+          else if (key === 'd') { event.preventDefault(); drawCard(); }
+          else if (key === 'u') { event.preventDefault(); undo(); }
+          else if (key === '1') { event.preventDefault(); setMode('classic'); }
+          else if (key === '2') { event.preventDefault(); setMode('timed'); }
+          else if (key === '3') { event.preventDefault(); setMode('daily'); }
+        });
+      }
+      function init() {
+        if (els.foundations) els.foundations.setAttribute('aria-label', 'Foundations');
+        if (els.piles) els.piles.setAttribute('aria-label', 'Stock and waste');
+        if (els.tableau) els.tableau.setAttribute('aria-label', 'Tableau');
+        bindControls();
+        resetGame(DEFAULT_SEED, { mode: 'classic' });
+        window.render_game_to_text = render_game_to_text;
+        window.advanceTime = advanceTime;
+        window.reset = resetGame;
+        window.resetGame = resetGame;
+        window.setSolitaireMiniMode = setMode;
+        window.drawSolitaireMini = drawCard;
+        window.autoMoveSolitaireMini = autoMove;
+        window.undoSolitaireMini = undo;
+        window.QA_READY = true;
+        window.__WEBGAME_QA_READY__ = true;
+      }
+      init();
+    })();
+  </script>
+</body>
+</html>

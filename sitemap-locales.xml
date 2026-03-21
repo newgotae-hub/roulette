@@ -679,6 +679,24 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://randomly-pick.com/en/games/connect-four/</loc>
+    <lastmod>2026-03-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://randomly-pick.com/en/games/solitaire-mini/</loc>
+    <lastmod>2026-03-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://randomly-pick.com/en/games/word-swipe/</loc>
+    <lastmod>2026-03-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://randomly-pick.com/en/privacy/</loc>
     <lastmod>2026-03-21</lastmod>
     <changefreq>monthly</changefreq>

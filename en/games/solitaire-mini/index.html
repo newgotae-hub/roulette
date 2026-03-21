@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Solitaire Mini | Randomly Pick</title>
+  <meta name="description" content="Play a compact solitaire-style card game in the browser. Draw, stack, move to foundations, and revisit the same daily seed when you want a quick repeat run." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://randomly-pick.com/en/games/solitaire-mini/" />
+  <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/solitaire-mini/" />
+  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/games/solitaire-mini/" />
+  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/games/solitaire-mini/" />
+  <link rel="stylesheet" href="/assets/css/games-solitaire-mini.css?v=20260322-sm1" />
+  <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
+</head>
+<body>
+  <main class="sm-wrap">
+    <div class="sm-topbar">
+      <div class="sm-brand">
+        <div class="sm-brand-mark">R.</div>
+        <div>
+          <div class="sm-brand-name">Randomly Pick</div>
+          <div class="sm-brand-sub">Solitaire Mini</div>
+        </div>
+      </div>
+      <nav class="sm-nav" aria-label="Primary">
+        <a href="/en/">Home</a>
+        <a href="/en/games/" class="is-active" aria-current="page">Games</a>
+        <a href="/en/games/snake/">Snake</a>
+        <a href="/en/games/number-merge/">Number Merge</a>
+        <a href="/en/games/color-lines/">Color Lines</a>
+      </nav>
+    </div>
+
+    <section class="sm-hero">
+      <span class="sm-eyebrow">Card puzzle</span>
+      <h1 class="sm-title">Solitaire Mini</h1>
+      <p class="sm-lede">A compact solitaire-style browser game with clean rules and a fast repeat loop. Draw cards, build foundations, and revisit the same daily seed when you want a short, familiar challenge.</p>
+      <div class="sm-actions">
+        <a class="sm-button is-primary" href="#play-area">Start board</a>
+        <a class="sm-button" href="/en/games/">Back to Games</a>
+      </div>
+      <div class="sm-chips" aria-label="Game highlights">
+        <span class="sm-chip">Classic / Timed / Daily</span>
+        <span class="sm-chip">Draw, auto move, undo</span>
+        <span class="sm-chip">Mobile and webview ready</span>
+        <span class="sm-chip">Deterministic QA hooks</span>
+      </div>
+      <div class="sm-meta-row" aria-label="Current state">
+        <span id="solitaire-mini-phase" class="sm-tag">ready</span>
+        <span id="solitaire-mini-mode" class="sm-tag">classic</span>
+      </div>
+      <div class="sm-hint" id="solitaire-mini-hint">Draw a card first, then move anything that can reach a foundation. If the board gets crowded, use tableau moves to open a lane.</div>
+    </section>
+
+    <div class="sm-layout" id="play-area">
+      <section class="sm-panel" aria-labelledby="board-title">
+        <div class="sm-panel-head">
+          <div>
+            <h2 id="board-title">Board</h2>
+            <p>Keep stock, waste, foundations, and tableau visible at once.</p>
+          </div>
+          <div class="sm-toolbar">
+            <button id="solitaire-mini-classic" type="button" data-emphasis="true">Classic</button>
+            <button id="solitaire-mini-timed" type="button">Timed</button>
+            <button id="solitaire-mini-daily" type="button">Daily</button>
+            <button id="solitaire-mini-reset" type="button">New deal</button>
+          </div>
+        </div>
+
+        <div class="sm-board-shell">
+          <div id="solitaire-mini-foundations" class="sm-foundations" aria-label="Foundations"></div>
+          <div id="solitaire-mini-piles" class="sm-piles" aria-label="Stock and waste"></div>
+          <div id="solitaire-mini-tableau" class="sm-tableau" aria-label="Tableau"></div>
+        </div>
+
+        <div class="sm-stats" aria-label="Current stats">
+          <div class="sm-stat"><span>Score</span><strong id="solitaire-mini-score">0</strong></div>
+          <div class="sm-stat"><span>Moves</span><strong id="solitaire-mini-moves">0</strong></div>
+          <div class="sm-stat"><span>Stock</span><strong id="solitaire-mini-stock">0</strong></div>
+          <div class="sm-stat"><span>Waste</span><strong id="solitaire-mini-waste">0</strong></div>
+          <div class="sm-stat"><span>Foundation cards</span><strong id="solitaire-mini-foundation-count">0</strong></div>
+          <div class="sm-stat"><span>Face-up tableau</span><strong id="solitaire-mini-tableau-face-up">0</strong></div>
+          <div class="sm-stat"><span>Timer</span><strong id="solitaire-mini-timer">off</strong></div>
+          <div class="sm-stat"><span>Undo</span><strong id="solitaire-mini-undo-available">false</strong></div>
+        </div>
+
+        <div class="sm-status" id="solitaire-mini-status" role="status" aria-live="polite">Classic is ready. Draw one card and check whether it can move to a foundation first.</div>
+      </section>
+
+      <aside class="sm-panel" aria-labelledby="guide-title">
+        <div class="sm-panel-head">
+          <div>
+            <h2 id="guide-title">How it works</h2>
+            <p>Built for short sessions, clear state, and quick repeat play.</p>
+          </div>
+        </div>
+        <div class="sm-copy-grid" style="margin-top:16px;">
+          <div class="sm-copy-card"><strong>Modes</strong><p>Classic is free practice, Timed gives you one minute, and Daily uses a shared seed so everyone works from the same setup.</p></div>
+          <div class="sm-copy-card"><strong>Replay loop</strong><p>Draw, auto move, and undo all keep the pace quick so the game feels good on repeat visits.</p></div>
+        </div>
+        <div class="sm-section" style="margin-top:16px;">
+          <div class="sm-section-head"><h2>When it fits</h2></div>
+          <p>It is a good fit when you want something calmer than Snake, but still want a real game with a board you can read at a glance.</p>
+        </div>
+      </aside>
+    </div>
+
+    <section class="sm-section" aria-labelledby="howto-title">
+      <div class="sm-section-head">
+        <h2 id="howto-title">How to play</h2>
+        <p>Keep the rules simple and the board readable.</p>
+      </div>
+      <div class="sm-steps">
+        <div class="sm-step"><strong>1. Draw a card.</strong> Tap Stock to move one card into Waste.</div>
+        <div class="sm-step"><strong>2. Build foundations by suit.</strong> A through K in order, one suit per pile.</div>
+        <div class="sm-step"><strong>3. Open lanes in tableau.</strong> Move cards around to expose the next playable cards.</div>
+      </div>
+    </section>
+
+    <section class="sm-section" aria-labelledby="uses-title">
+      <div class="sm-section-head">
+        <h2 id="uses-title">When this game fits</h2>
+        <p>Best for thoughtful short breaks and repeat runs.</p>
+      </div>
+      <div class="sm-uses">
+        <div class="sm-use"><strong>Short breaks</strong> One run is enough, and the board is easy to restart when you only have a minute.</div>
+        <div class="sm-use"><strong>Daily challenge</strong> The daily seed gives the game a small return loop without needing accounts or leaderboards.</div>
+        <div class="sm-use"><strong>Phone and webview</strong> Large tap targets and compact card stacks make the game comfortable on smaller screens.</div>
+      </div>
+    </section>
+
+    <section class="sm-section" aria-labelledby="related-title">
+      <div class="sm-section-head">
+        <h2 id="related-title">More Randomly Pick games</h2>
+        <p>If you want a different pace, the rest of the game hub is one click away.</p>
+      </div>
+      <div class="sm-related">
+        <a href="/en/games/number-merge/"><strong>Number Merge</strong><br />A more compact tile puzzle with daily play.</a>
+        <a href="/en/games/snake/"><strong>Snake</strong><br />A faster reaction game with a tighter rhythm.</a>
+        <a href="/en/games/color-lines/"><strong>Color Lines</strong><br />Another board puzzle with route planning.</a>
+        <a href="/en/about/"><strong>About</strong><br />Read the product background and site links.</a>
+      </div>
+    </section>
+
+    <section class="sm-trust">
+      <strong>Site links</strong>
+      <div class="sm-links">
+        <a href="/en/about/">About</a>
+        <a href="/en/guides/">Guides</a>
+        <a href="/en/privacy/">Privacy Policy</a>
+        <a href="/en/terms/">Terms</a>
+        <a href="/en/contact/">Contact</a>
+      </div>
+    </section>
+
+    <div class="sm-footer">Randomly Pick ⟪ <a href="/en/games/">Games</a> | <a href="/en/games/solitaire-mini/">Solitaire Mini</a></div>
+  </main>
+
+  <script>
+    window.__SOLITAIRE_MINI_COPY__ = {
+      classicModeLabel: 'Classic',
+      timedModeLabel: 'Timed',
+      dailyModeLabel: 'Daily',
+      readyLabel: 'ready',
+      playingLabel: 'playing',
+      wonLabel: 'won',
+      timeoutLabel: 'timeout',
+      stuckLabel: 'stuck',
+      stockLabel: 'Stock',
+      wasteLabel: 'Waste',
+      drawLabel: 'Draw',
+      recycleLabel: 'Recycle',
+      wasteTopLabel: 'Top card',
+      emptyWasteLabel: 'Empty',
+      foundationStartLabel: 'Start foundation',
+      faceUpLabel: 'face up',
+      faceDownLabel: 'face down card',
+      tableauPileLabel: 'Tableau pile',
+      dailyLabel: 'daily',
+      seedLabel: 'seed',
+      timerOffLabel: 'off',
+      readyStatus: 'Draw a card, then try to move it to a foundation.',
+      dailyReadyStatus: 'Daily mode uses today’s shared seed.',
+      timedReadyStatus: 'Timed mode gives you one minute to finish the board.',
+      selectedStatus: 'Pick a valid target pile or foundation.',
+      wonStatus: 'All foundations are complete.',
+      timeoutStatus: 'Time is up. Start a new deal and try again.',
+      stuckStatus: 'No useful move is left.',
+      emptyStockHint: 'No cards are left to draw.',
+      drawnLabel: 'Drew',
+      wasteSelectedHint: 'Waste card selected. Choose a target.',
+      tableauSelectedHint: 'Tableau card selected. Choose a target.',
+      invalidTargetHint: 'That target does not accept this card.',
+      autoMoveHint: 'No automatic move is available.',
+      autoMoveDoneHint: 'Auto move finished.',
+      foundationRowLabel: 'Foundations',
+      stockWasteLabel: 'Stock and waste',
+      tableauLabel: 'Tableau'
+    };
+    window.__SOLITAIRE_MINI_META__ = { lang: 'en' };
+  </script>
+  <script src="/assets/js/games-solitaire-mini.js?v=20260322-sm1"></script>
+</body>
+</html>

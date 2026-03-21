@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Word Swipe QA Contract Harness</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f8fafc;
+      --panel: #ffffff;
+      --line: rgba(148, 163, 184, 0.22);
+      --text: #0f172a;
+      --muted: #475569;
+      --accent: #0f172a;
+      --accent-soft: #eef2ff;
+      --good: #0f766e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 16% 10%, rgba(59,130,246,.08), transparent 24%),
+        linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+    }
+    main {
+      max-width: 980px;
+      margin: 0 auto;
+      padding:
+        calc(18px + env(safe-area-inset-top, 0px))
+        calc(16px + env(safe-area-inset-right, 0px))
+        calc(36px + env(safe-area-inset-bottom, 0px))
+        calc(16px + env(safe-area-inset-left, 0px));
+    }
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: rgba(255,255,255,.94);
+      box-shadow: 0 20px 40px rgba(15,23,42,.06);
+      padding: 18px;
+    }
+    .toolbar, .stats, .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    .board {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .cell, .button {
+      min-height: 50px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      font-weight: 700;
+    }
+    .cell[data-state="selected"] {
+      background: #0f172a;
+      color: #fff;
+      border-color: #0f172a;
+    }
+    .cell[data-state="found"] {
+      background: rgba(15,118,110,.12);
+      color: var(--good);
+      border-color: rgba(15,118,110,.28);
+    }
+    .button.primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #3730a3;
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    h1 { margin: 14px 0 10px; font-size: clamp(1.8rem, 4vw, 2.8rem); letter-spacing: -.05em; }
+    p { color: var(--muted); line-height: 1.7; }
+    .stats { margin-top: 16px; }
+    .stat {
+      flex: 1 1 120px;
+      min-width: 120px;
+      padding: 12px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+    .stat span { display: block; font-size: .78rem; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+    .stat strong { display: block; margin-top: 6px; font-size: 1rem; }
+    .status {
+      margin-top: 16px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="panel">
+      <span class="eyebrow">QA harness</span>
+      <h1>Word Swipe QA Contract Harness</h1>
+      <p>This fallback keeps the standard Randomly Pick webgame QA hooks available before the live route lands. It stays deterministic, mobile-friendly, and small enough to validate reset, daily mode, and word completion.</p>
+      <div class="actions">
+        <button id="word-swipe-start" class="button primary" type="button">Start</button>
+        <button id="word-swipe-daily" class="button" type="button">Daily board</button>
+        <button id="word-swipe-reset" class="button" type="button">Reset</button>
+      </div>
+      <div class="stats">
+        <div class="stat"><span>Mode</span><strong id="word-swipe-mode">Free</strong></div>
+        <div class="stat"><span>Target</span><strong id="word-swipe-target">WAVE</strong></div>
+        <div class="stat"><span>Score</span><strong id="word-swipe-score">0</strong></div>
+        <div class="stat"><span>Best</span><strong id="word-swipe-best">0</strong></div>
+        <div class="stat"><span>Words solved</span><strong id="word-swipe-words">0</strong></div>
+        <div class="stat"><span>Elapsed</span><strong id="word-swipe-elapsed">0.0s</strong></div>
+      </div>
+      <div id="word-swipe-status" class="status">Press Start and swipe the target word in order.</div>
+      <div id="word-swipe-board" class="board" role="grid" aria-label="Word Swipe board"></div>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      const DEFAULT_SEED = 0x776f7264;
+      const STORAGE_KEY = 'qa-word-swipe-best-v1';
+      const WORDS = ['WAVE', 'TIDE', 'PLAY', 'WORD'];
+      const BOARDS = {
+        free: ['W', 'A', 'V', 'E', 'T', 'I', 'D', 'E', 'P', 'L', 'A', 'Y', 'W', 'O', 'R', 'D'],
+        daily: ['P', 'L', 'A', 'Y', 'W', 'O', 'R', 'D', 'T', 'I', 'D', 'E', 'W', 'A', 'V', 'E']
+      };
+      const state = {
+        mode: 'free',
+        phase: 'ready',
+        seed: DEFAULT_SEED,
+        board: [],
+        targetIndex: 0,
+        foundWords: [],
+        selection: [],
+        score: 0,
+        best: 0,
+        moves: 0,
+        elapsedMs: 0,
+        started: false
+      };
+
+      const boardEl = document.getElementById('word-swipe-board');
+      const modeEl = document.getElementById('word-swipe-mode');
+      const targetEl = document.getElementById('word-swipe-target');
+      const scoreEl = document.getElementById('word-swipe-score');
+      const bestEl = document.getElementById('word-swipe-best');
+      const wordsEl = document.getElementById('word-swipe-words');
+      const elapsedEl = document.getElementById('word-swipe-elapsed');
+      const statusEl = document.getElementById('word-swipe-status');
+
+      function safeGet(key) {
+        try { return window.localStorage.getItem(key); } catch (_) { return null; }
+      }
+      function safeSet(key, value) {
+        try { window.localStorage.setItem(key, value); } catch (_) {}
+      }
+
+      function targetWord() {
+        return WORDS[Math.min(state.targetIndex, WORDS.length - 1)];
+      }
+
+      function syncHud() {
+        modeEl.textContent = state.mode === 'daily' ? 'Daily' : 'Free';
+        targetEl.textContent = state.phase === 'cleared' ? 'Done' : targetWord();
+        scoreEl.textContent = String(state.score);
+        bestEl.textContent = String(state.best);
+        wordsEl.textContent = String(state.foundWords.length);
+        elapsedEl.textContent = `${(state.elapsedMs / 1000).toFixed(1)}s`;
+        if (state.phase === 'cleared') {
+          statusEl.textContent = 'All target words cleared. Reset to replay.';
+        } else if (state.phase === 'playing') {
+          statusEl.textContent = `Swipe ${targetWord()} in order.`;
+        } else {
+          statusEl.textContent = 'Press Start and swipe the target word in order.';
+        }
+      }
+
+      function renderBoard() {
+        boardEl.innerHTML = '';
+        state.board.forEach((letter, index) => {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.id = `word-swipe-cell-${index}`;
+          button.className = 'cell';
+          button.dataset.index = String(index);
+          button.dataset.state = state.selection.includes(index)
+            ? 'selected'
+            : state.foundWords.includes(index)
+              ? 'found'
+              : 'idle';
+          button.textContent = letter;
+          button.addEventListener('click', () => selectIndex(index));
+          boardEl.appendChild(button);
+        });
+      }
+
+      function sync() {
+        syncHud();
+        renderBoard();
+      }
+
+      function resetGame(seed = DEFAULT_SEED, options = {}) {
+        state.mode = options.mode === 'daily' ? 'daily' : 'free';
+        state.phase = 'ready';
+        state.seed = Number(seed) || DEFAULT_SEED;
+        state.board = BOARDS[state.mode].slice();
+        state.targetIndex = 0;
+        state.foundWords = [];
+        state.selection = [];
+        state.score = 0;
+        state.moves = 0;
+        state.elapsedMs = 0;
+        state.started = false;
+        state.best = Number(safeGet(STORAGE_KEY) || 0);
+        sync();
+        return render_game_to_text();
+      }
+
+      function startGame(mode) {
+        if (mode) {
+          resetGame(DEFAULT_SEED, { mode });
+        }
+        state.phase = 'playing';
+        state.started = true;
+        sync();
+        return render_game_to_text();
+      }
+
+      function commitSelection() {
+        const letters = state.selection.map((index) => state.board[index]).join('');
+        if (letters === targetWord()) {
+          state.score += letters.length * 10;
+          state.moves += 1;
+          state.selection.forEach((index) => {
+            if (!state.foundWords.includes(index)) {
+              state.foundWords.push(index);
+            }
+          });
+          state.targetIndex += 1;
+          if (state.score > state.best) {
+            state.best = state.score;
+            safeSet(STORAGE_KEY, String(state.best));
+          }
+          if (state.targetIndex >= WORDS.length) {
+            state.phase = 'cleared';
+          }
+        } else {
+          state.moves += 1;
+        }
+        state.selection = [];
+        sync();
+      }
+
+      function selectIndex(index) {
+        if (!state.started) {
+          startGame();
+        }
+        if (state.phase === 'cleared') return;
+        if (!state.selection.includes(index)) {
+          state.selection.push(index);
+        }
+        if (state.selection.length === targetWord().length) {
+          commitSelection();
+        } else {
+          sync();
+        }
+      }
+
+      function wordSwipeTrace(indices) {
+        if (!Array.isArray(indices)) return render_game_to_text();
+        if (!state.started) {
+          startGame();
+        }
+        state.selection = [];
+        indices.forEach((index) => {
+          if (Number.isInteger(index) && index >= 0 && index < state.board.length) {
+            state.selection.push(index);
+          }
+        });
+        commitSelection();
+        return render_game_to_text();
+      }
+
+      function advanceTime(ms) {
+        state.elapsedMs += Math.max(0, Number(ms || 0));
+        syncHud();
+        return render_game_to_text();
+      }
+
+      function render_game_to_text() {
+        return JSON.stringify({
+          mode: state.mode,
+          phase: state.phase,
+          seed: state.seed,
+          score: state.score,
+          best: state.best,
+          moves: state.moves,
+          wordsSolved: state.targetIndex,
+          targetWord: state.phase === 'cleared' ? '' : targetWord(),
+          foundWords: WORDS.slice(0, state.targetIndex),
+          board: [
+            state.board.slice(0, 4),
+            state.board.slice(4, 8),
+            state.board.slice(8, 12),
+            state.board.slice(12, 16)
+          ],
+          selection: state.selection.slice(),
+          elapsedMs: state.elapsedMs,
+          qaReady: true
+        });
+      }
+
+      document.getElementById('word-swipe-start').addEventListener('click', () => startGame('free'));
+      document.getElementById('word-swipe-daily').addEventListener('click', () => startGame('daily'));
+      document.getElementById('word-swipe-reset').addEventListener('click', () => resetGame(DEFAULT_SEED, { mode: 'free' }));
+
+      window.wordSwipeTrace = wordSwipeTrace;
+      window.render_game_to_text = render_game_to_text;
+      window.advanceTime = advanceTime;
+      window.resetGame = resetGame;
+      window.reset = () => resetGame(DEFAULT_SEED, { mode: 'free' });
+      window.QA_READY = true;
+      window.__WEBGAME_QA_READY__ = true;
+
+      resetGame(DEFAULT_SEED, { mode: 'free' });
+    })();
+  </script>
+</body>
+</html>

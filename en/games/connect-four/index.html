@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f8fafc" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <title>Connect Four | Randomly Pick</title>
+  <meta name="description" content="A calm, mobile-friendly Connect Four game on Randomly Pick. Play local two-player on one device or jump into a quick match against CPU." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://randomly-pick.com/en/games/connect-four/" />
+  <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/connect-four/" />
+  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/games/connect-four/" />
+  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/games/connect-four/" />
+  <link rel="stylesheet" href="/assets/css/games-connect-four.css?v=20260322-cf1" />
+  <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
+</head>
+<body>
+  <main class="cf-wrap">
+    <div class="cf-topbar">
+      <div class="cf-brand">
+        <div class="cf-brand-mark">R.</div>
+        <div>
+          <div class="cf-brand-name">Randomly Pick</div>
+          <div class="cf-brand-sub">Connect Four</div>
+        </div>
+      </div>
+      <nav class="cf-nav" aria-label="Main navigation">
+        <a href="/en/">Home</a>
+        <a href="/en/games/" class="active" aria-current="page">Games</a>
+        <a href="/en/luckydraw/">Lucky Draw</a>
+        <a href="/en/ladder/">Ladder</a>
+        <a href="/en/team-generator/">Team Split</a>
+        <a href="/en/coinflip/">Coin Flip</a>
+        <a href="/en/dice/">Dice</a>
+      </nav>
+    </div>
+
+    <section class="cf-hero" data-cf-section="purpose">
+      <span class="cf-eyebrow">Local head-to-head board game</span>
+      <h1 class="cf-title">Connect Four</h1>
+      <p class="cf-lede">A quick Connect Four match for one device. Tap a column to drop a disc, and connect four before your opponent does. If you want a solo round, switch to CPU mode and keep moving.</p>
+      <div class="cf-actions">
+        <a class="cf-button is-primary" href="#play-area">Play now</a>
+        <a class="cf-button is-soft" href="/en/games/">Games hub</a>
+      </div>
+      <div class="cf-chips" aria-label="Game features">
+        <span class="cf-chip">Local 2-player</span>
+        <span class="cf-chip">vs CPU</span>
+        <span class="cf-chip">Webview friendly</span>
+        <span class="cf-chip">Mobile first</span>
+      </div>
+      <div class="cf-mode-row" role="group" aria-label="Mode selection">
+        <button id="cf-mode-local" class="cf-mode-pill" type="button" data-cf-mode="local" data-active="true">Local 2P</button>
+        <button id="cf-mode-cpu" class="cf-mode-pill" type="button" data-cf-mode="cpu" data-active="false">vs CPU</button>
+      </div>
+      <div class="cf-tag-row" aria-label="Current state">
+        <span id="cf-mode-badge" class="cf-tag" data-state="ready">Local 2P ready</span>
+        <span id="cf-turn-badge" class="cf-tag" data-state="ready">Red goes first</span>
+        <span id="cf-result-badge" class="cf-tag" data-state="ready">Tap a column to start</span>
+      </div>
+    </section>
+
+    <div class="cf-layout" id="play-area">
+      <section class="cf-panel" aria-labelledby="board-title" data-cf-section="board">
+        <div class="cf-panel-head">
+          <div>
+            <h2 id="board-title">Game Board</h2>
+            <p>Pick a column and the disc will fall to the lowest open slot. Four in a row wins.</p>
+          </div>
+          <div class="cf-toolbar">
+            <button id="cf-new" type="button">New game</button>
+            <button id="cf-reset" type="button">Reset</button>
+          </div>
+        </div>
+
+        <div class="cf-board-shell">
+          <div class="cf-columns" id="cf-column-buttons" aria-label="Column buttons">
+            <button class="cf-column-btn" id="cf-column-1" type="button" data-column="0" aria-label="Drop in column 1">
+              1<small>Left</small>
+            </button>
+            <button class="cf-column-btn" id="cf-column-2" type="button" data-column="1" aria-label="Drop in column 2">
+              2<small>Left</small>
+            </button>
+            <button class="cf-column-btn" id="cf-column-3" type="button" data-column="2" aria-label="Drop in column 3">
+              3<small>Center</small>
+            </button>
+            <button class="cf-column-btn" id="cf-column-4" type="button" data-column="3" aria-label="Drop in column 4">
+              4<small>Center</small>
+            </button>
+            <button class="cf-column-btn" id="cf-column-5" type="button" data-column="4" aria-label="Drop in column 5">
+              5<small>Center</small>
+            </button>
+            <button class="cf-column-btn" id="cf-column-6" type="button" data-column="5" aria-label="Drop in column 6">
+              6<small>Right</small>
+            </button>
+            <button class="cf-column-btn" id="cf-column-7" type="button" data-column="6" aria-label="Drop in column 7">
+              7<small>Right</small>
+            </button>
+          </div>
+
+          <div
+            id="cf-board"
+            class="cf-board"
+            role="grid"
+            aria-label="Connect Four board"
+            aria-describedby="cf-status cf-hint"
+          ></div>
+
+          <div class="cf-controls">
+            <div class="cf-mini-list" aria-label="Quick tips">
+              <span class="cf-chip">1-7 keys</span>
+              <span class="cf-chip">← →</span>
+              <span class="cf-chip">Enter / Space</span>
+              <span class="cf-chip">R to reset</span>
+            </div>
+            <div>
+              <div class="cf-stat-grid" aria-label="Live stats">
+                <div class="cf-stat"><span>Mode</span><strong id="cf-mode-text">Local 2P</strong></div>
+                <div class="cf-stat"><span>Turn</span><strong id="cf-turn-text">Red</strong></div>
+                <div class="cf-stat"><span>Red wins</span><strong id="cf-red-score">0</strong></div>
+                <div class="cf-stat"><span>Yellow wins</span><strong id="cf-yellow-score">0</strong></div>
+                <div class="cf-stat"><span>Moves</span><strong id="cf-move-count">0</strong></div>
+                <div class="cf-stat"><span>Connect</span><strong id="cf-target-count">4</strong></div>
+              </div>
+              <div class="cf-status" id="cf-status" aria-live="polite">Tap a column and the first disc will fall. This is designed for quick local play on one device.</div>
+              <div class="cf-hint" id="cf-hint">On mobile, just tap a column. Keyboard support includes 1-7, ← →, Enter, Space, and R.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="cf-panel" aria-labelledby="guide-title" data-cf-section="help">
+        <div class="cf-panel-head">
+          <h2 id="guide-title">Short guide</h2>
+        </div>
+        <p>Connect Four works because the rules are easy to understand, but the position quickly becomes interesting. This page keeps the experience calm, quick, and native to Randomly Pick.</p>
+
+        <div class="cf-section" style="margin-top:16px;">
+          <div class="cf-section-head"><h2>How to Play</h2></div>
+          <div class="cf-steps">
+            <div class="cf-step"><strong>1. Choose a mode.</strong> Play local two-player on one device or switch to CPU for a solo round.</div>
+            <div class="cf-step"><strong>2. Tap a column.</strong> The disc falls to the lowest open slot in that column.</div>
+            <div class="cf-step"><strong>3. Connect four.</strong> Horizontal, vertical, and diagonal lines all count.</div>
+          </div>
+        </div>
+
+        <div class="cf-section" style="margin-top:16px;">
+          <div class="cf-section-head"><h2>When to Use It</h2></div>
+          <div class="cf-uses">
+            <div class="cf-use"><strong>Quick match</strong> Great when you want a short game between tasks.</div>
+            <div class="cf-use"><strong>Family or friends</strong> Easy to explain, easy to play, and no extra setup needed.</div>
+            <div class="cf-use"><strong>Mobile webview</strong> The controls are column-based, so the game feels natural on smaller screens.</div>
+          </div>
+        </div>
+
+        <div class="cf-section" style="margin-top:16px;" data-cf-section="compare">
+          <div class="cf-section-head"><h2>When Another Game Is Better</h2></div>
+          <div class="cf-copy-grid">
+            <div class="cf-copy-card"><strong>Solo puzzle mood</strong><p>If you want a quieter single-player board, Number Merge is the better fit.</p></div>
+            <div class="cf-copy-card"><strong>Faster reflex play</strong><p>If you want a snappier loop, Snake or Brick Breaker will feel lighter.</p></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <section class="cf-section" aria-labelledby="related-title" data-cf-section="related">
+      <div class="cf-section-head">
+        <h2 id="related-title">Related Links</h2>
+        <p>Jump to another Randomly Pick tool or game without leaving the site family.</p>
+      </div>
+      <div class="cf-related-grid">
+        <a href="/en/games/"><strong>Games Hub</strong><br />Start here if you want to browse the full game list.</a>
+        <a href="/en/games/number-merge/"><strong>Number Merge</strong><br />A quieter 2048-style puzzle for solo play.</a>
+        <a href="/en/games/snake/"><strong>Snake</strong><br />A faster reflex loop with a classic feel.</a>
+        <a href="/en/games/minesweeper/"><strong>Minesweeper Lite</strong><br />A different kind of board game with numbers and logic.</a>
+      </div>
+    </section>
+
+    <section class="cf-trust" aria-label="Site links">
+      <strong>Site links</strong>
+      <div class="cf-links">
+        <a href="/en/about/">About</a>
+        <a href="/en/guides/">Guides</a>
+        <a href="/en/privacy/">Privacy Policy</a>
+        <a href="/en/terms/">Terms</a>
+        <a href="/en/contact/">Contact</a>
+      </div>
+    </section>
+
+    <div class="cf-footer">Randomly Pick · <a href="/en/games/">Games</a></div>
+  </main>
+
+  <script>
+    window.__CONNECT_FOUR_COPY__ = {
+      rows: 6,
+      columns: 7,
+      connect: 4,
+      defaultMode: 'local',
+      localLabel: 'Local 2P',
+      cpuLabel: 'vs CPU',
+      readyLabel: 'Ready',
+      playingLabel: 'Playing',
+      winLabel: 'Win',
+      drawLabel: 'Draw',
+      statusReady: 'Tap a column and the first disc will fall. This is designed for quick local play on one device.',
+      statusLocal: 'Local 2P mode is active. Red and yellow take turns on the same device.',
+      statusCpu: 'vs CPU mode is active. Make a move and the CPU will answer right away.',
+      statusWinRed: 'Red connected four and won the round.',
+      statusWinYellow: 'Yellow connected four and won the round.',
+      statusDraw: 'The board is full. Start a new game and try again.',
+      turnRedLabel: 'Red to move',
+      turnYellowLabel: 'Yellow to move',
+      modeLabel: 'Mode',
+      turnLabel: 'Turn',
+      redScoreLabel: 'Red wins',
+      yellowScoreLabel: 'Yellow wins',
+      moveCountLabel: 'Moves',
+      targetLabel: 'Connect',
+      boardLabel: 'Connect Four board',
+      columnLabel: 'Column',
+      newGameLabel: 'New game',
+      resetLabel: 'Reset',
+      localModeNote: 'Local 2P is the best fit when two people share one device.',
+      cpuModeNote: 'vs CPU is ideal for a quick solo round.',
+      keyboardHint: 'Keyboard support includes 1-7, ← →, Enter, Space, and R.',
+      mobileHint: 'On mobile, just tap a column. You do not need to tap the board cells directly.',
+      firstPlayNote: 'Your first move is just one column tap away.'
+    };
+    window.__CONNECT_FOUR_CONFIG__ = {
+      rows: 6,
+      columns: 7,
+      connect: 4,
+      defaultMode: 'local',
+      cpuAvailable: true
+    };
+  </script>
+  <script src="/assets/js/games-connect-four.js?v=20260322-cf1" defer></script>
+</body>
+</html>

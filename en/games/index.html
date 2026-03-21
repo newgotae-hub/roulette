@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Games | Randomly Pick</title>
-  <meta name="description" content="Randomly Pick's Games hub. Play Snake, Number Merge, Brick Breaker, Memory Match, Minesweeper Lite, Reaction Tap, Color Lines, Bubble Pop, Sequence Flash, and Sliding Puzzle from one lightweight dashboard." />
+  <meta name="description" content="The Randomly Pick Games hub. Open Snake, Number Merge, Brick Breaker, Memory Match, Minesweeper Lite, Reaction Tap, Color Lines, Bubble Pop, Sequence Flash, Sliding Puzzle, Connect Four, Solitaire Mini, and Word Swipe from one calm dashboard." />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://randomly-pick.com/en/games/" />
   <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/" />
@@ -14,9 +14,9 @@
   <style>
     :root {
       color-scheme: light;
-      --panel: rgba(255, 255, 255, 0.92);
-      --panel-strong: rgba(255, 255, 255, 0.97);
-      --line: rgba(148, 163, 184, 0.22);
+      --panel: rgba(255,255,255,.92);
+      --panel-strong: rgba(255,255,255,.97);
+      --line: rgba(148,163,184,.22);
       --text: #0f172a;
       --muted: #475569;
       --accent: #0f172a;
@@ -27,7 +27,7 @@
       margin: 0;
       min-height: 100vh;
       color: var(--text);
-      font-family: "Inter", "Segoe UI", sans-serif;
+      font-family: "Noto Sans", "Inter", "Segoe UI", sans-serif;
       background:
         radial-gradient(circle at 14% 10%, rgba(59, 130, 246, 0.07), transparent 24%),
         radial-gradient(circle at 86% 4%, rgba(16, 185, 129, 0.08), transparent 20%),
@@ -43,14 +43,14 @@
         calc(56px + env(safe-area-inset-bottom, 0px))
         calc(18px + env(safe-area-inset-left, 0px));
     }
-    .topbar, .nav, .hero-actions, .hero-chips, .grid, .links, .mini-list { display: flex; flex-wrap: wrap; }
+    .topbar, .nav, .hero-actions, .hero-chips, .grid, .links, .mini-list, .lineup-list { display: flex; flex-wrap: wrap; }
     .topbar { align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 16px; }
     .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -.03em; }
     .brand-mark { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 11px; background: linear-gradient(135deg, #0f172a, #334155); color: #fff; box-shadow: 0 12px 24px rgba(15, 23, 42, 0.12); }
     .brand-name { font-size: 1rem; }
     .brand-sub { margin-top: 2px; color: #64748b; font-size: .84rem; font-weight: 600; }
     .nav { gap: 8px; }
-    .nav a { display: inline-flex; align-items: center; justify-content: center; min-height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.78); color: #334155; text-decoration: none; font-size: .92rem; }
+    .nav a { display: inline-flex; align-items: center; justify-content: center; min-height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line); background: rgba(255,255,255,.78); color: #334155; text-decoration: none; font-size: .92rem; }
     .nav a.active { background: var(--accent); color: #fff; border-color: var(--accent); box-shadow: 0 12px 24px rgba(15, 23, 42, 0.14); }
     .hero { padding: 22px 22px 18px; border: 1px solid var(--line); border-radius: 28px; background: var(--panel); box-shadow: 0 24px 56px rgba(15, 23, 42, 0.06); backdrop-filter: blur(10px); }
     .eyebrow, .chip, .card-tag, .state { display: inline-flex; align-items: center; border-radius: 999px; font-weight: 800; letter-spacing: .04em; }
@@ -62,7 +62,7 @@
     .button, .links a, .mobile-jump a { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 0 15px; border-radius: 999px; border: 1px solid var(--line); background: #fff; text-decoration: none; font-weight: 700; }
     .button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
     .hero-chips { margin-top: 14px; }
-    .chip { min-height: 30px; padding: 0 11px; background: rgba(255, 255, 255, 0.84); border: 1px solid var(--line); color: #334155; font-size: .84rem; font-weight: 700; letter-spacing: 0; }
+    .chip { min-height: 30px; padding: 0 11px; background: rgba(255,255,255,.84); border: 1px solid var(--line); color: #334155; font-size: .84rem; font-weight: 700; letter-spacing: 0; }
     .hero-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(290px, .8fr); gap: 14px; margin-top: 14px; }
     .panel, .card, .note, .trust { border: 1px solid var(--line); border-radius: 22px; background: var(--panel-strong); box-shadow: 0 16px 34px rgba(15, 23, 42, 0.05); }
     .panel, .note, .trust { padding: 18px; }
@@ -81,10 +81,9 @@
     .card-tag { min-height: 26px; padding: 0 10px; background: var(--accent-soft); color: #4338ca; font-size: .72rem; text-transform: uppercase; }
     .card h3 { margin: 12px 0 6px; font-size: 1.12rem; letter-spacing: -.04em; }
     .go { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; padding: 9px 12px; border-radius: 999px; background: var(--accent); color: #fff; font-weight: 700; }
-    .links { margin-top: 10px; }
     .footer { margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(148, 163, 184, 0.28); color: #64748b; font-size: .92rem; line-height: 1.7; }
     .footer a { text-decoration: none; font-weight: 700; }
-    .mobile-jump { display: none; gap: 8px; margin-top: 14px; padding: 10px; border-radius: 18px; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.86); }
+    .mobile-jump { display: none; gap: 8px; margin-top: 14px; padding: 10px; border-radius: 18px; border: 1px solid var(--line); background: rgba(255,255,255,.86); }
     .mobile-jump a { flex: 1 1 0; min-height: 38px; font-size: .88rem; text-align: center; }
     @media (max-width: 860px) { .hero-grid { grid-template-columns: 1fr; } }
     @media (max-width: 640px) {
@@ -109,7 +108,7 @@
           <div class="brand-sub">Games tab</div>
         </div>
       </div>
-      <nav class="nav" aria-label="Primary menu">
+      <nav class="nav" aria-label="Main navigation">
         <a href="/en/">Home</a>
         <a href="/en/games/" class="active" aria-current="page">Games</a>
         <a href="/en/luckydraw/">Lucky Draw</a>
@@ -122,46 +121,49 @@
 
     <section class="hero">
       <span class="eyebrow">Playable lineup</span>
-      <h1>Ten lightweight games in one Randomly Pick hub</h1>
-      <p class="lede">The Games tab stays close to the main product instead of behaving like a separate microsite. Each title opens fast, keeps the layout practical, and shares the same calm product tone as the rest of Randomly Pick.</p>
+      <h1>13 games, all inside Randomly Pick</h1>
+      <p class="lede">The Games tab is kept in the same calm product tone as the rest of the site. Each game is short to enter, easy to understand, and ready for quick repeat sessions.</p>
       <div class="hero-actions">
-        <a class="button primary" href="/en/games/snake/">Play now</a>
-        <a class="button" href="#lineup">See lineup</a>
+        <a class="button primary" href="/en/games/snake/">Start playing</a>
+        <a class="button" href="#lineup">Browse all</a>
       </div>
-      <div class="mobile-jump" aria-label="Mobile quick launch">
+      <div class="mobile-jump" aria-label="Mobile quick jump">
         <a href="/en/games/snake/">Snake</a>
         <a href="/en/games/number-merge/">Number Merge</a>
-        <a href="/en/games/memory-match/">Memory Match</a>
+        <a href="/en/games/connect-four/">Connect Four</a>
       </div>
-      <div class="hero-chips" aria-label="Hub highlights">
-        <span class="chip">10 playable titles</span>
-        <span class="chip">Short-session games</span>
-        <span class="chip">Mobile / webview friendly</span>
-        <span class="chip">Same product tone</span>
+      <div class="hero-chips" aria-label="Hub features">
+        <span class="chip">13 live titles</span>
+        <span class="chip">Short-session focus</span>
+        <span class="chip">Mobile / webview ready</span>
+        <span class="chip">Same Randomly Pick tone</span>
       </div>
       <div class="hero-grid">
         <div class="panel">
-          <h2>Arcade, puzzle, memory, reflex</h2>
-          <p>The hub keeps the first row focused on easy entry points and leaves room for the rest of the lineup without turning into a separate brand. It is intentionally simple: quick to scan, quick to open, and easy to come back to later.</p>
+          <h2>Arcade, puzzle, reflex, board</h2>
+          <p>The hub is organized so first-time visitors do not have to work to figure out where to start. The new three-game wave is surfaced clearly while still feeling like one family.</p>
           <div class="mini-list">
             <div class="mini-item"><strong>Arcade</strong><span>Snake, Brick Breaker, Bubble Pop</span></div>
-            <div class="mini-item"><strong>Puzzle</strong><span>Number Merge, Color Lines, Sliding Puzzle</span></div>
-            <div class="mini-item"><strong>Memory / Focus</strong><span>Memory Match, Minesweeper Lite, Reaction Tap, Sequence Flash</span></div>
+            <div class="mini-item"><strong>Puzzle</strong><span>Number Merge, Color Lines, Sliding Puzzle, Connect Four, Solitaire Mini, Word Swipe</span></div>
+            <div class="mini-item"><strong>Memory / focus</strong><span>Memory Match, Minesweeper Lite, Reaction Tap, Sequence Flash</span></div>
           </div>
         </div>
         <div class="panel lineup" id="lineup">
           <h2>Current lineup</h2>
           <div class="lineup-list">
-            <div class="lineup-row"><div><strong>Snake</strong><span>The easiest arcade starting point</span></div><span class="state">Live</span></div>
-            <div class="lineup-row"><div><strong>Number Merge</strong><span>A repeat-friendly merge puzzle</span></div><span class="state">Live</span></div>
-            <div class="lineup-row"><div><strong>Brick Breaker</strong><span>Fast reflex and clean bounce feel</span></div><span class="state">Live</span></div>
-            <div class="lineup-row"><div><strong>Memory Match</strong><span>A calm card-pairing memory game</span></div><span class="state">Live</span></div>
-            <div class="lineup-row"><div><strong>Minesweeper Lite</strong><span>Small-board logic with safe first click</span></div><span class="state">Live</span></div>
-            <div class="lineup-row"><div><strong>Reaction Tap</strong><span>Short reaction-time challenges</span></div><span class="state">Live</span></div>
-            <div class="lineup-row"><div><strong>Color Lines</strong><span>A planning-first board puzzle</span></div><span class="state">Live</span></div>
-            <div class="lineup-row"><div><strong>Bubble Pop</strong><span>Cluster-clearing puzzle loops</span></div><span class="state">Live</span></div>
-            <div class="lineup-row"><div><strong>Sequence Flash</strong><span>Pattern recall challenge</span></div><span class="state">Live</span></div>
-            <div class="lineup-row"><div><strong>Sliding Puzzle</strong><span>The classic 15-puzzle style</span></div><span class="state">Live</span></div>
+            <div class="lineup-row"><div><strong>Snake</strong><span>The fastest way into the arcade loop</span></div><span class="state">Live</span></div>
+            <div class="lineup-row"><div><strong>Number Merge</strong><span>A quiet 2048-style puzzle for solo play</span></div><span class="state">Live</span></div>
+            <div class="lineup-row"><div><strong>Brick Breaker</strong><span>Short bursts of rhythm and reaction</span></div><span class="state">Live</span></div>
+            <div class="lineup-row"><div><strong>Memory Match</strong><span>A light card-remembering challenge</span></div><span class="state">Live</span></div>
+            <div class="lineup-row"><div><strong>Minesweeper Lite</strong><span>A quieter logic board with numbers</span></div><span class="state">Live</span></div>
+            <div class="lineup-row"><div><strong>Reaction Tap</strong><span>A quick reflex benchmark</span></div><span class="state">Live</span></div>
+            <div class="lineup-row"><div><strong>Color Lines</strong><span>A planning-heavy board puzzle</span></div><span class="state">Live</span></div>
+            <div class="lineup-row"><div><strong>Bubble Pop</strong><span>Tap, clear, and move on to the next round</span></div><span class="state">Live</span></div>
+            <div class="lineup-row"><div><strong>Sequence Flash</strong><span>A focus challenge for remembering order</span></div><span class="state">Live</span></div>
+            <div class="lineup-row"><div><strong>Sliding Puzzle</strong><span>The classic 15-puzzle style game</span></div><span class="state">Live</span></div>
+            <div class="lineup-row"><div><strong>Connect Four</strong><span>A quick board game for one or two players</span></div><span class="state">Live</span></div>
+            <div class="lineup-row"><div><strong>Solitaire Mini</strong><span>A compact card-sorting game</span></div><span class="state">Live</span></div>
+            <div class="lineup-row"><div><strong>Word Swipe</strong><span>A fast word-finding puzzle</span></div><span class="state">Live</span></div>
           </div>
         </div>
       </div>
@@ -169,25 +171,28 @@
 
     <div class="section-head">
       <div>
-        <h2>All games currently available</h2>
-        <p>Every card below points to a real game route. The hub stays practical on purpose, keeping the same calm pace as the rest of Randomly Pick.</p>
+        <h2>Jump straight into a game</h2>
+        <p>Every card uses the same calm layout so the hub stays easy to scan, even on small screens.</p>
       </div>
     </div>
 
     <section class="grid" aria-label="Game list">
-      <a class="card" href="/en/games/snake/"><span class="card-tag">Arcade</span><h3>Snake</h3><p>The easiest arcade title to start with. It keeps the classic loop, quick restarts, and a strong repeat-play feel.</p><span class="go">Play</span></a>
-      <a class="card" href="/en/games/number-merge/"><span class="card-tag">Puzzle</span><h3>Number Merge</h3><p>A light merge puzzle that still feels good in short sessions. Build up numbers and keep the flow going.</p><span class="go">Open</span></a>
-      <a class="card" href="/en/games/brick-breaker/"><span class="card-tag">Arcade</span><h3>Brick Breaker</h3><p>A reflex-first brick breaker with a clean bounce feel. It works well on mobile and stays easy to pick up.</p><span class="go">Play</span></a>
-      <a class="card" href="/en/games/memory-match/"><span class="card-tag">Memory</span><h3>Memory Match</h3><p>Flip cards, find the pairs, and clear the board. It is quiet, repeatable, and easy to return to.</p><span class="go">Open</span></a>
-      <a class="card" href="/en/games/minesweeper/"><span class="card-tag">Logic</span><h3>Minesweeper Lite</h3><p>A compact logic game with a safe first click and a lighter board size. Good for short focus breaks.</p><span class="go">Open</span></a>
-      <a class="card" href="/en/games/reaction-tap/"><span class="card-tag">Reflex</span><h3>Reaction Tap</h3><p>Short wait, one tap, and a clear read on reaction speed. Daily challenge and scoring keep it replayable.</p><span class="go">Open</span></a>
-      <a class="card" href="/en/games/color-lines/"><span class="card-tag">Puzzle</span><h3>Color Lines</h3><p>A planning-first board puzzle about moving pieces and clearing lines in a steady rhythm.</p><span class="go">Open</span></a>
-      <a class="card" href="/en/games/bubble-pop/"><span class="card-tag">Puzzle</span><h3>Bubble Pop</h3><p>Choose matching clusters and pop them cleanly. Bigger groups make the score flow feel better.</p><span class="go">Open</span></a>
-      <a class="card" href="/en/games/sequence-flash/"><span class="card-tag">Memory</span><h3>Sequence Flash</h3><p>Watch the order, repeat it back, and keep building the streak. Short rounds make repeated attempts easy.</p><span class="go">Open</span></a>
-      <a class="card" href="/en/games/sliding-puzzle/"><span class="card-tag">Puzzle</span><h3>Sliding Puzzle</h3><p>The classic 15-puzzle style with calm movement and a familiar grid-based finish line.</p><span class="go">Open</span></a>
+      <a class="card" href="/en/games/snake/"><span class="card-tag">Arcade</span><h3>Snake</h3><p>The fastest route into a classic loop. Great for a quick round and a restart.</p><span class="go">Play</span></a>
+      <a class="card" href="/en/games/number-merge/"><span class="card-tag">Puzzle</span><h3>Number Merge</h3><p>A quiet solo puzzle where you merge numbers and keep the board open.</p><span class="go">Play</span></a>
+      <a class="card" href="/en/games/brick-breaker/"><span class="card-tag">Arcade</span><h3>Brick Breaker</h3><p>A short-burst arcade game with easy mobile entry and a strong restart loop.</p><span class="go">Play</span></a>
+      <a class="card" href="/en/games/memory-match/"><span class="card-tag">Memory</span><h3>Memory Match</h3><p>A light focus game about remembering card pairs.</p><span class="go">Play</span></a>
+      <a class="card" href="/en/games/minesweeper/"><span class="card-tag">Logic</span><h3>Minesweeper Lite</h3><p>A quiet logic board for reading numbers and making careful moves.</p><span class="go">Play</span></a>
+      <a class="card" href="/en/games/reaction-tap/"><span class="card-tag">Reflex</span><h3>Reaction Tap</h3><p>A quick challenge built to test your reaction speed.</p><span class="go">Play</span></a>
+      <a class="card" href="/en/games/color-lines/"><span class="card-tag">Puzzle</span><h3>Color Lines</h3><p>A board puzzle with movement and planning at the center.</p><span class="go">Play</span></a>
+      <a class="card" href="/en/games/bubble-pop/"><span class="card-tag">Puzzle</span><h3>Bubble Pop</h3><p>A tap-friendly puzzle that moves straight into the next round.</p><span class="go">Play</span></a>
+      <a class="card" href="/en/games/sequence-flash/"><span class="card-tag">Memory</span><h3>Sequence Flash</h3><p>A memory challenge that asks you to repeat a growing sequence.</p><span class="go">Play</span></a>
+      <a class="card" href="/en/games/sliding-puzzle/"><span class="card-tag">Puzzle</span><h3>Sliding Puzzle</h3><p>The classic 15-puzzle style game for careful arrangement.</p><span class="go">Play</span></a>
+      <a class="card" href="/en/games/connect-four/"><span class="card-tag">Strategy</span><h3>Connect Four</h3><p>A light board game for one or two players on one device.</p><span class="go">Play</span></a>
+      <a class="card" href="/en/games/solitaire-mini/"><span class="card-tag">Card</span><h3>Solitaire Mini</h3><p>A compact card-sorting game made for short sessions.</p><span class="go">Play</span></a>
+      <a class="card" href="/en/games/word-swipe/"><span class="card-tag">Puzzle</span><h3>Word Swipe</h3><p>A quick word puzzle where you trace and find words.</p><span class="go">Play</span></a>
     </section>
 
-    <section class="note"><strong>Why it is arranged this way</strong><br />As the game list grows, the hub needs to stay inside the same Randomly Pick product rhythm. That means practical copy, a familiar nav, and a lineup that feels curated without trying to become a separate game brand.</section>
+    <section class="note"><strong>Why this layout</strong><br />The Games tab should feel like part of Randomly Pick, not a separate product. That is why the page stays calm, the categories stay practical, and the new three-game wave appears inside the same rhythm as the rest of the site.</section>
 
     <section class="trust">
       <strong>Site links</strong>
@@ -200,7 +205,7 @@
       </div>
     </section>
 
-    <div class="footer">The Games tab stays inside the wider <a href="/en/">Randomly Pick</a> product flow.</div>
+    <div class="footer">The Games tab belongs to the same <a href="/en/">Randomly Pick</a> family.</div>
   </main>
 </body>
 </html>

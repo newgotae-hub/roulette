@@ -16,7 +16,10 @@ const GAME_SLUGS = [
   'color-lines',
   'bubble-pop',
   'sequence-flash',
-  'sliding-puzzle'
+  'sliding-puzzle',
+  'connect-four',
+  'solitaire-mini',
+  'word-swipe'
 ];
 const gamePages = ['games'].concat(GAME_SLUGS.map((slug) => `games/${slug}`));
 const legalPages = ['privacy','terms','contact','about'];

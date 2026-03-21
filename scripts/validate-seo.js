@@ -27,7 +27,10 @@ const PUBLISHED_GAMES = [
   ['color-lines', 'Color Lines', '/assets/js/games-color-lines.js'],
   ['bubble-pop', 'Bubble Pop', '/assets/js/games-bubble-pop.js'],
   ['sequence-flash', 'Sequence Flash', '/assets/js/games-sequence-flash.js'],
-  ['sliding-puzzle', 'Sliding Puzzle', '/assets/js/games-sliding-puzzle.js']
+  ['sliding-puzzle', 'Sliding Puzzle', '/assets/js/games-sliding-puzzle.js'],
+  ['connect-four', 'Connect Four', '/assets/js/games-connect-four.js'],
+  ['solitaire-mini', 'Solitaire Mini', '/assets/js/games-solitaire-mini.js'],
+  ['word-swipe', 'Word Swipe', '/assets/js/games-word-swipe.js']
 ];
 const ALIAS_REDIRECTS = {
   'ko-kr': 'ko',
@@ -364,11 +367,14 @@ function validatePublishedGamePages(page, findings) {
 function localeFromFooterPage(pagePath) {
   if (
     pagePath === '/'
+    || pagePath === '/games/'
+    || /^\/games\/[^/]+\/$/.test(pagePath)
   ) {
     return 'ko';
   }
   if (
     pagePath === '/en/games/'
+    || /^\/en\/games\/[^/]+\/$/.test(pagePath)
   ) {
     return 'en';
   }
@@ -382,6 +388,22 @@ function validateLocalizedFooterFallback(page, findings) {
 
   const labels = FOOTER_LABELS[locale];
   if (!labels) return;
+  const isGamesPage = /^\/(?:en\/)?games(?:\/[^/]+)?\/$/.test(page.pagePath);
+
+  if (isGamesPage) {
+    const hrefChecks = [
+      footerHrefFor(locale, 'terms'),
+      footerHrefFor(locale, 'privacy'),
+      footerHrefFor(locale, 'about'),
+      footerHrefFor(locale, 'contact')
+    ];
+    for (const href of hrefChecks) {
+      if (!page.html.includes(`href="${href}"`)) {
+        findings.push(`${page.pagePath}: missing localized trust link ${href}.`);
+      }
+    }
+    return;
+  }
 
   const checks = [
     ['footer-terms', labels.terms, footerHrefFor(locale, 'terms')],

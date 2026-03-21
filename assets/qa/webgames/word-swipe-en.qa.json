@@ -1,0 +1,111 @@
+{
+  "id": "word-swipe-en",
+  "name": "Word Swipe EN",
+  "pageCandidates": [
+    "/en/games/word-swipe/",
+    "/en/games/word-swipe/index.html"
+  ],
+  "fallbackPath": "/assets/qa/webgames/word-swipe-contract.html",
+  "requiredHooks": [
+    "QA_READY",
+    "render_game_to_text",
+    "advanceTime",
+    "reset"
+  ],
+  "parsedAssertions": [
+    {
+      "key": "mode",
+      "type": "string",
+      "anyOfValues": [
+        "free",
+        "daily"
+      ]
+    },
+    {
+      "key": "phase",
+      "type": "string",
+      "anyOfValues": [
+        "ready",
+        "playing",
+        "cleared"
+      ]
+    },
+    {
+      "key": "score",
+      "type": "number",
+      "min": 0
+    },
+    {
+      "key": "best",
+      "type": "number",
+      "min": 0
+    },
+    {
+      "key": "moves",
+      "type": "number",
+      "min": 0
+    },
+    {
+      "key": "wordsSolved",
+      "type": "number",
+      "min": 0
+    },
+    {
+      "key": "targetWord",
+      "type": "string"
+    },
+    {
+      "key": "foundWords",
+      "type": "array"
+    },
+    {
+      "key": "board",
+      "type": "array"
+    },
+    {
+      "key": "selection",
+      "type": "array"
+    },
+    {
+      "key": "elapsedMs",
+      "type": "number",
+      "min": 0
+    },
+    {
+      "key": "qaReady",
+      "type": "boolean",
+      "anyOfValues": [
+        "true"
+      ]
+    }
+  ],
+  "bursts": [
+    {
+      "label": "boot",
+      "calls": [
+        "window.reset()"
+      ]
+    },
+    {
+      "label": "solve-first-word",
+      "calls": [
+        "window.wordSwipeTrace([0, 1, 2, 3])"
+      ],
+      "advanceMs": 180
+    },
+    {
+      "label": "daily-mode",
+      "calls": [
+        "document.getElementById('word-swipe-daily')?.click()"
+      ],
+      "advanceMs": 120
+    },
+    {
+      "label": "reset",
+      "calls": [
+        "window.reset()"
+      ],
+      "advanceMs": 120
+    }
+  ]
+}

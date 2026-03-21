@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Connect Four QA Contract Harness</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f3ea;
+      --panel: rgba(255, 255, 255, 0.88);
+      --panel-strong: rgba(255, 255, 255, 0.96);
+      --line: rgba(15, 23, 42, 0.1);
+      --text: #1f2937;
+      --muted: #64748b;
+      --accent: #d97706;
+      --blue: #2563eb;
+      --red: #dc2626;
+      --shadow: 0 20px 50px rgba(15, 23, 42, 0.14);
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-right: env(safe-area-inset-right, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-left: env(safe-area-inset-left, 0px);
+    }
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(217, 119, 6, 0.14), transparent 28%),
+        radial-gradient(circle at top right, rgba(37, 99, 235, 0.12), transparent 26%),
+        linear-gradient(180deg, #fffdf8 0%, var(--bg) 100%);
+      padding:
+        calc(18px + var(--safe-top))
+        calc(18px + var(--safe-right))
+        calc(18px + var(--safe-bottom))
+        calc(18px + var(--safe-left));
+    }
+    .shell {
+      width: min(1040px, 100%);
+      margin: 0 auto;
+      display: grid;
+      gap: 16px;
+    }
+    .panel {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      padding: 18px;
+    }
+    .top {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: start;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(1.6rem, 4vw, 2.6rem);
+      letter-spacing: -0.05em;
+    }
+    .lede {
+      margin: 10px 0 0;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 68ch;
+    }
+    .tag {
+      align-self: start;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      background: rgba(15, 23, 42, 0.03);
+      padding: 10px 14px;
+      color: var(--text);
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+    .hint {
+      margin: 14px 0 0;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 0.95rem;
+    }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    button {
+      appearance: none;
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      background: linear-gradient(180deg, #fff 0%, #f8fafc 100%);
+      color: var(--text);
+      border-radius: 16px;
+      min-height: 44px;
+      min-width: 44px;
+      padding: 0 14px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+      transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease, background 120ms ease;
+      touch-action: manipulation;
+    }
+    button:hover { transform: translateY(-1px); border-color: rgba(15, 23, 42, 0.2); }
+    button:active { transform: translateY(0); box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08); }
+    button:focus-visible {
+      outline: 3px solid rgba(37, 99, 235, 0.3);
+      outline-offset: 2px;
+    }
+    .board-shell {
+      border: 1px solid rgba(15, 23, 42, 0.1);
+      background: linear-gradient(180deg, #1d4ed8 0%, #1e40af 100%);
+      border-radius: 28px;
+      padding: 18px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.16);
+    }
+    .column-buttons {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .column-buttons button {
+      min-height: 44px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.96);
+      color: #1e3a8a;
+    }
+    .board {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 10px;
+      padding: 8px;
+      border-radius: 24px;
+      background: rgba(15, 23, 42, 0.12);
+    }
+    .cell {
+      aspect-ratio: 1;
+      border-radius: 999px;
+      border: 1px solid rgba(15, 23, 42, 0.1);
+      background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.9), rgba(255,255,255,0.72) 34%, rgba(255,255,255,0.24) 62%, rgba(255,255,255,0.12) 100%);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.18);
+      position: relative;
+      overflow: hidden;
+    }
+    .cell::after {
+      content: '';
+      position: absolute;
+      inset: 12%;
+      border-radius: inherit;
+      background: rgba(255,255,255,0.55);
+      opacity: 0.5;
+    }
+    .cell.red {
+      background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.95), rgba(255,255,255,0.35) 26%, rgba(220, 38, 38, 0.96) 58%, rgba(153, 27, 27, 1) 100%);
+    }
+    .cell.blue {
+      background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.95), rgba(255,255,255,0.35) 26%, rgba(37, 99, 235, 0.96) 58%, rgba(30, 64, 175, 1) 100%);
+    }
+    .cell.red::after,
+    .cell.blue::after { opacity: 0.2; }
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .chip {
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      border-radius: 18px;
+      background: var(--panel-strong);
+      padding: 12px 14px;
+      box-shadow: 0 8px 16px rgba(15, 23, 42, 0.06);
+    }
+    .chip span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.2;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .chip strong {
+      font-size: 1.02rem;
+      letter-spacing: -0.02em;
+    }
+    .footer {
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 0.94rem;
+    }
+    code { color: #0f172a; font-weight: 700; }
+    @media (max-width: 720px) {
+      .top { grid-template-columns: 1fr; }
+      .meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .column-buttons { gap: 8px; }
+      .board { gap: 8px; padding: 6px; }
+      .panel { padding: 16px; border-radius: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="panel">
+      <div class="top">
+        <div>
+          <h1>Connect Four QA Contract Harness</h1>
+          <p class="lede">This fallback page exists so the QA runner can exercise the Connect Four hook contract before the live route ships. It keeps the game loop deterministic, mobile-friendly, and easy to inspect from screenshots.</p>
+          <p class="hint">Hooks exposed: <strong>QA_READY</strong>, <strong>render_game_to_text()</strong>, <strong>advanceTime(ms)</strong>, <strong>reset()</strong>. Use the column buttons or keyboard arrows plus Enter/Space to drop a disc.</p>
+        </div>
+        <div class="tag" id="phase-tag">ready</div>
+      </div>
+      <div class="toolbar" aria-label="Connect Four QA controls">
+        <button id="connect-four-reset" type="button">Reset</button>
+        <button id="connect-four-new" type="button">New board</button>
+      </div>
+      <div class="meta" aria-label="Connect Four QA state">
+        <div class="chip"><span>Current player</span><strong id="connect-four-current-player">Red</strong></div>
+        <div class="chip"><span>Moves</span><strong id="connect-four-moves">0</strong></div>
+        <div class="chip"><span>Winner</span><strong id="connect-four-winner">None</strong></div>
+        <div class="chip"><span>Focus column</span><strong id="connect-four-focus">4</strong></div>
+      </div>
+    </section>
+
+    <section class="board-shell panel" aria-label="Connect Four board">
+      <div class="column-buttons" id="connect-four-columns" aria-label="Drop a disc in a column"></div>
+      <div class="board" id="connect-four-board" role="grid" aria-label="Connect Four grid"></div>
+    </section>
+
+    <section class="panel footer">
+      The contract keeps the state shape simple for QA: a 6x7 board, current player, phase, winner, move count, focus column, and a clock that changes when <code>advanceTime(ms)</code> is called.
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      const ROWS = 6;
+      const COLS = 7;
+      const boardEl = document.getElementById('connect-four-board');
+      const columnsEl = document.getElementById('connect-four-columns');
+      const phaseTag = document.getElementById('phase-tag');
+      const currentPlayerEl = document.getElementById('connect-four-current-player');
+      const movesEl = document.getElementById('connect-four-moves');
+      const winnerEl = document.getElementById('connect-four-winner');
+      const focusEl = document.getElementById('connect-four-focus');
+      const resetButton = document.getElementById('connect-four-reset');
+      const newButton = document.getElementById('connect-four-new');
+
+      let state;
+
+      function createBoard() {
+        return Array.from({ length: ROWS }, () => Array.from({ length: COLS }, () => 0));
+      }
+
+      function reset() {
+        state = {
+          phase: 'ready',
+          currentPlayer: 1,
+          winner: 0,
+          moveCount: 0,
+          focusColumn: 3,
+          clockMs: 0,
+          board: createBoard(),
+          lastDropColumn: null
+        };
+        render();
+      }
+
+      function cloneBoard() {
+        return state.board.map((row) => row.slice());
+      }
+
+      function boardFull() {
+        return state.board.every((row) => row.every((cell) => cell !== 0));
+      }
+
+      function countDirection(row, col, dr, dc, player) {
+        let r = row + dr;
+        let c = col + dc;
+        let total = 0;
+        while (r >= 0 && r < ROWS && c >= 0 && c < COLS && state.board[r][c] === player) {
+          total += 1;
+          r += dr;
+          c += dc;
+        }
+        return total;
+      }
+
+      function checkWin(row, col, player) {
+        const vectors = [
+          [0, 1],
+          [1, 0],
+          [1, 1],
+          [1, -1]
+        ];
+        return vectors.some(([dr, dc]) => {
+          const total = 1 + countDirection(row, col, dr, dc, player) + countDirection(row, col, -dr, -dc, player);
+          return total >= 4;
+        });
+      }
+
+      function statusText() {
+        if (state.phase === 'won') {
+          return state.winner === 1 ? 'Red wins. Reset to play again.' : 'Blue wins. Reset to play again.';
+        }
+        if (state.phase === 'draw') {
+          return 'Board full. Reset for a new round.';
+        }
+        if (state.phase === 'playing') {
+          return state.currentPlayer === 1
+            ? 'Red to move. Choose a column and drop.'
+            : 'Blue to move. Choose a column and drop.';
+        }
+        return 'Ready. Choose a column or press Enter after moving focus.';
+      }
+
+      function syncUi() {
+        phaseTag.textContent = state.phase;
+        currentPlayerEl.textContent = state.currentPlayer === 1 ? 'Red' : 'Blue';
+        movesEl.textContent = String(state.moveCount);
+        winnerEl.textContent = state.winner === 1 ? 'Red' : state.winner === 2 ? 'Blue' : state.phase === 'draw' ? 'Draw' : 'None';
+        focusEl.textContent = String(state.focusColumn + 1);
+      }
+
+      function renderBoard() {
+        boardEl.innerHTML = '';
+        for (let row = 0; row < ROWS; row += 1) {
+          for (let col = 0; col < COLS; col += 1) {
+            const cell = document.createElement('div');
+            const occupant = state.board[row][col];
+            cell.className = 'cell' + (occupant === 1 ? ' red' : occupant === 2 ? ' blue' : '');
+            cell.setAttribute('role', 'gridcell');
+            cell.setAttribute('aria-label', occupant === 1 ? 'red disc' : occupant === 2 ? 'blue disc' : 'empty cell');
+            cell.title = `Row ${row + 1}, column ${col + 1}`;
+            boardEl.appendChild(cell);
+          }
+        }
+      }
+
+      function renderColumns() {
+        columnsEl.innerHTML = '';
+        for (let col = 0; col < COLS; col += 1) {
+          const button = document.createElement('button');
+          button.id = `connect-four-col-${col}`;
+          button.type = 'button';
+          button.textContent = String(col + 1);
+          button.setAttribute('aria-label', `Drop a disc in column ${col + 1}`);
+          button.addEventListener('click', () => drop(col));
+          columnsEl.appendChild(button);
+        }
+      }
+
+      function render() {
+        syncUi();
+        renderBoard();
+        renderColumns();
+      }
+
+      function drop(column) {
+        if (state.phase === 'won' || state.phase === 'draw') return false;
+        const col = Math.max(0, Math.min(COLS - 1, column));
+        for (let row = ROWS - 1; row >= 0; row -= 1) {
+          if (state.board[row][col] === 0) {
+            state.board[row][col] = state.currentPlayer;
+            state.moveCount += 1;
+            state.lastDropColumn = col;
+            state.focusColumn = col;
+            state.phase = 'playing';
+            if (checkWin(row, col, state.currentPlayer)) {
+              state.phase = 'won';
+              state.winner = state.currentPlayer;
+            } else if (boardFull()) {
+              state.phase = 'draw';
+              state.winner = 0;
+            } else {
+              state.currentPlayer = state.currentPlayer === 1 ? 2 : 1;
+            }
+            render();
+            return true;
+          }
+        }
+        return false;
+      }
+
+      function moveFocus(delta) {
+        state.focusColumn = Math.max(0, Math.min(COLS - 1, state.focusColumn + delta));
+        render();
+      }
+
+      function handleKeydown(event) {
+        if (event.key === 'ArrowLeft') {
+          event.preventDefault();
+          moveFocus(-1);
+        } else if (event.key === 'ArrowRight') {
+          event.preventDefault();
+          moveFocus(1);
+        } else if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          drop(state.focusColumn);
+        }
+      }
+
+      function render_game_to_text() {
+        return JSON.stringify({
+          phase: state.phase,
+          currentPlayer: state.currentPlayer,
+          winner: state.winner,
+          moveCount: state.moveCount,
+          focusColumn: state.focusColumn,
+          lastDropColumn: state.lastDropColumn,
+          clockMs: state.clockMs,
+          board: cloneBoard(),
+          qaReady: true,
+          status: statusText()
+        });
+      }
+
+      function advanceTime(ms) {
+        state.clockMs += Math.max(0, Number(ms) || 0);
+        render();
+      }
+
+      window.QA_READY = true;
+      window.render_game_to_text = render_game_to_text;
+      window.advanceTime = advanceTime;
+      window.reset = reset;
+      window.resetGame = function resetGame() {
+        reset();
+      };
+
+      resetButton.addEventListener('click', reset);
+      newButton.addEventListener('click', reset);
+      document.addEventListener('keydown', handleKeydown);
+
+      reset();
+    })();
+  </script>
+</body>
+</html>

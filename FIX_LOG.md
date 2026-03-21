@@ -531,3 +531,15 @@ How to use it:
 - Restored the deleted English hub page at `en/games/index.html` and re-synced both Games hubs so they present the full 10-title lineup with the same practical Randomly Pick tone.
 - Updated `scripts/validate-seo.js` so the expanded game routes are recognized in published-page validation and localized footer checks, keeping the new live game set inside the shared release contract.
 - Added [WEBGAMES_10_GAME_HUB_RELEASE_2026-03-22.md](/home/user/roulette/WEBGAMES_10_GAME_HUB_RELEASE_2026-03-22.md) as the short rollout note for this integration pass.
+
+### 2026-03-22 - Shared release surfaces widened for the 13-game local wave
+
+- Extended `scripts/generate-sitemaps.js` and `scripts/validate-seo.js` so `connect-four`, `solitaire-mini`, and `word-swipe` are treated as published Games routes alongside the earlier 10-title set.
+- Added lightweight release-file presence checks to `scripts/adsense-readiness-check.js` so both locale HTML routes and runtime assets for the 13 local games stay inside the shared release contract.
+- Added [WEBGAMES_13_GAME_WAVE_2026-03-22.md](/home/user/roulette/WEBGAMES_13_GAME_WAVE_2026-03-22.md) as the rollout note for this metadata/docs pass.
+
+### 2026-03-22 - Connect Four, Solitaire Mini, and Word Swipe released as Games titles 11-13
+
+- Shipped the Korean and English product pages, runtimes, and QA fixtures for `connect-four`, `solitaire-mini`, and `word-swipe`, and kept the Games hubs aligned with the now-live 13-title lineup.
+- Ran strict QA on all six new locale routes, regenerated sitemaps, and passed both `validate-seo.js` and `adsense-readiness-check.js` before deploy.
+- Updated the Games-specific trust-link validation so release checks match the actual Games site-link structure instead of the older tool-footer-id contract; rollout details live in [WEBGAMES_13_GAME_WAVE_2026-03-22.md](/home/user/roulette/WEBGAMES_13_GAME_WAVE_2026-03-22.md).

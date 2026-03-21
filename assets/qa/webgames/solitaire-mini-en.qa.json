@@ -1,0 +1,50 @@
+{
+  "id": "solitaire-mini-en",
+  "name": "Solitaire Mini EN",
+  "pageCandidates": [
+    "/en/games/solitaire-mini/",
+    "/en/solitaire-mini/",
+    "/en/games/solitaire-mini/index.html",
+    "/en/solitaire-mini/index.html"
+  ],
+  "fallbackPath": "/assets/qa/webgames/solitaire-mini-contract.html",
+  "requiredHooks": [
+    "QA_READY",
+    "render_game_to_text",
+    "advanceTime",
+    "reset"
+  ],
+  "parsedAssertions": [
+    { "key": "mode", "type": "string", "anyOfValues": ["classic", "timed", "daily"] },
+    { "key": "phase", "type": "string", "anyOfValues": ["ready", "playing", "won", "timeout", "stuck"] },
+    { "key": "score", "type": "number", "min": 0 },
+    { "key": "moves", "type": "number", "min": 0 },
+    { "key": "stockCount", "type": "number", "min": 0 },
+    { "key": "wasteCount", "type": "number", "min": 0 },
+    { "key": "foundationCount", "type": "number", "min": 0 },
+    { "key": "tableauFaceUp", "type": "number", "min": 0 },
+    { "key": "timeLimitMs", "type": "number", "min": 0 },
+    { "key": "elapsedMs", "type": "number", "min": 0 },
+    { "key": "timeLeftMs", "type": "number", "min": 0 },
+    { "key": "timeLeft", "type": "number", "min": 0 },
+    { "key": "timer", "type": "number", "min": 0 },
+    { "key": "seed", "type": "number", "min": 0 },
+    { "key": "dailyKey", "type": "string" },
+    { "key": "wasteTop", "type": "string" },
+    { "key": "foundationTop", "type": "array" },
+    { "key": "tableau", "type": "array" },
+    { "key": "undoAvailable", "type": "boolean" },
+    { "key": "autoMoveAvailable", "type": "boolean" },
+    { "key": "qaReady", "type": "boolean" }
+  ],
+  "bursts": [
+    { "label": "boot", "calls": ["window.reset()"] },
+    { "label": "daily-mode", "calls": ["document.getElementById('solitaire-mini-daily')?.click()"], "advanceMs": 360 },
+    { "label": "draw", "calls": ["document.getElementById('solitaire-mini-draw')?.click()"], "advanceMs": 360 },
+    { "label": "auto", "calls": ["document.getElementById('solitaire-mini-auto')?.click()"], "advanceMs": 360 },
+    { "label": "timed-mode", "calls": ["document.getElementById('solitaire-mini-timed')?.click()"], "advanceMs": 360 },
+    { "label": "timed-advance", "advanceMs": 60000 },
+    { "label": "undo", "calls": ["document.getElementById('solitaire-mini-undo')?.click()"], "advanceMs": 180 },
+    { "label": "reset", "calls": ["document.getElementById('solitaire-mini-classic')?.click()"], "advanceMs": 360 }
+  ]
+}

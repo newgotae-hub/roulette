@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Word Swipe | Randomly Pick</title>
+  <meta name="description" content="Play Word Swipe in the browser. Connect letters into approved target words on a contained board puzzle with free play and a shared daily challenge." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://randomly-pick.com/en/games/word-swipe/" />
+  <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/word-swipe/" />
+  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/games/word-swipe/" />
+  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/games/word-swipe/" />
+  <link rel="stylesheet" href="/assets/css/games-word-swipe.css?v=20260322-ws1" />
+  <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
+</head>
+<body>
+  <main class="ws-wrap">
+    <header class="ws-topbar">
+      <div class="ws-brand">
+        <div class="ws-brand-mark">R.</div>
+        <div>
+          <div class="ws-brand-name">Randomly Pick</div>
+          <div class="ws-brand-sub">Word Swipe</div>
+        </div>
+      </div>
+      <nav class="ws-nav" aria-label="Primary">
+        <a href="/en/">Home</a>
+        <a href="/en/games/" class="is-active" aria-current="page">Games</a>
+        <a href="/en/luckydraw/">Lucky Draw</a>
+        <a href="/en/ladder/">Ladder Draw</a>
+        <a href="/en/team-generator/">Team Split</a>
+        <a href="/en/coinflip/">Coin Flip</a>
+        <a href="/en/dice/">Dice Roll</a>
+      </nav>
+    </header>
+
+    <section class="ws-hero">
+      <span class="ws-eyebrow">Word puzzle</span>
+      <h1 class="ws-title">Word Swipe</h1>
+      <p class="ws-lede">A contained word-connection puzzle built for quick browser play. Instead of dumping a huge open dictionary on the page, each board ships with a small approved set of target words, so every run feels finishable, readable, and worth replaying.</p>
+      <div class="ws-actions">
+        <a class="ws-button is-primary" href="#play-area">Play now</a>
+        <a class="ws-button" href="/en/games/">Back to Games</a>
+      </div>
+      <div class="ws-chips" aria-label="Game highlights">
+        <span class="ws-chip">Contained board puzzle</span>
+        <span class="ws-chip">Swipe and tap controls</span>
+        <span class="ws-chip">Daily challenge</span>
+        <span class="ws-chip">Deterministic QA hooks</span>
+      </div>
+      <div class="ws-tag-row" aria-label="Current state">
+        <span id="word-swipe-tag" class="ws-tag" data-state="ready">Free · Ready</span>
+      </div>
+      <div id="word-swipe-hint" class="ws-hint">Start with PLAY. Swipe across the top row or tap the letters in order to learn the loop quickly.</div>
+      <div id="word-swipe-mobile-flow" class="ws-mobile-flow">On phones, press and drag through connected cells, or tap them one by one. A cell can only be used once per word path.</div>
+    </section>
+
+    <div class="ws-layout" id="play-area">
+      <section class="ws-panel" aria-labelledby="board-title">
+        <div class="ws-panel-head">
+          <h2 id="board-title">Puzzle board</h2>
+          <div class="ws-toolbar">
+            <button id="word-swipe-reset" type="button">New puzzle</button>
+            <button id="word-swipe-daily" type="button">Daily challenge</button>
+            <button id="word-swipe-clear" type="button">Clear path</button>
+          </div>
+        </div>
+        <div class="ws-board-shell">
+          <div id="word-swipe-board" class="ws-board" aria-label="Word Swipe board"></div>
+        </div>
+        <div class="ws-controls">
+          <div class="ws-stats" aria-label="Current game stats">
+            <div class="ws-stat"><span>Score</span><strong id="word-swipe-score">0</strong></div>
+            <div class="ws-stat"><span>Best</span><strong id="word-swipe-best">0</strong></div>
+            <div class="ws-stat"><span>Moves</span><strong id="word-swipe-moves">0</strong></div>
+            <div class="ws-stat"><span>Words solved</span><strong id="word-swipe-solved">0 / 0</strong></div>
+            <div class="ws-stat"><span>Target word</span><strong id="word-swipe-target">PLAY</strong></div>
+            <div class="ws-stat"><span>Current path</span><strong id="word-swipe-selection-label">No selection</strong></div>
+          </div>
+          <div class="ws-runtime-strip" aria-label="Puzzle progress">
+            <div class="ws-runtime-card">
+              <span>Current board</span>
+              <strong id="word-swipe-progress-note">Starter board with readable first solves</strong>
+            </div>
+            <div class="ws-runtime-card">
+              <span>Words left</span>
+              <div id="word-swipe-target-list" class="ws-target-list" aria-live="polite">
+                <span class="ws-target-chip is-active">PLAY</span>
+                <span class="ws-target-chip">GAME</span>
+                <span class="ws-target-chip">WORD</span>
+                <span class="ws-target-chip">STAR</span>
+              </div>
+            </div>
+          </div>
+          <div class="ws-status" id="word-swipe-status">Connect letters into valid target paths. When the current path matches a remaining word exactly, it clears right away.</div>
+        </div>
+      </section>
+
+      <aside class="ws-panel" aria-labelledby="guide-title">
+        <div class="ws-panel-head"><h2 id="guide-title">How it works</h2></div>
+        <p>Word Swipe is deliberately not an open-ended dictionary tool. It is a contained puzzle: each board has a realistic small target list, clear progress, and a finish state. That keeps the page useful as a game instead of a thin letter gimmick.</p>
+        <div class="ws-copy-grid">
+          <div class="ws-copy-card">
+            <strong>Fast first play</strong>
+            <p>The first board opens with short, readable words like PLAY and GAME. The HUD keeps the target word, solved count, and current path visible so the rules teach themselves.</p>
+          </div>
+          <div class="ws-copy-card">
+            <strong>Shared daily puzzle</strong>
+            <p>The daily challenge uses a date seed, so everyone gets the same board for the day. That adds replay value without accounts, ranking servers, or long setup.</p>
+          </div>
+        </div>
+        <div class="ws-runtime-note">Once the runtime connects, the current target word, remaining target list, and board progress can update inside this card without changing the layout.</div>
+      </aside>
+    </div>
+
+    <section class="ws-section" aria-labelledby="howto-title">
+      <div class="ws-section-head">
+        <h2 id="howto-title">How to play</h2>
+        <p>Build connected paths, clear the approved words, and finish the board in a few clean moves.</p>
+      </div>
+      <div class="ws-steps">
+        <div class="ws-step"><strong>1. Start on the first letter.</strong> Press or tap the opening cell of the word you want to trace.</div>
+        <div class="ws-step"><strong>2. Stay connected.</strong> You can move horizontally, vertically, or diagonally, but each letter can only be used once in the same path.</div>
+        <div class="ws-step"><strong>3. Match the exact target.</strong> When your path matches a remaining target word, the solve lands immediately and the board updates.</div>
+      </div>
+    </section>
+
+    <section class="ws-section" aria-labelledby="why-title">
+      <div class="ws-section-head">
+        <h2 id="why-title">Why this fits the repo</h2>
+        <p>Word Swipe keeps the same first-party Randomly Pick feel as the other games: practical layout, readable controls, clear status, and related links without looking like a detached arcade template.</p>
+      </div>
+      <div class="ws-uses">
+        <div class="ws-use"><strong>Short puzzle break</strong> A board ends in a few finds, so it works well for quick sessions.</div>
+        <div class="ws-use"><strong>Touch-friendly play</strong> Swipe if you want fluid input, tap if you want precise path building.</div>
+        <div class="ws-use"><strong>Replay loop</strong> Free boards and daily boards create easy return sessions.</div>
+      </div>
+    </section>
+
+    <section class="ws-section" aria-labelledby="related-title">
+      <div class="ws-section-head">
+        <h2 id="related-title">More Randomly Pick games</h2>
+        <p>Move from word puzzles into number, route, or reaction games without leaving the same Games hub.</p>
+      </div>
+      <div class="ws-related">
+        <a href="/en/games/number-merge/"><strong>Number Merge</strong><br />Stay in the puzzle lane with calmer board math.</a>
+        <a href="/en/games/color-lines/"><strong>Color Lines</strong><br />Keep the route-reading mindset in a color puzzle.</a>
+        <a href="/en/games/snake/"><strong>Snake</strong><br />Switch from quiet logic to a faster reflex loop.</a>
+        <a href="/en/about/"><strong>About</strong><br />Read the site background and trust links.</a>
+      </div>
+    </section>
+
+    <section class="ws-trust">
+      <strong>Site links</strong>
+      <div class="ws-links">
+        <a href="/en/about/">About</a>
+        <a href="/en/guides/">Guides</a>
+        <a href="/en/privacy/">Privacy Policy</a>
+        <a href="/en/terms/">Terms</a>
+        <a href="/en/contact/">Contact</a>
+      </div>
+    </section>
+
+    <div class="ws-footer">Randomly Pick · <a href="/en/games/">Games</a></div>
+  </main>
+
+  <script>
+    window.__WORD_SWIPE_COPY__ = {
+      freeModeLabel: 'Free',
+      dailyModeLabel: 'Daily',
+      readyLabel: 'Ready',
+      playingLabel: 'Playing',
+      clearedLabel: 'Cleared',
+      hint: 'Start with PLAY. Swipe across the top row or tap the letters in order to learn the loop quickly.',
+      dailyHint: 'Daily challenge uses a board locked to today. Read the path carefully and clear the targets one by one.',
+      mobileFlowReady: 'On phones, press and drag through connected cells, or tap them one by one. A cell can only be used once per word path.',
+      mobileFlowPlaying: 'If the current path matches the beginning of a remaining word, keep going. If not, clear and retry.',
+      mobileFlowCleared: 'Board cleared. Jump into a new puzzle or the daily board right away.',
+      readyStatus: 'Connect letters into valid target paths. When the current path matches a remaining word exactly, it clears right away.',
+      solvedStatus: 'Word found. Keep moving through the target list until the board is fully solved.',
+      clearedStatus: 'Every target word is solved. Start a new puzzle or move into the daily challenge.',
+      invalidStatus: 'That path does not match any remaining target word. Try a different start or direction.',
+      duplicateStatus: 'That word is already solved. Check the next target word instead.',
+      selectionNone: 'No selection',
+      resetButton: 'New puzzle',
+      dailyButton: 'Daily challenge',
+      clearButton: 'Clear path',
+      solvedFormatPrefix: '',
+      solvedFormatMiddle: ' / ',
+      solvedFormatSuffix: ''
+    };
+    window.__WORD_SWIPE_META__ = {
+      slug: 'word-swipe',
+      lang: 'en',
+      mode: 'free'
+    };
+  </script>
+  <script src="/assets/js/games-word-swipe.js?v=20260322-ws1"></script>
+</body>
+</html>

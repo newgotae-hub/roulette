@@ -315,4 +315,31 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/games/sliding-puzzle/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/games/sliding-puzzle/"/>
   </url>
+  <url>
+    <loc>https://randomly-pick.com/games/connect-four/</loc>
+    <lastmod>2026-03-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/connect-four/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/games/connect-four/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/games/connect-four/"/>
+  </url>
+  <url>
+    <loc>https://randomly-pick.com/games/solitaire-mini/</loc>
+    <lastmod>2026-03-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/solitaire-mini/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/games/solitaire-mini/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/games/solitaire-mini/"/>
+  </url>
+  <url>
+    <loc>https://randomly-pick.com/games/word-swipe/</loc>
+    <lastmod>2026-03-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/word-swipe/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/games/word-swipe/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/games/word-swipe/"/>
+  </url>
 </urlset>
