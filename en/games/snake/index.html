@@ -187,6 +187,12 @@
       <div class="chips" aria-label="Game highlights">
         <span class="chip">Target 10</span><span class="chip">Best saved locally</span><span class="chip">Arrow keys and WASD</span><span class="chip">Swipe on mobile</span>
       </div>
+      <div class="snake-mode-row" role="group" aria-label="Choose a mode">
+        <button class="snake-mode-chip" type="button" data-snake-mode="classic" aria-pressed="true">Classic</button>
+        <button class="snake-mode-chip" type="button" data-snake-mode="timed" aria-pressed="false">Timed</button>
+        <button class="snake-mode-chip" type="button" data-snake-mode="wrap" aria-pressed="false">Wrap</button>
+      </div>
+      <div class="snake-mode-note">Picking a mode starts a fresh round.</div>
       <div class="snake-meta-row" aria-label="Current game state">
         <span id="snake-game-tag" class="snake-tag" data-state="ready">Ready</span>
       </div>
@@ -224,6 +230,11 @@
               <div class="stat"><span>Speed</span><strong id="snake-speed">120 ms</strong></div>
             </div>
             <div class="status" id="snake-status">Press Start or any direction to begin.</div>
+            <div class="snake-hud-strip" aria-label="Mode, reward, and timer">
+              <div class="snake-hud-pill"><strong>Mode</strong><span id="snake-mode-badge">Classic</span></div>
+              <div class="snake-hud-pill"><strong>Reward</strong><span id="snake-reward-badge">Bonus ready in 3</span></div>
+              <div class="snake-hud-pill"><strong>Timer</strong><span id="snake-timer-badge">No timer</span></div>
+            </div>
           </div>
         </div>
       </section>
@@ -288,12 +299,29 @@
   <script>
     window.__SNAKE_COPY__ = {
       targetScore: 10,
+      modeClassicLabel: 'Classic',
+      modeTimedLabel: 'Timed',
+      modeWrapLabel: 'Wrap',
+      modeBadgeLabel: 'Mode',
+      rewardBadgeLabel: 'Reward',
+      timerBadgeLabel: 'Timer',
+      timerIdleLabel: 'No timer',
+      bonusReadyLabel: 'Bonus ready',
+      bonusActiveLabel: 'Bonus apple',
+      bonusNextLabel: 'Bonus in',
+      bonusRewardLabel: 'Bonus +2',
+      timeoutLabel: 'Time up',
+      statusTimeout: 'Time ran out. Try again in Timed mode.',
       readyLabel: 'Ready',
       statusReady: 'Press Start or any direction to begin.',
       statusPlaying: 'Snake is moving. Keep eating and avoid the walls.',
       statusPaused: 'Paused. Resume when you are ready.',
       statusGameOver: 'Game over. Restart to try again.',
       statusWin: 'You won. Clear run complete.',
+      hitWallStatus: 'You hit the wall.',
+      hitBodyStatus: 'You ran into your own body.',
+      playingTag: 'running',
+      mobileHint: 'Swipe the board or use the buttons below on mobile.',
       pauseLabel: 'Pause',
       resumeLabel: 'Resume',
       restartLabel: 'Restart',

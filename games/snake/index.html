@@ -372,6 +372,12 @@
       <div class="chips" aria-label="게임 하이라이트">
         <span class="chip">목표 10점</span><span class="chip">기록은 브라우저에 저장</span><span class="chip">방향키와 WASD</span><span class="chip">모바일 스와이프</span>
       </div>
+      <div class="snake-mode-row" role="group" aria-label="모드 선택">
+        <button class="snake-mode-chip" type="button" data-snake-mode="classic" aria-pressed="true">클래식</button>
+        <button class="snake-mode-chip" type="button" data-snake-mode="timed" aria-pressed="false">타임어택</button>
+        <button class="snake-mode-chip" type="button" data-snake-mode="wrap" aria-pressed="false">랩</button>
+      </div>
+      <div class="snake-mode-note">모드를 바꾸면 새 판으로 시작합니다.</div>
       <div class="snake-meta-row" aria-label="현재 게임 상태">
         <span id="snake-game-tag" class="snake-tag" data-state="ready">준비됨</span>
       </div>
@@ -409,6 +415,11 @@
               <div class="stat"><span>속도</span><strong id="snake-speed">120 ms</strong></div>
             </div>
             <div class="status" id="snake-status">시작 버튼이나 방향키를 누르면 게임이 시작됩니다.</div>
+            <div class="snake-hud-strip" aria-label="모드와 보상 정보">
+              <div class="snake-hud-pill"><strong>모드</strong><span id="snake-mode-badge">클래식</span></div>
+              <div class="snake-hud-pill"><strong>보상</strong><span id="snake-reward-badge">보너스 준비 3</span></div>
+              <div class="snake-hud-pill"><strong>타이머</strong><span id="snake-timer-badge">제한 없음</span></div>
+            </div>
           </div>
         </div>
       </section>
@@ -473,12 +484,29 @@
   <script>
     window.__SNAKE_COPY__ = {
       targetScore: 10,
+      modeClassicLabel: '클래식',
+      modeTimedLabel: '타임어택',
+      modeWrapLabel: '랩',
+      modeBadgeLabel: '모드',
+      rewardBadgeLabel: '보상',
+      timerBadgeLabel: '타이머',
+      timerIdleLabel: '제한 없음',
+      bonusReadyLabel: '보너스 준비',
+      bonusActiveLabel: '보너스 사과',
+      bonusNextLabel: '다음 보너스',
+      bonusRewardLabel: '보너스 +2',
+      timeoutLabel: '시간 종료',
+      statusTimeout: '시간이 끝났습니다. 타이머 모드에서 다시 도전하세요.',
       readyLabel: '준비됨',
       statusReady: '시작 버튼이나 방향키를 누르면 게임이 시작됩니다.',
       statusPlaying: '스네이크가 움직이고 있습니다. 먹으면서 벽과 몸을 피하세요.',
       statusPaused: '일시정지 상태입니다. 다시 시작하거나 계속 진행할 수 있습니다.',
       statusGameOver: '게임이 끝났습니다. 다시 시작해서 한 번 더 도전하세요.',
       statusWin: '목표 점수를 넘겼습니다. 깔끔하게 한 판을 끝냈습니다.',
+      hitWallStatus: '벽에 부딪혔습니다.',
+      hitBodyStatus: '자기 몸에 부딪혔습니다.',
+      playingTag: '달리는 중',
+      mobileHint: '모바일에서는 보드를 스와이프하거나 아래 방향 버튼을 사용하세요.',
       pauseLabel: '일시정지',
       resumeLabel: '계속',
       restartLabel: '다시 시작',

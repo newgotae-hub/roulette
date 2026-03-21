@@ -101,6 +101,11 @@ function normalizeScenario(rawScenario) {
       ? rawScenario.paths
       : [];
   const fallbackPath = rawScenario.fallbackPath || rawScenario.contractPath || null;
+  const parsedAssertions = Array.isArray(rawScenario.parsedAssertions)
+    ? rawScenario.parsedAssertions
+    : Array.isArray(rawScenario.requiredParsedKeys)
+      ? rawScenario.requiredParsedKeys.map((key) => ({ key }))
+      : [];
   const bursts = Array.isArray(rawScenario.bursts) && rawScenario.bursts.length
     ? rawScenario.bursts
     : [
@@ -115,6 +120,7 @@ function normalizeScenario(rawScenario) {
     name,
     pageCandidates,
     fallbackPath,
+    parsedAssertions,
     requiredHooks: Array.isArray(rawScenario.requiredHooks)
       ? rawScenario.requiredHooks
       : ['QA_READY', 'render_game_to_text', 'advanceTime', 'reset'],
@@ -558,6 +564,63 @@ function summarizeState(state) {
   return normalizeText(state.text).slice(0, 120);
 }
 
+function describeParsedValue(value) {
+  if (Array.isArray(value)) return `[${value.map(describeParsedValue).join(', ')}]`;
+  if (value && typeof value === 'object') return JSON.stringify(value);
+  return String(value);
+}
+
+function validateParsedAssertions(parsed, assertions) {
+  const issues = [];
+  if (!assertions.length) return issues;
+  const source = parsed && typeof parsed === 'object' ? parsed : null;
+  for (const assertion of assertions) {
+    const keys = Array.isArray(assertion.anyOfKeys) && assertion.anyOfKeys.length
+      ? assertion.anyOfKeys
+      : assertion.key
+        ? [assertion.key]
+        : [];
+    if (!keys.length) {
+      issues.push('parsed assertion is missing key/anyOfKeys');
+      continue;
+    }
+    const key = keys.find((candidate) => source && Object.prototype.hasOwnProperty.call(source, candidate));
+    if (!key) {
+      issues.push(`missing parsed key: ${keys.join(' or ')}`);
+      continue;
+    }
+    const value = source[key];
+    if (assertion.exists === true) continue;
+
+    if (assertion.type) {
+      const actualType = Array.isArray(value) ? 'array' : (value === null ? 'null' : typeof value);
+      if (assertion.type === 'object') {
+        if (actualType !== 'object' || Array.isArray(value) || value === null) {
+          issues.push(`parsed key ${key} expected object, got ${actualType}`);
+        }
+      } else if (actualType !== assertion.type) {
+        issues.push(`parsed key ${key} expected ${assertion.type}, got ${actualType}`);
+      }
+    }
+
+    if (Array.isArray(assertion.anyOfValues) && assertion.anyOfValues.length) {
+      const normalizedValue = String(value).trim().toLowerCase();
+      const allowed = assertion.anyOfValues.map((entry) => String(entry).trim().toLowerCase());
+      if (!allowed.includes(normalizedValue)) {
+        issues.push(`parsed key ${key} expected one of ${allowed.join(', ')}, got ${describeParsedValue(value)}`);
+      }
+    }
+
+    if (assertion.min !== undefined && Number(value) < Number(assertion.min)) {
+      issues.push(`parsed key ${key} expected >= ${assertion.min}, got ${describeParsedValue(value)}`);
+    }
+    if (assertion.max !== undefined && Number(value) > Number(assertion.max)) {
+      issues.push(`parsed key ${key} expected <= ${assertion.max}, got ${describeParsedValue(value)}`);
+    }
+  }
+  return issues;
+}
+
 async function runScenario(chromiumPort, scenario, outputDir, allowFallback) {
   const target = await selectTargetUrl(scenario);
   if (target.source === 'missing') {
@@ -622,6 +685,11 @@ async function runScenario(chromiumPort, scenario, outputDir, allowFallback) {
     if (!normalizeText(state.text)) issues.push('render_game_to_text returned empty text');
     if (!textChanged) issues.push('render_game_to_text never changed after motion bursts');
     if (finalReset && normalizeText(finalReset.state.text) !== baselineText) issues.push('reset did not restore the boot snapshot');
+    if (scenario.parsedAssertions && scenario.parsedAssertions.length) {
+      for (const entry of snapshots) {
+        issues.push(...validateParsedAssertions(entry.state.parsed, scenario.parsedAssertions).map((issue) => `parsed assertion failed at ${entry.label}: ${issue}`));
+      }
+    }
     if ((state.consoleErrors || []).length) {
       issues.push(`browser errors detected: ${state.consoleErrors.map((entry) => `${entry.type}:${entry.message}`).join(' | ')}`);
     }

@@ -29,6 +29,12 @@ How to use it:
 - Preserved the English Snake page as-is and kept the same QA/runtime hooks and gameplay behavior.
 - Re-ran the focused Snake QA, SEO, AdSense, and diff checks after the shell copy update.
 
+### Korean Snake runtime copy fallbacks removed
+
+- Added the missing localized runtime copy keys on the Korean Snake page so the mobile hint, running tag, and collision statuses no longer fall back to English after JS boot.
+- Mirrored the same runtime keys on the English Snake page so both locale blocks stay explicit and the shared Snake runtime no longer depends on defaults for those fields.
+- Re-ran the focused Snake QA, SEO, AdSense, and diff checks after the runtime-copy fix.
+
 ### Webgames QA flow added for Snake
 
 - Added a lightweight browser QA runner for the Games hub that validates Snake on both the Korean and English routes without a manual full-playthrough.
@@ -451,3 +457,33 @@ How to use it:
 - Extended both `scripts/static-localize-html.js` and `scripts/sync-team-generator-locales.js` so the same editorial treatment now covers Korean root pages and all localized `team-generator` pages alongside the other game tools.
 - Re-ran static page generation, legal-link sync, sitemap generation, and AdSense/SEO verification; the post-change readiness audit now reports `minimum content units: 1151` on the thinnest ad-enabled page.
 - Detailed notes: [ADSENSE_REVIEW_SIGNAL_HARDENING_2026-03-18.md](/home/user/roulette/ADSENSE_REVIEW_SIGNAL_HARDENING_2026-03-18.md)
+
+### 2026-03-22 - Webgames QA flow extended for Number Merge and current Snake v1.1
+
+- Added hook-driven QA fixtures for `number-merge` and `number-merge-en` under `assets/qa/webgames/`, plus a matching fallback contract harness so the scenario can be validated before any future route drift.
+- Updated `assets/qa/webgames/README.md` and `WEBGAMES_QA_FLOW_2026-03-22.md` to document the new Number Merge scenario contract alongside the existing Snake flow.
+- Ran browser QA against the current local Snake routes and the live Number Merge routes; Snake passed on both locales, while Number Merge currently fails the reset contract because the final reset snapshot does not match the boot snapshot.
+
+### 2026-03-22 - Snake v1.1 QA contract prepared for mode/timer/bonus validation
+
+- Extended `scripts/qa-webgames.js` so scenarios can assert parsed `render_game_to_text()` fields, including required keys, type checks, and allowed values.
+- Added `snake-v11.qa.json` and `snake-v11-en.qa.json` so the next Snake pass can verify `mode`, `timeLeft` or `timer`, and bonus state without touching the product pages.
+- Added `snake-v11-contract.html` as a deterministic QA fallback harness and updated the webgames QA notes so the new contract is documented for the next worker handoff.
+
+### 2026-03-22 - Snake v1.1 shipped with modes, bonus apple, and mobile polish
+
+- Added a small Snake mode system with `Classic`, `Timed`, and `Wrap` chips so the game feels less one-note while staying easy to validate.
+- Added a deterministic bonus-apple reward loop, compact mode/reward/timer HUD badges, and a calmer mobile control treatment so the page feels more complete without becoming a separate microsite.
+- Kept the QA hooks intact and simplified `render_game_to_text()` so reset comparisons stay deterministic while still exposing mode, timer/timeLeft, and bonus state for review automation.
+
+### 2026-03-22 - Snake v1.1 QA contract serialized for parsed mode/timer/bonus checks
+
+- Switched `render_game_to_text()` to a JSON payload so the QA runner can parse `mode`, `timeLeft`/`timer`, and bonus state directly on boot and after bursts.
+- Preserved the visible HUD and gameplay behavior while making the serialized state contract deterministic for both the Korean and English Snake routes.
+- Re-ran the v1.1 QA scenarios on `/games/snake/` and `/en/games/snake/` after the serialization change; both passed.
+
+### 2026-03-22 - Number Merge shipped as the second Games title
+
+- Added `/games/number-merge/` and `/en/games/number-merge/` as a first-party tile-merge puzzle with keyboard, swipe, undo, local best tracking, and editorial help sections that match the existing Randomly Pick tone.
+- Added shared `games-number-merge` JS/CSS assets plus deterministic QA hooks so the release runner can validate both locales without relying on manual play.
+- Updated the Games hubs, QA fixtures, and sitemap generation so the new title ships as part of the current Games expansion instead of as an orphaned page.

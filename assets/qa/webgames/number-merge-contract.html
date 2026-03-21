@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Number Merge QA Contract Harness</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --panel: rgba(15, 23, 42, 0.84);
+      --line: rgba(148, 163, 184, 0.22);
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #22c55e;
+      --accent-2: #86efac;
+      --warm: #f59e0b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top, rgba(34, 197, 94, 0.14), transparent 30%),
+        linear-gradient(180deg, #020617 0%, #0f172a 100%);
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+    .shell {
+      width: min(920px, 100%);
+      display: grid;
+      gap: 16px;
+      grid-template-columns: 1fr;
+    }
+    .panel {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 24px;
+      padding: 18px 18px 16px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 22px 48px rgba(0, 0, 0, 0.28);
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(1.5rem, 4vw, 2.3rem);
+      letter-spacing: -0.04em;
+    }
+    .status {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      padding: 8px 12px;
+      color: var(--text);
+      background: rgba(15, 23, 42, 0.6);
+      font-size: 0.92rem;
+    }
+    .board {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .tile {
+      aspect-ratio: 1;
+      border-radius: 18px;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      background: rgba(15, 23, 42, 0.7);
+      display: grid;
+      place-items: center;
+      font-size: clamp(1.3rem, 4vw, 2rem);
+      font-weight: 700;
+      color: #f8fafc;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
+    }
+    .tile.empty {
+      color: transparent;
+      background: rgba(15, 23, 42, 0.45);
+    }
+    .tile.focus {
+      outline: 3px solid rgba(134, 239, 172, 0.85);
+      outline-offset: 2px;
+    }
+    .footer {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    code { color: #d1fae5; }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="panel">
+      <div class="header">
+        <div>
+          <h1>Number Merge QA Contract Harness</h1>
+          <div class="status" id="status">Waiting for QA runner.</div>
+        </div>
+        <div class="chip" id="mode-chip">mode: ready</div>
+      </div>
+      <div class="stats" aria-label="Number Merge QA state">
+        <div class="chip" id="score-chip">score: 0</div>
+        <div class="chip" id="best-chip">best: 0</div>
+        <div class="chip" id="moves-chip">moves: 0</div>
+        <div class="chip" id="focus-chip">focus: 0,0</div>
+      </div>
+    </section>
+
+    <section class="panel" aria-label="Number Merge board">
+      <div class="board" id="board"></div>
+    </section>
+
+    <section class="panel footer">
+      Hooks exposed: <code>QA_READY</code>, <code>render_game_to_text()</code>,
+      <code>advanceTime(ms)</code>, <code>reset()</code>.
+      Arrow keys move the focus, deterministic time steps advance the contract
+      state, and reset restores the starting grid.
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      const boardEl = document.getElementById('board');
+      const statusEl = document.getElementById('status');
+      const scoreChip = document.getElementById('score-chip');
+      const bestChip = document.getElementById('best-chip');
+      const movesChip = document.getElementById('moves-chip');
+      const focusChip = document.getElementById('focus-chip');
+
+      let state;
+
+      function createBoard() {
+        return [
+          [2, 0, 0, 0],
+          [0, 4, 0, 0],
+          [0, 0, 8, 0],
+          [0, 0, 0, 16]
+        ];
+      }
+
+      function syncUi() {
+        scoreChip.textContent = `score: ${state.score}`;
+        bestChip.textContent = `best: ${state.best}`;
+        movesChip.textContent = `moves: ${state.moves}`;
+        focusChip.textContent = `focus: ${state.focus.x},${state.focus.y}`;
+        statusEl.textContent = state.gameOver
+          ? 'Round complete. Reset to try a new board.'
+          : 'QA harness ready. Use arrow keys or deterministic time steps.';
+      }
+
+      function renderBoard() {
+        boardEl.innerHTML = '';
+        state.board.forEach((row, y) => {
+          row.forEach((value, x) => {
+            const tile = document.createElement('div');
+            tile.className = 'tile';
+            if (!value) tile.classList.add('empty');
+            if (state.focus.x === x && state.focus.y === y) tile.classList.add('focus');
+            tile.textContent = value ? String(value) : '·';
+            tile.setAttribute('aria-label', value ? `tile ${value}` : 'empty tile');
+            boardEl.appendChild(tile);
+          });
+        });
+      }
+
+      function render_game_to_text() {
+        return JSON.stringify({
+          mode: state.gameOver ? 'complete' : 'playing',
+          score: state.score,
+          best: state.best,
+          moves: state.moves,
+          focus: `${state.focus.x},${state.focus.y}`,
+          board: state.board.map((row) => row.join(',')).join('|'),
+          qaReady: true
+        });
+      }
+
+      function clamp(value, min, max) {
+        return Math.min(max, Math.max(min, value));
+      }
+
+      function move(key) {
+        if (state.gameOver) return;
+        if (key === 'ArrowRight') state.focus.x = clamp(state.focus.x + 1, 0, 3);
+        if (key === 'ArrowLeft') state.focus.x = clamp(state.focus.x - 1, 0, 3);
+        if (key === 'ArrowDown') state.focus.y = clamp(state.focus.y + 1, 0, 3);
+        if (key === 'ArrowUp') state.focus.y = clamp(state.focus.y - 1, 0, 3);
+        state.moves += 1;
+        state.score += state.board[state.focus.y][state.focus.x] || 0;
+        state.best = Math.max(state.best, state.score);
+        if (state.moves >= 4) state.gameOver = true;
+        renderBoard();
+        syncUi();
+      }
+
+      function advanceTime(ms) {
+        const ticks = Math.max(1, Math.round(Number(ms || 0) / 180));
+        for (let index = 0; index < ticks; index += 1) {
+          if (!state.gameOver) {
+            state.score += 1;
+            state.best = Math.max(state.best, state.score);
+          }
+        }
+        state.moves += ticks;
+        if (state.moves >= 4) state.gameOver = true;
+        renderBoard();
+        syncUi();
+        return render_game_to_text();
+      }
+
+      function reset() {
+        state = {
+          score: 0,
+          best: 0,
+          moves: 0,
+          gameOver: false,
+          focus: { x: 0, y: 0 },
+          board: createBoard()
+        };
+        renderBoard();
+        syncUi();
+      }
+
+      window.render_game_to_text = render_game_to_text;
+      window.advanceTime = advanceTime;
+      window.reset = reset;
+      window.resetGame = reset;
+      window.QA_READY = true;
+
+      window.addEventListener('keydown', (event) => {
+        if (!/^Arrow(Up|Down|Left|Right)$/.test(event.key)) return;
+        event.preventDefault();
+        move(event.key);
+      });
+
+      reset();
+    })();
+  </script>
+</body>
+</html>

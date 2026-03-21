@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Snake v1.1 QA Contract Harness</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --panel: rgba(15, 23, 42, 0.84);
+      --line: rgba(148, 163, 184, 0.22);
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #22c55e;
+      --accent-2: #86efac;
+      --warm: #f59e0b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top, rgba(34, 197, 94, 0.14), transparent 30%),
+        linear-gradient(180deg, #020617 0%, #0f172a 100%);
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+    .shell {
+      width: min(960px, 100%);
+      display: grid;
+      gap: 16px;
+      grid-template-columns: 1fr;
+    }
+    .panel {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 24px;
+      padding: 18px 18px 16px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 22px 48px rgba(0, 0, 0, 0.28);
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(1.5rem, 4vw, 2.3rem);
+      letter-spacing: -0.04em;
+    }
+    .status {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      padding: 8px 12px;
+      color: var(--text);
+      background: rgba(15, 23, 42, 0.6);
+      font-size: 0.92rem;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      max-width: 680px;
+      aspect-ratio: 1;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background: #020617;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
+    }
+    .footer {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    code { color: #d1fae5; }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="panel">
+      <div class="header">
+        <div>
+          <h1>Snake v1.1 QA Contract Harness</h1>
+          <div class="status" id="status">Waiting for QA runner.</div>
+        </div>
+        <div class="chip" id="mode-chip">mode: classic</div>
+      </div>
+      <div class="stats" aria-label="Snake QA state">
+        <div class="chip" id="score-chip">score: 0</div>
+        <div class="chip" id="time-chip">time left: 30</div>
+        <div class="chip" id="bonus-chip">bonus: idle</div>
+        <div class="chip" id="apple-chip">apple: normal</div>
+      </div>
+    </section>
+
+    <canvas id="board" width="640" height="640" aria-label="Snake board"></canvas>
+
+    <section class="panel footer">
+      Hooks exposed: <code>QA_READY</code>, <code>render_game_to_text()</code>,
+      <code>advanceTime(ms)</code>, <code>reset()</code>.
+      This harness exposes the v1.1 contract fields for mode, timeLeft, and
+      bonus state so the QA runner can validate the new render payload before
+      or after the real route lands.
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      const canvas = document.getElementById('board');
+      const ctx = canvas.getContext('2d');
+      const status = document.getElementById('status');
+      const modeChip = document.getElementById('mode-chip');
+      const scoreChip = document.getElementById('score-chip');
+      const timeChip = document.getElementById('time-chip');
+      const bonusChip = document.getElementById('bonus-chip');
+      const appleChip = document.getElementById('apple-chip');
+
+      const size = 16;
+      const cell = 40;
+      let state;
+
+      function drawCell(point, color) {
+        ctx.fillStyle = color;
+        ctx.fillRect(point.x * cell + 4, point.y * cell + 4, cell - 8, cell - 8);
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let y = 0; y < size; y += 1) {
+          for (let x = 0; x < size; x += 1) {
+            ctx.fillStyle = (x + y) % 2 === 0 ? '#0f172a' : '#111827';
+            ctx.fillRect(x * cell, y * cell, cell, cell);
+          }
+        }
+        drawCell(state.apple, state.bonusActive ? '#f59e0b' : '#f97316');
+        state.snake.forEach((segment, index) => {
+          drawCell(segment, index === 0 ? '#4ade80' : '#16a34a');
+        });
+        if (state.bonusActive) {
+          drawCell(state.bonus, '#fbbf24');
+        }
+      }
+
+      function render_game_to_text() {
+        return JSON.stringify({
+          mode: state.mode,
+          timeLeft: state.timeLeft,
+          bonus: {
+            active: state.bonusActive,
+            x: state.bonus.x,
+            y: state.bonus.y
+          },
+          apple: { x: state.apple.x, y: state.apple.y },
+          score: state.score,
+          bonusScore: state.bonusScore,
+          gameOver: state.gameOver,
+          qaReady: true
+        });
+      }
+
+      function syncUi() {
+        modeChip.textContent = `mode: ${state.mode}`;
+        scoreChip.textContent = `score: ${state.score}`;
+        timeChip.textContent = `time left: ${state.timeLeft}`;
+        bonusChip.textContent = `bonus: ${state.bonusActive ? 'active' : 'idle'}`;
+        appleChip.textContent = `apple: ${state.bonusActive ? 'bonus' : 'normal'}`;
+        status.textContent = state.gameOver
+          ? 'Round complete. Reset to try again.'
+          : 'QA harness ready. Arrow keys, swipe, and deterministic time are wired.';
+      }
+
+      function reset() {
+        state = {
+          mode: 'classic',
+          timeLeft: 30,
+          bonusActive: false,
+          bonusScore: 0,
+          score: 0,
+          gameOver: false,
+          snake: [
+            { x: 7, y: 8 },
+            { x: 6, y: 8 },
+            { x: 5, y: 8 }
+          ],
+          apple: { x: 11, y: 8 },
+          bonus: { x: 2, y: 2 }
+        };
+        draw();
+        syncUi();
+        return render_game_to_text();
+      }
+
+      function advanceTime(ms) {
+        const value = Number(ms || 0);
+        const ticks = Math.max(1, Math.round(value / 500));
+        for (let index = 0; index < ticks; index += 1) {
+          if (state.timeLeft > 0) {
+            state.timeLeft -= 1;
+          }
+          if (state.timeLeft <= 10) {
+            state.bonusActive = true;
+          }
+          if (state.bonusActive) {
+            state.bonusScore += 1;
+          }
+        }
+        if (state.timeLeft <= 0) {
+          state.gameOver = true;
+        }
+        draw();
+        syncUi();
+        return render_game_to_text();
+      }
+
+      window.render_game_to_text = render_game_to_text;
+      window.advanceTime = advanceTime;
+      window.reset = reset;
+      window.resetGame = reset;
+      window.QA_READY = true;
+
+      window.addEventListener('keydown', (event) => {
+        if (!/^Arrow(Up|Down|Left|Right)$/.test(event.key)) return;
+        event.preventDefault();
+        if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+          state.mode = state.mode === 'classic' ? 'timed' : 'wrap';
+        } else {
+          state.mode = 'classic';
+        }
+        syncUi();
+      });
+
+      reset();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+{
+  "id": "number-merge",
+  "name": "Number Merge",
+  "pageCandidates": [
+    "/games/number-merge/",
+    "/number-merge/",
+    "/games/number-merge/index.html",
+    "/number-merge/index.html"
+  ],
+  "fallbackPath": "/assets/qa/webgames/number-merge-contract.html",
+  "requiredHooks": [
+    "QA_READY",
+    "render_game_to_text",
+    "advanceTime",
+    "reset"
+  ],
+  "bursts": [
+    {
+      "label": "boot",
+      "calls": [
+        "window.reset()"
+      ]
+    },
+    {
+      "label": "advance-east",
+      "keys": [
+        "ArrowRight"
+      ],
+      "advanceMs": 360
+    },
+    {
+      "label": "advance-south",
+      "keys": [
+        "ArrowDown"
+      ],
+      "advanceMs": 360
+    },
+    {
+      "label": "advance-west",
+      "keys": [
+        "ArrowLeft"
+      ],
+      "advanceMs": 360
+    },
+    {
+      "label": "reset",
+      "calls": [
+        "window.reset()"
+      ]
+    }
+  ]
+}

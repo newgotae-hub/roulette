@@ -5,6 +5,41 @@
   const BASE_STEP_MS = 120;
   const MIN_STEP_MS = 70;
   const SCORE_PER_SPEED_UP = 4;
+  const MODE_CONFIGS = {
+    classic: {
+      id: 'classic',
+      targetScore: 10,
+      timeLimitMs: null,
+      wrapWalls: false,
+      bonusEvery: 3,
+      bonusPoints: 2,
+      baseStepMs: 120,
+      minStepMs: 70,
+      speedStepScore: 4
+    },
+    timed: {
+      id: 'timed',
+      targetScore: 12,
+      timeLimitMs: 45000,
+      wrapWalls: false,
+      bonusEvery: 3,
+      bonusPoints: 2,
+      baseStepMs: 110,
+      minStepMs: 65,
+      speedStepScore: 3
+    },
+    wrap: {
+      id: 'wrap',
+      targetScore: 12,
+      timeLimitMs: null,
+      wrapWalls: true,
+      bonusEvery: 4,
+      bonusPoints: 2,
+      baseStepMs: 115,
+      minStepMs: 65,
+      speedStepScore: 4
+    }
+  };
 
   const copy = window.__SNAKE_COPY__ || {};
   const canvas = document.getElementById('snake-board');
@@ -19,7 +54,11 @@
   const restartBtn = document.getElementById('snake-restart');
   const gameTag = document.getElementById('snake-game-tag');
   const hintEl = document.getElementById('snake-hint');
+  const modeBadgeEl = document.getElementById('snake-mode-badge');
+  const rewardBadgeEl = document.getElementById('snake-reward-badge');
+  const timerBadgeEl = document.getElementById('snake-timer-badge');
   const ctx = canvas.getContext('2d');
+  const modeButtons = Array.from(document.querySelectorAll('[data-snake-mode]'));
 
   const controls = {
     up: document.getElementById('snake-up') || document.querySelector('[data-snake-dir="up"]'),
@@ -29,6 +68,7 @@
   };
 
   const state = {
+    mode: 'classic',
     phase: 'ready',
     score: 0,
     best: Number(window.localStorage?.getItem('rlt-snake-best-v1') || '0') || 0,
@@ -38,6 +78,11 @@
     direction: { x: 1, y: 0 },
     queuedDirection: null,
     apple: { x: 0, y: 0 },
+    bonusApple: null,
+    bonusActive: false,
+    normalApplesSinceBonus: 0,
+    timeLeftMs: null,
+    lastEndReason: null,
     accumulator: 0,
     tickMs: BASE_STEP_MS,
     lastFrameTime: 0,
@@ -68,6 +113,75 @@
     return a.x === -b.x && a.y === -b.y;
   }
 
+  function currentModeConfig() {
+    return MODE_CONFIGS[state.mode] || MODE_CONFIGS.classic;
+  }
+
+  function currentModeLabel() {
+    return copy[`${state.mode}ModeLabel`] || (state.mode === 'timed' ? 'Timed' : state.mode === 'wrap' ? 'Wrap' : 'Classic');
+  }
+
+  function formatTimer(ms) {
+    const totalSeconds = Math.max(0, Math.ceil(Number(ms || 0) / 1000));
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    if (minutes > 0) {
+      return `${minutes}:${String(seconds).padStart(2, '0')}`;
+    }
+    return `${seconds}s`;
+  }
+
+  function bonusReadyIn() {
+    const config = currentModeConfig();
+    if (state.bonusActive) return 0;
+    return Math.max(0, config.bonusEvery - state.normalApplesSinceBonus);
+  }
+
+  function rewardBadgeText() {
+    const config = currentModeConfig();
+    if (state.bonusActive && state.bonusApple) {
+      return `${copy.bonusRewardLabel || `Bonus +${config.bonusPoints}`} · ${copy.bonusActiveLabel || 'Bonus apple'}`;
+    }
+    const readyIn = bonusReadyIn();
+    if (readyIn <= 0) {
+      return copy.bonusReadyLabel || 'Bonus ready';
+    }
+    return `${copy.bonusNextLabel || 'Bonus in'} ${readyIn}`;
+  }
+
+  function timerBadgeText() {
+    const config = currentModeConfig();
+    if (config.timeLimitMs == null) {
+      return copy.timerIdleLabel || 'No timer';
+    }
+    return formatTimer(state.timeLeftMs);
+  }
+
+  function syncModeButtons() {
+    for (const btn of modeButtons) {
+      const mode = btn.dataset.snakeMode;
+      const active = mode === state.mode;
+      btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+    }
+  }
+
+  function syncHudBadges() {
+    if (modeBadgeEl) modeBadgeEl.textContent = currentModeLabel();
+    if (rewardBadgeEl) rewardBadgeEl.textContent = rewardBadgeText();
+    if (timerBadgeEl) timerBadgeEl.textContent = timerBadgeText();
+  }
+
+  function isCellEqual(a, b) {
+    return Boolean(a && b) && a.x === b.x && a.y === b.y;
+  }
+
+  function isBlocked(cell, extras = []) {
+    if (isOccupied(cell, state.snake)) return true;
+    if (state.apple && isCellEqual(cell, state.apple)) return true;
+    if (state.bonusActive && state.bonusApple && isCellEqual(cell, state.bonusApple)) return true;
+    return extras.some((item) => isCellEqual(cell, item));
+  }
+
   function setStatus(text) {
     if (statusEl) statusEl.textContent = text;
   }
@@ -79,13 +193,14 @@
   }
 
   function isComplete() {
-    return state.score >= (Number(copy.targetScore) || 10);
+    return state.score >= currentModeConfig().targetScore;
   }
 
   function phaseLabel() {
     if (state.phase === 'running') return copy.startingLabel || 'Playing';
     if (state.phase === 'paused') return copy.resumeLabel || 'Resume';
     if (state.phase === 'won') return copy.statusWin || 'Complete';
+    if (state.phase === 'gameover' && state.lastEndReason === 'timeout') return copy.timeoutLabel || 'Time up';
     if (state.phase === 'gameover') return copy.statusGameOver || 'Game over';
     return copy.readyLabel || copy.startLabel || 'Ready';
   }
@@ -94,6 +209,9 @@
     if (state.phase === 'running') return copy.statusPlaying || 'Snake is moving. Keep eating and avoid the walls.';
     if (state.phase === 'paused') return copy.statusPaused || 'Paused. Resume when you are ready.';
     if (state.phase === 'won') return copy.statusWin || 'You won. Clear run complete.';
+    if (state.phase === 'gameover' && state.lastEndReason === 'timeout') return copy.statusTimeout || 'Time ran out. Try the Timed mode again.';
+    if (state.phase === 'gameover' && state.lastEndReason === 'wall') return copy.hitWallStatus || 'You hit the wall.';
+    if (state.phase === 'gameover' && state.lastEndReason === 'body') return copy.hitBodyStatus || 'You ran into your own body.';
     if (state.phase === 'gameover') return copy.statusGameOver || 'Game over. Restart to try again.';
     return copy.statusReady || 'Press Start or any direction to begin.';
   }
@@ -139,11 +257,14 @@
   function updateHud() {
     if (scoreEl) scoreEl.textContent = String(state.score);
     if (bestEl) bestEl.textContent = String(state.best);
-    if (targetEl) targetEl.textContent = String(Number(copy.targetScore) || 10);
+    if (targetEl) targetEl.textContent = String(currentModeConfig().targetScore);
     if (lengthEl) lengthEl.textContent = String(state.snake.length);
     if (speedEl) speedEl.textContent = `${Math.round(1000 / state.tickMs)} /s`;
-    setTag(state.phase, phaseLabel());
+    const tagState = state.phase === 'gameover' && state.lastEndReason === 'timeout' ? 'timeout' : state.phase;
+    setTag(tagState, phaseLabel());
     setStatus(phaseStatus());
+    syncModeButtons();
+    syncHudBadges();
     syncActionButtons();
   }
 
@@ -161,7 +282,7 @@
     return snake.some((segment) => cellsEqual(segment, cell));
   }
 
-  function nextRandomCell() {
+  function nextRandomCell(extras = []) {
     const candidate = { x: 0, y: 0 };
     let safety = 0;
     do {
@@ -169,19 +290,37 @@
       candidate.y = Math.floor(state.rng() * GRID_SIZE);
       safety += 1;
       if (safety > 500) break;
-    } while (isOccupied(candidate, state.snake));
+    } while (isBlocked(candidate, extras));
     return candidate;
   }
 
   function updateSpeed() {
-    const reduced = Math.floor(state.score / SCORE_PER_SPEED_UP) * 5;
-    state.tickMs = Math.max(MIN_STEP_MS, BASE_STEP_MS - reduced);
+    const config = currentModeConfig();
+    const reduced = Math.floor(state.score / config.speedStepScore) * 5;
+    state.tickMs = Math.max(config.minStepMs, config.baseStepMs - reduced);
   }
 
   function saveBest() {
     if (window.localStorage) {
       window.localStorage.setItem('rlt-snake-best-v1', String(state.best));
     }
+  }
+
+  function spawnNormalApple() {
+    const extras = state.bonusActive && state.bonusApple ? [state.bonusApple] : [];
+    state.apple = nextRandomCell(extras);
+  }
+
+  function spawnBonusApple() {
+    state.bonusActive = true;
+    state.bonusApple = nextRandomCell([state.apple]);
+  }
+
+  function selectMode(nextMode, options = {}) {
+    if (!MODE_CONFIGS[nextMode]) nextMode = 'classic';
+    state.mode = nextMode;
+    syncModeButtons();
+    resetGame(options.seed ?? state.seed);
   }
 
   function syncButtons() {
@@ -199,10 +338,16 @@
     ];
     state.direction = { x: 1, y: 0 };
     state.queuedDirection = null;
-    state.apple = nextRandomCell();
+    state.apple = null;
+    state.bonusApple = null;
+    state.bonusActive = false;
+    state.normalApplesSinceBonus = 0;
+    state.timeLeftMs = currentModeConfig().timeLimitMs;
     state.accumulator = 0;
     state.phase = 'ready';
+    state.lastEndReason = null;
     state.lastFrameTime = 0;
+    spawnNormalApple();
     updateSpeed();
     updateHud();
     draw();
@@ -261,6 +406,7 @@
 
   function endGame(reason) {
     state.phase = reason === 'win' ? 'won' : 'gameover';
+    state.lastEndReason = reason;
     state.accumulator = 0;
     if (state.score > state.best) {
       state.best = state.score;
@@ -276,6 +422,15 @@
 
   function stepGame() {
     if (state.phase !== 'running') return;
+    const config = currentModeConfig();
+
+    if (config.timeLimitMs != null) {
+      state.timeLeftMs = Math.max(0, state.timeLeftMs - state.tickMs);
+      if (state.timeLeftMs <= 0) {
+        endGame('timeout');
+        return;
+      }
+    }
 
     if (state.queuedDirection && !opposite(state.queuedDirection, state.direction)) {
       state.direction = state.queuedDirection;
@@ -285,26 +440,34 @@
     const head = state.snake[0];
     const next = { x: head.x + state.direction.x, y: head.y + state.direction.y };
 
-    if (next.x < 0 || next.x >= GRID_SIZE || next.y < 0 || next.y >= GRID_SIZE) {
-      endGame(copy.hitWallStatus || 'You hit the wall.');
+    if (config.wrapWalls) {
+      next.x = (next.x + GRID_SIZE) % GRID_SIZE;
+      next.y = (next.y + GRID_SIZE) % GRID_SIZE;
+    } else if (next.x < 0 || next.x >= GRID_SIZE || next.y < 0 || next.y >= GRID_SIZE) {
+      endGame('wall');
       return;
     }
 
-    const tailWillMove = !(next.x === state.apple.x && next.y === state.apple.y);
+    const isAppleCell = next.x === state.apple.x && next.y === state.apple.y;
+    const isBonusCell = state.bonusActive && state.bonusApple && next.x === state.bonusApple.x && next.y === state.bonusApple.y;
+    const tailWillMove = !(isAppleCell || isBonusCell);
     const occupied = state.snake.some((segment, index) => {
       if (tailWillMove && index === state.snake.length - 1) return false;
       return cellsEqual(segment, next);
     });
 
     if (occupied) {
-      endGame(copy.hitBodyStatus || 'You ran into your own body.');
+      endGame('body');
       return;
     }
 
     state.snake.unshift(next);
 
-    if (next.x === state.apple.x && next.y === state.apple.y) {
-      state.score += 1;
+    if (isBonusCell) {
+      state.score += currentModeConfig().bonusPoints;
+      state.bonusActive = false;
+      state.bonusApple = null;
+      state.normalApplesSinceBonus = 0;
       if (state.score > state.best) {
         state.best = state.score;
         saveBest();
@@ -313,7 +476,29 @@
         endGame('win');
         return;
       }
-      state.apple = nextRandomCell();
+      spawnNormalApple();
+      updateSpeed();
+      updateHud();
+      draw();
+      return;
+    }
+
+    if (isAppleCell) {
+      state.score += 1;
+      state.normalApplesSinceBonus += 1;
+      if (state.score > state.best) {
+        state.best = state.score;
+        saveBest();
+      }
+      if (isComplete()) {
+        endGame('win');
+        return;
+      }
+      spawnNormalApple();
+      if (!state.bonusActive && state.normalApplesSinceBonus >= currentModeConfig().bonusEvery) {
+        state.normalApplesSinceBonus = 0;
+        spawnBonusApple();
+      }
       maybeIncreaseDifficulty();
     } else {
       state.snake.pop();
@@ -398,6 +583,26 @@
     ctx.fill();
     ctx.restore();
 
+    if (state.bonusActive && state.bonusApple) {
+      ctx.save();
+      ctx.shadowColor = 'rgba(245, 158, 11, 0.56)';
+      ctx.shadowBlur = 18;
+      ctx.fillStyle = '#fbbf24';
+      drawRoundedRect(
+        ctx,
+        state.bonusApple.x * cell + cell * 0.12,
+        state.bonusApple.y * cell + cell * 0.12,
+        cell * 0.76,
+        cell * 0.76,
+        cell * 0.25
+      );
+      ctx.fill();
+      ctx.lineWidth = Math.max(1, cell * 0.05);
+      ctx.strokeStyle = 'rgba(120, 53, 15, 0.18)';
+      ctx.stroke();
+      ctx.restore();
+    }
+
     state.snake.forEach((segment, index) => {
       const padding = index === 0 ? 0.12 : 0.16;
       ctx.fillStyle = index === 0 ? '#14532d' : '#16a34a';
@@ -421,9 +626,11 @@
         ready: ['rgba(255, 255, 255, 0.82)', '#0f172a', '#475569'],
         paused: ['rgba(15, 23, 42, 0.10)', '#0f172a', '#475569'],
         won: ['rgba(22, 163, 74, 0.10)', '#14532d', '#166534'],
+        timeout: ['rgba(245, 158, 11, 0.12)', '#92400e', '#b45309'],
         gameover: ['rgba(239, 68, 68, 0.10)', '#7f1d1d', '#991b1b']
       };
-      const [fillStyle, titleColor, bodyColor] = overlayStyles[state.phase] || overlayStyles.ready;
+      const overlayKey = state.phase === 'gameover' && state.lastEndReason === 'timeout' ? 'timeout' : state.phase;
+      const [fillStyle, titleColor, bodyColor] = overlayStyles[overlayKey] || overlayStyles.ready;
       ctx.fillStyle = fillStyle;
       ctx.fillRect(0, 0, boardWidth, boardHeight);
       ctx.textAlign = 'center';
@@ -458,22 +665,42 @@
 
   function render_game_to_text() {
     const head = state.snake[0] || { x: 0, y: 0 };
+    const config = currentModeConfig();
     const status = state.phase === 'running'
       ? (copy.playingTag || 'running')
       : state.phase;
-    return [
-      'Snake',
-      `state: ${status}`,
-      `score: ${state.score}`,
-      `best: ${state.best}`,
-      `target: ${Number(copy.targetScore) || 10}`,
-      `length: ${state.snake.length}`,
-      `speed: ${Math.round(1000 / state.tickMs)} steps/s`,
-      `seed: ${state.seed}`,
-      `head: ${head.x},${head.y}`,
-      `apple: ${state.apple.x},${state.apple.y}`,
-      encodeBoard()
-    ].join('\n');
+    const timeLeft = config.timeLimitMs == null ? 0 : Math.max(0, Math.round(state.timeLeftMs));
+    const payload = {
+      game: 'Snake',
+      mode: state.mode,
+      modeLabel: currentModeLabel(),
+      state: status,
+      score: state.score,
+      target: config.targetScore,
+      length: state.snake.length,
+      speed: Math.round(1000 / state.tickMs),
+      wrapWalls: Boolean(config.wrapWalls),
+      timeLimitMs: config.timeLimitMs,
+      timeLeft,
+      timer: timeLeft,
+      bonusActive: Boolean(state.bonusActive),
+      bonusPoints: config.bonusPoints,
+      bonusReadyIn: bonusReadyIn(),
+      bonusState: state.bonusActive ? 'active' : 'idle',
+      bonus: {
+        active: Boolean(state.bonusActive),
+        readyIn: bonusReadyIn(),
+        points: config.bonusPoints,
+        apple: state.bonusActive && state.bonusApple ? { x: state.bonusApple.x, y: state.bonusApple.y } : null
+      },
+      bonusApple: state.bonusActive && state.bonusApple ? { x: state.bonusApple.x, y: state.bonusApple.y } : null,
+      lastEndReason: state.lastEndReason || 'none',
+      seed: state.seed,
+      head: { x: head.x, y: head.y },
+      apple: { x: state.apple.x, y: state.apple.y },
+      board: encodeBoard()
+    };
+    return JSON.stringify(payload);
   }
 
   function handleKeydown(event) {
@@ -503,6 +730,10 @@
     if (startBtn) startBtn.addEventListener('click', startGame);
     if (pauseBtn) pauseBtn.addEventListener('click', togglePause);
     if (restartBtn) restartBtn.addEventListener('click', () => resetGame(state.seed));
+
+    for (const btn of modeButtons) {
+      btn.addEventListener('click', () => selectMode(btn.dataset.snakeMode));
+    }
 
     for (const [dir, btn] of Object.entries(controls)) {
       if (!btn) continue;
@@ -535,7 +766,8 @@
       const dx = event.clientX - state.swipeStart.x;
       const dy = event.clientY - state.swipeStart.y;
       state.swipeStart = null;
-      if (Math.max(Math.abs(dx), Math.abs(dy)) < 22) return;
+      const threshold = Math.max(18, Math.round(Math.min(state.boardRect.width || 0, state.boardRect.height || 0) * 0.05));
+      if (Math.max(Math.abs(dx), Math.abs(dy)) < threshold) return;
       if (Math.abs(dx) > Math.abs(dy)) {
         setDirection(dx > 0 ? { x: 1, y: 0 } : { x: -1, y: 0 });
       } else {

@@ -1,0 +1,75 @@
+{
+  "id": "snake-v11-en",
+  "name": "Snake v1.1 (English)",
+  "pageCandidates": [
+    "/en/games/snake/",
+    "/en/snake/"
+  ],
+  "fallbackPath": "/assets/qa/webgames/snake-v11-contract.html",
+  "requiredHooks": [
+    "QA_READY",
+    "render_game_to_text",
+    "advanceTime",
+    "reset"
+  ],
+  "parsedAssertions": [
+    {
+      "key": "mode",
+      "type": "string",
+      "anyOfValues": [
+        "classic",
+        "timed",
+        "wrap"
+      ]
+    },
+    {
+      "anyOfKeys": [
+        "timeLeft",
+        "timer"
+      ],
+      "type": "number"
+    },
+    {
+      "anyOfKeys": [
+        "bonus",
+        "bonusApple",
+        "bonusState"
+      ]
+    }
+  ],
+  "bursts": [
+    {
+      "label": "boot",
+      "calls": [
+        "window.reset()"
+      ]
+    },
+    {
+      "label": "advance-east",
+      "keys": [
+        "ArrowRight"
+      ],
+      "advanceMs": 360
+    },
+    {
+      "label": "advance-south",
+      "keys": [
+        "ArrowDown"
+      ],
+      "advanceMs": 720
+    },
+    {
+      "label": "advance-west",
+      "keys": [
+        "ArrowLeft"
+      ],
+      "advanceMs": 360
+    },
+    {
+      "label": "reset",
+      "calls": [
+        "window.reset()"
+      ]
+    }
+  ]
+}

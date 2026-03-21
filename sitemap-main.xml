@@ -235,6 +235,15 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/games/snake/"/>
   </url>
   <url>
+    <loc>https://randomly-pick.com/games/number-merge/</loc>
+    <lastmod>2026-03-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/number-merge/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/games/number-merge/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/games/number-merge/"/>
+  </url>
+  <url>
     <loc>https://randomly-pick.com/games/</loc>
     <lastmod>2026-03-21</lastmod>
     <changefreq>weekly</changefreq>
@@ -242,6 +251,12 @@
   </url>
   <url>
     <loc>https://randomly-pick.com/games/snake/</loc>
+    <lastmod>2026-03-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://randomly-pick.com/games/number-merge/</loc>
     <lastmod>2026-03-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>

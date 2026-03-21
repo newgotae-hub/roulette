@@ -625,6 +625,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://randomly-pick.com/en/games/number-merge/</loc>
+    <lastmod>2026-03-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://randomly-pick.com/en/privacy/</loc>
     <lastmod>2026-03-21</lastmod>
     <changefreq>monthly</changefreq>
@@ -1754,6 +1760,12 @@
   </url>
   <url>
     <loc>https://randomly-pick.com/en/games/snake/</loc>
+    <lastmod>2026-03-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://randomly-pick.com/en/games/number-merge/</loc>
     <lastmod>2026-03-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>

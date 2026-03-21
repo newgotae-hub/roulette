@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Number Merge | Randomly Pick</title>
+  <meta name="description" content="브라우저에서 바로 하는 Number Merge. 같은 숫자를 합쳐 더 큰 타일을 만들고, 2048 타일까지 조용하게 이어 가는 퍼즐 게임입니다." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://randomly-pick.com/games/number-merge/" />
+  <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/number-merge/" />
+  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/games/number-merge/" />
+  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/games/number-merge/" />
+  <link rel="stylesheet" href="/assets/css/games-number-merge.css?v=20260322-merge1" />
+  <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
+</head>
+<body>
+  <main class="merge-wrap">
+    <div class="merge-topbar">
+      <div class="merge-brand">
+        <div class="merge-brand-mark">R.</div>
+        <div>
+          <div class="merge-brand-name">Randomly Pick</div>
+          <div class="merge-brand-sub">Number Merge</div>
+        </div>
+      </div>
+      <nav class="merge-nav" aria-label="주요 메뉴">
+        <a href="/">홈</a>
+        <a href="/games/" class="is-active" aria-current="page">게임</a>
+        <a href="/luckydraw/">럭키 드로우</a>
+        <a href="/ladder/">사다리</a>
+        <a href="/team-generator/">팀 나누기</a>
+        <a href="/coinflip/">동전 던지기</a>
+        <a href="/dice/">주사위</a>
+      </nav>
+    </div>
+
+    <section class="merge-hero">
+      <span class="merge-eyebrow">퍼즐 게임</span>
+      <h1 class="merge-title">Number Merge</h1>
+      <p class="merge-lede">같은 숫자를 밀어서 합치고, 더 큰 타일을 만들면서 보드를 비워 두는 2048 스타일 퍼즐입니다. 소리 없이 차분하게 한 판씩 이어 가기 좋은 게임입니다.</p>
+      <div class="merge-actions">
+        <a class="merge-button is-primary" href="#play-area">퍼즐 시작</a>
+        <a class="merge-button" href="/games/">게임 허브</a>
+      </div>
+      <div class="merge-chips" aria-label="게임 하이라이트">
+        <span class="merge-chip">키보드 + 스와이프</span>
+        <span class="merge-chip">한 수 되돌리기</span>
+        <span class="merge-chip">최고 점수 로컬 저장</span>
+        <span class="merge-chip">목표 타일 2048</span>
+      </div>
+      <div class="merge-meta-row" aria-label="현재 게임 상태">
+        <span id="merge-game-tag" class="merge-tag" data-state="ready">준비됨</span>
+      </div>
+      <div class="merge-hint" id="merge-hint">방향키, WASD, 또는 보드 스와이프로 모든 타일을 한 번에 움직일 수 있습니다.</div>
+    </section>
+
+    <div class="merge-layout" id="play-area">
+      <section class="merge-panel" aria-labelledby="board-title">
+        <div class="merge-panel-head">
+          <h2 id="board-title">게임 보드</h2>
+          <div class="merge-toolbar">
+            <button id="merge-new" type="button">새 게임</button>
+            <button id="merge-undo" type="button">되돌리기</button>
+          </div>
+        </div>
+        <div class="merge-board-shell">
+          <div id="merge-grid" class="merge-grid" aria-label="Number Merge 게임 보드"></div>
+        </div>
+        <div class="merge-controls">
+          <div class="merge-pad" aria-label="방향 조작">
+            <span class="blank"></span>
+            <button id="merge-up" class="up" type="button" data-merge-dir="up" aria-label="위로 이동">▲</button>
+            <button id="merge-left" class="left" type="button" data-merge-dir="left" aria-label="왼쪽으로 이동">◀</button>
+            <button id="merge-down" class="down" type="button" data-merge-dir="down" aria-label="아래로 이동">▼</button>
+            <button id="merge-right" class="right" type="button" data-merge-dir="right" aria-label="오른쪽으로 이동">▶</button>
+          </div>
+          <div>
+            <div class="merge-stats" aria-label="현재 게임 정보">
+              <div class="merge-stat"><span>상태</span><strong id="merge-mode">준비됨</strong></div>
+              <div class="merge-stat"><span>점수</span><strong id="merge-score">0</strong></div>
+              <div class="merge-stat"><span>최고</span><strong id="merge-best">0</strong></div>
+              <div class="merge-stat"><span>목표</span><strong id="merge-target">2048</strong></div>
+              <div class="merge-stat"><span>이동 수</span><strong id="merge-moves">0</strong></div>
+              <div class="merge-stat"><span>최고 타일</span><strong id="merge-max-tile">2</strong></div>
+            </div>
+            <div class="merge-status" id="merge-status">아무 방향으로 한 번 밀면 시작됩니다. 같은 숫자는 더 큰 타일 하나로 합쳐집니다.</div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="merge-panel" aria-labelledby="guide-title">
+        <div class="merge-panel-head"><h2 id="guide-title">어떻게 돌아가나요</h2></div>
+        <p>Number Merge는 보드가 한 번에 움직이고, 같은 숫자는 한 번만 합쳐지는 단순한 규칙으로 되어 있습니다. 덕분에 모바일과 데스크톱 모두에서 금방 이해할 수 있습니다.</p>
+        <div class="merge-section merge-copy-grid" style="margin-top:16px;">
+          <div class="merge-copy-card"><strong>빠른 조작</strong><p>방향키, WASD, 스와이프, 화면 버튼이 모두 같은 동작을 합니다. U는 되돌리기, N은 새 게임입니다.</p></div>
+          <div class="merge-copy-card"><strong>왜 괜찮은가</strong><p>Snake보다 조용하고, 빠른 추첨 도구보다는 천천히 생각할 수 있어서 짧은 퍼즐 휴식용으로 잘 맞습니다.</p></div>
+        </div>
+        <div class="merge-section" style="margin-top:16px;">
+          <div class="merge-section-head"><h2>이 페이지가 좋은 이유</h2></div>
+          <p>보드만 던져 두지 않고 점수, 최고 기록, 되돌리기, 터치 조작, 설명 문단까지 같이 둬서 사이트 안의 정식 게임 탭처럼 읽히게 만들었습니다.</p>
+        </div>
+      </aside>
+    </div>
+
+    <section class="merge-section" aria-labelledby="howto-title">
+      <div class="merge-section-head">
+        <h2 id="howto-title">플레이 방법</h2>
+        <p>한 수를 둘 때마다 공간을 만들고, 다음 합치기를 준비하고, 큰 숫자를 한쪽에 모아 두는 것이 핵심입니다.</p>
+      </div>
+      <div class="merge-steps">
+        <div class="merge-step"><strong>1. 보드를 민다.</strong> 한 번 움직이면 같은 방향으로 모든 타일이 같이 이동합니다.</div>
+        <div class="merge-step"><strong>2. 같은 숫자를 합친다.</strong> 값이 같은 두 타일은 한 번의 이동에서 더 큰 숫자 하나로 합쳐집니다.</div>
+        <div class="merge-step"><strong>3. 빈 칸을 유지한다.</strong> 더 이상 움직일 수 없으면 라운드가 끝나므로, 항상 다음 수를 남겨 두는 게 중요합니다.</div>
+      </div>
+    </section>
+
+    <section class="merge-section" aria-labelledby="uses-title">
+      <div class="merge-section-head">
+        <h2 id="uses-title">이럴 때 잘 맞습니다</h2>
+        <p>반응 속도보다 생각하는 퍼즐을 원할 때, 그리고 짧게 시작해서 다시 한 판 하고 싶을 때 잘 맞습니다.</p>
+      </div>
+      <div class="merge-uses">
+        <div class="merge-use"><strong>조용한 퍼즐 휴식</strong> 타이머 압박 없이 한두 수씩 생각하고 다시 시작하기 좋습니다.</div>
+        <div class="merge-use"><strong>점수 경쟁</strong> 최고 점수와 최고 타일이 바로 보여서 짧은 기록 경쟁이 쉽습니다.</div>
+        <div class="merge-use"><strong>터치 + 키보드 데모</strong> 데스크톱과 모바일 입력이 모두 자연스러운 구조라 게임 셸 검수에도 잘 맞습니다.</div>
+      </div>
+    </section>
+
+    <section class="merge-section" aria-labelledby="related-title">
+      <div class="merge-section-head">
+        <h2 id="related-title">더 많은 Randomly Pick 도구</h2>
+        <p>퍼즐 말고 반응형 게임이나 빠른 선택 도구가 필요할 때는 같은 사이트 안에서 바로 이동할 수 있습니다.</p>
+      </div>
+      <div class="merge-related">
+        <a href="/games/snake/"><strong>Snake</strong><br />더 빠른 반응형 게임으로 넘어갈 수 있습니다.</a>
+        <a href="/"><strong>룰렛</strong><br />주제, 사람, 순서를 한 번에 고를 수 있습니다.</a>
+        <a href="/luckydraw/"><strong>럭키 드로우</strong><br />단순한 숫자나 당첨 추첨이 필요할 때 바로 쓸 수 있습니다.</a>
+        <a href="/about/"><strong>소개</strong><br />사이트와 운영 정보를 확인합니다.</a>
+      </div>
+    </section>
+
+    <section class="merge-trust">
+      <strong>사이트 링크</strong>
+      <div class="merge-links">
+        <a href="/about/">About</a>
+        <a href="/guides/">Guides</a>
+        <a href="/privacy/">Privacy Policy</a>
+        <a href="/terms/">Terms</a>
+        <a href="/contact/">Contact</a>
+      </div>
+    </section>
+
+    <div class="merge-footer">Randomly Pick · <a href="/games/">게임</a></div>
+  </main>
+
+  <script>
+    window.__NUMBER_MERGE_COPY__ = {
+      readyLabel: '준비됨',
+      readyStatus: '아무 방향으로 한 번 밀면 시작됩니다. 같은 숫자는 더 큰 타일 하나로 합쳐집니다.',
+      playingLabel: '진행 중',
+      playingStatus: '큰 숫자를 한쪽에 모으고, 빈 칸을 남겨 두세요.',
+      wonLabel: '목표 달성',
+      wonStatus: '목표 타일에 도달했습니다. 더 큰 타일까지 이어 가거나 새 게임을 시작할 수 있습니다.',
+      stuckLabel: '이동 불가',
+      stuckStatus: '더 이상 움직일 수 없습니다. 되돌리기나 새 게임으로 다시 시작하세요.',
+      movedStatus: '좋은 수입니다. 다음 합치기와 빈 칸을 함께 보세요.',
+      staticStatus: '보드가 바뀌지 않았습니다. 다른 방향으로 시도해 보세요.',
+      undoStatus: '바로 전 수로 되돌렸습니다.',
+      newButton: '새 게임',
+      undoButton: '되돌리기',
+      mobileHint: '방향키, WASD, 또는 보드 스와이프로 모든 타일을 한 번에 움직일 수 있습니다.',
+      ariaBoard: 'Number Merge 게임 보드'
+    };
+  </script>
+  <script src="/assets/js/games-number-merge.js?v=20260322-merge1"></script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Number Merge | Randomly Pick</title>
+  <meta name="description" content="Play Number Merge in the browser. Slide matching tiles together, build bigger numbers, and chase a clean 2048-style score run." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://randomly-pick.com/en/games/number-merge/" />
+  <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/number-merge/" />
+  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/games/number-merge/" />
+  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/games/number-merge/" />
+  <link rel="stylesheet" href="/assets/css/games-number-merge.css?v=20260322-merge1" />
+  <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
+</head>
+<body>
+  <main class="merge-wrap">
+    <div class="merge-topbar">
+      <div class="merge-brand">
+        <div class="merge-brand-mark">R.</div>
+        <div>
+          <div class="merge-brand-name">Randomly Pick</div>
+          <div class="merge-brand-sub">Number Merge</div>
+        </div>
+      </div>
+      <nav class="merge-nav" aria-label="Primary">
+        <a href="/en/">Home</a>
+        <a href="/en/games/" class="is-active" aria-current="page">Games</a>
+        <a href="/en/luckydraw/">Lucky Draw</a>
+        <a href="/en/ladder/">Ladder Draw</a>
+        <a href="/en/team-generator/">Team Split</a>
+        <a href="/en/coinflip/">Coin Flip</a>
+        <a href="/en/dice/">Dice Roll</a>
+      </nav>
+    </div>
+
+    <section class="merge-hero">
+      <span class="merge-eyebrow">Puzzle game</span>
+      <h1 class="merge-title">Number Merge</h1>
+      <p class="merge-lede">Slide matching tiles together, make bigger numbers, and keep the board clean long enough to reach the target tile. It is a calm 2048-style game for short browser sessions.</p>
+      <div class="merge-actions">
+        <a class="merge-button is-primary" href="#play-area">Start puzzle</a>
+        <a class="merge-button" href="/en/games/">Back to Games</a>
+      </div>
+      <div class="merge-chips" aria-label="Game highlights">
+        <span class="merge-chip">Keyboard and swipe</span>
+        <span class="merge-chip">Undo one move</span>
+        <span class="merge-chip">Best score saved locally</span>
+        <span class="merge-chip">Target tile 2048</span>
+      </div>
+      <div class="merge-meta-row" aria-label="Current game state">
+        <span id="merge-game-tag" class="merge-tag" data-state="ready">Ready</span>
+      </div>
+      <div class="merge-hint" id="merge-hint">Use arrow keys, WASD, or a swipe on the board to move every tile at once.</div>
+    </section>
+
+    <div class="merge-layout" id="play-area">
+      <section class="merge-panel" aria-labelledby="board-title">
+        <div class="merge-panel-head">
+          <h2 id="board-title">Game board</h2>
+          <div class="merge-toolbar">
+            <button id="merge-new" type="button">New round</button>
+            <button id="merge-undo" type="button">Undo</button>
+          </div>
+        </div>
+        <div class="merge-board-shell">
+          <div id="merge-grid" class="merge-grid" aria-label="Number Merge board"></div>
+        </div>
+        <div class="merge-controls">
+          <div class="merge-pad" aria-label="Directional controls">
+            <span class="blank"></span>
+            <button id="merge-up" class="up" type="button" data-merge-dir="up" aria-label="Move up">▲</button>
+            <button id="merge-left" class="left" type="button" data-merge-dir="left" aria-label="Move left">◀</button>
+            <button id="merge-down" class="down" type="button" data-merge-dir="down" aria-label="Move down">▼</button>
+            <button id="merge-right" class="right" type="button" data-merge-dir="right" aria-label="Move right">▶</button>
+          </div>
+          <div>
+            <div class="merge-stats" aria-label="Current game stats">
+              <div class="merge-stat"><span>Status</span><strong id="merge-mode">Ready</strong></div>
+              <div class="merge-stat"><span>Score</span><strong id="merge-score">0</strong></div>
+              <div class="merge-stat"><span>Best</span><strong id="merge-best">0</strong></div>
+              <div class="merge-stat"><span>Target</span><strong id="merge-target">2048</strong></div>
+              <div class="merge-stat"><span>Moves</span><strong id="merge-moves">0</strong></div>
+              <div class="merge-stat"><span>Highest tile</span><strong id="merge-max-tile">2</strong></div>
+            </div>
+            <div class="merge-status" id="merge-status">Start by sliding any direction. Matching numbers merge into one bigger tile.</div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="merge-panel" aria-labelledby="guide-title">
+        <div class="merge-panel-head"><h2 id="guide-title">How it works</h2></div>
+        <p>Number Merge keeps the board readable and the rules simple: every move slides all tiles, equal numbers merge once per move, and the round ends when no move is left.</p>
+        <div class="merge-section merge-copy-grid" style="margin-top:16px;">
+          <div class="merge-copy-card"><strong>Quick controls</strong><p>Arrow keys, WASD, swipe, and on-screen buttons all do the same move. Use U to undo or N to start over.</p></div>
+          <div class="merge-copy-card"><strong>Why it is useful</strong><p>The game is quiet, readable, and fast to restart, so it works well as a puzzle break between the site’s quick decision tools.</p></div>
+        </div>
+        <div class="merge-section" style="margin-top:16px;">
+          <div class="merge-section-head"><h2>What makes it good</h2></div>
+          <p>This page is not just a board. It keeps score, saves your best run locally, supports keyboard and touch, and explains the puzzle in the same practical style as the rest of Randomly Pick.</p>
+        </div>
+      </aside>
+    </div>
+
+    <section class="merge-section" aria-labelledby="howto-title">
+      <div class="merge-section-head">
+        <h2 id="howto-title">How to play</h2>
+        <p>Each move should either create space, build the next merge, or protect one corner for the big numbers.</p>
+      </div>
+      <div class="merge-steps">
+        <div class="merge-step"><strong>1. Slide the whole board.</strong> Every swipe or keypress shifts every tile in one direction.</div>
+        <div class="merge-step"><strong>2. Match equal numbers.</strong> Two tiles with the same value merge into a single bigger tile.</div>
+        <div class="merge-step"><strong>3. Keep a lane open.</strong> When the grid fills up, the round ends if there is no valid move left.</div>
+      </div>
+    </section>
+
+    <section class="merge-section" aria-labelledby="uses-title">
+      <div class="merge-section-head">
+        <h2 id="uses-title">When this game fits</h2>
+        <p>Use Number Merge when you want a slower puzzle loop than Snake, but still want something you can understand in seconds.</p>
+      </div>
+      <div class="merge-uses">
+        <div class="merge-use"><strong>Quiet puzzle breaks</strong> The board has no timer, so you can think for a few moves and reset quickly.</div>
+        <div class="merge-use"><strong>Short competitive runs</strong> Best score and highest tile are visible immediately, which makes replay and score chasing easy.</div>
+        <div class="merge-use"><strong>Touch + keyboard demos</strong> It is a simple example of a game that works across desktop and mobile input without extra setup.</div>
+      </div>
+    </section>
+
+    <section class="merge-section" aria-labelledby="related-title">
+      <div class="merge-section-head">
+        <h2 id="related-title">More Randomly Pick tools</h2>
+        <p>If you want a faster reaction game or a quick decision tool instead, you can jump to the rest of the site from here.</p>
+      </div>
+      <div class="merge-related">
+        <a href="/en/games/snake/"><strong>Snake</strong><br />Move faster and chase a cleaner arcade loop.</a>
+        <a href="/en/"><strong>Wheel of Names</strong><br />Pick a person, topic, or winner in one quick spin.</a>
+        <a href="/en/luckydraw/"><strong>Lucky Draw</strong><br />Use a simpler number or winner draw when you need an answer fast.</a>
+        <a href="/en/about/"><strong>About</strong><br />See the product background and site links.</a>
+      </div>
+    </section>
+
+    <section class="merge-trust">
+      <strong>Site links</strong>
+      <div class="merge-links">
+        <a href="/en/about/">About</a>
+        <a href="/en/guides/">Guides</a>
+        <a href="/en/privacy/">Privacy Policy</a>
+        <a href="/en/terms/">Terms</a>
+        <a href="/en/contact/">Contact</a>
+      </div>
+    </section>
+
+    <div class="merge-footer">Randomly Pick · <a href="/en/games/">Games</a></div>
+  </main>
+
+  <script>
+    window.__NUMBER_MERGE_COPY__ = {
+      readyLabel: 'Ready',
+      readyStatus: 'Start by sliding any direction. Matching numbers merge into one bigger tile.',
+      playingLabel: 'Playing',
+      playingStatus: 'Keep the board open and stack your larger tiles on one side.',
+      wonLabel: 'Target reached',
+      wonStatus: 'You reached the target tile. Keep going for a cleaner best score or start a new round.',
+      stuckLabel: 'No moves left',
+      stuckStatus: 'The board is full and there is no valid move left. Undo or start a new round.',
+      movedStatus: 'Good move. Look for the next merge or clear more space.',
+      staticStatus: 'That move changed nothing. Try another direction.',
+      undoStatus: 'One move rolled back.',
+      newButton: 'New round',
+      undoButton: 'Undo',
+      mobileHint: 'Use arrow keys, WASD, or a swipe on the board to move every tile at once.',
+      ariaBoard: 'Number Merge board'
+    };
+  </script>
+  <script src="/assets/js/games-number-merge.js?v=20260322-merge1"></script>
+</body>
+</html>
