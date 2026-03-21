@@ -10,6 +10,12 @@ How to use it:
 
 ## 2026-03-22
 
+### Release automation one-shot path documented
+
+- Documented the new `scripts/release-main.sh` and `scripts/release-main.ps1` release wrappers so future deploys can stage, commit, validate, and hand off to the existing push path in one command.
+- Clarified that `scripts/deploy-main.sh` remains the underlying deployment push path and the source of the repo's authenticated git push behavior.
+- Detailed notes: [DEPLOY_AUTOMATION_2026-03-22.md](DEPLOY_AUTOMATION_2026-03-22.md)
+
 ### Reusable webgame scaffold helper added
 
 - Replaced the placeholder scaffold script with a reusable generator for new webgame routes, assets, and QA fixtures.

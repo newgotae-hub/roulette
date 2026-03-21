@@ -33,6 +33,12 @@ die() {
 message=""
 dry_run="0"
 declare -a pathspecs=()
+declare -a release_generated_files=(
+  "sitemap.xml"
+  "sitemap-index.xml"
+  "sitemap-main.xml"
+  "sitemap-locales.xml"
+)
 
 while (($#)); do
   case "$1" in
@@ -68,6 +74,7 @@ cd "${repo_root}"
 
 worktree_status="$(git status --porcelain)"
 [[ -n "${worktree_status}" ]] || die "worktree is clean; nothing to release."
+git diff --cached --quiet || die "index already has staged changes; commit, stash, or reset them first."
 
 ignored_hits="$(git status --ignored --porcelain -- test-results .playwright-cli 2>/dev/null || true)"
 if [[ -n "${ignored_hits}" ]]; then
@@ -83,6 +90,7 @@ git diff --check
 echo "== Staging =="
 if ((${#pathspecs[@]})); then
   git add -- "${pathspecs[@]}"
+  git add -- "${release_generated_files[@]}" 2>/dev/null || true
 else
   git add -A .
 fi
@@ -96,6 +104,7 @@ echo "Staged files:"
 printf '%s\n' "${staged_status}"
 
 if [[ "${dry_run}" == "1" ]]; then
+  git reset --quiet HEAD -- .
   echo "release-main: dry run complete; skipping commit and deploy."
   exit 0
 fi
