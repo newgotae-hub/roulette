@@ -857,9 +857,12 @@
   function bindSwipe() {
     if (!canvas) return;
     canvas.addEventListener('pointerdown', (event) => {
+      event.preventDefault();
+      canvas.setPointerCapture?.(event.pointerId);
       state.swipeStart = { x: event.clientX, y: event.clientY };
     });
     canvas.addEventListener('pointerup', (event) => {
+      event.preventDefault();
       if (!state.swipeStart) return;
       const dx = event.clientX - state.swipeStart.x;
       const dy = event.clientY - state.swipeStart.y;

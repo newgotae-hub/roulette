@@ -45,6 +45,10 @@
     left: document.getElementById('brick-breaker-left'),
     right: document.getElementById('brick-breaker-right')
   };
+  const mobileFlowEl = document.getElementById('brick-breaker-mobile-flow');
+  const prefersCoarsePointer = typeof window.matchMedia === 'function'
+    ? window.matchMedia('(pointer: coarse)').matches
+    : (navigator.maxTouchPoints || 0) > 0;
 
   const state = {
     phase: 'ready',
@@ -64,6 +68,8 @@
     message: copy.readyStatus || 'Press Start or an arrow key to begin.',
     modeLabel: copy.modeLabel || 'Arcade',
     lastHitAt: 0,
+    holdDirection: 0,
+    holdInterval: 0,
     rafId: 0
   };
 
@@ -135,7 +141,20 @@
       els.mode.dataset.state = state.phase;
       els.mode.textContent = `${state.modeLabel} · ${phaseLabel()}`;
     }
-    if (els.hint) els.hint.textContent = copy.hint || '';
+    if (els.hint) {
+      if (prefersCoarsePointer && copy.mobileHint) {
+        els.hint.textContent = copy.mobileHint;
+      } else {
+        els.hint.textContent = copy.hint || '';
+      }
+    }
+    if (mobileFlowEl) {
+      mobileFlowEl.textContent = state.phase === 'playing'
+        ? (copy.mobileFlowPlaying || copy.mobileFlowReady || '')
+        : state.phase === 'paused'
+          ? (copy.mobileFlowPaused || copy.mobileFlowReady || '')
+          : (copy.mobileFlowReady || '');
+    }
     if (els.start) {
       els.start.textContent = state.phase === 'paused'
         ? (copy.resumeButton || 'Resume')
@@ -244,6 +263,27 @@
       resetBall();
     }
     render();
+  }
+
+  function clearHoldMovement() {
+    state.holdDirection = 0;
+    if (state.holdInterval) {
+      window.clearInterval(state.holdInterval);
+      state.holdInterval = 0;
+    }
+    for (const button of Object.values(buttons)) {
+      if (button) delete button.dataset.pressed;
+    }
+  }
+
+  function beginHoldMovement(direction, button) {
+    clearHoldMovement();
+    state.holdDirection = direction;
+    if (button) button.dataset.pressed = 'true';
+    nudgePaddle(direction);
+    state.holdInterval = window.setInterval(() => {
+      nudgePaddle(direction);
+    }, 70);
   }
 
   function addParticles(x, y, tint, count = 8) {
@@ -756,8 +796,28 @@
     if (els.start) els.start.addEventListener('click', beginOrResume);
     if (els.pause) els.pause.addEventListener('click', togglePause);
     if (els.reset) els.reset.addEventListener('click', reset);
-    if (buttons.left) buttons.left.addEventListener('click', () => nudgePaddle(-1));
-    if (buttons.right) buttons.right.addEventListener('click', () => nudgePaddle(1));
+    if (buttons.left) {
+      buttons.left.addEventListener('click', () => nudgePaddle(-1));
+      buttons.left.addEventListener('pointerdown', (event) => {
+        event.preventDefault();
+        buttons.left.setPointerCapture?.(event.pointerId);
+        beginHoldMovement(-1, buttons.left);
+      });
+      buttons.left.addEventListener('pointerup', clearHoldMovement);
+      buttons.left.addEventListener('pointercancel', clearHoldMovement);
+      buttons.left.addEventListener('pointerleave', clearHoldMovement);
+    }
+    if (buttons.right) {
+      buttons.right.addEventListener('click', () => nudgePaddle(1));
+      buttons.right.addEventListener('pointerdown', (event) => {
+        event.preventDefault();
+        buttons.right.setPointerCapture?.(event.pointerId);
+        beginHoldMovement(1, buttons.right);
+      });
+      buttons.right.addEventListener('pointerup', clearHoldMovement);
+      buttons.right.addEventListener('pointercancel', clearHoldMovement);
+      buttons.right.addEventListener('pointerleave', clearHoldMovement);
+    }
 
     canvas.addEventListener('pointerdown', handlePointerDown);
     canvas.addEventListener('pointermove', handlePointerMove);

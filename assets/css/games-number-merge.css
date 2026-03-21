@@ -12,6 +12,11 @@
   --merge-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
 }
 
+html {
+  scroll-behavior: smooth;
+  background: var(--merge-bg);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -21,6 +26,7 @@ body {
   min-height: 100vh;
   color: var(--merge-text);
   font-family: "Inter", "Noto Sans", "Noto Sans KR", "Segoe UI", sans-serif;
+  background-color: var(--merge-bg);
   background:
     radial-gradient(circle at 14% 12%, rgba(59, 130, 246, 0.08), transparent 24%),
     radial-gradient(circle at 86% 0%, rgba(34, 197, 94, 0.1), transparent 22%),
@@ -34,7 +40,11 @@ a {
 .merge-wrap {
   max-width: 1180px;
   margin: 0 auto;
-  padding: 24px 18px 72px;
+  padding:
+    calc(24px + env(safe-area-inset-top))
+    calc(18px + env(safe-area-inset-right))
+    calc(72px + env(safe-area-inset-bottom))
+    calc(18px + env(safe-area-inset-left));
 }
 
 .merge-topbar,
@@ -203,6 +213,7 @@ a {
   text-decoration: none;
   font-weight: 700;
   color: var(--merge-text);
+  touch-action: manipulation;
 }
 
 .merge-button:hover,
@@ -298,6 +309,7 @@ a {
   color: var(--merge-text);
   font: inherit;
   cursor: pointer;
+  touch-action: manipulation;
 }
 
 .merge-toolbar button {
@@ -327,6 +339,10 @@ a {
   background: linear-gradient(180deg, #e2e8f0, #cbd5e1);
   box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.14), 0 20px 40px rgba(15, 23, 42, 0.08);
   touch-action: none;
+}
+
+#play-area {
+  scroll-margin-top: calc(16px + env(safe-area-inset-top));
 }
 
 .merge-cell {
@@ -555,12 +571,78 @@ a {
 
 @media (max-width: 640px) {
   .merge-wrap {
-    padding: 18px 14px 56px;
+    padding:
+      calc(14px + env(safe-area-inset-top))
+      calc(12px + env(safe-area-inset-right))
+      calc(48px + env(safe-area-inset-bottom))
+      calc(12px + env(safe-area-inset-left));
+  }
+
+  .merge-topbar {
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .merge-brand {
+    gap: 8px;
+  }
+
+  .merge-brand-mark {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+  }
+
+  .merge-brand-name {
+    font-size: 0.96rem;
+  }
+
+  .merge-brand-sub {
+    font-size: 0.8rem;
+  }
+
+  .merge-nav {
+    gap: 6px;
+  }
+
+  .merge-nav a {
+    min-height: 34px;
+    padding: 0 12px;
+    font-size: 0.88rem;
   }
 
   .merge-hero {
-    padding: 24px 18px 20px;
+    padding: 20px 16px 18px;
     border-radius: 26px;
+    margin-bottom: 14px;
+  }
+
+  .merge-title {
+    font-size: clamp(2.1rem, 12vw, 3.1rem);
+  }
+
+  .merge-lede {
+    font-size: 0.98rem;
+    line-height: 1.65;
+  }
+
+  .merge-actions {
+    margin-top: 16px;
+  }
+
+  .merge-button {
+    min-height: 48px;
+    flex: 1 1 140px;
+  }
+
+  .merge-chips {
+    gap: 8px;
+  }
+
+  .merge-chip,
+  .merge-tag {
+    min-height: 28px;
+    font-size: 0.78rem;
   }
 
   .merge-panel,
@@ -569,33 +651,99 @@ a {
     border-radius: 24px;
   }
 
+  .merge-panel {
+    padding: 16px;
+  }
+
+  .merge-panel-head,
+  .merge-section-head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .merge-panel-head h2,
+  .merge-section-head h2 {
+    font-size: 1.18rem;
+  }
+
   .merge-stats {
     grid-template-columns: 1fr;
   }
 
   .merge-board-shell {
-    padding: 12px;
+    padding: 10px;
   }
 
   .merge-grid {
-    gap: 8px;
-    padding: 8px;
+    gap: 6px;
+    padding: 6px;
   }
 
   .merge-pad {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(56px, 1fr));
     width: 100%;
-    max-width: 258px;
+    max-width: none;
+    gap: 6px;
   }
 
   .merge-pad button {
-    min-height: 54px;
+    min-height: 56px;
+    border-radius: 14px;
     font-size: 1.04rem;
+  }
+
+  .merge-toolbar {
+    width: 100%;
+  }
+
+  .merge-toolbar button {
+    min-height: 48px;
+    flex: 1 1 0;
+    padding: 0 12px;
+  }
+
+  .merge-stat {
+    padding: 12px;
+  }
+
+  .merge-stat strong {
+    font-size: 1.08rem;
+  }
+
+  .merge-status {
+    padding: 12px 14px;
+    line-height: 1.6;
+  }
+
+  .merge-section {
+    padding: 18px 16px;
+    margin-top: 14px;
+  }
+
+  .merge-step,
+  .merge-use,
+  .merge-copy-card,
+  .merge-related a {
+    padding: 14px;
+  }
+
+  .merge-trust {
+    padding: 16px;
+  }
+
+  .merge-links a {
+    min-height: 42px;
+    padding: 10px 12px;
   }
 
   .merge-copy-grid,
   .merge-steps,
   .merge-uses {
     gap: 10px;
+  }
+
+  .merge-footer {
+    margin-top: 22px;
+    padding-top: 16px;
   }
 }

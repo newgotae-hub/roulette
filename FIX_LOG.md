@@ -519,3 +519,9 @@ How to use it:
 - Promoted `Brick Breaker` from a queued card to a live playable Games title on both `games/index.html` and `en/games/index.html`, so the hub now surfaces three playable cards instead of two plus a placeholder.
 - Added the Korean and English Brick Breaker routes to sitemap generation and widened SEO validation so the published game trio (`Snake`, `Number Merge`, `Brick Breaker`) is checked consistently during release.
 - Added [GAMES_BRICK_BREAKER_ROLLOUT_2026-03-22.md](/home/user/roulette/GAMES_BRICK_BREAKER_ROLLOUT_2026-03-22.md) as the short rollout note for integration scope and release checks.
+
+### 2026-03-22 - Games mobile and app-webview defaults tightened across hub, titles, and scaffold
+
+- Tightened the Games hubs for phones with `viewport-fit=cover`, safe-area-aware shell padding, and quicker mobile access to the live game cards so the tab feels less top-heavy inside an app webview.
+- Carried the same mobile-first baseline into the current game trio (`Snake`, `Number Merge`, `Brick Breaker`) and their QA/docs updates so tap targets, touch behavior, and narrow-shell layout are part of the release bar instead of a later polish pass.
+- Updated the scaffold and webgames workflow docs so new titles inherit the same app-webview-safe defaults from the start; rollout notes live in [GAMES_MOBILE_APP_WEBVIEW_PASS_2026-03-22.md](/home/user/roulette/GAMES_MOBILE_APP_WEBVIEW_PASS_2026-03-22.md).

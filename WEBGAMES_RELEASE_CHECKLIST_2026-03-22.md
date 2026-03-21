@@ -44,6 +44,12 @@ repo.
   - `window.reset()` or `window.resetGame()`
 - For richer games, include structured state in `render_game_to_text()`
   so QA can verify mode, timer, bonus, score, or other deterministic fields.
+- Mobile-first defaults are part of the release bar:
+  - viewport includes `viewport-fit=cover`
+  - the shell respects safe-area insets
+  - primary controls stay at or above a 44px tap target
+  - touch behavior is workable in app webviews, not just desktop browsers
+  - the first load reads cleanly in a narrow embedded browser
 
 ### Hub worker
 
@@ -117,6 +123,10 @@ repo.
 - [ ] EN route exists
 - [ ] Desktop screenshot looks clean
 - [ ] Mobile screenshot looks clean
+- [ ] Viewport uses `viewport-fit=cover`
+- [ ] Safe-area insets are respected
+- [ ] Tap targets are at least 44px
+- [ ] Touch controls work in an app webview
 - [ ] QA hooks present
 - [ ] Reset restores the boot snapshot
 - [ ] No console errors

@@ -29,6 +29,22 @@ Use these paths as the default ownership map for webgame work.
 
 The current repo already follows this pattern with `snake` and `number-merge` as concrete examples.
 
+## Mobile / App-Webview Default
+
+New webgames should be scaffolded as mobile-first surfaces by default.
+
+Baseline requirements:
+
+- include `viewport-fit=cover` in the route `<meta name="viewport">`
+- respect safe-area insets in page shell padding
+- keep interactive controls at or above a 44px tap target
+- use `touch-action` intentionally on buttons, links, and the game surface
+- keep the first load readable in a narrow in-app webview as well as a desktop browser
+- prefer app-webview-safe defaults over hover-only affordances
+
+The scaffold helper should emit these defaults automatically so future workers do
+not have to remember them per game.
+
 ## Roles
 
 ### 1. Lead
@@ -84,6 +100,15 @@ Does not:
 - change other game slugs
 - change hub pages unless explicitly assigned
 - touch shared SEO or sitemap code
+
+Mobile-first note:
+
+- Game pages should work in a constrained in-app webview before they are tuned
+  for desktop polish.
+- If a game needs touch controls, the primary buttons should already meet the
+  tap-target baseline from the scaffold.
+- If a game uses a canvas, the page shell still needs safe-area-aware spacing so
+  the UI does not collide with browser chrome.
 
 ### 4. Hub Worker
 

@@ -1,5 +1,25 @@
 /* Snake page shared stylesheet reserved for future refinements. */
 :root {
+  --snake-safe-top: env(safe-area-inset-top, 0px);
+  --snake-safe-right: env(safe-area-inset-right, 0px);
+  --snake-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --snake-safe-left: env(safe-area-inset-left, 0px);
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  overscroll-behavior: contain;
+}
+
+body .wrap {
+  padding-top: calc(22px + var(--snake-safe-top));
+  padding-right: calc(18px + var(--snake-safe-right));
+  padding-bottom: calc(76px + var(--snake-safe-bottom));
+  padding-left: calc(18px + var(--snake-safe-left));
+}
+
+:root {
   --snake-shell-shadow: 0 18px 40px rgba(0, 0, 0, 0.16);
 }
 
@@ -38,6 +58,7 @@
   line-height: 1;
   cursor: pointer;
   touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
   transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease, background 140ms ease, color 140ms ease;
 }
 
@@ -87,6 +108,7 @@
   min-width: 52px;
   min-height: 48px;
   touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .snake-controls .pad button[data-pressed="true"] {
@@ -145,4 +167,183 @@ canvas#snake-board {
   transform: translateX(-2px);
   box-shadow: 0 16px 28px rgba(220, 38, 38, 0.16);
   border-color: rgba(220, 38, 38, 0.34);
+}
+
+@media (max-width: 640px) {
+  body .wrap {
+    padding-top: calc(12px + var(--snake-safe-top));
+    padding-right: calc(12px + var(--snake-safe-right));
+    padding-bottom: calc(36px + var(--snake-safe-bottom));
+    padding-left: calc(12px + var(--snake-safe-left));
+  }
+
+  body .topbar {
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  body .brand {
+    gap: 10px;
+  }
+
+  body .brand-mark {
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    font-size: 1rem;
+  }
+
+  body .nav {
+    width: 100%;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    gap: 6px;
+    padding-bottom: 2px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  body .nav::-webkit-scrollbar,
+  body .chips::-webkit-scrollbar,
+  body .snake-mode-row::-webkit-scrollbar,
+  body .toolbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  body .hero {
+    padding: 18px 16px 16px;
+    border-radius: 22px;
+    margin-bottom: 14px;
+  }
+
+  body h1 {
+    font-size: clamp(2.4rem, 11vw, 3.2rem);
+  }
+
+  body .actions {
+    margin-top: 14px;
+  }
+
+  body .chips {
+    margin-top: 12px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  body .chip {
+    flex: 0 0 auto;
+  }
+
+  body .snake-mode-row {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  body .snake-mode-chip {
+    flex: 0 0 auto;
+    min-height: 38px;
+    padding: 0 12px;
+  }
+
+  body .layout {
+    gap: 12px;
+  }
+
+  body .panel,
+  body .section,
+  body .trust {
+    border-radius: 22px;
+  }
+
+  body .panel {
+    padding: 16px;
+  }
+
+  body .panel-head {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+
+  body .toolbar {
+    width: 100%;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 2px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  body .toolbar button {
+    flex: 0 0 auto;
+    min-height: 40px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body .board-shell {
+    padding: 12px;
+  }
+
+  body canvas {
+    border-radius: 18px;
+  }
+
+  body .controls {
+    margin-top: 12px;
+    gap: 12px;
+  }
+
+  body .pad {
+    width: min(100%, 230px);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  body .pad button {
+    min-width: 0;
+    min-height: 54px;
+  }
+
+  body .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  body .stat {
+    padding: 12px;
+  }
+
+  body .snake-hud-strip {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  body .snake-hud-pill {
+    min-width: 0;
+    padding: 9px 10px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    font-size: 0.84rem;
+  }
+
+  body .snake-hud-pill strong,
+  body .snake-hud-pill span {
+    line-height: 1.25;
+  }
+
+  body .snake-mode-note,
+  body .snake-hint {
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
 }

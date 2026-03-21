@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Brick Breaker | Randomly Pick</title>
   <meta name="description" content="Play Brick Breaker in the browser. Keyboard, swipe, and button controls keep the ball moving while score, lives, combo, and bricks remaining stay visible." />
   <meta name="robots" content="index,follow" />
@@ -52,6 +52,7 @@
         <span id="brick-breaker-mode" class="bb-tag" data-state="ready">Arcade · Ready</span>
       </div>
       <div class="bb-hint" id="brick-breaker-hint">Move the paddle with the arrow buttons or keys, then press Start or make the first move to serve the ball.</div>
+      <div class="bb-mobile-flow" id="brick-breaker-mobile-flow">On the first round, line up the paddle first, then use Start or the first left/right move to serve the ball.</div>
     </section>
 
     <div class="bb-layout" id="play-area">
@@ -172,6 +173,10 @@
       wallHitStatus: 'Wall bounce. Keep the ball in play.',
       loseLifeStatus: 'You lost a life. Re-center the paddle and serve again.',
       hint: 'Move the paddle with the arrow buttons or keys, then press Start or make the first move to serve the ball.',
+      mobileHint: 'On phones, drag on the board to place the paddle and hold the left/right buttons for steady motion.',
+      mobileFlowReady: 'On the first round, line up the paddle first, then use Start or the first left/right move to serve the ball.',
+      mobileFlowPlaying: 'Drag on the board for direct paddle placement, and hold the arrow buttons when you want steady movement.',
+      mobileFlowPaused: 'When paused, Resume picks the ball back up quickly and the held buttons stop as soon as you release them.',
       startButton: 'Start',
       pauseButton: 'Pause',
       resumeButton: 'Resume',

@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Brick Breaker | Randomly Pick</title>
   <meta name="description" content="브라우저에서 바로 하는 Brick Breaker. 키보드, 스와이프, 버튼 조작을 지원하고 점수, 목숨, 콤보, 남은 벽돌을 한 화면에 보여줍니다." />
   <meta name="robots" content="index,follow" />
@@ -52,6 +52,7 @@
         <span id="brick-breaker-mode" class="bb-tag" data-state="ready">아케이드 · 준비됨</span>
       </div>
       <div class="bb-hint" id="brick-breaker-hint">방향키나 좌우 버튼으로 패들을 움직이고, 시작 버튼이나 첫 조작으로 공을 띄우세요.</div>
+      <div class="bb-mobile-flow" id="brick-breaker-mobile-flow">처음 플레이할 때는 패들을 먼저 맞추고, 시작 버튼이나 첫 좌우 이동으로 공을 띄우면 됩니다.</div>
     </section>
 
     <div class="bb-layout" id="play-area">
@@ -172,6 +173,10 @@
       wallHitStatus: '벽에 부딪혔습니다. 반대편 각도를 준비하세요.',
       loseLifeStatus: '목숨이 줄었습니다. 패들을 다시 가운데로 맞춰 보세요.',
       hint: '방향키나 좌우 버튼으로 패들을 움직이고, 시작 버튼이나 첫 조작으로 공을 띄우세요.',
+      mobileHint: '모바일에서는 보드를 드래그해 패들을 맞추고, 좌우 버튼은 길게 눌러 계속 이동할 수 있습니다.',
+      mobileFlowReady: '처음 플레이할 때는 패들을 먼저 맞추고, 시작 버튼이나 첫 좌우 이동으로 공을 띄우면 됩니다.',
+      mobileFlowPlaying: '보드 드래그로 패들을 바로 옮기고, 좌우 버튼은 길게 눌러 미세 조정할 수 있습니다.',
+      mobileFlowPaused: '멈췄을 때는 계속 버튼으로 바로 재개하고, 방향 버튼은 손을 떼면 즉시 멈춥니다.',
       startButton: '시작',
       pauseButton: '일시정지',
       resumeButton: '계속',

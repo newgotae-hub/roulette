@@ -15,6 +15,7 @@
   const dailyBestEl = document.getElementById('merge-daily-best');
   const tagEl = document.getElementById('merge-game-tag');
   const hintEl = document.getElementById('merge-hint');
+  const playAreaEl = document.getElementById('play-area');
   const newBtn = document.getElementById('merge-new');
   const dailyBtn = document.getElementById('merge-daily');
   const undoBtn = document.getElementById('merge-undo');
@@ -179,6 +180,11 @@
     if (!tagEl) return;
     tagEl.dataset.state = state.phase;
     tagEl.textContent = phaseLabel();
+  }
+
+  function focusPlayArea() {
+    if (!playAreaEl || !window.matchMedia || !window.matchMedia('(max-width: 920px)').matches) return;
+    playAreaEl.scrollIntoView({ block: 'start', behavior: 'smooth' });
   }
 
   function syncButtons() {
@@ -433,8 +439,14 @@
   }
 
   function bindButtons() {
-    if (newBtn) newBtn.addEventListener('click', () => resetGame(state.seed, { mode: state.mode }));
-    if (dailyBtn) dailyBtn.addEventListener('click', startDailyChallenge);
+    if (newBtn) newBtn.addEventListener('click', () => {
+      resetGame(state.seed, { mode: state.mode });
+      focusPlayArea();
+    });
+    if (dailyBtn) dailyBtn.addEventListener('click', () => {
+      startDailyChallenge();
+      focusPlayArea();
+    });
     if (undoBtn) undoBtn.addEventListener('click', undoMove);
     for (const [direction, button] of Object.entries(controls)) {
       if (button) button.addEventListener('click', () => handleDirection(direction));
