@@ -45,6 +45,7 @@
       <div class="merge-chips" aria-label="Game highlights">
         <span class="merge-chip">Keyboard and swipe</span>
         <span class="merge-chip">Undo one move</span>
+        <span class="merge-chip">Daily challenge board</span>
         <span class="merge-chip">Best score saved locally</span>
         <span class="merge-chip">Target tile 2048</span>
       </div>
@@ -60,6 +61,7 @@
           <h2 id="board-title">Game board</h2>
           <div class="merge-toolbar">
             <button id="merge-new" type="button">New round</button>
+            <button id="merge-daily" type="button">Daily challenge</button>
             <button id="merge-undo" type="button">Undo</button>
           </div>
         </div>
@@ -76,14 +78,15 @@
           </div>
           <div>
             <div class="merge-stats" aria-label="Current game stats">
-              <div class="merge-stat"><span>Status</span><strong id="merge-mode">Ready</strong></div>
+              <div class="merge-stat"><span>Mode</span><strong id="merge-mode">Free play</strong></div>
               <div class="merge-stat"><span>Score</span><strong id="merge-score">0</strong></div>
               <div class="merge-stat"><span>Best</span><strong id="merge-best">0</strong></div>
+              <div class="merge-stat"><span>Daily best</span><strong id="merge-daily-best">0</strong></div>
               <div class="merge-stat"><span>Target</span><strong id="merge-target">2048</strong></div>
               <div class="merge-stat"><span>Moves</span><strong id="merge-moves">0</strong></div>
               <div class="merge-stat"><span>Highest tile</span><strong id="merge-max-tile">2</strong></div>
             </div>
-            <div class="merge-status" id="merge-status">Start by sliding any direction. Matching numbers merge into one bigger tile.</div>
+            <div class="merge-status" id="merge-status">Start by sliding any direction. Matching numbers merge into one bigger tile. The daily challenge uses the same starting board for everyone today.</div>
           </div>
         </div>
       </section>
@@ -92,12 +95,12 @@
         <div class="merge-panel-head"><h2 id="guide-title">How it works</h2></div>
         <p>Number Merge keeps the board readable and the rules simple: every move slides all tiles, equal numbers merge once per move, and the round ends when no move is left.</p>
         <div class="merge-section merge-copy-grid" style="margin-top:16px;">
-          <div class="merge-copy-card"><strong>Quick controls</strong><p>Arrow keys, WASD, swipe, and on-screen buttons all do the same move. Use U to undo or N to start over.</p></div>
-          <div class="merge-copy-card"><strong>Why it is useful</strong><p>The game is quiet, readable, and fast to restart, so it works well as a puzzle break between the site’s quick decision tools.</p></div>
+          <div class="merge-copy-card"><strong>Quick controls</strong><p>Arrow keys, WASD, swipe, and on-screen buttons all do the same move. Use U to undo and N to replay the current board.</p></div>
+          <div class="merge-copy-card"><strong>Daily challenge</strong><p>Use the daily challenge button when you want the same puzzle seed everyone else gets today. It makes replay and score chasing feel more like a small event.</p></div>
         </div>
         <div class="merge-section" style="margin-top:16px;">
           <div class="merge-section-head"><h2>What makes it good</h2></div>
-          <p>This page is not just a board. It keeps score, saves your best run locally, supports keyboard and touch, and explains the puzzle in the same practical style as the rest of Randomly Pick.</p>
+          <p>This page is not just a board. It keeps score, saves your best run locally, adds a daily challenge loop, supports keyboard and touch, and explains the puzzle in the same practical style as the rest of Randomly Pick.</p>
         </div>
       </aside>
     </div>
@@ -121,7 +124,7 @@
       </div>
       <div class="merge-uses">
         <div class="merge-use"><strong>Quiet puzzle breaks</strong> The board has no timer, so you can think for a few moves and reset quickly.</div>
-        <div class="merge-use"><strong>Short competitive runs</strong> Best score and highest tile are visible immediately, which makes replay and score chasing easy.</div>
+        <div class="merge-use"><strong>Short competitive runs</strong> Best score and daily best are visible immediately, which makes replay and score chasing easy.</div>
         <div class="merge-use"><strong>Touch + keyboard demos</strong> It is a simple example of a game that works across desktop and mobile input without extra setup.</div>
       </div>
     </section>
@@ -166,9 +169,14 @@
       movedStatus: 'Good move. Look for the next merge or clear more space.',
       staticStatus: 'That move changed nothing. Try another direction.',
       undoStatus: 'One move rolled back.',
-      newButton: 'New round',
+      newButton: 'Replay board',
+      dailyButton: 'Daily challenge',
+      freeModeLabel: 'Free play',
+      dailyModeLabel: 'Daily challenge',
+      dailyReadyStatus: 'Today is a shared challenge. Start with the same board and chase a better daily score.',
       undoButton: 'Undo',
       mobileHint: 'Use arrow keys, WASD, or a swipe on the board to move every tile at once.',
+      dailyHint: 'Use arrow keys, WASD, or a swipe on the board. This daily board uses the same seed for everyone today.',
       ariaBoard: 'Number Merge board'
     };
   </script>

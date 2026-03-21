@@ -377,7 +377,7 @@
         <button class="snake-mode-chip" type="button" data-snake-mode="timed" aria-pressed="false">타임어택</button>
         <button class="snake-mode-chip" type="button" data-snake-mode="wrap" aria-pressed="false">랩</button>
       </div>
-      <div class="snake-mode-note">모드를 바꾸면 새 판으로 시작합니다.</div>
+      <div class="snake-mode-note" id="snake-mode-note">클래식 모드는 벽을 피하면서 연속 먹기로 스트릭을 쌓기에 가장 좋습니다.</div>
       <div class="snake-meta-row" aria-label="현재 게임 상태">
         <span id="snake-game-tag" class="snake-tag" data-state="ready">준비됨</span>
       </div>
@@ -418,6 +418,7 @@
             <div class="snake-hud-strip" aria-label="모드와 보상 정보">
               <div class="snake-hud-pill"><strong>모드</strong><span id="snake-mode-badge">클래식</span></div>
               <div class="snake-hud-pill"><strong>보상</strong><span id="snake-reward-badge">보너스 준비 3</span></div>
+              <div class="snake-hud-pill"><strong>스트릭</strong><span id="snake-streak-badge">스트릭 없음</span></div>
               <div class="snake-hud-pill"><strong>타이머</strong><span id="snake-timer-badge">제한 없음</span></div>
             </div>
           </div>
@@ -426,10 +427,10 @@
 
       <aside class="panel" aria-labelledby="guide-title" data-snake-section="why">
         <div class="panel-head"><h2 id="guide-title">플레이 방법</h2></div>
-        <p>Snake는 일부러 단순하게 만들었습니다. 보드 하나, 점수 하나, 목표 하나만 보여서 모바일과 데스크톱 모두에서 바로 이해할 수 있습니다.</p>
+        <p>Snake는 기본 규칙은 단순하게 두되, 모드와 스트릭 보상으로 다시 한 판 하게 만드는 층을 얹었습니다. 그래서 모바일과 데스크톱 모두에서 바로 이해하면서도 한 번 더 도전할 이유가 생깁니다.</p>
         <div class="section snake-copy-grid" style="margin-top:16px;">
           <div class="copy-card" data-snake-section="tip"><strong>빠른 조작</strong><p>키보드, 방향 버튼, 스와이프 모두 지원합니다. Space는 일시정지, Enter는 시작, R은 다시 시작입니다.</p></div>
-          <div class="copy-card" data-snake-section="faq"><strong>자주 묻는 질문</strong><p>최고 점수는 브라우저에만 저장됩니다. 페이지를 벗어나지 않아도 언제든 다시 시작할 수 있습니다.</p></div>
+          <div class="copy-card" data-snake-section="faq"><strong>자주 묻는 질문</strong><p>최고 점수는 브라우저에만 저장됩니다. 연속으로 빨리 먹으면 스트릭이 쌓이고, 그 상태에서 보너스 사과를 먹으면 더 큰 보상을 받습니다.</p></div>
         </div>
         <div class="section" data-snake-section="why" style="margin-top:16px;">
           <div class="section-head"><h2>Randomly Pick에 맞는 이유</h2></div>
@@ -439,10 +440,10 @@
     </div>
 
     <section class="section" data-snake-section="how" aria-labelledby="howto-title">
-      <div class="section-head"><h2 id="howto-title">플레이 방법</h2><p>짧게 시작하고, 먹고, 피하면 됩니다. 규칙이 단순해서 바로 들어갈 수 있습니다.</p></div>
+      <div class="section-head"><h2 id="howto-title">플레이 방법</h2><p>짧게 시작하고, 먹고, 피하면 됩니다. 여기에 스트릭과 보너스 보상이 더해져서 한 판의 리듬이 조금 더 살아납니다.</p></div>
       <div class="steps">
         <div class="step"><strong>1. 시작합니다.</strong> 시작 버튼이나 방향키를 누르면 바로 움직이기 시작합니다.</div>
-        <div class="step"><strong>2. 먹습니다.</strong> 먹을수록 몸이 길어지고 점수가 올라가며, 보드가 점점 좁아집니다.</div>
+        <div class="step"><strong>2. 스트릭을 쌓습니다.</strong> 쉬지 않고 연속으로 먹으면 스트릭이 올라가고, 보너스 사과 보상도 더 좋아집니다.</div>
         <div class="step"><strong>3. 벽과 몸을 피합니다.</strong> 벽이나 자기 몸에 부딪히지 않고 10점을 넘기면 한 판을 깔끔하게 끝냅니다.</div>
       </div>
     </section>
@@ -450,7 +451,7 @@
     <section class="section" data-snake-section="when" aria-labelledby="uses-title">
       <div class="section-head"><h2 id="uses-title">이럴 때 잘 맞습니다</h2><p>짧은 휴식, 수업, 설명용 데모처럼 금방 끝나야 하는 상황에 잘 맞습니다.</p></div>
       <div class="uses">
-        <div class="use"><strong>짧은 휴식</strong> 1~2분짜리 가벼운 플레이를 원할 때 부담이 적습니다.</div>
+        <div class="use"><strong>짧은 휴식</strong> 1~2분짜리 가벼운 플레이를 원할 때 부담이 적고, 스트릭 때문에 한 번 더 도전하게 됩니다.</div>
         <div class="use"><strong>수업 데모</strong> 이동, 충돌, 점수 루프를 설명하기 쉬워서 데모용으로 좋습니다.</div>
         <div class="use"><strong>게임 셸 점검</strong> 규칙이 단순해서 QA와 구조 검수의 첫 게임으로 쓰기 좋습니다.</div>
       </div>
@@ -495,6 +496,11 @@
       bonusActiveLabel: '보너스 사과',
       bonusNextLabel: '다음 보너스',
       bonusRewardLabel: '보너스 +2',
+      streakLabel: '스트릭',
+      streakIdleLabel: '스트릭 없음',
+      modeClassicNote: '클래식 모드는 벽을 피하면서 연속 먹기로 스트릭을 쌓기에 가장 좋습니다.',
+      modeTimedNote: '타임어택은 시간이 줄어드니 루프를 짧게 가져가고 보너스 사과를 빠르게 먹는 편이 유리합니다.',
+      modeWrapNote: '랩 모드는 벽을 통과할 수 있지만 자기 몸이 더 큰 위험이 되니 긴 회전 동선을 조심하세요.',
       timeoutLabel: '시간 종료',
       statusTimeout: '시간이 끝났습니다. 타이머 모드에서 다시 도전하세요.',
       readyLabel: '준비됨',
@@ -507,6 +513,9 @@
       hitBodyStatus: '자기 몸에 부딪혔습니다.',
       playingTag: '달리는 중',
       mobileHint: '모바일에서는 보드를 스와이프하거나 아래 방향 버튼을 사용하세요.',
+      mobileHintClassic: '클래식은 보드를 짧게 왕복하면서 스트릭을 끊기지 않게 이어 가는 쪽이 편합니다.',
+      mobileHintTimed: '타임어택은 생각을 오래 끌기보다 빠르게 방향을 예약하는 편이 좋습니다.',
+      mobileHintWrap: '랩 모드는 벽을 통과하니 가장자리에서 급하게 꺾지 말고 긴 동선을 만들어 보세요.',
       pauseLabel: '일시정지',
       resumeLabel: '계속',
       restartLabel: '다시 시작',

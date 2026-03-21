@@ -305,6 +305,12 @@ a {
   padding: 0 14px;
 }
 
+.merge-toolbar button[data-active="true"] {
+  background: var(--merge-accent);
+  color: #fff;
+  border-color: var(--merge-accent);
+}
+
 .merge-board-shell {
   padding: 16px;
   border-radius: 24px;
@@ -373,6 +379,7 @@ a {
 .merge-pad button {
   min-height: 48px;
   border-radius: 16px;
+  touch-action: manipulation;
 }
 
 .merge-pad .blank {
@@ -511,6 +518,16 @@ a {
   font-weight: 700;
 }
 
+.merge-toolbar button:focus-visible,
+.merge-pad button:focus-visible,
+.merge-button:focus-visible,
+.merge-nav a:focus-visible,
+.merge-links a:focus-visible,
+.merge-related a:focus-visible {
+  outline: 3px solid rgba(59, 130, 246, 0.28);
+  outline-offset: 2px;
+}
+
 @media (max-width: 920px) {
   .merge-layout,
   .merge-steps,
@@ -525,6 +542,14 @@ a {
 
   .merge-pad {
     justify-content: start;
+  }
+
+  .merge-toolbar {
+    width: 100%;
+  }
+
+  .merge-toolbar button {
+    flex: 1 1 140px;
   }
 }
 
@@ -546,5 +571,31 @@ a {
 
   .merge-stats {
     grid-template-columns: 1fr;
+  }
+
+  .merge-board-shell {
+    padding: 12px;
+  }
+
+  .merge-grid {
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .merge-pad {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+    max-width: 258px;
+  }
+
+  .merge-pad button {
+    min-height: 54px;
+    font-size: 1.04rem;
+  }
+
+  .merge-copy-grid,
+  .merge-steps,
+  .merge-uses {
+    gap: 10px;
   }
 }

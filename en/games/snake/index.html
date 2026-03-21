@@ -192,7 +192,7 @@
         <button class="snake-mode-chip" type="button" data-snake-mode="timed" aria-pressed="false">Timed</button>
         <button class="snake-mode-chip" type="button" data-snake-mode="wrap" aria-pressed="false">Wrap</button>
       </div>
-      <div class="snake-mode-note">Picking a mode starts a fresh round.</div>
+      <div class="snake-mode-note" id="snake-mode-note">Classic is the cleanest place to build streaks, trigger bonus apples, and learn the loop.</div>
       <div class="snake-meta-row" aria-label="Current game state">
         <span id="snake-game-tag" class="snake-tag" data-state="ready">Ready</span>
       </div>
@@ -233,6 +233,7 @@
             <div class="snake-hud-strip" aria-label="Mode, reward, and timer">
               <div class="snake-hud-pill"><strong>Mode</strong><span id="snake-mode-badge">Classic</span></div>
               <div class="snake-hud-pill"><strong>Reward</strong><span id="snake-reward-badge">Bonus ready in 3</span></div>
+              <div class="snake-hud-pill"><strong>Streak</strong><span id="snake-streak-badge">No streak</span></div>
               <div class="snake-hud-pill"><strong>Timer</strong><span id="snake-timer-badge">No timer</span></div>
             </div>
           </div>
@@ -241,10 +242,10 @@
 
       <aside class="panel" aria-labelledby="guide-title" data-snake-section="why">
         <div class="panel-head"><h2 id="guide-title">How to play</h2></div>
-        <p>Snake is intentionally simple: one board, one score, one target. That keeps the game easy to understand on both mobile and desktop.</p>
+        <p>Snake keeps the rules simple, but now adds mode-specific pacing and a streak layer so each run has a reason to keep going. That keeps the game readable on mobile and desktop without feeling flat.</p>
         <div class="section snake-copy-grid" style="margin-top:16px;">
           <div class="copy-card" data-snake-section="tip"><strong>Quick controls</strong><p>Keyboard, arrow buttons, and swipe are all supported. Press Space to pause, Enter to start, and R to reset.</p></div>
-          <div class="copy-card" data-snake-section="faq"><strong>FAQ</strong><p>The best score stays in your browser only, and you can restart a round without leaving the page.</p></div>
+          <div class="copy-card" data-snake-section="faq"><strong>FAQ</strong><p>The best score stays in your browser only. If you keep eating without dropping the pace, your streak grows and makes bonus apples more valuable.</p></div>
         </div>
         <div class="section" data-snake-section="why" style="margin-top:16px;">
           <div class="section-head"><h2>Why it fits Randomly Pick</h2></div>
@@ -254,10 +255,10 @@
     </div>
 
     <section class="section" data-snake-section="how" aria-labelledby="howto-title">
-      <div class="section-head"><h2 id="howto-title">How to play</h2><p>Keep it short: start, eat, and avoid the walls.</p></div>
+      <div class="section-head"><h2 id="howto-title">How to play</h2><p>Keep it short: start, eat, avoid the walls, and use the streak layer to turn a clean run into a better score chase.</p></div>
       <div class="steps">
         <div class="step"><strong>1. Start the round.</strong> Press Start or tap a direction to begin moving.</div>
-        <div class="step"><strong>2. Eat the food.</strong> Each bite grows the snake and raises your score, so the board gets tighter over time.</div>
+        <div class="step"><strong>2. Build a streak.</strong> Consecutive clean apples keep the streak alive and turn the next bonus apple into a bigger payoff.</div>
         <div class="step"><strong>3. Avoid walls and your body.</strong> Clear the target score without crashing into the walls or yourself.</div>
       </div>
     </section>
@@ -265,7 +266,7 @@
     <section class="section" data-snake-section="when" aria-labelledby="uses-title">
       <div class="section-head"><h2 id="uses-title">When this game fits</h2><p>It works best when you want something familiar, quick, and low-friction.</p></div>
       <div class="uses">
-        <div class="use"><strong>Quick breaks</strong> A 1-minute loop is enough when people want to reset their head.</div>
+        <div class="use"><strong>Quick breaks</strong> A 1-minute loop is enough to reset your head, and the streak layer makes “one more try” feel earned.</div>
         <div class="use"><strong>Classroom demos</strong> The movement, collision, and score loop are easy to explain live.</div>
         <div class="use"><strong>Game shell checks</strong> It is a practical first game because the rules stay simple and the QA hooks are easy to verify.</div>
       </div>
@@ -310,6 +311,11 @@
       bonusActiveLabel: 'Bonus apple',
       bonusNextLabel: 'Bonus in',
       bonusRewardLabel: 'Bonus +2',
+      streakLabel: 'Streak',
+      streakIdleLabel: 'No streak',
+      modeClassicNote: 'Classic is the cleanest place to build streaks, trigger bonus apples, and learn the loop.',
+      modeTimedNote: 'Timed mode rewards short route planning and fast bonus collection more than patient wall play.',
+      modeWrapNote: 'Wrap mode removes the wall risk, so body control becomes the real challenge on long runs.',
       timeoutLabel: 'Time up',
       statusTimeout: 'Time ran out. Try again in Timed mode.',
       readyLabel: 'Ready',
@@ -322,6 +328,9 @@
       hitBodyStatus: 'You ran into your own body.',
       playingTag: 'running',
       mobileHint: 'Swipe the board or use the buttons below on mobile.',
+      mobileHintClassic: 'Classic feels best when you keep your loop tight and avoid breaking the streak.',
+      mobileHintTimed: 'Timed mode works better when you queue turns early instead of waiting at the corners.',
+      mobileHintWrap: 'Wrap mode lets you cross walls, so watch your own body more than the board edge.',
       pauseLabel: 'Pause',
       resumeLabel: 'Resume',
       restartLabel: 'Restart',

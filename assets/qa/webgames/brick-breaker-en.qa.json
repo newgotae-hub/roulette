@@ -1,0 +1,116 @@
+{
+  "id": "brick-breaker-en",
+  "name": "Brick Breaker (English)",
+  "pageCandidates": [
+    "/en/games/brick-breaker/",
+    "/en/games/brick-breaker/index.html"
+  ],
+  "fallbackPath": "/assets/qa/webgames/brick-breaker-contract.html",
+  "requiredHooks": [
+    "QA_READY",
+    "render_game_to_text",
+    "advanceTime",
+    "reset"
+  ],
+  "parsedAssertions": [
+    {
+      "key": "phase",
+      "type": "string",
+      "anyOfValues": [
+        "ready",
+        "playing",
+        "paused",
+        "won",
+        "gameover"
+      ]
+    },
+    {
+      "key": "score",
+      "type": "number"
+    },
+    {
+      "key": "best",
+      "type": "number"
+    },
+    {
+      "key": "lives",
+      "type": "number"
+    },
+    {
+      "key": "combo",
+      "type": "number"
+    },
+    {
+      "key": "bricksRemaining",
+      "type": "number"
+    },
+    {
+      "key": "target",
+      "type": "number"
+    },
+    {
+      "key": "paddle",
+      "type": "object"
+    },
+    {
+      "key": "ball",
+      "type": "object"
+    },
+    {
+      "key": "bricks",
+      "type": "array"
+    },
+    {
+      "key": "qaReady",
+      "type": "boolean",
+      "anyOfValues": [
+        "true"
+      ]
+    }
+  ],
+  "bursts": [
+    {
+      "label": "boot",
+      "calls": [
+        "window.reset()"
+      ]
+    },
+    {
+      "label": "start-paused",
+      "calls": [
+        "document.getElementById('brick-breaker-start')?.click()",
+        "document.getElementById('brick-breaker-pause')?.click()"
+      ]
+    },
+    {
+      "label": "advance-right",
+      "keys": [
+        "ArrowRight"
+      ]
+    },
+    {
+      "label": "advance-left",
+      "keys": [
+        "ArrowLeft"
+      ]
+    },
+    {
+      "label": "pause-resume",
+      "calls": [
+        "document.getElementById('brick-breaker-pause')?.click()"
+      ]
+    },
+    {
+      "label": "resume",
+      "calls": [
+        "document.getElementById('brick-breaker-pause')?.click()"
+      ]
+    },
+    {
+      "label": "reset",
+      "calls": [
+        "window.reset()"
+      ]
+    }
+  ]
+}

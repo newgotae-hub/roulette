@@ -57,6 +57,9 @@
   const modeBadgeEl = document.getElementById('snake-mode-badge');
   const rewardBadgeEl = document.getElementById('snake-reward-badge');
   const timerBadgeEl = document.getElementById('snake-timer-badge');
+  const streakBadgeEl = document.getElementById('snake-streak-badge');
+  const modeNoteEl = document.getElementById('snake-mode-note');
+  const boardShellEl = canvas ? canvas.closest('.board-shell') : null;
   const ctx = canvas.getContext('2d');
   const modeButtons = Array.from(document.querySelectorAll('[data-snake-mode]'));
 
@@ -82,6 +85,8 @@
     bonusActive: false,
     normalApplesSinceBonus: 0,
     timeLeftMs: null,
+    streak: 0,
+    streakWindowMs: 0,
     lastEndReason: null,
     accumulator: 0,
     tickMs: BASE_STEP_MS,
@@ -91,6 +96,8 @@
     swipeStart: null,
     initialized: false
   };
+
+  let feedbackTimeout = 0;
 
   function createRng(seed) {
     let value = seed >>> 0;
@@ -118,7 +125,13 @@
   }
 
   function currentModeLabel() {
-    return copy[`${state.mode}ModeLabel`] || (state.mode === 'timed' ? 'Timed' : state.mode === 'wrap' ? 'Wrap' : 'Classic');
+    if (state.mode === 'timed') {
+      return copy.modeTimedLabel || copy.timedModeLabel || 'Timed';
+    }
+    if (state.mode === 'wrap') {
+      return copy.modeWrapLabel || copy.wrapModeLabel || 'Wrap';
+    }
+    return copy.modeClassicLabel || copy.classicModeLabel || 'Classic';
   }
 
   function formatTimer(ms) {
@@ -140,13 +153,28 @@
   function rewardBadgeText() {
     const config = currentModeConfig();
     if (state.bonusActive && state.bonusApple) {
-      return `${copy.bonusRewardLabel || `Bonus +${config.bonusPoints}`} · ${copy.bonusActiveLabel || 'Bonus apple'}`;
+      const totalBonus = config.bonusPoints + streakBonusPoints();
+      return `${copy.bonusRewardLabel || `Bonus +${totalBonus}`} · ${copy.bonusActiveLabel || 'Bonus apple'}`;
     }
     const readyIn = bonusReadyIn();
     if (readyIn <= 0) {
       return copy.bonusReadyLabel || 'Bonus ready';
     }
     return `${copy.bonusNextLabel || 'Bonus in'} ${readyIn}`;
+  }
+
+  function streakBonusPoints() {
+    return Math.max(0, state.streak - 2);
+  }
+
+  function streakBadgeText() {
+    if (state.streak <= 0) {
+      return copy.streakIdleLabel || 'No streak';
+    }
+    const bonusText = streakBonusPoints() > 0
+      ? ` · +${streakBonusPoints()}`
+      : '';
+    return `${copy.streakLabel || 'Streak'} x${state.streak}${bonusText}`;
   }
 
   function timerBadgeText() {
@@ -169,6 +197,7 @@
     if (modeBadgeEl) modeBadgeEl.textContent = currentModeLabel();
     if (rewardBadgeEl) rewardBadgeEl.textContent = rewardBadgeText();
     if (timerBadgeEl) timerBadgeEl.textContent = timerBadgeText();
+    if (streakBadgeEl) streakBadgeEl.textContent = streakBadgeText();
   }
 
   function isCellEqual(a, b) {
@@ -327,6 +356,37 @@
     syncActionButtons();
   }
 
+  function modeNoteText() {
+    if (state.mode === 'timed') {
+      return copy.modeTimedNote || 'Timed mode pushes a faster pace and rewards clean route planning.';
+    }
+    if (state.mode === 'wrap') {
+      return copy.modeWrapNote || 'Wrap mode loops through the walls, so the danger shifts from edges to your own body.';
+    }
+    return copy.modeClassicNote || 'Classic mode is the clean baseline: build streaks, trigger bonus apples, and stay off the walls.';
+  }
+
+  function setFeedback(kind) {
+    if (!boardShellEl) return;
+    boardShellEl.dataset.feedback = kind;
+    window.clearTimeout(feedbackTimeout);
+    feedbackTimeout = window.setTimeout(() => {
+      if (boardShellEl.dataset.feedback === kind) {
+        delete boardShellEl.dataset.feedback;
+      }
+    }, kind === 'crash' ? 420 : 240);
+
+    if (typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function') {
+      if (kind === 'bonus') navigator.vibrate([18, 34, 18]);
+      else if (kind === 'eat') navigator.vibrate(14);
+      else if (kind === 'crash') navigator.vibrate([26, 40, 26]);
+    }
+  }
+
+  function updateModeNote() {
+    if (modeNoteEl) modeNoteEl.textContent = modeNoteText();
+  }
+
   function resetGame(seed = DEFAULT_SEED) {
     state.seed = normalizeSeed(seed);
     state.rng = createRng(state.seed);
@@ -343,12 +403,16 @@
     state.bonusActive = false;
     state.normalApplesSinceBonus = 0;
     state.timeLeftMs = currentModeConfig().timeLimitMs;
+    state.streak = 0;
+    state.streakWindowMs = 0;
     state.accumulator = 0;
     state.phase = 'ready';
     state.lastEndReason = null;
     state.lastFrameTime = 0;
     spawnNormalApple();
     updateSpeed();
+    updateHint();
+    updateModeNote();
     updateHud();
     draw();
     setControlsDisabled(false);
@@ -413,6 +477,7 @@
       saveBest();
     }
     updateHud();
+    setFeedback(reason === 'win' ? 'bonus' : 'crash');
     draw(reason);
   }
 
@@ -429,6 +494,13 @@
       if (state.timeLeftMs <= 0) {
         endGame('timeout');
         return;
+      }
+    }
+
+    if (state.streakWindowMs > 0) {
+      state.streakWindowMs = Math.max(0, state.streakWindowMs - state.tickMs);
+      if (state.streakWindowMs === 0 && state.streak > 0) {
+        state.streak = 0;
       }
     }
 
@@ -464,10 +536,11 @@
     state.snake.unshift(next);
 
     if (isBonusCell) {
-      state.score += currentModeConfig().bonusPoints;
+      state.score += currentModeConfig().bonusPoints + streakBonusPoints();
       state.bonusActive = false;
       state.bonusApple = null;
       state.normalApplesSinceBonus = 0;
+      state.streakWindowMs = config.timeLimitMs == null ? 4200 : 3400;
       if (state.score > state.best) {
         state.best = state.score;
         saveBest();
@@ -479,6 +552,7 @@
       spawnNormalApple();
       updateSpeed();
       updateHud();
+      setFeedback('bonus');
       draw();
       return;
     }
@@ -486,6 +560,8 @@
     if (isAppleCell) {
       state.score += 1;
       state.normalApplesSinceBonus += 1;
+      state.streak = state.streakWindowMs > 0 ? state.streak + 1 : 1;
+      state.streakWindowMs = config.timeLimitMs == null ? 4200 : 3200;
       if (state.score > state.best) {
         state.best = state.score;
         saveBest();
@@ -500,6 +576,7 @@
         spawnBonusApple();
       }
       maybeIncreaseDifficulty();
+      setFeedback('eat');
     } else {
       state.snake.pop();
     }
@@ -643,6 +720,17 @@
       ctx.restore();
     }
 
+    if (state.phase === 'running' && state.streak > 1) {
+      ctx.save();
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.84)';
+      drawRoundedRect(ctx, 12, 12, 132, 34, 14);
+      ctx.fill();
+      ctx.fillStyle = '#f8fafc';
+      ctx.font = '700 14px Inter, Arial, sans-serif';
+      ctx.fillText(`Streak x${state.streak}`, 78, 34);
+      ctx.restore();
+    }
+
     ctx.restore();
   }
 
@@ -686,6 +774,9 @@
       bonusActive: Boolean(state.bonusActive),
       bonusPoints: config.bonusPoints,
       bonusReadyIn: bonusReadyIn(),
+      streak: state.streak,
+      streakWindowMs: Math.max(0, Math.round(state.streakWindowMs)),
+      streakBonusPoints: streakBonusPoints(),
       bonusState: state.bonusActive ? 'active' : 'idle',
       bonus: {
         active: Boolean(state.bonusActive),
@@ -746,6 +837,7 @@
       btn.addEventListener('pointerdown', (event) => {
         event.preventDefault();
         btn.setPointerCapture?.(event.pointerId);
+        btn.dataset.pressed = 'true';
         setDirection({
           up: { x: 0, y: -1 },
           down: { x: 0, y: 1 },
@@ -753,6 +845,12 @@
           right: { x: 1, y: 0 }
         }[dir]);
       });
+      const clearPressed = () => {
+        delete btn.dataset.pressed;
+      };
+      btn.addEventListener('pointerup', clearPressed);
+      btn.addEventListener('pointercancel', clearPressed);
+      btn.addEventListener('pointerleave', clearPressed);
     }
   }
 
@@ -795,7 +893,15 @@
 
   function updateHint() {
     if (!hintEl) return;
-    hintEl.textContent = copy.mobileHint || 'Swipe the board or use the buttons below on mobile.';
+    if (state.mode === 'timed') {
+      hintEl.textContent = copy.mobileHintTimed || copy.mobileHint || 'Swipe the board or use the buttons below on mobile.';
+      return;
+    }
+    if (state.mode === 'wrap') {
+      hintEl.textContent = copy.mobileHintWrap || copy.mobileHint || 'Swipe the board or use the buttons below on mobile.';
+      return;
+    }
+    hintEl.textContent = copy.mobileHintClassic || copy.mobileHint || 'Swipe the board or use the buttons below on mobile.';
   }
 
   function init() {
@@ -804,6 +910,7 @@
 
     syncButtons();
     updateHint();
+    updateModeNote();
     updateHud();
     bindControlButtons();
     bindSwipe();

@@ -47,3 +47,12 @@ coming together.
 Snake v1.1 uses a slightly richer contract so the runner can validate mode,
 timer/timeLeft, and bonus state from `render_game_to_text()` without touching
 the actual product pages.
+
+2026-03-22 note:
+
+- Snake v1.1 scenarios now exercise mode switching and the boot/reset contract
+  in both locales.
+- Number Merge scenarios now cover daily mode entry, undo, and structured
+  board/state serialization.
+- Brick Breaker scenarios now validate the control loop, pause/resume flow,
+  and structured HUD/object state on both locales.

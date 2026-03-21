@@ -513,3 +513,9 @@ How to use it:
 - Added `.gitignore` exclusions for `.playwright-cli/` and `test-results/` so webgame QA artifacts stay out of release commits by default.
 - Added the subagent operating model, release checklist, and parallel roadmap notes so future workers can split game production, QA, and release tasks without rediscovering the process.
 - Added `scripts/scaffold-webgame.js` as the dry-run-friendly starter for new Games entries, and linked the updated workflow from the existing webgames QA notes.
+
+### 2026-03-22 - Brick Breaker published on the Games hubs and release path
+
+- Promoted `Brick Breaker` from a queued card to a live playable Games title on both `games/index.html` and `en/games/index.html`, so the hub now surfaces three playable cards instead of two plus a placeholder.
+- Added the Korean and English Brick Breaker routes to sitemap generation and widened SEO validation so the published game trio (`Snake`, `Number Merge`, `Brick Breaker`) is checked consistently during release.
+- Added [GAMES_BRICK_BREAKER_ROLLOUT_2026-03-22.md](/home/user/roulette/GAMES_BRICK_BREAKER_ROLLOUT_2026-03-22.md) as the short rollout note for integration scope and release checks.

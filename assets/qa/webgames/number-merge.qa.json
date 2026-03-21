@@ -14,6 +14,54 @@
     "advanceTime",
     "reset"
   ],
+  "parsedAssertions": [
+    {
+      "key": "mode",
+      "type": "string",
+      "anyOfValues": [
+        "free",
+        "daily"
+      ]
+    },
+    {
+      "key": "phase",
+      "type": "string",
+      "anyOfValues": [
+        "ready",
+        "playing",
+        "won",
+        "stuck"
+      ]
+    },
+    {
+      "key": "score",
+      "type": "number"
+    },
+    {
+      "key": "moves",
+      "type": "number"
+    },
+    {
+      "key": "maxTile",
+      "type": "number"
+    },
+    {
+      "key": "dailyBest",
+      "type": "number"
+    },
+    {
+      "key": "dailyKey",
+      "type": "string"
+    },
+    {
+      "key": "seed",
+      "type": "number"
+    },
+    {
+      "key": "board",
+      "type": "array"
+    }
+  ],
   "bursts": [
     {
       "label": "boot",
@@ -22,31 +70,39 @@
       ]
     },
     {
-      "label": "advance-east",
+      "label": "daily-mode",
+      "calls": [
+        "document.getElementById('merge-daily')?.click()"
+      ],
+      "advanceMs": 360
+    },
+    {
+      "label": "move-right",
       "keys": [
         "ArrowRight"
       ],
       "advanceMs": 360
     },
     {
-      "label": "advance-south",
+      "label": "move-down",
       "keys": [
         "ArrowDown"
       ],
       "advanceMs": 360
     },
     {
-      "label": "advance-west",
-      "keys": [
-        "ArrowLeft"
+      "label": "undo",
+      "calls": [
+        "document.getElementById('merge-undo')?.click()"
       ],
-      "advanceMs": 360
+      "advanceMs": 120
     },
     {
       "label": "reset",
       "calls": [
-        "window.reset()"
-      ]
+        "window.resetGame(0x2048cafe, { mode: 'free' })"
+      ],
+      "advanceMs": 360
     }
   ]
 }

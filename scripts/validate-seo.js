@@ -331,17 +331,46 @@ function validateTrustComplianceSignals(page, findings) {
   }
 }
 
+function validatePublishedGamePages(page, findings) {
+  const publishedGamePages = [
+    ['/games/snake/', 'Snake', '/assets/js/games-snake.js'],
+    ['/en/games/snake/', 'Snake', '/assets/js/games-snake.js'],
+    ['/games/number-merge/', 'Number Merge', '/assets/js/games-number-merge.js'],
+    ['/en/games/number-merge/', 'Number Merge', '/assets/js/games-number-merge.js'],
+    ['/games/brick-breaker/', 'Brick Breaker', '/assets/js/games-brick-breaker.js'],
+    ['/en/games/brick-breaker/', 'Brick Breaker', '/assets/js/games-brick-breaker.js']
+  ];
+  const match = publishedGamePages.find(([pagePath]) => page.pagePath === pagePath);
+  if (!match) return;
+
+  const [, titleTerm, scriptRef] = match;
+  const title = extractTitle(page.html);
+  if (!new RegExp(titleTerm, 'i').test(title)) {
+    findings.push(`${page.pagePath}: title should target "${titleTerm}".`);
+  }
+  if (!page.html.includes(scriptRef)) {
+    findings.push(`${page.pagePath}: missing game JavaScript reference ${scriptRef}.`);
+  }
+}
+
 function localeFromFooterPage(pagePath) {
-  if (pagePath === '/games/snake/' || pagePath === '/en/games/snake/') {
+  if (
+    pagePath === '/games/snake/' ||
+    pagePath === '/en/games/snake/' ||
+    pagePath === '/games/number-merge/' ||
+    pagePath === '/en/games/number-merge/' ||
+    pagePath === '/games/brick-breaker/' ||
+    pagePath === '/en/games/brick-breaker/'
+  ) {
     return null;
   }
   if (
     pagePath === '/' ||
-    /^\/(?:luckydraw|ladder|coinflip|dice|team-generator|games\/snake)\/$/.test(pagePath)
+    /^\/(?:luckydraw|ladder|coinflip|dice|team-generator|games\/snake|games\/number-merge|games\/brick-breaker)\/$/.test(pagePath)
   ) {
     return 'ko';
   }
-  const match = pagePath.match(new RegExp(`^\\/(${LOCALE_PATTERN})(?:\\/(?:luckydraw|ladder|coinflip|dice|team-generator|games\\/snake))?\\/$`));
+  const match = pagePath.match(new RegExp(`^\\/(${LOCALE_PATTERN})(?:\\/(?:luckydraw|ladder|coinflip|dice|team-generator|games\\/snake|games\\/number-merge|games\\/brick-breaker))?\\/$`));
   return match ? match[1] : null;
 }
 
@@ -543,6 +572,7 @@ for (const page of pages.values()) {
   validateDiceCoin3DRuntime(page, findings);
   validateEnglishAcquisitionSignals(page, findings);
   validateSnakeGamePage(page, findings);
+  validatePublishedGamePages(page, findings);
   validateTrustComplianceSignals(page, findings);
   validateLocalizedFooterFallback(page, findings);
   validateTeamGeneratorLocaleSync(page, findings);
@@ -588,7 +618,7 @@ for (const locale of TEAM_GENERATOR_LOCALES) {
   if (!TEAM_GENERATOR_DATA_MAP[locale]) findings.push(`assets/js/team-generator-i18n.js: missing locale block ${locale}.`);
 }
 
-for (const rel of ['assets/js/lotto.js', 'assets/js/ladder.js', 'assets/js/games-snake.js', 'scripts/sync-roulette-entrypoints.js', 'scripts/seo-hosting-patch.js']) {
+for (const rel of ['assets/js/lotto.js', 'assets/js/ladder.js', 'assets/js/games-snake.js', 'assets/js/games-number-merge.js', 'assets/js/games-brick-breaker.js', 'scripts/sync-roulette-entrypoints.js', 'scripts/seo-hosting-patch.js']) {
   const source = fs.readFileSync(path.join(ROOT, rel), 'utf8');
   if (hasUnsafeSyncLangLinks(source)) findings.push(`${rel}: source still appends ?lang= to non-tool links.`);
 }

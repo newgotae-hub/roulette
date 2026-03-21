@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>게임 | Randomly Pick</title>
-  <meta name="description" content="랜덤리픽의 게임 허브입니다. Snake로 먼저 시작하고, 다음에는 Number Merge로 이어지는 실게임 라인업을 한곳에서 볼 수 있습니다." />
+  <title>Games | Randomly Pick</title>
+  <meta name="description" content="Randomly Pick의 Games 탭입니다. Snake, Number Merge, Brick Breaker를 바로 플레이하고 기존 랜덤 툴과 같은 흐름으로 이동할 수 있습니다." />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://randomly-pick.com/games/" />
   <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/" />
@@ -14,13 +14,15 @@
   <style>
     :root {
       color-scheme: light;
-      --bg: #f7fafc;
-      --panel: rgba(255,255,255,.86);
-      --panel-strong: rgba(255,255,255,.96);
+      --bg: #f8fafc;
+      --panel: rgba(255,255,255,.92);
+      --panel-strong: rgba(255,255,255,.97);
       --line: rgba(148,163,184,.22);
       --text: #0f172a;
       --muted: #475569;
+      --soft: #e2e8f0;
       --accent: #0f172a;
+      --accent-soft: #eef2ff;
     }
     * { box-sizing: border-box; }
     body {
@@ -29,196 +31,221 @@
       color: var(--text);
       font-family: "Noto Sans KR", "Malgun Gothic", sans-serif;
       background:
-        radial-gradient(circle at 15% 10%, rgba(59,130,246,.08), transparent 24%),
-        radial-gradient(circle at 82% 0%, rgba(34,197,94,.10), transparent 22%),
-        linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+        radial-gradient(circle at 14% 10%, rgba(59,130,246,.07), transparent 24%),
+        radial-gradient(circle at 86% 4%, rgba(16,185,129,.08), transparent 20%),
+        linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
     }
     a { color: inherit; }
-    .wrap { max-width: 1160px; margin: 0 auto; padding: 24px 18px 72px; }
-    .topbar, .nav, .actions, .chips, .links, .grid { display: flex; flex-wrap: wrap; }
-    .topbar { align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 22px; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 24px 18px 64px; }
+    .topbar, .nav, .hero-actions, .hero-chips, .grid, .links, .mini-list { display: flex; flex-wrap: wrap; }
+    .topbar { align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
     .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -.03em; }
     .brand-mark {
-      width: 34px; height: 34px; border-radius: 11px;
-      display: grid; place-items: center;
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 11px;
       background: linear-gradient(135deg, #0f172a, #334155);
-      color: white;
-      font-size: .95rem;
-      box-shadow: 0 10px 22px rgba(15,23,42,.14);
+      color: #fff;
+      box-shadow: 0 12px 24px rgba(15,23,42,.12);
     }
     .brand-name { font-size: 1rem; }
-    .brand-sub { font-size: .86rem; color: #64748b; font-weight: 600; margin-top: 2px; }
+    .brand-sub { margin-top: 2px; color: #64748b; font-size: .84rem; font-weight: 600; }
     .nav { gap: 8px; }
     .nav a {
-      display: inline-flex; align-items: center; justify-content: center;
-      min-height: 36px; padding: 0 14px;
-      border-radius: 999px; border: 1px solid var(--line);
-      background: rgba(255,255,255,.74);
-      text-decoration: none; font-size: .92rem; color: #334155;
-      transition: transform .18s ease, border-color .18s ease, background .18s ease, color .18s ease;
-    }
-    .nav a:hover { transform: translateY(-1px); border-color: rgba(15,23,42,.16); color: var(--text); background: white; }
-    .nav a.active { background: var(--accent); color: white; border-color: var(--accent); box-shadow: 0 12px 24px rgba(15,23,42,.14); }
-    .hero {
-      padding: 28px 24px;
-      border-radius: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 36px;
+      padding: 0 14px;
+      border-radius: 999px;
       border: 1px solid var(--line);
+      background: rgba(255,255,255,.78);
+      color: #334155;
+      text-decoration: none;
+      font-size: .92rem;
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+    }
+    .nav a:hover { transform: translateY(-1px); background: #fff; border-color: rgba(15,23,42,.16); }
+    .nav a.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      box-shadow: 0 12px 24px rgba(15,23,42,.14);
+    }
+    .hero {
+      padding: 26px 24px 22px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
       background: var(--panel);
       box-shadow: 0 24px 56px rgba(15,23,42,.06);
       backdrop-filter: blur(10px);
     }
     .eyebrow {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 6px 11px; border-radius: 999px;
-      background: #eef2ff; color: #3730a3;
-      font-size: .78rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #3730a3;
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .05em;
+      text-transform: uppercase;
     }
     h1 {
       margin: 14px 0 10px;
-      font-size: clamp(2.5rem, 6vw, 4.6rem);
-      line-height: .96;
+      font-size: clamp(2.2rem, 5vw, 3.9rem);
+      line-height: 1;
       letter-spacing: -.06em;
       text-wrap: balance;
     }
     .lede {
-      max-width: 66ch;
+      max-width: 62ch;
       margin: 0;
       color: var(--muted);
-      font-size: clamp(1rem, 2vw, 1.08rem);
-      line-height: 1.8;
+      font-size: clamp(1rem, 1.8vw, 1.06rem);
+      line-height: 1.78;
     }
-    .actions { gap: 10px; margin-top: 20px; }
+    .hero-actions { gap: 10px; margin-top: 18px; }
     .button {
-      display: inline-flex; align-items: center; justify-content: center;
-      min-height: 42px; padding: 0 15px;
-      border-radius: 999px; border: 1px solid var(--line);
-      background: white; text-decoration: none; font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0 15px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fff;
+      text-decoration: none;
+      font-weight: 700;
       transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
     }
     .button:hover { transform: translateY(-1px); border-color: rgba(15,23,42,.16); box-shadow: 0 10px 22px rgba(15,23,42,.08); }
-    .button.primary { background: var(--accent); color: white; border-color: var(--accent); }
-    .chips { gap: 10px; margin-top: 14px; }
+    .button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .hero-chips { gap: 10px; margin-top: 14px; }
     .chip {
-      display: inline-flex; align-items: center; min-height: 30px; padding: 0 11px;
-      border-radius: 999px; background: rgba(255,255,255,.76);
-      border: 1px solid var(--line); color: #334155; font-size: .86rem; font-weight: 600;
-    }
-    .feature {
-      display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(240px, .8fr);
-      gap: 14px;
-      margin-top: 20px;
-    }
-    .feature-copy, .feature-card, .card, .note, .trust {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 0 11px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.84);
       border: 1px solid var(--line);
-      border-radius: 24px;
-      background: var(--panel-strong);
-      box-shadow: 0 16px 36px rgba(15,23,42,.05);
+      color: #334155;
+      font-size: .85rem;
+      font-weight: 600;
     }
-    .feature-copy { padding: 20px; }
-    .feature-copy h2 { margin: 0 0 10px; font-size: clamp(1.2rem, 2.4vw, 1.65rem); letter-spacing: -.04em; }
-    .feature-copy p { margin: 0; color: var(--muted); line-height: 1.75; }
-    .feature-copy ul { margin: 14px 0 0; padding-left: 18px; color: #334155; line-height: 1.7; }
-    .feature-copy li + li { margin-top: 6px; }
-    .feature-card {
-      padding: 18px;
+    .hero-grid {
       display: grid;
-      gap: 12px;
-      align-content: center;
-      background:
-        linear-gradient(180deg, rgba(15,23,42,.94), rgba(30,41,59,.98)),
-        radial-gradient(circle at 50% 20%, rgba(34,197,94,.22), transparent 34%);
-      color: #e2e8f0;
+      grid-template-columns: minmax(0, 1.2fr) minmax(280px, .8fr);
+      gap: 14px;
+      margin-top: 18px;
     }
-    .snake-strip {
-      position: relative;
-      height: 150px;
-      border-radius: 18px;
-      border: 1px solid rgba(148,163,184,.16);
-      background:
-        linear-gradient(rgba(148,163,184,.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(148,163,184,.08) 1px, transparent 1px);
-      background-size: 26px 26px;
-      overflow: hidden;
+    .panel, .card, .note, .trust {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: var(--panel-strong);
+      box-shadow: 0 16px 34px rgba(15,23,42,.05);
     }
-    .snake-strip::before {
-      content: "";
-      position: absolute;
-      left: 12%;
-      top: 46%;
-      width: 58%;
-      height: 14px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, #22c55e, #86efac);
-      transform: rotate(8deg);
-      box-shadow: 0 10px 20px rgba(0,0,0,.18);
-    }
-    .snake-strip::after {
-      content: "";
-      position: absolute;
-      right: 18%;
-      bottom: 22%;
-      width: 18px;
-      height: 18px;
-      border-radius: 999px;
-      background: #f59e0b;
-      box-shadow: 0 10px 20px rgba(0,0,0,.18);
-    }
-    .feature-meta {
-      display: flex;
-      justify-content: space-between;
+    .panel { padding: 18px 18px 16px; }
+    .panel h2, .section-head h2 { margin: 0; letter-spacing: -.04em; }
+    .panel h2 { font-size: clamp(1.14rem, 2vw, 1.5rem); }
+    .panel p { margin: 10px 0 0; color: var(--muted); line-height: 1.72; }
+    .mini-list {
       gap: 10px;
-      font-size: .88rem;
-      color: rgba(226,232,240,.9);
+      margin-top: 14px;
     }
-    .feature-meta span {
-      padding: 7px 10px;
+    .mini-item {
+      flex: 1 1 150px;
+      min-width: 150px;
+      padding: 12px 13px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+    .mini-item strong { display: block; font-size: .95rem; letter-spacing: -.02em; }
+    .mini-item span { display: block; margin-top: 4px; color: var(--muted); font-size: .88rem; line-height: 1.55; }
+    .lineup {
+      padding: 18px;
+      background:
+        linear-gradient(180deg, #ffffff, #f8fafc),
+        radial-gradient(circle at 86% 10%, rgba(59,130,246,.08), transparent 28%);
+    }
+    .lineup h2 { font-size: 1.05rem; }
+    .lineup-list { display: grid; gap: 10px; margin-top: 12px; }
+    .lineup-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 13px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+    .lineup-row strong { display: block; font-size: .94rem; }
+    .lineup-row span { display: block; margin-top: 3px; color: var(--muted); font-size: .85rem; }
+    .state {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 0 10px;
       border-radius: 999px;
-      background: rgba(15,23,42,.44);
+      background: var(--accent-soft);
+      color: #3730a3;
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .03em;
+      text-transform: uppercase;
     }
     .section-head {
       display: flex;
       align-items: end;
       justify-content: space-between;
       gap: 16px;
-      margin: 30px 0 14px;
+      margin: 28px 0 14px;
     }
-    .section-head h2 { margin: 0; font-size: clamp(1.2rem, 2.5vw, 1.8rem); letter-spacing: -.04em; }
-    .section-head p { margin: 0; color: var(--muted); line-height: 1.6; max-width: 56ch; }
+    .section-head p { margin: 0; max-width: 58ch; color: var(--muted); line-height: 1.65; }
     .grid { gap: 12px; }
     .card {
       flex: 1 1 220px;
       min-width: 220px;
       padding: 18px;
       text-decoration: none;
-      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
     }
-    .card:hover { transform: translateY(-3px); border-color: rgba(15,23,42,.16); box-shadow: 0 20px 36px rgba(15,23,42,.08); }
+    .card:hover { transform: translateY(-2px); border-color: rgba(15,23,42,.16); box-shadow: 0 18px 30px rgba(15,23,42,.07); }
     .card-tag {
-      display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px;
-      border-radius: 999px; background: #eef2ff; color: #4338ca;
-      font-size: .72rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #4338ca;
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
     }
-    .card h3 { margin: 12px 0 6px; font-size: 1.18rem; letter-spacing: -.04em; }
-    .card p { margin: 0; color: var(--muted); line-height: 1.65; }
-    .card .go {
-      margin-top: 14px;
+    .card h3 { margin: 12px 0 6px; font-size: 1.12rem; letter-spacing: -.04em; }
+    .card p { margin: 0; color: var(--muted); line-height: 1.62; }
+    .go {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      width: fit-content;
+      margin-top: 14px;
       padding: 9px 12px;
       border-radius: 999px;
       background: var(--accent);
-      color: white;
+      color: #fff;
       font-weight: 700;
     }
-    .note, .trust {
-      margin-top: 16px;
-      padding: 18px 20px;
-      color: var(--muted);
-      line-height: 1.7;
-    }
+    .note, .trust { margin-top: 16px; padding: 18px 20px; color: var(--muted); line-height: 1.7; }
     .note strong, .trust strong { color: var(--text); }
     .links { gap: 10px; margin-top: 10px; }
     .links a {
@@ -226,9 +253,9 @@
       padding: 9px 13px;
       border-radius: 999px;
       border: 1px solid var(--line);
-      background: rgba(255,255,255,.82);
-      font-weight: 700;
+      background: rgba(255,255,255,.86);
       color: #334155;
+      font-weight: 700;
     }
     .footer {
       margin-top: 24px;
@@ -239,24 +266,16 @@
       line-height: 1.7;
     }
     .footer a { color: #0f172a; text-decoration: none; font-weight: 700; }
-    @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    .hero, .feature-copy, .feature-card, .card { animation: rise .5s ease both; }
-    .feature-card { animation-delay: .04s; }
-    .card:nth-child(1) { animation-delay: .05s; }
-    .card:nth-child(2) { animation-delay: .09s; }
-    .card:nth-child(3) { animation-delay: .13s; }
-    .card:nth-child(4) { animation-delay: .17s; }
-    .card:nth-child(5) { animation-delay: .21s; }
-    .card:nth-child(6) { animation-delay: .25s; }
     @media (max-width: 860px) {
-      .feature { grid-template-columns: 1fr; }
+      .hero-grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 640px) {
       .wrap { padding: 18px 14px 56px; }
       .hero { padding: 22px 18px 18px; border-radius: 24px; }
-      .feature-copy, .feature-card, .card, .note, .trust { border-radius: 20px; }
+      .panel, .card, .note, .trust { border-radius: 20px; }
       .section-head { flex-direction: column; align-items: start; }
       .card { min-width: 0; flex-basis: 100%; }
+      .lineup-row { align-items: start; flex-direction: column; }
     }
   </style>
 </head>
@@ -267,12 +286,12 @@
         <div class="brand-mark">R.</div>
         <div>
           <div class="brand-name">Randomly Pick</div>
-          <div class="brand-sub">게임 허브</div>
+          <div class="brand-sub">Games 탭</div>
         </div>
       </div>
       <nav class="nav" aria-label="주요 메뉴">
         <a href="/">홈</a>
-        <a href="/games/" class="active" aria-current="page">게임</a>
+        <a href="/games/" class="active" aria-current="page">Games</a>
         <a href="/luckydraw/">럭키 드로우</a>
         <a href="/ladder/">사다리</a>
         <a href="/team-generator/">팀 나누기</a>
@@ -282,124 +301,120 @@
     </div>
 
     <section class="hero">
-      <span class="eyebrow">지금 바로 플레이</span>
-      <h1>게임 허브, 첫 타이틀은 Snake입니다</h1>
-      <p class="lede">게임 탭은 이제 실제로 플레이할 수 있는 게임으로 시작합니다. 먼저 Snake를 즐기고, 다음에는 Number Merge로 이어지는 라인업을 같은 허브에서 확인하세요.</p>
-      <div class="actions">
-        <a class="button primary" href="/games/snake/">Snake 플레이</a>
-        <a class="button" href="#quick-plays">라인업 보기</a>
+      <span class="eyebrow">Playable lineup</span>
+      <h1>툴 사이에 자연스럽게 붙는 게임 허브</h1>
+      <p class="lede">Games 탭은 랜덤리픽 안에서 바로 플레이할 수 있는 게임을 모아 둔 자리입니다. 지금은 Snake, Number Merge, Brick Breaker를 같은 흐름 안에서 바로 열 수 있도록 정리했습니다.</p>
+      <div class="hero-actions">
+        <a class="button primary" href="/games/snake/">Snake 시작</a>
+        <a class="button" href="#lineup">라인업 보기</a>
       </div>
-      <div class="chips" aria-label="허브 주요 특징">
-        <span class="chip">실플레이 게임</span>
-        <span class="chip">라인업 중심</span>
-        <span class="chip">모바일 최적화</span>
-        <span class="chip">추가 게임 확장 가능</span>
+      <div class="hero-chips" aria-label="허브 주요 특징">
+        <span class="chip">실제 플레이 가능</span>
+        <span class="chip">짧은 세션 중심</span>
+        <span class="chip">모바일 대응</span>
+        <span class="chip">같은 톤으로 확장</span>
       </div>
-      <div class="feature">
-        <div class="feature-copy">
-          <h2>Snake는 허브의 첫 번째 실플레이 게임입니다.</h2>
-          <p>누구나 아는 아케이드 루프에 명확한 조작, 보이는 점수, 짧은 재시작 흐름을 더해 두었습니다. 짧은 휴식용으로도 좋고, 게임 탭이 실제 콘텐츠로 이어진다는 점을 보여 주기에도 적합합니다.</p>
-          <ul>
-            <li>방향키, WASD, 모바일 스와이프를 모두 지원합니다.</li>
-            <li>현재 점수와 최고 점수를 한눈에 볼 수 있습니다.</li>
-            <li>같은 허브에서 다음 게임으로 바로 이어질 수 있습니다.</li>
-          </ul>
-          <div class="actions" style="margin-top:16px;">
-            <a class="button primary" href="/games/snake/">Snake 열기</a>
-            <a class="button" href="/about/">사이트 소개</a>
+      <div class="hero-grid">
+        <div class="panel">
+          <h2>지금 열어볼 게임 2개, 다음으로 붙을 게임 1개</h2>
+          <p>게임 허브를 별도 서비스처럼 키우기보다, 기존 랜덤리픽의 빠르고 가벼운 사용감 안에서 이어지는 구조로 잡았습니다. 바로 플레이할 수 있는 게임은 앞에 두고, 다음 타이틀은 미리 보이게 정리했습니다.</p>
+          <div class="mini-list">
+            <div class="mini-item">
+              <strong>Snake</strong>
+              <span>가볍게 시작하기 좋은 첫 타이틀</span>
+            </div>
+            <div class="mini-item">
+              <strong>Number Merge</strong>
+              <span>짧게 반복하기 좋은 퍼즐</span>
+            </div>
+            <div class="mini-item">
+              <strong>Brick Breaker</strong>
+              <span>세 번째 플레이 타이틀</span>
+            </div>
           </div>
         </div>
-        <div class="feature-card" aria-hidden="true">
-          <div class="snake-strip"></div>
-          <div class="feature-meta">
-            <span>목표 점수 10</span>
-            <span>한 번의 탭으로 재시작</span>
+        <div class="panel lineup" id="lineup">
+          <h2>현재 라인업</h2>
+          <div class="lineup-list">
+            <div class="lineup-row">
+              <div>
+                <strong>Snake</strong>
+                <span>허브의 첫 플레이 타이틀</span>
+              </div>
+              <span class="state">Play now</span>
+            </div>
+            <div class="lineup-row">
+              <div>
+                <strong>Number Merge</strong>
+                <span>두 번째 플레이 퍼즐</span>
+              </div>
+              <span class="state">Play now</span>
+            </div>
+            <div class="lineup-row">
+              <div>
+                <strong>Brick Breaker</strong>
+                <span>세 번째 플레이 타이틀</span>
+              </div>
+              <span class="state">Play now</span>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <div class="section-head" id="quick-plays">
+    <div class="section-head">
       <div>
-        <h2>성장하는 게임 라인업</h2>
-        <p>Snake가 먼저 있고, 그다음에는 Number Merge가 이어집니다. 이 허브는 새로운 게임이 붙을수록 더 보기 쉬운 목록형 대시보드가 되도록 설계했습니다.</p>
+        <h2>Games와 기존 툴을 같은 흐름으로</h2>
+        <p>Snake, Number Merge, Brick Breaker를 모두 바로 열 수 있는 카드로 두고, 아래 줄에는 기존 랜덤리픽 툴도 함께 두어 허브가 따로 놀지 않게 맞췄습니다.</p>
       </div>
     </div>
 
-    <section class="grid" aria-label="게임 목록">
+    <section class="grid" aria-label="게임 및 도구 목록">
       <a class="card" href="/games/snake/">
-        <span class="card-tag">1번 타이틀</span>
-        <div>
-          <h3>Snake</h3>
-          <p>허브의 첫 번째 실플레이 게임입니다. 클래식 아케이드 감각과 깔끔한 재시작 흐름을 갖췄습니다.</p>
-        </div>
-        <span class="go">플레이하기</span>
+        <span class="card-tag">Playable</span>
+        <h3>Snake</h3>
+        <p>짧은 아케이드 루프와 빠른 재시작이 강점인 첫 게임입니다. 게임 탭에 가장 먼저 들어가도 부담이 없습니다.</p>
+        <span class="go">바로 플레이</span>
       </a>
       <a class="card" href="/games/number-merge/">
-        <span class="card-tag">다음 게임</span>
-        <div>
-          <h3>Number Merge</h3>
-          <p>번호를 합쳐 가는 가벼운 퍼즐 게임입니다. 짧게 즐기기 좋고, 허브의 두 번째 실게임으로 자연스럽게 이어집니다.</p>
-        </div>
-        <span class="go">곧 보기</span>
+        <span class="card-tag">Playable</span>
+        <h3>Number Merge</h3>
+        <p>짧은 세션으로 반복하기 좋은 숫자 퍼즐입니다. Snake 다음에 이어지는 두 번째 플레이 타이틀입니다.</p>
+        <span class="go">열기</span>
+      </a>
+      <a class="card" href="/games/brick-breaker/">
+        <span class="card-tag">Playable</span>
+        <h3>Brick Breaker</h3>
+        <p>벽돌을 깨며 짧게 반복하기 좋은 세 번째 게임입니다. 같은 허브 톤 안에서 아케이드 손맛을 더해 줍니다.</p>
+        <span class="go">바로 플레이</span>
       </a>
       <a class="card" href="/">
-        <span class="card-tag">빠른 선택</span>
-        <div>
-          <h3>룰렛</h3>
-          <p>사람, 주제, 순서처럼 바로 하나를 골라야 할 때 가장 빠르게 쓸 수 있습니다.</p>
-        </div>
+        <span class="card-tag">Tool</span>
+        <h3>룰렛</h3>
+        <p>사람, 주제, 순서처럼 하나를 바로 골라야 할 때 가장 빠르게 이어지는 기본 도구입니다.</p>
         <span class="go">열기</span>
       </a>
       <a class="card" href="/luckydraw/">
-        <span class="card-tag">추첨</span>
-        <div>
-          <h3>럭키 드로우</h3>
-          <p>결과를 간단하고, 눈에 잘 보이고, 공유하기 쉽게 만들고 싶을 때 좋습니다.</p>
-        </div>
-        <span class="go">열기</span>
-      </a>
-      <a class="card" href="/ladder/">
-        <span class="card-tag">배정</span>
-        <div>
-          <h3>사다리</h3>
-          <p>순서 배정, 대진, 행사 배정을 할 때 흐름 자체를 보여 주기에 좋습니다.</p>
-        </div>
+        <span class="card-tag">Tool</span>
+        <h3>럭키 드로우</h3>
+        <p>번호나 당첨 결과를 간단하게 보여 주고 기록까지 남기기 좋은 추첨 도구입니다.</p>
         <span class="go">열기</span>
       </a>
       <a class="card" href="/team-generator/">
-        <span class="card-tag">팀 나누기</span>
-        <div>
-          <h3>팀 나누기</h3>
-          <p>수업, 업무, 모임에서 균형 잡힌 팀을 만들고 싶을 때 바로 이어서 쓸 수 있습니다.</p>
-        </div>
-        <span class="go">열기</span>
-      </a>
-      <a class="card" href="/coinflip/">
-        <span class="card-tag">결정</span>
-        <div>
-          <h3>동전 던지기</h3>
-          <p>예/아니오처럼 아주 빠른 결정을 내려야 할 때 가장 간단하게 쓸 수 있습니다.</p>
-        </div>
-        <span class="go">열기</span>
-      </a>
-      <a class="card" href="/dice/">
-        <span class="card-tag">주사위</span>
-        <div>
-          <h3>주사위</h3>
-          <p>라운드 진행, 테이블 게임, 간단한 확률 확인처럼 굴림이 필요한 순간에 잘 맞습니다.</p>
-        </div>
+        <span class="card-tag">Tool</span>
+        <h3>팀 나누기</h3>
+        <p>수업, 워크숍, 모임에서 균형 있게 팀을 나누고 결과를 바로 공유하기 좋습니다.</p>
         <span class="go">열기</span>
       </a>
     </section>
 
     <section class="note">
-      <strong>이 허브가 중요한 이유</strong><br />
-      게임 탭은 이제 실제 플레이가 가능한 게임을 먼저 보여 주고, 다음 게임이 자연스럽게 이어지는 라인업형 목록을 갖춥니다. 페이지 자체의 쓰임새를 살리면서도 앞으로 새 타이틀을 추가하기 쉬운 구조입니다.
+      <strong>왜 이런 구성으로 두었나</strong><br />
+      Games 탭이 혼자 다른 서비스처럼 보이면 기존 랜덤리픽 흐름이 끊깁니다. 그래서 허브도 같은 내비게이션, 같은 정보 밀도, 같은 신뢰 링크 구조를 유지하면서 플레이 가능한 게임만 앞줄에 모이도록 정리했습니다.
     </section>
 
     <section class="trust">
-      <strong>신뢰 및 지원</strong>
+      <strong>신뢰 및 안내</strong>
       <div class="links">
         <a href="/about/">소개</a>
         <a href="/guides/">가이드</a>
@@ -409,7 +424,7 @@
       </div>
     </section>
 
-    <div class="footer">Juntae Ko가 제작한 <a href="/">Randomly Pick</a>의 게임 허브입니다.</div>
+    <div class="footer">Randomly Pick Games 탭은 <a href="/">Randomly Pick</a> 안에서 이어지는 플레이 공간입니다.</div>
   </main>
 </body>
 </html>

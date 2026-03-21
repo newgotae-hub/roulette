@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Brick Breaker QA Contract Harness</title>
+  <link rel="stylesheet" href="/assets/css/games-brick-breaker.css?v=20260322-bb1" />
+</head>
+<body>
+  <main class="bb-wrap">
+    <section class="bb-panel" style="margin-bottom:18px;">
+      <div class="bb-panel-head">
+        <div>
+          <h1 style="margin:0;font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:-.05em;">Brick Breaker QA Contract Harness</h1>
+          <p style="margin:8px 0 0;color:#475569;line-height:1.7;">This page exists so the QA runner can confirm the required hooks before the production route is used.</p>
+        </div>
+        <div class="bb-tag" data-state="ready">QA harness</div>
+      </div>
+      <div class="bb-toolbar" style="margin-top:16px;">
+        <button id="brick-breaker-start" type="button">Start</button>
+        <button id="brick-breaker-pause" type="button">Pause</button>
+        <button id="brick-breaker-reset" type="button">Restart</button>
+      </div>
+      <div class="bb-links" style="margin-top:16px;">
+        Hooks exposed: <strong>QA_READY</strong>, <strong>render_game_to_text()</strong>, <strong>advanceTime(ms)</strong>, <strong>reset()</strong>.
+      </div>
+    </section>
+
+    <section class="bb-panel">
+      <canvas id="brick-breaker-board" width="640" height="760" tabindex="0" aria-label="Brick Breaker QA board"></canvas>
+      <div class="bb-controls">
+        <div class="bb-pad">
+          <span class="blank"></span>
+          <button id="brick-breaker-left" class="left" type="button" aria-label="Move left">◀</button>
+          <button id="brick-breaker-right" class="right" type="button" aria-label="Move right">▶</button>
+          <span class="blank"></span>
+          <span class="blank"></span>
+          <span class="blank"></span>
+        </div>
+        <div>
+          <div class="bb-stats">
+            <div class="bb-stat"><span>Status</span><strong id="brick-breaker-status">Press Start or any direction key to begin.</strong></div>
+            <div class="bb-stat"><span>Score</span><strong id="brick-breaker-score">0</strong></div>
+            <div class="bb-stat"><span>Best</span><strong id="brick-breaker-best">0</strong></div>
+            <div class="bb-stat"><span>Lives</span><strong id="brick-breaker-lives">3</strong></div>
+            <div class="bb-stat"><span>Combo</span><strong id="brick-breaker-combo">0</strong></div>
+            <div class="bb-stat"><span>Bricks left</span><strong id="brick-breaker-bricks-left">30</strong></div>
+            <div class="bb-stat"><span>Speed</span><strong id="brick-breaker-speed">0 /s</strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    window.__BRICK_BREAKER_COPY__ = {
+      readyLabel: 'Ready',
+      playingLabel: 'Playing',
+      pausedLabel: 'Paused',
+      wonLabel: 'Complete',
+      gameoverLabel: 'Game over',
+      readyStatus: 'Press Start or any direction key to begin.',
+      playingStatus: 'Keep the angle open and look for the next clean shot.',
+      pausedStatus: 'Paused. Resume whenever you are ready.',
+      wonStatus: 'Board cleared. Start a new round or chase a higher score.',
+      gameoverStatus: 'You missed the last ball. Restart and try a cleaner angle.',
+      brickHitStatus: 'Nice hit. Keep the lane open.',
+      paddleHitStatus: 'Good save. Shape the next bounce.',
+      wallHitStatus: 'Wall bounce. Keep the ball in play.',
+      loseLifeStatus: 'You lost a life. Re-center the paddle and serve again.',
+      hint: 'The QA harness uses the same hooks as the live route, but keeps the page intentionally small.',
+      startButton: 'Start',
+      pauseButton: 'Pause',
+      resumeButton: 'Resume',
+      restartButton: 'Restart',
+      resetButton: 'Restart',
+      modeLabel: 'QA harness'
+    };
+    window.__BRICK_BREAKER_META__ = {
+      slug: 'brick-breaker',
+      lang: 'en',
+      deterministic: true,
+      contract: true
+    };
+  </script>
+  <script src="/assets/js/games-brick-breaker.js?v=20260322-bb1"></script>
+</body>
+</html>

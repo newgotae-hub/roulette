@@ -23,18 +23,52 @@
       ]
     },
     {
-      "anyOfKeys": [
-        "timeLeft",
-        "timer"
-      ],
+      "key": "timeLeft",
       "type": "number"
     },
     {
-      "anyOfKeys": [
-        "bonus",
-        "bonusApple",
-        "bonusState"
+      "key": "timer",
+      "type": "number"
+    },
+    {
+      "key": "wrapWalls",
+      "type": "boolean"
+    },
+    {
+      "key": "score",
+      "type": "number"
+    },
+    {
+      "key": "length",
+      "type": "number"
+    },
+    {
+      "key": "bonusActive",
+      "type": "boolean"
+    },
+    {
+      "key": "bonusPoints",
+      "type": "number"
+    },
+    {
+      "key": "bonusReadyIn",
+      "type": "number"
+    },
+    {
+      "key": "bonusState",
+      "type": "string",
+      "anyOfValues": [
+        "idle",
+        "active"
       ]
+    },
+    {
+      "key": "bonus",
+      "type": "object"
+    },
+    {
+      "key": "bonusApple",
+      "exists": true
     }
   ],
   "bursts": [
@@ -45,30 +79,38 @@
       ]
     },
     {
-      "label": "advance-east",
-      "keys": [
-        "ArrowRight"
+      "label": "timed-mode",
+      "calls": [
+        "document.querySelector('[data-snake-mode=\"timed\"]')?.click()"
       ],
       "advanceMs": 360
     },
     {
-      "label": "advance-south",
+      "label": "timed-step",
       "keys": [
-        "ArrowDown"
+        "ArrowRight"
       ],
       "advanceMs": 720
     },
     {
-      "label": "advance-west",
+      "label": "wrap-mode",
+      "calls": [
+        "document.querySelector('[data-snake-mode=\"wrap\"]')?.click()"
+      ],
+      "advanceMs": 360
+    },
+    {
+      "label": "wrap-step",
       "keys": [
-        "ArrowLeft"
+        "ArrowRight",
+        "ArrowDown"
       ],
       "advanceMs": 360
     },
     {
       "label": "reset",
       "calls": [
-        "window.reset()"
+        "document.querySelector('[data-snake-mode=\"classic\"]')?.click()"
       ]
     }
   ]

@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Brick Breaker | Randomly Pick</title>
+  <meta name="description" content="Play Brick Breaker in the browser. Keyboard, swipe, and button controls keep the ball moving while score, lives, combo, and bricks remaining stay visible." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://randomly-pick.com/en/games/brick-breaker/" />
+  <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/brick-breaker/" />
+  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/games/brick-breaker/" />
+  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/games/brick-breaker/" />
+  <link rel="stylesheet" href="/assets/css/games-brick-breaker.css?v=20260322-bb1" />
+  <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
+</head>
+<body>
+  <main class="bb-wrap">
+    <header class="bb-topbar">
+      <div class="bb-brand">
+        <div class="bb-brand-mark">R.</div>
+        <div>
+          <div class="bb-brand-name">Randomly Pick</div>
+          <div class="bb-brand-sub">Brick Breaker</div>
+        </div>
+      </div>
+      <nav class="bb-nav" aria-label="Primary">
+        <a href="/en/">Home</a>
+        <a href="/en/games/" class="is-active" aria-current="page">Games</a>
+        <a href="/en/luckydraw/">Lucky Draw</a>
+        <a href="/en/ladder/">Ladder Draw</a>
+        <a href="/en/team-generator/">Team Split</a>
+        <a href="/en/coinflip/">Coin Flip</a>
+        <a href="/en/dice/">Dice Roll</a>
+      </nav>
+    </header>
+
+    <section class="bb-hero">
+      <span class="bb-eyebrow">Arcade game</span>
+      <h1 class="bb-title">Brick Breaker</h1>
+      <p class="bb-lede">A calm browser arcade game where you bounce the ball, break each brick, and keep an eye on score, lives, combo, and bricks remaining in one place.</p>
+      <div class="bb-actions">
+        <a class="bb-button is-primary" href="#play-area">Start game</a>
+        <a class="bb-button" href="/en/games/">Back to Games</a>
+      </div>
+      <div class="bb-chips" aria-label="Game highlights">
+        <span class="bb-chip">Keyboard + swipe</span>
+        <span class="bb-chip">Lives and combo</span>
+        <span class="bb-chip">Best score saved locally</span>
+        <span class="bb-chip">Deterministic QA hooks</span>
+      </div>
+      <div class="bb-tag-row" aria-label="Current game state">
+        <span id="brick-breaker-mode" class="bb-tag" data-state="ready">Arcade · Ready</span>
+      </div>
+      <div class="bb-hint" id="brick-breaker-hint">Move the paddle with the arrow buttons or keys, then press Start or make the first move to serve the ball.</div>
+    </section>
+
+    <div class="bb-layout" id="play-area">
+      <section class="bb-panel" aria-labelledby="board-title">
+        <div class="bb-panel-head">
+          <h2 id="board-title">Game board</h2>
+          <div class="bb-toolbar">
+            <button id="brick-breaker-start" type="button">Start</button>
+            <button id="brick-breaker-pause" type="button">Pause</button>
+            <button id="brick-breaker-reset" type="button">Restart</button>
+          </div>
+        </div>
+        <div class="bb-board-shell">
+          <canvas id="brick-breaker-board" width="640" height="760" tabindex="0" aria-label="Brick Breaker board"></canvas>
+        </div>
+        <div class="bb-controls">
+          <div class="bb-pad" aria-label="Directional controls">
+            <span class="blank"></span>
+            <button id="brick-breaker-left" class="left" type="button" aria-label="Move left">◀</button>
+            <button id="brick-breaker-right" class="right" type="button" aria-label="Move right">▶</button>
+            <span class="blank"></span>
+            <span class="blank"></span>
+            <span class="blank"></span>
+          </div>
+          <div>
+            <div class="bb-stats" aria-label="Current game stats">
+              <div class="bb-stat"><span>Status</span><strong id="brick-breaker-status">Press Start or any direction key to begin.</strong></div>
+              <div class="bb-stat"><span>Score</span><strong id="brick-breaker-score">0</strong></div>
+              <div class="bb-stat"><span>Best</span><strong id="brick-breaker-best">0</strong></div>
+              <div class="bb-stat"><span>Lives</span><strong id="brick-breaker-lives">3</strong></div>
+              <div class="bb-stat"><span>Combo</span><strong id="brick-breaker-combo">0</strong></div>
+              <div class="bb-stat"><span>Bricks left</span><strong id="brick-breaker-bricks-left">30</strong></div>
+              <div class="bb-stat"><span>Speed</span><strong id="brick-breaker-speed">0 /s</strong></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="bb-panel" aria-labelledby="guide-title">
+        <div class="bb-panel-head"><h2 id="guide-title">How it works</h2></div>
+        <p>Brick Breaker is about angle control. The rules stay simple so the game can feel quick to restart, easy to read, and useful as a compact arcade tab inside Randomly Pick.</p>
+        <div class="bb-section" style="margin-top:16px;">
+          <div class="bb-section-head"><h2>Review points</h2></div>
+          <p>The top of the board stays focused on bricks, the bottom stays focused on the paddle, and the in-between space makes the ball motion easy to track without extra noise.</p>
+        </div>
+        <div class="bb-section" style="margin-top:16px;">
+          <div class="bb-section-head"><h2>Why it fits Randomly Pick</h2></div>
+          <p>The goal is a practical, in-site arcade tab that feels like part of the product rather than a separate neon microsite.</p>
+        </div>
+      </aside>
+    </div>
+
+    <section class="bb-section" aria-labelledby="howto-title">
+      <div class="bb-section-head">
+        <h2 id="howto-title">How to play</h2>
+        <p>Keep the ball alive, clear one side first, and shape the next shot by where the paddle sends the bounce.</p>
+      </div>
+      <div class="bb-steps">
+        <div class="bb-step"><strong>1. Move the paddle.</strong> Left and right motion changes the bounce angle.</div>
+        <div class="bb-step"><strong>2. Break the bricks.</strong> Durable bricks take two hits, standard bricks take one.</div>
+        <div class="bb-step"><strong>3. Protect your lives.</strong> Miss the ball and you lose a life. Lose them all and the round ends.</div>
+      </div>
+    </section>
+
+    <section class="bb-section" aria-labelledby="uses-title">
+      <div class="bb-section-head">
+        <h2 id="uses-title">When it fits</h2>
+        <p>Brick Breaker works well when you want something faster than a puzzle but still easy to restart after one short run.</p>
+      </div>
+      <div class="bb-uses">
+        <div class="bb-use"><strong>Short arcade breaks</strong> Each round is short enough for quick sessions and easy restarts.</div>
+        <div class="bb-use"><strong>Score chasing</strong> The score, combo, and best run are visible immediately, which makes replay natural.</div>
+        <div class="bb-use"><strong>Touch + keyboard demos</strong> The same control set feels natural on desktop and mobile without extra setup.</div>
+      </div>
+    </section>
+
+    <section class="bb-section" aria-labelledby="related-title">
+      <div class="bb-section-head">
+        <h2 id="related-title">More Randomly Pick tools</h2>
+        <p>If you want a different pace, the rest of the site is only one click away.</p>
+      </div>
+      <div class="bb-related">
+        <a href="/en/games/snake/"><strong>Snake</strong><br />Move faster and chase a tighter arcade loop.</a>
+        <a href="/en/games/number-merge/"><strong>Number Merge</strong><br />Switch to a slower puzzle game.</a>
+        <a href="/en/games/"><strong>Games hub</strong><br />See the growing list of games in one place.</a>
+        <a href="/en/about/"><strong>About</strong><br />Read the site background and links.</a>
+      </div>
+    </section>
+
+    <section class="bb-trust">
+      <strong>Site links</strong>
+      <div class="bb-links">
+        <a href="/en/about/">About</a>
+        <a href="/en/guides/">Guides</a>
+        <a href="/en/privacy/">Privacy Policy</a>
+        <a href="/en/terms/">Terms</a>
+        <a href="/en/contact/">Contact</a>
+      </div>
+    </section>
+
+    <div class="bb-footer">Randomly Pick · <a href="/en/games/">Games</a></div>
+  </main>
+
+  <script>
+    window.__BRICK_BREAKER_COPY__ = {
+      readyLabel: 'Ready',
+      playingLabel: 'Playing',
+      pausedLabel: 'Paused',
+      wonLabel: 'Complete',
+      gameoverLabel: 'Game over',
+      readyStatus: 'Press Start or any direction key to begin.',
+      playingStatus: 'Keep the angle open and look for the next clean shot.',
+      pausedStatus: 'Paused. Resume whenever you are ready.',
+      wonStatus: 'Board cleared. Start a new round or chase a higher score.',
+      gameoverStatus: 'You missed the last ball. Restart and try a cleaner angle.',
+      brickHitStatus: 'Nice hit. Keep the lane open.',
+      paddleHitStatus: 'Good save. Shape the next bounce.',
+      wallHitStatus: 'Wall bounce. Keep the ball in play.',
+      loseLifeStatus: 'You lost a life. Re-center the paddle and serve again.',
+      hint: 'Move the paddle with the arrow buttons or keys, then press Start or make the first move to serve the ball.',
+      startButton: 'Start',
+      pauseButton: 'Pause',
+      resumeButton: 'Resume',
+      restartButton: 'Restart',
+      resetButton: 'Restart',
+      modeLabel: 'Arcade'
+    };
+    window.__BRICK_BREAKER_META__ = {
+      slug: 'brick-breaker',
+      lang: 'en'
+    };
+  </script>
+  <script src="/assets/js/games-brick-breaker.js?v=20260322-bb1"></script>
+</body>
+</html>

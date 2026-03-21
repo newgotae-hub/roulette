@@ -12,9 +12,11 @@
   const targetEl = document.getElementById('merge-target');
   const movesEl = document.getElementById('merge-moves');
   const maxTileEl = document.getElementById('merge-max-tile');
+  const dailyBestEl = document.getElementById('merge-daily-best');
   const tagEl = document.getElementById('merge-game-tag');
   const hintEl = document.getElementById('merge-hint');
   const newBtn = document.getElementById('merge-new');
+  const dailyBtn = document.getElementById('merge-daily');
   const undoBtn = document.getElementById('merge-undo');
 
   const controls = {
@@ -33,6 +35,9 @@
     moves: 0,
     maxTile: 2,
     seed: DEFAULT_SEED,
+    mode: 'free',
+    dailyKey: '',
+    dailyBest: 0,
     rng: null,
     snapshot: null,
     swipeStart: null
@@ -42,6 +47,30 @@
     if (Number.isFinite(seed)) return (seed >>> 0) || DEFAULT_SEED;
     const parsed = Number.parseInt(String(seed), 10);
     return Number.isFinite(parsed) ? ((parsed >>> 0) || DEFAULT_SEED) : DEFAULT_SEED;
+  }
+
+  function localDateKey(date = new Date()) {
+    const year = String(date.getFullYear());
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}${month}${day}`;
+  }
+
+  function hashString(input) {
+    let hash = 0x811c9dc5;
+    for (let index = 0; index < input.length; index += 1) {
+      hash ^= input.charCodeAt(index);
+      hash = Math.imul(hash, 0x01000193);
+    }
+    return (hash >>> 0) || DEFAULT_SEED;
+  }
+
+  function getDailySeed(date = new Date()) {
+    return hashString(`number-merge:${localDateKey(date)}`);
+  }
+
+  function getDailyBestKey(dailyKey) {
+    return `rlt-merge-daily-best-v1-${dailyKey || localDateKey()}`;
   }
 
   function createRng(seed) {
@@ -72,13 +101,22 @@
       score: state.score,
       moves: state.moves,
       maxTile: state.maxTile,
-      phase: state.phase
+      phase: state.phase,
+      mode: state.mode,
+      dailyKey: state.dailyKey,
+      dailyBest: state.dailyBest
     };
   }
 
   function saveBest() {
     if (window.localStorage) {
       window.localStorage.setItem('rlt-merge-best-v1', String(state.best));
+    }
+  }
+
+  function saveDailyBest() {
+    if (window.localStorage && state.dailyKey) {
+      window.localStorage.setItem(getDailyBestKey(state.dailyKey), String(state.dailyBest));
     }
   }
 
@@ -120,10 +158,16 @@
     return copy.readyLabel || 'Ready';
   }
 
+  function modeLabel() {
+    if (state.mode === 'daily') return copy.dailyModeLabel || 'Daily challenge';
+    return copy.freeModeLabel || 'Free play';
+  }
+
   function phaseStatus() {
     if (state.phase === 'playing') return copy.playingStatus || 'Keep the board open and stack your larger tiles on one side.';
     if (state.phase === 'won') return copy.wonStatus || 'You reached the target tile.';
     if (state.phase === 'stuck') return copy.stuckStatus || 'No valid move is left.';
+    if (state.mode === 'daily') return copy.dailyReadyStatus || 'Today is a shared challenge. Start with the same board and chase a better daily score.';
     return copy.readyStatus || 'Start by sliding any direction.';
   }
 
@@ -138,7 +182,12 @@
   }
 
   function syncButtons() {
-    if (newBtn) newBtn.textContent = copy.newButton || 'New round';
+    if (newBtn) newBtn.textContent = copy.newButton || 'Replay board';
+    if (dailyBtn) {
+      dailyBtn.textContent = copy.dailyButton || 'Daily challenge';
+      dailyBtn.dataset.active = state.mode === 'daily' ? 'true' : 'false';
+      dailyBtn.setAttribute('aria-pressed', String(state.mode === 'daily'));
+    }
     if (undoBtn) {
       undoBtn.textContent = copy.undoButton || 'Undo';
       undoBtn.disabled = !state.snapshot;
@@ -158,13 +207,18 @@
   }
 
   function render() {
-    if (modeEl) modeEl.textContent = phaseLabel();
+    if (modeEl) modeEl.textContent = modeLabel();
     if (scoreEl) scoreEl.textContent = String(state.score);
     if (bestEl) bestEl.textContent = String(state.best);
+    if (dailyBestEl) dailyBestEl.textContent = String(state.dailyBest);
     if (targetEl) targetEl.textContent = String(state.target);
     if (movesEl) movesEl.textContent = String(state.moves);
     if (maxTileEl) maxTileEl.textContent = String(state.maxTile);
-    if (hintEl) hintEl.textContent = copy.mobileHint || 'Use arrow keys, WASD, or a swipe on the board to move every tile at once.';
+    if (hintEl) {
+      hintEl.textContent = state.mode === 'daily'
+        ? (copy.dailyHint || 'Use arrow keys, WASD, or a swipe on the board. This daily board uses the same seed for everyone today.')
+        : (copy.mobileHint || 'Use arrow keys, WASD, or a swipe on the board to move every tile at once.');
+    }
     updateTag();
     updateStatus(phaseStatus());
     syncButtons();
@@ -274,6 +328,10 @@
       state.best = state.score;
       saveBest();
     }
+    if (state.mode === 'daily' && state.score > state.dailyBest) {
+      state.dailyBest = state.score;
+      saveDailyBest();
+    }
 
     if (state.maxTile >= state.target) {
       state.phase = 'won';
@@ -301,8 +359,12 @@
     return render_game_to_text();
   }
 
-  function resetGame(seed = DEFAULT_SEED) {
-    state.seed = normalizeSeed(seed);
+  function resetGame(seed = DEFAULT_SEED, options = {}) {
+    const mode = options.mode || state.mode || 'free';
+    state.mode = mode === 'daily' ? 'daily' : 'free';
+    state.dailyKey = localDateKey();
+    state.dailyBest = Number(window.localStorage?.getItem(getDailyBestKey(state.dailyKey)) || '0') || 0;
+    state.seed = state.mode === 'daily' ? getDailySeed() : normalizeSeed(seed);
     state.rng = createRng(state.seed);
     state.board = Array(GRID_SIZE * GRID_SIZE).fill(0);
     state.score = 0;
@@ -316,6 +378,10 @@
     return render_game_to_text();
   }
 
+  function startDailyChallenge() {
+    return resetGame(getDailySeed(), { mode: 'daily' });
+  }
+
   function advanceTime() {
     render();
     return render_game_to_text();
@@ -325,12 +391,15 @@
     const payload = {
       game: 'number-merge',
       grid: '4x4 row-major',
+      mode: state.mode,
       phase: state.phase,
       score: state.score,
       target: state.target,
       moves: state.moves,
       maxTile: state.maxTile,
       seed: state.seed,
+      dailyKey: state.dailyKey,
+      dailyBest: state.dailyBest,
       board: chunkBoard(state.board)
     };
     return JSON.stringify(payload);
@@ -364,7 +433,8 @@
   }
 
   function bindButtons() {
-    if (newBtn) newBtn.addEventListener('click', () => resetGame(state.seed));
+    if (newBtn) newBtn.addEventListener('click', () => resetGame(state.seed, { mode: state.mode }));
+    if (dailyBtn) dailyBtn.addEventListener('click', startDailyChallenge);
     if (undoBtn) undoBtn.addEventListener('click', undoMove);
     for (const [direction, button] of Object.entries(controls)) {
       if (button) button.addEventListener('click', () => handleDirection(direction));
