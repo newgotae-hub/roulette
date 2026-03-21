@@ -69,6 +69,12 @@ for (const page of guidePages) {
   main.push(page === 'guides' ? '    <priority>0.6</priority>' : '    <priority>0.7</priority>');
   main.push('  </url>');
 }
+main.push('  <url>');
+main.push('    <loc>https://randomly-pick.com/games/</loc>');
+main.push(`    <lastmod>${today}</lastmod>`);
+main.push('    <changefreq>weekly</changefreq>');
+main.push('    <priority>0.7</priority>');
+main.push('  </url>');
 main.push('</urlset>');
 
 const locales = [];
@@ -110,6 +116,12 @@ for (const lang of localizedGuideLangs) {
     locales.push('  </url>');
   }
 }
+locales.push('  <url>');
+locales.push('    <loc>https://randomly-pick.com/en/games/</loc>');
+locales.push(`    <lastmod>${today}</lastmod>`);
+locales.push('    <changefreq>weekly</changefreq>');
+locales.push('    <priority>0.7</priority>');
+locales.push('  </url>');
 locales.push('</urlset>');
 
 const index = [

@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Games | Randomly Pick</title>
+  <meta name="description" content="Randomly Pick의 게임 허브입니다. 빠르게 들어가서 바로 즐길 수 있는 게임과 가벼운 인터랙티브 도구를 한 화면에서 고를 수 있습니다." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://randomly-pick.com/games/" />
+  <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/" />
+  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/games/" />
+  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/games/" />
+  <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f8fafc;
+      --panel: rgba(255, 255, 255, 0.84);
+      --panel-strong: #ffffff;
+      --line: rgba(148, 163, 184, 0.24);
+      --text: #0f172a;
+      --muted: #475569;
+      --soft: #e2e8f0;
+      --accent: #0f172a;
+      --accent-soft: #eff6ff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Noto Sans KR", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 10%, rgba(99, 102, 241, 0.10), transparent 26%),
+        radial-gradient(circle at 85% 0%, rgba(14, 165, 233, 0.12), transparent 24%),
+        linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+    }
+    a { color: inherit; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 24px 18px 72px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 28px; }
+    .brand { display: inline-flex; align-items: center; gap: 12px; font-weight: 700; letter-spacing: -0.03em; }
+    .brand-mark {
+      width: 42px; height: 42px; border-radius: 14px;
+      display: grid; place-items: center;
+      background: linear-gradient(135deg, #0f172a, #334155);
+      color: white; box-shadow: 0 16px 32px rgba(15, 23, 42, 0.20);
+      font-size: 1.15rem;
+    }
+    .brand-name { font-size: 1.02rem; }
+    .nav { display: flex; flex-wrap: wrap; gap: 8px; }
+    .nav a {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 36px; padding: 0 14px;
+      border-radius: 999px; border: 1px solid var(--line);
+      background: rgba(255,255,255,0.72);
+      text-decoration: none; font-size: 0.92rem; color: #334155;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease, color .18s ease;
+    }
+    .nav a:hover { transform: translateY(-1px); border-color: rgba(15, 23, 42, 0.18); color: var(--text); background: white; }
+    .nav a.active { background: var(--accent); color: white; border-color: var(--accent); box-shadow: 0 14px 28px rgba(15, 23, 42, 0.18); }
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 34px 28px 30px;
+      border-radius: 32px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      box-shadow: 0 26px 60px rgba(15, 23, 42, 0.08);
+      backdrop-filter: blur(12px);
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: auto -8% -35% auto;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.20), rgba(99, 102, 241, 0));
+      pointer-events: none;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #1d4ed8;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 14px 0 12px;
+      font-size: clamp(3.1rem, 8vw, 5.6rem);
+      line-height: 0.92;
+      letter-spacing: -0.06em;
+      text-wrap: balance;
+    }
+    .lede {
+      max-width: 58ch;
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      line-height: 1.8;
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0 15px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: white;
+      text-decoration: none;
+      font-weight: 700;
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+    .button:hover { transform: translateY(-1px); border-color: rgba(15, 23, 42, 0.18); box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08); }
+    .button.primary { background: var(--accent); color: white; border-color: var(--accent); box-shadow: 0 16px 30px rgba(15, 23, 42, 0.18); }
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 34px 0 16px;
+    }
+    .section-head h2 { margin: 0; font-size: clamp(1.35rem, 3vw, 2rem); letter-spacing: -0.04em; }
+    .section-head p { margin: 0; color: var(--muted); line-height: 1.6; max-width: 52ch; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px;
+    }
+    .tile {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 208px;
+      padding: 20px;
+      border-radius: 26px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(248,250,252,0.88));
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.05);
+      text-decoration: none;
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+      animation: rise .55s ease both;
+    }
+    .tile:hover { transform: translateY(-4px); border-color: rgba(15, 23, 42, 0.16); box-shadow: 0 24px 44px rgba(15, 23, 42, 0.09); }
+    .tile:nth-child(1) { animation-delay: .05s; }
+    .tile:nth-child(2) { animation-delay: .09s; }
+    .tile:nth-child(3) { animation-delay: .13s; }
+    .tile:nth-child(4) { animation-delay: .17s; }
+    .tile:nth-child(5) { animation-delay: .21s; }
+    .tile-tag {
+      display: inline-flex;
+      width: fit-content;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #eef2ff;
+      color: #4338ca;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+    .tile h3 { margin: 14px 0 8px; font-size: 1.4rem; letter-spacing: -0.04em; }
+    .tile p { margin: 0; color: var(--muted); line-height: 1.7; }
+    .tile .go {
+      margin-top: 18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: white;
+      font-weight: 700;
+    }
+    .note {
+      margin-top: 18px;
+      padding: 20px 22px;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.70);
+      color: var(--muted);
+      line-height: 1.75;
+    }
+    .links {
+      margin-top: 22px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .links a {
+      text-decoration: none;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.82);
+      font-weight: 700;
+      color: #334155;
+    }
+    .footer {
+      margin-top: 28px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(148, 163, 184, 0.28);
+      color: #64748b;
+      font-size: 0.92rem;
+      line-height: 1.7;
+    }
+    .footer a { color: #0f172a; text-decoration: none; font-weight: 700; }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 640px) {
+      .wrap { padding: 18px 14px 56px; }
+      .hero { padding: 26px 18px 22px; border-radius: 26px; }
+      .section-head { flex-direction: column; align-items: start; }
+      .tile { min-height: auto; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-mark">R.</div>
+        <div>
+          <div class="brand-name">Randomly Pick</div>
+          <div style="font-size:.86rem;color:#64748b;font-weight:600;margin-top:2px;">Games dashboard</div>
+        </div>
+      </div>
+      <nav class="nav" aria-label="Primary">
+        <a href="/">홈</a>
+        <a href="/games/" class="active" aria-current="page">Games</a>
+        <a href="/luckydraw/">로또추첨기</a>
+        <a href="/ladder/">사다리타기</a>
+        <a href="/team-generator/">팀 나누기</a>
+        <a href="/coinflip/">코인던지기</a>
+        <a href="/dice/">주사위굴리기</a>
+      </nav>
+    </div>
+
+    <section class="hero">
+      <span class="eyebrow">Games</span>
+      <h1>게임을 한곳에 모은 진입점</h1>
+      <p class="lede">Randomly Pick의 Games 탭은 빠르게 시작하고, 쉽게 고르고, 나중에 새 게임이 추가돼도 같은 위치에서 이어갈 수 있게 만든 대시보드입니다. 지금은 바로 열 수 있는 스타터 게임을 먼저 보여줍니다.</p>
+      <div class="actions">
+        <a class="button primary" href="/games/">게임 고르기</a>
+        <a class="button" href="/">홈으로 돌아가기</a>
+      </div>
+    </section>
+
+    <div class="section-head">
+      <div>
+        <h2>지금 바로 시작할 수 있는 게임</h2>
+        <p>한 번에 하나씩 빠르게 열 수 있는 카드만 먼저 배치했습니다. 이후에는 같은 그리드에 새 게임을 계속 붙이면 됩니다.</p>
+      </div>
+    </div>
+
+    <section class="grid" aria-label="Games list">
+      <a class="tile" href="/">
+        <span class="tile-tag">Quick Pick</span>
+        <div>
+          <h3>룰렛돌리기</h3>
+          <p>이름, 주제, 벌칙, 발표자처럼 즉시 고르기 좋은 항목을 빠르게 정할 때 쓰기 좋습니다.</p>
+        </div>
+        <span class="go">열기</span>
+      </a>
+      <a class="tile" href="/luckydraw/">
+        <span class="tile-tag">Fast Draw</span>
+        <div>
+          <h3>로또추첨기</h3>
+          <p>숫자나 순번이 중요할 때, 간단한 추첨 결과를 바로 보여주는 카드형 진입점입니다.</p>
+        </div>
+        <span class="go">열기</span>
+      </a>
+      <a class="tile" href="/ladder/">
+        <span class="tile-tag">Matchup</span>
+        <div>
+          <h3>사다리타기</h3>
+          <p>순서 배정, 조 짜기, 결과 매칭처럼 경로를 눈으로 확인하며 고르는 상황에 잘 맞습니다.</p>
+        </div>
+        <span class="go">열기</span>
+      </a>
+      <a class="tile" href="/team-generator/">
+        <span class="tile-tag">Team Play</span>
+        <div>
+          <h3>팀 나누기</h3>
+          <p>랜덤 팀 나누기와 점수 균형 배정을 한 화면에서 처리할 수 있는 실전형 도구입니다.</p>
+        </div>
+        <span class="go">열기</span>
+      </a>
+      <a class="tile" href="/coinflip/">
+        <span class="tile-tag">Decision</span>
+        <div>
+          <h3>코인던지기</h3>
+          <p>두 선택지 중 하나를 빠르게 끝내고 싶을 때 가장 단순한 판정을 제공합니다.</p>
+        </div>
+        <span class="go">열기</span>
+      </a>
+      <a class="tile" href="/dice/">
+        <span class="tile-tag">Roll</span>
+        <div>
+          <h3>주사위굴리기</h3>
+          <p>합계, 평균, 반복 판정처럼 여러 번 굴려 보는 플레이 스타일에 잘 어울립니다.</p>
+        </div>
+        <span class="go">열기</span>
+      </a>
+    </section>
+
+    <section class="note">
+      <strong style="color:#0f172a;">다음에 새 게임이 추가돼도 구조는 그대로입니다.</strong><br />
+      이 허브는 여러 게임을 모아 두는 대시보드로 유지되고, 새 타이틀이 생기면 같은 그리드에 추가만 하면 됩니다. 그래서 지금의 Games 탭은 빠른 진입점이면서, 나중에 확장하기도 쉬운 형태입니다.
+    </section>
+
+    <div class="section-head" style="margin-top: 28px;">
+      <div>
+        <h2>신뢰와 안내</h2>
+        <p>이 페이지는 게임 허브이지만, 사이트 정보와 정책 링크는 항상 같은 위치에서 확인할 수 있습니다.</p>
+      </div>
+    </div>
+
+    <div class="links">
+      <a href="/about/">소개</a>
+      <a href="/guides/">가이드</a>
+      <a href="/privacy/">개인정보처리방침</a>
+      <a href="/terms/">이용약관</a>
+      <a href="/contact/">문의</a>
+    </div>
+
+    <div class="footer">제작: Juntae Ko · <a href="/">Randomly Pick</a></div>
+  </main>
+</body>
+</html>

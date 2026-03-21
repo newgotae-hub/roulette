@@ -10,6 +10,13 @@ How to use it:
 
 ## 2026-03-22
 
+### Games hub entrypoint added
+
+- Added a new top-level `Games` tab to the main home navigation and created `/games/` plus `/en/games/` as a starter dashboard for selecting quick games later.
+- Updated sitemap generation so the new hub pages are recognized and published in the sitemap outputs.
+- Re-synced `team-generator` locale pages, then re-ran SEO and AdSense readiness checks to confirm the deploy path stayed clear.
+- Detailed notes: [GAMES_HUB_ROLLOUT_2026-03-22.md](/home/user/roulette/GAMES_HUB_ROLLOUT_2026-03-22.md)
+
 ### Team-generator placeholder drift resynced
 
 - Regenerated all localized `team-generator` pages from the shared i18n source so the `#roster-input` placeholder once again matches `rosterPlaceholder` across every locale.

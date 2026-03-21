@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Games | Randomly Pick</title>
+  <meta name="description" content="Randomly Pick's Games hub. Pick a quick game in one place and keep the same entry point as more games are added later." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://randomly-pick.com/en/games/" />
+  <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/" />
+  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/games/" />
+  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/games/" />
+  <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f8fafc;
+      --panel: rgba(255, 255, 255, 0.84);
+      --line: rgba(148, 163, 184, 0.24);
+      --text: #0f172a;
+      --muted: #475569;
+      --accent: #0f172a;
+      --accent-soft: #eff6ff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 10%, rgba(99, 102, 241, 0.10), transparent 26%),
+        radial-gradient(circle at 85% 0%, rgba(14, 165, 233, 0.12), transparent 24%),
+        linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+    }
+    a { color: inherit; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 24px 18px 72px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 28px; }
+    .brand { display: inline-flex; align-items: center; gap: 12px; font-weight: 700; letter-spacing: -0.03em; }
+    .brand-mark {
+      width: 42px; height: 42px; border-radius: 14px;
+      display: grid; place-items: center;
+      background: linear-gradient(135deg, #0f172a, #334155);
+      color: white; box-shadow: 0 16px 32px rgba(15, 23, 42, 0.20);
+      font-size: 1.15rem;
+    }
+    .brand-name { font-size: 1.02rem; }
+    .nav { display: flex; flex-wrap: wrap; gap: 8px; }
+    .nav a {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 36px; padding: 0 14px;
+      border-radius: 999px; border: 1px solid var(--line);
+      background: rgba(255,255,255,0.72);
+      text-decoration: none; font-size: 0.92rem; color: #334155;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease, color .18s ease;
+    }
+    .nav a:hover { transform: translateY(-1px); border-color: rgba(15, 23, 42, 0.18); color: var(--text); background: white; }
+    .nav a.active { background: var(--accent); color: white; border-color: var(--accent); box-shadow: 0 14px 28px rgba(15, 23, 42, 0.18); }
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 34px 28px 30px;
+      border-radius: 32px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      box-shadow: 0 26px 60px rgba(15, 23, 42, 0.08);
+      backdrop-filter: blur(12px);
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: auto -8% -35% auto;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.20), rgba(99, 102, 241, 0));
+      pointer-events: none;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #1d4ed8;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 14px 0 12px;
+      font-size: clamp(3.1rem, 8vw, 5.6rem);
+      line-height: 0.92;
+      letter-spacing: -0.06em;
+      text-wrap: balance;
+    }
+    .lede {
+      max-width: 58ch;
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      line-height: 1.8;
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0 15px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: white;
+      text-decoration: none;
+      font-weight: 700;
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+    .button:hover { transform: translateY(-1px); border-color: rgba(15, 23, 42, 0.18); box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08); }
+    .button.primary { background: var(--accent); color: white; border-color: var(--accent); box-shadow: 0 16px 30px rgba(15, 23, 42, 0.18); }
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 34px 0 16px;
+    }
+    .section-head h2 { margin: 0; font-size: clamp(1.35rem, 3vw, 2rem); letter-spacing: -0.04em; }
+    .section-head p { margin: 0; color: var(--muted); line-height: 1.6; max-width: 52ch; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px;
+    }
+    .tile {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 208px;
+      padding: 20px;
+      border-radius: 26px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(248,250,252,0.88));
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.05);
+      text-decoration: none;
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+      animation: rise .55s ease both;
+    }
+    .tile:hover { transform: translateY(-4px); border-color: rgba(15, 23, 42, 0.16); box-shadow: 0 24px 44px rgba(15, 23, 42, 0.09); }
+    .tile:nth-child(1) { animation-delay: .05s; }
+    .tile:nth-child(2) { animation-delay: .09s; }
+    .tile:nth-child(3) { animation-delay: .13s; }
+    .tile:nth-child(4) { animation-delay: .17s; }
+    .tile:nth-child(5) { animation-delay: .21s; }
+    .tile-tag {
+      display: inline-flex;
+      width: fit-content;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #eef2ff;
+      color: #4338ca;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+    .tile h3 { margin: 14px 0 8px; font-size: 1.4rem; letter-spacing: -0.04em; }
+    .tile p { margin: 0; color: var(--muted); line-height: 1.7; }
+    .tile .go {
+      margin-top: 18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: white;
+      font-weight: 700;
+    }
+    .note {
+      margin-top: 18px;
+      padding: 20px 22px;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.70);
+      color: var(--muted);
+      line-height: 1.75;
+    }
+    .links {
+      margin-top: 22px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .links a {
+      text-decoration: none;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.82);
+      font-weight: 700;
+      color: #334155;
+    }
+    .footer {
+      margin-top: 28px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(148, 163, 184, 0.28);
+      color: #64748b;
+      font-size: 0.92rem;
+      line-height: 1.7;
+    }
+    .footer a { color: #0f172a; text-decoration: none; font-weight: 700; }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 640px) {
+      .wrap { padding: 18px 14px 56px; }
+      .hero { padding: 26px 18px 22px; border-radius: 26px; }
+      .section-head { flex-direction: column; align-items: start; }
+      .tile { min-height: auto; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-mark">R.</div>
+        <div>
+          <div class="brand-name">Randomly Pick</div>
+          <div style="font-size:.86rem;color:#64748b;font-weight:600;margin-top:2px;">Games dashboard</div>
+        </div>
+      </div>
+      <nav class="nav" aria-label="Primary">
+        <a href="/en/">Home</a>
+        <a href="/en/games/" class="active" aria-current="page">Games</a>
+        <a href="/en/luckydraw/">Lucky Draw</a>
+        <a href="/en/ladder/">Ladder Draw</a>
+        <a href="/en/team-generator/">Team Split</a>
+        <a href="/en/coinflip/">Coin Flip</a>
+        <a href="/en/dice/">Dice Roll</a>
+      </nav>
+    </div>
+
+    <section class="hero">
+      <span class="eyebrow">Games</span>
+      <h1>A single hub for quick games</h1>
+      <p class="lede">The Games tab groups the site’s fast-play experiences in one place. Users can pick a round in one tap now, and the same dashboard can keep growing as more games are added later.</p>
+      <div class="actions">
+        <a class="button primary" href="/en/games/">Open games</a>
+        <a class="button" href="/en/">Back to home</a>
+      </div>
+    </section>
+
+    <div class="section-head">
+      <div>
+        <h2>Start with these</h2>
+        <p>We are starting with the most practical launch set. More game tiles can be added to the same grid later without changing the entry point.</p>
+      </div>
+    </div>
+
+    <section class="grid" aria-label="Games list">
+      <a class="tile" href="/en/">
+        <span class="tile-tag">Quick Pick</span>
+        <div>
+          <h3>Wheel of Names</h3>
+          <p>Best when you want a fast pick for names, topics, presenters, or random calls.</p>
+        </div>
+        <span class="go">Open</span>
+      </a>
+      <a class="tile" href="/en/luckydraw/">
+        <span class="tile-tag">Fast Draw</span>
+        <div>
+          <h3>Lucky Draw</h3>
+          <p>Useful for numbers, tickets, and any quick draw where a clean result matters.</p>
+        </div>
+        <span class="go">Open</span>
+      </a>
+      <a class="tile" href="/en/ladder/">
+        <span class="tile-tag">Matchup</span>
+        <div>
+          <h3>Ladder Draw</h3>
+          <p>Great for pairings, sequence assignments, and situations where the path itself matters.</p>
+        </div>
+        <span class="go">Open</span>
+      </a>
+      <a class="tile" href="/en/team-generator/">
+        <span class="tile-tag">Team Play</span>
+        <div>
+          <h3>Team Split</h3>
+          <p>Built for casual group splits and score-aware balancing when fairness matters more.</p>
+        </div>
+        <span class="go">Open</span>
+      </a>
+      <a class="tile" href="/en/coinflip/">
+        <span class="tile-tag">Decision</span>
+        <div>
+          <h3>Coin Flip</h3>
+          <p>The clearest two-outcome option when you want to end a decision fast.</p>
+        </div>
+        <span class="go">Open</span>
+      </a>
+      <a class="tile" href="/en/dice/">
+        <span class="tile-tag">Roll</span>
+        <div>
+          <h3>Dice Roll</h3>
+          <p>Fits repeated rounds, totals, averages, and game-style roll sequences.</p>
+        </div>
+        <span class="go">Open</span>
+      </a>
+    </section>
+
+    <section class="note">
+      <strong style="color:#0f172a;">More games can join the same dashboard later.</strong><br />
+      The hub keeps the entry point stable while the game list grows. That means we can add new titles without changing where users start.
+    </section>
+
+    <div class="section-head" style="margin-top: 28px;">
+      <div>
+        <h2>Trust and support</h2>
+        <p>The hub still keeps the site’s trust pages close by, so users can always reach the operator, policies, and contact details.</p>
+      </div>
+    </div>
+
+    <div class="links">
+      <a href="/en/about/">About</a>
+      <a href="/en/guides/">Guide Hub</a>
+      <a href="/en/privacy/">Privacy Policy</a>
+      <a href="/en/terms/">Terms</a>
+      <a href="/en/contact/">Contact</a>
+    </div>
+
+    <div class="footer">Designed and Developed by Juntae Ko · <a href="/en/">Randomly Pick</a></div>
+  </main>
+</body>
+</html>
