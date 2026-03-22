@@ -37,14 +37,14 @@
   const downBtn = document.getElementById('memory-match-down');
 
   const THEMES = [
-    { id: 'sun', symbol: 'SU', ko: 'Sun', en: 'Sun', tone: '#d97706' },
-    { id: 'moon', symbol: 'MO', ko: 'Moon', en: 'Moon', tone: '#64748b' },
-    { id: 'leaf', symbol: 'LE', ko: 'Leaf', en: 'Leaf', tone: '#16a34a' },
-    { id: 'wave', symbol: 'WA', ko: 'Wave', en: 'Wave', tone: '#0284c7' },
-    { id: 'pulse', symbol: 'PU', ko: 'Pulse', en: 'Pulse', tone: '#be123c' },
-    { id: 'prism', symbol: 'PR', ko: 'Prism', en: 'Prism', tone: '#7c3aed' },
-    { id: 'anchor', symbol: 'AN', ko: 'Anchor', en: 'Anchor', tone: '#0f766e' },
-    { id: 'ember', symbol: 'EM', ko: 'Ember', en: 'Ember', tone: '#ea580c' }
+    { id: 'sun', symbol: 'SU', ko: '태양', en: 'Sun', tone: '#d97706' },
+    { id: 'moon', symbol: 'MO', ko: '달', en: 'Moon', tone: '#64748b' },
+    { id: 'leaf', symbol: 'LE', ko: '잎', en: 'Leaf', tone: '#16a34a' },
+    { id: 'wave', symbol: 'WA', ko: '물결', en: 'Wave', tone: '#0284c7' },
+    { id: 'pulse', symbol: 'PU', ko: '파동', en: 'Pulse', tone: '#be123c' },
+    { id: 'prism', symbol: 'PR', ko: '프리즘', en: 'Prism', tone: '#7c3aed' },
+    { id: 'anchor', symbol: 'AN', ko: '닻', en: 'Anchor', tone: '#0f766e' },
+    { id: 'ember', symbol: 'EM', ko: '불씨', en: 'Ember', tone: '#ea580c' }
   ];
 
   const state = {
@@ -283,15 +283,15 @@
           : (copy.mobileFlowReady || 'The cards are sized for easy taps and work cleanly in embedded webviews.');
     }
 
-    if (resetBtn) resetBtn.textContent = copy.resetButton || 'Reset';
-    if (newBtn) newBtn.textContent = copy.newButton || 'New board';
-    if (startBtn) startBtn.textContent = copy.startButton || 'Start game';
-    if (dailyBtn) dailyBtn.textContent = copy.dailyButton || 'Daily challenge';
-    if (flipBtn) flipBtn.textContent = copy.flipButton || 'Flip';
-    if (leftBtn) leftBtn.textContent = 'Left';
-    if (rightBtn) rightBtn.textContent = 'Right';
-    if (upBtn) upBtn.textContent = 'Up';
-    if (downBtn) downBtn.textContent = 'Down';
+    if (resetBtn) resetBtn.textContent = copy.resetButton || (lang === 'ko' ? '리셋' : 'Reset');
+    if (newBtn) newBtn.textContent = copy.newButton || (lang === 'ko' ? '새 판' : 'New board');
+    if (startBtn) startBtn.textContent = copy.startButton || (lang === 'ko' ? '게임 시작' : 'Start game');
+    if (dailyBtn) dailyBtn.textContent = copy.dailyButton || (lang === 'ko' ? '오늘의 판' : 'Daily challenge');
+    if (flipBtn) flipBtn.textContent = copy.flipButton || (lang === 'ko' ? '열기' : 'Flip');
+    if (leftBtn) leftBtn.textContent = lang === 'ko' ? '왼쪽' : 'Left';
+    if (rightBtn) rightBtn.textContent = lang === 'ko' ? '오른쪽' : 'Right';
+    if (upBtn) upBtn.textContent = lang === 'ko' ? '위' : 'Up';
+    if (downBtn) downBtn.textContent = lang === 'ko' ? '아래' : 'Down';
   }
 
   function updateBest() {

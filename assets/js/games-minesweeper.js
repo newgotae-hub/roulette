@@ -1,4 +1,4 @@
-(() => {
+﻿(() => {
   const GRID_SIZE = 7;
   const MINES_TOTAL = 8;
   const DEFAULT_SEED = 0x6d696e65;
@@ -202,7 +202,7 @@
     if (statusEl) statusEl.textContent = text;
     if (calloutTitleEl) calloutTitleEl.textContent = title || phaseLabel();
     if (calloutEl) calloutEl.textContent = text;
-    if (modeBadgeEl) modeBadgeEl.textContent = tagText || `${modeLabel()} · ${toolLabel()}`;
+    if (modeBadgeEl) modeBadgeEl.textContent = tagText || `${modeLabel()} 쨌 ${toolLabel()}`;
   }
 
   function phaseLabel() {
@@ -250,13 +250,13 @@
     state.flagsPlaced = countFlags();
     state.safeRemaining = safeRemaining;
 
-    if (bestEl) bestEl.textContent = state.bestTimeMs ? formatDuration(state.bestTimeMs) : '—';
-    if (dailyBestEl) dailyBestEl.textContent = state.dailyBestTimeMs ? formatDuration(state.dailyBestTimeMs) : '—';
+    if (bestEl) bestEl.textContent = state.bestTimeMs ? formatDuration(state.bestTimeMs) : '--';
+    if (dailyBestEl) dailyBestEl.textContent = state.dailyBestTimeMs ? formatDuration(state.dailyBestTimeMs) : '--';
     if (flagsEl) flagsEl.textContent = String(state.flagsPlaced);
     if (safeEl) safeEl.textContent = String(state.safeRemaining);
     if (elapsedEl) elapsedEl.textContent = formatDuration(elapsed);
     if (minesEl) minesEl.textContent = String(MINES_TOTAL);
-    if (boardSizeEl) boardSizeEl.textContent = `${GRID_SIZE}×${GRID_SIZE}`;
+    if (boardSizeEl) boardSizeEl.textContent = `${GRID_SIZE}x${GRID_SIZE}`;
   }
 
   function renderHud() {
@@ -275,7 +275,7 @@
       dailyBtn.setAttribute('aria-pressed', state.mode === 'daily' ? 'true' : 'false');
     }
     if (resetBtn) resetBtn.textContent = copy.resetLabel || 'Reset';
-    setStatus(statusText(), phaseLabel(), `${modeLabel()} · ${toolLabel()}`);
+    setStatus(statusText(), phaseLabel(), `${modeLabel()} 쨌 ${toolLabel()}`);
     updateStats();
   }
 
@@ -285,13 +285,13 @@
 
     if (state.phase === 'lost' && cell.exploded) {
       visibleState = 'exploded';
-      visibleText = '✹';
+      visibleText = copy.explodedCellLabel || 'Exploded mine';
     } else if ((state.phase === 'won' || state.phase === 'lost') && cell.mine) {
       visibleState = 'mine';
-      visibleText = '✹';
+      visibleText = copy.mineCellLabel || 'Mine';
     } else if (!cell.revealed && cell.flagged) {
       visibleState = 'flagged';
-      visibleText = '⚑';
+      visibleText = copy.flaggedCellLabel || 'Flagged cell';
     } else if (cell.revealed) {
       visibleState = 'revealed';
       visibleText = cell.adjacent > 0 ? String(cell.adjacent) : '';
@@ -311,16 +311,16 @@
 
   function describeCell(cell, x, y, visibleState) {
     const label = `${copy.rowLabel || 'Row'} ${y + 1}, ${copy.columnLabel || 'Column'} ${x + 1}`;
-    if (visibleState === 'flagged') return `${copy.flaggedCellLabel || 'Flagged cell'} · ${label}`;
-    if (visibleState === 'mine') return `${copy.mineCellLabel || 'Mine'} · ${label}`;
-    if (visibleState === 'exploded') return `${copy.explodedCellLabel || 'Exploded mine'} · ${label}`;
+    if (visibleState === 'flagged') return `${copy.flaggedCellLabel || 'Flagged cell'} 쨌 ${label}`;
+    if (visibleState === 'mine') return `${copy.mineCellLabel || 'Mine'} 쨌 ${label}`;
+    if (visibleState === 'exploded') return `${copy.explodedCellLabel || 'Exploded mine'} 쨌 ${label}`;
     if (cell.revealed && cell.adjacent > 0) {
-      return `${copy.numberCellLabel || 'Revealed cell'} ${cell.adjacent} · ${label}`;
+      return `${copy.numberCellLabel || 'Revealed cell'} ${cell.adjacent} 쨌 ${label}`;
     }
     if (cell.revealed) {
-      return `${copy.emptyCellLabel || 'Empty cell'} · ${label}`;
+      return `${copy.emptyCellLabel || 'Empty cell'} 쨌 ${label}`;
     }
-    return `${copy.hiddenCellLabel || 'Hidden cell'} · ${label}`;
+    return `${copy.hiddenCellLabel || 'Hidden cell'} 쨌 ${label}`;
   }
 
   function buildBoard() {
@@ -502,7 +502,7 @@
 
     if (tool === 'flag') {
       if (cell.revealed) {
-        setStatus(copy.flagOnRevealedStatus || 'This square is already open.', phaseLabel(), `${modeLabel()} · ${toolLabel()}`);
+        setStatus(copy.flagOnRevealedStatus || 'This square is already open.', phaseLabel(), `${modeLabel()} 쨌 ${toolLabel()}`);
         return;
       }
       cell.flagged = !cell.flagged;
@@ -513,7 +513,7 @@
     }
 
     if (cell.flagged || cell.revealed) {
-      setStatus(copy.revealBlockedStatus || 'Unflag the square first if you want to reveal it.', phaseLabel(), `${modeLabel()} · ${toolLabel()}`);
+      setStatus(copy.revealBlockedStatus || 'Unflag the square first if you want to reveal it.', phaseLabel(), `${modeLabel()} 쨌 ${toolLabel()}`);
       return;
     }
 
@@ -756,7 +756,7 @@
       hintEl.textContent = copy.hint;
     }
     if (minesEl) minesEl.textContent = String(MINES_TOTAL);
-    if (boardSizeEl) boardSizeEl.textContent = `${GRID_SIZE}×${GRID_SIZE}`;
+    if (boardSizeEl) boardSizeEl.textContent = `${GRID_SIZE}횞${GRID_SIZE}`;
     initButtons();
     document.addEventListener('keydown', handleKeydown, { passive: false });
     resetGame(DEFAULT_SEED, { mode: 'free' });

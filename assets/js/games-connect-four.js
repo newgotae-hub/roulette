@@ -1,4 +1,4 @@
-(() => {
+﻿(() => {
   const ROWS = 6;
   const COLS = 7;
   const DEFAULT_CPU_DELAY = 260;
@@ -124,13 +124,13 @@
   function statusText() {
     if (state.phase === 'won') {
       if (state.mode === 'daily') {
-        return `${playerName(state.winner)} ${copy.dailyWinStatus || 'wins today’s challenge.'}`;
+        return `${playerName(state.winner)} ${copy.dailyWinStatus || 'wins today?셲 challenge.'}`;
       }
       return `${playerName(state.winner)} ${copy.winStatusSuffix || 'wins. Reset for another round.'}`;
     }
     if (state.phase === 'draw') {
       if (state.mode === 'daily') {
-        return copy.dailyDrawStatus || 'Today’s challenge is full. Reset and try again tomorrow.';
+        return copy.dailyDrawStatus || 'Today?셲 challenge is full. Reset and try again tomorrow.';
       }
       return copy.drawStatus || 'The board is full. Reset for a new game.';
     }
@@ -138,7 +138,7 @@
       return copy.cpuThinkingStatus || 'CPU is lining up the next move.';
     }
     if (state.mode === 'daily') {
-      return copy.dailyStatus || 'Today’s challenge uses the same starting board for everyone. Try to win in the fewest moves.';
+      return copy.dailyStatus || 'Today?셲 challenge uses the same starting board for everyone. Try to win in the fewest moves.';
     }
     if (state.phase === 'playing') {
       return `${playerName(state.currentPlayer)} ${copy.turnStatusSuffix || 'to move. Choose a column.'}`;
@@ -187,11 +187,11 @@
     }
     if (resultBadgeEl) {
       resultBadgeEl.textContent = state.phase === 'won'
-        ? `${playerName(state.winner)} ${state.mode === 'daily' ? (copy.dailyWinStatus || 'wins today’s challenge.') : (copy.winStatusSuffix || 'wins. Reset for another round.')}`
+        ? `${playerName(state.winner)} ${state.mode === 'daily' ? (copy.dailyWinStatus || 'wins today?셲 challenge.') : (copy.winStatusSuffix || 'wins. Reset for another round.')}`
         : state.phase === 'draw'
-          ? (state.mode === 'daily' ? (copy.dailyDrawStatus || 'Today’s challenge is full. Reset and try again tomorrow.') : (copy.drawStatus || 'The board is full. Reset for a new game.'))
+          ? (state.mode === 'daily' ? (copy.dailyDrawStatus || 'Today?셲 challenge is full. Reset and try again tomorrow.') : (copy.drawStatus || 'The board is full. Reset for a new game.'))
           : (state.mode === 'daily'
-            ? (copy.dailyReadyStatus || 'Today’s challenge uses the same starting board for everyone.')
+            ? (copy.dailyReadyStatus || 'Today?셲 challenge uses the same starting board for everyone.')
             : (copy.firstPlayNote || copy.readyStatus || 'Choose a column to start.'));
       resultBadgeEl.dataset.state = state.phase === 'won' ? 'win' : (state.mode === 'daily' ? 'daily' : state.phase);
     }

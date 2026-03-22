@@ -10,6 +10,13 @@ How to use it:
 
 ## 2026-03-22
 
+### Korean webgame quality recovery for Solitaire Mini, Memory Match, Connect Four, and the Games launcher
+
+- Rebuilt the Korean `games/solitaire-mini/`, `games/memory-match/`, and `games/connect-four/` pages with clean UTF-8 copy so the first-play surfaces, onboarding text, and restart/replay actions no longer ship with mojibake or broken labels.
+- Restored the locale-copy runtime wiring for `games-solitaire-mini`, `games-connect-four`, `games-minesweeper`, and tightened `games-memory-match` so Korean HUD labels, directional controls, and card names stay localized instead of falling back to broken or English strings.
+- Kept the Games hub pair ship-safe in launcher form, with the Korean hub copy rebuilt and the English hub staying aligned on the same compact `Home` + `Games` launcher structure.
+- Detailed notes: [WEBGAMES_KO_QUALITY_RECOVERY_2026-03-22.md](WEBGAMES_KO_QUALITY_RECOVERY_2026-03-22.md)
+
 ### Games hub simplified into a launcher and restart entry points promoted
 
 - Reduced `games/index.html` and `en/games/index.html` to a launcher-style Games hub with only `Home` and `Games` in the top nav, a compact heading, and the live game card grid instead of the older hero, lineup, and note-heavy layout.
