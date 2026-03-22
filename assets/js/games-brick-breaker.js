@@ -190,6 +190,7 @@
     state.bricksLeft = state.bricks.length;
     state.paddle.x = W / 2;
     state.paddle.y = PADDLE_Y;
+    state.paddle.w = PADDLE_W;
     state.autoServeOnAdvance = true;
     state.message = copy.readyStatus || 'Press Start or an arrow key to begin.';
     resetBall();
@@ -411,6 +412,7 @@
     }
     state.phase = 'ready';
     state.autoServeOnAdvance = false;
+    state.paddle.w = state.lives === 1 ? Math.round(PADDLE_W * 1.18) : PADDLE_W;
     state.message = copy.loseLifeStatus || 'Life lost. Re-center the paddle and serve again.';
     resetBall();
   }
@@ -597,6 +599,22 @@
   }
 
   function renderPaddleAndBall() {
+    if (state.ball.attached && state.phase === 'ready') {
+      const aimStrength = clamp((state.paddle.x - W / 2) / (W / 2), -0.9, 0.9);
+      const guideX = state.ball.x + aimStrength * 110;
+      const guideY = state.ball.y - 140;
+      ctx.save();
+      ctx.strokeStyle = state.lives === 1 ? 'rgba(249,115,22,.34)' : 'rgba(59,130,246,.24)';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([8, 10]);
+      ctx.beginPath();
+      ctx.moveTo(state.ball.x, state.ball.y);
+      ctx.quadraticCurveTo(state.ball.x + aimStrength * 42, state.ball.y - 72, guideX, guideY);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.restore();
+    }
+
     ctx.save();
     const paddleX = state.paddle.x - state.paddle.w / 2;
     const paddleY = state.paddle.y - state.paddle.h / 2;

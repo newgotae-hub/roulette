@@ -157,6 +157,14 @@
     return 'Steady';
   }
 
+  function reactionBonus(value) {
+    if (!Number.isFinite(value) || value <= 0) return 0;
+    if (value <= 150) return 3;
+    if (value <= 220) return 2;
+    if (value <= 300) return 1;
+    return 0;
+  }
+
   function pulseTarget(kind = 'armed') {
     if (!targetEl || typeof targetEl.animate !== 'function') return;
     const frames = kind === 'hit'
@@ -386,7 +394,7 @@
 
     if (state.phase === 'armed') {
       const reactionMs = Math.max(0, Math.round(state.elapsedMs - state.armedAtMs));
-      state.score += 1;
+      state.score += 1 + reactionBonus(reactionMs);
       state.streak += 1;
       state.tempoLevel = Math.min(8, state.streak);
       state.reactionTimes.push(reactionMs);

@@ -304,6 +304,16 @@ a {
   line-height: 1.65;
 }
 
+.sm-head-copy {
+  min-width: 0;
+}
+
+.sm-action-stack {
+  display: grid;
+  gap: 8px;
+  align-items: start;
+}
+
 .sm-toolbar,
 .sm-mode {
   display: flex;
@@ -320,6 +330,19 @@ a {
   font: inherit;
   cursor: pointer;
   touch-action: manipulation;
+}
+
+.sm-toolbar {
+  justify-content: flex-start;
+}
+
+.sm-toolbar button {
+  flex: 1 1 120px;
+  white-space: nowrap;
+}
+
+.sm-mode button {
+  flex: 1 1 96px;
 }
 
 .sm-toolbar button[data-emphasis="true"],
@@ -619,6 +642,15 @@ a {
 }
 
 @media (max-width: 980px) {
+  .sm-panel-head {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .sm-action-stack {
+    width: 100%;
+  }
+
   .sm-layout,
   .sm-steps,
   .sm-uses,
@@ -679,6 +711,7 @@ a {
     align-items: stretch;
   }
 
+  .sm-action-stack,
   .sm-toolbar {
     width: 100%;
   }

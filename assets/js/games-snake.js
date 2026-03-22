@@ -900,6 +900,12 @@
     if (!canvas) return;
     canvas.addEventListener('pointerdown', (event) => {
       event.preventDefault();
+      if (state.phase === 'ready') {
+        startGame();
+      } else if (state.phase === 'gameover' || state.phase === 'won') {
+        resetGame(state.seed);
+        startGame();
+      }
       canvas.setPointerCapture?.(event.pointerId);
       state.swipeStart = { x: event.clientX, y: event.clientY };
     });

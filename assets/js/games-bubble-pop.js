@@ -202,6 +202,32 @@
     return largest;
   }
 
+  function findBestCluster() {
+    const visited = new Set();
+    let best = [];
+    for (let row = 0; row < ROWS; row += 1) {
+      for (let col = 0; col < COLS; col += 1) {
+        const start = getCell(row, col);
+        if (!start?.color) continue;
+        const startKey = cellId(row, col);
+        if (visited.has(startKey)) continue;
+        const cluster = getCluster(row, col);
+        cluster.forEach((cell) => visited.add(cellId(cell.row, cell.col)));
+        if (cluster.length > best.length) {
+          best = cluster;
+        }
+      }
+    }
+    return best;
+  }
+
+  function projectedGain(clusterSize) {
+    if (clusterSize < 2) return 0;
+    const chainBonus = state.combo * 12;
+    const sizeBonus = Math.max(0, clusterSize - 3) * (8 + state.combo);
+    return clusterSize * clusterSize * 5 + chainBonus + sizeBonus;
+  }
+
   function boardNeedsShuffle() {
     return state.phase === 'playing' && state.canShuffle && largestPlayableClusterSize() < 2;
   }
@@ -269,7 +295,7 @@
     if (state.selection.length < 2) {
       return copy.selectionSingle || 'Single bubble';
     }
-    return `${state.selection.length} ${copy.selectionSuffix || 'bubbles ready'}`;
+    return `${state.selection.length} ${copy.selectionSuffix || 'bubbles ready'} · +${projectedGain(state.selection.length)}`;
   }
 
   function phaseLabel() {
@@ -330,7 +356,12 @@
     if (boardNeedsShuffle()) {
       setMessage(copy.shuffleReadyStatus || 'No matching groups left. Use Shuffle to rescue the board.');
     } else if (state.phase === 'playing') {
-      setMessage(copy.readyStatus || 'Tap a bubble group to start your first pop.');
+      const bestCluster = findBestCluster();
+      if (bestCluster.length >= 2) {
+        setMessage(`${copy.readyStatus || 'Tap a bubble group to start your first pop.'} Best opening: ${bestCluster.length} · +${projectedGain(bestCluster.length)}.`);
+      } else {
+        setMessage(copy.readyStatus || 'Tap a bubble group to start your first pop.');
+      }
     }
     syncHud();
     render();
@@ -493,6 +524,8 @@
 
   function drawBoard() {
     ctx.save();
+    const recommended = !state.selection.length ? findBestCluster() : [];
+    const recommendedKeys = new Set(recommended.map((cell) => cellId(cell.row, cell.col)));
     ctx.fillStyle = 'rgba(255,255,255,.82)';
     ctx.strokeStyle = 'rgba(148,163,184,.22)';
     ctx.lineWidth = 2;
@@ -510,18 +543,27 @@
         ctx.fill();
         if (!cell.color) continue;
         const selected = state.selection.some((item) => item.row === row && item.col === col);
+        const recommendedCell = !selected && recommended.length >= 3 && recommendedKeys.has(cellId(row, col));
         const info = colorInfo(cell.color);
-        const radius = selected ? 30 + Math.sin(state.pulse + row + col) * 1.8 : 29;
+        const radius = selected
+          ? 30 + Math.sin(state.pulse + row + col) * 1.8
+          : recommendedCell
+            ? 29 + Math.sin(state.pulse + row + col) * 0.9
+            : 29;
         ctx.save();
         ctx.shadowColor = info.glow;
-        ctx.shadowBlur = selected ? 24 : 16;
+        ctx.shadowBlur = selected ? 24 : (recommendedCell ? 20 : 16);
         ctx.fillStyle = info.fill;
         ctx.beginPath();
         ctx.arc(x, y, radius, 0, Math.PI * 2);
         ctx.fill();
         ctx.restore();
-        ctx.strokeStyle = selected ? 'rgba(255,255,255,.96)' : 'rgba(255,255,255,.72)';
-        ctx.lineWidth = selected ? 4 : 2;
+        ctx.strokeStyle = selected
+          ? 'rgba(255,255,255,.96)'
+          : recommendedCell
+            ? 'rgba(15,23,42,.24)'
+            : 'rgba(255,255,255,.72)';
+        ctx.lineWidth = selected ? 4 : (recommendedCell ? 3 : 2);
         ctx.beginPath();
         ctx.arc(x, y, radius + (selected ? 5 : 2), 0, Math.PI * 2);
         ctx.stroke();

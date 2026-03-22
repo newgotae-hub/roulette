@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Games | Randomly Pick</title>
-  <meta name="description" content="Randomly Pick Games 허브에서 Snake, Sudoku Mini, Number Merge, Brick Breaker, Memory Match, Minesweeper Lite, Reaction Tap, Color Lines, Bubble Pop, Sequence Flash, Sliding Puzzle, Connect Four, Solitaire Mini, Word Swipe를 바로 시작하세요." />
+  <title>게임 | Randomly Pick</title>
+  <meta name="description" content="Randomly Pick 게임 허브에서 Snake, Sudoku Mini, Number Merge, Brick Breaker, Memory Match, Minesweeper Lite, Reaction Tap, Color Lines, Bubble Pop, Sequence Flash, Sliding Puzzle, Connect Four, Solitaire Mini, Word Swipe를 바로 시작해보세요." />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://randomly-pick.com/games/" />
   <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/" />
@@ -22,6 +22,7 @@
       --accent-soft: #eef2ff;
     }
     * { box-sizing: border-box; }
+    html { background: #eef2f7; }
     body {
       margin: 0;
       min-height: 100vh;
@@ -31,10 +32,12 @@
         radial-gradient(circle at 14% 10%, rgba(59,130,246,.07), transparent 24%),
         radial-gradient(circle at 84% 4%, rgba(16,185,129,.08), transparent 20%),
         linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
     }
     a { color: inherit; }
     .wrap {
-      max-width: 1120px;
+      max-width: 1200px;
       margin: 0 auto;
       padding:
         calc(14px + env(safe-area-inset-top, 0px))
@@ -42,9 +45,21 @@
         calc(40px + env(safe-area-inset-bottom, 0px))
         calc(16px + env(safe-area-inset-left, 0px));
     }
-    .topbar, .nav, .grid, .links { display: flex; flex-wrap: wrap; }
-    .topbar { align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
-    .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -.03em; }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      letter-spacing: -.03em;
+    }
     .brand-mark {
       width: 34px;
       height: 34px;
@@ -56,7 +71,11 @@
       box-shadow: 0 12px 24px rgba(15,23,42,.12);
     }
     .brand-sub { margin-top: 2px; color: #64748b; font-size: .84rem; font-weight: 600; }
-    .nav { gap: 8px; }
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
     .nav a {
       display: inline-flex;
       align-items: center;
@@ -75,7 +94,43 @@
       color: #fff;
       border-color: var(--accent);
     }
+    .shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2.25fr) minmax(0, 1fr);
+      gap: 16px;
+      align-items: stretch;
+    }
+    .banner-rail {
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.82), rgba(255,255,255,.95)),
+        radial-gradient(circle at top, rgba(148,163,184,.12), transparent 40%);
+      box-shadow: 0 18px 40px rgba(15,23,42,.04);
+      min-height: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+    .banner-rail::before,
+    .banner-rail::after {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border-radius: 20px;
+      border: 1px dashed rgba(148,163,184,.16);
+      pointer-events: none;
+    }
+    .banner-rail::after {
+      inset: 28px;
+      border-style: solid;
+      border-color: rgba(148,163,184,.08);
+      background: linear-gradient(180deg, rgba(248,250,252,.6), rgba(241,245,249,.2));
+      opacity: .7;
+    }
+    .banner-left { grid-column: 1; }
+    .banner-right { grid-column: 3; }
     .launcher {
+      grid-column: 2;
       padding: 18px;
       border: 1px solid var(--line);
       border-radius: 26px;
@@ -85,10 +140,11 @@
     }
     .launcher-head {
       display: flex;
-      align-items: end;
+      align-items: flex-end;
       justify-content: space-between;
       gap: 12px;
       margin-bottom: 14px;
+      flex-wrap: wrap;
     }
     h1 {
       margin: 0;
@@ -113,10 +169,16 @@
       font-size: .8rem;
       font-weight: 800;
     }
-    .grid { gap: 10px; }
+    .grid {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    }
     .card {
-      flex: 1 1 210px;
-      min-width: 210px;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      min-height: 168px;
       padding: 16px;
       border: 1px solid var(--line);
       border-radius: 20px;
@@ -147,6 +209,7 @@
       color: var(--muted);
       font-size: .9rem;
       line-height: 1.5;
+      flex: 1 1 auto;
     }
     .go {
       display: inline-flex;
@@ -159,6 +222,7 @@
       background: var(--accent);
       color: #fff;
       font-weight: 700;
+      align-self: flex-start;
     }
     .trust {
       margin-top: 18px;
@@ -167,8 +231,28 @@
       color: #64748b;
       font-size: .92rem;
     }
-    .links { gap: 10px; margin-top: 10px; }
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
     .links a { text-decoration: none; font-weight: 700; }
+    @media (max-width: 980px) {
+      .shell {
+        display: flex;
+        flex-direction: column;
+      }
+      .launcher { grid-column: auto; }
+      .banner-rail { grid-column: auto; }
+      .banner-left { order: 2; }
+      .launcher { order: 1; }
+      .banner-right { order: 3; }
+      .banner-rail {
+        min-height: 88px;
+        border-radius: 22px;
+      }
+    }
     @media (max-width: 640px) {
       .wrap {
         padding:
@@ -179,7 +263,11 @@
       }
       .launcher { padding: 14px; border-radius: 22px; }
       .launcher-head { margin-bottom: 10px; }
-      .card { min-width: 0; flex-basis: 100%; }
+      .card { min-height: 0; }
+      .banner-rail {
+        min-height: 72px;
+        border-radius: 18px;
+      }
     }
   </style>
 </head>
@@ -193,47 +281,53 @@
           <div class="brand-sub">Games</div>
         </div>
       </div>
-      <nav class="nav" aria-label="주요 메뉴">
+      <nav class="nav" aria-label="메인 메뉴">
         <a href="/">홈</a>
         <a href="/games/" class="active" aria-current="page">Games</a>
       </nav>
     </div>
 
-    <section class="launcher" aria-label="게임 런처">
-      <div class="launcher-head">
-        <div>
-          <h1>바로 시작할 게임</h1>
-          <p class="sub">눌러서 바로 들어가세요.</p>
-        </div>
-        <span class="count">14 games</span>
-      </div>
+    <section class="shell" aria-label="게임 실행 화면">
+      <aside class="banner-rail banner-left" aria-hidden="true"></aside>
 
-      <div class="grid">
-        <a class="card" href="/games/snake/"><span class="tag">Arcade</span><h2>Snake</h2><p>짧게 시작하고 바로 다시 하기 좋은 아케이드.</p><span class="go">Play</span></a>
-        <a class="card" href="/games/sudoku-mini/"><span class="tag">Logic</span><h2>Sudoku Mini</h2><p>차분하게 푸는 9x9 숫자 퍼즐.</p><span class="go">Play</span></a>
-        <a class="card" href="/games/number-merge/"><span class="tag">Puzzle</span><h2>Number Merge</h2><p>숫자를 합치며 이어 가는 2048 스타일 퍼즐.</p><span class="go">Play</span></a>
-        <a class="card" href="/games/brick-breaker/"><span class="tag">Arcade</span><h2>Brick Breaker</h2><p>짧은 세션에 잘 맞는 벽돌 깨기.</p><span class="go">Play</span></a>
-        <a class="card" href="/games/memory-match/"><span class="tag">Memory</span><h2>Memory Match</h2><p>카드 짝을 맞추는 짧은 기억 게임.</p><span class="go">Play</span></a>
-        <a class="card" href="/games/minesweeper/"><span class="tag">Logic</span><h2>Minesweeper Lite</h2><p>숫자를 읽으며 안전 칸을 찾는 보드 퍼즐.</p><span class="go">Play</span></a>
-        <a class="card" href="/games/reaction-tap/"><span class="tag">Reflex</span><h2>Reaction Tap</h2><p>신호가 뜨면 바로 누르는 반응 속도 게임.</p><span class="go">Play</span></a>
-        <a class="card" href="/games/color-lines/"><span class="tag">Puzzle</span><h2>Color Lines</h2><p>선 연결을 노리는 보드 퍼즐.</p><span class="go">Play</span></a>
-        <a class="card" href="/games/bubble-pop/"><span class="tag">Puzzle</span><h2>Bubble Pop</h2><p>묶음을 터뜨리며 점수를 쌓는 탭 퍼즐.</p><span class="go">Play</span></a>
-        <a class="card" href="/games/sequence-flash/"><span class="tag">Memory</span><h2>Sequence Flash</h2><p>순서를 외워 다시 누르는 기억 챌린지.</p><span class="go">Play</span></a>
-        <a class="card" href="/games/sliding-puzzle/"><span class="tag">Puzzle</span><h2>Sliding Puzzle</h2><p>정석 15퍼즐 스타일의 정렬 게임.</p><span class="go">Play</span></a>
-        <a class="card" href="/games/connect-four/"><span class="tag">Strategy</span><h2>Connect Four</h2><p>한 기기에서 바로 두는 4목 보드 게임.</p><span class="go">Play</span></a>
-        <a class="card" href="/games/solitaire-mini/"><span class="tag">Card</span><h2>Solitaire Mini</h2><p>짧게 즐기는 카드 정리 게임.</p><span class="go">Play</span></a>
-        <a class="card" href="/games/word-swipe/"><span class="tag">Puzzle</span><h2>Word Swipe</h2><p>글자를 이어 단어를 만드는 짧은 퍼즐.</p><span class="go">Play</span></a>
-      </div>
-
-      <section class="trust" aria-label="사이트 링크">
-        <div class="links">
-          <a id="footer-about" href="/about/">About</a>
-          <a href="/guides/">가이드</a>
-          <a id="footer-privacy" href="/privacy/">개인정보처리방침</a>
-          <a id="footer-terms" href="/terms/">이용약관</a>
-          <a id="footer-contact" href="/contact/">문의</a>
+      <section class="launcher">
+        <div class="launcher-head">
+          <div>
+            <h1>바로 시작할 게임</h1>
+            <p class="sub">누르면 바로 들어갑니다.</p>
+          </div>
+          <span class="count">14 games</span>
         </div>
+
+        <div class="grid">
+          <a class="card" href="/games/snake/"><span class="tag">Arcade</span><h2>Snake</h2><p>빠르게 시작하고 바로 다시 할 수 있는 아케이드 게임입니다.</p><span class="go">시작</span></a>
+          <a class="card" href="/games/sudoku-mini/"><span class="tag">Logic</span><h2>Sudoku Mini</h2><p>차분하게 푸는 9x9 숫자 퍼즐입니다.</p><span class="go">시작</span></a>
+          <a class="card" href="/games/number-merge/"><span class="tag">Puzzle</span><h2>Number Merge</h2><p>짧게 즐기기 좋은 2048 스타일 퍼즐입니다.</p><span class="go">시작</span></a>
+          <a class="card" href="/games/brick-breaker/"><span class="tag">Arcade</span><h2>Brick Breaker</h2><p>짧은 템포로 벽돌을 깨는 반응형 게임입니다.</p><span class="go">시작</span></a>
+          <a class="card" href="/games/memory-match/"><span class="tag">Memory</span><h2>Memory Match</h2><p>카드 짝을 맞추는 기억 게임입니다.</p><span class="go">시작</span></a>
+          <a class="card" href="/games/minesweeper/"><span class="tag">Logic</span><h2>Minesweeper Lite</h2><p>숫자를 읽고 안전한 칸을 여는 보드 퍼즐입니다.</p><span class="go">시작</span></a>
+          <a class="card" href="/games/reaction-tap/"><span class="tag">Reflex</span><h2>Reaction Tap</h2><p>신호가 바뀌는 순간 바로 누르는 반응 테스트입니다.</p><span class="go">시작</span></a>
+          <a class="card" href="/games/color-lines/"><span class="tag">Puzzle</span><h2>Color Lines</h2><p>같은 색을 이어 줄을 만드는 보드 퍼즐입니다.</p><span class="go">시작</span></a>
+          <a class="card" href="/games/bubble-pop/"><span class="tag">Puzzle</span><h2>Bubble Pop</h2><p>덩어리를 터뜨리며 보드를 열어두는 퍼즐입니다.</p><span class="go">시작</span></a>
+          <a class="card" href="/games/sequence-flash/"><span class="tag">Memory</span><h2>Sequence Flash</h2><p>늘어나는 순서를 기억해 다시 누르는 집중 게임입니다.</p><span class="go">시작</span></a>
+          <a class="card" href="/games/sliding-puzzle/"><span class="tag">Puzzle</span><h2>Sliding Puzzle</h2><p>15퍼즐 스타일의 이동 퍼즐입니다.</p><span class="go">시작</span></a>
+          <a class="card" href="/games/connect-four/"><span class="tag">Strategy</span><h2>Connect Four</h2><p>4개를 먼저 잇는 빠른 전략 게임입니다.</p><span class="go">시작</span></a>
+          <a class="card" href="/games/solitaire-mini/"><span class="tag">Card</span><h2>Solitaire Mini</h2><p>짧고 단정하게 즐길 수 있는 카드 정리 게임입니다.</p><span class="go">시작</span></a>
+          <a class="card" href="/games/word-swipe/"><span class="tag">Puzzle</span><h2>Word Swipe</h2><p>글자를 이어 단어를 찾는 빠른 퍼즐입니다.</p><span class="go">시작</span></a>
+        </div>
+
+        <section class="trust" aria-label="사이트 링크">
+          <div class="links">
+            <a id="footer-about" href="/about/">About</a>
+            <a href="/guides/">가이드</a>
+            <a id="footer-privacy" href="/privacy/">개인정보처리방침</a>
+            <a id="footer-terms" href="/terms/">이용약관</a>
+            <a id="footer-contact" href="/contact/">문의</a>
+          </div>
+        </section>
       </section>
+
+      <aside class="banner-rail banner-right" aria-hidden="true"></aside>
     </section>
   </main>
 </body>

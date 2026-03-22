@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Solitaire Mini | Randomly Pick</title>
-  <meta name="description" content="Play a compact solitaire-style card game in the browser. Draw, stack, move to foundations, and revisit the same daily seed when you want a quick repeat run." />
+  <meta name="description" content="A compact solitaire-style browser game with clear rules, visible controls, and a fast repeat loop. Draw cards, build foundations, and revisit the same daily seed when you want a short, familiar challenge." />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://randomly-pick.com/en/games/solitaire-mini/" />
   <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/solitaire-mini/" />
@@ -35,7 +35,7 @@
     <section class="sm-hero">
       <span class="sm-eyebrow">Card puzzle</span>
       <h1 class="sm-title">Solitaire Mini</h1>
-      <p class="sm-lede">A compact solitaire-style browser game with clean rules and a fast repeat loop. Draw cards, build foundations, and revisit the same daily seed when you want a short, familiar challenge.</p>
+      <p class="sm-lede">A compact solitaire-style browser game with visible controls and a fast repeat loop. Draw cards, build foundations, and revisit the same daily seed when you want a short, familiar challenge.</p>
       <div class="sm-actions">
         <a class="sm-button is-primary" href="#play-area">Start board</a>
         <a class="sm-button" href="/en/games/">Back to Games</a>
@@ -50,28 +50,35 @@
         <span id="solitaire-mini-phase" class="sm-tag">ready</span>
         <span id="solitaire-mini-mode" class="sm-tag">classic</span>
       </div>
-      <div class="sm-hint" id="solitaire-mini-hint">Draw a card first, then move anything that can reach a foundation. If the board gets crowded, use tableau moves to open a lane.</div>
+      <div class="sm-hint" id="solitaire-mini-hint">1. Draw a card. 2. Select the top Waste or Tableau card. 3. Tap a matching foundation or tableau target. If the board gets crowded, use Auto move or New game.</div>
     </section>
 
     <div class="sm-layout" id="play-area">
       <section class="sm-panel" aria-labelledby="board-title">
         <div class="sm-panel-head">
-          <div>
+          <div class="sm-head-copy">
             <h2 id="board-title">Board</h2>
-            <p>Keep stock, waste, foundations, and tableau visible at once.</p>
+            <p>The layout keeps stock, waste, foundations, and tableau readable at a glance. Start with Draw card.</p>
           </div>
-          <div class="sm-toolbar">
-            <button id="solitaire-mini-classic" type="button" data-emphasis="true">Classic</button>
-            <button id="solitaire-mini-timed" type="button">Timed</button>
-            <button id="solitaire-mini-daily" type="button">Daily</button>
-            <button id="solitaire-mini-reset" type="button">New deal</button>
+          <div class="sm-action-stack">
+            <div class="sm-toolbar" aria-label="Game actions">
+              <button id="solitaire-mini-draw" type="button" data-emphasis="true">Draw card</button>
+              <button id="solitaire-mini-auto" type="button">Auto move</button>
+              <button id="solitaire-mini-undo" type="button">Undo</button>
+              <button id="solitaire-mini-reset" type="button">New game</button>
+            </div>
+            <div class="sm-mode" aria-label="Mode selection">
+              <button id="solitaire-mini-classic" type="button" data-active="true">Classic</button>
+              <button id="solitaire-mini-timed" type="button">Timed</button>
+              <button id="solitaire-mini-daily" type="button">Daily</button>
+            </div>
           </div>
         </div>
 
         <div class="sm-board-shell">
-          <div id="solitaire-mini-foundations" class="sm-foundations" aria-label="Foundations"></div>
-          <div id="solitaire-mini-piles" class="sm-piles" aria-label="Stock and waste"></div>
-          <div id="solitaire-mini-tableau" class="sm-tableau" aria-label="Tableau"></div>
+          <div id="solitaire-mini-foundations" class="sm-foundations" aria-label="Foundation area"></div>
+          <div id="solitaire-mini-piles" class="sm-piles" aria-label="Draw and waste area"></div>
+          <div id="solitaire-mini-tableau" class="sm-tableau" aria-label="Tableau area"></div>
         </div>
 
         <div class="sm-stats" aria-label="Current stats">
@@ -85,19 +92,19 @@
           <div class="sm-stat"><span>Undo</span><strong id="solitaire-mini-undo-available">false</strong></div>
         </div>
 
-        <div class="sm-status" id="solitaire-mini-status" role="status" aria-live="polite">Classic is ready. Draw one card and check whether it can move to a foundation first.</div>
+        <div class="sm-status" id="solitaire-mini-status" role="status" aria-live="polite">Tap Draw card to start. Then move the top Waste card or any open Tableau card to a matching target.</div>
       </section>
 
       <aside class="sm-panel" aria-labelledby="guide-title">
         <div class="sm-panel-head">
           <div>
             <h2 id="guide-title">How it works</h2>
-            <p>Built for short sessions, clear state, and quick repeat play.</p>
-          </div>
+          <p>The goal is a short, clear solitaire loop that is easy to restart.</p>
+        </div>
         </div>
         <div class="sm-copy-grid" style="margin-top:16px;">
           <div class="sm-copy-card"><strong>Modes</strong><p>Classic is free practice, Timed gives you one minute, and Daily uses a shared seed so everyone works from the same setup.</p></div>
-          <div class="sm-copy-card"><strong>Replay loop</strong><p>Draw, auto move, and undo all keep the pace quick so the game feels good on repeat visits.</p></div>
+          <div class="sm-copy-card"><strong>Replay loop</strong><p>Draw card, Auto move, and Undo stay visible so the game feels fast and readable on repeat visits.</p></div>
         </div>
         <div class="sm-section" style="margin-top:16px;">
           <div class="sm-section-head"><h2>When it fits</h2></div>
@@ -136,7 +143,7 @@
         <p>If you want a different pace, the rest of the game hub is one click away.</p>
       </div>
       <div class="sm-related">
-        <a href="/en/games/number-merge/"><strong>Number Merge</strong><br />A more compact tile puzzle with daily play.</a>
+        <a href="/en/games/number-merge/"><strong>Number Merge</strong><br />A compact puzzle with daily play.</a>
         <a href="/en/games/snake/"><strong>Snake</strong><br />A faster reaction game with a tighter rhythm.</a>
         <a href="/en/games/color-lines/"><strong>Color Lines</strong><br />Another board puzzle with route planning.</a>
         <a href="/en/about/"><strong>About</strong><br />Read the product background and site links.</a>
@@ -154,7 +161,7 @@
       </div>
     </section>
 
-    <div class="sm-footer">Randomly Pick ⟪ <a href="/en/games/">Games</a> | <a href="/en/games/solitaire-mini/">Solitaire Mini</a></div>
+    <div class="sm-footer">Randomly Pick's <a href="/en/games/">Games</a> | <a href="/en/games/solitaire-mini/">Solitaire Mini</a></div>
   </main>
 
   <script>
@@ -180,19 +187,25 @@
       dailyLabel: 'daily',
       seedLabel: 'seed',
       timerOffLabel: 'off',
-      readyStatus: 'Draw a card, then try to move it to a foundation.',
+      drawButton: 'Draw card',
+      autoButton: 'Auto move',
+      undoButton: 'Undo',
+      newDealButton: 'New game',
+      recycleHint: 'Waste was recycled into Stock.',
+      selectionClearedHint: 'Selection cleared. Pick another card.',
+      readyStatus: 'Draw a card first, then move the top Waste card or a Tableau card to a valid target.',
       dailyReadyStatus: 'Daily mode uses today’s shared seed.',
       timedReadyStatus: 'Timed mode gives you one minute to finish the board.',
       selectedStatus: 'Pick a valid target pile or foundation.',
-      wonStatus: 'All foundations are complete.',
+      wonStatus: 'All foundations are complete. Start a new deal to play again.',
       timeoutStatus: 'Time is up. Start a new deal and try again.',
-      stuckStatus: 'No useful move is left.',
+      stuckStatus: 'No useful move is left. Try Undo or start a new game.',
       emptyStockHint: 'No cards are left to draw.',
       drawnLabel: 'Drew',
       wasteSelectedHint: 'Waste card selected. Choose a target.',
       tableauSelectedHint: 'Tableau card selected. Choose a target.',
       invalidTargetHint: 'That target does not accept this card.',
-      autoMoveHint: 'No automatic move is available.',
+      autoMoveHint: 'No automatic move is available. Try a different card or Undo.',
       autoMoveDoneHint: 'Auto move finished.',
       foundationRowLabel: 'Foundations',
       stockWasteLabel: 'Stock and waste',

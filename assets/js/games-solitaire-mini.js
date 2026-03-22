@@ -1,6 +1,11 @@
-(() => {
+﻿(() => {
   const SUITS = ['spades', 'hearts', 'clubs', 'diamonds'];
-  const SUIT_GLYPH = { spades: '♠', hearts: '♥', clubs: '♣', diamonds: '♦' };
+  const SUIT_GLYPH = {
+    spades: '\u2660',
+    hearts: '\u2665',
+    clubs: '\u2663',
+    diamonds: '\u2666'
+  };
   const SUIT_COLOR = { spades: 'black', clubs: 'black', hearts: 'red', diamonds: 'red' };
   const RANK_LABELS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
   const DEFAULT_SEED = 0x5a1f0a11;
@@ -180,11 +185,11 @@
   }
 
   function wasteTop() {
-    return state.waste.length ? state.waste[state.waste.length - 1].label : '—';
+    return state.waste.length ? state.waste[state.waste.length - 1].label : '-';
   }
 
   function foundationTop() {
-    return state.foundations.map((pile) => (pile.cards.length ? pile.cards[pile.cards.length - 1].label : '—'));
+    return state.foundations.map((pile) => (pile.cards.length ? pile.cards[pile.cards.length - 1].label : '-'));
   }
 
   function cardColor(card) {
@@ -283,7 +288,7 @@
     if (state.phase === 'timeout') return copy.timeoutStatus || 'Time is up. Start a new deal and try again.';
     if (state.phase === 'stuck') return copy.stuckStatus || 'No useful move is left.';
     if (state.selected) return copy.selectedStatus || 'Select a target pile or foundation.';
-    if (state.mode === DAILY_KEY) return copy.dailyReadyStatus || 'Daily mode uses today’s shared seed.';
+    if (state.mode === DAILY_KEY) return copy.dailyReadyStatus || 'Daily mode uses today?셲 shared seed.';
     if (state.mode === TIMED_KEY) return copy.timedReadyStatus || 'Timed mode gives you one minute to finish the board.';
     return copy.readyStatus || 'Draw a card, then try to move it to a foundation.';
   }
@@ -391,7 +396,7 @@
         button.classList.add(card.faceUp ? 'is-face-up' : 'is-face-down');
         if (card.faceUp) {
           button.innerHTML = `
-            <span class="sm-card-rank">${card.label.replace(/[♠♥♣♦]/, '')}</span>
+            <span class="sm-card-rank">${card.label.replace(/[?졻솯?ｂ솱]/, '')}</span>
             <span class="sm-card-suit" data-color="${cardColor(card)}">${SUIT_GLYPH[card.suit]}</span>
           `;
           button.setAttribute('aria-label', `${card.label} ${copy.faceUpLabel || 'face up'}`);
@@ -426,6 +431,16 @@
       els.timer.textContent = state.timeLimitMs ? `${Math.max(0, Math.ceil(state.timeLeftMs / 1000))}s` : (copy.timerOffLabel || 'off');
     }
     if (els.undoAvailable) els.undoAvailable.textContent = String(state.undoAvailable);
+    if (buttons.draw) buttons.draw.textContent = copy.drawButton || 'Draw';
+    if (buttons.auto) {
+      buttons.auto.textContent = copy.autoButton || 'Auto';
+      buttons.auto.disabled = !state.autoMoveAvailable;
+    }
+    if (buttons.undo) {
+      buttons.undo.textContent = copy.undoButton || 'Undo';
+      buttons.undo.disabled = !state.undoAvailable;
+    }
+    if (buttons.reset) buttons.reset.textContent = copy.resetButton || 'Reset';
     updateModeButtons();
     buildFoundationView();
     buildPileView();
@@ -781,7 +796,7 @@
           faceUp: Boolean(card.faceUp)
         })),
         faceUp: pile.filter((card) => card.faceUp).length,
-        top: pile.length ? pile[pile.length - 1].label : '—'
+        top: pile.length ? pile[pile.length - 1].label : '-'
       })),
       undoAvailable: state.undoAvailable,
       autoMoveAvailable: state.autoMoveAvailable,

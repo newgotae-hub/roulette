@@ -571,3 +571,9 @@ How to use it:
 - Simplified `games/index.html` and `en/games/index.html` into launcher-style hubs with only `Home` and `Games` in the top nav, a compact heading, and the live game card grid instead of the older hero, lineup, and note-heavy layout.
 - Promoted replay/restart entry points for the weaker-feeling game pages by wiring quick actions into the top hero actions for `Bubble Pop`, `Memory Match`, and `Reaction Tap`, so mobile users can immediately restart without scrolling back to in-panel toolbars.
 - Added [GAMES_HUB_LAUNCHER_REPLAY_PASS_2026-03-22.md](/home/user/roulette/GAMES_HUB_LAUNCHER_REPLAY_PASS_2026-03-22.md) as the short rollout note for the launcher simplification and replay-entry polish pass.
+
+### 2026-03-22 - Games quality recovery pass focused on Solitaire Mini and launcher clarity
+
+- Reworked the Korean and English Games hubs into cleaner launcher-style dashboards with empty left/right rail shells so future banner placements have structure without turning the hub into a separate ad-heavy microsite.
+- Rebuilt the Korean Solitaire Mini surface so the copy, CTA order, and button labels are readable again, and repaired the runtime enough for strict KO/EN webgame QA to pass instead of shipping a broken-looking card page.
+- Kept only the ship-safe gameplay polish from this wave: faster Snake restart flow, Brick Breaker last-life aim/paddle help, Bubble Pop recommendation feedback, and Reaction Tap score bonus tuning; rollout details live in [WEBGAMES_QUALITY_RECOVERY_PASS_2026-03-22.md](/home/user/roulette/WEBGAMES_QUALITY_RECOVERY_PASS_2026-03-22.md).
