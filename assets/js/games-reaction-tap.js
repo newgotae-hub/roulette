@@ -216,7 +216,7 @@
   }
 
   function formatMs(value) {
-    return Number.isFinite(value) && value > 0 ? `${value} ms` : '—';
+    return Number.isFinite(value) && value > 0 ? `${value} ms` : '--';
   }
 
   function setStatus(text) {
@@ -267,7 +267,7 @@
 
   function syncHud() {
     if (labelEl) {
-      labelEl.textContent = `${getModeLabel()} · ${copy.phaseLabels?.[state.phase] || state.phase}`;
+      labelEl.textContent = `${getModeLabel()} / ${copy.phaseLabels?.[state.phase] || state.phase}`;
       labelEl.dataset.phase = state.phase;
       labelEl.dataset.mode = state.mode;
     }
@@ -296,7 +296,7 @@
         }
         if (state.phase === 'feedback') {
           return state.lastReactionMs > 0
-            ? `${(copy.details?.hit || 'Reaction time: {ms} ms.').replace('{ms}', String(state.lastReactionMs))}${state.reactionGrade ? ` · ${state.reactionGrade}` : ''}`
+            ? `${(copy.details?.hit || 'Reaction time: {ms} ms.').replace('{ms}', String(state.lastReactionMs))}${state.reactionGrade ? ` / ${state.reactionGrade}` : ''}`
             : (copy.details?.falseStart || 'Too soon. Wait for the next signal.');
         }
         if (state.phase === 'complete') {
@@ -529,6 +529,21 @@
     return JSON.stringify(payload);
   }
 
+  function handlePointerDown(event) {
+    if (targetEl?.setPointerCapture) {
+      try {
+        targetEl.setPointerCapture(event.pointerId);
+      } catch (_) {}
+    }
+    if (targetEl) {
+      targetEl.dataset.pressed = 'true';
+    }
+  }
+
+  function handlePointerUp() {
+    if (targetEl) delete targetEl.dataset.pressed;
+  }
+
   function handleKeydown(event) {
     const key = String(event.key || '').toLowerCase();
     if (key === ' ' || key === 'spacebar' || key === 'enter') {
@@ -572,7 +587,13 @@
   }
 
   function bindEvents() {
-    if (targetEl) targetEl.addEventListener('click', recordTap);
+    if (targetEl) {
+      targetEl.addEventListener('click', recordTap);
+      targetEl.addEventListener('pointerdown', handlePointerDown);
+      targetEl.addEventListener('pointerup', handlePointerUp);
+      targetEl.addEventListener('pointercancel', handlePointerUp);
+      targetEl.addEventListener('pointerleave', handlePointerUp);
+    }
     if (startBtn) {
       startBtn.addEventListener('click', () => {
         if (state.phase === 'ready' || state.phase === 'complete') {

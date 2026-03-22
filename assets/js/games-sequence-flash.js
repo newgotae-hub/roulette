@@ -38,6 +38,7 @@
     sequence: [],
     inputIndex: 0,
     activeColor: null,
+    inputFlashMs: 0,
     playbackIndex: 0,
     playbackWaitingGap: false,
     playbackTimerMs: 0,
@@ -124,7 +125,7 @@
     const modeLabel = state.mode === 'daily'
       ? (copy.dailyModeLabel || 'Daily')
       : (copy.freeModeLabel || 'Free');
-    els.tag.textContent = `${modeLabel} · ${phaseLabel()}`;
+    els.tag.textContent = `${modeLabel} / ${phaseLabel()}`;
   }
 
   function updateHints() {
@@ -246,6 +247,7 @@
     state.playbackIndex = 0;
     state.playbackWaitingGap = false;
     state.playbackTimerMs = 0;
+    state.inputFlashMs = 0;
     state.pendingNextRound = false;
     state.pendingTimerMs = 0;
     state.dailyKey = dailyKeyForToday();
@@ -306,7 +308,9 @@
     if (state.phase !== 'input') return render_game_to_text();
     const expected = state.sequence[state.inputIndex];
     animatePad(color);
+    state.inputFlashMs = 120;
     if (color === expected) {
+      pulseDevice(8);
       state.inputIndex += 1;
       if (state.inputIndex >= state.sequence.length) {
         finishInputSuccess();
@@ -362,6 +366,11 @@
       updateShowing(delta);
     } else if (state.phase === 'success') {
       updateSuccess(delta);
+    } else if (state.phase === 'input' && state.inputFlashMs > 0) {
+      state.inputFlashMs = Math.max(0, state.inputFlashMs - delta);
+      if (state.inputFlashMs === 0) {
+        stopPad();
+      }
     }
     return render_game_to_text();
   }
@@ -376,6 +385,7 @@
       dailyBest: state.dailyBest,
       streak: state.streak,
       replayCharge: state.replayCharge,
+      inputFlashMs: state.inputFlashMs,
       seed: state.seed,
       dailyKey: state.dailyKey,
       sequenceLength: state.sequence.length,

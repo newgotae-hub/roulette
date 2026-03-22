@@ -145,7 +145,7 @@
     if (els.speed) els.speed.textContent = formatSpeed();
     if (els.mode) {
       els.mode.dataset.state = state.phase;
-      els.mode.textContent = `${state.modeLabel} · ${phaseLabel()}`;
+      els.mode.textContent = `${state.modeLabel} / ${phaseLabel()}`;
     }
     if (els.hint) {
       if (prefersCoarsePointer && copy.mobileHint) {
@@ -333,7 +333,8 @@
   function hitBrick(brick, prevX, prevY) {
     brick.hp -= 1;
     state.combo += 1;
-    state.score += brick.maxHp === 2 ? 15 : 10;
+    const comboBonus = Math.max(0, state.combo - 1) * 2;
+    state.score += (brick.maxHp === 2 ? 15 : 10) + comboBonus;
     updateBest(state.score);
     state.lastHitAt = state.combo;
     state.ball.vx *= 1.02;
@@ -368,7 +369,7 @@
 
     state.message = state.bricksLeft === 0
       ? (copy.wonStatus || 'Board cleared. Start a new round or keep going in your head.')
-      : (copy.brickHitStatus || 'Nice hit. Keep the angle open and look for the next brick.');
+      : `${copy.brickHitStatus || 'Nice hit. Keep the angle open and look for the next brick.'}${comboBonus > 0 ? ` +${comboBonus}` : ''}`;
     addParticles(
       brick.x + brick.w / 2,
       brick.y + brick.h / 2,

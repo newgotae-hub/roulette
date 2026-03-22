@@ -161,7 +161,7 @@
     const config = currentModeConfig();
     if (state.bonusActive && state.bonusApple) {
       const totalBonus = config.bonusPoints + streakBonusPoints();
-      return `${copy.bonusRewardLabel || `Bonus +${totalBonus}`} · ${copy.bonusActiveLabel || 'Bonus apple'}`;
+      return `${copy.bonusRewardLabel || `Bonus +${totalBonus}`} / ${copy.bonusActiveLabel || 'Bonus apple'}`;
     }
     const readyIn = bonusReadyIn();
     if (readyIn <= 0) {
@@ -179,7 +179,7 @@
       return copy.streakIdleLabel || 'No streak';
     }
     const bonusText = streakBonusPoints() > 0
-      ? ` · +${streakBonusPoints()}`
+      ? ` / +${streakBonusPoints()}`
       : '';
     return `${copy.streakLabel || 'Streak'} x${state.streak}${bonusText}`;
   }
@@ -929,6 +929,23 @@
       if (!state.swipeStart) return;
       const dx = event.clientX - state.swipeStart.x;
       const dy = event.clientY - state.swipeStart.y;
+      const tapThreshold = Math.max(14, Math.round(Math.min(state.boardRect.width || 0, state.boardRect.height || 0) * 0.035));
+      if (Math.max(Math.abs(dx), Math.abs(dy)) < tapThreshold) {
+        const rect = canvas.getBoundingClientRect();
+        const localX = event.clientX - rect.left;
+        const localY = event.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const tapDx = localX - centerX;
+        const tapDy = localY - centerY;
+        state.swipeStart = null;
+        if (Math.abs(tapDx) > Math.abs(tapDy)) {
+          setDirection(tapDx >= 0 ? { x: 1, y: 0 } : { x: -1, y: 0 });
+        } else {
+          setDirection(tapDy >= 0 ? { x: 0, y: 1 } : { x: 0, y: -1 });
+        }
+        return;
+      }
       state.swipeStart = null;
       const threshold = Math.max(18, Math.round(Math.min(state.boardRect.width || 0, state.boardRect.height || 0) * 0.05));
       if (Math.max(Math.abs(dx), Math.abs(dy)) < threshold) return;

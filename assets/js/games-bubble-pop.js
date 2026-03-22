@@ -301,7 +301,7 @@
     if (state.selection.length < 2) {
       return copy.selectionSingle || 'Single bubble';
     }
-    return `${state.selection.length} ${copy.selectionSuffix || 'bubbles ready'} · +${projectedGain(state.selection.length)}`;
+    return `${state.selection.length} ${copy.selectionSuffix || 'bubbles ready'} / +${projectedGain(state.selection.length)}`;
   }
 
   function phaseLabel() {
@@ -321,7 +321,7 @@
     if (els.selection) els.selection.textContent = selectionLabel();
     if (els.mode) {
       els.mode.dataset.state = state.phase;
-      els.mode.textContent = `${copy.modeLabel || 'Bubble Pop'} · ${phaseLabel()}`;
+      els.mode.textContent = `${copy.modeLabel || 'Bubble Pop'} / ${phaseLabel()}`;
     }
     if (els.touchHint) {
       els.touchHint.textContent = coarsePointer ? (copy.mobileHint || copy.hint || '') : (copy.hint || '');
@@ -364,7 +364,7 @@
     } else if (state.phase === 'playing') {
       const bestCluster = findBestCluster();
       if (bestCluster.length >= 2) {
-        setMessage(`${copy.readyStatus || 'Tap a bubble group to start your first pop.'} Best opening: ${bestCluster.length} · +${projectedGain(bestCluster.length)}.`);
+        setMessage(`${copy.readyStatus || 'Tap a bubble group to start your first pop.'} Best opening: ${bestCluster.length} / +${projectedGain(bestCluster.length)}.`);
       } else {
         setMessage(copy.readyStatus || 'Tap a bubble group to start your first pop.');
       }
@@ -416,13 +416,18 @@
     const sizeBonus = Math.max(0, cluster.length - 3) * (8 + state.combo);
     const gained = cluster.length * cluster.length * 5 + chainBonus + sizeBonus;
     state.score += gained;
+    const refundedMove = cluster.length >= 6 && state.movesLeft < MAX_MOVES;
+    if (refundedMove) {
+      state.movesLeft += 1;
+    }
     updateBest(state.score);
     state.selection = [];
     state.selectionColor = null;
     settlePhase();
     if (state.phase === 'playing') {
-      const extra = cluster.length >= 5 ? ` · ${copy.chainBonusStatus || 'Chain bonus!'}` : '';
-      setMessage((copy.popStatus || 'Popped a cluster.') + ` +${gained}${extra}`);
+      const extra = cluster.length >= 5 ? ` / ${copy.chainBonusStatus || 'Chain bonus!'}` : '';
+      const moveRefund = refundedMove ? ` / ${copy.moveRefundStatus || '+1 move'}` : '';
+      setMessage((copy.popStatus || 'Popped a cluster.') + ` +${gained}${extra}${moveRefund}`);
     }
     pulseDevice(cluster.length >= 5 ? [12, 18, 12] : 10);
     syncHud();

@@ -590,3 +590,9 @@ How to use it:
 - Reworked the Korean and English Games hubs into cleaner launcher-style dashboards with empty left/right rail shells so future banner placements have structure without turning the hub into a separate ad-heavy microsite.
 - Rebuilt the Korean Solitaire Mini surface so the copy, CTA order, and button labels are readable again, and repaired the runtime enough for strict KO/EN webgame QA to pass instead of shipping a broken-looking card page.
 - Kept only the ship-safe gameplay polish from this wave: faster Snake restart flow, Brick Breaker last-life aim/paddle help, Bubble Pop recommendation feedback, and Reaction Tap score bonus tuning; rollout details live in [WEBGAMES_QUALITY_RECOVERY_PASS_2026-03-22.md](/home/user/roulette/WEBGAMES_QUALITY_RECOVERY_PASS_2026-03-22.md).
+
+### 2026-03-22 - Arcade shell recovery and feel pass for Snake, Brick Breaker, Bubble Pop, Reaction Tap, and Sequence Flash
+
+- Repaired the Korean and English page shells for `snake`, `brick-breaker`, `bubble-pop`, `reaction-tap`, and `sequence-flash` so broken locale text and malformed inline scripts no longer block runtime boot or strict webgame QA.
+- Kept the gameplay-side polish from this pass focused on hand-feel and repeat loops: quicker Snake steering/restart flow, Brick Breaker combo and serve feel, Bubble Pop move refund on large clears, Reaction Tap pressed-state feedback, and Sequence Flash input flash/haptic clarity.
+- Re-ran focused validation with `node --check`, strict KO/EN `qa-webgames` scenarios for all five games, `validate-seo.js`, and `adsense-readiness-check.js` before deploy.

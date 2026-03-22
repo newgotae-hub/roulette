@@ -4,528 +4,56 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#f8fafc" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="mobile-web-app-capable" content="yes" />
   <title>Snake | Randomly Pick</title>
-  <meta name="description" content="브라우저에서 바로 하는 Snake. 키보드, WASD, 스와이프를 지원하고 점수, 길이, 속도를 한 화면에 보여줍니다." />
+  <meta name="description" content="브라우저에서 바로 즐기는 Snake 게임입니다. 방향키, WASD, 스와이프, 탭 조작으로 빠르게 다시 시작하며 짧은 세션 반복 플레이에 맞게 설계했습니다." />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://randomly-pick.com/games/snake/" />
   <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/snake/" />
   <link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/games/snake/" />
   <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/games/snake/" />
-  <link rel="stylesheet" href="/assets/css/games-snake.css?v=20260322-snake1" />
+  <link rel="stylesheet" href="/assets/css/games-snake.css?v=20260322-snake2" />
   <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
   <style>
-    :root {
-      color-scheme: dark;
-      --panel: rgba(15,23,42,.86);
-      --panel-strong: rgba(15,23,42,.96);
-      --line: rgba(148,163,184,.18);
-      --text: #e2e8f0;
-      --muted: #94a3b8;
-      --accent: #22c55e;
-      --accent-2: #86efac;
-      --warm: #f59e0b;
-    }
+    :root { color-scheme: dark; --panel: rgba(15,23,42,.86); --panel-strong: rgba(15,23,42,.96); --line: rgba(148,163,184,.18); --text: #e2e8f0; --muted: #94a3b8; --accent: #22c55e; --accent-2: #86efac; }
     * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      color: var(--text);
-      font-family: "Noto Sans KR", "Malgun Gothic", sans-serif;
-      background:
-        radial-gradient(circle at 10% 10%, rgba(34,197,94,.18), transparent 20%),
-        radial-gradient(circle at 90% 0%, rgba(14,165,233,.16), transparent 26%),
-        linear-gradient(180deg, #050b16 0%, #0b1629 100%);
-    }
+    body { margin: 0; min-height: 100vh; color: var(--text); font-family: "Noto Sans KR", "Malgun Gothic", sans-serif; background: radial-gradient(circle at 10% 10%, rgba(34,197,94,.18), transparent 20%), radial-gradient(circle at 90% 0%, rgba(14,165,233,.16), transparent 26%), linear-gradient(180deg, #050b16 0%, #0b1629 100%); }
     a { color: inherit; }
     .wrap { max-width: 1200px; margin: 0 auto; padding: 22px 18px 76px; }
-    .topbar, .nav, .actions, .chips, .links { display: flex; flex-wrap: wrap; }
-    .topbar { align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 22px; }
-    .brand { display: inline-flex; align-items: center; gap: 12px; font-weight: 700; letter-spacing: -.04em; }
-    .brand-mark {
-      width: 42px; height: 42px; border-radius: 14px; display: grid; place-items: center;
-      background: linear-gradient(135deg, #22c55e, #16a34a);
-      color: #04110b;
-      box-shadow: 0 16px 32px rgba(34,197,94,.20);
-      font-size: 1.1rem;
-    }
-    .brand-name { font-size: 1.02rem; }
-    .nav { gap: 8px; }
-    .nav a {
-      display: inline-flex; align-items: center; justify-content: center;
-      min-height: 36px; padding: 0 14px;
-      border-radius: 999px; border: 1px solid rgba(148,163,184,.18);
-      background: rgba(15,23,42,.62);
-      text-decoration: none; font-size: .92rem; color: #cbd5e1;
-      transition: transform .18s ease, border-color .18s ease, background .18s ease, color .18s ease;
-    }
-    .nav a:hover { transform: translateY(-1px); border-color: rgba(134,239,172,.35); color: white; background: rgba(15,23,42,.82); }
-    .nav a.active { background: linear-gradient(135deg, #22c55e, #16a34a); color: #04110b; border-color: transparent; box-shadow: 0 14px 28px rgba(34,197,94,.22); }
-    .hero, .panel, .section, .trust {
-      border: 1px solid var(--line);
-      border-radius: 28px;
-      background: var(--panel);
-      box-shadow: 0 26px 60px rgba(0,0,0,.24);
-      backdrop-filter: blur(12px);
-      animation: rise .5s ease both;
-    }
-    .hero {
-      position: relative;
-      overflow: hidden;
-      padding: 30px 28px 26px;
-      margin-bottom: 22px;
-    }
-    .hero::before {
-      content: "";
-      position: absolute;
-      inset: auto -10% -34% auto;
-      width: 320px;
-      height: 320px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(34,197,94,.18), rgba(34,197,94,0));
-      pointer-events: none;
-    }
-    .eyebrow {
-      display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px; border-radius: 999px;
-      background: rgba(34,197,94,.14); color: var(--accent-2); font-size: .78rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
-    }
-    h1 {
-      margin: 14px 0 10px;
-      font-size: clamp(3rem, 7vw, 5.2rem);
-      line-height: .92;
-      letter-spacing: -.07em;
-      text-wrap: balance;
-    }
-    .lede {
-      max-width: 62ch;
-      margin: 0;
-      color: #cbd5e1;
-      font-size: clamp(1rem, 2vw, 1.1rem);
-      line-height: 1.85;
-    }
-    .actions { gap: 10px; margin-top: 22px; }
-    .button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 44px;
-      padding: 0 16px;
-      border-radius: 999px;
-      border: 1px solid rgba(148,163,184,.22);
-      background: rgba(15,23,42,.86);
-      color: white;
-      text-decoration: none;
-      font-weight: 700;
-      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
-    }
-    .button:hover { transform: translateY(-1px); border-color: rgba(134,239,172,.38); box-shadow: 0 12px 24px rgba(0,0,0,.18); }
-    .button.primary { background: linear-gradient(135deg, #22c55e, #16a34a); color: #04110b; border-color: transparent; box-shadow: 0 16px 30px rgba(34,197,94,.20); }
-    .chips { gap: 10px; margin-top: 16px; }
-    .chip {
-      display: inline-flex;
-      align-items: center;
-      min-height: 32px;
-      padding: 0 12px;
-      border-radius: 999px;
-      background: rgba(15,23,42,.6);
-      border: 1px solid rgba(148,163,184,.18);
-      color: #dbeafe;
-      font-size: .88rem;
-      font-weight: 600;
-    }
-    .layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(280px, .8fr);
-      gap: 16px;
-      align-items: start;
-    }
-    .panel, .section, .trust {
-      background: var(--panel-strong);
-      box-shadow: 0 18px 40px rgba(0,0,0,.16);
-    }
-    .panel { padding: 20px; }
-    .panel-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-    .panel-head h2, .section-head h2 { margin: 0; font-size: 1.3rem; letter-spacing: -.04em; }
-    .toolbar { display: flex; flex-wrap: wrap; gap: 10px; }
-    .toolbar button {
-      border: 1px solid rgba(148,163,184,.2);
-      background: rgba(15,23,42,.84);
-      color: white;
-      font: inherit;
-      border-radius: 16px;
-      min-height: 42px;
-      padding: 0 14px;
-      cursor: pointer;
-      transition: transform .18s ease, border-color .18s ease, background .18s ease;
-    }
-    .toolbar button:hover { transform: translateY(-1px); border-color: rgba(134,239,172,.4); }
-    .toolbar button:focus-visible, .button:focus-visible, .nav a:focus-visible, .links a:focus-visible, .pad button:focus-visible {
-      outline: 2px solid #86efac;
-      outline-offset: 2px;
-    }
-    .board-shell {
-      display: grid;
-      place-items: center;
-      gap: 14px;
-      padding: 16px;
-      border-radius: 24px;
-      background:
-        radial-gradient(circle at top, rgba(34,197,94,.12), transparent 30%),
-        linear-gradient(180deg, rgba(2,6,23,.88), rgba(15,23,42,.96));
-      border: 1px solid rgba(148,163,184,.16);
-    }
-    canvas {
-      display: block;
-      width: min(100%, 680px);
-      aspect-ratio: 1;
-      border-radius: 22px;
-      background: #050f1c;
-      box-shadow: inset 0 0 0 1px rgba(134,239,172,.12), 0 22px 48px rgba(0,0,0,.24);
-      touch-action: none;
-    }
-    .controls {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 14px;
-      margin-top: 16px;
-      align-items: center;
-    }
-    .pad {
-      display: grid;
-      grid-template-columns: repeat(3, 52px);
-      gap: 8px;
-      justify-content: center;
-      align-items: center;
-    }
-    .pad button {
-      border: 1px solid rgba(148,163,184,.2);
-      background: rgba(15,23,42,.84);
-      color: white;
-      font: inherit;
-      border-radius: 16px;
-      min-height: 48px;
-      cursor: pointer;
-      transition: transform .18s ease, border-color .18s ease, background .18s ease;
-    }
-    .pad button:hover { transform: translateY(-1px); border-color: rgba(134,239,172,.4); }
-    .pad .blank { visibility: hidden; }
-    .pad .up { grid-column: 2; }
-    .pad .left { grid-column: 1; grid-row: 2; }
-    .pad .down { grid-column: 2; grid-row: 2; }
-    .pad .right { grid-column: 3; grid-row: 2; }
-    .stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-    .stat {
-      padding: 14px;
-      border-radius: 20px;
-      background: rgba(15,23,42,.72);
-      border: 1px solid rgba(148,163,184,.16);
-    }
-    .stat span { display: block; color: var(--muted); font-size: .84rem; margin-bottom: 6px; }
-    .stat strong { font-size: 1.18rem; letter-spacing: -.04em; }
-    .status {
-      margin-top: 14px;
-      padding: 14px 16px;
-      border-radius: 18px;
-      background: rgba(15,23,42,.72);
-      border: 1px solid rgba(148,163,184,.16);
-      color: #dbeafe;
-      line-height: 1.7;
-    }
-    .section {
-      margin-top: 18px;
-      padding: 22px;
-    }
-    .section-head {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-    .section p { margin: 0; color: #cbd5e1; line-height: 1.75; }
-    .steps, .uses, .related, .copy-grid {
-      display: grid;
-      gap: 12px;
-    }
-    .steps, .uses { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .copy-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .step, .use, .copy-card, .related a {
-      padding: 16px;
-      border-radius: 20px;
-      background: rgba(15,23,42,.74);
-      border: 1px solid rgba(148,163,184,.16);
-      color: #dbeafe;
-    }
-    .step strong, .use strong, .copy-card strong { display: block; margin-bottom: 8px; color: white; }
-    .related { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
-    .related a { text-decoration: none; transition: transform .18s ease, border-color .18s ease; }
-    .related a:hover { transform: translateY(-2px); border-color: rgba(134,239,172,.4); }
-    .trust { margin-top: 18px; padding: 20px 22px; }
-    .links { gap: 10px; margin-top: 12px; }
-    .links a {
-      text-decoration: none;
-      padding: 10px 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(148,163,184,.2);
-      background: rgba(15,23,42,.74);
-      font-weight: 700;
-      color: #e2e8f0;
-    }
-    .footer {
-      margin-top: 28px;
-      padding-top: 18px;
-      border-top: 1px solid rgba(148,163,184,.18);
-      color: #94a3b8;
-      font-size: .92rem;
-      line-height: 1.7;
-    }
-    .footer a { color: #e2e8f0; text-decoration: none; font-weight: 700; }
-    @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    .hero, .panel, .section, .trust { animation: rise .5s ease both; }
-    .panel { animation-delay: .05s; }
-    .section:nth-of-type(1) { animation-delay: .08s; }
-    .section:nth-of-type(2) { animation-delay: .12s; }
-    .section:nth-of-type(3) { animation-delay: .16s; }
-    .section:nth-of-type(4) { animation-delay: .20s; }
-    .trust { animation-delay: .24s; }
-    @media (max-width: 920px) {
-      .layout, .steps, .uses, .copy-grid { grid-template-columns: 1fr; }
-      .controls { grid-template-columns: 1fr; }
-      .pad { justify-content: start; }
-    }
-    @media (max-width: 640px) {
-      .wrap { padding: 18px 14px 56px; }
-      .hero { padding: 24px 18px 20px; border-radius: 26px; }
-      .section, .panel, .trust { border-radius: 24px; }
-      .stats { grid-template-columns: 1fr; }
-    }
-  </style>
-  <style>
-    :root {
-      color-scheme: light;
-      --panel: rgba(255,255,255,.88);
-      --panel-strong: rgba(255,255,255,.94);
-      --line: rgba(148,163,184,.22);
-      --text: #0f172a;
-      --muted: #475569;
-      --accent: #0f172a;
-      --accent-2: #166534;
-      --warm: #f59e0b;
-    }
-    body {
-      font-family: "Inter", "Noto Sans KR", "Malgun Gothic", "Segoe UI", sans-serif;
-      background:
-        radial-gradient(circle at 12% 12%, rgba(34,197,94,.10), transparent 22%),
-        radial-gradient(circle at 85% 0%, rgba(59,130,246,.09), transparent 26%),
-        linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
-    }
-    .brand-mark { background: linear-gradient(135deg, #0f172a, #334155); color: #fff; box-shadow: 0 16px 32px rgba(15,23,42,.18); }
-    .nav a { background: rgba(255,255,255,.78); color: #334155; border-color: var(--line); }
-    .nav a:hover { border-color: rgba(15,23,42,.16); color: #0f172a; background: #fff; }
-    .nav a.active { background: var(--accent); color: #fff; border-color: var(--accent); box-shadow: 0 14px 28px rgba(15,23,42,.12); }
-    .hero, .panel, .section, .trust { background: rgba(255,255,255,.86); box-shadow: 0 18px 40px rgba(15,23,42,.06); border-color: var(--line); }
-    .hero::before { background: radial-gradient(circle, rgba(22,163,74,.18), rgba(22,163,74,0)); }
-    .eyebrow { background: #ecfdf5; color: #166534; }
-    .lede, .section p { color: var(--muted); }
-    .button { background: #fff; color: #0f172a; border-color: var(--line); box-shadow: none; }
-    .button:hover { box-shadow: 0 12px 24px rgba(15,23,42,.08); border-color: rgba(15,23,42,.18); }
-    .button.primary { background: #0f172a; color: #fff; border-color: #0f172a; box-shadow: 0 14px 28px rgba(15,23,42,.12); }
-    .chip, .stat, .step, .use, .copy-card, .related a, .links a, .status { background: rgba(255,255,255,.85); color: #334155; border-color: var(--line); }
-    .step strong, .use strong, .copy-card strong { color: #0f172a; }
-    .toolbar button, .pad button { background: #fff; color: #0f172a; border-color: var(--line); }
-    .toolbar button:hover, .pad button:hover { border-color: rgba(15,23,42,.18); }
-    .board-shell { background: linear-gradient(180deg, rgba(248,250,252,.98), rgba(226,232,240,.92)); border-color: rgba(148,163,184,.18); }
-    canvas { background: #f8fafc; box-shadow: inset 0 0 0 1px rgba(148,163,184,.12), 0 22px 48px rgba(15,23,42,.08); }
-    .footer { color: #64748b; border-color: rgba(148,163,184,.28); }
-    .footer a { color: #0f172a; }
-    .snake-tag { background: #ecfdf5; color: #166534; }
-    .snake-hint { color: #64748b; }
+    .topbar,.nav,.actions,.chips,.links { display:flex; flex-wrap:wrap; } .topbar { align-items:center; justify-content:space-between; gap:16px; margin-bottom:22px; }
+    .brand { display:inline-flex; align-items:center; gap:12px; font-weight:700; letter-spacing:-.04em; } .brand-mark { width:42px; height:42px; border-radius:14px; display:grid; place-items:center; background:linear-gradient(135deg,#22c55e,#16a34a); color:#04110b; box-shadow:0 16px 32px rgba(34,197,94,.20); font-size:1.1rem; }
+    .nav { gap:8px; } .nav a { display:inline-flex; align-items:center; justify-content:center; min-height:36px; padding:0 14px; border-radius:999px; border:1px solid rgba(148,163,184,.18); background:rgba(15,23,42,.62); text-decoration:none; font-size:.92rem; color:#cbd5e1; } .nav a.active { background:linear-gradient(135deg,#22c55e,#16a34a); color:#04110b; border-color:transparent; }
+    .hero,.panel,.section,.trust { border:1px solid var(--line); border-radius:28px; background:var(--panel); box-shadow:0 26px 60px rgba(0,0,0,.24); backdrop-filter:blur(12px); } .hero { position:relative; overflow:hidden; padding:30px 28px 26px; margin-bottom:22px; }
+    .eyebrow { display:inline-flex; align-items:center; gap:8px; padding:7px 12px; border-radius:999px; background:rgba(34,197,94,.14); color:var(--accent-2); font-size:.78rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase; }
+    h1 { margin:14px 0 10px; font-size:clamp(3rem,7vw,5.2rem); line-height:.92; letter-spacing:-.07em; }
+    .lede,.section p { max-width:62ch; margin:0; color:#cbd5e1; font-size:clamp(1rem,2vw,1.1rem); line-height:1.8; }
+    .actions { gap:10px; margin-top:22px; } .button { display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:0 16px; border-radius:999px; border:1px solid rgba(148,163,184,.22); background:rgba(15,23,42,.86); color:white; text-decoration:none; font-weight:700; } .button.primary { background:#0f172a; color:#fff; border-color:#0f172a; }
+    .chips { gap:10px; margin-top:16px; } .chip { display:inline-flex; align-items:center; min-height:32px; padding:0 12px; border-radius:999px; background:rgba(15,23,42,.6); border:1px solid rgba(148,163,184,.18); color:#dbeafe; font-size:.88rem; font-weight:600; }
+    .layout { display:grid; grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr); gap:16px; align-items:start; }
+    .panel,.section,.trust { background:rgba(255,255,255,.92); color:#334155; } .panel { padding:20px; } .panel-head,.section-head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px; } .panel-head h2,.section-head h2 { margin:0; font-size:1.3rem; letter-spacing:-.04em; color:#0f172a; }
+    .toolbar { display:flex; flex-wrap:wrap; gap:10px; } .toolbar button,.pad button { border:1px solid rgba(148,163,184,.2); background:#fff; color:#0f172a; font:inherit; border-radius:16px; min-height:42px; padding:0 14px; cursor:pointer; }
+    .board-shell { display:grid; place-items:center; gap:14px; padding:16px; border-radius:24px; background:linear-gradient(180deg, rgba(248,250,252,.98), rgba(226,232,240,.92)); border:1px solid rgba(148,163,184,.16); }
+    canvas { display:block; width:min(100%,680px); aspect-ratio:1; border-radius:22px; background:#f8fafc; box-shadow:inset 0 0 0 1px rgba(148,163,184,.12), 0 22px 48px rgba(15,23,42,.08); touch-action:none; }
+    .controls { display:grid; grid-template-columns:auto 1fr; gap:14px; margin-top:16px; align-items:center; }
+    .pad { display:grid; grid-template-columns:repeat(3,52px); gap:8px; justify-content:center; align-items:center; } .pad .blank { visibility:hidden; } .pad .up{grid-column:2;} .pad .left{grid-column:1;grid-row:2;} .pad .down{grid-column:2;grid-row:2;} .pad .right{grid-column:3;grid-row:2;}
+    .stats { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; } .stat { padding:14px; border-radius:20px; background:rgba(255,255,255,.94); border:1px solid rgba(148,163,184,.16); } .stat span { display:block; color:#64748b; font-size:.84rem; margin-bottom:6px; } .stat strong { font-size:1.18rem; letter-spacing:-.04em; color:#0f172a; }
+    .status,.step,.use,.copy-card,.related a,.links a { background:rgba(255,255,255,.94); border:1px solid rgba(148,163,184,.16); color:#334155; } .status { margin-top:14px; padding:14px 16px; border-radius:18px; line-height:1.7; }
+    .section { margin-top:18px; padding:22px; } .steps,.uses,.related,.copy-grid { display:grid; gap:12px; } .steps,.uses { grid-template-columns:repeat(3,minmax(0,1fr)); } .copy-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .step,.use,.copy-card,.related a { padding:16px; border-radius:20px; text-decoration:none; } .step strong,.use strong,.copy-card strong { display:block; margin-bottom:8px; color:#0f172a; }
+    .trust { margin-top:18px; padding:20px 22px; } .links { gap:10px; margin-top:12px; } .links a { padding:10px 14px; border-radius:999px; font-weight:700; text-decoration:none; }
+    .footer { margin-top:28px; padding-top:18px; border-top:1px solid rgba(148,163,184,.18); color:#64748b; font-size:.92rem; line-height:1.7; } .footer a { color:#0f172a; text-decoration:none; font-weight:700; }
+    @media (max-width: 920px) { .layout,.steps,.uses,.copy-grid { grid-template-columns:1fr; } .controls { grid-template-columns:1fr; } .pad { justify-content:start; } }
   </style>
 </head>
 <body>
   <main class="wrap">
-    <div class="topbar">
-      <div class="brand">
-        <div class="brand-mark">R.</div>
-        <div>
-          <div class="brand-name">Randomly Pick</div>
-          <div style="font-size:.86rem;color:#94a3b8;font-weight:600;margin-top:2px;">Snake</div>
-        </div>
-      </div>
-      <nav class="nav" aria-label="주요 메뉴">
-        <a href="/">홈</a><a href="/games/" class="active" aria-current="page">게임</a><a href="/luckydraw/">럭키 드로우</a><a href="/ladder/">사다리</a><a href="/team-generator/">팀 나누기</a><a href="/coinflip/">동전 던지기</a><a href="/dice/">주사위</a>
-      </nav>
-    </div>
-
-    <section class="hero" data-snake-section="purpose">
-      <span class="eyebrow">지금 플레이 가능</span>
-      <h1>Snake</h1>
-      <p class="lede">브라우저에서 바로 하는 Snake입니다. 키보드, WASD, 스와이프를 지원하고 점수, 길이, 속도를 한 화면에서 바로 확인할 수 있습니다.</p>
-      <div class="actions">
-        <a class="button primary" href="#play-area">시작하기</a>
-        <a class="button" href="/games/">게임 허브</a>
-      </div>
-      <div class="chips" aria-label="게임 하이라이트">
-        <span class="chip">목표 10점</span><span class="chip">기록은 브라우저에 저장</span><span class="chip">방향키와 WASD</span><span class="chip">모바일 스와이프</span>
-      </div>
-      <div class="snake-mode-row" role="group" aria-label="모드 선택">
-        <button class="snake-mode-chip" type="button" data-snake-mode="classic" aria-pressed="true">클래식</button>
-        <button class="snake-mode-chip" type="button" data-snake-mode="timed" aria-pressed="false">타임어택</button>
-        <button class="snake-mode-chip" type="button" data-snake-mode="wrap" aria-pressed="false">랩</button>
-      </div>
-      <div class="snake-mode-note" id="snake-mode-note">클래식 모드는 벽을 피하면서 연속 먹기로 스트릭을 쌓기에 가장 좋습니다.</div>
-      <div class="snake-meta-row" aria-label="현재 게임 상태">
-        <span id="snake-game-tag" class="snake-tag" data-state="ready">준비됨</span>
-      </div>
-      <div class="snake-hint" id="snake-hint">모바일에서는 보드를 스와이프하거나 아래 방향 버튼을 사용하세요.</div>
-    </section>
-
-    <div class="layout" id="play-area">
-      <section class="panel" aria-labelledby="board-title">
-        <div class="panel-head">
-          <h2 id="board-title">게임 보드</h2>
-          <div class="toolbar">
-            <button id="snake-start" type="button">시작</button>
-            <button id="snake-pause" type="button">일시정지</button>
-            <button id="snake-restart" type="button">다시 시작</button>
-          </div>
-        </div>
-        <div class="board-shell">
-          <canvas id="snake-board" width="640" height="640" aria-label="Snake 게임 보드"></canvas>
-        </div>
-        <div class="controls snake-controls">
-          <div class="pad" aria-label="방향 버튼">
-            <span class="blank"></span>
-            <button id="snake-up" class="up" type="button" data-snake-dir="up" aria-label="위로 이동">▲</button>
-            <button id="snake-left" class="left" type="button" data-snake-dir="left" aria-label="왼쪽으로 이동">◀</button>
-            <button id="snake-down" class="down" type="button" data-snake-dir="down" aria-label="아래로 이동">▼</button>
-            <button id="snake-right" class="right" type="button" data-snake-dir="right" aria-label="오른쪽으로 이동">▶</button>
-          </div>
-          <div>
-            <div class="stats" aria-label="현재 게임 정보">
-              <div class="stat"><span>상태</span><strong id="snake-mode">준비됨</strong></div>
-              <div class="stat"><span>점수</span><strong id="snake-score">0</strong></div>
-              <div class="stat"><span>최고</span><strong id="snake-best">0</strong></div>
-              <div class="stat"><span>목표</span><strong id="snake-target">10</strong></div>
-              <div class="stat"><span>길이</span><strong id="snake-length">3</strong></div>
-              <div class="stat"><span>속도</span><strong id="snake-speed">120 ms</strong></div>
-            </div>
-            <div class="status" id="snake-status">시작 버튼이나 방향키를 누르면 게임이 시작됩니다.</div>
-            <div class="snake-hud-strip" aria-label="모드와 보상 정보">
-              <div class="snake-hud-pill"><strong>모드</strong><span id="snake-mode-badge">클래식</span></div>
-              <div class="snake-hud-pill"><strong>보상</strong><span id="snake-reward-badge">보너스 준비 3</span></div>
-              <div class="snake-hud-pill"><strong>스트릭</strong><span id="snake-streak-badge">스트릭 없음</span></div>
-              <div class="snake-hud-pill"><strong>타이머</strong><span id="snake-timer-badge">제한 없음</span></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <aside class="panel" aria-labelledby="guide-title" data-snake-section="why">
-        <div class="panel-head"><h2 id="guide-title">플레이 방법</h2></div>
-        <p>Snake는 기본 규칙은 단순하게 두되, 모드와 스트릭 보상으로 다시 한 판 하게 만드는 층을 얹었습니다. 그래서 모바일과 데스크톱 모두에서 바로 이해하면서도 한 번 더 도전할 이유가 생깁니다.</p>
-        <div class="section snake-copy-grid" style="margin-top:16px;">
-          <div class="copy-card" data-snake-section="tip"><strong>빠른 조작</strong><p>키보드, 방향 버튼, 스와이프 모두 지원합니다. Space는 일시정지, Enter는 시작, R은 다시 시작입니다.</p></div>
-          <div class="copy-card" data-snake-section="faq"><strong>자주 묻는 질문</strong><p>최고 점수는 브라우저에만 저장됩니다. 연속으로 빨리 먹으면 스트릭이 쌓이고, 그 상태에서 보너스 사과를 먹으면 더 큰 보상을 받습니다.</p></div>
-        </div>
-        <div class="section" data-snake-section="why" style="margin-top:16px;">
-          <div class="section-head"><h2>Randomly Pick에 맞는 이유</h2></div>
-          <p>이 페이지는 단순한 위젯이 아니라 바로 플레이할 수 있는 게임 페이지입니다. 컨트롤이 분명하고, 설명도 짧아서 사이트 안의 하나의 탭처럼 보입니다.</p>
-        </div>
-      </aside>
-    </div>
-
-    <section class="section" data-snake-section="how" aria-labelledby="howto-title">
-      <div class="section-head"><h2 id="howto-title">플레이 방법</h2><p>짧게 시작하고, 먹고, 피하면 됩니다. 여기에 스트릭과 보너스 보상이 더해져서 한 판의 리듬이 조금 더 살아납니다.</p></div>
-      <div class="steps">
-        <div class="step"><strong>1. 시작합니다.</strong> 시작 버튼이나 방향키를 누르면 바로 움직이기 시작합니다.</div>
-        <div class="step"><strong>2. 스트릭을 쌓습니다.</strong> 쉬지 않고 연속으로 먹으면 스트릭이 올라가고, 보너스 사과 보상도 더 좋아집니다.</div>
-        <div class="step"><strong>3. 벽과 몸을 피합니다.</strong> 벽이나 자기 몸에 부딪히지 않고 10점을 넘기면 한 판을 깔끔하게 끝냅니다.</div>
-      </div>
-    </section>
-
-    <section class="section" data-snake-section="when" aria-labelledby="uses-title">
-      <div class="section-head"><h2 id="uses-title">이럴 때 잘 맞습니다</h2><p>짧은 휴식, 수업, 설명용 데모처럼 금방 끝나야 하는 상황에 잘 맞습니다.</p></div>
-      <div class="uses">
-        <div class="use"><strong>짧은 휴식</strong> 1~2분짜리 가벼운 플레이를 원할 때 부담이 적고, 스트릭 때문에 한 번 더 도전하게 됩니다.</div>
-        <div class="use"><strong>수업 데모</strong> 이동, 충돌, 점수 루프를 설명하기 쉬워서 데모용으로 좋습니다.</div>
-        <div class="use"><strong>게임 셸 점검</strong> 규칙이 단순해서 QA와 구조 검수의 첫 게임으로 쓰기 좋습니다.</div>
-      </div>
-    </section>
-
-    <section class="section" data-snake-section="related" aria-labelledby="related-title">
-      <div class="section-head"><h2 id="related-title">더 많은 Randomly Pick 도구</h2><p>게임이 아닌 빠른 선택이 필요할 때는 같은 사이트의 도구로 바로 이동할 수 있습니다.</p></div>
-      <div class="related">
-        <a href="/games/"><strong>게임 허브</strong><br />다른 게임이나 도구 허브로 돌아갑니다.</a>
-        <a href="/luckydraw/"><strong>럭키 드로우</strong><br />선택만 필요할 때 바로 쓸 수 있습니다.</a>
-        <a href="/dice/"><strong>주사위 굴리기</strong><br />테이블 게임이나 턴 진행에 어울립니다.</a>
-        <a href="/about/"><strong>소개</strong><br />사이트와 운영 정보를 확인합니다.</a>
-        <a href="/privacy/"><strong>개인정보처리방침</strong><br />브라우저 저장만 쓰는 방식인지 볼 수 있습니다.</a>
-        <a href="/contact/"><strong>문의</strong><br />사이트 관련 문의를 보낼 수 있습니다.</a>
-      </div>
-    </section>
-
-    <section class="trust">
-      <strong>사이트 링크</strong>
-      <div class="links">
-        <a id="footer-about" href="/about/">소개</a>
-        <a id="footer-terms" href="/terms/">이용약관</a>
-        <a id="footer-privacy" href="/privacy/">개인정보처리방침</a>
-        <a id="footer-contact" href="/contact/">문의</a>
-      </div>
-    </section>
-
-    <div class="footer">Randomly Pick · <a href="/games/">게임</a></div>
+    <div class="topbar"><div class="brand"><div class="brand-mark">R.</div><div><div class="brand-name">Randomly Pick</div><div style="font-size:.86rem;color:#64748b;font-weight:600;margin-top:2px;">Snake</div></div></div><nav class="nav" aria-label="주요 탐색"><a href="/">홈</a><a href="/games/" class="active" aria-current="page">Games</a></nav></div>
+    <section class="hero"><span class="eyebrow">Arcade loop</span><h1>Snake</h1><p class="lede">길이는 늘고 속도는 조금씩 올라갑니다. 보드 탭, 스와이프, 방향키, WASD를 모두 지원해서 모바일에서도 바로 다시 시작하기 좋은 짧은 세션 게임으로 정리했습니다.</p><div class="actions"><a class="button primary" href="#play-area">게임 시작</a><a class="button" href="/games/">Games로 돌아가기</a></div><div class="chips"><span class="chip">짧은 세션</span><span class="chip">스와이프 / 탭 조작</span><span class="chip">보너스 사과</span><span class="chip">로컬 최고 기록</span></div><div class="snake-mode-row" role="group" aria-label="게임 모드 선택"><button class="snake-mode-chip" type="button" data-snake-mode="classic" aria-pressed="true">Classic</button><button class="snake-mode-chip" type="button" data-snake-mode="timed" aria-pressed="false">Timed</button><button class="snake-mode-chip" type="button" data-snake-mode="wrap" aria-pressed="false">Wrap</button></div><div class="snake-mode-note" id="snake-mode-note">Classic은 기본 리듬, Timed는 제한 시간, Wrap은 벽을 넘어가는 변형 플레이입니다.</div><div class="snake-meta-row"><span id="snake-game-tag" class="snake-tag" data-state="ready">Ready</span></div><div class="snake-hint" id="snake-hint">모바일에서는 보드를 짧게 스와이프하거나 가장자리 방향으로 탭해 움직일 수 있습니다.</div></section>
+    <div class="layout" id="play-area"><section class="panel" aria-labelledby="board-title"><div class="panel-head"><h2 id="board-title">게임 보드</h2><div class="toolbar"><button id="snake-start" type="button">시작</button><button id="snake-pause" type="button">일시정지</button><button id="snake-restart" type="button">다시 시작</button></div></div><div class="board-shell"><canvas id="snake-board" width="640" height="640" aria-label="Snake 게임 보드"></canvas></div><div class="controls snake-controls"><div class="pad" aria-label="방향 조작"><span class="blank"></span><button id="snake-up" class="up" type="button" aria-label="위로">↑</button><button id="snake-left" class="left" type="button" aria-label="왼쪽">←</button><button id="snake-down" class="down" type="button" aria-label="아래">↓</button><button id="snake-right" class="right" type="button" aria-label="오른쪽">→</button></div><div><div class="stats"><div class="stat"><span>상태</span><strong id="snake-mode">Ready</strong></div><div class="stat"><span>점수</span><strong id="snake-score">0</strong></div><div class="stat"><span>최고 기록</span><strong id="snake-best">0</strong></div><div class="stat"><span>목표</span><strong id="snake-target">10</strong></div><div class="stat"><span>길이</span><strong id="snake-length">3</strong></div><div class="stat"><span>속도</span><strong id="snake-speed">120 ms</strong></div></div><div class="status" id="snake-status">시작 버튼이나 방향 조작으로 바로 플레이할 수 있습니다.</div><div class="snake-hud-strip"><div class="snake-hud-pill"><strong>Mode</strong><span id="snake-mode-badge">Classic</span></div><div class="snake-hud-pill"><strong>Reward</strong><span id="snake-reward-badge">보너스 준비 중</span></div><div class="snake-hud-pill"><strong>Streak</strong><span id="snake-streak-badge">연속 보너스 없음</span></div><div class="snake-hud-pill"><strong>Timer</strong><span id="snake-timer-badge">타이머 없음</span></div></div></div></div></section><aside class="panel" aria-labelledby="guide-title"><div class="panel-head"><h2 id="guide-title">플레이 가이드</h2></div><p>이번 버전은 시작과 재시작 속도, 모바일 조작, 보너스 흐름을 더 빠르게 읽히도록 다듬었습니다.</p><div class="section snake-copy-grid" style="margin-top:16px;"><div class="copy-card"><strong>조작</strong><p>키보드, WASD, 스와이프, 보드 탭, 화살표 버튼을 모두 지원합니다.</p></div><div class="copy-card"><strong>반복 플레이</strong><p>실패 후 버튼이나 방향 입력으로 바로 새 판을 열 수 있어서 짧은 세션 반복에 잘 맞습니다.</p></div></div></aside></div>
+    <section class="section" aria-labelledby="howto-title"><div class="section-head"><h2 id="howto-title">How to play</h2><p>짧게 시작하고, 실수해도 바로 다시 붙는 구조입니다.</p></div><div class="steps"><div class="step"><strong>1. 방향을 정합니다.</strong> 사과를 먹으면서 몸 길이를 늘립니다.</div><div class="step"><strong>2. 벽과 몸을 피합니다.</strong> 모드에 따라 리듬이 달라집니다.</div><div class="step"><strong>3. 보너스를 노립니다.</strong> 연속 플레이가 이어질수록 점수 효율이 좋아집니다.</div></div></section>
+    <section class="section" aria-labelledby="uses-title"><div class="section-head"><h2 id="uses-title">추천 상황</h2><p>반응성과 리듬감이 중요할 때 가장 잘 맞는 아케이드 탭입니다.</p></div><div class="uses"><div class="use"><strong>짧은 집중 전환</strong> 한 판이 짧고 빠르게 재도전할 수 있습니다.</div><div class="use"><strong>모바일 플레이</strong> 스와이프와 탭 조작이 모두 자연스럽습니다.</div><div class="use"><strong>기록 갱신</strong> 로컬 최고 점수를 쌓아가며 반복 플레이하기 좋습니다.</div></div></section><section class="section" aria-labelledby="related-title"><div class="section-head"><h2 id="related-title">관련 게임</h2><p>같은 Games 탭에서 다른 아케이드와 퍼즐로 이어서 이동할 수 있습니다.</p></div><div class="related"><a href="/games/brick-breaker/"><strong>Brick Breaker</strong><br />패들 각도와 콤보가 중요한 아케이드</a><a href="/games/reaction-tap/"><strong>Reaction Tap</strong><br />순간 반응 속도를 보는 짧은 세션</a><a href="/games/sequence-flash/"><strong>Sequence Flash</strong><br />기억과 리듬을 함께 쓰는 메모리 게임</a><a href="/games/"><strong>Games</strong><br />전체 게임 허브로 돌아가기</a></div></section>
+    <section class="trust"><strong>사이트 링크</strong><div class="links"><a href="/about/">About</a><a href="/guides/">Guides</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="/contact/">Contact</a></div></section><div class="footer">Randomly Pick · <a href="/games/">Games</a></div>
   </main>
-
-  <script>
-    window.__SNAKE_COPY__ = {
-      targetScore: 10,
-      modeClassicLabel: '클래식',
-      modeTimedLabel: '타임어택',
-      modeWrapLabel: '랩',
-      modeBadgeLabel: '모드',
-      rewardBadgeLabel: '보상',
-      timerBadgeLabel: '타이머',
-      timerIdleLabel: '제한 없음',
-      bonusReadyLabel: '보너스 준비',
-      bonusActiveLabel: '보너스 사과',
-      bonusNextLabel: '다음 보너스',
-      bonusRewardLabel: '보너스 +2',
-      streakLabel: '스트릭',
-      streakIdleLabel: '스트릭 없음',
-      modeClassicNote: '클래식 모드는 벽을 피하면서 연속 먹기로 스트릭을 쌓기에 가장 좋습니다.',
-      modeTimedNote: '타임어택은 시간이 줄어드니 루프를 짧게 가져가고 보너스 사과를 빠르게 먹는 편이 유리합니다.',
-      modeWrapNote: '랩 모드는 벽을 통과할 수 있지만 자기 몸이 더 큰 위험이 되니 긴 회전 동선을 조심하세요.',
-      timeoutLabel: '시간 종료',
-      statusTimeout: '시간이 끝났습니다. 타이머 모드에서 다시 도전하세요.',
-      readyLabel: '준비됨',
-      statusReady: '시작 버튼이나 방향키를 누르면 게임이 시작됩니다.',
-      statusPlaying: '스네이크가 움직이고 있습니다. 먹으면서 벽과 몸을 피하세요.',
-      statusPaused: '일시정지 상태입니다. 다시 시작하거나 계속 진행할 수 있습니다.',
-      statusGameOver: '게임이 끝났습니다. 다시 시작해서 한 번 더 도전하세요.',
-      statusWin: '목표 점수를 넘겼습니다. 깔끔하게 한 판을 끝냈습니다.',
-      hitWallStatus: '벽에 부딪혔습니다.',
-      hitBodyStatus: '자기 몸에 부딪혔습니다.',
-      playingTag: '달리는 중',
-      mobileHint: '모바일에서는 보드를 스와이프하거나 아래 방향 버튼을 사용하세요.',
-      mobileHintClassic: '클래식은 보드를 짧게 왕복하면서 스트릭을 끊기지 않게 이어 가는 쪽이 편합니다.',
-      mobileHintTimed: '타임어택은 생각을 오래 끌기보다 빠르게 방향을 예약하는 편이 좋습니다.',
-      mobileHintWrap: '랩 모드는 벽을 통과하니 가장자리에서 급하게 꺾지 말고 긴 동선을 만들어 보세요.',
-      pauseLabel: '일시정지',
-      resumeLabel: '계속',
-      restartLabel: '다시 시작',
-      startLabel: '시작',
-      startingLabel: '진행 중'
-    };
-  </script>
-  <script src="/assets/js/games-snake.js?v=20260322-snake1"></script>
+  <script>window.__SNAKE_COPY__={startLabel:'시작',startingLabel:'플레이 중',resumeLabel:'계속',readyLabel:'Ready',timeoutLabel:'시간 종료',statusReady:'시작 버튼이나 방향 조작으로 바로 플레이할 수 있습니다.',statusPlaying:'사과를 먹고 벽과 몸을 피하세요.',statusPaused:'일시정지 상태입니다. 준비되면 다시 이어서 플레이하세요.',statusWin:'목표 점수를 달성했습니다.',statusGameOver:'게임 오버입니다. 바로 다시 시작해보세요.',statusTimeout:'시간이 끝났습니다. 다시 도전해보세요.',hitWallStatus:'벽에 부딪혔습니다.',hitBodyStatus:'몸에 부딪혔습니다.',modeClassicLabel:'Classic',modeTimedLabel:'Timed',modeWrapLabel:'Wrap',bonusRewardLabel:'보너스 점수',bonusActiveLabel:'보너스 사과 등장',bonusReadyLabel:'보너스 준비 완료',bonusNextLabel:'보너스까지',streakIdleLabel:'연속 보너스 없음',streakLabel:'연속',timerIdleLabel:'타이머 없음'};</script>
+  <script src="/assets/js/games-snake.js?v=20260322-snake2"></script>
 </body>
 </html>
