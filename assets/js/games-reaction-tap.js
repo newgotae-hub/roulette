@@ -50,10 +50,14 @@
     bestStreak: 0,
     reactionTimes: [],
     lastReactionMs: 0,
+    reactionGrade: '',
     fastestMs: 0,
     averageMs: 0,
     bestReactionMs: 0,
     bestAverageMs: 0,
+    tempoLevel: 0,
+    waitMinMs: 0,
+    waitMaxMs: 0,
     qaReady: false
   };
 
@@ -117,11 +121,60 @@
     return hashString(`reaction-tap:${mode}`);
   }
 
+  function getPacedTiming(mode = state.mode) {
+    const config = getModeConfig(mode);
+    const paceLift = mode === 'classic'
+      ? 0
+      : Math.min(220, Math.max(0, state.score - 1) * 10 + Math.max(0, state.streak - 1) * 24);
+    const waitMin = Math.max(520, config.waitMin - paceLift);
+    const waitMax = Math.max(waitMin + 260, config.waitMax - paceLift - 40);
+    return {
+      waitMin,
+      waitMax,
+      feedbackMs: Math.max(420, config.feedbackMs - Math.min(120, state.streak * 8))
+    };
+  }
+
+  function gradeReactionMs(value) {
+    if (!Number.isFinite(value) || value <= 0) return '';
+    if (value <= 150) return 'Perfect';
+    if (value <= 220) return 'Fast';
+    if (value <= 300) return 'Solid';
+    return 'Steady';
+  }
+
+  function pulseTarget(kind = 'armed') {
+    if (!targetEl || typeof targetEl.animate !== 'function') return;
+    const frames = kind === 'hit'
+      ? [
+          { transform: 'scale(1)' },
+          { transform: 'scale(0.982)' },
+          { transform: 'scale(1.01)' },
+          { transform: 'scale(1)' }
+        ]
+      : kind === 'miss'
+        ? [
+            { transform: 'scale(1)' },
+            { transform: 'scale(0.988)' },
+            { transform: 'scale(1)' }
+          ]
+        : [
+            { transform: 'scale(0.996)' },
+            { transform: 'scale(1.014)' },
+            { transform: 'scale(1)' }
+          ];
+    targetEl.animate(frames, {
+      duration: kind === 'hit' ? 220 : 260,
+      easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)'
+    });
+  }
+
   function resetRunStats() {
     state.score = 0;
     state.misses = 0;
     state.streak = 0;
     state.lastReactionMs = 0;
+    state.reactionGrade = '';
     state.fastestMs = 0;
     state.averageMs = 0;
     state.reactionTimes = [];
@@ -129,6 +182,9 @@
     state.armedAtMs = 0;
     state.feedbackUntilMs = 0;
     state.pendingRound = 0;
+    state.tempoLevel = 0;
+    state.waitMinMs = 0;
+    state.waitMaxMs = 0;
   }
 
   function formatMs(value) {
@@ -193,7 +249,9 @@
         ready: 'Tap to start',
         waiting: 'Wait for green',
         armed: 'Tap now',
-        feedback: state.lastReactionMs > 0 ? 'Nice' : 'Too soon',
+        feedback: state.lastReactionMs > 0
+          ? (state.reactionGrade || 'Nice')
+          : 'Too soon',
         complete: 'Replay'
       };
       kickerEl.textContent = copy.kickers?.[state.phase] || fallback[state.phase] || fallback.ready;
@@ -210,7 +268,7 @@
         }
         if (state.phase === 'feedback') {
           return state.lastReactionMs > 0
-            ? (copy.details?.hit || 'Reaction time: {ms} ms.').replace('{ms}', String(state.lastReactionMs))
+            ? `${(copy.details?.hit || 'Reaction time: {ms} ms.').replace('{ms}', String(state.lastReactionMs))}${state.reactionGrade ? ` · ${state.reactionGrade}` : ''}`
             : (copy.details?.falseStart || 'Too soon. Wait for the next signal.');
         }
         if (state.phase === 'complete') {
@@ -256,14 +314,17 @@
   }
 
   function startRound(roundIndex) {
-    const config = getModeConfig();
+    const timing = getPacedTiming();
     state.round = roundIndex;
-    state.waitMs = Math.round(config.waitMin + state.rng() * (config.waitMax - config.waitMin));
+    state.waitMinMs = timing.waitMin;
+    state.waitMaxMs = timing.waitMax;
+    state.waitMs = Math.round(timing.waitMin + state.rng() * (timing.waitMax - timing.waitMin));
     state.armedAtMs = state.elapsedMs + state.waitMs;
     state.feedbackUntilMs = 0;
     state.pendingRound = 0;
     state.phase = 'waiting';
     setStatus(copy.statuses?.waiting || 'Hold for the signal.');
+    pulseTarget('armed');
     render();
   }
 
@@ -281,8 +342,10 @@
   function scheduleFeedback(nextRoundIndex, isHit, reactionMs = 0) {
     state.phase = 'feedback';
     state.pendingRound = nextRoundIndex;
-    state.feedbackUntilMs = state.elapsedMs + getModeConfig().feedbackMs;
+    state.feedbackUntilMs = state.elapsedMs + getPacedTiming().feedbackMs;
     state.lastReactionMs = reactionMs;
+    state.reactionGrade = isHit ? gradeReactionMs(reactionMs) : '';
+    pulseTarget(isHit ? 'hit' : 'miss');
     setStatus(isHit ? (copy.statuses?.hit || 'Nice tap. The next round starts soon.') : (copy.statuses?.falseStart || 'Too soon. Try again on the same board.'));
     render();
   }
@@ -302,6 +365,7 @@
     if (state.phase === 'waiting') {
       state.misses += 1;
       state.streak = 0;
+      state.tempoLevel = 0;
       scheduleFeedback(state.round, false, 0);
       return render_game_to_text();
     }
@@ -310,6 +374,7 @@
       const reactionMs = Math.max(0, Math.round(state.elapsedMs - state.armedAtMs));
       state.score += 1;
       state.streak += 1;
+      state.tempoLevel = Math.min(8, state.streak);
       state.reactionTimes.push(reactionMs);
       state.fastestMs = Math.min(...state.reactionTimes);
       state.averageMs = Math.round(state.reactionTimes.reduce((sum, value) => sum + value, 0) / state.reactionTimes.length);
@@ -371,6 +436,7 @@
       if (state.phase === 'waiting' && state.elapsedMs >= state.armedAtMs) {
         state.phase = 'armed';
         setStatus(copy.statuses?.armed || 'Tap now.');
+        pulseTarget('armed');
         render();
         continue;
       }
@@ -415,10 +481,14 @@
       streak: state.streak,
       bestStreak: state.bestStreak,
       lastReactionMs: state.lastReactionMs,
+      reactionGrade: state.reactionGrade,
       fastestMs: state.fastestMs,
       averageMs: state.averageMs,
       bestReactionMs: state.bestReactionMs,
       bestAverageMs: state.bestAverageMs,
+      tempoLevel: state.tempoLevel,
+      waitMinMs: state.waitMinMs,
+      waitMaxMs: state.waitMaxMs,
       qaReady: state.qaReady
     };
     return JSON.stringify(payload);

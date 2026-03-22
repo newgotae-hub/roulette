@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sudoku Mini QA Contract Harness</title>
+  <link rel="stylesheet" href="/assets/css/games-sudoku-mini.css?v=20260322-sm1" />
+</head>
+<body>
+  <main class="sm-wrap">
+    <section class="sm-panel" style="margin-bottom:18px;">
+      <div class="sm-panel-head">
+        <div>
+          <h1 style="margin:0;font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:-.05em;">Sudoku Mini QA Contract Harness</h1>
+          <p style="margin:8px 0 0;color:#475569;line-height:1.7;">This fallback page keeps the production hooks while staying small enough for QA.</p>
+        </div>
+        <div class="sm-tag" data-state="ready">QA harness</div>
+      </div>
+      <div class="sm-toolbar" style="margin-top:16px;">
+        <button id="sudoku-mini-reset" type="button">New puzzle</button>
+        <button id="sudoku-mini-daily" type="button">Daily challenge</button>
+        <button id="sudoku-mini-clear" type="button">Clear cell</button>
+      </div>
+    </section>
+
+    <section class="sm-panel">
+      <div class="sm-board-shell">
+        <div id="sudoku-mini-board" class="sm-board" aria-label="Sudoku Mini QA board"></div>
+        <div class="sm-keypad">
+          <button id="sudoku-mini-digit-1" type="button" data-digit="1">1</button>
+          <button id="sudoku-mini-digit-2" type="button" data-digit="2">2</button>
+          <button id="sudoku-mini-digit-3" type="button" data-digit="3">3</button>
+          <button id="sudoku-mini-digit-4" type="button" data-digit="4">4</button>
+        </div>
+      </div>
+      <div class="sm-controls">
+        <div class="sm-stats">
+          <div class="sm-stat"><span>Progress</span><strong id="sudoku-mini-filled">0 / 16</strong></div>
+          <div class="sm-stat"><span>Mistakes</span><strong id="sudoku-mini-mistakes">0</strong></div>
+          <div class="sm-stat"><span>Best</span><strong id="sudoku-mini-best">0</strong></div>
+          <div class="sm-stat"><span>Daily best</span><strong id="sudoku-mini-daily-best">0</strong></div>
+          <div class="sm-stat"><span>Selected</span><strong id="sudoku-mini-selected-label">None</strong></div>
+          <div class="sm-stat"><span>Puzzle</span><strong id="sudoku-mini-puzzle-label">starter</strong></div>
+        </div>
+        <div class="sm-status" id="sudoku-mini-status">Tap an empty cell, then enter a digit from the keypad.</div>
+        <div class="sm-tag-row">
+          <span id="sudoku-mini-tag" class="sm-tag" data-state="ready">Free · Ready</span>
+        </div>
+        <div id="sudoku-mini-hint" class="sm-hint">Tap an empty cell, then choose a digit from 1 to 4.</div>
+        <div id="sudoku-mini-mobile-flow" class="sm-mobile-flow">The first tap selects a cell. The second tap enters the digit.</div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    window.__SUDOKU_MINI_COPY__ = {
+      freeModeLabel: 'Free',
+      dailyModeLabel: 'Daily',
+      readyLabel: 'Ready',
+      playingLabel: 'Playing',
+      clearedLabel: 'Cleared',
+      hint: 'Tap an empty cell, then choose a digit from 1 to 4.',
+      dailyHint: 'Daily board uses the same seed for everyone today.',
+      mobileFlowReady: 'The first tap selects a cell. The second tap enters the digit.',
+      mobileFlowPlaying: 'The selected cell is active now.',
+      mobileFlowCleared: 'Puzzle cleared. Reset or try the daily board.',
+      readyStatus: 'Tap an empty cell, then enter a digit from the keypad.',
+      solvedStatus: 'Correct digit placed.',
+      clearedStatus: 'Puzzle cleared.',
+      invalidStatus: 'Wrong digit.',
+      selectionNone: 'None',
+      resetButton: 'New puzzle',
+      dailyButton: 'Daily challenge',
+      clearButton: 'Clear cell'
+    };
+    window.__SUDOKU_MINI_META__ = {
+      slug: 'sudoku-mini',
+      lang: 'en',
+      mode: 'free',
+      deterministic: true,
+      contract: true
+    };
+  </script>
+  <script src="/assets/js/games-sudoku-mini.js?v=20260322-sm1"></script>
+</body>
+</html>

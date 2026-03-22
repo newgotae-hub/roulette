@@ -374,6 +374,11 @@ a {
   color: #1d4ed8;
 }
 
+.cf-tag[data-state="daily"] {
+  background: #fff7ed;
+  color: #c2410c;
+}
+
 .cf-tag[data-state="draw"] {
   background: #fff7ed;
   color: #c2410c;
@@ -393,6 +398,11 @@ a {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 8px;
+}
+
+.cf-mode-row {
+  gap: 8px;
+  margin-top: 14px;
 }
 
 .cf-column-btn {

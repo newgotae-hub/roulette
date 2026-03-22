@@ -14,6 +14,13 @@ const HOST = '127.0.0.1';
 const PORT = Number(process.env.WEBGAMES_QA_PORT || 4174);
 const CHROME_PORT = Number(process.env.WEBGAMES_QA_CHROME_PORT || 9224);
 const DEFAULT_TIMEOUT_MS = 15000;
+const SCENARIO_GROUPS = {
+  'new-wave': ['connect-four', 'solitaire-mini', 'word-swipe'],
+  '13-wave': ['connect-four', 'solitaire-mini', 'word-swipe'],
+  'board-pack': ['connect-four', 'solitaire-mini', 'minesweeper', 'sliding-puzzle', 'color-lines', 'memory-match'],
+  'reflex-pack': ['snake-v11', 'brick-breaker', 'reaction-tap', 'sequence-flash'],
+  'puzzle-pack': ['number-merge', 'bubble-pop', 'word-swipe', 'memory-match', 'sliding-puzzle', 'color-lines', 'solitaire-mini', 'minesweeper']
+};
 
 const KEY_MAP = {
   ArrowUp: { key: 'ArrowUp', code: 'ArrowUp', keyCode: 38, nativeVirtualKeyCode: 38, windowsVirtualKeyCode: 38 },
@@ -35,11 +42,31 @@ function normalizeText(value) {
 }
 
 function parseArgs(argv) {
-  const args = { scenario: null, strict: false, headless: true, outputDir: OUTPUT_DIR, list: false };
+  const args = {
+    scenarios: [],
+    groups: [],
+    locale: 'all',
+    strict: false,
+    headless: true,
+    outputDir: OUTPUT_DIR,
+    list: false
+  };
   for (let index = 2; index < argv.length; index += 1) {
     const arg = argv[index];
     const next = argv[index + 1];
-    if (arg === '--scenario' && next) { args.scenario = next; index += 1; }
+    if (arg === '--scenario' && next) {
+      args.scenarios.push(...String(next).split(',').map((value) => value.trim()).filter(Boolean));
+      index += 1;
+    }
+    else if (arg === '--group' && next) {
+      args.groups.push(...String(next).split(',').map((value) => value.trim()).filter(Boolean));
+      index += 1;
+    }
+    else if (arg === '--locale' && next) {
+      const value = String(next).trim().toLowerCase();
+      if (['all', 'both', 'ko', 'en'].includes(value)) args.locale = value === 'both' ? 'all' : value;
+      index += 1;
+    }
     else if (arg === '--strict') { args.strict = true; }
     else if (arg === '--headless' && next) { args.headless = next !== '0' && next !== 'false'; index += 1; }
     else if (arg === '--output-dir' && next) { args.outputDir = path.resolve(ROOT, next); index += 1; }
@@ -90,6 +117,14 @@ function readScenarios() {
       const data = JSON.parse(fs.readFileSync(absolutePath, 'utf8'));
       return Object.assign({ file, absolutePath }, data);
     });
+}
+
+function isEnglishScenario(id) {
+  return /-en$/i.test(id);
+}
+
+function baseScenarioId(id) {
+  return String(id || '').replace(/-en$/i, '');
 }
 
 function normalizeScenario(rawScenario) {
@@ -733,10 +768,35 @@ async function runScenario(chromiumPort, scenario, outputDir, allowFallback) {
   }
 }
 
+function selectScenarios(allScenarios, args) {
+  const explicitIds = new Set(args.scenarios);
+  for (const groupName of args.groups) {
+    const group = SCENARIO_GROUPS[groupName];
+    if (!group) continue;
+    for (const id of group) {
+      explicitIds.add(id);
+      explicitIds.add(`${id}-en`);
+    }
+  }
+
+  let selected = explicitIds.size
+    ? allScenarios.filter((scenario) => explicitIds.has(scenario.id))
+    : allScenarios.slice();
+
+  if (args.locale === 'ko') {
+    selected = selected.filter((scenario) => !isEnglishScenario(scenario.id));
+  } else if (args.locale === 'en') {
+    selected = selected.filter((scenario) => isEnglishScenario(scenario.id));
+  }
+
+  selected.sort((a, b) => a.id.localeCompare(b.id));
+  return selected;
+}
+
 async function main() {
   const args = parseArgs(process.argv);
   const scenarioFiles = readScenarios().map(normalizeScenario);
-  const selected = args.scenario ? scenarioFiles.filter((scenario) => scenario.id === args.scenario) : scenarioFiles;
+  const selected = selectScenarios(scenarioFiles, args);
 
   if (args.list) {
     console.log(selected.map((scenario) => `${scenario.id}: ${scenario.name}`).join('\n'));
@@ -744,7 +804,10 @@ async function main() {
   }
 
   if (!selected.length) {
-    throw new Error(args.scenario ? `Unknown scenario: ${args.scenario}` : 'No QA scenarios found.');
+    const hint = args.scenarios.length || args.groups.length
+      ? `No QA scenarios matched the current selection (scenarios=${args.scenarios.join(',') || 'none'} groups=${args.groups.join(',') || 'none'} locale=${args.locale}).`
+      : 'No QA scenarios found.';
+    throw new Error(hint);
   }
 
   ensureDir(args.outputDir);
@@ -757,7 +820,20 @@ async function main() {
     await listen(server, PORT);
     await chrome.start();
     for (const scenario of selected) {
-      results.push(await runScenario(CHROME_PORT, scenario, args.outputDir, !args.strict));
+      try {
+        results.push(await runScenario(CHROME_PORT, scenario, args.outputDir, !args.strict));
+      } catch (error) {
+        results.push({
+          id: scenario.id,
+          name: scenario.name,
+          targetUrl: null,
+          targetStatus: 'error',
+          usedFallback: false,
+          passed: false,
+          issues: [error.message || String(error)],
+          snapshots: []
+        });
+      }
     }
   } finally {
     await closeServer(server);
@@ -776,14 +852,25 @@ async function main() {
   const summaryPath = path.join(args.outputDir, 'summary.txt');
   fs.writeFileSync(
     summaryPath,
-    results.map((result) => (
+    [
+      `Scenarios: ${results.length}`,
+      `Passed: ${results.filter((result) => result.passed).length}`,
+      `Failed: ${results.filter((result) => !result.passed).length}`,
+      '',
+      ...results.map((result) => (
       `${result.passed ? 'PASS' : 'FAIL'} ${result.id} :: ${result.targetStatus}${result.usedFallback ? ' (fallback harness)' : ''} :: ${result.issues.length ? result.issues.join(' | ') : 'ok'}`
-    )).join('\n') + '\n'
+      ))
+    ].join('\n') + '\n'
   );
 
   console.log(`Webgame QA complete for ${results.length} scenario(s).`);
   console.log(`Manifest: ${manifestPath}`);
   console.log(`Summary: ${summaryPath}`);
+
+  const failed = results.filter((result) => !result.passed);
+  if (failed.length) {
+    throw new Error(`Webgame QA failed for ${failed.map((result) => result.id).join(', ')}`);
+  }
 }
 
 main().catch((error) => {

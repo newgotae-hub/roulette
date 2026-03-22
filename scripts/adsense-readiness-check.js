@@ -26,6 +26,7 @@ const RELEASE_GAME_SLUGS = [
   'sliding-puzzle',
   'connect-four',
   'solitaire-mini',
+  'sudoku-mini',
   'word-swipe'
 ];
 const REQUIRED_GAME_FILES = RELEASE_GAME_SLUGS.flatMap((slug) => ([

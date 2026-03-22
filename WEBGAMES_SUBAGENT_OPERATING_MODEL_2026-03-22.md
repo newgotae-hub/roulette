@@ -128,10 +128,21 @@ Owns deterministic verification, not implementation.
 Responsibilities:
 
 - run `scripts/qa-webgames.js`
+- prefer grouped scenario runs for a release wave instead of one-by-one reruns
 - capture `render_game_to_text()` state
 - inspect screenshots and console errors
 - confirm restart, pause, failure, and recovery flows
 - verify that the contract still works across locale variants
+
+Helpful runner patterns:
+
+- `--scenario <id>` for one route
+- `--scenario a,b,c` for a short manual batch
+- `--group new-wave --strict` for the current launch pack
+- `--group board-pack --locale en` for English-only board-game checks
+
+The shared runner now keeps going after one scenario fails and reports the full
+failed set at the end, which is better for parallel repair work.
 
 ### 6. Release Worker
 
@@ -237,6 +248,8 @@ Instead:
 - QA Worker reports exact failures only
 - Game Worker fixes the listed failures
 - QA Worker reruns until stable
+- When several titles are in flight, use one grouped QA run first so the team
+  gets the complete fail list before splitting fixes back out to game workers
 
 ### Phase 4: Release Gate
 

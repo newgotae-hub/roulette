@@ -10,6 +10,11 @@ How to use it:
 
 ## 2026-03-22
 
+### Shared release surfaces updated for the 14-game wave
+
+- Added `sudoku-mini` to the shared release-surface game lists so sitemap generation, SEO validation, and AdSense readiness checks all recognize it as a published game.
+- Documented the current wave in [WEBGAMES_14_GAME_WAVE_2026-03-22.md](C:/Users/newgo/OneDrive/바탕 화면/코딩프로젝트/코덱스/랜덤리픽/WEBGAMES_14_GAME_WAVE_2026-03-22.md), including the new `sudoku-mini` release plus the recent Connect Four daily-mode, Snake/Reaction polish, and QA-group improvements.
+
 ### Release automation one-shot path documented
 
 - Documented the new `scripts/release-main.sh` and `scripts/release-main.ps1` release wrappers so future deploys can stage, commit, validate, and hand off to the existing push path in one command.

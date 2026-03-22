@@ -41,6 +41,19 @@ Run:
 node scripts/qa-webgames.js --scenario snake
 ```
 
+Multiple scenarios:
+
+```bash
+node scripts/qa-webgames.js --scenario connect-four,solitaire-mini,word-swipe
+```
+
+Named scenario groups:
+
+```bash
+node scripts/qa-webgames.js --group new-wave
+node scripts/qa-webgames.js --group board-pack --locale en
+```
+
 Strict route validation:
 
 ```bash
@@ -50,6 +63,13 @@ node scripts/qa-webgames.js --scenario snake --strict
 The strict mode is meant for the review phase after the real game page has been
 added. The fallback harness is only there so the QA flow itself can be validated
 before the production game lands.
+
+Batch behavior:
+
+- grouped runs now keep going after one scenario fails
+- the final process exit is still non-zero if any scenario failed
+- `test-results/webgames/summary.txt` now starts with total/pass/fail counts
+- `--list`, `--scenario`, `--group`, and `--locale ko|en|all` can be combined to trim a release run down to the exact slice you need
 
 Number Merge uses the same hook-driven contract while the real route is still
 coming together.
@@ -68,3 +88,6 @@ the actual product pages.
   and structured HUD/object state on both locales.
 - New scaffolds should be treated as mobile-first and webview-safe from the
   first pass, not as desktop-only shells to be fixed later.
+- Release workers can now run `--group new-wave --strict` style batches and get
+  a single manifest/summary that names every failing scenario instead of
+  stopping on the first one.

@@ -62,6 +62,8 @@ repo.
 - Runs the browser QA scenarios in `scripts/qa-webgames.js`.
 - Uses the real route when present and falls back to the contract harness only
   when the route is missing.
+- Prefer grouped runs for a release wave so one broken title does not hide the
+  rest of the failures.
 - Checks:
   - hook presence
   - render text
@@ -72,7 +74,8 @@ repo.
 ### Release worker
 
 - Runs the repo release path in this order:
-  - `node scripts/qa-webgames.js --scenario <id>`
+  - `node scripts/qa-webgames.js --scenario <id>` or grouped runs such as
+    `node scripts/qa-webgames.js --group new-wave --strict`
   - `node scripts/adsense-readiness-check.js`
   - `node scripts/validate-seo.js`
   - `git diff --check`
@@ -105,6 +108,18 @@ repo.
 4. Re-run QA until pass.
 5. Release lane runs SEO, AdSense, diff check, and deploy.
 6. Deploy with `scripts/deploy-main.sh`.
+
+## Recommended QA CLI patterns
+
+- One route:
+  - `node scripts/qa-webgames.js --scenario connect-four --strict`
+- One wave:
+  - `node scripts/qa-webgames.js --group new-wave --strict`
+- English-only pass:
+  - `node scripts/qa-webgames.js --group board-pack --locale en --strict`
+
+Grouped runs now continue through every selected scenario and fail only at the
+end, so the summary captures the full set of broken titles in one pass.
 
 ## Scenario rules
 

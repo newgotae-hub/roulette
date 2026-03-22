@@ -30,6 +30,7 @@ const PUBLISHED_GAMES = [
   ['sliding-puzzle', 'Sliding Puzzle', '/assets/js/games-sliding-puzzle.js'],
   ['connect-four', 'Connect Four', '/assets/js/games-connect-four.js'],
   ['solitaire-mini', 'Solitaire Mini', '/assets/js/games-solitaire-mini.js'],
+  ['sudoku-mini', 'Sudoku Mini', '/assets/js/games-sudoku-mini.js'],
   ['word-swipe', 'Word Swipe', '/assets/js/games-word-swipe.js']
 ];
 const ALIAS_REDIRECTS = {

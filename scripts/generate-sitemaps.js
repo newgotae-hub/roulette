@@ -19,6 +19,7 @@ const GAME_SLUGS = [
   'sliding-puzzle',
   'connect-four',
   'solitaire-mini',
+  'sudoku-mini',
   'word-swipe'
 ];
 const gamePages = ['games'].concat(GAME_SLUGS.map((slug) => `games/${slug}`));

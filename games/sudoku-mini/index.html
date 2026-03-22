@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Sudoku Mini | Randomly Pick</title>
+  <meta name="description" content="브라우저에서 바로 하는 Sudoku Mini. 4x4 미니 스도쿠 보드를 빠르게 풀고, 일일 퍼즐과 자유 퍼즐을 짧게 반복할 수 있습니다." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://randomly-pick.com/games/sudoku-mini/" />
+  <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/sudoku-mini/" />
+  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/games/sudoku-mini/" />
+  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/games/sudoku-mini/" />
+  <link rel="stylesheet" href="/assets/css/games-sudoku-mini.css?v=20260322-sm1" />
+  <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
+</head>
+<body>
+  <main class="sm-wrap">
+    <header class="sm-topbar">
+      <div class="sm-brand">
+        <div class="sm-brand-mark">R.</div>
+        <div>
+          <div class="sm-brand-name">Randomly Pick</div>
+          <div class="sm-brand-sub">Sudoku Mini</div>
+        </div>
+      </div>
+      <nav class="sm-nav" aria-label="주요 메뉴">
+        <a href="/">홈</a>
+        <a href="/games/" class="is-active" aria-current="page">Games</a>
+        <a href="/luckydraw/">럭키 드로우</a>
+        <a href="/ladder/">사다리</a>
+        <a href="/team-generator/">팀 나누기</a>
+        <a href="/coinflip/">동전 던지기</a>
+        <a href="/dice/">주사위</a>
+      </nav>
+    </header>
+
+    <section class="sm-hero">
+      <span class="sm-eyebrow">Logic puzzle</span>
+      <h1 class="sm-title">Sudoku Mini</h1>
+      <p class="sm-lede">4x4 보드로 빠르게 즐기는 미니 스도쿠입니다. 숫자 1부터 4까지를 각 줄, 각 칸 묶음, 각 세로줄에 한 번씩만 넣으면 되고, 모바일에서는 셀을 누른 뒤 숫자 키패드만 눌러도 풀 수 있게 만들었습니다.</p>
+      <div class="sm-actions">
+        <a class="sm-button is-primary" href="#play-area">바로 플레이</a>
+        <a class="sm-button" href="/games/">Games 허브</a>
+      </div>
+      <div class="sm-chips" aria-label="게임 특징">
+        <span class="sm-chip">4x4 미니 스도쿠</span>
+        <span class="sm-chip">터치 키패드</span>
+        <span class="sm-chip">일일 퍼즐</span>
+        <span class="sm-chip">Deterministic QA hooks</span>
+      </div>
+      <div class="sm-tag-row" aria-label="현재 상태">
+        <span id="sudoku-mini-tag" class="sm-tag" data-state="ready">Free · Ready</span>
+      </div>
+      <div id="sudoku-mini-hint" class="sm-hint">비어 있는 칸을 누른 뒤 숫자 키패드에서 1부터 4까지를 고르세요. starter 보드는 규칙을 익히기 쉽게 열려 있습니다.</div>
+      <div id="sudoku-mini-mobile-flow" class="sm-mobile-flow">모바일에서는 칸 선택과 숫자 입력을 따로 분리했습니다. 첫 탭은 칸 선택, 두 번째 탭은 숫자 입력입니다.</div>
+    </section>
+
+    <div class="sm-layout" id="play-area">
+      <section class="sm-panel" aria-labelledby="board-title">
+        <div class="sm-panel-head">
+          <h2 id="board-title">퍼즐 보드</h2>
+          <div class="sm-toolbar">
+            <button id="sudoku-mini-reset" type="button">새 퍼즐</button>
+            <button id="sudoku-mini-daily" type="button">일일 퍼즐</button>
+            <button id="sudoku-mini-clear" type="button">칸 지우기</button>
+          </div>
+        </div>
+        <div class="sm-board-shell">
+          <div id="sudoku-mini-board" class="sm-board" aria-label="Sudoku Mini 보드"></div>
+          <div class="sm-keypad" aria-label="숫자 입력">
+            <button id="sudoku-mini-digit-1" type="button" data-digit="1">1</button>
+            <button id="sudoku-mini-digit-2" type="button" data-digit="2">2</button>
+            <button id="sudoku-mini-digit-3" type="button" data-digit="3">3</button>
+            <button id="sudoku-mini-digit-4" type="button" data-digit="4">4</button>
+          </div>
+        </div>
+        <div class="sm-controls">
+          <div class="sm-stats" aria-label="현재 게임 정보">
+            <div class="sm-stat"><span>진행</span><strong id="sudoku-mini-filled">0 / 16</strong></div>
+            <div class="sm-stat"><span>실수</span><strong id="sudoku-mini-mistakes">0</strong></div>
+            <div class="sm-stat"><span>최고</span><strong id="sudoku-mini-best">0</strong></div>
+            <div class="sm-stat"><span>일일 최고</span><strong id="sudoku-mini-daily-best">0</strong></div>
+            <div class="sm-stat"><span>현재 선택</span><strong id="sudoku-mini-selected-label">선택 없음</strong></div>
+            <div class="sm-stat"><span>현재 퍼즐</span><strong id="sudoku-mini-puzzle-label">starter</strong></div>
+          </div>
+          <div class="sm-status" id="sudoku-mini-status">줄, 세로줄, 2x2 묶음에 같은 숫자를 한 번만 넣으면 됩니다. 잘못된 숫자를 넣으면 실수가 올라갑니다.</div>
+        </div>
+      </section>
+
+      <aside class="sm-panel" aria-labelledby="guide-title">
+        <div class="sm-panel-head"><h2 id="guide-title">어떻게 플레이하나요</h2></div>
+        <p>Sudoku Mini는 거대한 9x9 퍼즐 대신, 빠르게 한 판을 끝낼 수 있는 4x4 버전입니다. 규칙은 그대로 유지하되 입력 부담이 적어서 모바일이나 짧은 브라우저 세션에도 잘 맞습니다.</p>
+        <div class="sm-copy-grid">
+          <div class="sm-copy-card">
+            <strong>왜 4x4인가요</strong>
+            <p>처음 들어오는 사람도 규칙을 금방 이해할 수 있고, 페이지가 얇은 보드만 남지 않도록 설명과 상태를 함께 보일 수 있습니다.</p>
+          </div>
+          <div class="sm-copy-card">
+            <strong>일일 퍼즐 루프</strong>
+            <p>일일 퍼즐은 모두가 같은 seed에서 시작합니다. 계정 없이도 “오늘 판”을 다시 해볼 이유를 만들 수 있습니다.</p>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <section class="sm-section" aria-labelledby="howto-title">
+      <div class="sm-section-head">
+        <h2 id="howto-title">플레이 방법</h2>
+        <p>한 줄, 한 세로줄, 한 2x2 묶음에 같은 숫자가 겹치지 않게 채우면 됩니다.</p>
+      </div>
+      <div class="sm-steps">
+        <div class="sm-step"><strong>1. 빈 칸을 선택합니다.</strong> 회색으로 비어 있는 칸만 고를 수 있습니다.</div>
+        <div class="sm-step"><strong>2. 숫자를 입력합니다.</strong> 키패드에서 1부터 4까지 하나를 선택해 넣습니다.</div>
+        <div class="sm-step"><strong>3. 보드를 완성합니다.</strong> 모든 칸이 정답이면 판이 즉시 완료됩니다.</div>
+      </div>
+    </section>
+
+    <section class="sm-section" aria-labelledby="related-title">
+      <div class="sm-section-head">
+        <h2 id="related-title">같이 보기 좋은 Randomly Pick 게임</h2>
+        <p>같은 퍼즐 결을 유지하면서도 다른 사고 방식으로 넘어갈 수 있게 연결합니다.</p>
+      </div>
+      <div class="sm-related">
+        <a href="/games/number-merge/"><strong>Number Merge</strong><br />숫자 감각을 유지한 채 합치기 퍼즐로 넘어갈 수 있습니다.</a>
+        <a href="/games/word-swipe/"><strong>Word Swipe</strong><br />숫자 대신 문자 경로를 읽는 퍼즐로 바꿔 볼 수 있습니다.</a>
+        <a href="/games/minesweeper/"><strong>Minesweeper</strong><br />논리 퍼즐 감각을 이어 가기에 좋습니다.</a>
+        <a href="/about/"><strong>소개</strong><br />사이트 운영 정보와 신뢰 링크를 확인할 수 있습니다.</a>
+      </div>
+    </section>
+
+    <section class="sm-trust">
+      <strong>사이트 링크</strong>
+      <div class="sm-links">
+        <a href="/about/">About</a>
+        <a href="/guides/">Guides</a>
+        <a href="/privacy/">Privacy Policy</a>
+        <a href="/terms/">Terms</a>
+        <a href="/contact/">Contact</a>
+      </div>
+    </section>
+
+    <div class="sm-footer">Randomly Pick · <a href="/games/">Games</a></div>
+  </main>
+
+  <script>
+    window.__SUDOKU_MINI_COPY__ = {
+      freeModeLabel: 'Free',
+      dailyModeLabel: 'Daily',
+      readyLabel: 'Ready',
+      playingLabel: 'Playing',
+      clearedLabel: 'Cleared',
+      hint: '비어 있는 칸을 누른 뒤 숫자 키패드에서 1부터 4까지를 고르세요. starter 보드는 규칙을 익히기 쉽게 열려 있습니다.',
+      dailyHint: '일일 퍼즐은 날짜마다 같은 보드로 고정됩니다. 실수 수를 줄이는 것이 핵심입니다.',
+      mobileFlowReady: '모바일에서는 칸 선택과 숫자 입력을 따로 분리했습니다. 첫 탭은 칸 선택, 두 번째 탭은 숫자 입력입니다.',
+      mobileFlowPlaying: '선택한 칸에 넣을 숫자를 고르세요. 잘못 넣으면 실수가 올라갑니다.',
+      mobileFlowCleared: '퍼즐을 완성했습니다. 새 퍼즐이나 일일 퍼즐로 바로 이어 갈 수 있습니다.',
+      readyStatus: '줄, 세로줄, 2x2 묶음에 같은 숫자를 한 번만 넣으면 됩니다. 잘못된 숫자를 넣으면 실수가 올라갑니다.',
+      solvedStatus: '정답이 들어갔습니다. 남은 빈 칸을 이어서 채워 보세요.',
+      clearedStatus: '모든 칸을 완성했습니다. 새 퍼즐이나 일일 퍼즐로 넘어갈 수 있습니다.',
+      invalidStatus: '그 숫자는 이 칸의 정답이 아닙니다. 다른 숫자를 시도해 보세요.',
+      selectionNone: '선택 없음',
+      resetButton: '새 퍼즐',
+      dailyButton: '일일 퍼즐',
+      clearButton: '칸 지우기'
+    };
+    window.__SUDOKU_MINI_META__ = {
+      slug: 'sudoku-mini',
+      lang: 'ko',
+      mode: 'free'
+    };
+  </script>
+  <script src="/assets/js/games-sudoku-mini.js?v=20260322-sm1"></script>
+</body>
+</html>

@@ -31,12 +31,14 @@
   const cpuToggleBtn = byId('connect-four-cpu-toggle');
   const modeLocalBtn = byId('connect-four-mode-local', 'cf-mode-local');
   const modeCpuBtn = byId('connect-four-mode-cpu', 'cf-mode-cpu');
+  let modeDailyBtn = byId('connect-four-mode-daily', 'cf-mode-daily');
   const mobileFlowEl = byId('connect-four-mobile-flow');
   const modeBadgeEl = byId('cf-mode-badge');
   const turnBadgeEl = byId('cf-turn-badge');
   const resultBadgeEl = byId('cf-result-badge');
   const redScoreEl = byId('cf-red-score');
   const yellowScoreEl = byId('cf-yellow-score');
+  let dailyBestEl = byId('cf-daily-best');
   const targetCountEl = byId('cf-target-count');
 
   const state = {
@@ -48,10 +50,15 @@
     board: createBoard(),
     winningCells: [],
     lastMove: null,
+    mode: 'local',
     cpuEnabled: false,
     pendingCpuMs: 0,
     clockMs: 0,
     lastAction: 'reset',
+    dailyKey: '',
+    dailySeed: 0,
+    dailyBest: 0,
+    dailyOpeningMoves: 0,
     scores: {
       1: 0,
       2: 0
@@ -62,8 +69,38 @@
     return Array.from({ length: ROWS }, () => Array.from({ length: COLS }, () => 0));
   }
 
+  function normalizeMode(mode) {
+    if (mode === 'daily') return 'daily';
+    if (mode === 'cpu' || mode === true) return 'cpu';
+    return 'local';
+  }
+
   function cloneBoard(board = state.board) {
     return board.map((row) => row.slice());
+  }
+
+  function localDateKey(date = new Date()) {
+    const year = String(date.getFullYear());
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}${month}${day}`;
+  }
+
+  function hashString(input) {
+    let hash = 0x811c9dc5;
+    for (let index = 0; index < input.length; index += 1) {
+      hash ^= input.charCodeAt(index);
+      hash = Math.imul(hash, 0x01000193);
+    }
+    return (hash >>> 0) || 0x5f3759df;
+  }
+
+  function getDailySeed(date = new Date()) {
+    return hashString(`connect-four:${localDateKey(date)}`);
+  }
+
+  function getDailyBestKey(dailyKey) {
+    return `rlt-cf-daily-best-v1-${dailyKey || localDateKey()}`;
   }
 
   function clamp(value, min, max) {
@@ -77,6 +114,7 @@
   }
 
   function phaseLabel() {
+    if (state.mode === 'daily' && state.phase === 'playing') return copy.dailyModeLabel || 'Daily challenge';
     if (state.phase === 'won') return copy.wonLabel || 'Won';
     if (state.phase === 'draw') return copy.drawLabel || 'Draw';
     if (state.phase === 'playing') return copy.playingLabel || 'Playing';
@@ -85,13 +123,22 @@
 
   function statusText() {
     if (state.phase === 'won') {
+      if (state.mode === 'daily') {
+        return `${playerName(state.winner)} ${copy.dailyWinStatus || 'wins today’s challenge.'}`;
+      }
       return `${playerName(state.winner)} ${copy.winStatusSuffix || 'wins. Reset for another round.'}`;
     }
     if (state.phase === 'draw') {
+      if (state.mode === 'daily') {
+        return copy.dailyDrawStatus || 'Today’s challenge is full. Reset and try again tomorrow.';
+      }
       return copy.drawStatus || 'The board is full. Reset for a new game.';
     }
     if (state.currentPlayer === 2 && state.cpuEnabled && state.pendingCpuMs > 0) {
       return copy.cpuThinkingStatus || 'CPU is lining up the next move.';
+    }
+    if (state.mode === 'daily') {
+      return copy.dailyStatus || 'Today’s challenge uses the same starting board for everyone. Try to win in the fewest moves.';
     }
     if (state.phase === 'playing') {
       return `${playerName(state.currentPlayer)} ${copy.turnStatusSuffix || 'to move. Choose a column.'}`;
@@ -115,39 +162,46 @@
     if (targetCountEl) targetCountEl.textContent = String(config.connect || 4);
     if (phaseTagEl) {
       phaseTagEl.textContent = phaseLabel();
-      phaseTagEl.dataset.state = state.phase === 'won' ? 'win' : state.phase;
+      phaseTagEl.dataset.state = state.phase === 'won' ? 'win' : (state.mode === 'daily' ? 'daily' : state.phase);
     }
     if (modeEl) {
-      modeEl.textContent = state.cpuEnabled
-        ? (copy.modeCpuLabel || 'Solo vs CPU')
-        : (copy.modeLocalLabel || 'Local two-player');
+      modeEl.textContent = state.mode === 'daily'
+        ? (copy.modeDailyLabel || 'Daily challenge')
+        : (state.cpuEnabled ? (copy.modeCpuLabel || 'Solo vs CPU') : (copy.modeLocalLabel || 'Local two-player'));
     }
     if (modeBadgeEl) {
-      modeBadgeEl.textContent = state.cpuEnabled
-        ? (copy.modeCpuBadge || copy.modeCpuLabel || 'vs CPU')
-        : (copy.modeLocalBadge || copy.modeLocalLabel || 'Local two-player');
-      modeBadgeEl.dataset.state = state.cpuEnabled ? 'cpu' : 'local';
+      modeBadgeEl.textContent = state.mode === 'daily'
+        ? (copy.modeDailyBadge || copy.modeDailyLabel || 'Daily challenge')
+        : (state.cpuEnabled ? (copy.modeCpuBadge || copy.modeCpuLabel || 'vs CPU') : (copy.modeLocalBadge || copy.modeLocalLabel || 'Local two-player'));
+      modeBadgeEl.dataset.state = state.mode === 'daily' ? 'daily' : (state.cpuEnabled ? 'cpu' : 'local');
     }
     if (turnBadgeEl) {
       turnBadgeEl.textContent = state.phase === 'won'
         ? `${playerName(state.winner)} ${copy.wonLabel || 'won'}`
         : state.phase === 'draw'
           ? (copy.drawLabel || 'Draw')
-          : `${playerName(state.currentPlayer)} ${copy.turnBadgeSuffix || 'turn'}`;
-      turnBadgeEl.dataset.state = state.currentPlayer === 1 ? 'red' : 'yellow';
+          : (state.mode === 'daily'
+            ? (copy.dailyTurnBadge || `${playerName(state.currentPlayer)} to move`)
+            : `${playerName(state.currentPlayer)} ${copy.turnBadgeSuffix || 'turn'}`);
+      turnBadgeEl.dataset.state = state.mode === 'daily' ? 'daily' : (state.currentPlayer === 1 ? 'red' : 'yellow');
     }
     if (resultBadgeEl) {
       resultBadgeEl.textContent = state.phase === 'won'
-        ? `${playerName(state.winner)} ${copy.winStatusSuffix || 'wins. Reset for another round.'}`
+        ? `${playerName(state.winner)} ${state.mode === 'daily' ? (copy.dailyWinStatus || 'wins today’s challenge.') : (copy.winStatusSuffix || 'wins. Reset for another round.')}`
         : state.phase === 'draw'
-          ? (copy.drawStatus || 'The board is full. Reset for a new game.')
-          : (copy.firstPlayNote || copy.readyStatus || 'Choose a column to start.');
-      resultBadgeEl.dataset.state = state.phase === 'won' ? 'win' : state.phase;
+          ? (state.mode === 'daily' ? (copy.dailyDrawStatus || 'Today’s challenge is full. Reset and try again tomorrow.') : (copy.drawStatus || 'The board is full. Reset for a new game.'))
+          : (state.mode === 'daily'
+            ? (copy.dailyReadyStatus || 'Today’s challenge uses the same starting board for everyone.')
+            : (copy.firstPlayNote || copy.readyStatus || 'Choose a column to start.'));
+      resultBadgeEl.dataset.state = state.phase === 'won' ? 'win' : (state.mode === 'daily' ? 'daily' : state.phase);
     }
     if (mobileFlowEl) {
       mobileFlowEl.textContent = state.cpuEnabled
         ? (copy.mobileFlowCpu || 'Drop your disc, then wait for the CPU response.')
         : (copy.mobileFlowLocal || 'Players alternate on the same device.');
+    }
+    if (dailyBestEl) {
+      dailyBestEl.textContent = String(state.dailyBest || 0);
     }
     if (cpuToggleBtn) {
       cpuToggleBtn.dataset.active = state.cpuEnabled ? 'true' : 'false';
@@ -164,12 +218,45 @@
       modeCpuBtn.dataset.active = state.cpuEnabled ? 'true' : 'false';
       modeCpuBtn.setAttribute('aria-pressed', state.cpuEnabled ? 'true' : 'false');
     }
+    if (modeDailyBtn) {
+      modeDailyBtn.dataset.active = state.mode === 'daily' ? 'true' : 'false';
+      modeDailyBtn.setAttribute('aria-pressed', state.mode === 'daily' ? 'true' : 'false');
+    }
     if (startBtn) {
       startBtn.textContent = state.phase === 'ready'
         ? (copy.startButton || 'Start')
         : (copy.restartButton || 'Restart');
     }
   }
+
+  function ensureDailyUi() {
+    if (!modeDailyBtn) {
+      const modeRow = document.querySelector('.cf-mode-row');
+      if (modeRow) {
+        const button = document.createElement('button');
+        button.id = 'cf-mode-daily';
+        button.className = 'cf-mode-pill';
+        button.type = 'button';
+        button.dataset.cfMode = 'daily';
+        button.dataset.active = 'false';
+        button.textContent = copy.modeDailyLabel || 'Daily challenge';
+        modeRow.appendChild(button);
+        modeDailyBtn = button;
+      }
+    }
+    if (!dailyBestEl) {
+      const statGrid = document.querySelector('.cf-stat-grid');
+      if (statGrid) {
+        const stat = document.createElement('div');
+        stat.className = 'cf-stat';
+        stat.innerHTML = `<span>${copy.dailyBestLabel || 'Daily best'}</span><strong id="cf-daily-best">0</strong>`;
+        statGrid.appendChild(stat);
+        dailyBestEl = stat.querySelector('#cf-daily-best');
+      }
+    }
+  }
+
+  ensureDailyUi();
 
   function availableRow(column, board = state.board) {
     for (let row = ROWS - 1; row >= 0; row -= 1) {
@@ -348,6 +435,15 @@
       state.winningCells = winning;
       state.pendingCpuMs = 0;
       state.scores[player] += 1;
+      if (state.mode === 'daily') {
+        const dailyBest = state.dailyBest > 0 ? state.dailyBest : Number(window.localStorage?.getItem(getDailyBestKey(state.dailyKey)) || '0') || 0;
+        if (!dailyBest || state.moveCount < dailyBest) {
+          state.dailyBest = state.moveCount;
+          if (window.localStorage && state.dailyKey) {
+            window.localStorage.setItem(getDailyBestKey(state.dailyKey), String(state.dailyBest));
+          }
+        }
+      }
       return;
     }
     if (boardFull()) {
@@ -397,16 +493,75 @@
     state.pendingCpuMs = 0;
     state.clockMs = 0;
     state.lastAction = 'reset';
-    if (typeof options.cpu === 'boolean') {
-      state.cpuEnabled = options.cpu;
+    state.dailyOpeningMoves = 0;
+    const mode = normalizeMode(options.mode || state.mode || 'local');
+    state.mode = mode;
+    state.cpuEnabled = mode !== 'local';
+    if (mode === 'daily') {
+      state.dailyKey = localDateKey();
+      state.dailySeed = getDailySeed();
+      state.dailyBest = Number(window.localStorage?.getItem(getDailyBestKey(state.dailyKey)) || '0') || 0;
+      const opening = buildDailyOpening(state.dailySeed);
+      if (opening) {
+        state.board = opening.board;
+        state.currentPlayer = opening.currentPlayer;
+        state.moveCount = opening.moveCount;
+        state.lastMove = opening.lastMove;
+        state.phase = 'playing';
+        state.dailyOpeningMoves = opening.moveCount;
+      }
+    } else {
+      state.dailyKey = localDateKey();
+      state.dailySeed = 0;
+      state.dailyBest = Number(window.localStorage?.getItem(getDailyBestKey(state.dailyKey)) || '0') || 0;
     }
     render();
     return render_game_to_text();
   }
 
-  function setMode(cpuEnabled) {
-    state.cpuEnabled = Boolean(cpuEnabled);
-    return resetGame();
+  function buildDailyOpening(seed) {
+    const openingOrders = [
+      [3, 2, 4, 3, 1, 5],
+      [3, 4, 2, 3, 5, 1],
+      [2, 3, 4, 2, 5, 1],
+      [4, 3, 2, 4, 1, 5],
+      [3, 1, 4, 2, 5, 3],
+      [3, 5, 2, 4, 1, 3]
+    ];
+    const startIndex = Math.floor(createRng(seed ^ 0x9e3779b9)() * openingOrders.length);
+    for (let offset = 0; offset < openingOrders.length; offset += 1) {
+      const sequence = openingOrders[(startIndex + offset) % openingOrders.length];
+      const board = createBoard();
+      let currentPlayer = 1;
+      let moveCount = 0;
+      let lastMove = null;
+      let failed = false;
+      for (const column of sequence) {
+        const row = availableRow(column, board);
+        if (row === -1) {
+          failed = true;
+          break;
+        }
+        board[row][column] = currentPlayer;
+        lastMove = { row, column };
+        moveCount += 1;
+        if (winningCellsFor(board, row, column, currentPlayer).length || boardFull(board)) {
+          failed = true;
+          break;
+        }
+        currentPlayer = currentPlayer === 1 ? 2 : 1;
+      }
+      if (!failed && moveCount >= 4) {
+        return { board, currentPlayer, moveCount, lastMove };
+      }
+    }
+    return null;
+  }
+
+  function setMode(mode) {
+    const normalized = normalizeMode(mode);
+    state.mode = normalized;
+    return resetGame({ mode: normalized });
   }
 
   function advanceTime(ms) {
@@ -438,6 +593,11 @@
       winningCells: state.winningCells,
       clockMs: state.clockMs,
       lastAction: state.lastAction,
+      mode: state.mode,
+      dailyKey: state.dailyKey,
+      dailySeed: state.dailySeed,
+      dailyBest: state.dailyBest,
+      dailyOpeningMoves: state.dailyOpeningMoves,
       scores: { ...state.scores },
       qaReady: true
     });
@@ -464,20 +624,24 @@
       resetGame();
     } else if (event.key === 'c' || event.key === 'C') {
       event.preventDefault();
-      setMode(!state.cpuEnabled);
+      setMode(state.mode === 'cpu' ? 'local' : 'cpu');
+    } else if (event.key === 'd' || event.key === 'D') {
+      event.preventDefault();
+      setMode('daily');
     }
   }
 
   if (resetBtn) resetBtn.addEventListener('click', () => resetGame());
   if (newBtn) newBtn.addEventListener('click', () => resetGame());
   if (startBtn) startBtn.addEventListener('click', () => resetGame());
-  if (cpuToggleBtn) cpuToggleBtn.addEventListener('click', () => setMode(!state.cpuEnabled));
-  if (modeLocalBtn) modeLocalBtn.addEventListener('click', () => setMode(false));
-  if (modeCpuBtn) modeCpuBtn.addEventListener('click', () => setMode(true));
+  if (cpuToggleBtn) cpuToggleBtn.addEventListener('click', () => setMode(state.mode === 'cpu' ? 'local' : 'cpu'));
+  if (modeLocalBtn) modeLocalBtn.addEventListener('click', () => setMode('local'));
+  if (modeCpuBtn) modeCpuBtn.addEventListener('click', () => setMode('cpu'));
+  if (modeDailyBtn) modeDailyBtn.addEventListener('click', () => setMode('daily'));
   document.addEventListener('keydown', handleKeydown);
 
   window.connectFourDrop = (column) => dropInColumn(Number(column), 'human');
-  window.connectFourSetMode = (mode) => setMode(mode === 'cpu' || mode === true);
+  window.connectFourSetMode = (mode) => setMode(mode);
   window.render_game_to_text = render_game_to_text;
   window.advanceTime = advanceTime;
   window.resetGame = resetGame;
@@ -485,5 +649,5 @@
   window.QA_READY = true;
   window.__WEBGAME_QA_READY__ = true;
 
-  resetGame({ cpu: Boolean(config.defaultMode === 'cpu' || config.cpuEnabled === true) });
+  resetGame({ mode: normalizeMode(config.defaultMode || (config.cpuEnabled ? 'cpu' : 'local')) });
 })();

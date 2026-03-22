@@ -1,0 +1,32 @@
+{
+  "id": "sudoku-mini",
+  "name": "Sudoku Mini",
+  "pageCandidates": [
+    "/games/sudoku-mini/",
+    "/games/sudoku-mini/index.html"
+  ],
+  "fallbackPath": "/assets/qa/webgames/sudoku-mini-contract.html",
+  "requiredHooks": [
+    "QA_READY",
+    "render_game_to_text",
+    "advanceTime",
+    "reset"
+  ],
+  "parsedAssertions": [
+    { "key": "mode", "type": "string", "anyOfValues": ["free", "daily"] },
+    { "key": "phase", "type": "string", "anyOfValues": ["ready", "playing", "cleared"] },
+    { "key": "filled", "type": "number", "min": 0 },
+    { "key": "mistakes", "type": "number", "min": 0 },
+    { "key": "puzzleId", "type": "string" },
+    { "key": "board", "type": "array" },
+    { "key": "complete", "type": "boolean" },
+    { "key": "elapsedMs", "type": "number", "min": 0 },
+    { "key": "qaReady", "type": "boolean", "anyOfValues": ["true"] }
+  ],
+  "bursts": [
+    { "label": "boot", "calls": ["window.reset()"] },
+    { "label": "fill-correct-cell", "calls": ["window.sudokuMiniFill(1, 2)"], "advanceMs": 120 },
+    { "label": "daily-mode", "calls": ["document.getElementById('sudoku-mini-daily')?.click()"], "advanceMs": 120 },
+    { "label": "reset", "calls": ["window.resetGame(1, { mode: 'free' })"], "advanceMs": 120 }
+  ]
+}

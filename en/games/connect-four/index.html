@@ -48,12 +48,14 @@
       <div class="cf-chips" aria-label="Game features">
         <span class="cf-chip">Local 2-player</span>
         <span class="cf-chip">vs CPU</span>
+        <span class="cf-chip">Daily challenge</span>
         <span class="cf-chip">Webview friendly</span>
         <span class="cf-chip">Mobile first</span>
       </div>
       <div class="cf-mode-row" role="group" aria-label="Mode selection">
         <button id="cf-mode-local" class="cf-mode-pill" type="button" data-cf-mode="local" data-active="true">Local 2P</button>
         <button id="cf-mode-cpu" class="cf-mode-pill" type="button" data-cf-mode="cpu" data-active="false">vs CPU</button>
+        <button id="cf-mode-daily" class="cf-mode-pill" type="button" data-cf-mode="daily" data-active="false">Daily</button>
       </div>
       <div class="cf-tag-row" aria-label="Current state">
         <span id="cf-mode-badge" class="cf-tag" data-state="ready">Local 2P ready</span>
@@ -123,6 +125,7 @@
                 <div class="cf-stat"><span>Yellow wins</span><strong id="cf-yellow-score">0</strong></div>
                 <div class="cf-stat"><span>Moves</span><strong id="cf-move-count">0</strong></div>
                 <div class="cf-stat"><span>Connect</span><strong id="cf-target-count">4</strong></div>
+                <div class="cf-stat"><span>Daily best</span><strong id="cf-daily-best">0</strong></div>
               </div>
               <div class="cf-status" id="cf-status" aria-live="polite">Tap a column and the first disc will fall. This is designed for quick local play on one device.</div>
               <div class="cf-hint" id="cf-hint">On mobile, just tap a column. Keyboard support includes 1-7, ← →, Enter, Space, and R.</div>
@@ -224,6 +227,15 @@
       resetLabel: 'Reset',
       localModeNote: 'Local 2P is the best fit when two people share one device.',
       cpuModeNote: 'vs CPU is ideal for a quick solo round.',
+      dailyModeLabel: 'Daily challenge',
+      dailyModeBadge: 'Daily challenge',
+      dailyTurnBadge: 'Daily puzzle',
+      dailyBestLabel: 'Daily best',
+      dailyReadyStatus: 'Today’s challenge uses the same opening position for everyone. Try to finish it in as few moves as possible.',
+      dailyStatus: 'Today’s challenge is active. Keep the board clean, read the column pressure, and aim for a fast win.',
+      dailyWinStatus: 'wins today’s challenge.',
+      dailyDrawStatus: 'Today’s challenge is full. Reset and try again tomorrow.',
+      dailyHint: 'Daily challenge uses the same seed for everyone today. Press D if you want to jump straight into it.',
       keyboardHint: 'Keyboard support includes 1-7, ← →, Enter, Space, and R.',
       mobileHint: 'On mobile, just tap a column. You do not need to tap the board cells directly.',
       firstPlayNote: 'Your first move is just one column tap away.'

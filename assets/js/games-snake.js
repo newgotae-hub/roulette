@@ -84,6 +84,8 @@
     bonusApple: null,
     bonusActive: false,
     normalApplesSinceBonus: 0,
+    flow: 0,
+    recentTrail: [],
     timeLeftMs: null,
     streak: 0,
     streakWindowMs: 0,
@@ -144,10 +146,15 @@
     return `${seconds}s`;
   }
 
+  function currentBonusEvery(config = currentModeConfig()) {
+    const flowLift = Math.floor(Math.max(0, state.flow) / 3);
+    return Math.max(2, config.bonusEvery - flowLift);
+  }
+
   function bonusReadyIn() {
     const config = currentModeConfig();
     if (state.bonusActive) return 0;
-    return Math.max(0, config.bonusEvery - state.normalApplesSinceBonus);
+    return Math.max(0, currentBonusEvery(config) - state.normalApplesSinceBonus);
   }
 
   function rewardBadgeText() {
@@ -325,8 +332,9 @@
 
   function updateSpeed() {
     const config = currentModeConfig();
-    const reduced = Math.floor(state.score / config.speedStepScore) * 5;
-    state.tickMs = Math.max(config.minStepMs, config.baseStepMs - reduced);
+    const scoreReduction = Math.floor(state.score / config.speedStepScore) * 5;
+    const flowReduction = Math.min(18, Math.max(0, state.flow - 1) * 2);
+    state.tickMs = Math.max(config.minStepMs, config.baseStepMs - scoreReduction - flowReduction);
   }
 
   function saveBest() {
@@ -402,6 +410,8 @@
     state.bonusApple = null;
     state.bonusActive = false;
     state.normalApplesSinceBonus = 0;
+    state.flow = 0;
+    state.recentTrail = [];
     state.timeLeftMs = currentModeConfig().timeLimitMs;
     state.streak = 0;
     state.streakWindowMs = 0;
@@ -502,6 +512,9 @@
       if (state.streakWindowMs === 0 && state.streak > 0) {
         state.streak = 0;
       }
+      if (state.streakWindowMs === 0 && state.flow > 0) {
+        state.flow = Math.max(0, state.flow - 1);
+      }
     }
 
     if (state.queuedDirection && !opposite(state.queuedDirection, state.direction)) {
@@ -510,6 +523,10 @@
     state.queuedDirection = null;
 
     const head = state.snake[0];
+    state.recentTrail.unshift({ x: head.x, y: head.y });
+    if (state.recentTrail.length > 6) {
+      state.recentTrail.pop();
+    }
     const next = { x: head.x + state.direction.x, y: head.y + state.direction.y };
 
     if (config.wrapWalls) {
@@ -540,7 +557,8 @@
       state.bonusActive = false;
       state.bonusApple = null;
       state.normalApplesSinceBonus = 0;
-      state.streakWindowMs = config.timeLimitMs == null ? 4200 : 3400;
+      state.flow = Math.min(8, state.flow + 2);
+      state.streakWindowMs = (config.timeLimitMs == null ? 4200 : 3400) + Math.min(1200, state.flow * 100);
       if (state.score > state.best) {
         state.best = state.score;
         saveBest();
@@ -561,7 +579,8 @@
       state.score += 1;
       state.normalApplesSinceBonus += 1;
       state.streak = state.streakWindowMs > 0 ? state.streak + 1 : 1;
-      state.streakWindowMs = config.timeLimitMs == null ? 4200 : 3200;
+      state.flow = Math.min(8, state.flow + 1);
+      state.streakWindowMs = (config.timeLimitMs == null ? 4200 : 3200) + Math.min(1000, state.flow * 90);
       if (state.score > state.best) {
         state.best = state.score;
         saveBest();
@@ -571,7 +590,7 @@
         return;
       }
       spawnNormalApple();
-      if (!state.bonusActive && state.normalApplesSinceBonus >= currentModeConfig().bonusEvery) {
+      if (!state.bonusActive && state.normalApplesSinceBonus >= currentBonusEvery(config)) {
         state.normalApplesSinceBonus = 0;
         spawnBonusApple();
       }
@@ -641,6 +660,26 @@
     bg.addColorStop(1, '#e2e8f0');
     ctx.fillStyle = bg;
     ctx.fillRect(0, 0, width, height);
+
+    if (state.recentTrail.length) {
+      ctx.save();
+      state.recentTrail.forEach((segment, index) => {
+        const depth = state.recentTrail.length - index;
+        const alpha = Math.max(0.04, Math.min(0.18, depth * 0.03));
+        const padding = 0.18 + (index * 0.02);
+        ctx.fillStyle = `rgba(34, 197, 94, ${alpha})`;
+        drawRoundedRect(
+          ctx,
+          segment.x * cell + cell * padding,
+          segment.y * cell + cell * padding,
+          cell * (1 - padding * 2),
+          cell * (1 - padding * 2),
+          cell * 0.24
+        );
+        ctx.fill();
+      });
+      ctx.restore();
+    }
 
     ctx.save();
     ctx.translate(offsetX, offsetY);
@@ -787,8 +826,11 @@
       bonusApple: state.bonusActive && state.bonusApple ? { x: state.bonusApple.x, y: state.bonusApple.y } : null,
       lastEndReason: state.lastEndReason || 'none',
       seed: state.seed,
+      flow: state.flow,
       head: { x: head.x, y: head.y },
       apple: { x: state.apple.x, y: state.apple.y },
+      bonusEveryNow: currentBonusEvery(config),
+      trailLength: state.recentTrail.length,
       board: encodeBoard()
     };
     return JSON.stringify(payload);

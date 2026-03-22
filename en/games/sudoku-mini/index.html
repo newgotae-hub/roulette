@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Sudoku Mini | Randomly Pick</title>
+  <meta name="description" content="Play Sudoku Mini in the browser. Solve a fast 4x4 Sudoku board with touch keypad controls, free play, and a shared daily puzzle." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://randomly-pick.com/en/games/sudoku-mini/" />
+  <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/sudoku-mini/" />
+  <link rel="alternate" hreflang="en" href="https://randomly-pick.com/en/games/sudoku-mini/" />
+  <link rel="alternate" hreflang="x-default" href="https://randomly-pick.com/en/games/sudoku-mini/" />
+  <link rel="stylesheet" href="/assets/css/games-sudoku-mini.css?v=20260322-sm1" />
+  <link rel="icon" href="/favicon-r.svg" type="image/svg+xml" />
+</head>
+<body>
+  <main class="sm-wrap">
+    <header class="sm-topbar">
+      <div class="sm-brand">
+        <div class="sm-brand-mark">R.</div>
+        <div>
+          <div class="sm-brand-name">Randomly Pick</div>
+          <div class="sm-brand-sub">Sudoku Mini</div>
+        </div>
+      </div>
+      <nav class="sm-nav" aria-label="Primary">
+        <a href="/en/">Home</a>
+        <a href="/en/games/" class="is-active" aria-current="page">Games</a>
+        <a href="/en/luckydraw/">Lucky Draw</a>
+        <a href="/en/ladder/">Ladder Draw</a>
+        <a href="/en/team-generator/">Team Split</a>
+        <a href="/en/coinflip/">Coin Flip</a>
+        <a href="/en/dice/">Dice Roll</a>
+      </nav>
+    </header>
+
+    <section class="sm-hero">
+      <span class="sm-eyebrow">Logic puzzle</span>
+      <h1 class="sm-title">Sudoku Mini</h1>
+      <p class="sm-lede">A compact 4x4 Sudoku built for quick browser sessions. You still follow the classic Sudoku logic, but the smaller board makes it easier to learn, faster to clear, and much more comfortable on phones and app webviews.</p>
+      <div class="sm-actions">
+        <a class="sm-button is-primary" href="#play-area">Play now</a>
+        <a class="sm-button" href="/en/games/">Back to Games</a>
+      </div>
+      <div class="sm-chips" aria-label="Game highlights">
+        <span class="sm-chip">4x4 mini Sudoku</span>
+        <span class="sm-chip">Touch keypad</span>
+        <span class="sm-chip">Daily challenge</span>
+        <span class="sm-chip">Deterministic QA hooks</span>
+      </div>
+      <div class="sm-tag-row" aria-label="Current state">
+        <span id="sudoku-mini-tag" class="sm-tag" data-state="ready">Free · Ready</span>
+      </div>
+      <div id="sudoku-mini-hint" class="sm-hint">Tap an empty cell, then choose a digit from 1 to 4 on the keypad. The starter board is intentionally readable for the first play.</div>
+      <div id="sudoku-mini-mobile-flow" class="sm-mobile-flow">On phones, cell selection and number input are separated. First tap the cell, then tap the number you want to place.</div>
+    </section>
+
+    <div class="sm-layout" id="play-area">
+      <section class="sm-panel" aria-labelledby="board-title">
+        <div class="sm-panel-head">
+          <h2 id="board-title">Puzzle board</h2>
+          <div class="sm-toolbar">
+            <button id="sudoku-mini-reset" type="button">New puzzle</button>
+            <button id="sudoku-mini-daily" type="button">Daily challenge</button>
+            <button id="sudoku-mini-clear" type="button">Clear cell</button>
+          </div>
+        </div>
+        <div class="sm-board-shell">
+          <div id="sudoku-mini-board" class="sm-board" aria-label="Sudoku Mini board"></div>
+          <div class="sm-keypad" aria-label="Number keypad">
+            <button id="sudoku-mini-digit-1" type="button" data-digit="1">1</button>
+            <button id="sudoku-mini-digit-2" type="button" data-digit="2">2</button>
+            <button id="sudoku-mini-digit-3" type="button" data-digit="3">3</button>
+            <button id="sudoku-mini-digit-4" type="button" data-digit="4">4</button>
+          </div>
+        </div>
+        <div class="sm-controls">
+          <div class="sm-stats" aria-label="Current game stats">
+            <div class="sm-stat"><span>Progress</span><strong id="sudoku-mini-filled">0 / 16</strong></div>
+            <div class="sm-stat"><span>Mistakes</span><strong id="sudoku-mini-mistakes">0</strong></div>
+            <div class="sm-stat"><span>Best</span><strong id="sudoku-mini-best">0</strong></div>
+            <div class="sm-stat"><span>Daily best</span><strong id="sudoku-mini-daily-best">0</strong></div>
+            <div class="sm-stat"><span>Selected</span><strong id="sudoku-mini-selected-label">No selection</strong></div>
+            <div class="sm-stat"><span>Puzzle</span><strong id="sudoku-mini-puzzle-label">starter</strong></div>
+          </div>
+          <div class="sm-status" id="sudoku-mini-status">Each row, column, and 2x2 box can only contain each digit once. Wrong inputs raise the mistake count, so clean solves feel better than rushed guesses.</div>
+        </div>
+      </section>
+
+      <aside class="sm-panel" aria-labelledby="guide-title">
+        <div class="sm-panel-head"><h2 id="guide-title">How it works</h2></div>
+        <p>Sudoku Mini keeps the familiar Sudoku logic but trims the board down to 4x4. That makes it a better fit for a static browser game tab: short rounds, readable status, and touch-friendly input without turning into a thin number widget.</p>
+        <div class="sm-copy-grid">
+          <div class="sm-copy-card">
+            <strong>Why 4x4 works here</strong>
+            <p>It is quick to teach, fast to restart, and much easier to keep polished on both mobile and desktop than a full 9x9 board.</p>
+          </div>
+          <div class="sm-copy-card">
+            <strong>Shared daily puzzle</strong>
+            <p>The daily challenge uses a stable seed so everyone gets the same board for the day. That adds replay value without accounts or backend state.</p>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <section class="sm-section" aria-labelledby="howto-title">
+      <div class="sm-section-head">
+        <h2 id="howto-title">How to play</h2>
+        <p>Fill every blank with the correct digit while keeping rows, columns, and 2x2 boxes clean.</p>
+      </div>
+      <div class="sm-steps">
+        <div class="sm-step"><strong>1. Select an empty cell.</strong> Only blank cells can be changed.</div>
+        <div class="sm-step"><strong>2. Enter a digit.</strong> Tap one of the keypad buttons from 1 to 4.</div>
+        <div class="sm-step"><strong>3. Clear the board.</strong> When every value is correct, the puzzle clears instantly.</div>
+      </div>
+    </section>
+
+    <section class="sm-section" aria-labelledby="related-title">
+      <div class="sm-section-head">
+        <h2 id="related-title">More Randomly Pick games</h2>
+        <p>Keep the same puzzle rhythm while switching to a different kind of board thinking.</p>
+      </div>
+      <div class="sm-related">
+        <a href="/en/games/number-merge/"><strong>Number Merge</strong><br />Stay in the number lane with a calmer merge board.</a>
+        <a href="/en/games/word-swipe/"><strong>Word Swipe</strong><br />Switch from digits to letter paths and word finding.</a>
+        <a href="/en/games/minesweeper/"><strong>Minesweeper</strong><br />Move into a different kind of logic puzzle without leaving the hub.</a>
+        <a href="/en/about/"><strong>About</strong><br />Read the site background and trust links.</a>
+      </div>
+    </section>
+
+    <section class="sm-trust">
+      <strong>Site links</strong>
+      <div class="sm-links">
+        <a href="/en/about/">About</a>
+        <a href="/en/guides/">Guides</a>
+        <a href="/en/privacy/">Privacy Policy</a>
+        <a href="/en/terms/">Terms</a>
+        <a href="/en/contact/">Contact</a>
+      </div>
+    </section>
+
+    <div class="sm-footer">Randomly Pick · <a href="/en/games/">Games</a></div>
+  </main>
+
+  <script>
+    window.__SUDOKU_MINI_COPY__ = {
+      freeModeLabel: 'Free',
+      dailyModeLabel: 'Daily',
+      readyLabel: 'Ready',
+      playingLabel: 'Playing',
+      clearedLabel: 'Cleared',
+      hint: 'Tap an empty cell, then choose a digit from 1 to 4 on the keypad. The starter board is intentionally readable for the first play.',
+      dailyHint: 'The daily board is locked to today. Lower mistake counts make the best runs feel cleaner.',
+      mobileFlowReady: 'On phones, cell selection and number input are separated. First tap the cell, then tap the number you want to place.',
+      mobileFlowPlaying: 'A selected cell is active now. Choose the right digit from the keypad.',
+      mobileFlowCleared: 'Puzzle cleared. Start a new board or jump into the daily challenge.',
+      readyStatus: 'Each row, column, and 2x2 box can only contain each digit once. Wrong inputs raise the mistake count, so clean solves feel better than rushed guesses.',
+      solvedStatus: 'Correct digit placed. Keep filling the remaining blanks.',
+      clearedStatus: 'Every cell is correct. Start a new puzzle or move into the daily challenge.',
+      invalidStatus: 'That digit is not correct for this cell. Try a different number.',
+      selectionNone: 'No selection',
+      resetButton: 'New puzzle',
+      dailyButton: 'Daily challenge',
+      clearButton: 'Clear cell'
+    };
+    window.__SUDOKU_MINI_META__ = {
+      slug: 'sudoku-mini',
+      lang: 'en',
+      mode: 'free'
+    };
+  </script>
+  <script src="/assets/js/games-sudoku-mini.js?v=20260322-sm1"></script>
+</body>
+</html>
