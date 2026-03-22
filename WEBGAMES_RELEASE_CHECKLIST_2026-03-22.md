@@ -69,6 +69,8 @@ repo.
   - render text
   - reset behavior
   - console errors
+  - frame pacing health from the shared rAF perf probe
+  - visible change after input bursts from screenshot diff
   - desktop and mobile screenshots
 
 ### Release worker
@@ -120,6 +122,27 @@ repo.
 
 Grouped runs now continue through every selected scenario and fail only at the
 end, so the summary captures the full set of broken titles in one pass.
+
+## Perf / visual probe notes
+
+- The shared runner now records a lightweight per-snapshot perf summary:
+  - `samples`
+  - `averageFrameMs`
+  - `worstFrameMs`
+  - `longFrames`
+  - `longFrameRatio`
+- It also records `screenshotDiffFromBoot` for every snapshot after the boot
+  image is captured.
+- Default shared guardrails are intentionally conservative:
+  - severe average frame pacing regression above `70ms`
+  - severe worst frame above `250ms`
+  - no meaningful screenshot change across all non-reset bursts
+- Perf findings are warnings by default in the shared runner; use
+  `perfProbe.enforce: true` only for scenarios where you intentionally want a
+  perf threshold to fail the run.
+- If a game intentionally stays visually quiet for several bursts, tune the
+  scenario JSON with `visualProbe` or `perfProbe` instead of disabling the
+  shared checks globally.
 
 ## Scenario rules
 

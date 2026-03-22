@@ -12,6 +12,15 @@ The review workflow is intentionally hook-driven:
 The QA runner prefers the real game route when it exists and falls back to the
 local contract harness only when the production page is not present yet.
 
+The shared runner now also performs two lightweight cross-game probes:
+
+- a requestAnimationFrame-based perf sample
+- a screenshot diff check against the boot frame
+
+This makes it harder for obvious low-FPS or nearly-static regressions to slip
+through when `render_game_to_text()` still changes but the game barely feels
+alive on screen.
+
 The scaffold helper now bakes in mobile/app-webview-safe defaults by default:
 
 - `viewport-fit=cover` in the generated route viewport meta
@@ -70,6 +79,31 @@ Batch behavior:
 - the final process exit is still non-zero if any scenario failed
 - `test-results/webgames/summary.txt` now starts with total/pass/fail counts
 - `--list`, `--scenario`, `--group`, and `--locale ko|en|all` can be combined to trim a release run down to the exact slice you need
+- the manifest now includes `perf` and `screenshotDiffFromBoot` for each snapshot
+
+Perf / visual defaults:
+
+- the runner samples frame pacing with `requestAnimationFrame`
+- by default it flags snapshots with a severe average frame time regression
+  (`> 70ms`) or a severe worst frame (`> 250ms`) once there are enough samples
+- by default it also flags runs where every non-reset burst stays below a tiny
+  screenshot diff ratio (`0.0005`) from boot
+- perf probe findings are warnings by default so the shared runner stays
+  practical in headless CI-style environments; set `perfProbe.enforce: true`
+  in a scenario only when you want those perf thresholds to fail the run
+
+Scenario-level tuning:
+
+- `visualProbe.enabled`
+- `visualProbe.minDiffRatio`
+- `perfProbe.enabled`
+- `perfProbe.enforce`
+- `perfProbe.minSamples`
+- `perfProbe.maxAverageFrameMs`
+- `perfProbe.maxWorstFrameMs`
+
+Those fields are optional and only need to be added when a game has an unusual
+visual rhythm or intentionally static moments.
 
 Number Merge uses the same hook-driven contract while the real route is still
 coming together.

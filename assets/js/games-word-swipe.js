@@ -44,19 +44,20 @@
     id: 'starter',
     mode: 'free',
     title: 'Starter board',
-    note: 'Four readable row words keep the first run quick and clean.',
-    targetWords: ['WAVE', 'PLAY', 'TIDE', 'STAR'],
+    note: 'The first solve is straight, then the board starts crossing paths and sharing letters.',
+    targetWords: ['PLAY', 'MODE', 'MORE', 'GAME', 'TEAM'],
     board: [
-      ['W', 'A', 'V', 'E'],
       ['P', 'L', 'A', 'Y'],
-      ['T', 'I', 'D', 'E'],
-      ['S', 'T', 'A', 'R']
+      ['E', 'M', 'O', 'D'],
+      ['A', 'G', 'R', 'E'],
+      ['M', 'E', 'T', 'S']
     ],
     paths: [
       [0, 1, 2, 3],
-      [4, 5, 6, 7],
-      [8, 9, 10, 11],
-      [12, 13, 14, 15]
+      [5, 6, 7, 11],
+      [5, 6, 10, 11],
+      [9, 8, 12, 13],
+      [14, 13, 8, 12]
     ]
   };
 
@@ -65,18 +66,19 @@
       id: 'daily-code',
       mode: 'daily',
       title: 'Code board',
-      note: 'A calmer daily board with compact four-letter targets.',
-      targetWords: ['CODE', 'NOTE', 'GRID', 'PLAY'],
+      note: 'Crossing corners make the daily board read more like a route puzzle than a word list.',
+      targetWords: ['CODE', 'CORE', 'NOTE', 'TONE', 'PLAY'],
       board: [
         ['C', 'O', 'D', 'E'],
-        ['N', 'O', 'T', 'E'],
-        ['G', 'R', 'I', 'D'],
+        ['N', 'O', 'T', 'R'],
+        ['P', 'L', 'A', 'Y'],
         ['P', 'L', 'A', 'Y']
       ],
       paths: [
         [0, 1, 2, 3],
-        [4, 5, 6, 7],
-        [8, 9, 10, 11],
+        [0, 1, 5, 3],
+        [4, 5, 6, 3],
+        [6, 5, 4, 1],
         [12, 13, 14, 15]
       ]
     },
@@ -84,8 +86,8 @@
       id: 'daily-wave',
       mode: 'daily',
       title: 'Wave board',
-      note: 'A soft mix of short words for a lighter daily session.',
-      targetWords: ['WAVE', 'MATH', 'BOLD', 'TEAM'],
+      note: 'Shared letters create a softer puzzle board with more than one clean route to inspect.',
+      targetWords: ['WAVE', 'MATH', 'TEAM', 'BOLD', 'BEAM'],
       board: [
         ['W', 'A', 'V', 'E'],
         ['M', 'A', 'T', 'H'],
@@ -95,16 +97,17 @@
       paths: [
         [0, 1, 2, 3],
         [4, 5, 6, 7],
+        [12, 13, 14, 15],
         [8, 9, 10, 11],
-        [12, 13, 14, 15]
+        [8, 13, 14, 15]
       ]
     },
     {
       id: 'daily-glow',
       mode: 'daily',
       title: 'Glow board',
-      note: 'A route-reading board with a little more visual variety.',
-      targetWords: ['GLOW', 'RIDE', 'LINK', 'WORD'],
+      note: 'This board leans into bends and shared endings so the route reading matters more.',
+      targetWords: ['GLOW', 'LINK', 'RIDE', 'WORD', 'LORD'],
       board: [
         ['G', 'L', 'O', 'W'],
         ['R', 'I', 'D', 'E'],
@@ -113,17 +116,18 @@
       ],
       paths: [
         [0, 1, 2, 3],
+        [1, 5, 10, 11],
         [4, 5, 6, 7],
-        [8, 9, 10, 11],
-        [12, 13, 14, 15]
+        [12, 13, 14, 15],
+        [8, 13, 14, 15]
       ]
     },
     {
       id: 'daily-lane',
       mode: 'daily',
       title: 'Lane board',
-      note: 'Short words make the daily board feel quick to complete.',
-      targetWords: ['LANE', 'MOVE', 'CLIP', 'DRAW'],
+      note: 'A compact board where the first reads are easy, then the last two words ask for a bend.',
+      targetWords: ['LANE', 'MOVE', 'CLIP', 'DRAW', 'RAIL'],
       board: [
         ['L', 'A', 'N', 'E'],
         ['M', 'O', 'V', 'E'],
@@ -134,7 +138,8 @@
         [0, 1, 2, 3],
         [4, 5, 6, 7],
         [8, 9, 10, 11],
-        [12, 13, 14, 15]
+        [12, 13, 14, 15],
+        [13, 14, 10, 9]
       ]
     }
   ];
@@ -182,7 +187,9 @@
     dailyKey: '',
     seed: DEFAULT_FREE_SEED,
     started: false,
-    invalidFlash: false
+    invalidFlash: false,
+    feedbackState: 'idle',
+    lastSolvedWord: ''
   };
 
   function cloneBoard(board) {
@@ -299,14 +306,37 @@
     return remainingTargetWords()[0] || '';
   }
 
-  function isPrefixMatch(candidateLetters) {
+  function matchingTargetWords(candidateLetters) {
     const upper = String(candidateLetters || '').toUpperCase();
-    return remainingTargetWords().some((word) => String(word).toUpperCase().startsWith(upper));
+    if (!upper) return remainingTargetWords();
+    return remainingTargetWords().filter((word) => String(word).toUpperCase().startsWith(upper));
+  }
+
+  function isPrefixMatch(candidateLetters) {
+    return matchingTargetWords(candidateLetters).length > 0;
   }
 
   function selectionLabel() {
     if (!state.selection.length) return String(ui.selectionNone || 'No selection');
     return selectionLetters(state.selection).split('').join(' • ');
+  }
+
+  function selectionProgress() {
+    const letters = selectionLetters(state.selection).toUpperCase();
+    if (!letters) return '';
+    const matches = matchingTargetWords(letters);
+    if (!matches.length) {
+      return `${letters} does not fit any remaining word yet.`;
+    }
+    const exact = matches.find((word) => String(word).toUpperCase() === letters);
+    if (exact) {
+      return `${letters} completes ${exact}.`;
+    }
+    if (matches.length === 1) {
+      const target = String(matches[0]).toUpperCase();
+      return `${letters} is ${letters.length}/${target.length} toward ${target}.`;
+    }
+    return `${letters} still fits ${matches.length} remaining words.`;
   }
 
   function setButtonText(button, text) {
@@ -336,11 +366,14 @@
   }
 
   function syncTextContent() {
+    const progressMessage = selectionProgress();
     if (els.hint) {
       if (state.phase === 'cleared') {
         els.hint.textContent = String(ui.clearedStatus || 'Every target word is solved. Reset to replay.');
+      } else if (state.feedbackState === 'solved' && state.lastSolvedWord) {
+        els.hint.textContent = `${state.lastSolvedWord} solved. The next route is already highlighted below.`;
       } else if (state.phase === 'playing') {
-        els.hint.textContent = String(ui.readyStatus || 'Trace connected letters to build the current target word.');
+        els.hint.textContent = progressMessage || String(ui.readyStatus || 'Trace connected letters to build the current target word.');
       } else {
         els.hint.textContent = String(ui.readyStatus || 'Trace connected letters to build the current target word.');
       }
@@ -357,10 +390,15 @@
     if (els.status) {
       if (state.phase === 'cleared') {
         els.status.textContent = String(ui.clearedStatus || 'Every target word is solved. Reset to replay.');
+      } else if (state.feedbackState === 'solved' && state.lastSolvedWord) {
+        const nextWord = currentTargetWord();
+        els.status.textContent = nextWord
+          ? `${state.lastSolvedWord} is locked in. Next up: ${nextWord}.`
+          : `${state.lastSolvedWord} is locked in.`;
       } else if (state.phase === 'playing') {
         els.status.textContent = state.invalidFlash
           ? String(ui.invalidStatus || 'That path does not match a remaining target word.')
-          : String(ui.readyStatus || 'Trace connected letters to build the current target word.');
+          : (progressMessage || String(ui.readyStatus || 'Trace connected letters to build the current target word.'));
       } else {
         els.status.textContent = String(ui.readyStatus || 'Trace connected letters to build the current target word.');
       }
@@ -391,16 +429,19 @@
     }
     if (els.targetList) {
       els.targetList.innerHTML = '';
+      const currentLetters = selectionLetters(state.selection).toUpperCase();
       state.puzzle.targetWords.forEach((word, index) => {
         const chip = document.createElement('span');
         chip.className = 'ws-target-chip';
         if (!state.foundWords.includes(word) && index === state.targetIndex) chip.classList.add('is-active');
-        if (state.foundWords.includes(word)) chip.dataset.state = 'solved';
+        if (state.foundWords.includes(word)) {
+          chip.dataset.state = 'solved';
+          chip.classList.add('is-solved');
+        } else if (currentLetters && String(word).toUpperCase().startsWith(currentLetters)) {
+          chip.classList.add('is-match');
+        }
         chip.textContent = word;
         chip.setAttribute('aria-label', state.foundWords.includes(word) ? `${word} solved` : `${word} target word`);
-        if (state.foundWords.includes(word)) {
-          chip.style.opacity = '0.72';
-        }
         state.foundWords.includes(word) ? chip.setAttribute('aria-current', 'false') : undefined;
         if (index === state.targetIndex && state.phase !== 'cleared') {
           chip.setAttribute('aria-current', 'true');
@@ -413,6 +454,13 @@
   function renderBoard() {
     if (!els.board) return;
     els.board.innerHTML = '';
+    els.board.dataset.feedback = state.invalidFlash
+      ? 'invalid'
+      : state.feedbackState === 'solved'
+        ? 'solved'
+        : state.selection.length
+          ? 'tracking'
+          : 'idle';
     const solvedPaths = new Set();
     state.puzzle.targetWords.forEach((word, index) => {
       if (state.foundWords.includes(word)) {
@@ -437,10 +485,14 @@
         : state.selection.includes(index)
           ? 'selected'
           : 'idle';
+      if (state.selection.includes(index) && !state.invalidFlash && isPrefixMatch(selectionLetters(state.selection))) {
+        button.dataset.pathState = 'match';
+      }
       if (selectionMap.has(index)) {
         button.dataset.step = selectionMap.get(index);
       } else {
         button.removeAttribute('data-step');
+        button.removeAttribute('data-path-state');
       }
       if (state.selection[0] === index) {
         button.setAttribute('aria-pressed', 'true');
@@ -488,6 +540,8 @@
     state.phase = 'ready';
     state.started = false;
     state.invalidFlash = false;
+    state.feedbackState = 'idle';
+    state.lastSolvedWord = '';
     const storedBest = Number(safeGet(storageKey(state.mode)) || 0);
     state.best = Number.isFinite(storedBest) && storedBest > 0 ? storedBest : 0;
   }
@@ -503,6 +557,8 @@
     state.score += 100 + (word.length * 15);
     state.moves += 1;
     state.targetIndex = state.foundWords.length;
+    state.feedbackState = 'solved';
+    state.lastSolvedWord = word;
     if (state.foundWords.length >= state.puzzle.targetWords.length) {
       state.phase = 'cleared';
       state.best = Math.max(state.best, state.score);
@@ -543,11 +599,13 @@
       state.phase = 'playing';
       state.started = true;
       state.invalidFlash = false;
+      state.feedbackState = 'tracking';
       render();
       return;
     }
 
     state.invalidFlash = true;
+    state.feedbackState = 'invalid';
     state.moves += 1;
     if (targetPath && state.selection.length > 0) {
       state.selection = [state.selection[state.selection.length - 1]];
@@ -557,6 +615,7 @@
     render();
     window.setTimeout(() => {
       state.invalidFlash = false;
+      state.feedbackState = 'idle';
       render();
     }, 220);
   }
@@ -630,6 +689,7 @@
   function clearSelection() {
     state.selection = [];
     state.invalidFlash = false;
+    state.feedbackState = 'idle';
     if (state.phase === 'playing' && !state.foundWords.length) {
       state.phase = 'ready';
       state.started = false;
@@ -681,7 +741,9 @@
       elapsedMs: 0,
       qaReady: true,
       dailyKey: state.dailyKey,
-      seed: state.seed
+      seed: state.seed,
+      selectionText: selectionLetters(state.selection),
+      feedbackState: state.feedbackState
     });
   }
 
@@ -724,12 +786,15 @@
         state.phase = 'playing';
       }
       state.invalidFlash = false;
+      state.feedbackState = 'solved';
     } else {
       state.invalidFlash = true;
+      state.feedbackState = 'invalid';
       state.moves += 1;
       state.selection = [];
       window.setTimeout(() => {
         state.invalidFlash = false;
+        state.feedbackState = 'idle';
         render();
       }, 220);
     }

@@ -6,6 +6,7 @@
   const STREAK_BONUS = 2;
   const MISMATCH_REVEAL_MS = 650;
   const STORAGE_KEY = 'rlt-memory-match-best-v1';
+  const DAILY_STORAGE_KEY = 'rlt-memory-match-daily-best-v1';
 
   const copy = window.__MEMORY_MATCH_COPY__ || {};
   const meta = window.__MEMORY_MATCH_META__ || {};
@@ -16,6 +17,7 @@
   const modeEl = document.getElementById('memory-match-mode');
   const scoreEl = document.getElementById('memory-match-score');
   const bestEl = document.getElementById('memory-match-best');
+  const dailyBestEl = document.getElementById('memory-match-daily-best');
   const turnsEl = document.getElementById('memory-match-turns');
   const matchesEl = document.getElementById('memory-match-matches');
   const remainingEl = document.getElementById('memory-match-remaining');
@@ -23,6 +25,8 @@
   const hintEl = document.getElementById('memory-match-hint');
   const mobileFlowEl = document.getElementById('memory-match-mobile-flow');
   const resetBtn = document.getElementById('memory-match-reset');
+  const startBtn = document.getElementById('memory-match-start');
+  const dailyBtn = document.getElementById('memory-match-daily');
   const newBtn = document.getElementById('memory-match-new');
   const flipBtn = document.getElementById('memory-match-flip');
   const leftBtn = document.getElementById('memory-match-left');
@@ -42,14 +46,17 @@
   ];
 
   const state = {
+    mode: 'classic',
     seed: DEFAULT_SEED,
     phase: 'ready',
     score: 0,
     best: Number(window.localStorage?.getItem(STORAGE_KEY) || '0') || 0,
+    dailyBest: Number(window.localStorage?.getItem(DAILY_STORAGE_KEY) || '0') || 0,
     bootBest: null,
     turns: 0,
     matches: 0,
     streak: 0,
+    dailyKey: dailyKeyForToday(),
     focusedIndex: 0,
     cards: [],
     selected: [],
@@ -86,9 +93,33 @@
     return Math.min(max, Math.max(min, value));
   }
 
+  function dailyKeyForToday() {
+    const now = new Date();
+    const year = now.getUTCFullYear();
+    const month = String(now.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(now.getUTCDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  function dailySeedForKey(key) {
+    let hash = 0x811c9dc5;
+    const value = `memory-match:${key}`;
+    for (let index = 0; index < value.length; index += 1) {
+      hash ^= value.charCodeAt(index);
+      hash = Math.imul(hash, 0x01000193);
+    }
+    return (hash >>> 0) || DEFAULT_SEED;
+  }
+
   function saveBest() {
     if (window.localStorage) {
       window.localStorage.setItem(STORAGE_KEY, String(state.best));
+    }
+  }
+
+  function saveDailyBest() {
+    if (window.localStorage) {
+      window.localStorage.setItem(DAILY_STORAGE_KEY, String(state.dailyBest));
     }
   }
 
@@ -126,14 +157,22 @@
     return copy.readyLabel || (lang === 'ko' ? '준비됨' : 'Ready');
   }
 
-  function statusText() {
-    if (state.phase === 'complete') return copy.statusComplete || (lang === 'ko' ? '모든 짝을 맞췄습니다. 새 보드를 열거나 다시 시작하세요.' : 'All pairs are matched. Start a new board or reset to play again.');
-    if (state.phase === 'resolving') return copy.statusResolving || (lang === 'ko' ? '짝이 맞지 않았습니다. 카드를 다시 닫는 중입니다.' : 'That pair does not match. The cards will close back up.');
-    if (state.phase === 'playing') {
-      if (state.turns === 0) return copy.statusPlayingStart || (lang === 'ko' ? '첫 카드를 열어 보드를 시작하세요.' : 'Open the first card to start the board.');
-      return copy.statusPlaying || (lang === 'ko' ? '같은 짝을 기억하면서 다음 카드를 골라 보세요.' : 'Keep the matched pairs in mind and pick the next card.');
+  function modeLabel() {
+    if (state.mode === 'daily') {
+      return copy.dailyModeLabel || (lang === 'ko' ? '데일리' : 'Daily');
     }
-    return copy.statusReady || (lang === 'ko' ? '카드를 탭하거나 Enter로 시작할 수 있습니다.' : 'Tap a card or press Enter to start.');
+    return copy.classicModeLabel || copy.modeLabel || copy.freeModeLabel || (lang === 'ko' ? '클래식' : 'Classic');
+  }
+
+  function statusText() {
+    if (state.phase === 'complete') return copy.statusComplete || (lang === 'ko' ? '?? ?? ?????. ? ??? ???? ?? ?????.' : 'All pairs are matched. Start a new board or reset to play again.');
+    if (state.phase === 'resolving') return copy.statusResolving || (lang === 'ko' ? '?? ?? ?????. ??? ?? ?? ????.' : 'That pair does not match. The cards will close back up.');
+    if (state.phase === 'playing') {
+      if (state.turns === 0) return copy.statusPlayingStart || (lang === 'ko' ? '? ??? ?? ??? ?????.' : 'Open the first card to start the board.');
+      return copy.statusPlaying || (lang === 'ko' ? '?? ?? ????? ?? ??? ?? ???.' : 'Keep the matched pairs in mind and pick the next card.');
+    }
+    if (state.mode === 'daily') return copy.statusReadyDaily || (lang === 'ko' ? '??? ??? ?????. ??? ???? Enter? ?????.' : 'Daily challenge ready. Tap a card or press Enter to start.');
+    return copy.statusReady || (lang === 'ko' ? '??? ???? Enter? ??? ? ????.' : 'Tap a card or press Enter to start.');
   }
 
   function updateEvent(kind, durationMs) {
@@ -142,9 +181,13 @@
   }
 
   function syncHud() {
-    if (modeEl) modeEl.textContent = `${copy.modeLabel || (lang === 'ko' ? '클래식' : 'Classic')} · ${phaseLabel()}`;
+    if (modeEl) {
+      modeEl.dataset.mode = state.mode;
+      modeEl.textContent = `${modeLabel()} · ${phaseLabel()}`;
+    }
     if (scoreEl) scoreEl.textContent = String(state.score);
     if (bestEl) bestEl.textContent = String(state.best);
+    if (dailyBestEl) dailyBestEl.textContent = String(state.dailyBest);
     if (turnsEl) turnsEl.textContent = String(state.turns);
     if (matchesEl) matchesEl.textContent = String(state.matches);
     if (remainingEl) remainingEl.textContent = String(pairCountRemaining());
@@ -175,6 +218,8 @@
     }
     if (resetBtn) resetBtn.textContent = copy.resetButton || (lang === 'ko' ? '초기화' : 'Reset');
     if (newBtn) newBtn.textContent = copy.newButton || (lang === 'ko' ? '새 보드' : 'New board');
+    if (startBtn) startBtn.textContent = copy.startButton || (lang === 'ko' ? '시작' : 'Start game');
+    if (dailyBtn) dailyBtn.textContent = copy.dailyButton || (lang === 'ko' ? '데일리 도전' : 'Daily challenge');
     if (flipBtn) flipBtn.textContent = copy.flipButton || (lang === 'ko' ? '뒤집기' : 'Flip');
     if (leftBtn) leftBtn.textContent = '←';
     if (rightBtn) rightBtn.textContent = '→';
@@ -250,6 +295,10 @@
     if (state.score > state.best) {
       state.best = state.score;
       saveBest();
+    }
+    if (state.mode === 'daily' && state.score > state.dailyBest) {
+      state.dailyBest = state.score;
+      saveDailyBest();
     }
   }
 
@@ -344,6 +393,25 @@
     }
   }
 
+  function scrollBoardIntoView() {
+    boardEl?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function startFree() {
+    state.mode = 'classic';
+    const nextSeed = normalizeSeed(state.seed + 1);
+    reset(nextSeed, { mode: 'classic' });
+    scrollBoardIntoView();
+  }
+
+  function startDaily() {
+    state.mode = 'daily';
+    const dailyKey = dailyKeyForToday();
+    const seed = dailySeedForKey(dailyKey);
+    reset(seed, { mode: 'daily', dailyKey });
+    scrollBoardIntoView();
+  }
+
   function flipCard(index) {
     const card = state.cards[index];
     if (!card) return;
@@ -395,11 +463,18 @@
   }
 
   function newBoard() {
+    if (state.mode === 'daily') {
+      startDaily();
+      return;
+    }
     state.seed = normalizeSeed(state.seed + 1);
-    reset(state.seed);
+    reset(state.seed, { mode: 'classic' });
   }
 
-  function reset(seed = state.seed) {
+  function reset(seed = state.seed, options = {}) {
+    const nextMode = options.mode || state.mode || 'classic';
+    state.mode = nextMode;
+    state.dailyKey = options.dailyKey || dailyKeyForToday();
     state.seed = normalizeSeed(seed);
     state.phase = 'ready';
     state.score = 0;
@@ -446,11 +521,14 @@
 
   function renderGameToText() {
     return JSON.stringify({
-      mode: 'classic',
+      mode: state.mode,
+      modeLabel: modeLabel(),
       phase: state.phase,
       seed: state.seed,
+      dailyKey: state.dailyKey,
       score: state.score,
       best: state.bootBest ?? state.best,
+      dailyBest: state.dailyBest,
       turns: state.turns,
       matches: state.matches,
       remaining: pairCountRemaining(),
@@ -483,7 +561,7 @@
 
   function handleKeydown(event) {
     const key = event.key;
-    if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Enter', ' ', 'Spacebar', 'r', 'R', 'n', 'N', 'f', 'F'].includes(key)) {
+    if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Enter', ' ', 'Spacebar', 'r', 'R', 'n', 'N', 'd', 'D', 'f', 'F'].includes(key)) {
       event.preventDefault();
     }
     if (key === 'ArrowLeft') moveFocus(-1, 0);
@@ -493,6 +571,7 @@
     else if (key === 'Enter' || key === ' ' || key === 'Spacebar') flipCard(state.focusedIndex);
     else if (key === 'r' || key === 'R') reset();
     else if (key === 'n' || key === 'N') newBoard();
+    else if (key === 'd' || key === 'D') startDaily();
     else if (key === 'f' || key === 'F') toggleFullscreen();
     else if (key === 'Escape' && document.fullscreenElement) {
       document.exitFullscreen?.();
@@ -500,6 +579,8 @@
   }
 
   function bindControls() {
+    startBtn?.addEventListener('click', () => startFree());
+    dailyBtn?.addEventListener('click', () => startDaily());
     resetBtn?.addEventListener('click', () => reset());
     newBtn?.addEventListener('click', () => newBoard());
     flipBtn?.addEventListener('click', () => flipCard(state.focusedIndex));
@@ -512,10 +593,13 @@
   }
 
   window.QA_READY = true;
+  window.__WEBGAME_QA_READY__ = true;
   window.render_game_to_text = renderGameToText;
   window.advanceTime = advanceTime;
   window.reset = reset;
   window.resetGame = reset;
+  window.startFree = startFree;
+  window.startDaily = startDaily;
   window.__MEMORY_MATCH_RESET__ = reset;
 
   bindControls();

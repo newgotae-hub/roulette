@@ -238,6 +238,12 @@ button {
   color: var(--mm-success);
 }
 
+.mm-tag[data-mode="daily"] {
+  background: rgba(15, 118, 110, 0.12);
+  border-color: rgba(15, 118, 110, 0.18);
+  color: var(--mm-success);
+}
+
 .mm-hint,
 .mm-mobile-flow {
   margin: 0;
@@ -683,6 +689,21 @@ button {
 
   .mm-stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .mm-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .mm-actions .mm-button {
+    width: 100%;
+  }
+
+  .mm-stats {
+    grid-template-columns: 1fr;
   }
 }
 

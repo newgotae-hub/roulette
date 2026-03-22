@@ -13,7 +13,7 @@
   const LINE_TARGET = 5;
   const DEFAULT_SEED = 0xc0110a5;
   const STORAGE_KEY = 'rlt-color-lines-best-v1';
-  const DAILY_STORAGE_KEY = 'rlt-color-lines-daily-best-v1';
+  const DAILY_STORAGE_KEY = 'rlt-color-lines-daily-best-v2';
   const COLORS = ['coral', 'sky', 'mint', 'amber', 'violet', 'slate', 'rose'];
   const DIRECTIONS = [
     [0, 1],
@@ -40,23 +40,29 @@
     mobileFlow: document.getElementById('color-lines-mobile-flow'),
     reset: document.getElementById('color-lines-reset'),
     clear: document.getElementById('color-lines-clear'),
-    select: document.getElementById('color-lines-select')
+    select: document.getElementById('color-lines-select'),
+    dailyBest: document.getElementById('color-lines-daily-best')
   };
 
   const state = {
     phase: 'ready',
     score: 0,
     best: Number(window.localStorage?.getItem(STORAGE_KEY) || '0') || 0,
-    dailyBest: Number(window.localStorage?.getItem(DAILY_STORAGE_KEY) || '0') || 0,
+    dailyBest: 0,
+    dailyBestByDate: {},
     lines: 0,
     moves: 0,
     board: [],
+    cellEls: [],
+    upcomingEls: [],
     selected: null,
     seed: DEFAULT_SEED,
     rng: null,
     upcoming: [],
     lastPath: [],
+    lastPathLookup: new Set(),
     lastCleared: [],
+    emptyCount: 0,
     dailyKey: dailyKeyForToday(),
     mode: 'free'
   };
@@ -100,16 +106,39 @@
     return out;
   }
 
+  function loadDailyBestByDate() {
+    if (!window.localStorage) return {};
+    try {
+      const parsed = JSON.parse(window.localStorage.getItem(DAILY_STORAGE_KEY) || '{}');
+      return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : {};
+    } catch {
+      return {};
+    }
+  }
+
+  function getDailyBestForKey(key) {
+    return Number(state.dailyBestByDate?.[key] || 0) || 0;
+  }
+
+  function setDailyBestForKey(key, score) {
+    if (!key) return;
+    const current = getDailyBestForKey(key);
+    if (score > current) {
+      state.dailyBestByDate[key] = score;
+      state.dailyBest = score;
+    }
+  }
+
   function saveBest() {
     if (window.localStorage) {
       window.localStorage.setItem(STORAGE_KEY, String(state.best));
-      window.localStorage.setItem(DAILY_STORAGE_KEY, String(state.dailyBest));
+      window.localStorage.setItem(DAILY_STORAGE_KEY, JSON.stringify(state.dailyBestByDate));
     }
   }
 
   function updateBest() {
     if (state.score > state.best) state.best = state.score;
-    if (state.mode === 'daily' && state.score > state.dailyBest) state.dailyBest = state.score;
+    if (state.mode === 'daily') setDailyBestForKey(state.dailyKey, state.score);
     saveBest();
   }
 
@@ -128,7 +157,19 @@
   }
 
   function ensureGrid() {
-    if (gridEl.children.length) return;
+    if (state.cellEls.length === BOARD_SIZE && state.cellEls[0]?.length === BOARD_SIZE && state.cellEls[0][0]) return;
+    state.cellEls = Array.from({ length: BOARD_SIZE }, () => Array(BOARD_SIZE).fill(null));
+    const existing = gridEl.querySelectorAll('.cl-cell');
+    if (existing.length === BOARD_SIZE * BOARD_SIZE) {
+      existing.forEach((button) => {
+        const row = Number(button.dataset.row);
+        const col = Number(button.dataset.col);
+        if (Number.isFinite(row) && Number.isFinite(col) && state.cellEls[row]) {
+          state.cellEls[row][col] = button;
+        }
+      });
+      return;
+    }
     const fragment = document.createDocumentFragment();
     for (let row = 0; row < BOARD_SIZE; row += 1) {
       for (let col = 0; col < BOARD_SIZE; col += 1) {
@@ -140,6 +181,7 @@
         button.dataset.col = String(col);
         button.setAttribute('aria-label', `Cell ${row + 1}, ${col + 1}`);
         fragment.appendChild(button);
+        state.cellEls[row][col] = button;
       }
     }
     gridEl.appendChild(fragment);
@@ -167,6 +209,7 @@
     state.phase = nextPhase;
     if (els.tag) {
       els.tag.dataset.state = nextPhase;
+      els.tag.dataset.mode = state.mode;
       els.tag.textContent = `${state.mode === 'daily' ? (copy.dailyModeLabel || 'Daily') : (copy.freeModeLabel || 'Free')} · ${phaseLabel()}`;
     }
   }
@@ -191,9 +234,10 @@
   function syncHud() {
     if (els.score) els.score.textContent = String(state.score);
     if (els.best) els.best.textContent = String(state.mode === 'daily' ? state.dailyBest : state.best);
+    if (els.dailyBest) els.dailyBest.textContent = String(state.dailyBest);
     if (els.lines) els.lines.textContent = String(state.lines);
     if (els.moves) els.moves.textContent = String(state.moves);
-    if (els.balls) els.balls.textContent = String(BOARD_SIZE * BOARD_SIZE - getEmptyCells().length);
+    if (els.balls) els.balls.textContent = String(BOARD_SIZE * BOARD_SIZE - state.emptyCount);
     if (els.select) {
       els.select.textContent = state.selected
         ? `${state.selected.row + 1}, ${state.selected.col + 1}`
@@ -205,14 +249,21 @@
     setPhase(state.phase === 'gameover' ? 'gameover' : state.selected ? 'selected' : 'ready');
 
     if (els.upcoming) {
-      els.upcoming.innerHTML = '';
-      state.upcoming.forEach((color, index) => {
-        const chip = document.createElement('span');
-        chip.className = 'cl-upcoming-dot';
-        chip.dataset.color = color;
-        chip.id = `color-lines-upcoming-${index}`;
-        chip.setAttribute('aria-hidden', 'true');
-        els.upcoming.appendChild(chip);
+      if (!state.upcomingEls.length) {
+        els.upcoming.innerHTML = '';
+        state.upcomingEls = state.upcoming.map((_, index) => {
+          const chip = document.createElement('span');
+          chip.className = 'cl-upcoming-dot';
+          chip.id = `color-lines-upcoming-${index}`;
+          chip.setAttribute('aria-hidden', 'true');
+          els.upcoming.appendChild(chip);
+          return chip;
+        });
+      }
+      state.upcomingEls.forEach((chip, index) => {
+        if (!chip) return;
+        const color = state.upcoming[index] || '';
+        if (chip.dataset.color !== color) chip.dataset.color = color;
       });
     }
   }
@@ -221,13 +272,15 @@
     ensureGrid();
     for (let row = 0; row < BOARD_SIZE; row += 1) {
       for (let col = 0; col < BOARD_SIZE; col += 1) {
-        const cell = document.getElementById(`color-lines-cell-${row}-${col}`);
+        const cell = state.cellEls[row]?.[col];
         if (!cell) continue;
         const value = state.board[row][col];
-        cell.dataset.filled = value ? 'true' : 'false';
-        cell.dataset.selected = state.selected && state.selected.row === row && state.selected.col === col ? 'true' : 'false';
-        cell.dataset.preview = state.lastPath.some((step) => step.row === row && step.col === col) ? 'true' : 'false';
-        cell.innerHTML = value ? `<span class="cl-ball" data-color="${value}"></span>` : '';
+        const selected = state.selected && state.selected.row === row && state.selected.col === col;
+        const preview = state.lastPathLookup.has(boardKey(row, col));
+        if (cell.dataset.filled !== (value ? 'true' : 'false')) cell.dataset.filled = value ? 'true' : 'false';
+        if (cell.dataset.color !== (value || '')) cell.dataset.color = value || '';
+        if (cell.dataset.selected !== String(selected)) cell.dataset.selected = String(selected);
+        if (cell.dataset.preview !== String(preview)) cell.dataset.preview = String(preview);
       }
     }
   }
@@ -238,24 +291,25 @@
   }
 
   function spawnUpcomingBalls() {
-    const empty = getEmptyCells();
-    if (!empty.length) {
+    if (state.emptyCount <= 0) {
       state.phase = 'gameover';
       return;
     }
     state.lastCleared = [];
     for (const color of state.upcoming) {
+      if (state.emptyCount <= 0) break;
       const slots = getEmptyCells();
       if (!slots.length) break;
       const choice = slots[Math.floor(state.rng() * slots.length)];
       state.board[choice.row][choice.col] = color;
+      state.emptyCount -= 1;
     }
     rollUpcoming();
     const cleared = collectLines();
     if (cleared.length) {
       clearCells(cleared, true);
     }
-    if (!getEmptyCells().length) {
+    if (state.emptyCount <= 0) {
       state.phase = 'gameover';
     }
   }
@@ -299,6 +353,9 @@
       state.board[row][col] = '';
     });
     state.lastCleared = cells.slice();
+    state.lastPath = [];
+    state.lastPathLookup = new Set();
+    state.emptyCount += cells.length;
     state.lines += 1;
     state.score += cells.length * (fromSpawn ? 3 : 2);
     updateBest();
@@ -363,6 +420,7 @@
     state.selected = null;
     state.moves += 1;
     state.lastPath = path;
+    state.lastPathLookup = new Set(path.map((step) => boardKey(step.row, step.col)));
 
     const cleared = collectLines();
     if (cleared.length) {
@@ -406,10 +464,16 @@
     state.board = emptyBoard();
     state.selected = null;
     state.lastPath = [];
+    state.lastPathLookup = new Set();
     state.lastCleared = [];
+    state.emptyCount = BOARD_SIZE * BOARD_SIZE;
+    state.upcomingEls = [];
     state.dailyKey = dailyKeyForToday();
+    state.dailyBestByDate = loadDailyBestByDate();
     state.mode = options.mode === 'daily' ? 'daily' : 'free';
+    state.dailyBest = getDailyBestForKey(state.dailyKey);
     placeStarterLayout();
+    state.emptyCount -= START_BALLS.length;
     rollUpcoming();
     state.phase = 'ready';
     setStatus(defaultStatus());
@@ -421,6 +485,7 @@
     const parts = state.dailyKey.split('-').map(Number);
     const seed = normalizeSeed((parts[0] * 10000) + (parts[1] * 100) + parts[2]);
     resetGame(seed, { mode: 'daily' });
+    state.dailyBest = getDailyBestForKey(state.dailyKey);
     setStatus(copy.dailyStatus || 'Daily board ready. Everyone gets the same start today.');
     render();
     return render_game_to_text();
@@ -452,7 +517,7 @@
       dailyKey: state.dailyKey,
       seed: state.seed,
       selected: state.selected ? { row: state.selected.row, col: state.selected.col } : null,
-      emptyCells: getEmptyCells().length,
+      emptyCells: state.emptyCount,
       upcoming: state.upcoming.slice(),
       board: state.board.map((row) => row.slice()),
       lastPath: state.lastPath.slice(),

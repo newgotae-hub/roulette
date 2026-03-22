@@ -14,6 +14,9 @@ const HOST = '127.0.0.1';
 const PORT = Number(process.env.WEBGAMES_QA_PORT || 4174);
 const CHROME_PORT = Number(process.env.WEBGAMES_QA_CHROME_PORT || 9224);
 const DEFAULT_TIMEOUT_MS = 15000;
+const DEFAULT_VISUAL_DIFF_RATIO = 0.0005;
+const DEFAULT_MAX_AVERAGE_FRAME_MS = 70;
+const DEFAULT_MAX_WORST_FRAME_MS = 250;
 const SCENARIO_GROUPS = {
   'new-wave': ['connect-four', 'solitaire-mini', 'word-swipe'],
   '13-wave': ['connect-four', 'solitaire-mini', 'word-swipe'],
@@ -141,6 +144,17 @@ function normalizeScenario(rawScenario) {
     : Array.isArray(rawScenario.requiredParsedKeys)
       ? rawScenario.requiredParsedKeys.map((key) => ({ key }))
       : [];
+  const visualProbe = Object.assign({
+    enabled: true,
+    minDiffRatio: DEFAULT_VISUAL_DIFF_RATIO
+  }, rawScenario.visualProbe || {});
+  const perfProbe = Object.assign({
+    enabled: true,
+    enforce: false,
+    maxAverageFrameMs: DEFAULT_MAX_AVERAGE_FRAME_MS,
+    maxWorstFrameMs: DEFAULT_MAX_WORST_FRAME_MS,
+    minSamples: 12
+  }, rawScenario.perfProbe || {});
   const bursts = Array.isArray(rawScenario.bursts) && rawScenario.bursts.length
     ? rawScenario.bursts
     : [
@@ -156,6 +170,8 @@ function normalizeScenario(rawScenario) {
     pageCandidates,
     fallbackPath,
     parsedAssertions,
+    visualProbe,
+    perfProbe,
     requiredHooks: Array.isArray(rawScenario.requiredHooks)
       ? rawScenario.requiredHooks
       : ['QA_READY', 'render_game_to_text', 'advanceTime', 'reset'],
@@ -486,7 +502,17 @@ async function selectTargetUrl(scenario) {
 
 function buildConsoleCaptureScript() {
   return `(() => {
-    const qa = { errors: [] };
+    const qa = {
+      errors: [],
+      perf: {
+        frameDeltas: [],
+        longFrames: 0,
+        samples: 0,
+        worstFrameMs: 0,
+        startedAt: performance.now(),
+        lastFrameAt: null
+      }
+    };
     const push = (type, message) => qa.errors.push({ type, message, time: performance.now() });
     window.__webgameQa = qa;
     window.addEventListener('error', (event) => push('error', event && event.message ? event.message : 'window error'));
@@ -502,6 +528,20 @@ function buildConsoleCaptureScript() {
       }).join(' '));
       return originalError(...args);
     };
+    const sampleFrame = (timestamp) => {
+      const perf = qa.perf;
+      if (perf.lastFrameAt != null) {
+        const delta = timestamp - perf.lastFrameAt;
+        perf.frameDeltas.push(delta);
+        if (perf.frameDeltas.length > 90) perf.frameDeltas.shift();
+        perf.samples += 1;
+        if (delta > perf.worstFrameMs) perf.worstFrameMs = delta;
+        if (delta >= 34) perf.longFrames += 1;
+      }
+      perf.lastFrameAt = timestamp;
+      window.requestAnimationFrame(sampleFrame);
+    };
+    window.requestAnimationFrame(sampleFrame);
   })();`;
 }
 
@@ -519,6 +559,19 @@ function buildStateCaptureScript() {
       try { parsed = JSON.parse(text); }
       catch { parsed = null; }
     }
+    const perf = window.__webgameQa && window.__webgameQa.perf ? window.__webgameQa.perf : null;
+    let perfSummary = null;
+    if (perf) {
+      const deltas = Array.isArray(perf.frameDeltas) ? perf.frameDeltas.slice() : [];
+      const sum = deltas.reduce((total, value) => total + Number(value || 0), 0);
+      perfSummary = {
+        samples: Number(perf.samples || deltas.length || 0),
+        averageFrameMs: deltas.length ? Number((sum / deltas.length).toFixed(2)) : null,
+        worstFrameMs: Number((perf.worstFrameMs || 0).toFixed(2)),
+        longFrames: Number(perf.longFrames || 0),
+        longFrameRatio: deltas.length ? Number(((perf.longFrames || 0) / deltas.length).toFixed(4)) : 0
+      };
+    }
     return {
       qaReady: Boolean(window.QA_READY || window.__WEBGAME_QA_READY__),
       readyState: document.readyState,
@@ -528,6 +581,7 @@ function buildStateCaptureScript() {
       text,
       parsed,
       renderError,
+      perf: perfSummary,
       title: document.title,
       href: location.href,
       bodyText: document.body ? document.body.innerText : '',
@@ -581,7 +635,20 @@ async function dispatchKey(socket, keyName) {
 async function captureScreenshot(socket, filePath) {
   const result = await socket.send('Page.captureScreenshot', { format: 'png', fromSurface: true }, 15000);
   if (!result || !result.data) throw new Error('Page.captureScreenshot returned no image data');
-  fs.writeFileSync(filePath, Buffer.from(result.data, 'base64'));
+  const buffer = Buffer.from(result.data, 'base64');
+  fs.writeFileSync(filePath, buffer);
+  return buffer;
+}
+
+function compareBuffers(a, b) {
+  if (!Buffer.isBuffer(a) || !Buffer.isBuffer(b) || !a.length || !b.length) return null;
+  const maxLength = Math.max(a.length, b.length);
+  const minLength = Math.min(a.length, b.length);
+  let different = Math.abs(a.length - b.length);
+  for (let index = 0; index < minLength; index += 1) {
+    if (a[index] !== b[index]) different += 1;
+  }
+  return Number((different / maxLength).toFixed(6));
 }
 
 function summarizeState(state) {
@@ -678,6 +745,7 @@ async function runScenario(chromiumPort, scenario, outputDir, allowFallback) {
   const snapshots = [];
   let state = null;
   const issues = [];
+  const warnings = [];
 
   try {
     await socket.connect();
@@ -691,10 +759,12 @@ async function runScenario(chromiumPort, scenario, outputDir, allowFallback) {
     await resetGame(socket, scenario);
     state = await evaluate(socket, buildStateCaptureScript(), 10000);
     snapshots.push({ label: 'boot', state });
-    await captureScreenshot(socket, path.join(screenshotDir, '00-boot.png'));
+    const bootBuffer = await captureScreenshot(socket, path.join(screenshotDir, '00-boot.png'));
+    snapshots[0].screenshotDiffFromBoot = 0;
 
     const baselineText = normalizeText(state.text);
     let textChanged = false;
+    let visualChangeDetected = false;
     for (const burst of scenario.bursts) {
       if (burst.label !== 'boot') {
         if (Array.isArray(burst.calls)) {
@@ -710,8 +780,18 @@ async function runScenario(chromiumPort, scenario, outputDir, allowFallback) {
       }
       state = await evaluate(socket, buildStateCaptureScript(), 10000);
       snapshots.push({ label: burst.label, state });
-      await captureScreenshot(socket, path.join(screenshotDir, `${String(snapshots.length - 1).padStart(2, '0')}-${burst.label}.png`));
+      const buffer = await captureScreenshot(socket, path.join(screenshotDir, `${String(snapshots.length - 1).padStart(2, '0')}-${burst.label}.png`));
+      const diffRatio = compareBuffers(bootBuffer, buffer);
+      snapshots[snapshots.length - 1].screenshotDiffFromBoot = diffRatio;
       if (!textChanged && normalizeText(state.text) !== baselineText) textChanged = true;
+      if (
+        burst.label !== 'boot'
+        && burst.label !== 'reset'
+        && diffRatio != null
+        && diffRatio >= Number(scenario.visualProbe.minDiffRatio || DEFAULT_VISUAL_DIFF_RATIO)
+      ) {
+        visualChangeDetected = true;
+      }
     }
 
     const finalReset = snapshots.find((entry) => entry.label === 'reset');
@@ -719,10 +799,29 @@ async function runScenario(chromiumPort, scenario, outputDir, allowFallback) {
     if (!state.hasRender || !state.hasAdvanceTime || !state.hasReset) issues.push('one or more required hooks were missing');
     if (!normalizeText(state.text)) issues.push('render_game_to_text returned empty text');
     if (!textChanged) issues.push('render_game_to_text never changed after motion bursts');
+    if (scenario.visualProbe.enabled !== false && !visualChangeDetected) {
+      issues.push(`visual change stayed below ${scenario.visualProbe.minDiffRatio || DEFAULT_VISUAL_DIFF_RATIO} diff ratio across non-reset bursts`);
+    }
     if (finalReset && normalizeText(finalReset.state.text) !== baselineText) issues.push('reset did not restore the boot snapshot');
     if (scenario.parsedAssertions && scenario.parsedAssertions.length) {
       for (const entry of snapshots) {
         issues.push(...validateParsedAssertions(entry.state.parsed, scenario.parsedAssertions).map((issue) => `parsed assertion failed at ${entry.label}: ${issue}`));
+      }
+    }
+    if (scenario.perfProbe.enabled !== false) {
+      for (const entry of snapshots) {
+        const perf = entry.state && entry.state.perf;
+        if (!perf || Number(perf.samples || 0) < Number(scenario.perfProbe.minSamples || 12)) continue;
+        if (perf.averageFrameMs != null && Number(perf.averageFrameMs) > Number(scenario.perfProbe.maxAverageFrameMs || DEFAULT_MAX_AVERAGE_FRAME_MS)) {
+          const message = `perf regression at ${entry.label}: average frame ${perf.averageFrameMs}ms exceeded ${scenario.perfProbe.maxAverageFrameMs || DEFAULT_MAX_AVERAGE_FRAME_MS}ms`;
+          if (scenario.perfProbe.enforce === true) issues.push(message);
+          else warnings.push(message);
+        }
+        if (perf.worstFrameMs != null && Number(perf.worstFrameMs) > Number(scenario.perfProbe.maxWorstFrameMs || DEFAULT_MAX_WORST_FRAME_MS)) {
+          const message = `perf regression at ${entry.label}: worst frame ${perf.worstFrameMs}ms exceeded ${scenario.perfProbe.maxWorstFrameMs || DEFAULT_MAX_WORST_FRAME_MS}ms`;
+          if (scenario.perfProbe.enforce === true) issues.push(message);
+          else warnings.push(message);
+        }
       }
     }
     if ((state.consoleErrors || []).length) {
@@ -737,10 +836,13 @@ async function runScenario(chromiumPort, scenario, outputDir, allowFallback) {
       usedFallback: target.source === 'fallback',
       passed: issues.length === 0,
       issues,
+      warnings,
       snapshots: snapshots.map((entry) => ({
         label: entry.label,
         summary: summarizeState(entry.state),
         text: entry.state.text,
+        perf: entry.state.perf || null,
+        screenshotDiffFromBoot: entry.screenshotDiffFromBoot ?? null,
         qaErrors: entry.state.consoleErrors || []
       }))
     };
@@ -753,6 +855,7 @@ async function runScenario(chromiumPort, scenario, outputDir, allowFallback) {
         `target: ${target.url}`,
         `boot: ${snapshots[0] ? snapshots[0].state.text : '(missing)'}`,
         `final: ${state.text}`,
+        ...(warnings.length ? warnings.map((warning) => `warning: ${warning}`) : []),
         ...(issues.length ? issues.map((issue) => `issue: ${issue}`) : ['issue: none'])
       ].join('\n') + '\n'
     );
@@ -856,9 +959,10 @@ async function main() {
       `Scenarios: ${results.length}`,
       `Passed: ${results.filter((result) => result.passed).length}`,
       `Failed: ${results.filter((result) => !result.passed).length}`,
+      `Warnings: ${results.reduce((total, result) => total + ((result.warnings || []).length), 0)}`,
       '',
       ...results.map((result) => (
-      `${result.passed ? 'PASS' : 'FAIL'} ${result.id} :: ${result.targetStatus}${result.usedFallback ? ' (fallback harness)' : ''} :: ${result.issues.length ? result.issues.join(' | ') : 'ok'}`
+      `${result.passed ? 'PASS' : 'FAIL'} ${result.id} :: ${result.targetStatus}${result.usedFallback ? ' (fallback harness)' : ''} :: ${result.issues.length ? result.issues.join(' | ') : 'ok'}${(result.warnings || []).length ? ` :: warnings=${result.warnings.join(' | ')}` : ''}`
       ))
     ].join('\n') + '\n'
   );

@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Memory Match | Randomly Pick</title>
-  <meta name="description" content="카드를 기억해서 같은 짝을 맞추는 Memory Match 게임입니다. 키보드, 탭, 버튼으로 편하게 조작하고, 모바일과 앱 웹뷰에서도 읽기 쉬운 화면으로 구성했습니다." />
+  <meta name="description" content="?? ?? ???? ??? ?? ?? ?????. Randomly Pick ??? ?? ?? ??? ??, ??? ?? ???? ???? ? ????? ?? ?? ? ??? ??????." />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://randomly-pick.com/games/memory-match/" />
   <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/memory-match/" />
@@ -23,137 +23,140 @@
           <div class="mm-brand-sub">Memory Match</div>
         </div>
       </div>
-      <nav class="mm-nav" aria-label="주요 메뉴">
-        <a href="/">홈</a>
-        <a href="/games/" class="is-active" aria-current="page">게임</a>
-        <a href="/luckydraw/">럭키드로우</a>
-        <a href="/ladder/">사다리</a>
-        <a href="/team-generator/">팀 나누기</a>
-        <a href="/coinflip/">동전 뒤집기</a>
-        <a href="/dice/">주사위</a>
+      <nav class="mm-nav" aria-label="?? ??">
+        <a href="/">?</a>
+        <a href="/games/" class="is-active" aria-current="page">??</a>
+        <a href="/luckydraw/">?????</a>
+        <a href="/ladder/">???</a>
+        <a href="/team-generator/">? ???</a>
+        <a href="/coinflip/">????</a>
+        <a href="/dice/">???</a>
       </nav>
     </header>
 
     <section class="mm-hero">
-      <span class="mm-eyebrow">기억력 카드 게임</span>
+      <span class="mm-eyebrow">??? ?? ??</span>
       <h1 class="mm-title">Memory Match</h1>
-      <p class="mm-lede">같은 짝을 기억해서 맞추는 차분한 카드 게임입니다. Randomly Pick 안에서 짧게 한 판 즐기기 좋고, 카드가 크고 명확해서 모바일과 앱 웹뷰에서도 바로 플레이할 수 있습니다.</p>
+      <p class="mm-lede">?? ?? ???? ??? ?? ?? ?????. Randomly Pick ??? ?? ?? ??? ??, ??? ?? ???? ???? ? ????? ?? ?? ? ??? ??????.</p>
       <div class="mm-actions">
-        <a class="mm-button is-primary" href="#play-area">게임 시작</a>
-        <a class="mm-button" href="/games/">게임 허브</a>
+        <button class="mm-button is-primary" id="memory-match-start" type="button">?? ??</button>
+        <button class="mm-button" id="memory-match-daily" type="button">??? ??</button>
+        <a class="mm-button" href="/games/">?? ??</a>
       </div>
-      <div class="mm-chips" aria-label="게임 특징">
-        <span class="mm-chip">키보드 + 탭 조작</span>
-        <span class="mm-chip">짧은 판 구성</span>
+      <div class="mm-chips" aria-label="?? ??">
+        <span class="mm-chip">??? + ? ??</span>
+        <span class="mm-chip">?? ?? ?? ?? ???</span>
+        <span class="mm-chip">?? ?? ??? ??? ??</span>
         <span class="mm-chip">Deterministic QA hooks</span>
-        <span class="mm-chip">모바일 웹뷰 기본값</span>
+        <span class="mm-chip">??? ?? ?? ???</span>
       </div>
-      <div class="mm-tag-row" aria-label="현재 상태">
+      <div class="mm-tag-row" aria-label="?? ??">
         <span id="memory-match-mode" class="mm-tag" data-state="ready">클래식 · 준비됨</span>
       </div>
-      <p class="mm-hint" id="memory-match-hint">방향키로 카드를 이동하고 Enter 또는 Space로 뒤집을 수 있습니다.</p>
-      <p class="mm-mobile-flow" id="memory-match-mobile-flow">큰 카드와 큰 버튼으로 구성되어 있어, 손가락으로 눌러도 읽기 쉽고 쉽게 다시 시작할 수 있습니다.</p>
+      <p class="mm-hint" id="memory-match-hint">???? ??? ???? Enter ?? Space? ??? ? ????.</p>
+      <p class="mm-mobile-flow" id="memory-match-mobile-flow">? ??? ? ???? ???? ??, ????? ??? ?? ?? ?? ?? ??? ? ????.</p>
     </section>
 
     <div class="mm-layout" id="play-area">
       <section class="mm-panel" aria-labelledby="board-title">
         <div class="mm-panel-head">
           <div>
-            <h2 id="board-title">카드 보드</h2>
-            <p>같은 짝을 둘씩 찾아 맞추면 카드가 고정됩니다. 한 번에 두 장만 기억하면 되니, 리듬을 유지하면서 짝을 정리해 보세요.</p>
+            <h2 id="board-title">?? ??</h2>
+            <p>?? ?? ? ?? ?? ??? ??? ?????. ??? ??? ??? ??? ?? ?? ???.</p>
           </div>
           <div class="mm-toolbar">
-            <button id="memory-match-reset" type="button">초기화</button>
-            <button id="memory-match-new" type="button">새 보드</button>
+            <button id="memory-match-reset" type="button">???</button>
+            <button id="memory-match-new" type="button">? ??</button>
           </div>
         </div>
 
         <div class="mm-board-shell">
-          <div id="memory-match-board" class="mm-board" role="grid" aria-label="Memory Match 보드"></div>
+          <div id="memory-match-board" class="mm-board" role="grid" aria-label="Memory Match ??"></div>
         </div>
 
         <div class="mm-controls">
-          <div class="mm-pad" aria-label="카드 이동 및 뒤집기">
+          <div class="mm-pad" aria-label="?? ?? ? ???">
             <span class="blank"></span>
-            <button id="memory-match-up" class="up" type="button" aria-label="위로 이동">↑</button>
+            <button id="memory-match-up" class="up" type="button" aria-label="?? ??">?</button>
             <span class="blank"></span>
-            <button id="memory-match-left" class="left" type="button" aria-label="왼쪽으로 이동">←</button>
-            <button id="memory-match-flip" class="flip" type="button" aria-label="선택한 카드 뒤집기">뒤집기</button>
-            <button id="memory-match-right" class="right" type="button" aria-label="오른쪽으로 이동">→</button>
+            <button id="memory-match-left" class="left" type="button" aria-label="???? ??">?</button>
+            <button id="memory-match-flip" class="flip" type="button" aria-label="??? ?? ???">???</button>
+            <button id="memory-match-right" class="right" type="button" aria-label="????? ??">?</button>
             <span class="blank"></span>
-            <button id="memory-match-down" class="down" type="button" aria-label="아래로 이동">↓</button>
+            <button id="memory-match-down" class="down" type="button" aria-label="??? ??">?</button>
             <span class="blank"></span>
           </div>
-          <div class="mm-stats" aria-label="현재 게임 상태">
-            <div class="mm-stat"><span>상태</span><strong id="memory-match-status">카드를 탭하거나 Enter로 시작할 수 있습니다.</strong></div>
-            <div class="mm-stat"><span>점수</span><strong id="memory-match-score">0</strong></div>
-            <div class="mm-stat"><span>최고 점수</span><strong id="memory-match-best">0</strong></div>
-            <div class="mm-stat"><span>턴 수</span><strong id="memory-match-turns">0</strong></div>
-            <div class="mm-stat"><span>맞춘 짝</span><strong id="memory-match-matches">0</strong></div>
-            <div class="mm-stat"><span>남은 짝</span><strong id="memory-match-remaining">8</strong></div>
-            <div class="mm-stat"><span>연속 성공</span><strong id="memory-match-streak">0</strong></div>
+          <div class="mm-stats" aria-label="?? ?? ??">
+            <div class="mm-stat"><span>??</span><strong id="memory-match-status">??? ???? Enter? ??? ? ????.</strong></div>
+            <div class="mm-stat"><span>??</span><strong id="memory-match-score">0</strong></div>
+            <div class="mm-stat"><span>?? ??</span><strong id="memory-match-best">0</strong></div>
+            <div class="mm-stat"><span>??? ??</span><strong id="memory-match-daily-best">0</strong></div>
+            <div class="mm-stat"><span>? ?</span><strong id="memory-match-turns">0</strong></div>
+            <div class="mm-stat"><span>?? ?</span><strong id="memory-match-matches">0</strong></div>
+            <div class="mm-stat"><span>?? ?</span><strong id="memory-match-remaining">8</strong></div>
+            <div class="mm-stat"><span>?? ??</span><strong id="memory-match-streak">0</strong></div>
           </div>
         </div>
       </section>
 
       <aside class="mm-panel" aria-labelledby="guide-title">
         <div class="mm-panel-head">
-          <h2 id="guide-title">어떻게 하면 좋을까</h2>
+          <h2 id="guide-title">? ?? ??</h2>
         </div>
         <div class="mm-section" style="margin-top:0;">
           <div class="mm-section-head">
-            <h2>리듬을 먼저 기억하세요</h2>
+            <h2>??? ??, ??? ????</h2>
           </div>
-          <p>Memory Match는 복잡한 규칙보다 짧은 기억과 빠른 선택이 중요합니다. 같은 모양과 색을 묶어 생각하면 한 번에 두 장만 보더라도 흐름을 놓치지 않게 됩니다.</p>
+          <p>Memory Match? ??? ???? ??? ???? ?? ? ????. ??? Randomly Pick ??? ??? ??? ???? ???? ??????.</p>
         </div>
         <div class="mm-section" style="margin-top:16px;">
           <div class="mm-section-head">
-            <h2>Randomly Pick에 잘 맞는 이유</h2>
+            <h2>Randomly Pick? ?? ??</h2>
           </div>
-          <p>이 탭은 랜덤 도구들 사이에서 잠깐 쉬어가기 좋은 단정한 게임입니다. 과한 연출보다 읽기 쉬운 판, 빠른 재시작, 그리고 모바일에서 바로 눌러 보는 감각을 우선했습니다.</p>
+          <p>? ?? ?? ???? ???? ??? ??? ?? ???? ???? ???? ???. ????? ???, ??? ??, ??? ???? ?????.</p>
         </div>
       </aside>
     </div>
 
     <section class="mm-section" aria-labelledby="howto-title">
       <div class="mm-section-head">
-        <h2 id="howto-title">플레이 방법</h2>
-        <p>카드를 하나 열고, 같은 짝을 찾고, 맞춘 카드는 계속 열린 상태로 남겨 두세요. 틀리면 잠깐 보였다가 다시 닫힙니다.</p>
+        <h2 id="howto-title">??? ??</h2>
+        <p>?? ? ?? ?? ??? ??? ?, ?? ??? ? ?? ??? ????. ?? ?? ??? ?? ??? ??, ?? ?? ??? ??? ????.</p>
       </div>
       <div class="mm-steps">
-        <div class="mm-step"><strong>1. 카드 한 장을 엽니다.</strong> 탭, Enter, Space, 또는 아래 뒤집기 버튼으로 시작할 수 있습니다.</div>
-        <div class="mm-step"><strong>2. 같은 짝을 기억합니다.</strong> 모양과 순서를 따라가며 두 번째 카드를 골라 보세요.</div>
-        <div class="mm-step"><strong>3. 보드를 정리합니다.</strong> 짝을 모두 맞추면 새 보드로 바로 다시 시작할 수 있습니다.</div>
+        <div class="mm-step"><strong>1. ??? ?? ???.</strong> ?, Enter, Space, ?? ??? ???? ??? ? ????.</div>
+        <div class="mm-step"><strong>2. ??? ?????.</strong> ??? ??? ????? ?? ??? ????.</div>
+        <div class="mm-step"><strong>3. ??? ????.</strong> ?? ?? ??? ?????? ? ??? ?? ??? ? ????.</div>
       </div>
     </section>
 
     <section class="mm-section" aria-labelledby="use-title">
       <div class="mm-section-head">
-        <h2 id="use-title">이럴 때 잘 맞습니다</h2>
-        <p>짧고 조용한 게임이 필요할 때, 혹은 모바일에서 부담 없이 한두 판만 하고 싶을 때 특히 잘 맞습니다.</p>
+        <h2 id="use-title">???? ??</h2>
+        <p>?? ???? ? ? ?? ?? ?, ?? ?? ?? ?? ??? ? ?? ??? ??? ? ? ????.</p>
       </div>
       <div class="mm-uses">
-        <div class="mm-use"><strong>짧은 휴식 시간</strong> 한 판의 흐름이 짧아, 대기 중에도 부담 없이 시작하고 멈출 수 있습니다.</div>
-        <div class="mm-use"><strong>집중력 리셋</strong> 반복되는 짝 찾기 과정이 생각보다 차분해서 머리를 잠깐 정리하기 좋습니다.</div>
-        <div class="mm-use"><strong>모바일/웹뷰 데모</strong> 큰 카드와 큰 버튼으로 설계해, 앱 안의 웹뷰에서도 바로 읽히게 만들었습니다.</div>
+        <div class="mm-use"><strong>?? ?? ??</strong> ?? ?? ?? ?? ?? ? ? ??? ????.</div>
+        <div class="mm-use"><strong>?? ??</strong> ??? ???? ? ?? ?? ??? ???? ????.</div>
+        <div class="mm-use"><strong>???? ?? ??</strong> ? ?? ??? ?? ??? ??? ??? ?? ????.</div>
       </div>
     </section>
 
     <section class="mm-section" aria-labelledby="related-title">
       <div class="mm-section-head">
-        <h2 id="related-title">다음에 볼 만한 Randomly Pick 페이지</h2>
-        <p>기분이 바뀌면 게임 허브 안의 다른 도구로 바로 이동할 수 있습니다.</p>
+        <h2 id="related-title">?? Randomly Pick ???</h2>
+        <p>??? ??? ???, ?? ??? ?? ??? ? ????.</p>
       </div>
       <div class="mm-related">
-        <a href="/games/snake/"><strong>Snake</strong><br />좀 더 빠른 리듬의 첫 게임을 해볼 수 있습니다.</a>
-        <a href="/games/number-merge/"><strong>Number Merge</strong><br />차분한 퍼즐 감각이 필요할 때 잘 맞습니다.</a>
-        <a href="/games/"><strong>게임 허브</strong><br />추가될 게임들을 한 곳에서 볼 수 있습니다.</a>
-        <a href="/about/"><strong>About</strong><br />사이트와 운영 정보를 간단히 확인할 수 있습니다.</a>
+        <a href="/games/snake/"><strong>Snake</strong><br />?? ? ?? ? ??? ?? ? ????.</a>
+        <a href="/games/number-merge/"><strong>Number Merge</strong><br />? ??? ?? ??? ??? ? ? ????.</a>
+        <a href="/games/"><strong>?? ??</strong><br />??? ???? ? ??? ? ? ????.</a>
+        <a href="/about/"><strong>About</strong><br />??? ??? ?? ??? ??? ??? ? ????.</a>
       </div>
     </section>
 
     <section class="mm-trust">
-      <strong>사이트 링크</strong>
+      <strong>??? ??</strong>
       <div class="mm-links">
         <a href="/about/">About</a>
         <a href="/guides/">Guides</a>
@@ -163,33 +166,39 @@
       </div>
     </section>
 
-    <div class="mm-footer">Randomly Pick · <a href="/games/">게임 허브</a></div>
+    <div class="mm-footer">Randomly Pick ? <a href="/games/">?? ??</a></div>
   </main>
 
   <script>
     window.__MEMORY_MATCH_COPY__ = {
-      modeLabel: '클래식',
-      readyLabel: '준비됨',
-      playingLabel: '진행 중',
-      resolvingLabel: '비교 중',
-      completeLabel: '완료',
-      statusReady: '카드를 탭하거나 Enter로 시작할 수 있습니다.',
-      statusPlayingStart: '첫 카드를 열어 보드를 시작하세요.',
-      statusPlaying: '같은 짝을 기억하면서 다음 카드를 골라 보세요.',
-      statusResolving: '짝이 맞지 않았습니다. 카드를 다시 닫는 중입니다.',
-      statusComplete: '모든 짝을 맞췄습니다. 새 보드나 초기화로 다시 시작하세요.',
-      hint: '방향키로 카드를 이동하고 Enter 또는 Space로 뒤집을 수 있습니다.',
-      mobileHint: '모바일에서는 카드를 탭해 뒤집고, 아래 버튼으로도 이동할 수 있습니다.',
-      mobileFlowReady: '탭하기 좋은 큰 카드와 버튼으로 구성되어 있어 웹뷰에서도 바로 플레이할 수 있습니다.',
-      mobileFlowResolving: '짝이 다른 카드는 잠깐 보였다가 다시 닫힙니다.',
-      mobileFlowComplete: '완료 상태에서는 새 보드나 초기화 버튼을 눌러 바로 다시 시작할 수 있습니다.',
-      cardBackLabel: '탭해서 열기',
-      cardHiddenLabel: '숨겨진 카드',
-      cardRevealedLabel: '열린 카드',
-      cardMatchedLabel: '맞춘 카드',
-      resetButton: '초기화',
-      newButton: '새 보드',
-      flipButton: '뒤집기'
+      modeLabel: '??',
+      classicModeLabel: '???',
+      readyLabel: '???',
+      playingLabel: '?? ?',
+      resolvingLabel: '?? ?',
+      completeLabel: '??',
+      statusReady: '??? ???? Enter? ??? ? ????.',
+      statusReadyDaily: '??? ??? ?????. ??? ???? Enter? ?????.',
+      statusPlayingStart: '? ??? ?? ??? ?????.',
+      statusPlaying: '?? ?? ????? ?? ??? ?? ???.',
+      statusResolving: '?? ?? ?????. ??? ?? ?? ????.',
+      statusComplete: '?? ?? ?????. ? ??? ???? ?? ?????.',
+      hint: '???? ??? ???? Enter ?? Space? ??? ? ????.',
+      mobileHint: '?????? ??? ?? ???, ?? ????? ??? ? ????.',
+      mobileFlowReady: '??? ? ???? ???? ??, ????? ??? ?? ?? ?? ???? ????.',
+      mobileFlowResolving: '?? ?? ?? ??? ?? ?? ? ?? ????.',
+      mobileFlowComplete: '??? ??? ? ?? ?? ???? ?? ?? ??? ? ????.',
+      cardBackLabel: '??? ??',
+      cardHiddenLabel: '??? ??',
+      cardRevealedLabel: '?? ??',
+      cardMatchedLabel: '?? ??',
+      resetButton: '???',
+      newButton: '? ??',
+      startButton: '?? ??',
+      dailyButton: '??? ??',
+            freeModeLabel: '??',
+      dailyModeLabel: '???',
+      flipButton: '???'
     };
     window.__MEMORY_MATCH_META__ = {
       slug: 'memory-match',

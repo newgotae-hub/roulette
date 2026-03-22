@@ -255,6 +255,12 @@ a { color: inherit; }
   cursor: pointer;
   touch-action: manipulation;
 }
+.bp-toolbar button[data-recommended="true"] {
+  background: #0f172a;
+  color: #fff;
+  border-color: #0f172a;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, .16);
+}
 .bp-toolbar button:disabled {
   opacity: .45;
   cursor: default;
@@ -303,6 +309,11 @@ a { color: inherit; }
   border: 1px solid var(--line);
   color: #0f172a;
   line-height: 1.66;
+}
+.bp-status[data-state="warning"] {
+  background: #fff7ed;
+  border-color: rgba(245,158,11,.28);
+  color: #92400e;
 }
 .bp-section {
   margin-top: 18px;

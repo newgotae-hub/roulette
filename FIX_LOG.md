@@ -554,3 +554,8 @@ How to use it:
 - Shipped the Korean and English product pages, runtimes, and QA fixtures for `connect-four`, `solitaire-mini`, and `word-swipe`, and kept the Games hubs aligned with the now-live 13-title lineup.
 - Ran strict QA on all six new locale routes, regenerated sitemaps, and passed both `validate-seo.js` and `adsense-readiness-check.js` before deploy.
 - Updated the Games-specific trust-link validation so release checks match the actual Games site-link structure instead of the older tool-footer-id contract; rollout details live in [WEBGAMES_13_GAME_WAVE_2026-03-22.md](/home/user/roulette/WEBGAMES_13_GAME_WAVE_2026-03-22.md).
+
+### 2026-03-22 - Gameplay quality pass documented for the current live wave
+
+- Captured the current quality wave in [WEBGAMES_GAMEPLAY_QUALITY_PASS_2026-03-22.md](/home/user/roulette/WEBGAMES_GAMEPLAY_QUALITY_PASS_2026-03-22.md), covering Memory Match daily/first-play polish, Bubble Pop interaction and chain feedback, Color Lines KO cleanup with daily/replay tuning, Word Swipe puzzle depth and clarity, and the shared QA perf/visual probes now used by the release lane.
+- Kept the note release-oriented so future workers can trace what shipped without needing to rediscover the per-game feel improvements or the shared webgame QA expectations.

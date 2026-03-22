@@ -150,6 +150,54 @@
     return count;
   }
 
+  function largestPlayableClusterSize() {
+    const visited = new Set();
+    let largest = 0;
+    for (let row = 0; row < ROWS; row += 1) {
+      for (let col = 0; col < COLS; col += 1) {
+        const start = getCell(row, col);
+        if (!start?.color) continue;
+        const startKey = cellId(row, col);
+        if (visited.has(startKey)) continue;
+        const queue = [[row, col]];
+        visited.add(startKey);
+        let size = 0;
+        while (queue.length) {
+          const [currentRow, currentCol] = queue.shift();
+          const cell = getCell(currentRow, currentCol);
+          if (!cell || cell.color !== start.color) continue;
+          size += 1;
+          [
+            [currentRow - 1, currentCol],
+            [currentRow + 1, currentCol],
+            [currentRow, currentCol - 1],
+            [currentRow, currentCol + 1]
+          ].forEach(([nextRow, nextCol]) => {
+            const key = cellId(nextRow, nextCol);
+            if (visited.has(key)) return;
+            const nextCell = getCell(nextRow, nextCol);
+            if (nextCell && nextCell.color === start.color) {
+              visited.add(key);
+              queue.push([nextRow, nextCol]);
+            }
+          });
+        }
+        largest = Math.max(largest, size);
+      }
+    }
+    return largest;
+  }
+
+  function boardNeedsShuffle() {
+    return state.phase === 'playing' && state.canShuffle && largestPlayableClusterSize() < 2;
+  }
+
+  function clusterMatchesSelection(cluster) {
+    if (!state.selection.length || state.selection.length !== cluster.length) return false;
+    const selectedKeys = new Set(state.selection.map((cell) => cellId(cell.row, cell.col)));
+    return cluster.every((cell) => selectedKeys.has(cellId(cell.row, cell.col)));
+  }
+
   function updateBest(score) {
     if (score > state.best) {
       state.best = score;
@@ -204,6 +252,9 @@
 
   function selectionLabel() {
     if (!state.selection.length) return copy.selectionNone || 'No group selected';
+    if (state.selection.length < 2) {
+      return copy.selectionSingle || 'Single bubble';
+    }
     return `${state.selection.length} ${copy.selectionSuffix || 'bubbles ready'}`;
   }
 
@@ -230,6 +281,16 @@
       els.touchHint.textContent = coarsePointer ? (copy.mobileHint || copy.hint || '') : (copy.hint || '');
     }
     if (els.shuffle) els.shuffle.disabled = !state.canShuffle || state.phase === 'won' || state.phase === 'gameover';
+    if (els.shuffle) {
+      const needsShuffle = boardNeedsShuffle();
+      els.shuffle.dataset.recommended = needsShuffle ? 'true' : 'false';
+      els.shuffle.title = needsShuffle
+        ? (copy.shuffleReadyStatus || 'No matching groups left. Use Shuffle to rescue the board.')
+        : '';
+    }
+    if (els.status) {
+      els.status.dataset.state = boardNeedsShuffle() ? 'warning' : state.phase;
+    }
   }
 
   function setMessage(message) {
@@ -240,6 +301,11 @@
   function updateSelection(cluster) {
     state.selection = cluster.map((cell) => ({ row: cell.row, col: cell.col, color: cell.color }));
     state.selectionColor = cluster[0]?.color || null;
+    if (cluster.length >= 2) {
+      setMessage(`${copy.selectionStatus || 'Group selected.'} ${cluster.length}. ${copy.selectionTapAgain || 'Tap again to pop it.'}`);
+    } else {
+      setMessage(copy.singleBubbleStatus || 'That bubble needs a matching neighbor.');
+    }
     syncHud();
     render();
   }
@@ -247,6 +313,11 @@
   function clearSelection() {
     state.selection = [];
     state.selectionColor = null;
+    if (boardNeedsShuffle()) {
+      setMessage(copy.shuffleReadyStatus || 'No matching groups left. Use Shuffle to rescue the board.');
+    } else if (state.phase === 'playing') {
+      setMessage(copy.readyStatus || 'Tap a bubble group to start your first pop.');
+    }
     syncHud();
     render();
   }
@@ -264,6 +335,9 @@
       return;
     }
     state.phase = 'playing';
+    if (boardNeedsShuffle()) {
+      setMessage(copy.shuffleReadyStatus || 'No matching groups left. Use Shuffle to rescue the board.');
+    }
   }
 
   function popSelection(cluster) {
@@ -280,13 +354,18 @@
     applyGravity();
     state.movesLeft -= 1;
     state.combo += 1;
-    const gained = cluster.length * cluster.length * 5 + state.combo * 8;
+    const chainBonus = Math.min(96, state.combo * 10);
+    const sizeBonus = Math.max(0, cluster.length - 3) * (8 + state.combo);
+    const gained = cluster.length * cluster.length * 5 + chainBonus + sizeBonus;
     state.score += gained;
     updateBest(state.score);
     state.selection = [];
     state.selectionColor = null;
     settlePhase();
-    if (state.phase === 'playing') setMessage((copy.popStatus || 'Popped a cluster.') + ` +${gained}`);
+    if (state.phase === 'playing') {
+      const extra = cluster.length >= 5 ? ` · ${copy.chainBonusStatus || 'Chain bonus!'}` : '';
+      setMessage((copy.popStatus || 'Popped a cluster.') + ` +${gained}${extra}`);
+    }
     syncHud();
     render();
   }
@@ -328,6 +407,7 @@
       idx += 1;
     });
     state.canShuffle = false;
+    state.combo = 0;
     state.phase = state.phase === 'ready' ? 'ready' : 'playing';
     clearSelection();
     setMessage(copy.shuffleStatus || 'The field was shuffled. Look for the next cluster.');
@@ -350,17 +430,17 @@
     const cell = getCell(row, col);
     if (!cell || !cell.color || state.phase === 'won' || state.phase === 'gameover') return false;
     const cluster = getCluster(row, col);
-    if (!state.selection.length || state.selection[0].row !== row || state.selection[0].col !== col) {
+    if (!state.selection.length) {
       updateSelection(cluster);
       state.phase = state.phase === 'ready' ? 'playing' : state.phase;
-      if (cluster.length < 2) {
-        setMessage(copy.singleBubbleStatus || 'That bubble needs a matching neighbor.');
-      } else {
-        setMessage((copy.selectionStatus || 'Group selected.') + ` ${cluster.length}`);
-      }
       return true;
     }
-    popSelection(cluster);
+    if (clusterMatchesSelection(cluster)) {
+      popSelection(cluster);
+      return true;
+    }
+    updateSelection(cluster);
+    state.phase = state.phase === 'ready' ? 'playing' : state.phase;
     return true;
   }
 

@@ -39,12 +39,14 @@
       <h1 class="mm-title">Memory Match</h1>
       <p class="mm-lede">Find matching pairs with a calm, browser-friendly card game. The board stays easy to read, the controls stay practical, and the layout keeps working on mobile and in app webviews.</p>
       <div class="mm-actions">
-        <a class="mm-button is-primary" href="#play-area">Start game</a>
+        <button class="mm-button is-primary" id="memory-match-start" type="button">Start game</button>
+        <button class="mm-button" id="memory-match-daily" type="button">Daily challenge</button>
         <a class="mm-button" href="/en/games/">Back to Games</a>
       </div>
       <div class="mm-chips" aria-label="Game features">
         <span class="mm-chip">Keyboard + tap controls</span>
         <span class="mm-chip">Short, replayable rounds</span>
+        <span class="mm-chip">Seeded daily challenge</span>
         <span class="mm-chip">Deterministic QA hooks</span>
         <span class="mm-chip">Mobile webview defaults</span>
       </div>
@@ -88,6 +90,7 @@
             <div class="mm-stat"><span>Status</span><strong id="memory-match-status">Tap a card or press Enter to start.</strong></div>
             <div class="mm-stat"><span>Score</span><strong id="memory-match-score">0</strong></div>
             <div class="mm-stat"><span>Best</span><strong id="memory-match-best">0</strong></div>
+            <div class="mm-stat"><span>Daily best</span><strong id="memory-match-daily-best">0</strong></div>
             <div class="mm-stat"><span>Turns</span><strong id="memory-match-turns">0</strong></div>
             <div class="mm-stat"><span>Matches</span><strong id="memory-match-matches">0</strong></div>
             <div class="mm-stat"><span>Pairs left</span><strong id="memory-match-remaining">8</strong></div>
@@ -169,11 +172,13 @@
   <script>
     window.__MEMORY_MATCH_COPY__ = {
       modeLabel: 'Classic',
+      classicModeLabel: 'Classic',
       readyLabel: 'Ready',
       playingLabel: 'Playing',
       resolvingLabel: 'Checking',
       completeLabel: 'Complete',
       statusReady: 'Tap a card or press Enter to start.',
+      statusReadyDaily: 'Daily challenge ready. Tap a card or press Enter to start.',
       statusPlayingStart: 'Open the first card to start the board.',
       statusPlaying: 'Keep the pairs in mind and choose the next card.',
       statusResolving: 'That pair does not match. The cards will close back up.',
@@ -189,6 +194,10 @@
       cardMatchedLabel: 'Matched card',
       resetButton: 'Reset',
       newButton: 'New board',
+      startButton: 'Start game',
+      dailyButton: 'Daily challenge',
+      freeModeLabel: 'Free',
+      dailyModeLabel: 'Daily',
       flipButton: 'Flip'
     };
     window.__MEMORY_MATCH_META__ = {
