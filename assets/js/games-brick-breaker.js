@@ -73,6 +73,12 @@
     rafId: 0
   };
 
+  function pulseDevice(pattern) {
+    if (typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function') {
+      navigator.vibrate(pattern);
+    }
+  }
+
   function clamp(value, min, max) {
     return Math.min(max, Math.max(min, value));
   }
@@ -211,6 +217,7 @@
     state.ball.vy = Math.sin(angle) * speed;
     state.phase = 'playing';
     state.message = copy.playingStatus || 'The ball is in play. Keep the board open and watch the angle.';
+    pulseDevice(10);
     syncHud();
   }
 
@@ -337,6 +344,7 @@
       state.ball.vx *= scale;
       state.ball.vy *= scale;
     }
+    pulseDevice(8);
 
     const fromLeft = prevX + state.ball.r <= brick.x && state.ball.x + state.ball.r > brick.x;
     const fromRight = prevX - state.ball.r >= brick.x + brick.w && state.ball.x - state.ball.r < brick.x + brick.w;
@@ -395,6 +403,7 @@
     state.combo = Math.max(0, state.combo);
     state.message = copy.paddleHitStatus || 'Good rebound. The next angle is now in your control.';
     addParticles(state.ball.x, paddleTop - 4, '#34d399', 6);
+    pulseDevice(10);
     return true;
   }
 
@@ -408,6 +417,7 @@
       state.ball.attached = true;
       state.ball.vx = 0;
       state.ball.vy = 0;
+      pulseDevice([20, 36, 18]);
       return;
     }
     state.phase = 'ready';
@@ -415,6 +425,7 @@
     state.paddle.w = state.lives === 1 ? Math.round(PADDLE_W * 1.18) : PADDLE_W;
     state.message = copy.loseLifeStatus || 'Life lost. Re-center the paddle and serve again.';
     resetBall();
+    pulseDevice(14);
   }
 
   function updateParticles() {
@@ -744,6 +755,9 @@
   }
 
   function handlePointerDown(event) {
+    if (state.phase === 'gameover' || state.phase === 'won') {
+      reset();
+    }
     state.pointerActive = true;
     canvas.setPointerCapture?.(event.pointerId);
     const rect = canvas.getBoundingClientRect();

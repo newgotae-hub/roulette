@@ -43,8 +43,15 @@
     playbackTimerMs: 0,
     pendingNextRound: false,
     pendingTimerMs: 0,
-    dailyKey: dailyKeyForToday()
+    dailyKey: dailyKeyForToday(),
+    replayCharge: 1
   };
+
+  function pulseDevice(pattern) {
+    if (typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function') {
+      navigator.vibrate(pattern);
+    }
+  }
 
   function dailyKeyForToday() {
     const now = new Date();
@@ -171,9 +178,11 @@
     if (els.streak) els.streak.textContent = state.phase === 'gameover' ? '0' : String(state.streak);
     if (els.speed) els.speed.textContent = `${Math.round(1000 / currentFlashMs())} /min`;
     if (els.start) {
-      els.start.textContent = state.phase === 'gameover'
-        ? (copy.restartButton || 'Restart')
-        : (copy.startButton || 'Start');
+      els.start.textContent = state.phase === 'input' && state.replayCharge > 0
+        ? (copy.replayButton || 'Replay cue')
+        : state.phase === 'gameover'
+          ? (copy.restartButton || 'Restart')
+          : (copy.startButton || 'Start');
       els.start.disabled = state.phase === 'showing' || state.phase === 'success';
     }
     if (els.daily) els.daily.textContent = copy.dailyButton || 'Daily challenge';
@@ -208,13 +217,22 @@
     state.playbackWaitingGap = false;
     state.playbackTimerMs = currentFlashMs();
     animatePad(state.sequence[0]);
+    pulseDevice(10);
     syncHud();
   }
 
   function extendSequenceAndShow() {
     state.sequence.push(nextColorFromSeed());
     state.round = state.sequence.length;
+    state.replayCharge = 1;
     beginPlayback();
+  }
+
+  function replaySequence() {
+    if (!state.sequence.length) return render_game_to_text();
+    state.replayCharge = Math.max(0, state.replayCharge - 1);
+    beginPlayback();
+    return render_game_to_text();
   }
 
   function resetGame(seed = DEFAULT_SEED, options = {}) {
@@ -231,6 +249,7 @@
     state.pendingNextRound = false;
     state.pendingTimerMs = 0;
     state.dailyKey = dailyKeyForToday();
+    state.replayCharge = 1;
     state.phase = 'ready';
     stopPad();
     clearPressed();
@@ -246,6 +265,9 @@
   }
 
   function startGame() {
+    if (state.phase === 'input' && state.replayCharge > 0) {
+      return replaySequence();
+    }
     if (state.phase === 'ready' || state.phase === 'gameover') {
       if (state.phase === 'gameover') {
         const currentMode = state.mode;
@@ -261,9 +283,10 @@
   function finishInputSuccess() {
     state.phase = 'success';
     state.pendingNextRound = true;
-    state.pendingTimerMs = 360;
+    state.pendingTimerMs = Math.max(220, 360 - Math.min(120, state.round * 8));
     state.streak += 1;
     updateBest();
+    pulseDevice(12);
     syncHud();
   }
 
@@ -271,11 +294,12 @@
     state.phase = 'gameover';
     state.streak = 0;
     stopPad();
+    pulseDevice([20, 34, 18]);
     syncHud();
   }
 
   function pressPad(color) {
-    if (state.phase === 'ready') {
+    if (state.phase === 'ready' || state.phase === 'gameover') {
       startGame();
       return render_game_to_text();
     }
@@ -351,6 +375,7 @@
       bestRound: state.bestRound,
       dailyBest: state.dailyBest,
       streak: state.streak,
+      replayCharge: state.replayCharge,
       seed: state.seed,
       dailyKey: state.dailyKey,
       sequenceLength: state.sequence.length,

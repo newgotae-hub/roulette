@@ -438,6 +438,17 @@
     draw();
   }
 
+  function restartAndLaunch(nextDirection = null) {
+    const seed = state.seed;
+    resetGame(seed);
+    if (nextDirection && !opposite(nextDirection, state.direction)) {
+      state.direction = nextDirection;
+      state.queuedDirection = nextDirection;
+    }
+    startGame();
+    setFeedback('eat');
+  }
+
   function pauseGame() {
     if (state.phase !== 'running') return;
     state.phase = 'paused';
@@ -469,6 +480,10 @@
 
   function setDirection(next) {
     if (!next) return;
+    if (state.phase === 'gameover' || state.phase === 'won') {
+      restartAndLaunch(next);
+      return;
+    }
     if (state.phase === 'ready') {
       startGame();
     }

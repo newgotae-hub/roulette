@@ -76,6 +76,12 @@
     canShuffle: true
   };
 
+  function pulseDevice(pattern) {
+    if (typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function') {
+      navigator.vibrate(pattern);
+    }
+  }
+
   function mulberry32(seed) {
     let t = seed >>> 0;
     return () => {
@@ -370,13 +376,20 @@
   function settlePhase() {
     const bubblesLeft = countBubbles();
     if (bubblesLeft === 0 || state.score >= state.target) {
+      if (bubblesLeft === 0) {
+        const clearBonus = Math.max(60, state.movesLeft * 12);
+        state.score += clearBonus;
+        updateBest(state.score);
+      }
       state.phase = 'won';
       setMessage(copy.wonStatus || 'Board cleared. Restart to chase a higher score.');
+      pulseDevice([16, 26, 16]);
       return;
     }
     if (state.movesLeft <= 0) {
       state.phase = 'gameover';
       setMessage(copy.gameoverStatus || 'No moves left. Restart to try again.');
+      pulseDevice([20, 36, 18]);
       return;
     }
     state.phase = 'playing';
@@ -411,6 +424,7 @@
       const extra = cluster.length >= 5 ? ` · ${copy.chainBonusStatus || 'Chain bonus!'}` : '';
       setMessage((copy.popStatus || 'Popped a cluster.') + ` +${gained}${extra}`);
     }
+    pulseDevice(cluster.length >= 5 ? [12, 18, 12] : 10);
     syncHud();
     render();
   }
@@ -472,8 +486,12 @@
   }
 
   function handleCellTap(row, col) {
+    if (state.phase === 'won' || state.phase === 'gameover') {
+      reset(state.seed + 1);
+      return true;
+    }
     const cell = getCell(row, col);
-    if (!cell || !cell.color || state.phase === 'won' || state.phase === 'gameover') return false;
+    if (!cell || !cell.color) return false;
     const cluster = getCluster(row, col);
     if (!state.selection.length) {
       updateSelection(cluster);

@@ -75,6 +75,12 @@
     qaReady: false
   };
 
+  function pulseDevice(pattern) {
+    if (typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function') {
+      navigator.vibrate(pattern);
+    }
+  }
+
   function localDateKey(date = new Date()) {
     const year = String(date.getFullYear());
     const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -347,6 +353,7 @@
     state.phase = 'waiting';
     setStatus(copy.statuses?.waiting || 'Hold for the signal.');
     pulseTarget('armed');
+    pulseDevice(8);
     render();
   }
 
@@ -364,10 +371,15 @@
   function scheduleFeedback(nextRoundIndex, isHit, reactionMs = 0) {
     state.phase = 'feedback';
     state.pendingRound = nextRoundIndex;
-    state.feedbackUntilMs = state.elapsedMs + getPacedTiming().feedbackMs;
+    const baseFeedbackMs = getPacedTiming().feedbackMs;
+    const feedbackMs = isHit
+      ? Math.max(280, baseFeedbackMs - Math.min(180, Math.max(0, 260 - reactionMs)))
+      : Math.min(760, baseFeedbackMs + 90);
+    state.feedbackUntilMs = state.elapsedMs + feedbackMs;
     state.lastReactionMs = reactionMs;
     state.reactionGrade = isHit ? gradeReactionMs(reactionMs) : '';
     pulseTarget(isHit ? 'hit' : 'miss');
+    pulseDevice(isHit ? (reactionMs <= 180 ? [8, 18, 8] : 12) : [20, 32, 18]);
     setStatus(isHit ? (copy.statuses?.hit || 'Nice tap. The next round starts soon.') : (copy.statuses?.falseStart || 'Too soon. Try again on the same board.'));
     render();
   }
@@ -376,6 +388,7 @@
     state.phase = 'complete';
     state.pendingRound = 0;
     setStatus(copy.statuses?.complete || 'Run complete. Replay to chase a cleaner score.');
+    pulseDevice([14, 24, 14]);
     render();
   }
 

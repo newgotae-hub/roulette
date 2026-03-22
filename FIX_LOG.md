@@ -537,6 +537,12 @@ How to use it:
 - Added the Korean and English Brick Breaker routes to sitemap generation and widened SEO validation so the published game trio (`Snake`, `Number Merge`, `Brick Breaker`) is checked consistently during release.
 - Added [GAMES_BRICK_BREAKER_ROLLOUT_2026-03-22.md](/home/user/roulette/GAMES_BRICK_BREAKER_ROLLOUT_2026-03-22.md) as the short rollout note for integration scope and release checks.
 
+### 2026-03-22 - Arcade and reflex feel pass tightened restart flow, feedback, and mobile immediacy
+
+- Upgraded the current arcade/reflex slice without touching the hub or release surfaces: `Snake` now supports instant direction-led restarts after failure, `Brick Breaker` restarts cleanly from board taps and adds stronger hit/life haptics, and `Bubble Pop` now pays out a clearer board-clear bonus while letting finished rounds restart directly from the board.
+- Tuned the reaction-heavy games for quicker app-like feel: `Reaction Tap` now shortens fast-hit feedback windows and adds clearer haptic states, `Sequence Flash` adds a one-use per round replay cue through the main action button, and `Memory Match` now supports faster post-clear replay flow with stronger match/miss pulses.
+- Verified the six touched runtimes with `node --check`, strict webgame QA for `snake-v11`, `brick-breaker`, `bubble-pop`, `reaction-tap`, `sequence-flash`, and `memory-match`, plus `git diff --check` before deploy.
+
 ### 2026-03-22 - Games mobile and app-webview defaults tightened across hub, titles, and scaffold
 
 - Tightened the Games hubs for phones with `viewport-fit=cover`, safe-area-aware shell padding, and quicker mobile access to the live game cards so the tab feels less top-heavy inside an app webview.
