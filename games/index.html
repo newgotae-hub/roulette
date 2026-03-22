@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Games | Randomly Pick</title>
-  <meta name="description" content="Randomly Pick의 Games 허브입니다. Snake, Number Merge, Brick Breaker, Memory Match, Minesweeper Lite, Reaction Tap, Color Lines, Bubble Pop, Sequence Flash, Sliding Puzzle, Connect Four, Solitaire Mini, Word Swipe, Sudoku Mini를 한곳에서 바로 열 수 있습니다." />
+  <meta name="description" content="Randomly Pick Games 허브에서 Snake, Sudoku Mini, Number Merge, Brick Breaker, Memory Match, Minesweeper Lite, Reaction Tap, Color Lines, Bubble Pop, Sequence Flash, Sliding Puzzle, Connect Four, Solitaire Mini, Word Swipe를 바로 시작하세요." />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://randomly-pick.com/games/" />
   <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/" />
@@ -14,9 +14,8 @@
   <style>
     :root {
       color-scheme: light;
-      --panel: rgba(255,255,255,.92);
-      --panel-strong: rgba(255,255,255,.97);
-      --line: rgba(148,163,184,.22);
+      --line: rgba(148, 163, 184, 0.22);
+      --panel: rgba(255,255,255,0.94);
       --text: #0f172a;
       --muted: #475569;
       --accent: #0f172a;
@@ -29,8 +28,8 @@
       color: var(--text);
       font-family: "Noto Sans KR", "Malgun Gothic", "Segoe UI", sans-serif;
       background:
-        radial-gradient(circle at 14% 10%, rgba(59, 130, 246, 0.07), transparent 24%),
-        radial-gradient(circle at 86% 4%, rgba(16, 185, 129, 0.08), transparent 20%),
+        radial-gradient(circle at 14% 10%, rgba(59,130,246,.07), transparent 24%),
+        radial-gradient(circle at 84% 4%, rgba(16,185,129,.08), transparent 20%),
         linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
     }
     a { color: inherit; }
@@ -38,63 +37,149 @@
       max-width: 1120px;
       margin: 0 auto;
       padding:
-        calc(18px + env(safe-area-inset-top, 0px))
-        calc(18px + env(safe-area-inset-right, 0px))
-        calc(56px + env(safe-area-inset-bottom, 0px))
-        calc(18px + env(safe-area-inset-left, 0px));
+        calc(14px + env(safe-area-inset-top, 0px))
+        calc(16px + env(safe-area-inset-right, 0px))
+        calc(40px + env(safe-area-inset-bottom, 0px))
+        calc(16px + env(safe-area-inset-left, 0px));
     }
-    .topbar, .nav, .hero-actions, .hero-chips, .grid, .links, .mini-list, .lineup-list { display: flex; flex-wrap: wrap; }
-    .topbar { align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 16px; }
+    .topbar, .nav, .grid, .links { display: flex; flex-wrap: wrap; }
+    .topbar { align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
     .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -.03em; }
-    .brand-mark { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 11px; background: linear-gradient(135deg, #0f172a, #334155); color: #fff; box-shadow: 0 12px 24px rgba(15, 23, 42, 0.12); }
-    .brand-name { font-size: 1rem; }
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 11px;
+      background: linear-gradient(135deg, #0f172a, #334155);
+      color: #fff;
+      box-shadow: 0 12px 24px rgba(15,23,42,.12);
+    }
     .brand-sub { margin-top: 2px; color: #64748b; font-size: .84rem; font-weight: 600; }
     .nav { gap: 8px; }
-    .nav a { display: inline-flex; align-items: center; justify-content: center; min-height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line); background: rgba(255,255,255,.78); color: #334155; text-decoration: none; font-size: .92rem; }
-    .nav a.active { background: var(--accent); color: #fff; border-color: var(--accent); box-shadow: 0 12px 24px rgba(15, 23, 42, 0.14); }
-    .hero { padding: 22px 22px 18px; border: 1px solid var(--line); border-radius: 28px; background: var(--panel); box-shadow: 0 24px 56px rgba(15, 23, 42, 0.06); backdrop-filter: blur(10px); }
-    .eyebrow, .chip, .card-tag, .state { display: inline-flex; align-items: center; border-radius: 999px; font-weight: 800; letter-spacing: .04em; }
-    .eyebrow { min-height: 30px; padding: 0 12px; background: var(--accent-soft); color: #3730a3; font-size: .78rem; text-transform: uppercase; }
-    h1 { margin: 14px 0 10px; font-size: clamp(2.2rem, 5vw, 3.9rem); line-height: 1; letter-spacing: -.06em; text-wrap: balance; }
-    .lede { max-width: 64ch; margin: 0; color: var(--muted); font-size: clamp(1rem, 1.8vw, 1.06rem); line-height: 1.76; }
-    .hero-actions, .hero-chips, .grid, .links, .mini-list { gap: 10px; }
-    .hero-actions { margin-top: 16px; }
-    .button, .links a, .mobile-jump a { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 0 15px; border-radius: 999px; border: 1px solid var(--line); background: #fff; text-decoration: none; font-weight: 700; }
-    .button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
-    .hero-chips { margin-top: 14px; }
-    .chip { min-height: 30px; padding: 0 11px; background: rgba(255,255,255,.84); border: 1px solid var(--line); color: #334155; font-size: .84rem; font-weight: 700; letter-spacing: 0; }
-    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(290px, .8fr); gap: 14px; margin-top: 14px; }
-    .panel, .card, .note, .trust { border: 1px solid var(--line); border-radius: 22px; background: var(--panel-strong); box-shadow: 0 16px 34px rgba(15, 23, 42, 0.05); }
-    .panel, .note, .trust { padding: 18px; }
-    .panel h2, .section-head h2 { margin: 0; letter-spacing: -.04em; }
-    .panel p, .section-head p, .card p, .note, .trust { color: var(--muted); line-height: 1.68; }
-    .mini-item, .lineup-row { border: 1px solid var(--line); background: #fff; border-radius: 18px; }
-    .mini-item { flex: 1 1 150px; min-width: 150px; padding: 12px 13px; }
-    .mini-item strong, .lineup-row strong { display: block; font-size: .95rem; letter-spacing: -.02em; }
-    .mini-item span, .lineup-row span { display: block; margin-top: 4px; color: var(--muted); font-size: .87rem; line-height: 1.55; }
-    .lineup-list { display: grid; gap: 10px; margin-top: 12px; }
-    .lineup-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 13px; }
-    .state { min-height: 28px; padding: 0 10px; background: var(--accent-soft); color: #3730a3; font-size: .72rem; text-transform: uppercase; }
-    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin: 22px 0 12px; }
-    .grid { display: flex; }
-    .card { flex: 1 1 220px; min-width: 220px; padding: 18px; text-decoration: none; }
-    .card-tag { min-height: 26px; padding: 0 10px; background: var(--accent-soft); color: #4338ca; font-size: .72rem; text-transform: uppercase; }
-    .card h3 { margin: 12px 0 6px; font-size: 1.12rem; letter-spacing: -.04em; }
-    .go { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; padding: 9px 12px; border-radius: 999px; background: var(--accent); color: #fff; font-weight: 700; }
-    .footer { margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(148, 163, 184, 0.28); color: #64748b; font-size: .92rem; line-height: 1.7; }
-    .footer a { text-decoration: none; font-weight: 700; }
-    .mobile-jump { display: none; gap: 8px; margin-top: 14px; padding: 10px; border-radius: 18px; border: 1px solid var(--line); background: rgba(255,255,255,.86); }
-    .mobile-jump a { flex: 1 1 0; min-height: 38px; font-size: .88rem; text-align: center; }
-    @media (max-width: 860px) { .hero-grid { grid-template-columns: 1fr; } }
+    .nav a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 36px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.8);
+      color: #334155;
+      text-decoration: none;
+      font-size: .92rem;
+    }
+    .nav a.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .launcher {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      background: var(--panel);
+      box-shadow: 0 24px 56px rgba(15,23,42,.06);
+      backdrop-filter: blur(10px);
+    }
+    .launcher-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      line-height: 1;
+      letter-spacing: -.06em;
+    }
+    .sub {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: .96rem;
+      line-height: 1.55;
+    }
+    .count {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 0 11px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #3730a3;
+      font-size: .8rem;
+      font-weight: 800;
+    }
+    .grid { gap: 10px; }
+    .card {
+      flex: 1 1 210px;
+      min-width: 210px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: rgba(255,255,255,.98);
+      text-decoration: none;
+      box-shadow: 0 14px 30px rgba(15,23,42,.05);
+    }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 0 9px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #4338ca;
+      font-size: .72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .card h2 {
+      margin: 10px 0 4px;
+      font-size: 1.04rem;
+      letter-spacing: -.03em;
+    }
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .9rem;
+      line-height: 1.5;
+    }
+    .go {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      margin-top: 12px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+    }
+    .trust {
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(148,163,184,.25);
+      color: #64748b;
+      font-size: .92rem;
+    }
+    .links { gap: 10px; margin-top: 10px; }
+    .links a { text-decoration: none; font-weight: 700; }
     @media (max-width: 640px) {
-      .wrap { padding: calc(12px + env(safe-area-inset-top, 0px)) calc(14px + env(safe-area-inset-right, 0px)) calc(48px + env(safe-area-inset-bottom, 0px)) calc(14px + env(safe-area-inset-left, 0px)); }
-      .hero { padding: 18px 16px 16px; border-radius: 24px; }
-      .panel, .card, .note, .trust { border-radius: 20px; }
-      .section-head { flex-direction: column; align-items: start; }
+      .wrap {
+        padding:
+          calc(10px + env(safe-area-inset-top, 0px))
+          calc(12px + env(safe-area-inset-right, 0px))
+          calc(34px + env(safe-area-inset-bottom, 0px))
+          calc(12px + env(safe-area-inset-left, 0px));
+      }
+      .launcher { padding: 14px; border-radius: 22px; }
+      .launcher-head { margin-bottom: 10px; }
       .card { min-width: 0; flex-basis: 100%; }
-      .lineup { display: none; }
-      .hero-actions { display: none; }
-      .mobile-jump { display: flex; }
     }
   </style>
 </head>
@@ -104,112 +189,52 @@
       <div class="brand">
         <div class="brand-mark">R.</div>
         <div>
-          <div class="brand-name">Randomly Pick</div>
-          <div class="brand-sub">Games tab</div>
+          <div>Randomly Pick</div>
+          <div class="brand-sub">Games</div>
         </div>
       </div>
       <nav class="nav" aria-label="주요 메뉴">
         <a href="/">홈</a>
         <a href="/games/" class="active" aria-current="page">Games</a>
-        <a href="/luckydraw/">랜덤 추첨</a>
-        <a href="/ladder/">사다리</a>
-        <a href="/team-generator/">팀 나누기</a>
-        <a href="/coinflip/">코인 플립</a>
-        <a href="/dice/">주사위</a>
       </nav>
     </div>
 
-    <section class="hero">
-      <span class="eyebrow">Playable lineup</span>
-      <h1>Randomly Pick 안에서 바로 여는 14개 게임</h1>
-      <p class="lede">Games 탭은 별도 앱처럼 보이지 않도록, 본체와 같은 톤으로 정리했습니다. 각 게임은 짧게 들어가고, 빠르게 이해되고, 다시 돌아오기 쉬운 방식으로 묶여 있습니다.</p>
-      <div class="hero-actions">
-        <a class="button primary" href="/games/snake/">바로 시작</a>
-        <a class="button" href="#lineup">전체 보기</a>
-      </div>
-      <div class="mobile-jump" aria-label="모바일 빠른 이동">
-        <a href="/games/snake/">Snake</a>
-        <a href="/games/number-merge/">Number Merge</a>
-        <a href="/games/sudoku-mini/">Sudoku Mini</a>
-        <a href="/games/connect-four/">Connect Four</a>
-      </div>
-      <div class="hero-chips" aria-label="허브 특징">
-        <span class="chip">14개 라이브 타이틀</span>
-        <span class="chip">짧은 세션 중심</span>
-        <span class="chip">Sudoku Mini 신규 노출</span>
-        <span class="chip">모바일 / 웹뷰 최적화</span>
-        <span class="chip">Randomly Pick 본체 톤</span>
-      </div>
-      <div class="hero-grid">
-        <div class="panel">
-          <h2>아케이드, 퍼즐, 반응, 보드</h2>
-          <p>처음 진입했을 때 너무 길지 않게, 하지만 각 게임이 왜 필요한지 바로 보이도록 구성했습니다. 새로 추가된 세 게임도 기존 허브 안에서 자연스럽게 이어집니다.</p>
-          <div class="mini-list">
-            <div class="mini-item"><strong>아케이드</strong><span>Snake, Brick Breaker, Bubble Pop</span></div>
-            <div class="mini-item"><strong>퍼즐</strong><span>Number Merge, Color Lines, Sliding Puzzle, Connect Four, Solitaire Mini, Word Swipe, Sudoku Mini</span></div>
-            <div class="mini-item"><strong>기억 / 집중</strong><span>Memory Match, Minesweeper Lite, Reaction Tap, Sequence Flash</span></div>
-          </div>
+    <section class="launcher" aria-label="게임 런처">
+      <div class="launcher-head">
+        <div>
+          <h1>바로 시작할 게임</h1>
+          <p class="sub">눌러서 바로 들어가세요.</p>
         </div>
-        <div class="panel lineup" id="lineup">
-          <h2>현재 라인업</h2>
-          <div class="lineup-list">
-            <div class="lineup-row"><div><strong>Snake</strong><span>가장 빠르게 시작되는 클래식 루프</span></div><span class="state">Live</span></div>
-            <div class="lineup-row"><div><strong>Number Merge</strong><span>혼자 천천히 즐기기 좋은 2048형 퍼즐</span></div><span class="state">Live</span></div>
-            <div class="lineup-row"><div><strong>Brick Breaker</strong><span>짧은 반응과 리듬이 있는 아케이드</span></div><span class="state">Live</span></div>
-            <div class="lineup-row"><div><strong>Memory Match</strong><span>카드를 기억하는 가벼운 집중 게임</span></div><span class="state">Live</span></div>
-            <div class="lineup-row"><div><strong>Minesweeper Lite</strong><span>숫자를 읽는 조용한 보드 게임</span></div><span class="state">Live</span></div>
-            <div class="lineup-row"><div><strong>Sudoku Mini</strong><span>숫자와 논리로 푸는 9x9 퍼즐</span></div><span class="state">New</span></div>
-            <div class="lineup-row"><div><strong>Reaction Tap</strong><span>빠른 반응 속도를 테스트하는 챌린지</span></div><span class="state">Live</span></div>
-            <div class="lineup-row"><div><strong>Color Lines</strong><span>이동과 계획이 중요한 퍼즐 루프</span></div><span class="state">Live</span></div>
-            <div class="lineup-row"><div><strong>Bubble Pop</strong><span>짧게 터뜨리고 바로 다음 판으로 넘어가는 스타일</span></div><span class="state">Live</span></div>
-            <div class="lineup-row"><div><strong>Sequence Flash</strong><span>순서 기억을 시험하는 집중 챌린지</span></div><span class="state">Live</span></div>
-            <div class="lineup-row"><div><strong>Sliding Puzzle</strong><span>정석 15-퍼즐 스타일의 정리형 게임</span></div><span class="state">Live</span></div>
-            <div class="lineup-row"><div><strong>Connect Four</strong><span>혼자 또는 둘이 빠르게 둘 수 있는 보드 게임</span></div><span class="state">Live</span></div>
-            <div class="lineup-row"><div><strong>Solitaire Mini</strong><span>짧은 세션에 맞춘 카드 정리 게임</span></div><span class="state">Live</span></div>
-            <div class="lineup-row"><div><strong>Word Swipe</strong><span>이어지는 글자를 찾는 빠른 단어 게임</span></div><span class="state">Live</span></div>
-          </div>
+        <span class="count">14 games</span>
+      </div>
+
+      <div class="grid">
+        <a class="card" href="/games/snake/"><span class="tag">Arcade</span><h2>Snake</h2><p>짧게 시작하고 바로 다시 하기 좋은 아케이드.</p><span class="go">Play</span></a>
+        <a class="card" href="/games/sudoku-mini/"><span class="tag">Logic</span><h2>Sudoku Mini</h2><p>차분하게 푸는 9x9 숫자 퍼즐.</p><span class="go">Play</span></a>
+        <a class="card" href="/games/number-merge/"><span class="tag">Puzzle</span><h2>Number Merge</h2><p>숫자를 합치며 이어 가는 2048 스타일 퍼즐.</p><span class="go">Play</span></a>
+        <a class="card" href="/games/brick-breaker/"><span class="tag">Arcade</span><h2>Brick Breaker</h2><p>짧은 세션에 잘 맞는 벽돌 깨기.</p><span class="go">Play</span></a>
+        <a class="card" href="/games/memory-match/"><span class="tag">Memory</span><h2>Memory Match</h2><p>카드 짝을 맞추는 짧은 기억 게임.</p><span class="go">Play</span></a>
+        <a class="card" href="/games/minesweeper/"><span class="tag">Logic</span><h2>Minesweeper Lite</h2><p>숫자를 읽으며 안전 칸을 찾는 보드 퍼즐.</p><span class="go">Play</span></a>
+        <a class="card" href="/games/reaction-tap/"><span class="tag">Reflex</span><h2>Reaction Tap</h2><p>신호가 뜨면 바로 누르는 반응 속도 게임.</p><span class="go">Play</span></a>
+        <a class="card" href="/games/color-lines/"><span class="tag">Puzzle</span><h2>Color Lines</h2><p>선 연결을 노리는 보드 퍼즐.</p><span class="go">Play</span></a>
+        <a class="card" href="/games/bubble-pop/"><span class="tag">Puzzle</span><h2>Bubble Pop</h2><p>묶음을 터뜨리며 점수를 쌓는 탭 퍼즐.</p><span class="go">Play</span></a>
+        <a class="card" href="/games/sequence-flash/"><span class="tag">Memory</span><h2>Sequence Flash</h2><p>순서를 외워 다시 누르는 기억 챌린지.</p><span class="go">Play</span></a>
+        <a class="card" href="/games/sliding-puzzle/"><span class="tag">Puzzle</span><h2>Sliding Puzzle</h2><p>정석 15퍼즐 스타일의 정렬 게임.</p><span class="go">Play</span></a>
+        <a class="card" href="/games/connect-four/"><span class="tag">Strategy</span><h2>Connect Four</h2><p>한 기기에서 바로 두는 4목 보드 게임.</p><span class="go">Play</span></a>
+        <a class="card" href="/games/solitaire-mini/"><span class="tag">Card</span><h2>Solitaire Mini</h2><p>짧게 즐기는 카드 정리 게임.</p><span class="go">Play</span></a>
+        <a class="card" href="/games/word-swipe/"><span class="tag">Puzzle</span><h2>Word Swipe</h2><p>글자를 이어 단어를 만드는 짧은 퍼즐.</p><span class="go">Play</span></a>
+      </div>
+
+      <section class="trust" aria-label="사이트 링크">
+        <div class="links">
+          <a id="footer-about" href="/about/">About</a>
+          <a href="/guides/">가이드</a>
+          <a id="footer-privacy" href="/privacy/">개인정보처리방침</a>
+          <a id="footer-terms" href="/terms/">이용약관</a>
+          <a id="footer-contact" href="/contact/">문의</a>
         </div>
-      </div>
+      </section>
     </section>
-
-    <div class="section-head">
-      <div>
-        <h2>바로 눌러 들어갈 수 있는 게임 목록</h2>
-        <p>아래 카드는 모두 같은 기준으로 정리되어 있습니다. 아무 게임이나 눌러도 처음부터 다시 탐색하지 않아도 되도록, 본체에서 익숙한 속도로 연결됩니다.</p>
-      </div>
-    </div>
-
-    <section class="grid" aria-label="게임 목록">
-      <a class="card" href="/games/snake/"><span class="card-tag">Arcade</span><h3>Snake</h3><p>가장 빠르게 시작되는 클래식 루프입니다. 짧게 움직이고 바로 다시 시작하기 좋습니다.</p><span class="go">Play</span></a>
-      <a class="card" href="/games/sudoku-mini/"><span class="card-tag">Logic</span><h3>Sudoku Mini</h3><p>숫자와 논리로 푸는 9x9 퍼즐입니다. 조용하게 집중하기 좋은 새 게임입니다.</p><span class="go">Play</span></a>
-      <a class="card" href="/games/number-merge/"><span class="card-tag">Puzzle</span><h3>Number Merge</h3><p>혼자 천천히 풀기 좋은 퍼즐입니다. 숫자를 합치며 보드를 정리해 보세요.</p><span class="go">Play</span></a>
-      <a class="card" href="/games/brick-breaker/"><span class="card-tag">Arcade</span><h3>Brick Breaker</h3><p>짧은 반응과 리듬이 중요한 아케이드입니다. 모바일에서도 바로 들어가기 쉽습니다.</p><span class="go">Play</span></a>
-      <a class="card" href="/games/memory-match/"><span class="card-tag">Memory</span><h3>Memory Match</h3><p>카드를 기억하고 짝을 맞추는 가벼운 집중형 게임입니다.</p><span class="go">Play</span></a>
-      <a class="card" href="/games/minesweeper/"><span class="card-tag">Logic</span><h3>Minesweeper Lite</h3><p>숫자를 읽고 판단하는 조용한 논리 게임입니다. 짧은 집중 플레이에 맞습니다.</p><span class="go">Play</span></a>
-      <a class="card" href="/games/reaction-tap/"><span class="card-tag">Reflex</span><h3>Reaction Tap</h3><p>빠른 반응 속도를 테스트하는 짧은 챌린지입니다.</p><span class="go">Play</span></a>
-      <a class="card" href="/games/color-lines/"><span class="card-tag">Puzzle</span><h3>Color Lines</h3><p>이동과 계획이 중요한 보드 퍼즐입니다.</p><span class="go">Play</span></a>
-      <a class="card" href="/games/bubble-pop/"><span class="card-tag">Puzzle</span><h3>Bubble Pop</h3><p>짧은 터치감으로 바로 다음 판으로 넘어가기 쉬운 퍼즐입니다.</p><span class="go">Play</span></a>
-      <a class="card" href="/games/sequence-flash/"><span class="card-tag">Memory</span><h3>Sequence Flash</h3><p>순서를 보고 다시 기억하는 집중 챌린지입니다.</p><span class="go">Play</span></a>
-      <a class="card" href="/games/sliding-puzzle/"><span class="card-tag">Puzzle</span><h3>Sliding Puzzle</h3><p>정석 15-퍼즐 스타일로, 천천히 정렬하는 재미가 있습니다.</p><span class="go">Play</span></a>
-      <a class="card" href="/games/connect-four/"><span class="card-tag">Strategy</span><h3>Connect Four</h3><p>혼자 또는 둘이 빠르게 둘 수 있는 가벼운 보드 게임입니다.</p><span class="go">Play</span></a>
-      <a class="card" href="/games/solitaire-mini/"><span class="card-tag">Card</span><h3>Solitaire Mini</h3><p>짧은 세션에 맞춘 카드 정리형 게임입니다.</p><span class="go">Play</span></a>
-      <a class="card" href="/games/word-swipe/"><span class="card-tag">Puzzle</span><h3>Word Swipe</h3><p>글자 연결로 단어를 찾는 빠른 단어 게임입니다.</p><span class="go">Play</span></a>
-    </section>
-
-    <section class="note"><strong>왜 이렇게 배치했나</strong><br />Games 탭은 Randomly Pick 본체의 리듬 안에 있어야 합니다. 그래서 더 화려하게 꾸미기보다, 아케이드와 퍼즐을 먼저 묶고, 실제로 자주 눌릴 만한 카드들을 같은 밀도로 정리했습니다. 새로 들어온 Connect Four, Solitaire Mini, Word Swipe, Sudoku Mini도 이 흐름 안에서 자연스럽게 보입니다.</section>
-
-    <section class="trust">
-      <strong>사이트 안내</strong>
-      <div class="links">
-        <a id="footer-about" href="/about/">About</a>
-        <a href="/guides/">가이드</a>
-        <a id="footer-privacy" href="/privacy/">개인정보처리방침</a>
-        <a id="footer-terms" href="/terms/">이용약관</a>
-        <a id="footer-contact" href="/contact/">문의</a>
-      </div>
-    </section>
-
-    <div class="footer">Games 탭 전체는 <a href="/">Randomly Pick</a> 본체의 톤 안에 있습니다.</div>
   </main>
 </body>
 </html>

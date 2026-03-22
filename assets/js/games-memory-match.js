@@ -34,6 +34,36 @@
   const upBtn = document.getElementById('memory-match-up');
   const downBtn = document.getElementById('memory-match-down');
 
+  function injectQuickReplayControls() {
+    const actions = document.querySelector('.mm-actions');
+    if (!actions || actions.querySelector('[data-quick-memory="true"]')) return;
+
+    const hubLink = actions.querySelector('a[href$="/games/"], a[href$="/en/games/"]');
+    if (hubLink) hubLink.remove();
+
+    const makeButton = (label, onClick) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'mm-button';
+      button.dataset.quickMemory = 'true';
+      button.textContent = label;
+      button.addEventListener('click', onClick);
+      return button;
+    };
+
+    const newBoardButton = makeButton(
+      (newBtn?.textContent || copy.newButton || (lang === 'ko' ? '새 보드' : 'New board')).trim(),
+      () => newBtn?.click()
+    );
+    const resetButton = makeButton(
+      (resetBtn?.textContent || copy.resetButton || (lang === 'ko' ? '리셋' : 'Reset')).trim(),
+      () => resetBtn?.click()
+    );
+
+    actions.appendChild(newBoardButton);
+    actions.appendChild(resetButton);
+  }
+
   const THEMES = [
     { id: 'sun', symbol: '☼', ko: '햇살', en: 'Sun', tone: '#d97706' },
     { id: 'moon', symbol: '☾', ko: '달빛', en: 'Moon', tone: '#64748b' },
@@ -603,5 +633,6 @@
   window.__MEMORY_MATCH_RESET__ = reset;
 
   bindControls();
+  injectQuickReplayControls();
   reset();
 })();

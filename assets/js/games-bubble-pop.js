@@ -45,6 +45,20 @@
     touchHint: document.getElementById('bubble-pop-touch-hint')
   };
 
+  function injectQuickRestart() {
+    const actions = document.querySelector('.bp-actions');
+    if (!actions || !els.restart || actions.querySelector('[data-quick-restart="true"]')) return;
+    const quickButton = document.createElement('button');
+    quickButton.type = 'button';
+    quickButton.className = 'bp-button';
+    quickButton.dataset.quickRestart = 'true';
+    quickButton.textContent = (els.restart.textContent || 'Restart').trim();
+    quickButton.addEventListener('click', () => els.restart.click());
+    const hubLink = actions.querySelector('a[href$="/games/"], a[href$="/en/games/"]');
+    if (hubLink) hubLink.replaceWith(quickButton);
+    else actions.appendChild(quickButton);
+  }
+
   const state = {
     phase: 'ready',
     score: 0,
@@ -595,6 +609,7 @@
     setMessage(copy.clearStatus || 'Selection cleared.');
   });
   els.shuffle?.addEventListener('click', shuffleBoard);
+  injectQuickRestart();
 
   window.bubblePopTap = (row, col) => handleCellTap(row, col);
   window.render_game_to_text = renderGameToText;

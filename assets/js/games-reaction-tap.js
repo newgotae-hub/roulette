@@ -31,6 +31,20 @@
     misses: document.getElementById('reaction-tap-misses')
   };
 
+  function injectQuickReplay() {
+    const actions = document.querySelector('.rt-actions');
+    if (!actions || !replayBtn || actions.querySelector('[data-quick-replay="true"]')) return;
+    const quickButton = document.createElement('button');
+    quickButton.type = 'button';
+    quickButton.className = 'rt-button';
+    quickButton.dataset.quickReplay = 'true';
+    quickButton.textContent = (copy.replayButton || replayBtn.textContent || 'Replay').trim();
+    quickButton.addEventListener('click', () => replayBtn.click());
+    const hubLink = actions.querySelector('a[href$="/games/"], a[href$="/en/games/"]');
+    if (hubLink) hubLink.replaceWith(quickButton);
+    else actions.appendChild(quickButton);
+  }
+
   const state = {
     mode: 'classic',
     phase: 'ready',
@@ -563,6 +577,7 @@
 
   function init() {
     bindEvents();
+    injectQuickReplay();
     resetGame('classic');
     window.__WEBGAME_QA_READY__ = true;
     window.QA_READY = true;

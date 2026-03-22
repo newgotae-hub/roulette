@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Games | Randomly Pick</title>
-  <meta name="description" content="The Randomly Pick Games hub. Open Snake, Number Merge, Brick Breaker, Memory Match, Minesweeper Lite, Reaction Tap, Color Lines, Bubble Pop, Sequence Flash, Sliding Puzzle, Connect Four, Solitaire Mini, Word Swipe, and Sudoku Mini from one calm dashboard." />
+  <meta name="description" content="Open Snake, Sudoku Mini, Number Merge, Brick Breaker, Memory Match, Minesweeper Lite, Reaction Tap, Color Lines, Bubble Pop, Sequence Flash, Sliding Puzzle, Connect Four, Solitaire Mini, and Word Swipe from the Randomly Pick Games hub." />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://randomly-pick.com/en/games/" />
   <link rel="alternate" hreflang="ko" href="https://randomly-pick.com/games/" />
@@ -14,9 +14,8 @@
   <style>
     :root {
       color-scheme: light;
-      --panel: rgba(255,255,255,.92);
-      --panel-strong: rgba(255,255,255,.97);
-      --line: rgba(148,163,184,.22);
+      --line: rgba(148, 163, 184, 0.22);
+      --panel: rgba(255,255,255,0.94);
       --text: #0f172a;
       --muted: #475569;
       --accent: #0f172a;
@@ -29,8 +28,8 @@
       color: var(--text);
       font-family: "Noto Sans", "Inter", "Segoe UI", sans-serif;
       background:
-        radial-gradient(circle at 14% 10%, rgba(59, 130, 246, 0.07), transparent 24%),
-        radial-gradient(circle at 86% 4%, rgba(16, 185, 129, 0.08), transparent 20%),
+        radial-gradient(circle at 14% 10%, rgba(59,130,246,.07), transparent 24%),
+        radial-gradient(circle at 84% 4%, rgba(16,185,129,.08), transparent 20%),
         linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
     }
     a { color: inherit; }
@@ -38,63 +37,149 @@
       max-width: 1120px;
       margin: 0 auto;
       padding:
-        calc(18px + env(safe-area-inset-top, 0px))
-        calc(18px + env(safe-area-inset-right, 0px))
-        calc(56px + env(safe-area-inset-bottom, 0px))
-        calc(18px + env(safe-area-inset-left, 0px));
+        calc(14px + env(safe-area-inset-top, 0px))
+        calc(16px + env(safe-area-inset-right, 0px))
+        calc(40px + env(safe-area-inset-bottom, 0px))
+        calc(16px + env(safe-area-inset-left, 0px));
     }
-    .topbar, .nav, .hero-actions, .hero-chips, .grid, .links, .mini-list, .lineup-list { display: flex; flex-wrap: wrap; }
-    .topbar { align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 16px; }
+    .topbar, .nav, .grid, .links { display: flex; flex-wrap: wrap; }
+    .topbar { align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
     .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -.03em; }
-    .brand-mark { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 11px; background: linear-gradient(135deg, #0f172a, #334155); color: #fff; box-shadow: 0 12px 24px rgba(15, 23, 42, 0.12); }
-    .brand-name { font-size: 1rem; }
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 11px;
+      background: linear-gradient(135deg, #0f172a, #334155);
+      color: #fff;
+      box-shadow: 0 12px 24px rgba(15,23,42,.12);
+    }
     .brand-sub { margin-top: 2px; color: #64748b; font-size: .84rem; font-weight: 600; }
     .nav { gap: 8px; }
-    .nav a { display: inline-flex; align-items: center; justify-content: center; min-height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line); background: rgba(255,255,255,.78); color: #334155; text-decoration: none; font-size: .92rem; }
-    .nav a.active { background: var(--accent); color: #fff; border-color: var(--accent); box-shadow: 0 12px 24px rgba(15, 23, 42, 0.14); }
-    .hero { padding: 22px 22px 18px; border: 1px solid var(--line); border-radius: 28px; background: var(--panel); box-shadow: 0 24px 56px rgba(15, 23, 42, 0.06); backdrop-filter: blur(10px); }
-    .eyebrow, .chip, .card-tag, .state { display: inline-flex; align-items: center; border-radius: 999px; font-weight: 800; letter-spacing: .04em; }
-    .eyebrow { min-height: 30px; padding: 0 12px; background: var(--accent-soft); color: #3730a3; font-size: .78rem; text-transform: uppercase; }
-    h1 { margin: 14px 0 10px; font-size: clamp(2.2rem, 5vw, 3.9rem); line-height: 1; letter-spacing: -.06em; text-wrap: balance; }
-    .lede { max-width: 64ch; margin: 0; color: var(--muted); font-size: clamp(1rem, 1.8vw, 1.06rem); line-height: 1.76; }
-    .hero-actions, .hero-chips, .grid, .links, .mini-list { gap: 10px; }
-    .hero-actions { margin-top: 16px; }
-    .button, .links a, .mobile-jump a { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 0 15px; border-radius: 999px; border: 1px solid var(--line); background: #fff; text-decoration: none; font-weight: 700; }
-    .button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
-    .hero-chips { margin-top: 14px; }
-    .chip { min-height: 30px; padding: 0 11px; background: rgba(255,255,255,.84); border: 1px solid var(--line); color: #334155; font-size: .84rem; font-weight: 700; letter-spacing: 0; }
-    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(290px, .8fr); gap: 14px; margin-top: 14px; }
-    .panel, .card, .note, .trust { border: 1px solid var(--line); border-radius: 22px; background: var(--panel-strong); box-shadow: 0 16px 34px rgba(15, 23, 42, 0.05); }
-    .panel, .note, .trust { padding: 18px; }
-    .panel h2, .section-head h2 { margin: 0; letter-spacing: -.04em; }
-    .panel p, .section-head p, .card p, .note, .trust { color: var(--muted); line-height: 1.68; }
-    .mini-item, .lineup-row { border: 1px solid var(--line); background: #fff; border-radius: 18px; }
-    .mini-item { flex: 1 1 150px; min-width: 150px; padding: 12px 13px; }
-    .mini-item strong, .lineup-row strong { display: block; font-size: .95rem; letter-spacing: -.02em; }
-    .mini-item span, .lineup-row span { display: block; margin-top: 4px; color: var(--muted); font-size: .87rem; line-height: 1.55; }
-    .lineup-list { display: grid; gap: 10px; margin-top: 12px; }
-    .lineup-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 13px; }
-    .state { min-height: 28px; padding: 0 10px; background: var(--accent-soft); color: #3730a3; font-size: .72rem; text-transform: uppercase; }
-    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin: 22px 0 12px; }
-    .grid { display: flex; }
-    .card { flex: 1 1 220px; min-width: 220px; padding: 18px; text-decoration: none; }
-    .card-tag { min-height: 26px; padding: 0 10px; background: var(--accent-soft); color: #4338ca; font-size: .72rem; text-transform: uppercase; }
-    .card h3 { margin: 12px 0 6px; font-size: 1.12rem; letter-spacing: -.04em; }
-    .go { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; padding: 9px 12px; border-radius: 999px; background: var(--accent); color: #fff; font-weight: 700; }
-    .footer { margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(148, 163, 184, 0.28); color: #64748b; font-size: .92rem; line-height: 1.7; }
-    .footer a { text-decoration: none; font-weight: 700; }
-    .mobile-jump { display: none; gap: 8px; margin-top: 14px; padding: 10px; border-radius: 18px; border: 1px solid var(--line); background: rgba(255,255,255,.86); }
-    .mobile-jump a { flex: 1 1 0; min-height: 38px; font-size: .88rem; text-align: center; }
-    @media (max-width: 860px) { .hero-grid { grid-template-columns: 1fr; } }
+    .nav a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 36px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.8);
+      color: #334155;
+      text-decoration: none;
+      font-size: .92rem;
+    }
+    .nav a.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .launcher {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      background: var(--panel);
+      box-shadow: 0 24px 56px rgba(15,23,42,.06);
+      backdrop-filter: blur(10px);
+    }
+    .launcher-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      line-height: 1;
+      letter-spacing: -.06em;
+    }
+    .sub {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: .96rem;
+      line-height: 1.55;
+    }
+    .count {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 0 11px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #3730a3;
+      font-size: .8rem;
+      font-weight: 800;
+    }
+    .grid { gap: 10px; }
+    .card {
+      flex: 1 1 210px;
+      min-width: 210px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: rgba(255,255,255,.98);
+      text-decoration: none;
+      box-shadow: 0 14px 30px rgba(15,23,42,.05);
+    }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 0 9px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #4338ca;
+      font-size: .72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .card h2 {
+      margin: 10px 0 4px;
+      font-size: 1.04rem;
+      letter-spacing: -.03em;
+    }
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .9rem;
+      line-height: 1.5;
+    }
+    .go {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      margin-top: 12px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+    }
+    .trust {
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(148,163,184,.25);
+      color: #64748b;
+      font-size: .92rem;
+    }
+    .links { gap: 10px; margin-top: 10px; }
+    .links a { text-decoration: none; font-weight: 700; }
     @media (max-width: 640px) {
-      .wrap { padding: calc(12px + env(safe-area-inset-top, 0px)) calc(14px + env(safe-area-inset-right, 0px)) calc(48px + env(safe-area-inset-bottom, 0px)) calc(14px + env(safe-area-inset-left, 0px)); }
-      .hero { padding: 18px 16px 16px; border-radius: 24px; }
-      .panel, .card, .note, .trust { border-radius: 20px; }
-      .section-head { flex-direction: column; align-items: start; }
+      .wrap {
+        padding:
+          calc(10px + env(safe-area-inset-top, 0px))
+          calc(12px + env(safe-area-inset-right, 0px))
+          calc(34px + env(safe-area-inset-bottom, 0px))
+          calc(12px + env(safe-area-inset-left, 0px));
+      }
+      .launcher { padding: 14px; border-radius: 22px; }
+      .launcher-head { margin-bottom: 10px; }
       .card { min-width: 0; flex-basis: 100%; }
-      .lineup { display: none; }
-      .hero-actions { display: none; }
-      .mobile-jump { display: flex; }
     }
   </style>
 </head>
@@ -104,112 +189,52 @@
       <div class="brand">
         <div class="brand-mark">R.</div>
         <div>
-          <div class="brand-name">Randomly Pick</div>
-          <div class="brand-sub">Games tab</div>
+          <div>Randomly Pick</div>
+          <div class="brand-sub">Games</div>
         </div>
       </div>
       <nav class="nav" aria-label="Main navigation">
         <a href="/en/">Home</a>
         <a href="/en/games/" class="active" aria-current="page">Games</a>
-        <a href="/en/luckydraw/">Lucky Draw</a>
-        <a href="/en/ladder/">Ladder</a>
-        <a href="/en/team-generator/">Team Split</a>
-        <a href="/en/coinflip/">Coin Flip</a>
-        <a href="/en/dice/">Dice</a>
       </nav>
     </div>
 
-    <section class="hero">
-      <span class="eyebrow">Playable lineup</span>
-      <h1>14 games, all inside Randomly Pick</h1>
-      <p class="lede">The Games tab is kept in the same calm product tone as the rest of the site. Each game is short to enter, easy to understand, and ready for quick repeat sessions.</p>
-      <div class="hero-actions">
-        <a class="button primary" href="/en/games/snake/">Start playing</a>
-        <a class="button" href="#lineup">Browse all</a>
-      </div>
-      <div class="mobile-jump" aria-label="Mobile quick jump">
-        <a href="/en/games/snake/">Snake</a>
-        <a href="/en/games/number-merge/">Number Merge</a>
-        <a href="/en/games/sudoku-mini/">Sudoku Mini</a>
-        <a href="/en/games/connect-four/">Connect Four</a>
-      </div>
-      <div class="hero-chips" aria-label="Hub features">
-        <span class="chip">14 live titles</span>
-        <span class="chip">Short-session focus</span>
-        <span class="chip">Sudoku Mini now live</span>
-        <span class="chip">Mobile / webview ready</span>
-        <span class="chip">Same Randomly Pick tone</span>
-      </div>
-      <div class="hero-grid">
-        <div class="panel">
-          <h2>Arcade, puzzle, reflex, board</h2>
-          <p>The hub is organized so first-time visitors do not have to work to figure out where to start. The new three-game wave is surfaced clearly while still feeling like one family.</p>
-          <div class="mini-list">
-            <div class="mini-item"><strong>Arcade</strong><span>Snake, Brick Breaker, Bubble Pop</span></div>
-            <div class="mini-item"><strong>Puzzle</strong><span>Number Merge, Color Lines, Sliding Puzzle, Connect Four, Solitaire Mini, Word Swipe, Sudoku Mini</span></div>
-            <div class="mini-item"><strong>Memory / focus</strong><span>Memory Match, Minesweeper Lite, Reaction Tap, Sequence Flash</span></div>
-          </div>
+    <section class="launcher" aria-label="Games launcher">
+      <div class="launcher-head">
+        <div>
+          <h1>Pick a game</h1>
+          <p class="sub">Open and play right away.</p>
         </div>
-        <div class="panel lineup" id="lineup">
-          <h2>Current lineup</h2>
-          <div class="lineup-list">
-            <div class="lineup-row"><div><strong>Snake</strong><span>The fastest way into the arcade loop</span></div><span class="state">Live</span></div>
-            <div class="lineup-row"><div><strong>Number Merge</strong><span>A quiet 2048-style puzzle for solo play</span></div><span class="state">Live</span></div>
-            <div class="lineup-row"><div><strong>Brick Breaker</strong><span>Short bursts of rhythm and reaction</span></div><span class="state">Live</span></div>
-            <div class="lineup-row"><div><strong>Memory Match</strong><span>A light card-remembering challenge</span></div><span class="state">Live</span></div>
-            <div class="lineup-row"><div><strong>Minesweeper Lite</strong><span>A quieter logic board with numbers</span></div><span class="state">Live</span></div>
-            <div class="lineup-row"><div><strong>Sudoku Mini</strong><span>A calm 9x9 number puzzle for careful play</span></div><span class="state">New</span></div>
-            <div class="lineup-row"><div><strong>Reaction Tap</strong><span>A quick reflex benchmark</span></div><span class="state">Live</span></div>
-            <div class="lineup-row"><div><strong>Color Lines</strong><span>A planning-heavy board puzzle</span></div><span class="state">Live</span></div>
-            <div class="lineup-row"><div><strong>Bubble Pop</strong><span>Tap, clear, and move on to the next round</span></div><span class="state">Live</span></div>
-            <div class="lineup-row"><div><strong>Sequence Flash</strong><span>A focus challenge for remembering order</span></div><span class="state">Live</span></div>
-            <div class="lineup-row"><div><strong>Sliding Puzzle</strong><span>The classic 15-puzzle style game</span></div><span class="state">Live</span></div>
-            <div class="lineup-row"><div><strong>Connect Four</strong><span>A quick board game for one or two players</span></div><span class="state">Live</span></div>
-            <div class="lineup-row"><div><strong>Solitaire Mini</strong><span>A compact card-sorting game</span></div><span class="state">Live</span></div>
-            <div class="lineup-row"><div><strong>Word Swipe</strong><span>A fast word-finding puzzle</span></div><span class="state">Live</span></div>
-          </div>
+        <span class="count">14 games</span>
+      </div>
+
+      <div class="grid">
+        <a class="card" href="/en/games/snake/"><span class="tag">Arcade</span><h2>Snake</h2><p>Fast arcade loop with instant restarts.</p><span class="go">Play</span></a>
+        <a class="card" href="/en/games/sudoku-mini/"><span class="tag">Logic</span><h2>Sudoku Mini</h2><p>A calm 9x9 number puzzle.</p><span class="go">Play</span></a>
+        <a class="card" href="/en/games/number-merge/"><span class="tag">Puzzle</span><h2>Number Merge</h2><p>A 2048-style tile merge puzzle for short runs.</p><span class="go">Play</span></a>
+        <a class="card" href="/en/games/brick-breaker/"><span class="tag">Arcade</span><h2>Brick Breaker</h2><p>Short-burst brick breaking on one screen.</p><span class="go">Play</span></a>
+        <a class="card" href="/en/games/memory-match/"><span class="tag">Memory</span><h2>Memory Match</h2><p>A short card-pair memory game.</p><span class="go">Play</span></a>
+        <a class="card" href="/en/games/minesweeper/"><span class="tag">Logic</span><h2>Minesweeper Lite</h2><p>A board puzzle built around careful reads.</p><span class="go">Play</span></a>
+        <a class="card" href="/en/games/reaction-tap/"><span class="tag">Reflex</span><h2>Reaction Tap</h2><p>Tap when the signal turns green.</p><span class="go">Play</span></a>
+        <a class="card" href="/en/games/color-lines/"><span class="tag">Puzzle</span><h2>Color Lines</h2><p>A board puzzle focused on line building.</p><span class="go">Play</span></a>
+        <a class="card" href="/en/games/bubble-pop/"><span class="tag">Puzzle</span><h2>Bubble Pop</h2><p>Pop clusters and keep the board open.</p><span class="go">Play</span></a>
+        <a class="card" href="/en/games/sequence-flash/"><span class="tag">Memory</span><h2>Sequence Flash</h2><p>Remember and replay the growing order.</p><span class="go">Play</span></a>
+        <a class="card" href="/en/games/sliding-puzzle/"><span class="tag">Puzzle</span><h2>Sliding Puzzle</h2><p>The classic 15-puzzle style challenge.</p><span class="go">Play</span></a>
+        <a class="card" href="/en/games/connect-four/"><span class="tag">Strategy</span><h2>Connect Four</h2><p>A quick 4-in-a-row board game.</p><span class="go">Play</span></a>
+        <a class="card" href="/en/games/solitaire-mini/"><span class="tag">Card</span><h2>Solitaire Mini</h2><p>A compact card-sorting game.</p><span class="go">Play</span></a>
+        <a class="card" href="/en/games/word-swipe/"><span class="tag">Puzzle</span><h2>Word Swipe</h2><p>A short letter-linking word puzzle.</p><span class="go">Play</span></a>
+      </div>
+
+      <section class="trust" aria-label="Site links">
+        <div class="links">
+          <a id="footer-about" href="/en/about/">About</a>
+          <a href="/en/guides/">Guides</a>
+          <a id="footer-privacy" href="/en/privacy/">Privacy Policy</a>
+          <a id="footer-terms" href="/en/terms/">Terms</a>
+          <a id="footer-contact" href="/en/contact/">Contact</a>
         </div>
-      </div>
+      </section>
     </section>
-
-    <div class="section-head">
-      <div>
-        <h2>Jump straight into a game</h2>
-        <p>Every card uses the same calm layout so the hub stays easy to scan, even on small screens.</p>
-      </div>
-    </div>
-
-    <section class="grid" aria-label="Game list">
-      <a class="card" href="/en/games/snake/"><span class="card-tag">Arcade</span><h3>Snake</h3><p>The fastest route into a classic loop. Great for a quick round and a restart.</p><span class="go">Play</span></a>
-      <a class="card" href="/en/games/sudoku-mini/"><span class="card-tag">Logic</span><h3>Sudoku Mini</h3><p>A calm 9x9 number puzzle for focused play. It is a clean new entry in the hub.</p><span class="go">Play</span></a>
-      <a class="card" href="/en/games/number-merge/"><span class="card-tag">Puzzle</span><h3>Number Merge</h3><p>A quiet solo puzzle where you merge numbers and keep the board open.</p><span class="go">Play</span></a>
-      <a class="card" href="/en/games/brick-breaker/"><span class="card-tag">Arcade</span><h3>Brick Breaker</h3><p>A short-burst arcade game with easy mobile entry and a strong restart loop.</p><span class="go">Play</span></a>
-      <a class="card" href="/en/games/memory-match/"><span class="card-tag">Memory</span><h3>Memory Match</h3><p>A light focus game about remembering card pairs.</p><span class="go">Play</span></a>
-      <a class="card" href="/en/games/minesweeper/"><span class="card-tag">Logic</span><h3>Minesweeper Lite</h3><p>A quiet logic board for reading numbers and making careful moves.</p><span class="go">Play</span></a>
-      <a class="card" href="/en/games/reaction-tap/"><span class="card-tag">Reflex</span><h3>Reaction Tap</h3><p>A quick challenge built to test your reaction speed.</p><span class="go">Play</span></a>
-      <a class="card" href="/en/games/color-lines/"><span class="card-tag">Puzzle</span><h3>Color Lines</h3><p>A board puzzle with movement and planning at the center.</p><span class="go">Play</span></a>
-      <a class="card" href="/en/games/bubble-pop/"><span class="card-tag">Puzzle</span><h3>Bubble Pop</h3><p>A tap-friendly puzzle that moves straight into the next round.</p><span class="go">Play</span></a>
-      <a class="card" href="/en/games/sequence-flash/"><span class="card-tag">Memory</span><h3>Sequence Flash</h3><p>A memory challenge that asks you to repeat a growing sequence.</p><span class="go">Play</span></a>
-      <a class="card" href="/en/games/sliding-puzzle/"><span class="card-tag">Puzzle</span><h3>Sliding Puzzle</h3><p>The classic 15-puzzle style game for careful arrangement.</p><span class="go">Play</span></a>
-      <a class="card" href="/en/games/connect-four/"><span class="card-tag">Strategy</span><h3>Connect Four</h3><p>A light board game for one or two players on one device.</p><span class="go">Play</span></a>
-      <a class="card" href="/en/games/solitaire-mini/"><span class="card-tag">Card</span><h3>Solitaire Mini</h3><p>A compact card-sorting game made for short sessions.</p><span class="go">Play</span></a>
-      <a class="card" href="/en/games/word-swipe/"><span class="card-tag">Puzzle</span><h3>Word Swipe</h3><p>A quick word puzzle where you trace and find words.</p><span class="go">Play</span></a>
-    </section>
-
-    <section class="note"><strong>Why this layout</strong><br />The Games tab should feel like part of Randomly Pick, not a separate product. That is why the page stays calm, the categories stay practical, and the latest board-and-puzzle additions, including Sudoku Mini, sit naturally inside the same scan pattern.</section>
-
-    <section class="trust">
-      <strong>Site links</strong>
-      <div class="links">
-        <a id="footer-about" href="/en/about/">About</a>
-        <a href="/en/guides/">Guides</a>
-        <a id="footer-privacy" href="/en/privacy/">Privacy Policy</a>
-        <a id="footer-terms" href="/en/terms/">Terms</a>
-        <a id="footer-contact" href="/en/contact/">Contact</a>
-      </div>
-    </section>
-
-    <div class="footer">The Games tab belongs to the same <a href="/en/">Randomly Pick</a> family.</div>
   </main>
 </body>
 </html>

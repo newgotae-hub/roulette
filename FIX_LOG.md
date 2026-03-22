@@ -10,6 +10,12 @@ How to use it:
 
 ## 2026-03-22
 
+### Games hub simplified into a launcher and restart entry points promoted
+
+- Reduced `games/index.html` and `en/games/index.html` to a launcher-style Games hub with only `Home` and `Games` in the top nav, a compact heading, and the live game card grid instead of the older hero, lineup, and note-heavy layout.
+- Promoted quicker replay entry points on the weaker-feeling game pages by wiring top-action restart controls for `Bubble Pop`, `Memory Match`, and `Reaction Tap`, so replay is easier to hit on mobile without scrolling back to deeper controls.
+- Detailed notes: [GAMES_HUB_LAUNCHER_REPLAY_PASS_2026-03-22.md](GAMES_HUB_LAUNCHER_REPLAY_PASS_2026-03-22.md)
+
 ### Shared release surfaces updated for the 14-game wave
 
 - Added `sudoku-mini` to the shared release-surface game lists so sitemap generation, SEO validation, and AdSense readiness checks all recognize it as a published game.
@@ -559,3 +565,9 @@ How to use it:
 
 - Captured the current quality wave in [WEBGAMES_GAMEPLAY_QUALITY_PASS_2026-03-22.md](/home/user/roulette/WEBGAMES_GAMEPLAY_QUALITY_PASS_2026-03-22.md), covering Memory Match daily/first-play polish, Bubble Pop interaction and chain feedback, Color Lines KO cleanup with daily/replay tuning, Word Swipe puzzle depth and clarity, and the shared QA perf/visual probes now used by the release lane.
 - Kept the note release-oriented so future workers can trace what shipped without needing to rediscover the per-game feel improvements or the shared webgame QA expectations.
+
+### 2026-03-22 - Games hub simplified into a launcher and weak replay entry points promoted
+
+- Simplified `games/index.html` and `en/games/index.html` into launcher-style hubs with only `Home` and `Games` in the top nav, a compact heading, and the live game card grid instead of the older hero, lineup, and note-heavy layout.
+- Promoted replay/restart entry points for the weaker-feeling game pages by wiring quick actions into the top hero actions for `Bubble Pop`, `Memory Match`, and `Reaction Tap`, so mobile users can immediately restart without scrolling back to in-panel toolbars.
+- Added [GAMES_HUB_LAUNCHER_REPLAY_PASS_2026-03-22.md](/home/user/roulette/GAMES_HUB_LAUNCHER_REPLAY_PASS_2026-03-22.md) as the short rollout note for the launcher simplification and replay-entry polish pass.
